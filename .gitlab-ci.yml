@@ -1,0 +1,36 @@
+image: docker:stable
+
+stages:
+  - tests
+
+fundamental_schemas_tests:
+  stage: tests
+  before_script:
+    - apk update
+    - apk add py3-pip
+    - pip3 install pytest
+    - pip3 install jsonschema
+    - pip3 install .
+    - find . -type f -name "test_fundamental_schemas.py"
+  script:
+    - echo [Run test_fundamental_schemas.py]
+    - python3 ./tests/test_fundamental_schemas.py
+    - echo [End test_fundamental_schemas.py]
+  tags:
+    - public-runner-docker
+
+custom_schemas_tests:
+  stage: tests
+  before_script:
+    - apk update
+    - apk add py3-pip
+    - pip3 install pytest
+    - pip3 install jsonschema
+    - pip3 install .
+    - find . -type f -name "test_custom_schemas.py"
+  script:
+    - echo [Run test_custom_schemas.py]
+    - python3 ./tests/test_custom_schemas.py
+    - echo [End test_custom_schemas.py]
+  tags:
+    - public-runner-docker
