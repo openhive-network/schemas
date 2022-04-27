@@ -1,0 +1,20 @@
+stages:
+  - test
+
+variables:
+  GIT_DEPTH: "1"
+  GIT_SUBMODULE_STRATEGY: "recursive"
+  # uses registry.gitlab.syncad.com/hive/haf/ci-base-image:ubuntu20.04-5
+  BUILDER_IMAGE_TAG: "@sha256:a22b174d15ad9878f878e798e297d2134da132174802abff0923ea214e2f4543l"
+  SETUP_SCRIPTS_PATH: "$CI_PROJECT_DIR/haf/scripts"
+  REGISTRY: registry.gitlab.syncad.com/hive/schemas
+
+schemas_package_tests:
+  stage: test
+  image: "$CI_REGISTRY_IMAGE/test$TEST_IMAGE_TAG"
+  script:
+    - apt-get update -y && apt-get install -y python3 python3-pip python3-dev
+    - pip3 install pytest 
+    - cd tests/schemas/tests
+  tags:
+    - public-runner-docker
