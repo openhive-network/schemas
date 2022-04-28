@@ -2,10 +2,28 @@ from jsonschema.exceptions import ValidationError
 import pytest
 
 from schemas.predefined import *
+from schemas.__private.custom_schemas import AssetAny
 
 
 @pytest.mark.parametrize(
     'schema, instance', [
+        # AssetAny
+        (AssetAny(), {
+            'amount': '100',
+            'precision': 3,
+            'nai': '@@000000013'
+        }),
+        (AssetAny(), {
+            'amount': '100',
+            'precision': 3,
+            'nai': '@@000000021'
+        }),
+        (AssetAny(), {
+            'amount': '100',
+            'precision': 6,
+            'nai': '@@000000037'
+        }),
+
         # AssetHbd
         (AssetHbd(), {
             'amount': '100',
@@ -47,6 +65,20 @@ from schemas.predefined import *
         (Key(), 'STM7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKE'),
         (Key(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZVK9wd53t2qXCvxmB'),
 
+        # Price
+        (Price(AssetHbd(), AssetHive()), {
+            "base": {
+                'amount': '100',
+                'precision': 3,
+                'nai': '@@000000013'
+            },
+            "quote": {
+                'amount': '100',
+                'precision': 3,
+                'nai': '@@000000021'
+            }
+        }),
+
         # Manabar
         (Manabar(), {
             'current_mana': '58925267722823',
@@ -82,6 +114,18 @@ def test_validation_of_correct_type(schema, instance):
 
 @pytest.mark.parametrize(
     'schema, instance', [
+        # AssetAny
+        (AssetAny(), {
+            'amount': '100',
+            'precision': 4,  # correct 'precision' value == 3 or 6
+            'nai': '@@000000013'
+        }),
+        (AssetAny(), {
+            'amount': '100',
+            'precision': 3,
+            'nai': 'wrong-nai'
+        }),
+
         # AssetHbd
         (AssetHbd(), {
             'amount': '100',
@@ -125,8 +169,23 @@ def test_validation_of_correct_type(schema, instance):
         (Key(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZ....../////?????'),  # invalid characters
         (Key(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZVK9wd5'),  # not enough characters (the amount required is 50)
 
+        # Price
+        (Price(AssetHbd(), AssetHive()), {
+            "base": {
+                'amount': '100',
+                'precision': 3,
+                'nai': '@@000000021'
+            },
+            "quote": {
+                'amount': '100',
+                'precision': 3,
+                'nai': '@@000000013'
+            }
+        }),  # incorrect assets order
+
         #  Verison
         (Version(), '0.0.a')
+
     ]
 )
 def test_validation_of_incorrect_type(schema, instance):

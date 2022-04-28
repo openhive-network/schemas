@@ -2,7 +2,7 @@ from abc import abstractmethod
 import typing
 from typing import Dict
 
-from schemas.__private.fundamental_schemas import Array, ArrayStrict, Date, Int, Map, Schema, Str
+from schemas.__private.fundamental_schemas import AnyOf, Array, ArrayStrict, Date, Int, Map, Schema, Str
 
 
 class CustomSchema(Schema):
@@ -12,6 +12,15 @@ class CustomSchema(Schema):
 
     def _create_core_of_schema(self) -> Dict[str, typing.Any]:
         return self._define_schema()._create_schema()
+
+
+class AssetAny(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return AnyOf(
+            AssetHbd(),
+            AssetHive(),
+            AssetVests(),
+        )
 
 
 class AssetHbd(CustomSchema):
@@ -75,6 +84,19 @@ class Manabar(CustomSchema):
         return Map({
             "current_mana": Int(),
             "last_update_time": Int(),
+        })
+
+
+class Price(CustomSchema):
+    def __init__(self, base, quote):
+        super().__init__()
+        self.base = base
+        self.quote = quote
+
+    def _define_schema(self) -> Schema:
+        return Map({
+            'base': self.base,
+            'quote': self.quote,
         })
 
 
