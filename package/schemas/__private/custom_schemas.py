@@ -14,6 +14,15 @@ class CustomSchema(Schema):
         return self._define_schema()._create_schema()
 
 
+class AssetAny(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Map({
+            'amount': Int(),
+            'precision': Int(enum=[3, 6]),
+            'nai': Str(enum=['@@000000013', '@@000000021', '@@000000037']),
+        })
+
+
 class AssetHbd(CustomSchema):
     def _define_schema(self) -> Schema:
         return Map({
@@ -75,6 +84,14 @@ class Manabar(CustomSchema):
         return Map({
             "current_mana": Int(),
             "last_update_time": Int(),
+        })
+
+
+class Price(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Map({
+            'base': AssetHbd(),
+            'quote': AssetHive(),
         })
 
 
