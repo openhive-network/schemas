@@ -6,6 +6,23 @@ from schemas.predefined import *
 
 @pytest.mark.parametrize(
     'schema, instance', [
+        # AssetAny
+        (AssetAny(), {
+            'amount': '100',
+            'precision': 3,
+            'nai': '@@000000013'
+        }),
+        (AssetAny(), {
+            'amount': '100',
+            'precision': 3,
+            'nai': '@@000000021'
+        }),
+        (AssetAny(), {
+            'amount': '100',
+            'precision': 6,
+            'nai': '@@000000037'
+        }),
+
         # AllOf
         (AllOf(Str(), Int()), '1'),
         (AllOf(Str()), 'string'),
@@ -175,6 +192,18 @@ def test_validation_of_correct_type(schema, instance):
 
 @pytest.mark.parametrize(
     'schema, instance', [
+        # AssetAny
+        (AssetAny(), {
+            'amount': '100',
+            'precision': 4,  # correct 'precision' value == 3 or 6
+            'nai': '@@000000013'
+        }),
+        (AssetAny(), {
+            'amount': '100',
+            'precision': 3,
+            'nai': 'wrong-nai'
+        }),
+
         # AllOf
         (AllOf(Str(), Int()), 1),
         (AllOf(Int()), 'its-string-not-int'),
