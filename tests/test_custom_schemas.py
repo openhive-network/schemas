@@ -39,6 +39,10 @@ from schemas.predefined import *
             ]
         }),
 
+        # Id
+        (Id(), '2d8d2a339514593818919aa4ac59215571641dd6'),
+        (Id(), '0000000000000000000000000000000000000000'),
+
         # Key
         (Key(), 'STM7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKE'),
         (Key(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZVK9wd53t2qXCvxmB'),
@@ -110,6 +114,11 @@ def test_validation_of_correct_type(schema, instance):
                 ]  # key_auths: wrong array order, should be key, int.
             ]
         }),
+
+        # Id
+        (Id(), '2d8d2a339514593818919aa4ac59215571641dd'),  # too short, instance != 40 characters
+        (Id(), '00000000000000000000000000000000000000001'),  # too long, instance != 40 characters
+        (Id(), '0123456789acdef0123456789abcdef012345ggg'),  # Id() supports hexadecimal numbers, 'g' is out of scope
 
         # Key
         (Key(), 'PPP7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKE'),  # Bad key prefix
