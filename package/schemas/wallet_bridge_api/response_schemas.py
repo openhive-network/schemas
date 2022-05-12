@@ -49,7 +49,7 @@ broadcast_transaction = Map({})
 broadcast_transaction_synchronous = Map({
     'block_num': Int(),
     'expired': Bool(),
-    'id': Id(),
+    'id': TransactionId(),
     'trx_num': Int(),
 })
 
@@ -134,7 +134,7 @@ get_account_history = Array(
     ArrayStrict(
         Int(),
         Map({
-            'trx_id': Id(),
+            'trx_id': TransactionId(),
             'block': Int(),
             'trx_in_block': Int(),
             'op_in_trx': Int(),
@@ -173,10 +173,10 @@ get_block = OneOf(
     Map({}),
     Map({
         'block': Map({
-            'previous': Id(),
+            'previous': TransactionId(),
             'timestamp': Date(),
             'witness': Str(),
-            'transaction_merkle_root': Id(),
+            'transaction_merkle_root': TransactionId(),
             'extensions': Array(
                 Map({
                     'type': Str(),
@@ -188,9 +188,9 @@ get_block = OneOf(
             ),
             'witness_signature': Str(),
             'transactions': Array(Map({}, allow_additional_properties=True)),
-            'block_id': Id(),
+            'block_id': TransactionId(),
             'signing_key': Key(),
-            'transaction_ids': Array(Id()),
+            'transaction_ids': Array(TransactionId()),
         })
     })
 )
@@ -229,7 +229,7 @@ get_current_median_history_price = Price()
 get_dynamic_global_properties = Map({
     'id': Int(),
     'head_block_number': Int(),
-    'head_block_id': Id(),
+    'head_block_id': TransactionId(),
     'time': Date(),
     'current_witness': Str(),
     'total_pow': Int(),
@@ -384,7 +384,7 @@ get_transaction = Map({
     ),
     'extensions': Array(),
     'signatures': Array(Str()),
-    'transaction_id': Id(),
+    'transaction_id': TransactionId(),
     'block_num': Int(),
     'transaction_num': Int()
 })
@@ -398,7 +398,7 @@ get_version = Map({
 
 get_withdraw_routes = Array(
     Map({
-        'id': Id(),
+        'id': TransactionId(),
         'from_account': Str(),
         'to_account': Str(),
         'percent': Int(),

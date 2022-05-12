@@ -69,7 +69,7 @@ class Authority(CustomSchema):
         })
 
 
-class Id(CustomSchema):
+class TransactionId(CustomSchema):
     def _define_schema(self) -> Schema:
         return Str(pattern=r'^[0-9a-fA-F]{40}$')
 
