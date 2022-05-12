@@ -112,6 +112,6 @@ class Proposal(CustomSchema):
         })
 
 
-class Version(CustomSchema):
+class HardforkVersion(CustomSchema):
     def _define_schema(self) -> Schema:
         return Str(pattern=r'^\d+\.\d+\.\d+$')

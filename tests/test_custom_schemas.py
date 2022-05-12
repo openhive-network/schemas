@@ -72,8 +72,8 @@ from schemas.predefined import *
             'status': 'active'
         }),
 
-        #  Version
-        (Version(), '0.0.0')
+        #  HardforkVersion
+        (HardforkVersion(), '0.0.0')
     ]
 )
 def test_validation_of_correct_type(schema, instance):
@@ -125,8 +125,8 @@ def test_validation_of_correct_type(schema, instance):
         (PublicKey(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZ....../////?????'),  # invalid characters
         (PublicKey(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZVK9wd5'),  # not enough characters (the amount required is 50)
 
-        #  Verison
-        (Version(), '0.0.a')
+        #  HardforkVersion
+        (HardforkVersion(), '0.0.a')
     ]
 )
 def test_validation_of_incorrect_type(schema, instance):
