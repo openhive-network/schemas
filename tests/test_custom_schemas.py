@@ -57,9 +57,9 @@ from schemas.__private.custom_schemas import AssetAny
             ]
         }),
 
-        # Id
-        (Id(), '2d8d2a339514593818919aa4ac59215571641dd6'),
-        (Id(), '0000000000000000000000000000000000000000'),
+        # TransactionId
+        (TransactionId(), '2d8d2a339514593818919aa4ac59215571641dd6'),
+        (TransactionId(), '0000000000000000000000000000000000000000'),
 
         # Key
         (Key(), 'STM7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKE'),
@@ -159,10 +159,10 @@ def test_validation_of_correct_type(schema, instance):
             ]
         }),
 
-        # Id
-        (Id(), '2d8d2a339514593818919aa4ac59215571641dd'),  # too short, instance != 40 characters
-        (Id(), '00000000000000000000000000000000000000001'),  # too long, instance != 40 characters
-        (Id(), '0123456789acdef0123456789abcdef012345ggg'),  # Id() supports hexadecimal numbers, 'g' is out of scope
+        # TransactionId
+        (TransactionId(), '2d8d2a339514593818919aa4ac59215571641dd'),  # too short, instance != 40 characters
+        (TransactionId(), '00000000000000000000000000000000000000001'),  # too long, instance != 40 characters
+        (TransactionId(), '0123456789acdef0123456789abcdef012345ggg'),  # TransactionId() supports hexadecimal numbers, 'g' is out of scope
 
         # Key
         (Key(), 'PPP7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKE'),  # Bad key prefix
