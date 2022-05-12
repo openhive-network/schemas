@@ -104,8 +104,8 @@ from schemas.__private.custom_schemas import AssetAny
             'status': 'active'
         }),
 
-        #  Version
-        (Version(), '0.0.0')
+        #  HardforkVersion
+        (HardforkVersion(), '0.0.0')
     ]
 )
 def test_validation_of_correct_type(schema, instance):
@@ -183,9 +183,8 @@ def test_validation_of_correct_type(schema, instance):
             }
         }),  # incorrect assets order
 
-        #  Verison
-        (Version(), '0.0.a')
-
+        #  HardforkVersion
+        (HardforkVersion(), '0.0.a')
     ]
 )
 def test_validation_of_incorrect_type(schema, instance):

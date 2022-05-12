@@ -249,7 +249,7 @@ get_feed_history = Map({
     ),
 })
 
-get_hardfork_version = Version()
+get_hardfork_version = HardforkVersion()
 
 get_open_orders = Array(
     Map({
@@ -344,7 +344,7 @@ get_transaction = Map({
 })
 
 get_version = Map({
-    'blockchain_version': Version(),
+    'blockchain_version': HardforkVersion(),
     'hive_revision': Str(),
     'fc_revision': Str(),
     'chain_id': Str(),
@@ -468,7 +468,7 @@ get_witness_schedule = Map({
         'account_subsidy_budget': Int(),
         'account_subsidy_decay': Int(),
     }),
-    'majority_version': Version(),
+    'majority_version': HardforkVersion(),
     'max_voted_witnesses': Int(),
     'max_miner_witnesses': Int(),
     'max_runner_witnesses': Int(),
@@ -524,8 +524,8 @@ list_witnesses = Map({
             'hbd_exchange_rate': Price(AssetHive(), AssetHive()),
             'last_hbd_exchange_update': Date(),
             'last_work': Str(),
-            'running_version': Version(),
-            'hardfork_version_vote': Version(),
+            'running_version': HardforkVersion(),
+            'hardfork_version_vote': HardforkVersion(),
             'hardfork_time_vote': Date(),
             'available_witness_account_subsidies': Int(),
         })
