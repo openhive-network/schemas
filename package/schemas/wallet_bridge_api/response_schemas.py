@@ -22,7 +22,7 @@ __account = Map({
     'owner': Authority(),
     'active': Authority(),
     'posting': Authority(),
-    'memo_key': Key(),
+    'memo_key': PublicKey(),
     'json_metadata': Str(),
     'posting_json_metadata': Str(),
     'proxy': Str(),
@@ -152,7 +152,7 @@ get_block = AnyOf(
             'witness_signature': Str(),
             'transactions': Array(Map({}, allow_additional_properties=True)),
             'block_id': TransactionId(),
-            'signing_key': Key(),
+            'signing_key': PublicKey(),
             'transaction_ids': Array(TransactionId()),
         })
     })
@@ -513,7 +513,7 @@ list_witnesses = Map({
             'last_aslot': Int(),
             'last_confirmed_block_num': Int(),
             'pow_worker': Int(),
-            'signing_key': Key(),
+            'signing_key': PublicKey(),
             'props': Map({
                 'account_creation_fee': AssetHive(),
                 'maximum_block_size': Int(),

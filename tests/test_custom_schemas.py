@@ -61,9 +61,9 @@ from schemas.__private.custom_schemas import AssetAny
         (TransactionId(), '2d8d2a339514593818919aa4ac59215571641dd6'),
         (TransactionId(), '0000000000000000000000000000000000000000'),
 
-        # Key
-        (Key(), 'STM7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKE'),
-        (Key(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZVK9wd53t2qXCvxmB'),
+        # PublicKey
+        (PublicKey(), 'STM7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKE'),
+        (PublicKey(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZVK9wd53t2qXCvxmB'),
 
         # Price
         (Price(AssetHbd(), AssetHive()), {
@@ -155,7 +155,7 @@ def test_validation_of_correct_type(schema, instance):
                 [
                     1,
                     'STM7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZVK9wd53t2qXCvxmB'
-                ]  # key_auths: wrong array order, should be key, int.
+                ]  # key_auths: wrong array order, should be PublicKey, Int.
             ]
         }),
 
@@ -164,10 +164,10 @@ def test_validation_of_correct_type(schema, instance):
         (TransactionId(), '00000000000000000000000000000000000000001'),  # too long, instance != 40 characters
         (TransactionId(), '0123456789acdef0123456789abcdef012345ggg'),  # TransactionId() supports hexadecimal numbers, 'g' is out of scope
 
-        # Key
-        (Key(), 'PPP7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKE'),  # Bad key prefix
-        (Key(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZ....../////?????'),  # invalid characters
-        (Key(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZVK9wd5'),  # not enough characters (the amount required is 50)
+        # PublicKey
+        (PublicKey(), 'PPP7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKE'),  # Bad key prefix
+        (PublicKey(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZ....../////?????'),  # invalid characters
+        (PublicKey(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZVK9wd5'),  # not enough characters (the amount required is 50)
 
         # Price
         (Price(AssetHbd(), AssetHive()), {

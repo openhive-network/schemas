@@ -62,7 +62,7 @@ class Authority(CustomSchema):
             ),
             'key_auths': Array(
                 ArrayStrict(
-                    Key(),
+                    PublicKey(),
                     Int(),
                 )
             ),
@@ -74,7 +74,7 @@ class TransactionId(CustomSchema):
         return Str(pattern=r'^[0-9a-fA-F]{40}$')
 
 
-class Key(CustomSchema):
+class PublicKey(CustomSchema):
     def _define_schema(self) -> Schema:
         return Str(pattern=r'^(?:STM|TST)[A-Za-z0-9]{50}$')
 
