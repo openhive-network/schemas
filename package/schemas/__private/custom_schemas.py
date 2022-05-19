@@ -76,7 +76,9 @@ class TransactionId(CustomSchema):
 
 class PublicKey(CustomSchema):
     def _define_schema(self) -> Schema:
-        return Str(pattern=r'^(?:STM|TST)[A-Za-z0-9]{50}$')
+        # See `wif_to_key` implementation in `fc` library for more information about this regex:
+        wif_private_key_regex = r'^(?:STM|TST)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$'
+        return Str(pattern=wif_private_key_regex)
 
 
 class Manabar(CustomSchema):
