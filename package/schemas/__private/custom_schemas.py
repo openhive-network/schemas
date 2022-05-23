@@ -69,16 +69,9 @@ class Authority(CustomSchema):
         })
 
 
-class TransactionId(CustomSchema):
+class HardforkVersion(CustomSchema):
     def _define_schema(self) -> Schema:
-        return Str(pattern=r'^[0-9a-fA-F]{40}$')
-
-
-class PublicKey(CustomSchema):
-    def _define_schema(self) -> Schema:
-        # See `wif_to_key` implementation in `fc` library for more information about this regex:
-        wif_private_key_regex = r'^(?:STM|TST)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$'
-        return Str(pattern=wif_private_key_regex)
+        return Str(pattern=r'^\d+\.\d+\.\d+$')
 
 
 class Manabar(CustomSchema):
@@ -119,6 +112,13 @@ class Proposal(CustomSchema):
         })
 
 
-class HardforkVersion(CustomSchema):
+class PublicKey(CustomSchema):
     def _define_schema(self) -> Schema:
-        return Str(pattern=r'^\d+\.\d+\.\d+$')
+        # See `wif_to_key` implementation in `fc` library for more information about this regex:
+        wif_private_key_regex = r'^(?:STM|TST)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$'
+        return Str(pattern=wif_private_key_regex)
+
+
+class TransactionId(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Str(pattern=r'^[0-9a-fA-F]{40}$')

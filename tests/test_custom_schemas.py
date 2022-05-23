@@ -57,13 +57,14 @@ from schemas.__private.custom_schemas import AssetAny
             ]
         }),
 
-        # TransactionId
-        (TransactionId(), '2d8d2a339514593818919aa4ac59215571641dd6'),
-        (TransactionId(), '0000000000000000000000000000000000000000'),
+        #  HardforkVersion
+        (HardforkVersion(), '0.0.0'),
 
-        # PublicKey
-        (PublicKey(), 'STM7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKEa'),
-        (PublicKey(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZVK9wd53t2qXCvxmBa'),
+        # Manabar
+        (Manabar(), {
+            'current_mana': '58925267722823',
+            'last_update_time': 1646317446
+        }),
 
         # Price
         (Price(AssetHbd(), AssetHive()), {
@@ -77,12 +78,6 @@ from schemas.__private.custom_schemas import AssetAny
                 'precision': 3,
                 'nai': '@@000000021'
             }
-        }),
-
-        # Manabar
-        (Manabar(), {
-            'current_mana': '58925267722823',
-            'last_update_time': 1646317446
         }),
 
         #  Proposal
@@ -104,8 +99,13 @@ from schemas.__private.custom_schemas import AssetAny
             'status': 'active'
         }),
 
-        #  HardforkVersion
-        (HardforkVersion(), '0.0.0')
+        # PublicKey
+        (PublicKey(), 'STM7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKEa'),
+        (PublicKey(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZVK9wd53t2qXCvxmBa'),
+
+        # TransactionId
+        (TransactionId(), '2d8d2a339514593818919aa4ac59215571641dd6'),
+        (TransactionId(), '0000000000000000000000000000000000000000'),
     ]
 )
 def test_validation_of_correct_type(schema, instance):
@@ -159,16 +159,8 @@ def test_validation_of_correct_type(schema, instance):
             ]
         }),
 
-        # TransactionId
-        (TransactionId(), '2d8d2a339514593818919aa4ac59215571641dd'),  # too short, instance != 40 characters
-        (TransactionId(), '00000000000000000000000000000000000000001'),  # too long, instance != 40 characters
-        (TransactionId(), '0123456789acdef0123456789abcdef012345ggg'),  # TransactionId() supports hexadecimal numbers, 'g' is out of scope
-
-        # PublicKey
-        (PublicKey(), 'PPP7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKEa'),  # Bad key prefix
-        (PublicKey(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZ....../////??????'),  # invalid characters
-        (PublicKey(), 'STM5J2CVu'),  # not enough characters (the minimum required is 7)
-        (PublicKey(), 'TST5J2CVuKtMCoLzoWb5SXDex5vGVeKETfs7YYUxy6Jh9WTx2PJns911111'),  # too many characters (maximum <= 51)
+        #  HardforkVersion
+        (HardforkVersion(), '0.0.a'),
 
         # Price
         (Price(AssetHbd(), AssetHive()), {
@@ -184,8 +176,16 @@ def test_validation_of_correct_type(schema, instance):
             }
         }),  # incorrect assets order
 
-        #  HardforkVersion
-        (HardforkVersion(), '0.0.a')
+        # PublicKey
+        (PublicKey(), 'PPP7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKEa'),  # Bad key prefix
+        (PublicKey(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZ....../////??????'),  # invalid characters
+        (PublicKey(), 'STM5J2CVu'),  # not enough characters (the minimum required is 7)
+        (PublicKey(), 'TST5J2CVuKtMCoLzoWb5SXDex5vGVeKETfs7YYUxy6Jh9WTx2PJns911111'),  # too many characters (maximum <= 51)
+
+        # TransactionId
+        (TransactionId(), '2d8d2a339514593818919aa4ac59215571641dd'),  # too short, instance != 40 characters
+        (TransactionId(), '00000000000000000000000000000000000000001'),  # too long, instance != 40 characters
+        (TransactionId(), '0123456789acdef0123456789abcdef012345ggg'),  # TransactionId() supports hexadecimal numbers, 'g' is out of scope
     ]
 )
 def test_validation_of_incorrect_type(schema, instance):
