@@ -15,6 +15,7 @@ from schemas.__private.fundamental_schemas import (
 )
 
 from schemas.__private.custom_schemas import (
+    AccountName,
     AssetHbd,
     AssetHive,
     AssetVests,
@@ -27,5 +28,6 @@ from schemas.__private.custom_schemas import (
     Price,
     Proposal,
     PublicKey,
+    Signature,
     TransactionId,
 )
