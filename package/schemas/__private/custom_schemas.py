@@ -74,6 +74,11 @@ class HardforkVersion(CustomSchema):
         return Str(pattern=r'^\d+\.\d+\.\d+$')
 
 
+class Hex(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Str(pattern=r'^[0-9a-fA-F]*$')
+
+
 class LegacyAssetAny(CustomSchema):
     def _define_schema(self) -> Schema:
         return AnyOf(
@@ -145,4 +150,4 @@ class PublicKey(CustomSchema):
 
 class TransactionId(CustomSchema):
     def _define_schema(self) -> Schema:
-        return Str(pattern=r'^[0-9a-fA-F]{40}$')
+        return Hex(minLength=40, maxLength=40)
