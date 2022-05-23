@@ -14,6 +14,11 @@ class CustomSchema(Schema):
         return self._define_schema()._create_schema()
 
 
+class AccountName(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Str(pattern=r'^[a-z0-9-\.]{3,16}$')
+
+
 class AssetAny(CustomSchema):
     def _define_schema(self) -> Schema:
         return AnyOf(
@@ -141,6 +146,11 @@ class PublicKey(CustomSchema):
         # See `wif_to_key` implementation in `fc` library for more information about this regex:
         wif_private_key_regex = r'^[ ]*^(?:STM|TST)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}[ ]*$'
         return Str(pattern=wif_private_key_regex)
+
+
+class Signature(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Str(pattern=r'^[0-9a-fA-F]{130}$')
 
 
 class TransactionId(CustomSchema):

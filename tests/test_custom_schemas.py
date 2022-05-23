@@ -7,6 +7,9 @@ from schemas.__private.custom_schemas import AssetAny, LegacyAssetAny
 
 @pytest.mark.parametrize(
     'schema, instance', [
+        # AccountName
+        (AccountName(), 'account-name'),
+
         # AssetAny
         (AssetAny(), {
             'amount': '100',
@@ -117,6 +120,10 @@ from schemas.__private.custom_schemas import AssetAny, LegacyAssetAny
         (PublicKey(), 'STM7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKEa'),
         (PublicKey(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZVK9wd53t2qXCvxmBa'),
 
+        # Signature
+        (Signature(), '204f8ad56a8f5cf722a02b035a61b500aa59b9519b2c33c77a80c0a714680a5a5a7a340d909d19996613c5e4ae92146b9add8a7a663eef37d837ef881477313043'),
+        (Signature(), '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'),
+
         # TransactionId
         (TransactionId(), '2d8d2a339514593818919aa4ac59215571641dd6'),
         (TransactionId(), '0000000000000000000000000000000000000000'),
@@ -128,6 +135,11 @@ def test_validation_of_correct_type(schema, instance):
 
 @pytest.mark.parametrize(
     'schema, instance', [
+        # AccountName
+        (AccountName(), 'ac'),  # not enough charactersn minimum is 3
+        (AccountName(), 'account-name-length-over-16-characters'),
+        (AccountName(), 'invalid-characters-@'),
+
         # AssetAny
         (AssetAny(), {
             'amount': '100',
@@ -209,6 +221,10 @@ def test_validation_of_correct_type(schema, instance):
         (PublicKey(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZ....../////??????'),  # invalid characters
         (PublicKey(), 'STM5J2CVu'),  # not enough characters (the minimum required is 7)
         (PublicKey(), 'TST5J2CVuKtMCoLzoWb5SXDex5vGVeKETfs7YYUxy6Jh9WTx2PJns911111'),  # too many characters (maximum <= 51)
+
+        # Signature
+        (Signature(), '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001'),  # too many characters
+        (Signature(), '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001'),  # not enough characters
 
         # TransactionId
         (TransactionId(), '2d8d2a339514593818919aa4ac59215571641dd'),  # too short, instance != 40 characters
