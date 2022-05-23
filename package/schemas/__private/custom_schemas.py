@@ -74,6 +74,30 @@ class HardforkVersion(CustomSchema):
         return Str(pattern=r'^\d+\.\d+\.\d+$')
 
 
+class LegacyAssetAny(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return AnyOf(
+            LegacyAssetHbd(),
+            LegacyAssetHive(),
+            LegacyAssetVests(),
+        )
+
+
+class LegacyAssetHbd(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Str(pattern=r'^[0-9]+\.[0-9]{3} (:?HBD|TBD)$')
+
+
+class LegacyAssetHive(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Str(pattern=r'^[0-9]+\.[0-9]{3} (:?HIVE|TESTS)$')
+
+
+class LegacyAssetVests(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Str(pattern=r'^[0-9]+\.[0-9]{6} VESTS$')
+
+
 class Manabar(CustomSchema):
     def _define_schema(self) -> Schema:
         return Map({
