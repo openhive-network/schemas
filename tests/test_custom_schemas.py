@@ -63,6 +63,12 @@ from schemas.__private.custom_schemas import AssetAny, LegacyAssetAny
         #  HardforkVersion
         (HardforkVersion(), '0.0.0'),
 
+        # Hex
+        (Hex(), '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'),
+        (Hex(), 'd94aa5bbc88beaf09b67f825aa4450cf5105d111149ba6db560b582c7dbb026c7fc9c2eb5051815a72b17f6896ed59d3851d'),
+        (Hex(minLength=10), '0123456789'),
+        (Hex(maxLength=9), '012345'),
+
         #LegacyAssetAny
         (LegacyAssetAny(), '1.000 HBD'),
         (LegacyAssetAny(), '1.000 HIVE'),
@@ -187,6 +193,11 @@ def test_validation_of_correct_type(schema, instance):
 
         #  HardforkVersion
         (HardforkVersion(), '0.0.a'),
+
+        # Hex
+        (Hex(), 'ghijklmnoprstuvwxyz'), #  out of hexagonal scope
+        (Hex(minLength=5), '0123'),
+        (Hex(maxLength=5), '012345'),
 
         # LegacyAssetAny
         (LegacyAssetAny(), '1.0 HBD'),  # required thousandths of HBD
