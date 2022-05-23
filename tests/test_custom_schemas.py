@@ -2,7 +2,7 @@ from jsonschema.exceptions import ValidationError
 import pytest
 
 from schemas.predefined import *
-from schemas.__private.custom_schemas import AssetAny
+from schemas.__private.custom_schemas import AssetAny, LegacyAssetAny
 
 
 @pytest.mark.parametrize(
@@ -59,6 +59,20 @@ from schemas.__private.custom_schemas import AssetAny
 
         #  HardforkVersion
         (HardforkVersion(), '0.0.0'),
+
+        #LegacyAssetAny
+        (LegacyAssetAny(), '1.000 HBD'),
+        (LegacyAssetAny(), '1.000 HIVE'),
+        (LegacyAssetAny(), '1.000000 VESTS'),
+
+        #LegacyAssetHbd
+        (LegacyAssetHbd(), '1.000 HBD'),
+
+        #LegacyAssetHive
+        (LegacyAssetHive(), '1.000 HIVE'),
+
+        #LegacyAssetVests
+        (LegacyAssetVests(), '100.000000 VESTS'),
 
         # Manabar
         (Manabar(), {
@@ -161,6 +175,20 @@ def test_validation_of_correct_type(schema, instance):
 
         #  HardforkVersion
         (HardforkVersion(), '0.0.a'),
+
+        # LegacyAssetAny
+        (LegacyAssetAny(), '1.0 HBD'),  # required thousandths of HBD
+        (LegacyAssetAny(), '1.0 HIVE'),  # required thousandths of Hive
+        (LegacyAssetAny(), '1.0 VESTS'),  # millionths of Vests required
+
+        # LegacyAssetHbd
+        (LegacyAssetHbd(), '1.000HBD'),
+
+        # LegacyAssetHive
+        (LegacyAssetHive(), '1.000HIVE'),
+
+        # LegacyAssetVests
+        (LegacyAssetVests(), '100.000000VESTS'),
 
         # Price
         (Price(AssetHbd(), AssetHive()), {
