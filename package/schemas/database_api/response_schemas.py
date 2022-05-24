@@ -9,7 +9,7 @@ find_account_recovery_requests = Map({
     'requests': Array(
         Map({
             'id': Int(),
-            'account_to_recover': Str(),
+            'account_to_recover': AccountName(),
             'new_owner_authority': Authority(),
             'expires': Date(),
         })
@@ -24,8 +24,8 @@ find_change_recovery_account_requests = Map({
     'requests': Array(
         Map({
             'id': Int(),
-            'account_to_recover': Str(),
-            'recovery_account': Str(),
+            'account_to_recover': AccountName(),
+            'recovery_account': AccountName(),
             'effective_on': Date(),
         })
     )
@@ -90,7 +90,7 @@ find_decline_voting_rights_requests = Map({
     'requests': Array(
         Map({
             'id': Int(),
-            'account': Str(),
+            'account': AccountName(),
             'effective_date': Date(),
         })
     )
@@ -317,7 +317,7 @@ get_required_signatures = Map({
 })
 
 get_transaction_hex = Map({
-    'hex': Str()
+    'hex': Hex()
 })
 
 is_known_transaction = Map({
@@ -328,7 +328,7 @@ list_account_recovery_requests = Map({
     'requests': Array(
         Map({
             'id': Int(),
-            'account_to_recover': Str(),
+            'account_to_recover': AccountName(),
             'new_owner_authority': Authority(),
             'expires': Date(),
         })
@@ -338,7 +338,8 @@ list_account_recovery_requests = Map({
 list_accounts = Map({
     'accounts': Array(
         Map({
-            'id': Int(), 'name': Str(),
+            'id': Int(),
+            'name': AccountName(),
             'owner': Authority(),
             'active': Authority(),
             'posting': Authority(),
