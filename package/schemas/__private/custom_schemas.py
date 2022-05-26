@@ -116,6 +116,11 @@ class Manabar(CustomSchema):
         })
 
 
+class Permlink(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Str(maxLength=256)
+
+
 class Price(CustomSchema):
     def __init__(self, base, quote):
         super().__init__()

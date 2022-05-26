@@ -26,6 +26,7 @@ from schemas.__private.custom_schemas import (
     LegacyAssetHive,
     LegacyAssetVests,
     Manabar,
+    Permlink,
     Price,
     Proposal,
     PublicKey,
