@@ -261,9 +261,9 @@ def test_validation_of_correct_type(schema, instance):
         (Signature(), 131 * '0'),  # too long, instance != 130 characters
 
         # TransactionId
-        (TransactionId(), '2d8d2a339514593818919aa4ac59215571641dd'),  # too short, instance != 40 characters
-        (TransactionId(), '00000000000000000000000000000000000000001'),  # too long, instance != 40 characters
-        (TransactionId(), '0123456789acdef0123456789abcdef012345ggg'),  # TransactionId() supports hexadecimal numbers, 'g' is out of scope
+        (TransactionId(), 39 * '0'),  # too short, instance != 40 characters
+        (TransactionId(), 41 * '0'),  # too long, instance != 40 characters
+        (TransactionId(), 40 * 'g'),  # TransactionId() supports hexadecimal numbers, 'g' is out of range
     ]
 )
 def test_validation_of_incorrect_type(schema, instance):
