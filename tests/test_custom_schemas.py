@@ -95,6 +95,9 @@ from schemas.__private.custom_schemas import AssetAny, LegacyAssetAny
             'last_update_time': 1646317446
         }),
 
+        #Permlink
+        (Permlink(), 256 * '0'),
+
         # Price
         (Price(AssetHbd(), AssetHive()), {
             "base": {
@@ -229,6 +232,9 @@ def test_validation_of_correct_type(schema, instance):
 
         # LegacyAssetVests
         (LegacyAssetVests(), '100.000000VESTS'),
+
+        # Permlink
+        (Permlink(), 257 * '0'),  # too many characters
 
         # Price
         (Price(AssetHbd(), AssetHive()), {
