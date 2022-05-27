@@ -198,6 +198,11 @@ class Int(Schema):
         return {'type': 'hive-int'}
 
 
+class Json(Schema):
+    def _create_core_of_schema(self) -> Dict[str, Any]:
+        return {'type': 'json'}
+
+
 class Map(Schema):
     def __init__(self, schema: Dict, required_keys: Optional[List[str]] = None,
                  allow_additional_properties: bool = False, **options: Any):

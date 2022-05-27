@@ -78,6 +78,12 @@ from schemas.predefined import *
         (Int(minimum='1', exclusiveMaximum='10'), 9),
         (Int(minimum='1', exclusiveMaximum='10'), '9'),
 
+        # Json
+        (Json(), '{}'),
+        (Json(), '{"tags":["dtube","smlchallenge"],"app":"steemit/0.1"}'),
+        (Json(), '{"number": 1600, "street_name": "Pennsylvania", "street_type": "Avenue" }'),
+        (Json(), '{"street_address": "1600 Pennsylvania Avenue NW","city": "Washington","state": "DC"}'),
+
         # Map
         (Map({}), {}),
         (
@@ -254,6 +260,13 @@ def test_validation_of_correct_type(schema, instance):
         (Int(minimum=1, exclusiveMaximum='10'), 10),
         (Int(minimum=1, exclusiveMaximum='10'), '10'),
         (Int(minimum=1, exclusiveMaximum='incorrect-value'), '10'),
+
+        # Json
+        (Json(), ''),
+        (Json(), {}),
+        (Json(), []),
+        (Json(), '"just-string"'),
+        (Json(), '{"street_address": "16 Pennsylvania", "city": "Washington",}'),  # comma at the end of json
 
         # Map
         (Map({}), 5),

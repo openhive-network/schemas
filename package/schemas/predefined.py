@@ -8,6 +8,7 @@ from schemas.__private.fundamental_schemas import (
     Date,
     Float,
     Int,
+    Json,
     Map,
     Null,
     OneOf,
