@@ -1,6 +1,6 @@
 import jsonschema
 
-from schemas.__private.custom_checkers import hive_datetime_checker, hive_int_checker
+from schemas.__private.custom_checkers import hive_datetime_checker, hive_int_checker, json_checker
 from schemas.__private.custom_checkers.hive_int_checker import HiveInt
 
 
@@ -16,6 +16,7 @@ def validate(schema, instance):
         definitions={
             'hive-datetime': hive_datetime_checker.check_hive_datetime,
             'hive-int': hive_int_checker.check_hive_int,
+            'json': json_checker.check_json,
         })
 
     # Build a validator with the new type checkers
