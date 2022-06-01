@@ -1,5 +1,4 @@
 from schemas.predefined import *
-from test_tools import Asset
 
 
 find_account_recovery_requests = Map({
@@ -403,16 +402,16 @@ get_config = Map({
     'HIVE_EARLY_VOTING_SECONDS_HF25': Int(),
     'HIVE_MID_VOTING_SECONDS_HF25': Int(),
     'VESTS_SYMBOL': Map({
-        'nai': Str(pattern=Asset.Vest(0).nai),
-        'decimals': Int(enum=[Asset.Vest(0).precision])
+        'nai': AssetVests.Nai(),
+        'decimals': AssetVests.Precision()
     }),
     'HIVE_SYMBOL': Map({
-        'nai': Str(pattern=Asset.Hive(0).nai),
-        'decimals': Int(enum=[Asset.Hive(0).precision])
+        'nai': AssetHive.Nai(),
+        'decimals': AssetHive.Precision()
     }),
     'HBD_SYMBOL': Map({
-        'nai': Str(pattern=Asset.Hbd(0).nai),
-        'decimals': Int(enum=[Asset.Hbd(0).precision])
+        'nai': AssetHbd.Nai(),
+        'decimals': AssetHbd.Precision(),
     }),
     'HIVE_BLOCKCHAIN_HARDFORK_VERSION': HardforkVersion(),
     'HIVE_100_PERCENT': Int(),

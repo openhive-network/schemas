@@ -34,29 +34,65 @@ class AssetAny(CustomSchema):
 
 
 class AssetHbd(CustomSchema):
+    @staticmethod
+    def Amount():
+        return Int()
+
+    @staticmethod
+    def Precision():
+        return Int(enum=[3])
+
+    @staticmethod
+    def Nai():
+        return Str(pattern='@@000000013')
+
     def _define_schema(self) -> Schema:
         return Map({
-            'amount': Int(),
-            'precision': Int(enum=[3]),
-            'nai': Str(pattern='@@000000013'),
+            'amount': self.Amount(),
+            'precision': self.Precision(),
+            'nai': self.Nai(),
         })
 
 
 class AssetHive(CustomSchema):
+    @staticmethod
+    def Amount():
+        return Int()
+
+    @staticmethod
+    def Precision():
+        return Int(enum=[3])
+
+    @staticmethod
+    def Nai():
+        return Str(pattern='@@000000021')
+
     def _define_schema(self) -> Schema:
         return Map({
-            'amount': Int(),
-            'precision': Int(enum=[3]),
-            'nai': Str(pattern='@@000000021'),
+            'amount': self.Amount(),
+            'precision': self.Precision(),
+            'nai': self.Nai(),
         })
 
 
 class AssetVests(CustomSchema):
+    @staticmethod
+    def Amount():
+        return Int()
+
+    @staticmethod
+    def Precision():
+        return Int(enum=[6])
+
+    @staticmethod
+    def Nai():
+        return Str(pattern='@@000000037')
+
     def _define_schema(self) -> Schema:
         return Map({
-            'amount': Int(),
-            'precision': Int(enum=[6]),
-            'nai': Str(pattern='@@000000037'),
+            'amount': self.Amount(),
+            'precision': self.Precision(),
+            'nai': self.Nai(),
         })
 
 
