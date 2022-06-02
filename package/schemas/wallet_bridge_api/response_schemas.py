@@ -10,7 +10,7 @@ from schemas.predefined import *
 broadcast_transaction = Map({})
 
 broadcast_transaction_synchronous = Map({
-    'block_num': Int(),
+    'block_num': Date(),
     'expired': Bool(),
     'id': TransactionId(),
     'trx_num': Int(),
