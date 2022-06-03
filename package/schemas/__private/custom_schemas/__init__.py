@@ -10,6 +10,7 @@ from schemas.__private.custom_schemas.legacy_asset_hbd import LegacyAssetHbd
 from schemas.__private.custom_schemas.legacy_asset_hive import LegacyAssetHive
 from schemas.__private.custom_schemas.legacy_asset_vests import LegacyAssetVests
 from schemas.__private.custom_schemas.manabar import Manabar
+from schemas.__private.custom_schemas.operation import Operation
 from schemas.__private.custom_schemas.permlink import Permlink
 from schemas.__private.custom_schemas.price import Price
 from schemas.__private.custom_schemas.proposal import Proposal
