@@ -2,7 +2,8 @@ from jsonschema.exceptions import ValidationError
 import pytest
 
 from schemas.predefined import *
-from schemas.__private.custom_schemas import AssetAny, LegacyAssetAny
+from schemas.__private.custom_schemas.asset_any import AssetAny
+from schemas.__private.custom_schemas.legacy_asset_any import LegacyAssetAny
 
 
 @pytest.mark.parametrize(
