@@ -12,4 +12,3 @@ if TYPE_CHECKING:
 class Signature(CustomSchema):
     def _define_schema(self) -> Schema:
         return Hex(minLength=130, maxLength=130)
-
