@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pathlib import Path
 from threading import Lock
 from typing import TYPE_CHECKING
 from warnings import warn
@@ -22,180 +23,180 @@ from schemas.__private.custom_schemas.transaction_id import TransactionId
 if TYPE_CHECKING:
     from schemas.__private.fundamental_schemas import Schema
 
+operations_schemas = []
 __operation_definitions = {}
 __operation_definitions_lock = Lock()
 
 
-def get_operation_list():
-    '''
-    the function prepares the operations.hpp file for parsing. Returns a list of all operations occurring in the hive
-    hive_operations, hive_virtual_operations, hive_smt_operations, hive_sps_operations.
-    '''
-    with open('../../../../../../libraries/protocol/include/hive/protocol/operations.hpp', 'r') as original_header:
-        prepared_string = original_header.read().replace('#ifdef HIVE_ENABLE_SMT', '').replace('#endif', '')
-        with open('/tmp/to_parse.hpp', 'w') as new_parser:
-            new_parser.write(prepared_string)
-
-    operation_header = CppHeaderParser.CppHeader('/tmp/to_parse.hpp')
-    # After python update to 3.9+ version change .replace() to .removeprefix() and .removesuffix()
-    string_operations = operation_header.typedefs['hive::protocol::operation'].replace('fc::static_variant<', '').replace('>', '').replace(' ', '')
-    operations_list = string_operations.split(',')
-    return operations_list
-
-
 def adapt_hive_operations_to_schema() -> Schema:
     global __operation_definitions
+    global operations_schemas
+    SMT_OPERATIONS_SUPPORTED = False
 
-    types_used_in_hive = {'account_name_type': AccountName(),
-                          'asset_symbol_type': Map({
-                              'nai': AnyOf(
-                                  Str(pattern='@@000000013'),
-                                  Str(pattern='@@000000021'),
-                                  Str(pattern='@@000000037'),
-                              ),
-                              'decimals': Int(),
-                          }),
-                          'authority': Authority(),
-                          'block_id': TransactionId(),
-                          'block_id_type': TransactionId(),
-                          'bool': Bool(),
-                          'comment_options_extensions_type': Map({
-                              'author': Str(),
-                              'premlink': Str(),
-                              'max_accepted_payout': AssetHbd(),
-                              'percent_hbd': Int(),
-                              'allow_votes': Bool(),
-                              'allow_curation_rewards': Bool(),
-                              'extensions': Array(
-                                  ArrayStrict(
-                                      Int(),
-                                      Map({
-                                          'beneficiaries': Array(
-                                              Map({
-                                                  'account': Str(),
-                                                  'weight': Int(),
-                                              })
-                                          )
-                                      }),
-                                  )
-                              )
+    with __operation_definitions_lock:
+        if not __operation_definitions:
+            files_to_parse = [
+                Path(__file__).joinpath('../../../../../../libraries/protocol/include/hive/protocol/hive_operations.hpp').resolve(),
+                Path(__file__).joinpath('../../../../../../libraries/protocol/include/hive/protocol/hive_virtual_operations.hpp').resolve(),
+                Path(__file__).joinpath('../../../../../../libraries/protocol/include/hive/protocol/sps_operations.hpp').resolve(),
+                *((
+                    Path(__file__).joinpath('../../../../../../libraries/protocol/include/hive/protocol/smt_operations.hpp').resolve(),)
+                    if SMT_OPERATIONS_SUPPORTED else ()),
+            ]
+            for file in files_to_parse:
+                __operation_definitions.update(CppHeaderParser.CppHeader(file).CLASSES)
+        else:
+            return AnyOf(*operations_schemas)
 
-                          }),
-                          'custom_id_type': Int(),
-                          'extensions_type': Array(),  # FIXME: 'temporary schema'
-                          'flat_map< string, vector< char> >': Map({'props': Array(Str())}),
-                          'flat_set< account_name_type>': Array(AccountName()),
-                          'flat_set_ex<int64_t>': Array(Int()),
-                          'hive::protocol::comment_options_extensions_type': Array(
-                              ArrayStrict(
-                                  Int(),
-                                  Map({
-                                      'beneficiaries': Array(
-                                          Map({
-                                              'account': Str(),
-                                              'weight': Int(),
-                                          }),
-                                      )
-                                  }),
-                              )
-                          ),
-                          'hive::protocol::update_proposal_extensions_type': Array(
-                              AnyOf(
-                                  Null(),
-                                  Date(),
-                              ),
-                          ),
-                          'hive::protocol::pow2_work': Map({
-                              'work': OneOf(
-                                  Map({
-                                      'input': Map({
-                                          'worker_account': AccountName(),
-                                          'prev_block': TransactionId(),
-                                          'nonce': Int(),
-                                      }),
-                                      'pow_summary': Int(),
-                                  }),
-                                  Map({
-                                      'input': Map({
-                                          'worker_account': AccountName(),
-                                          'prev_block': TransactionId(),
-                                          'nonce': Int(),
-                                      }),
-                                      'proof': Map({
-                                          'n': Int(),
-                                          'k': Int(),
-                                          'seed': Int(),
-                                          'inputs': Array(Int()),
-                                      }),
-                                      'prev_block': TransactionId(),
-                                      'pow_summary': Int(),
-                                  }),
-                              ),
-                              'new_owner_key': PublicKey(),
-                              'props': Map({
-                                  'account_creation_fee': AssetHive(),
-                                  'maximum_block_size': Int(),
-                                  'hbd_interest_rate': Int(),
-                              }),
-                          }, required_keys=['work', 'props']),
-                          'int16_t': Int(),
-                          'int64_t': Int(),
-                          'legacy_chain_properties': Map({
-                              'account_creation_fee': AssetHive(),
-                              'maximum_block_size': Int(),
-                              'hbd_interest_rate': Int(),
-                          }),
-                          'pow': Map({
-                              'worker_account': Str(),
-                              'block_id': TransactionId(),
-                              'nonce': Int(),
-                              'work': Map({
-                                  'worker': PublicKey(),
-                                  'input': TransactionId(),
-                                  'signature': Signature(),
-                                  'work': TransactionId(),
-                              }),
-                              'props': Map({
-                                  'account_creation_fee': AssetHive(),
-                                  'maximum_block_size': Int(),
-                                  'hbd_interest_rate': Int(),
-                              }),
-                          }),
-                          'pow2_input': Map({
-                             'worker_account': Str(),
-                              'prev_block': TransactionId(),
-                              'nonce': Int(),
-                          }),
-                          'price': Price(AssetAny(), AssetAny()),
-                          'public_key_type': PublicKey(),
-                          'signed_block_header': Signature(),
-                          'share_type': Int(),
-                          'smt_emissions_unit': Array(ArrayStrict(AccountName(), Int())),
-                          'std::vector< account_name_type>': Array(AccountName()),
-                          'string': Str(),
-                          'time_point_sec': Date(),
-                          'transaction_id_type': TransactionId(),
-                          'uint8_t': Int(),
-                          'uint16_t': Int(),
-                          'uint32_t': Int(),
-                          'uint64_t': Int(),
-                          'ushare_type': Int(),
-                          # 'optional< authority>': AnyOf(Authority(), Null()),
-                          # 'optional< public_key_type>': AnyOf(PublicKey(), Null()),
-                          'vector< authority>': Array(Authority()),
-                          'vector< asset>': Array(AssetHive()),
-                          'vector< beneficiary_route_type>': Array(
-                              Map({
-                                  'account': Str(),
-                                  'weight': Int(),
-                              }),
-                          ),
-                          'vector< char>': Map({
-                              'data': Str(),
-                             }),
-                          }
+    schemas_for_types_in_hive = {
+        'account_name_type': AccountName(),
+        'asset_symbol_type': Map({
+            'nai': AnyOf(
+                AssetHbd.Nai(),
+                AssetHive.Nai(),
+                AssetVests.Nai(),
+            ),
+            'decimals': Int(),
+        }),
+        'authority': Authority(),
+        'block_id': TransactionId(),
+        'block_id_type': TransactionId(),
+        'bool': Bool(),
+        'comment_options_extensions_type': Map({
+            'author': Str(),
+            'premlink': Str(),
+            'max_accepted_payout': AssetHbd(),
+            'percent_hbd': Int(),
+            'allow_votes': Bool(),
+            'allow_curation_rewards': Bool(),
+            'extensions': Array(
+                ArrayStrict(
+                    Int(),
+                    Map({
+                        'beneficiaries': Array(
+                            Map({
+                                'account': Str(),
+                                'weight': Int(),
+                            })
+                        )
+                    }),
+                )
+            )
 
-    assets_details = {
+        }),
+        'custom_id_type': Int(),
+        'extensions_type': Array(),  # FIXME: 'temporary schema'
+        'flat_map< string, vector< char> >': Map({'props': Array(Str())}),
+        'flat_set< account_name_type>': Array(AccountName()),
+        'flat_set_ex<int64_t>': Array(Int()),
+        'hive::protocol::comment_options_extensions_type': Array(
+            ArrayStrict(
+                Int(),
+                Map({
+                    'beneficiaries': Array(
+                        Map({
+                            'account': Str(),
+                            'weight': Int(),
+                        }),
+                    )
+                }),
+            )
+        ),
+        'hive::protocol::update_proposal_extensions_type': Array(
+            AnyOf(
+                Null(),
+                Date(),
+            ),
+        ),
+        'hive::protocol::pow2_work': Map({
+            'work': OneOf(
+                Map({
+                    'input': Map({
+                        'worker_account': AccountName(),
+                        'prev_block': TransactionId(),
+                        'nonce': Int(),
+                    }),
+                    'pow_summary': Int(),
+                }),
+                Map({
+                    'input': Map({
+                        'worker_account': AccountName(),
+                        'prev_block': TransactionId(),
+                        'nonce': Int(),
+                    }),
+                    'proof': Map({
+                        'n': Int(),
+                        'k': Int(),
+                        'seed': Int(),
+                        'inputs': Array(Int()),
+                    }),
+                    'prev_block': TransactionId(),
+                    'pow_summary': Int(),
+                }),
+            ),
+            'new_owner_key': PublicKey(),
+            'props': Map({
+                'account_creation_fee': AssetHive(),
+                'maximum_block_size': Int(),
+                'hbd_interest_rate': Int(),
+            }),
+        }, required_keys=['work', 'props']),
+        'int16_t': Int(),
+        'int64_t': Int(),
+        'legacy_chain_properties': Map({
+            'account_creation_fee': AssetHive(),
+            'maximum_block_size': Int(),
+            'hbd_interest_rate': Int(),
+        }),
+        'pow': Map({
+            'worker_account': Str(),
+            'block_id': TransactionId(),
+            'nonce': Int(),
+            'work': Map({
+                'worker': PublicKey(),
+                'input': TransactionId(),
+                'signature': Signature(),
+                'work': TransactionId(),
+            }),
+            'props': Map({
+                'account_creation_fee': AssetHive(),
+                'maximum_block_size': Int(),
+                'hbd_interest_rate': Int(),
+            }),
+        }),
+        'pow2_input': Map({
+            'worker_account': Str(),
+            'prev_block': TransactionId(),
+            'nonce': Int(),
+        }),
+        'price': Price(AssetAny(), AssetAny()),
+        'public_key_type': PublicKey(),
+        'signed_block_header': Signature(),
+        'share_type': Int(),
+        'smt_emissions_unit': Array(ArrayStrict(AccountName(), Int())),
+        'std::vector< account_name_type>': Array(AccountName()),
+        'string': Str(),
+        'time_point_sec': Date(),
+        'transaction_id_type': TransactionId(),
+        'uint8_t': Int(),
+        'uint16_t': Int(),
+        'uint32_t': Int(),
+        'uint64_t': Int(),
+        'ushare_type': Int(),
+        'vector< authority>': Array(Authority()),
+        'vector< asset>': Array(AssetHive()),
+        'vector< beneficiary_route_type>': Array(
+            Map({
+                'account': Str(),
+                'weight': Int(),
+            }),
+        ),
+        'vector< char>': Map({
+            'data': Str(),
+        }),
+    }
+
+    asset_types_for_properties_in_hive = {
         # hive_operations
         'account_create_operation': {
           'fee': AssetHive(),
@@ -379,49 +380,29 @@ def adapt_hive_operations_to_schema() -> Schema:
         },
     }
 
-    with __operation_definitions_lock:
-        if not __operation_definitions:
-            from pathlib import Path
-            files_to_parse = [
-                Path(__file__).joinpath('../../../../../../libraries/protocol/include/hive/protocol/hive_operations.hpp').resolve(),
-                Path(__file__).joinpath('../../../../../../libraries/protocol/include/hive/protocol/hive_virtual_operations.hpp').resolve(),
-                Path(__file__).joinpath('../../../../../../libraries/protocol/include/hive/protocol/sps_operations.hpp').resolve(),
-                # Path(__file__).joinpath('../../../../../../libraries/protocol/include/hive/protocol/smt_operations.hpp').resolve(),
-            ]
-
-            for file in files_to_parse:
-                __operation_definitions.update(CppHeaderParser.CppHeader(file).CLASSES)
-
-    # smt_operations
-    # operation_name_list = get_operation_list()
-    # if operation_name not in operation_name_list:
-    #     raise KeyError(f'{operation_name}, not found')
-
-    operations_list = []
-
     for operation in __operation_definitions.keys():
         if operation.find('_operation') > 0:
             schema_as_dict = {}
             required_keys = []
             for attribute in __operation_definitions[operation]['properties']['public']:
-                if attribute['type'] in types_used_in_hive:
-                    schema_as_dict.update({attribute['name']: types_used_in_hive[attribute['type']]})
+                if attribute['type'] in schemas_for_types_in_hive:
+                    schema_as_dict[attribute['name']] = schemas_for_types_in_hive[attribute['type']]
                     required_keys.append(attribute['name'])
                 elif attribute['type'] == 'asset':
                     try:
-                        schema_as_dict.update({attribute['name']: assets_details[operation][attribute['name']]})
+                        schema_as_dict[attribute['name']] = asset_types_for_properties_in_hive[operation][attribute['name']]
                         required_keys.append(attribute['name'])
-                    except:
-                        warn(f'Asset type for method {operation} has not been defined. AssetAny was used automatically.')
-                        print(f'{operation}')
-                        schema_as_dict.update({attribute['name']: AssetAny()})
+                    except KeyError:
+                        warn(f'Asset type for {operation} is not defined. AssetAny was used automatically.')
+                        schema_as_dict[attribute['name']] = AssetAny()
                 elif 'optional' in attribute['type']:
                     if 'authority' in attribute['type']:
-                        schema_as_dict.update({attribute['name']: Authority()})
+                        schema_as_dict[attribute['name']]: Authority()
                     elif 'public_key_type' in attribute['type']:
-                        schema_as_dict.update({attribute['name']: PublicKey()})
+                        schema_as_dict[attribute['name']] = PublicKey()
                 else:
-                    raise KeyError(f'I did not find the type \'{attribute["type"]}\', in {operation}')
-            operations_list.append(ArrayStrict(Str(pattern=operation.replace('_operation', '')), Map(schema_as_dict, required_keys=required_keys)))
+                    raise KeyError(f'Schema creation for the "{operation}" has not been completed. '
+                                   f'Not found valid schema to complete "{attribute["type"]}" type.')
+            operations_schemas.append(ArrayStrict(Str(pattern=operation.replace('_operation', '')), Map(schema_as_dict, required_keys=required_keys)))
 
-    return AnyOf(*operations_list)
+    return AnyOf(*operations_schemas)

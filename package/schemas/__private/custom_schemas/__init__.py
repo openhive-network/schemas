@@ -1,4 +1,6 @@
-from schemas.__private.custom_schemas.account_name import AccountName  # Only utility schemas, available for testers
+# FIXME dorobić opis!
+# Database of custom schemas related to hive.
+from schemas.__private.custom_schemas.account_name import AccountName
 from schemas.__private.custom_schemas.asset_hbd import AssetHbd
 from schemas.__private.custom_schemas.asset_hive import AssetHive
 from schemas.__private.custom_schemas.asset_vests import AssetVests
