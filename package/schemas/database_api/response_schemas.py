@@ -1,5 +1,4 @@
 from schemas.predefined import *
-from test_tools import Asset
 
 
 find_account_recovery_requests = Map({
