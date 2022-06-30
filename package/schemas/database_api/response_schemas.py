@@ -134,13 +134,13 @@ find_comments = Map({
             'max_cashout_time': Date(),
             'total_vote_weight': Int(),
             'reward_weight': Int(),
-            'total_payout_value': AssetHbd(),
-            'curator_payout_value': AssetHbd(),
+            'total_payout_value': AssetAny(),
+            'curator_payout_value': AssetAny(),
             'author_rewards': Int(),
             'net_votes': Int(),
             'root_author': Str(pattern=''),
             'root_permlink': Str(pattern=''),
-            'max_accepted_payout': AssetHbd(),
+            'max_accepted_payout': AssetAny(),
             'percent_hbd': Int(),
             'allow_replies': Bool(),
             'allow_votes': Bool(),
@@ -173,7 +173,7 @@ find_escrows = Map({
             'escrow_expiration': Date(),
             'hbd_balance': AssetHbd(),
             'hive_balance': AssetHive(),
-            'pending_fee': AssetHbd(),
+            'pending_fee': AssetAny(),
             'to_approved': Bool(),
             'agent_approved': Bool(),
             'disputed': Bool(),
@@ -202,7 +202,7 @@ find_limit_orders = Map({
             'seller': AccountName(),
             'orderid': Int(),
             'for_sale': Int(),
-            'sell_price': Price(AssetHive(), AssetHbd())
+            'sell_price': Price(AssetAny(), AssetAny())
         })
     )
 })
@@ -231,7 +231,7 @@ find_recurrent_transfers = Map({
             'trigger_date': Date(),
             'from': AccountName(),
             'to': AccountName(),
-            'amount': AssetHive(),
+            'amount': AssetAny(),
             'memo': Str(),
             'recurrence': Int(),
             'consecutive_failures': Int(),
@@ -248,7 +248,7 @@ find_savings_withdrawals = Map({
             'to': AccountName(),
             'memo': Str(),
             'request_id': Int(),
-            'amount': AssetHive(),
+            'amount': AssetAny(),
             'complete': Date()
         })
     )
@@ -359,7 +359,7 @@ get_comment_pending_payouts = Map({
                 'allow_curation_rewards': Bool(),
                 'was_voted_on': Bool(),
             })
-        })
+        }, required_keys=['author', 'permlink'])
     )
 })
 
@@ -393,7 +393,7 @@ get_config = Map({
     'HIVE_OWNER_AUTH_HISTORY_TRACKING_START_BLOCK_NUM': Int(),
     'HIVE_INIT_SUPPLY': Int(),
     'HIVE_HBD_INIT_SUPPLY': Int(),
-    'TESTNET_BLOCK_LIMIT': Int(),
+    # 'TESTNET_BLOCK_LIMIT': Int(),
     'HIVE_PROPOSAL_MAINTENANCE_PERIOD': Int(),
     'HIVE_PROPOSAL_MAINTENANCE_CLEANUP': Int(),
     'HIVE_DAILY_PROPOSAL_MAINTENANCE_PERIOD': Int(),
@@ -612,7 +612,7 @@ get_config = Map({
     'HIVE_PROPOSAL_FEE_INCREASE_DAYS_SEC': Int(),
     'HIVE_PROPOSAL_FEE_INCREASE_AMOUNT': Int(),
     'HIVE_PROPOSAL_CONVERSION_RATE': Int(),
-})
+}, allow_additional_properties=True)
 
 get_current_price_feed = Price(AssetHbd(), AssetHive())
 
@@ -925,7 +925,7 @@ list_escrows = Map({
             'escrow_expiration': Date(),
             'hbd_balance': AssetHbd(),
             'hive_balance': AssetHive(),
-            'pending_fee': AssetHbd(),
+            'pending_fee': AssetAny(),
             'to_approved': Bool(),
             'agent_approved': Bool(),
             'disputed': Bool(),
@@ -954,7 +954,7 @@ list_limit_orders = Map({
             'seller': AccountName(),
             'orderid': Int(),
             'for_sale': Int(),
-            'sell_price': Price(AssetHive(), AssetHbd()),
+            'sell_price': Price(AssetAny(), AssetAny()),
         })
     )
 })
@@ -992,7 +992,7 @@ list_savings_withdrawals = Map({
             'to': AccountName(),
             'memo': Str(),
             'request_id': Int(),
-            'amount': AssetHive(),
+            'amount': AssetAny(),
             'complete': Date(),
         })
     )
@@ -1068,7 +1068,7 @@ list_witnesses = Map({
             }),
             'hbd_exchange_rate': Price(AssetHive(), AssetHive()),
             'last_hbd_exchange_update': Date(),
-            'last_work': Int(),
+            'last_work': Hex(),
             'running_version': HardforkVersion(),
             'hardfork_version_vote': HardforkVersion(),
             'hardfork_time_vote': Date(),
