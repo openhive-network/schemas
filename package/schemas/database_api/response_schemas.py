@@ -178,7 +178,7 @@ find_escrows = Map({
             'escrow_expiration': Date(),
             'hbd_balance': AssetHbd(),
             'hive_balance': AssetHive(),
-            'pending_fee': AssetHbd(),
+            'pending_fee': AnyOf(AssetHbd(), AssetHive()),
             'to_approved': Bool(),
             'agent_approved': Bool(),
             'disputed': Bool(),
@@ -253,7 +253,7 @@ find_savings_withdrawals = Map({
             'to': AccountName(),
             'memo': Str(),
             'request_id': Int(),
-            'amount': AssetHive(),
+            'amount': AnyOf(AssetHbd(), AssetHive()),
             'complete': Date()
         })
     )
@@ -373,7 +373,7 @@ get_comment_pending_payouts = Map({
                 'allow_curation_rewards': Bool(),
                 'was_voted_on': Bool(),
             })
-        })
+        }, required_keys=['author', 'permlink'])
     )
 })
 
@@ -952,7 +952,7 @@ list_escrows = Map({
             'escrow_expiration': Date(),
             'hbd_balance': AssetHbd(),
             'hive_balance': AssetHive(),
-            'pending_fee': AssetHbd(),
+            'pending_fee': AnyOf(AssetHbd(), AssetHive()),
             'to_approved': Bool(),
             'agent_approved': Bool(),
             'disputed': Bool(),
@@ -1019,7 +1019,7 @@ list_savings_withdrawals = Map({
             'to': AccountName(),
             'memo': Str(),
             'request_id': Int(),
-            'amount': AssetHive(),
+            'amount': AnyOf(AssetHive(), AssetHbd()),
             'complete': Date(),
         })
     )
