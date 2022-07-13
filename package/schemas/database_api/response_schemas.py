@@ -545,7 +545,6 @@ get_config = Map({
     'HIVE_MAX_TRANSACTION_SIZE': Int(),
     'HIVE_MIN_BLOCK_SIZE_LIMIT': Int(),
     'HIVE_MAX_BLOCK_SIZE': Int(),
-    'HIVE_SOFT_MAX_BLOCK_SIZE': Int(),
     'HIVE_MIN_BLOCK_SIZE': Int(),
     'HIVE_BLOCKS_PER_HOUR': Int(),
     'HIVE_FEED_INTERVAL_BLOCKS': Int(),
