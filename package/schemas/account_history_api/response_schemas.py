@@ -17,7 +17,28 @@ enum_virtual_ops = Map({
             'virtual_op': Bool(),
         })
     ),
-    'ops_by_block': Array(),
+    'ops_by_block': Array(
+        Map({
+            'block': Int(),
+            'timestamp': Date(),
+            'irreversible': Bool(),
+            'ops': Array(
+                Map({
+                    'block': Int(),
+                    'op': Map({
+                        'type': Str(),
+                        'value': Map({}, allow_additional_properties=True),
+                    }),
+                    'op_in_trx': Int(),
+                    'operation_id': Int(),
+                    'timestamp': Date(),
+                    'trx_id': TransactionId(),
+                    'trx_in_block': Int(),
+                    'virtual_op': Bool(),
+                })
+            ),
+        })
+    ),
     'next_block_range_begin': Int(),
     'next_operation_begin': Int(),
 })
