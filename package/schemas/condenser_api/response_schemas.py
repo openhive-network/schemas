@@ -1,6 +1,197 @@
 from schemas.predefined import *
 
 
+broadcast_transaction = Map({})
+
+broadcast_transaction_synchronous = Map({
+    'block_num': Int(),
+    'expired': Bool(),
+    'id': TransactionId(),
+    'trx_num': Int(),
+})
+
+find_proposals = Array(
+    Map({
+        'creator': AccountName(),
+        'daily_pay': LegacyAssetHbd(),
+        'end_date': Date(),
+        'id': Int(),
+        'permlink': Str(),
+        'proposal_id': Int(),
+        'receiver': AccountName(),
+        'start_date': Date(),
+        'subject': Str(),
+        'total_votes': Int(),
+    })
+)
+
+find_recurrent_transfers = Array(
+    Map({
+        'amount': LegacyAssetHive(),
+        'consecutive_failures': Int(),
+        'from': AccountName(),
+        'id': Int(),
+        'memo': Str(),
+        'recurrence': Int(),
+        'remaining_executions': Int(),
+        'to': AccountName(),
+        'trigger_date': Date(),
+    })
+)
+
+get_account_count = Int()
+
+get_account_history = Array(
+    ArrayStrict(
+        Int(),
+        Map({
+            'block': Int(),
+            'op': ArrayStrict(
+                Str(),
+                Any(),
+            ),
+            'op_in_trx': Int(),
+            'timestamp': Date(),
+            'trx_id': TransactionId(),
+            'trx_in_block': Int(),
+            'virtual_op': Bool(),
+        })
+    )
+)
+
+get_account_reputations = Array(
+    Map({
+        'account': AccountName(),
+        'reputation': Int(),
+    })
+)
+
+get_accounts = Array(
+    Map({
+        'id': Int(),
+        'name': Str(),
+        'owner': Authority(),
+        'active': Authority(),
+        'posting': Authority(),
+        'memo_key': PublicKey(),
+        'json_metadata': AnyOf(Json(), EmptyString()),
+        'posting_json_metadata': AnyOf(Json(), EmptyString()),
+        'proxy': Str(),
+        'previous_owner_update': Date(),
+        'last_owner_update': Date(),
+        'last_account_update': Date(),
+        'created': Date(),
+        'mined': Bool(),
+        'recovery_account': AccountName(),
+        'last_account_recovery': Date(),
+        'reset_account': AccountName(),
+        'comment_count': Int(),
+        'lifetime_vote_count': Int(),
+        'post_count': Int(),
+        'can_vote': Bool(),
+        'voting_manabar': Manabar(),
+        'downvote_manabar': Manabar(),
+        'balance': LegacyAssetHive(),
+        'savings_balance': LegacyAssetHive(),
+        'hbd_balance': LegacyAssetHbd(),
+        'hbd_seconds': Int(),
+        'hbd_seconds_last_update': Date(),
+        'hbd_last_interest_payment': Date(),
+        'savings_hbd_balance': LegacyAssetHbd(),
+        'savings_hbd_seconds': Int(),
+        'savings_hbd_seconds_last_update': Date(),
+        'savings_hbd_last_interest_payment': Date(),
+        'savings_withdraw_requests': Int(),
+        'reward_hbd_balance': LegacyAssetHbd(),
+        'reward_hive_balance': LegacyAssetHive(),
+        'reward_vesting_balance': LegacyAssetVests(),
+        'reward_vesting_hive': LegacyAssetHive(),
+        'vesting_shares': LegacyAssetVests(),
+        'delegated_vesting_shares': LegacyAssetVests(),
+        'received_vesting_shares': LegacyAssetVests(),
+        'vesting_withdraw_rate': LegacyAssetVests(),
+        'post_voting_power': LegacyAssetVests(),
+        'next_vesting_withdrawal': Date(),
+        'withdrawn': Int(),
+        'to_withdraw': Int(),
+        'withdraw_routes': Int(),
+        'pending_transfers': Int(),
+        'curation_rewards': Int(),
+        'posting_rewards': Int(),
+        'proxied_vsf_votes': Array(
+            Int(),
+        ),
+        'witnesses_voted_for': Int(),
+        'last_post': Date(),
+        'last_root_post': Date(),
+        'last_vote_time': Date(),
+        'post_bandwidth': Int(),
+        'pending_claimed_accounts': Int(),
+        'open_recurrent_transfers': Int(),
+        'delayed_votes': Array(
+            Map({
+                'time': Date(),
+                'val': Int(),
+            })
+        ),
+        'governance_vote_expiration_ts': Date(),
+        'post_history': Array(),
+        'vote_history': Array(),
+        'witness_votes': Array(AccountName()),
+        'vesting_balance': LegacyAssetHive(),
+        'transfer_history': Array(),
+        'voting_power': Int(),
+        'market_history': Array(),
+        'tags_usage': Array(),
+        'reputation': Int(),
+        'guest_bloggers': Array(),
+        'other_history': Array(),
+    })
+)
+
+get_active_votes = Array(
+    Map({
+        'percent': Int(),
+        'reputation': Int(),
+        'rshares': Int(),
+        'time': Date(),
+        'voter': AccountName(),
+        'weight': Int(),
+    })
+)
+
+get_active_witnesses = Array(
+    AccountName(),
+    minItems=1, maxItems=21
+)
+
+get_block = Map({
+    'block_id': TransactionId(),
+    'extensions': Array(ArrayStrict(Str(), Any())),
+    'previous': TransactionId(),
+    'signing_key': PublicKey(),
+    'timestamp': Date(),
+    'transaction_ids': Array(TransactionId()),
+    'transaction_merkle_root': TransactionId(),
+    'transactions': Array(
+        Map({
+            'block_num': Int(),
+            'expiration': Date(),
+            'extensions': Array(),
+            'operations': Array(
+                ArrayStrict(Str(), Any())
+            ),
+            'ref_block_num': Int(),
+            'ref_block_prefix': Int(),
+            'signatures': Array(Signature()),
+            'transaction_id': TransactionId(),
+            'transaction_num': Int(),
+        })
+    ),
+    'witness': AccountName(),
+    'witness_signature': Signature(),
+})
+
 get_block_header = Map({
     'previous': TransactionId(),
     'extensions': Array(
@@ -10,6 +201,25 @@ get_block_header = Map({
     'transaction_merkle_root': TransactionId(),
     'witness': AccountName(),
 })
+
+get_chain_properties = Map({
+    'account_creation_fee': LegacyAssetHive(),
+    'account_subsidy_budget': Int(),
+    'account_subsidy_decay': Int(),
+    'hbd_interest_rate': Int(),
+    'maximum_block_size': Int(),
+})
+
+get_collateralized_conversion_requests = Array(
+    Map({
+        'collateral_amount': LegacyAssetHive(),
+        'conversion_date': Date(),
+        'converted_amount': LegacyAssetHbd(),
+        'id': Int(),
+        'owner': AccountName(),
+        'requestid': Int(),
+    })
+)
 
 get_config = Map({
     'HBD_SYMBOL': LegacyAssetHbd.Symbol(),
@@ -251,23 +461,194 @@ get_config = Map({
     'VESTS_SYMBOL': LegacyAssetVests.Symbol(),
 })
 
-
-find_recurrent_transfers = Array(
+get_conversion_requests = Array(
     Map({
-        'amount': LegacyAssetHive(),
-        'consecutive_failures': Int(),
-        'from': AccountName(),
+        'amount': LegacyAssetHbd(),
+        'conversion_date': Date(),
         'id': Int(),
-        'memo': Str(),
-        'recurrence': Int(),
-        'remaining_executions': Int(),
-        'to': AccountName(),
-        'trigger_date': Date(),
+        'owner': AccountName(),
+        'requestid': Int(),
     })
 )
 
-# This method is not validated in this test. But its schema is needed to validate `get_config` method.
-get_dynamic_global_properties = Any()
+get_current_median_history_price = Price(LegacyAssetHbd(), LegacyAssetHive())
+
+get_dynamic_global_properties = Map({
+    'available_account_subsidies': Int(),
+    'content_reward_percent': Int(),
+    'current_aslot': Int(),
+    'current_hbd_supply': LegacyAssetHbd(),
+    'current_remove_threshold': Int(),
+    'current_supply': LegacyAssetHive(),
+    'current_witness': AccountName(),
+    'delegation_return_period': Int(),
+    'dhf_interval_ledger': LegacyAssetHbd(),
+    'downvote_pool_percent': Int(),
+    'early_voting_seconds': Int(),
+    'hbd_interest_rate': Int(),
+    'hbd_print_rate': Int(),
+    'hbd_start_percent': Int(),
+    'hbd_stop_percent': Int(),
+    'head_block_id': TransactionId(),
+    'head_block_number': Int(),
+    'init_hbd_supply': LegacyAssetHbd(),
+    'last_budget_time': Date(),
+    'last_irreversible_block_num': Int(),
+    'max_consecutive_recurrent_transfer_failures': Int(),
+    'max_open_recurrent_transfers': Int(),
+    'max_recurrent_transfer_end_date': Int(),
+    'maximum_block_size': Int(),
+    'mid_voting_seconds': Int(),
+    'min_recurrent_transfers_recurrence': Int(),
+    'next_daily_maintenance_time': Date(),
+    'next_maintenance_time': Date(),
+    'num_pow_witnesses': Int(),
+    'participation_count': Int(),
+    'pending_rewarded_vesting_hive': LegacyAssetHive(),
+    'pending_rewarded_vesting_shares': LegacyAssetVests(),
+    'proposal_fund_percent': Int(),
+    'recent_slots_filled': Int(),
+    'required_actions_partition_percent': Int(),
+    'reverse_auction_seconds': Int(),
+    'time': Date(),
+    'total_pow': Int(),
+    'total_reward_fund_hive': LegacyAssetHive(),
+    'total_reward_shares2': Int(),
+    'total_vesting_fund_hive': LegacyAssetHive(),
+    'total_vesting_shares': LegacyAssetVests(),
+    'vesting_reward_percent': Int(),
+    'virtual_supply': LegacyAssetHive(),
+    'vote_power_reserve_rate': Int(),
+})
+
+get_escrow = OneOf(
+    Null(),
+    Map({
+        'agent': AccountName(),
+        'agent_approved': Bool(),
+        'disputed': Bool(),
+        'escrow_expiration': Date(),
+        'escrow_id': Int(),
+        'from': AccountName(),
+        'hbd_balance': LegacyAssetHbd(),
+        'hive_balance': LegacyAssetHive(),
+        'id': Int(),
+        'pending_fee': OneOf(
+            LegacyAssetHive(),
+            LegacyAssetHbd(),
+        ),
+        'ratification_deadline': Date(),
+        'to': AccountName(),
+        'to_approved': Bool(),
+    }),
+)
+
+get_expiring_vesting_delegations = Array(
+    Map({
+        'delegator': AccountName(),
+        'expiration': Date(),
+        'id': Int(),
+        'vesting_shares': LegacyAssetVests(),
+    })
+)
+
+get_feed_history = Map({
+    'current_max_history': Price(LegacyAssetHbd(), LegacyAssetHive()),
+    'current_median_history': Price(LegacyAssetHbd(), LegacyAssetHive()),
+    'current_min_history': Price(LegacyAssetHbd(), LegacyAssetHive()),
+    'id': Int(),
+    'market_median_history': Price(LegacyAssetHbd(), LegacyAssetHive()),
+    'price_history': Array(
+        Price(LegacyAssetHbd(), LegacyAssetHive()),
+    ),
+})
+
+get_hardfork_version = HardforkVersion()
+
+get_key_references = Array(Array(AccountName()))
+
+get_market_history = Array(
+    Map({
+        'id': Int(),
+        'open': Date(),
+        'seconds': Int(),
+        'hive': Map({
+            'high': Int(),
+            'low': Int(),
+            'open': Int(),
+            'close': Int(),
+            'volume': Int(),
+        }),
+        'non_hive': Map({
+            'high': Int(),
+            'low': Int(),
+            'open': Int(),
+            'close': Int(),
+            'volume': Int(),
+        }),
+    })
+)
+
+get_market_history_buckets = Array(enum=[[15, 60, 300, 3600, 86400]])
+
+get_next_scheduled_hardfork = Map({
+    'hf_version': HardforkVersion(),
+    'live_time': Date(),
+})
+
+get_open_orders = Array(
+    Map({
+        'created': Date(),
+        'expiration': Date(),
+        'for_sale': Int(),
+        'id': Int(),
+        'orderid': Int(),
+        'real_price': Str(),
+        'rewarded': Bool(),
+        'sell_price': Price(LegacyAssetHive(), LegacyAssetHbd()),
+        'seller': AccountName(),
+    })
+)
+
+get_ops_in_block = Array(
+    Map({
+        'block': Int(),
+        'op': ArrayStrict(Str(), Any()),
+        'op_in_trx': Int(),
+        'timestamp': Date(),
+        'trx_id': TransactionId(),
+        'trx_in_block': Int(),
+        'virtual_op': Bool(),
+    })
+)
+
+get_order_book = Map({
+    'asks': Array(Map({
+        'created': Date(),
+        'hbd': Int(),
+        'hive': Int(),
+        'order_price': Price(LegacyAssetAny(), LegacyAssetAny()),
+        'real_price': Str(),
+        })
+    ),
+    'bids': Array(Map({
+        'created': Date(),
+        'hbd': Int(),
+        'hive': Int(),
+        'order_price': Price(LegacyAssetAny(), LegacyAssetAny()),
+        'real_price': Str()
+        })
+    ),
+})
+
+get_owner_history = Array(
+    Map({
+        'account': AccountName(),
+        'id': Int(),
+        'last_valid_time': Date(),
+        'previous_owner_authority': Authority(),
+    })
+)
 
 list_proposal_votes = Array(
     Map({
