@@ -135,16 +135,28 @@ class LegacyAssetAny(CustomSchema):
 
 
 class LegacyAssetHbd(CustomSchema):
+    @staticmethod
+    def Symbol():
+        return Str(enum=['HBD', 'TBD'])
+
     def _define_schema(self) -> Schema:
-        return Str(pattern=r'^[0-9]+\.[0-9]{3} (:?HBD|TBD)$')
+        return Str(pattern=r'^[0-9]+\.[0-9]{3} (?:HBD|TBD)$')
 
 
 class LegacyAssetHive(CustomSchema):
+    @staticmethod
+    def Symbol():
+        return Str(enum=['HIVE', 'TESTS'])
+
     def _define_schema(self) -> Schema:
-        return Str(pattern=r'^[0-9]+\.[0-9]{3} (:?HIVE|TESTS)$')
+        return Str(pattern=r'^[0-9]+\.[0-9]{3} (?:HIVE|TESTS)$')
 
 
 class LegacyAssetVests(CustomSchema):
+    @staticmethod
+    def Symbol():
+        return Str(enum=['VESTS'])
+
     def _define_schema(self) -> Schema:
         return Str(pattern=r'^[0-9]+\.[0-9]{6} VESTS$')
 
