@@ -24,6 +24,7 @@ from schemas.__private.custom_schemas import (
     Authority,
     HardforkVersion,
     Hex,
+    LegacyAssetAny,
     LegacyAssetHbd,
     LegacyAssetHive,
     LegacyAssetVests,
