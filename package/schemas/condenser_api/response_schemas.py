@@ -268,3 +268,23 @@ find_recurrent_transfers = Array(
 
 # This method is not validated in this test. But its schema is needed to validate `get_config` method.
 get_dynamic_global_properties = Any()
+
+list_proposal_votes = Array(
+    Map({
+        'id': Int(),
+        'voter': AccountName(),
+        'proposal': Map({
+            'id': Int(),
+            'proposal_id': Int(),
+            'creator': Str(),
+            'receiver': Str(),
+            'start_date': Date(),
+            'end_date': Date(),
+            'daily_pay': LegacyAssetHbd(),
+            'subject': Str(),
+            'permlink': Str(),
+            'total_votes': Int(),
+            'status': Str(),
+        }),
+    })
+)
