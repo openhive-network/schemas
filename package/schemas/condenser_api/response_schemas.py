@@ -1,6 +1,5 @@
 from schemas.predefined import *
 
-
 broadcast_transaction = Map({})
 
 broadcast_transaction_synchronous = Map({
@@ -135,17 +134,17 @@ get_accounts = Array(
             })
         ),
         'governance_vote_expiration_ts': Date(),
-        'post_history': Array(),
-        'vote_history': Array(),
+        'post_history': Array(Any()),
+        'vote_history': Array(Any()),
         'witness_votes': Array(AccountName()),
         'vesting_balance': LegacyAssetHive(),
-        'transfer_history': Array(),
+        'transfer_history': Array(Any()),
         'voting_power': Int(),
-        'market_history': Array(),
-        'tags_usage': Array(),
+        'market_history': Array(Any()),
+        'tags_usage': Array(Any()),
         'reputation': Int(),
-        'guest_bloggers': Array(),
-        'other_history': Array(),
+        'guest_bloggers': Array(Any()),
+        'other_history': Array(Any()),
     })
 )
 
@@ -177,7 +176,7 @@ get_block = Map({
         Map({
             'block_num': Int(),
             'expiration': Date(),
-            'extensions': Array(),
+            'extensions': Array(Any()),
             'operations': Array(
                 ArrayStrict(Str(), Any())
             ),
@@ -650,6 +649,277 @@ get_owner_history = Array(
     })
 )
 
+get_potential_signatures = Array(PublicKey())
+
+get_recent_trades = Array(
+    Map({
+        'date': Date(),
+        'current_pays': AnyOf(LegacyAssetHive(), LegacyAssetHbd()),
+        'open_pays': AnyOf(LegacyAssetHive(), LegacyAssetHbd()),
+    })
+)
+
+get_recovery_request = Map({
+    'id': Int(),
+    'account_to_recover': AccountName(),
+    'new_owner_authority': Authority(),
+    'expires': Date(),
+})
+
+get_required_signatures = Array(PublicKey())
+
+get_reward_fund = Map({
+    'id': Int(),
+    'name': Str(),
+    'reward_balance': LegacyAssetHive(),
+    'recent_claims': Int(),
+    'last_update': Date(),
+    'content_constant': Int(),
+    'percent_curation_rewards': Int(),
+    'percent_content_rewards': Int(),
+    'author_reward_curve': Str(),
+    'curation_reward_curve': Str(),
+})
+
+get_savings_withdraw_from = Array(
+    Map({
+        'id': Int(),
+        'from': AccountName(),
+        'to': AccountName(),
+        'memo': Str(),
+        'request_id': Int(),
+        'amount': LegacyAssetHive(),
+        'complete': Date(),
+    })
+)
+
+get_savings_withdraw_to = Array(
+    Map({
+        'id': Int(),
+        'from': AccountName(),
+        'to': AccountName(),
+        'memo': Str(),
+        'request_id': Int(),
+        'amount': LegacyAssetHive(),
+        'complete': Date(),
+    })
+)
+
+get_ticker = Map({
+    'latest': Str(),
+    'lowest_ask': Str(),
+    'highest_bid': Str(),
+    'percent_change': Str(),
+    'hive_volume': LegacyAssetHive(),
+    'hbd_volume': LegacyAssetHbd(),
+})
+
+get_trade_history = Array(
+    Map({
+        'date': Date(),
+        'current_pays': AnyOf(LegacyAssetHive(), LegacyAssetHbd()),
+        'open_pays': AnyOf(LegacyAssetHive(), LegacyAssetHbd()),
+    })
+)
+
+get_transaction = Map({
+    'ref_block_num': Int(),
+    'ref_block_prefix': Int(),
+    'expiration': Date(),
+    'operations': Array(
+        ArrayStrict(Str(), Any())
+    ),
+    'extensions': Array(Any()),
+    'signatures': Array(Signature()),
+    'transaction_id': TransactionId(),
+    'block_num': Int(),
+    'transaction_num': Int(),
+})
+
+get_transaction_hex = Hex()
+
+get_version = Map({
+    'blockchain_version': HardforkVersion(),
+    'hive_revision': Hex(),
+    'fc_revision': Hex(),
+    'chain_id': Hex(),
+})
+
+get_vesting_delegations = Array(
+    Map({
+        'id': Int(),
+        'delegator': AccountName(),
+        'delegatee': AccountName(),
+        'vesting_shares': LegacyAssetVests(),
+        'min_delegation_time': Date(),
+    })
+)
+
+get_volume = Map({
+    'hive_volume': LegacyAssetHive(),
+    'hbd_volume': LegacyAssetHbd(),
+})
+
+get_withdraw_routes = Array(
+    Map({
+        'id': Int(),
+        'from_account': AccountName(),
+        'to_account': AccountName(),
+        'percent': Int(),
+        'auto_vest': Bool(),
+    })
+)
+
+get_witness_by_account = Map({
+    'id': Int(),
+    'owner': AccountName(),
+    'created': Date(),
+    'url': Str(),
+    'votes': Int(),
+    'virtual_last_update': Int(),
+    'virtual_position': Int(),
+    'virtual_scheduled_time': Int(),
+    'total_missed': Int(),
+    'last_aslot': Int(),
+    'last_confirmed_block_num': Int(),
+    'pow_worker': Int(),
+    'signing_key': PublicKey(),
+    'props': Map({
+        'account_creation_fee': LegacyAssetHive(),
+        'maximum_block_size': Int(),
+        'hbd_interest_rate': Int(),
+        'account_subsidy_budget': Int(),
+        'account_subsidy_decay': Int(),
+    }),
+    'hbd_exchange_rate': Price(LegacyAssetHive(), LegacyAssetHive()),
+    'last_hbd_exchange_update': Date(),
+    'last_work': Int(),
+    'running_version': HardforkVersion(),
+    'hardfork_version_vote': HardforkVersion(),
+    'hardfork_time_vote': Date(),
+    'available_witness_account_subsidies': Int(),
+})
+
+get_witness_count = Int()
+
+get_witness_schedule = Map({
+    'id': Int(),
+    'current_virtual_time': Int(),
+    'next_shuffle_block_num': Int(),
+    'current_shuffled_witnesses': Array(
+        AnyOf(
+            AccountName(),
+            EmptyString()
+        )
+    ),
+    'num_scheduled_witnesses': Int(),
+    'elected_weight': Int(),
+    'timeshare_weight': Int(),
+    'miner_weight': Int(),
+    'witness_pay_normalization_factor': Int(),
+    'median_props': Map({
+        'account_creation_fee': LegacyAssetHive(),
+        'maximum_block_size': Int(),
+        'hbd_interest_rate': Int(),
+        'account_subsidy_budget': Int(),
+        'account_subsidy_decay': Int()
+    }),
+    'majority_version': HardforkVersion(),
+    'max_voted_witnesses': Int(),
+    'max_miner_witnesses': Int(),
+    'max_runner_witnesses': Int(),
+    'hardfork_required_witnesses': Int(),
+    'account_subsidy_rd': Map({
+        'resource_unit': Int(),
+        'budget_per_time_unit': Int(),
+        'pool_eq': Int(),
+        'max_pool_size': Int(),
+        'decay_params': Map({
+            'decay_per_time_unit': Int(),
+            'decay_per_time_unit_denom_shift': Int()
+        }),
+        'min_decay': Int(),
+    }),
+    'account_subsidy_witness_rd': Map({
+        'resource_unit': Int(),
+        'budget_per_time_unit': Int(),
+        'pool_eq': Int(),
+        'max_pool_size': Int(),
+        'decay_params': Map({
+            'decay_per_time_unit': Int(),
+            'decay_per_time_unit_denom_shift': Int()
+        }),
+        'min_decay': Int(),
+    }),
+    'min_witness_account_subsidy_decay': Int()
+})
+
+get_witnesses = Array(
+    Map({
+        'id': Int(),
+        'owner': AccountName(),
+        'created': Date(),
+        'url': Str(),
+        'votes': Int(),
+        'virtual_last_update': Int(),
+        'virtual_position': Int(),
+        'virtual_scheduled_time': Int(),
+        'total_missed': Int(),
+        'last_aslot': Int(),
+        'last_confirmed_block_num': Int(),
+        'pow_worker': Int(),
+        'signing_key': PublicKey(),
+        'props': Map({
+            'account_creation_fee': LegacyAssetHive(),
+            'maximum_block_size': Int(),
+            'hbd_interest_rate': Int(),
+            'account_subsidy_budget': Int(),
+            'account_subsidy_decay': Int(),
+        }),
+        'hbd_exchange_rate': Price(LegacyAssetHive(), LegacyAssetHive()),
+        'last_hbd_exchange_update': Date(),
+        'last_work': Int(),
+        'running_version': HardforkVersion(),
+        'hardfork_version_vote': HardforkVersion(),
+        'hardfork_time_vote': Date(),
+        'available_witness_account_subsidies': Int(),
+    })
+)
+
+get_witnesses_by_vote = Array(
+    Map({
+        'id': Int(),
+        'owner': AccountName(),
+        'created': Date(),
+        'url': Str(),
+        'votes': Int(),
+        'virtual_last_update': Str(),
+        'virtual_position': Str(),
+        'virtual_scheduled_time': Str(),
+        'total_missed': Int(),
+        'last_aslot': Int(),
+        'last_confirmed_block_num': Int(),
+        'pow_worker': Int(),
+        'signing_key': PublicKey(),
+        'props': Map({
+                'account_creation_fee': LegacyAssetHive(),
+                'maximum_block_size': Int(),
+                'hbd_interest_rate': Int(),
+                'account_subsidy_budget': Int(),
+                'account_subsidy_decay': Int(),
+            }),
+        'hbd_exchange_rate': Price(AnyOf(LegacyAssetHive(), LegacyAssetHbd()), LegacyAssetHive()),
+        'last_hbd_exchange_update': Date(),
+        'last_work': Str(),
+        'running_version': HardforkVersion(),
+        'hardfork_version_vote': HardforkVersion(),
+        'hardfork_time_vote': Date(),
+        'available_witness_account_subsidies': Int(),
+    })
+)
+
+is_known_transaction = Bool()
+
 list_proposal_votes = Array(
     Map({
         'id': Int(),
@@ -669,3 +939,90 @@ list_proposal_votes = Array(
         }),
     })
 )
+
+list_proposals = Array(
+    Map({
+        'id': Int(),
+        'proposal_id': Int(),
+        'creator': AccountName(),
+        'receiver': AccountName(),
+        'start_date': Date(),
+        'end_date': Date(),
+        'daily_pay': LegacyAssetHbd(),
+        'subject': Str(),
+        'permlink': Str(),
+        'total_votes': Int(),
+    })
+)
+
+lookup_account_names = Array(
+    Map({
+        'id': Int(),
+        'name': AccountName(),
+        'owner': Authority(),
+        'active': Authority(),
+        'posting': Authority(),
+        'memo_key': PublicKey(),
+        'json_metadata': AnyOf(Json(), EmptyString()),
+        'posting_json_metadata': AnyOf(Json(), EmptyString()),
+        'proxy': Str(),
+        'previous_owner_update': Date(),
+        'last_owner_update': Date(),
+        'last_account_update': Date(),
+        'created': Date(),
+        'mined': Bool(),
+        'recovery_account': AnyOf(AccountName(), EmptyString()),
+        'last_account_recovery': Date(),
+        'reset_account': AccountName(),
+        'comment_count': Int(),
+        'lifetime_vote_count': Int(),
+        'post_count': Int(),
+        'can_vote': Bool(),
+        'voting_manabar': Manabar(),
+        'downvote_manabar': Manabar(),
+        'voting_power': Int(),
+        'balance': LegacyAssetHive(),
+        'savings_balance': LegacyAssetHive(),
+        'hbd_balance': LegacyAssetHbd(),
+        'hbd_seconds': Int(),
+        'hbd_seconds_last_update': Date(),
+        'hbd_last_interest_payment': Date(),
+        'savings_hbd_balance': LegacyAssetHbd(),
+        'savings_hbd_seconds': Int(),
+        'savings_hbd_seconds_last_update': Date(),
+        'savings_hbd_last_interest_payment': Date(),
+        'savings_withdraw_requests': Int(),
+        'reward_hbd_balance': LegacyAssetHbd(),
+        'reward_hive_balance': LegacyAssetHive(),
+        'reward_vesting_balance': LegacyAssetVests(),
+        'reward_vesting_hive': LegacyAssetHive(),
+        'vesting_shares': LegacyAssetVests(),
+        'delegated_vesting_shares': LegacyAssetVests(),
+        'received_vesting_shares': LegacyAssetVests(),
+        'vesting_withdraw_rate': LegacyAssetVests(),
+        'post_voting_power': LegacyAssetVests(),
+        'next_vesting_withdrawal': Date(),
+        'withdrawn': Int(),
+        'to_withdraw': Int(),
+        'withdraw_routes': Int(),
+        'pending_transfers': Int(),
+        'curation_rewards': Int(),
+        'posting_rewards': Int(),
+        'proxied_vsf_votes': Array(Int()),
+        'witnesses_voted_for': Int(),
+        'last_post': Date(),
+        'last_root_post': Date(),
+        'last_vote_time': Date(),
+        'post_bandwidth': Int(),
+        'pending_claimed_accounts': Int(),
+        'open_recurrent_transfers': Int(),
+        'delayed_votes': Array(Any()),
+        'governance_vote_expiration_ts': Date()
+    })
+)
+
+lookup_accounts = Array(Any())
+
+lookup_witness_accounts = Array(Any())
+
+verify_authority = Bool()
