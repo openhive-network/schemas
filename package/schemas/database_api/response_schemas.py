@@ -22,15 +22,15 @@ find_accounts = Map({
             'active': Authority(),
             'posting': Authority(),
             'memo_key': PublicKey(),
-            'json_metadata': AnyOf(Json(), Str(pattern='')),
-            'posting_json_metadata': AnyOf(Json(), Str(pattern='')),
+            'json_metadata': AnyOf(Json(), EmptyString()),
+            'posting_json_metadata': AnyOf(Json(), EmptyString()),
             'proxy': Str(),
             'previous_owner_update': Date(),
             'last_owner_update': Date(),
             'last_account_update': Date(),
             'created': Date(),
             'mined': Bool(),
-            'recovery_account': AnyOf(AccountName(), Str(pattern='')),
+            'recovery_account': AnyOf(AccountName(), EmptyString()),
             'last_account_recovery': Date(),
             'reset_account': AccountName(),
             'comment_count': Int(),
@@ -87,7 +87,7 @@ find_change_recovery_account_requests = Map({
         Map({
             'id': Int(),
             'account_to_recover': AccountName(),
-            'recovery_account': AnyOf(AccountName(), Str(pattern='')),
+            'recovery_account': AnyOf(AccountName(), EmptyString()),
             'effective_on': Date(),
         })
     )
@@ -114,14 +114,14 @@ find_comments = Map({
     'comments': Array(
         Map({
             'id': Int(),
-            'author': Str(pattern=''),
-            'permlink': Str(pattern=''),
-            'category': Str(pattern=''),
-            'parent_author': Str(pattern=''),
-            'parent_permlink': Str(pattern=''),
-            'title': Str(pattern=''),
-            'body': Str(pattern=''),
-            'json_metadata': AnyOf(Json(), Str(pattern='')),
+            'author': EmptyString(),
+            'permlink': EmptyString(),
+            'category': EmptyString(),
+            'parent_author': EmptyString(),
+            'parent_permlink': EmptyString(),
+            'title': EmptyString(),
+            'body': EmptyString(),
+            'json_metadata': AnyOf(Json(), EmptyString()),
             'last_update': Date(),
             'created': Date(),
             'last_payout': Date(),
@@ -139,8 +139,8 @@ find_comments = Map({
             'curator_payout_value': AssetHbd(),
             'author_rewards': Int(),
             'net_votes': Int(),
-            'root_author': Str(pattern=''),
-            'root_permlink': Str(pattern=''),
+            'root_author': EmptyString(),
+            'root_permlink': EmptyString(),
             'max_accepted_payout': AssetHbd(),
             'percent_hbd': Int(),
             'allow_replies': Bool(),
@@ -329,7 +329,7 @@ get_active_witnesses = Map({
     'witnesses': Array(
         AnyOf(
             AccountName(),
-            Str(pattern='')
+            EmptyString(),
         )
     )
 })
@@ -749,7 +749,7 @@ get_witness_schedule = Map({
     'current_shuffled_witnesses': Array(
         AnyOf(
             AccountName(),
-            Str(pattern='')
+            EmptyString(),
         )
     ),
     'num_scheduled_witnesses': Int(),
@@ -818,15 +818,15 @@ list_accounts = Map({
             'active': Authority(),
             'posting': Authority(),
             'memo_key': PublicKey(),
-            'json_metadata': AnyOf(Json(), Str(pattern='')),
-            'posting_json_metadata': AnyOf(Json(), Str(pattern='')),
+            'json_metadata': AnyOf(Json(), EmptyString()),
+            'posting_json_metadata': AnyOf(Json(), EmptyString()),
             'proxy': Str(),
             'previous_owner_update': Date(),
             'last_owner_update': Date(),
             'last_account_update': Date(),
             'created': Date(),
             'mined': Bool(),
-            'recovery_account': AnyOf(AccountName(), Str(pattern='')),
+            'recovery_account': AnyOf(AccountName(), EmptyString()),
             'last_account_recovery': Date(),
             'reset_account': AccountName(),
             'comment_count': Int(),
@@ -883,7 +883,7 @@ list_change_recovery_account_requests = Map({
         Map({
             'id': Int(),
             'account_to_recover': AccountName(),
-            'recovery_account': AnyOf(AccountName(), Str(pattern='')),
+            'recovery_account': AnyOf(AccountName(), EmptyString()),
             'effective_on': Date()
         })
     )
