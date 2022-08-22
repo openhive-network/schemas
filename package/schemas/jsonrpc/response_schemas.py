@@ -1,40 +1,39 @@
+from schemas.get_schema import use_optional_schema
+
 from schemas.predefined import *
 
 get_methods = Array(Str())
 
-def select_this_one(request) -> bool:
-    return isinstance(request.params['1'], int)
-
-#TODO schema switch , conditional schema
-get_signature = SuperWrapper([
+# TODO schema switch , conditional schema
+get_signature = use_optional_schema([
     [
-        select_this_one,
+        'condenser_api',
+        Map({
+            'args': AnyOf(
+                Array(),
+                Map({}, allow_additional_properties=True),
+            ),
+            'ret': Map({}, allow_additional_properties=True),
+        }),
+    ],
+    [
+        'database_api',
+        Map({
+            'args': AnyOf(
+                Array(),
+                Map({}, allow_additional_properties=True),
+            ),
+            'ret': Map({}, allow_additional_properties=True),
+        }),
+    ],
+    [
+        'account_history_api',
         Map({
             'args': AnyOf(
                 Array(),
                 Map({}, allow_additional_properties=True),
             ),
             'ret': Map({}, allow_additional_properties=True)
-        },
+        }),
     ],
-    [
-        select_this_one,
-        Map({
-            'args': AnyOf(
-                Array(),
-                Map({}, allow_additional_properties=True),
-            ),
-            'ret': Map({}, allow_additional_properties=True)
-        },
-    ],
-    [
-        select_this_one,
-        Map({
-            'args': AnyOf(
-                Array(),
-                Map({}, allow_additional_properties=True),
-            ),
-            'ret': Map({}, allow_additional_properties=True)
-        },
-    ],
-)
+])
