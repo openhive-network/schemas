@@ -153,7 +153,7 @@ get_block = AnyOf(
             'transactions': Array(Map({}, allow_additional_properties=True)),
             'block_id': TransactionId(),
             'signing_key': PublicKey(),
-            'transaction_ids': Array(TransactionId()),
+            'transaction_ids': Array(TransactionId(), unique_items=True),
         })
     })
 )

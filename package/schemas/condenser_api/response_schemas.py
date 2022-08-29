@@ -170,7 +170,7 @@ get_block = Map({
     'previous': TransactionId(),
     'signing_key': PublicKey(),
     'timestamp': Date(),
-    'transaction_ids': Array(TransactionId()),
+    'transaction_ids': Array(TransactionId(), unique_items=True),
     'transaction_merkle_root': TransactionId(),
     'transactions': Array(
         Map({
