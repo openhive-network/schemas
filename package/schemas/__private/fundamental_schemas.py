@@ -99,9 +99,9 @@ class Array(Schema):
     """
     Documentation: http://json-schema.org/understanding-json-schema/reference/array.html
     """
-    def __init__(self, *items, **options: Any):
+    def __init__(self, item: Schema, *items: Schema, **options: Any):
         super().__init__(**options)
-        self.__items = list(items)
+        self.__items: List[Schema] = [item, *items]
 
     def _create_core_of_schema(self) -> Dict[str, Any]:
         items_as_dicts = []
