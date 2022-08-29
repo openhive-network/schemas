@@ -21,12 +21,13 @@ from schemas.predefined import *
         (Any(), 'example'),
 
         # Array
-        (Array(), []),
-        (Array(), [0, True, 'everything-in-the-array']),
+        (Array(Any()), []),
+        (Array(Any()), [0, True, 'everything-in-the-array']),
         (Array(Float()), [1.01, 1.02, 1.03]),
         (Array(Int()), ['0', 1, '2', 3]),
         (Array(Int(), Bool()), [False, 1, '1']),
         (Array(Int(enum=['0'])), ['0']),
+        (Array(Any(), maxItems=0), []),
         (Array(Int(), minItems=1), [0, 1]),
         (Array(Int(), maxItems=3), [0, 1, 2]),
         (Array(Int(), minItems=2, maxItems=3), [0, 1, 2]),
@@ -190,12 +191,13 @@ def test_validation_of_correct_type(schema, instance):
         (AnyOf(Int()), 'its-string-not-int'),
 
         # Array
-        (Array(), {}),
+        (Array(Any()), {}),
         (Array(Int()), ['its-string-not-int']),
         (Array(Int(enum=[0])), [1]),
         (Array(Int(enum=[0])), [0, 1]),
         (Array(Int(), minItems=2), [0]),  # not-enough-elements-in-the-list, parameter minItems
         (Array(Int(), maxItems=1), [0, 1]),  # too-many-elements-in-the-list, parameter maxItems
+        (Array(Any(), maxItems=0), [0]),
         (Array(Int(), minItems=2, maxItems=3), [0]),
         (Array(Int(), minItems=2, maxItems=3), [0, 1, 2, 3]),
 
@@ -343,3 +345,13 @@ def test_validation_of_correct_type(schema, instance):
 def test_validation_of_incorrect_type(schema, instance):
     with pytest.raises(ValidationError):
         schema.validate(instance)
+
+
+def test_banned_way_of_array_creation_without_explicitly_passed_item_types():
+    # Previously syntax `Array()` was treated as "array which can store items of any type".
+    # This syntax is unsafe, because user can forget to write what should be contained in
+    # array, and then schema will silently accept everything. So now, this syntax was banned
+    # and to create array of anything it has to be explicitly stated as `Array(Any())`.
+
+    with pytest.raises(TypeError):
+        Array()
