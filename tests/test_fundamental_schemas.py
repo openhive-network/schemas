@@ -31,6 +31,8 @@ from schemas.predefined import *
         (Array(Int(), minItems=1), [0, 1]),
         (Array(Int(), maxItems=3), [0, 1, 2]),
         (Array(Int(), minItems=2, maxItems=3), [0, 1, 2]),
+        (Array(Int(), unique_items=True), [0, 1, 2]),
+        (Array(Int(), unique_items=False), [0, 0, 0]),
 
         # ArrayStrict
         (ArrayStrict(Int(), Float(), Bool(), Str()), [0, 1.2, True, 'string']),
@@ -200,12 +202,15 @@ def test_validation_of_correct_type(schema, instance):
         (Array(Any(), maxItems=0), [0]),
         (Array(Int(), minItems=2, maxItems=3), [0]),
         (Array(Int(), minItems=2, maxItems=3), [0, 1, 2, 3]),
+        (Array(Int(), unique_items=True), [0, 0]),
 
         # ArrayStrict
         (ArrayStrict({}), []),
         (ArrayStrict(Int(), Float(), Bool()), [1, 1.1, 'its-not-a-bool']),
         (ArrayStrict(Int(), Float(), Bool()), [1, 1.1, True, 'too-many-elements-in-the-list']),
         (ArrayStrict(Int(), Str(), Float()), [1, 'not-enough-elements-in-the-list']),
+        (Array(TransactionId(), unique_items=True), ['6707feb450da66dc223ab5cb3e259937b2fef6bf',
+                                                     '6707feb450da66dc223ab5cb3e259937b2fef6bf']),
 
         # Bool
         (Bool(), 0),

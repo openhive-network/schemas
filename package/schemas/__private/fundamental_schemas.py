@@ -96,12 +96,14 @@ class Any_(Schema):
 
 
 class Array(Schema):
-    """
-    Documentation: http://json-schema.org/understanding-json-schema/reference/array.html
-    """
-    def __init__(self, item: Schema, *items: Schema, **options: Any):
+    def __init__(self, item: Schema, *items: Schema, unique_items=False, **options: Any):
+        """
+        Documentation: http://json-schema.org/understanding-json-schema/reference/array.html
+        :param unique_items: Duplicated items in array are treated as error.
+        """
         super().__init__(**options)
         self.__items: List[Schema] = [item, *items]
+        self.__unique_items = unique_items
 
     def _create_core_of_schema(self) -> Dict[str, Any]:
         items_as_dicts = []
@@ -109,16 +111,21 @@ class Array(Schema):
             self._assert_that_schema_has_correct_type(schema)
             items_as_dicts.append(schema._create_schema())
 
+        common_part_of_schema = {
+            'type': 'array',
+            'uniqueItems': self.__unique_items,
+        }
+
         if len(items_as_dicts) > 1:
             return {
-                'type': 'array',
+                **common_part_of_schema,
                 'items': {
-                    'oneOf': items_as_dicts
+                    'oneOf': items_as_dicts,
                 },
             }
 
         return {
-            'type': 'array',
+            **common_part_of_schema,
             'items': items_as_dicts[0],
         }
 
