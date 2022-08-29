@@ -76,7 +76,7 @@ find_accounts = Map({
             'pending_claimed_accounts': Int(),
             'open_recurrent_transfers': Int(),
             'is_smt': Bool(),
-            'delayed_votes': Array(),
+            'delayed_votes': Array(Any()),
             'governance_vote_expiration_ts': Date()
         })
     )
@@ -147,7 +147,7 @@ find_comments = Map({
             'allow_votes': Bool(),
             'allow_curation_rewards': Bool(),
             'was_voted_on': Bool(),
-            'beneficiaries': Array()
+            'beneficiaries': Array(Any())
         })
     )
 })
@@ -872,7 +872,7 @@ list_accounts = Map({
             'pending_claimed_accounts': Int(),
             'open_recurrent_transfers': Int(),
             'is_smt': Bool(),
-            'delayed_votes': Array(),
+            'delayed_votes': Array(Any()),
             'governance_vote_expiration_ts': Date(),
         })
     )

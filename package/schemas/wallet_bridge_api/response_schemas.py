@@ -336,7 +336,7 @@ get_transaction = Map({
             'value': Map({}, allow_additional_properties=True),
         }),
     ),
-    'extensions': Array(),
+    'extensions': Array(Any()),
     'signatures': Array(Str()),
     'transaction_id': TransactionId(),
     'block_num': Int(),

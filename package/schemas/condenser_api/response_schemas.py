@@ -588,7 +588,7 @@ get_market_history = Array(
     })
 )
 
-get_market_history_buckets = Array(enum=[[15, 60, 300, 3600, 86400]])
+get_market_history_buckets = Array(Int(), enum=[[15, 60, 300, 3600, 86400]])
 
 get_next_scheduled_hardfork = Map({
     'hf_version': HardforkVersion(),

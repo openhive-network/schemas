@@ -87,7 +87,7 @@ get_ops_in_block = Map({
 get_transaction = Map({
     'block_num': Int(),
     'expiration': Date(),
-    'extensions': Array(),
+    'extensions': Array(Any()),
     'operations': Array(
         Map({
             'type': Str(),

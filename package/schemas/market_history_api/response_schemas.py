@@ -25,7 +25,7 @@ get_market_history = Map({
 })
 
 get_market_history_buckets = Map({
-    'bucket_sizes': Array(enum=[[15, 60, 300, 3600, 86400]])
+    'bucket_sizes': Array(Int(), enum=[[15, 60, 300, 3600, 86400]])
 })
 
 get_order_book = Map({
