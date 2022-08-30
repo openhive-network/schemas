@@ -134,17 +134,17 @@ get_accounts = Array(
             })
         ),
         'governance_vote_expiration_ts': Date(),
-        'post_history': Array(Any()),
-        'vote_history': Array(Any()),
+        'post_history': Array(maxItems=0),
+        'vote_history': Array(maxItems=0),
         'witness_votes': Array(AccountName()),
         'vesting_balance': LegacyAssetHive(),
-        'transfer_history': Array(Any()),
+        'transfer_history': Array(maxItems=0),
         'voting_power': Int(),
-        'market_history': Array(Any()),
-        'tags_usage': Array(Any()),
+        'market_history': Array(maxItems=0),
+        'tags_usage': Array(maxItems=0),
         'reputation': Int(),
-        'guest_bloggers': Array(Any()),
-        'other_history': Array(Any()),
+        'guest_bloggers': Array(maxItems=0),
+        'other_history': Array(maxItems=0),
     })
 )
 
