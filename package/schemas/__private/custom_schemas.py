@@ -2,7 +2,7 @@ from abc import abstractmethod
 import typing
 from typing import Dict
 
-from schemas.__private.fundamental_schemas import AnyOf, Array, ArrayStrict, Date, Int, Map, Schema, Str
+from schemas.__private.fundamental_schemas import AnyOf, Array, ArrayStrict, Bool, Date, Int, Map, Schema, Str
 
 
 class CustomSchema(Schema):
@@ -22,6 +22,26 @@ class AccountName(CustomSchema):
             minLength=3,
             maxLength=16
         )
+
+
+class ApiOperationObject(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Map({
+            'trx_id': TransactionId(),
+            'block': Int(),
+            'trx_in_block': Int(),
+            'op_in_trx': Int(),
+            'virtual_op': Bool(),
+            'operation_id': Int(),
+            'timestamp': Date(),
+            'op': AnyOf(
+                Map({
+                    'type': Str(),
+                    'value': Map({}, allow_additional_properties=True),
+                }),
+                ArrayStrict(Str(), Map({}))
+            )
+        })
 
 
 class AssetAny(CustomSchema):

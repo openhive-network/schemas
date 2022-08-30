@@ -17,6 +17,7 @@ from schemas.__private.fundamental_schemas import (
 
 from schemas.__private.custom_schemas import (
     AccountName,
+    ApiOperationObject,
     AssetAny,
     AssetHbd,
     AssetHive,
