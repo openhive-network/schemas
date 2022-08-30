@@ -96,19 +96,7 @@ get_account = AnyOf(
 get_account_history = Array(
     ArrayStrict(
         Int(),
-        Map({
-            'trx_id': TransactionId(),
-            'block': Int(),
-            'trx_in_block': Int(),
-            'op_in_trx': Int(),
-            'virtual_op': Bool(),
-            'timestamp': Date(),
-            'op': Map({
-                'type': Str(),
-                'value': Map({}, allow_additional_properties=True),
-            }),
-            'operation_id': Int(),
-        }),
+        ApiOperationObject(),
     )
 )
 
@@ -264,21 +252,7 @@ get_open_orders = Array(
 )
 
 get_ops_in_block = Map({
-    'ops': Array(
-        Map({
-            'trx_id': Int(),
-            'block': Int(),
-            'trx_in_block': Int(),
-            'op_in_trx': Int(),
-            'virtual_op': Bool(),
-            'timestamp': Date(),
-            'op': Map({
-                'type': Str(),
-                'value': Map({}, allow_additional_properties=True),
-            }),
-            'operation_id': Int(),
-        })
-    )
+    'ops': Array(ApiOperationObject())
 })
 
 get_order_book = Map({
