@@ -1016,13 +1016,17 @@ lookup_account_names = Array(
         'post_bandwidth': Int(),
         'pending_claimed_accounts': Int(),
         'open_recurrent_transfers': Int(),
-        'delayed_votes': Array(Any()),
+        'delayed_votes': Array(
+            Map({
+                'time': Date(),
+                'val': Int(),
+            })),
         'governance_vote_expiration_ts': Date()
     })
 )
 
-lookup_accounts = Array(Any())
+lookup_accounts = Array(AccountName())
 
-lookup_witness_accounts = Array(Any())
+lookup_witness_accounts = Array(AccountName())
 
 verify_authority = Bool()
