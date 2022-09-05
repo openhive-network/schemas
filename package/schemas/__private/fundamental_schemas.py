@@ -89,7 +89,7 @@ class AnyOf(Schema):
 
 class Any_(Schema):
     """
-    Validates anything, as long as it’s valid JSON.
+    Accepts everything. Can be used to skip instance checking.
     """
     def _create_core_of_schema(self) -> Dict[str, Any]:
         return {}
