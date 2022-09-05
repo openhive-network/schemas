@@ -98,6 +98,11 @@ class Any_(Schema):
 class Array(Schema):
     def __init__(self, item: Schema, *items: Schema, unique_items=False, **options: Any):
         """
+        Ensures that given instance is an array and contains items of required types, e.g.:
+        - Array(Int()) -> read as array of ints. [0, 1, 2, 1024],
+        - Array(Str()) -> read as array of strings. ['a', 'b', 'c'],
+        - Array(Str(), Int()) -> read as array of ints and strings. [0, 'a', 1, 'b'] - mixing of types is allowed,
+        - Array(Any(), maxItems=0) -> if you want to validate always an empty array.
         Documentation: http://json-schema.org/understanding-json-schema/reference/array.html
         :param unique_items: Duplicated items in array are treated as error.
         """
