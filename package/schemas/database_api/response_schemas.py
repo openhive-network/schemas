@@ -620,6 +620,9 @@ get_config = Map({
     'HIVE_PROPOSAL_FEE_INCREASE_DAYS_SEC': Int(),
     'HIVE_PROPOSAL_FEE_INCREASE_AMOUNT': Int(),
     'HIVE_PROPOSAL_CONVERSION_RATE': Int(),
+    'HIVE_UP_TO_DATE_MARGIN__BLOCK_STATS': Int(),
+    'HIVE_UP_TO_DATE_MARGIN__FAST_CONFIRM': Int(),
+    'HIVE_UP_TO_DATE_MARGIN__PENDING_TXS': Int(),
 })
 
 get_current_price_feed = Price(AssetHbd(), AssetHive())
