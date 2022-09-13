@@ -76,7 +76,12 @@ find_accounts = Map({
             'pending_claimed_accounts': Int(),
             'open_recurrent_transfers': Int(),
             'is_smt': Bool(),
-            'delayed_votes': Array(Any()),
+            'delayed_votes': Array(
+                Map({
+                    'time': Date(),
+                    'val': Int(),
+                })
+            ),
             'governance_vote_expiration_ts': Date()
         })
     )
