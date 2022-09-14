@@ -23,6 +23,7 @@ from schemas.__private.custom_schemas import (
     AssetHive,
     AssetVests,
     Authority,
+    EmptyArray,
     EmptyString,
     HardforkVersion,
     Hex,

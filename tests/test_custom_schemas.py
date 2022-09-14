@@ -62,6 +62,9 @@ from schemas.__private.custom_schemas import AssetAny, LegacyAssetAny
             ]
         }),
 
+        #  EmptyArray
+        (EmptyArray(), []),
+
         #  HardforkVersion
         (HardforkVersion(), '0.0.0'),
 
@@ -203,6 +206,12 @@ def test_validation_of_correct_type(schema, instance):
                 ]  # key_auths: wrong array order, should be PublicKey, Int.
             ]
         }),
+
+        #  EmptyArray
+        (EmptyArray(), ['not-empty-array']),
+        (EmptyArray(), [{}]),
+        (EmptyArray(), [[]]),
+
 
         #  HardforkVersion
         (HardforkVersion(), '0.0.a'),

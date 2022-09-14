@@ -2,7 +2,7 @@ from abc import abstractmethod
 import typing
 from typing import Dict
 
-from schemas.__private.fundamental_schemas import AnyOf, Array, ArrayStrict, Bool, Date, Int, Map, Schema, Str
+from schemas.__private.fundamental_schemas import Any_, AnyOf, Array, ArrayStrict, Bool, Date, Int, Map, Schema, Str
 
 
 class CustomSchema(Schema):
@@ -133,6 +133,11 @@ class Authority(CustomSchema):
                 )
             ),
         })
+
+
+class EmptyArray(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Array(Any_(), maxItems=0)
 
 
 class EmptyString(CustomSchema):
