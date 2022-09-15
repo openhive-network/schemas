@@ -138,6 +138,10 @@ from schemas.__private.custom_schemas import AssetAny, LegacyAssetAny
         (PublicKey(), 'STM7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKEa'),
         (PublicKey(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZVK9wd53t2qXCvxmBa'),
 
+        # Sha256
+        (Sha256(), '0000000000000000000000000000000000000000000000000000000000000000'),
+        (Sha256(), '00000002764f5f402d92bc5d3eb54986a0ce99c3133587075704c4f7670c90b2'),
+
         # Signature
         (Signature(), '204f8ad56a8f5cf722a02b035a61b500aa59b9519b2c33c77a80c0a714680a5a5a7a340d909d19996613c5e4ae92146b9add8a7a663eef37d837ef881477313043'),
         (Signature(), 130 * '0'),
@@ -264,6 +268,10 @@ def test_validation_of_correct_type(schema, instance):
         (PublicKey(), 'TST7AwB4maYkySTZZbx3mtdTaxsKTYyJxhmUZ....../////??????'),  # invalid characters
         (PublicKey(), 'STM5J2CVu'),  # not enough characters (the minimum required is 7)
         (PublicKey(), 'TST5J2CVuKtMCoLzoWb5SXDex5vGVeKETfs7YYUxy6Jh9WTx2PJns911111'),  # too many characters (maximum <= 51)
+
+        # Sha256
+        (Sha256(), 63 * '0'),  # too short, instance != 64 characters
+        (Sha256(), 65 * '0'),  # # too short, instance != 64 characters
 
         # Signature
         (Signature(), 129 * '0'),  # too short, instance != 130 characters

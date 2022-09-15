@@ -155,7 +155,7 @@ class HiveVersion(CustomSchema):
             'blockchain_version': HardforkVersion(),
             'hive_revision': Hex(minLength=40, maxLength=40),
             'fc_revision': Hex(minLength=40, maxLength=40),
-            'chain_id': Hex(minLength=64, maxLength=64),
+            'chain_id': Sha256(),
             'node_type': Str(pattern=r'^(mainnet|testnet|mirrornet)$')
         })
 
@@ -248,6 +248,11 @@ class PublicKey(CustomSchema):
         # See `wif_to_key` implementation in `fc` library for more information about this regex:
         wif_private_key_regex = r'^(?:STM|TST)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$'
         return Str(pattern=wif_private_key_regex)
+
+
+class Sha256(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Hex(minLength=64, maxLength=64)
 
 
 class Signature(CustomSchema):
