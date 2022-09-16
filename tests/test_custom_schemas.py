@@ -102,17 +102,37 @@ from schemas.__private.custom_schemas import AssetAny, LegacyAssetAny
         (Permlink(), 256 * '0'),
 
         # Price
-        (Price(AssetHbd(), AssetHive()), {
-            "base": {
+        (Price(), {
+            'base': {
                 'amount': '100',
                 'precision': 3,
                 'nai': '@@000000013'
             },
-            "quote": {
+            'quote': {
                 'amount': '100',
                 'precision': 3,
                 'nai': '@@000000021'
             }
+        }),
+        (Price(), {
+            'base': {
+                'amount': '100',
+                'precision': 3,
+                'nai': '@@000000021'
+            },
+            'quote': {
+                'amount': '100',
+                'precision': 3,
+                'nai': '@@000000013'
+            }
+        }),
+        (Price(legacy_format=True), {
+            'base': '0.667 HBD',
+            'quote': '1.000 HIVE'
+        }),
+        (Price(legacy_format=True), {
+            'base': '0.667 HIVE',
+            'quote': '1.000 HBD'
         }),
 
         #  Proposal
@@ -250,7 +270,7 @@ def test_validation_of_correct_type(schema, instance):
         (Permlink(), 257 * '0'),  # too many characters
 
         # Price
-        (Price(AssetHbd(), AssetHive()), {
+        (Price(), {
             "base": {
                 'amount': '100',
                 'precision': 3,
@@ -259,9 +279,13 @@ def test_validation_of_correct_type(schema, instance):
             "quote": {
                 'amount': '100',
                 'precision': 3,
-                'nai': '@@000000013'
+                'nai': '@@000000021'
             }
-        }),  # incorrect assets order
+        }),  # same type of assets
+        (Price(legacy_format=True), {
+            'base': '0.667 HIVE',
+            'quote': '1.000 HIVE'
+        }),  # same type of legacy assets
 
         # PublicKey
         (PublicKey(), 'PPP7U2ecB3gEwfrLMQtfVkCN8z3kPmXtDH3HSmLgrbsFpV6UXEwKEa'),  # Bad key prefix

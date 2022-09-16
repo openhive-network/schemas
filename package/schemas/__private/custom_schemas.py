@@ -214,16 +214,27 @@ class Permlink(CustomSchema):
 
 
 class Price(CustomSchema):
-    def __init__(self, base, quote):
+    def __init__(self, legacy_format=False):
+        """
+        Valid values for the `Price` structures are:
+         - `base: Hbd` and `quote: Hive`,
+         - `base: Hive` and `quote: Hbd`.
+        :param legacy_format: Set to `True` to validate `Price` in legacy format.
+        """
         super().__init__()
-        self.base = base
-        self.quote = quote
+        self.legacy_format = legacy_format
 
     def _define_schema(self) -> Schema:
-        return Map({
-            'base': self.base,
-            'quote': self.quote,
-        })
+        return AnyOf(
+            Map({
+                'base': AssetHbd() if self.legacy_format is False else LegacyAssetHbd(),
+                'quote': AssetHive() if self.legacy_format is self.legacy_format is False else LegacyAssetHive(),
+            }),
+            Map({
+                'base': AssetHive() if self.legacy_format is False else LegacyAssetHive(),
+                'quote': AssetHbd() if self.legacy_format is self.legacy_format is False else LegacyAssetHbd(),
+            }),
+        )
 
 
 class Proposal(CustomSchema):
