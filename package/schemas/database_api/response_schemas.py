@@ -203,7 +203,7 @@ find_limit_orders = Map({
             'seller': AccountName(),
             'orderid': Int(),
             'for_sale': Int(),
-            'sell_price': Price(AssetHive(), AssetHbd())
+            'sell_price': Price(),
         })
     )
 })
@@ -313,7 +313,7 @@ find_witnesses = Map({
                 'account_subsidy_budget': Int(),
                 'account_subsidy_decay': Int(),
             }),
-            'hbd_exchange_rate': Price(AssetHive(), AssetHive()),
+            'hbd_exchange_rate': Price(),
             'last_hbd_exchange_update': Date(),
             'last_work': Sha256(),
             'running_version': HardforkVersion(),
@@ -625,7 +625,7 @@ get_config = Map({
     'HIVE_UP_TO_DATE_MARGIN__PENDING_TXS': Int(),
 })
 
-get_current_price_feed = Price(AssetHbd(), AssetHive())
+get_current_price_feed = Price()
 
 get_dynamic_global_properties = Map({
     'available_account_subsidies': Int(),
@@ -678,13 +678,11 @@ get_dynamic_global_properties = Map({
 
 get_feed_history = Map({
     'id': Int(),
-    'current_median_history': Price(AssetHbd(), AssetHive()),
-    'market_median_history': Price(AssetHbd(), AssetHive()),
-    'current_min_history': Price(AssetHbd(), AssetHive()),
-    'current_max_history': Price(AssetHbd(), AssetHive()),
-    'price_history': Array(
-        Price(AssetHbd(), AssetHive())
-    ),
+    'current_median_history': Price(),
+    'market_median_history': Price(),
+    'current_min_history': Price(),
+    'current_max_history': Price(),
+    'price_history': Array(Price()),
 })
 
 get_hardfork_properties = Map({
@@ -700,7 +698,7 @@ get_hardfork_properties = Map({
 get_order_book = Map({
     'asks': Array(
         Map({
-            'order_price': Price(AssetHive(), AssetHbd()),
+            'order_price': Price(),
             'real_price': Str(),
             'hive': Int(),
             'hbd': Int(),
@@ -709,7 +707,7 @@ get_order_book = Map({
     ),
     'bids': Array(
         Map({
-            'order_price': Price(AssetHbd(), AssetHive()),
+            'order_price': Price(),
             'real_price': Str(),
             'hive': Int(),
             'hbd': Int(),
@@ -1019,7 +1017,7 @@ list_limit_orders = Map({
             'seller': AccountName(),
             'orderid': Int(),
             'for_sale': Int(),
-            'sell_price': Price(AssetHive(), AssetHbd()),
+            'sell_price': Price(),
         })
     )
 })
@@ -1131,7 +1129,7 @@ list_witnesses = Map({
                 'account_subsidy_budget': Int(),
                 'account_subsidy_decay': Int(),
             }),
-            'hbd_exchange_rate': Price(AssetHive(), AssetHive()),
+            'hbd_exchange_rate': Price(),
             'last_hbd_exchange_update': Date(),
             'last_work': Sha256(),
             'running_version': HardforkVersion(),

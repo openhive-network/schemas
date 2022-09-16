@@ -33,7 +33,7 @@ get_order_book = Map({
         'created': Date(),
         'hbd': Int(),
         'hive': Int(),
-        'order_price': Price(AssetAny(), AssetAny()),
+        'order_price': Price(),
         'real_price': Str(),
         })
     ),
@@ -41,7 +41,7 @@ get_order_book = Map({
         'created': Date(),
         'hbd': Int(),
         'hive': Int(),
-        'order_price': Price(AssetAny(), AssetAny()),
+        'order_price': Price(),
         'real_price': Str()
         })
     ),

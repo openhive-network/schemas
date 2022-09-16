@@ -476,7 +476,7 @@ get_conversion_requests = Array(
     })
 )
 
-get_current_median_history_price = Price(LegacyAssetHbd(), LegacyAssetHive())
+get_current_median_history_price = Price(legacy_format=True)
 
 get_dynamic_global_properties = Map({
     'available_account_subsidies': Int(),
@@ -558,14 +558,12 @@ get_expiring_vesting_delegations = Array(
 )
 
 get_feed_history = Map({
-    'current_max_history': Price(LegacyAssetHbd(), LegacyAssetHive()),
-    'current_median_history': Price(LegacyAssetHbd(), LegacyAssetHive()),
-    'current_min_history': Price(LegacyAssetHbd(), LegacyAssetHive()),
+    'current_max_history': Price(legacy_format=True),
+    'current_median_history': Price(legacy_format=True),
+    'current_min_history': Price(legacy_format=True),
     'id': Int(),
-    'market_median_history': Price(LegacyAssetHbd(), LegacyAssetHive()),
-    'price_history': Array(
-        Price(LegacyAssetHbd(), LegacyAssetHive()),
-    ),
+    'market_median_history': Price(legacy_format=True),
+    'price_history': Array(Price(legacy_format=True)),
 })
 
 get_hardfork_version = HardforkVersion()
@@ -610,7 +608,7 @@ get_open_orders = Array(
         'orderid': Int(),
         'real_price': Str(),
         'rewarded': Bool(),
-        'sell_price': Price(LegacyAssetHive(), LegacyAssetHbd()),
+        'sell_price': Price(legacy_format=True),
         'seller': AccountName(),
     })
 )
@@ -632,7 +630,7 @@ get_order_book = Map({
         'created': Date(),
         'hbd': Int(),
         'hive': Int(),
-        'order_price': Price(LegacyAssetAny(), LegacyAssetAny()),
+        'order_price': Price(legacy_format=True),
         'real_price': Str(),
         })
     ),
@@ -640,7 +638,7 @@ get_order_book = Map({
         'created': Date(),
         'hbd': Int(),
         'hive': Int(),
-        'order_price': Price(LegacyAssetAny(), LegacyAssetAny()),
+        'order_price': Price(legacy_format=True),
         'real_price': Str()
         })
     ),
@@ -792,7 +790,7 @@ get_witness_by_account = Map({
         'account_subsidy_budget': Int(),
         'account_subsidy_decay': Int(),
     }),
-    'hbd_exchange_rate': Price(LegacyAssetHive(), LegacyAssetHive()),
+    'hbd_exchange_rate': Price(legacy_format=True),
     'last_hbd_exchange_update': Date(),
     'last_work': Sha256(),
     'running_version': HardforkVersion(),
@@ -936,7 +934,7 @@ get_witnesses = Array(
             'account_subsidy_budget': Int(),
             'account_subsidy_decay': Int(),
         }),
-        'hbd_exchange_rate': Price(LegacyAssetHive(), LegacyAssetHive()),
+        'hbd_exchange_rate': Price(legacy_format=True),
         'last_hbd_exchange_update': Date(),
         'last_work': Sha256(),
         'running_version': HardforkVersion(),
@@ -968,7 +966,7 @@ get_witnesses_by_vote = Array(
                 'account_subsidy_budget': Int(),
                 'account_subsidy_decay': Int(),
             }),
-        'hbd_exchange_rate': Price(AnyOf(LegacyAssetHive(), LegacyAssetHbd()), LegacyAssetHive()),
+        'hbd_exchange_rate': Price(legacy_format=True),
         'last_hbd_exchange_update': Date(),
         'last_work': Sha256(),
         'running_version': HardforkVersion(),
