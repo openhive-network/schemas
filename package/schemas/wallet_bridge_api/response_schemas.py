@@ -137,7 +137,7 @@ get_block = AnyOf(
                     ),
                 })
             ),
-            'witness_signature': Str(),
+            'witness_signature': Signature(),
             'transactions': Array(Map({}, allow_additional_properties=True)),
             'block_id': TransactionId(),
             'signing_key': PublicKey(),
@@ -311,7 +311,7 @@ get_transaction = Map({
         }),
     ),
     'extensions': Array(Any()),
-    'signatures': Array(Str()),
+    'signatures': Array(Signature()),
     'transaction_id': TransactionId(),
     'block_num': Int(),
     'transaction_num': Int(),
