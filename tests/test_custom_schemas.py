@@ -65,6 +65,10 @@ from schemas.__private.custom_schemas import AssetAny, LegacyAssetAny
         #  EmptyArray
         (EmptyArray(), []),
 
+        #  FloatAsString
+        (FloatAsString(), '0.00000000000'),
+        (FloatAsString(), '3.14159265359'),
+
         #  HardforkVersion
         (HardforkVersion(), '0.0.0'),
 
@@ -270,6 +274,11 @@ def test_validation_of_correct_type(schema, instance):
         (EmptyArray(), [{}]),
         (EmptyArray(), [[]]),
 
+        #  FloatAsString
+        (FloatAsString(), 0.00000000000),
+        (FloatAsString(), 3.14159265359),
+        (FloatAsString(), 03.14159265359),
+        (FloatAsString(), 'string'),
 
         #  HardforkVersion
         (HardforkVersion(), '0.0.a'),

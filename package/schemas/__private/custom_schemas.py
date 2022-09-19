@@ -145,6 +145,11 @@ class EmptyString(CustomSchema):
         return Str(pattern='')
 
 
+class FloatAsString(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Str(pattern=r'^(?:(?:[1-9][0-9]*)|0).[0-9]*$')
+
+
 class HardforkVersion(CustomSchema):
     def _define_schema(self) -> Schema:
         return Str(pattern=r'^\d+\.\d+\.\d+$')
