@@ -275,9 +275,10 @@ def test_validation_of_correct_type(schema, instance):
         (EmptyArray(), [[]]),
 
         #  FloatAsString
-        (FloatAsString(), 0.00000000000),
-        (FloatAsString(), 3.14159265359),
-        (FloatAsString(), 03.14159265359),
+        (FloatAsString(), '.00000000000'),
+        (FloatAsString(), '3,14159265359'),
+        (FloatAsString(), '3M14159265359'),
+        (FloatAsString(), '03.14159265359'),
         (FloatAsString(), 'string'),
 
         #  HardforkVersion

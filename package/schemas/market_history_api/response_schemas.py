@@ -34,7 +34,7 @@ get_order_book = Map({
         'hbd': Int(),
         'hive': Int(),
         'order_price': Price(),
-        'real_price': Str(),
+        'real_price': FloatAsString(),
         })
     ),
     'bids': Array(Map({
@@ -42,7 +42,7 @@ get_order_book = Map({
         'hbd': Int(),
         'hive': Int(),
         'order_price': Price(),
-        'real_price': Str()
+        'real_price': FloatAsString(),
         })
     ),
 })

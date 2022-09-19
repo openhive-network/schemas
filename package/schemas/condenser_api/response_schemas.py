@@ -606,7 +606,7 @@ get_open_orders = Array(
         'for_sale': Int(),
         'id': Int(),
         'orderid': Int(),
-        'real_price': Str(),
+        'real_price': FloatAsString(),
         'rewarded': Bool(),
         'sell_price': Price(legacy_format=True),
         'seller': AccountName(),
@@ -631,7 +631,7 @@ get_order_book = Map({
         'hbd': Int(),
         'hive': Int(),
         'order_price': Price(legacy_format=True),
-        'real_price': Str(),
+        'real_price': FloatAsString(),
         })
     ),
     'bids': Array(Map({
@@ -639,7 +639,7 @@ get_order_book = Map({
         'hbd': Int(),
         'hive': Int(),
         'order_price': Price(legacy_format=True),
-        'real_price': Str()
+        'real_price': FloatAsString(),
         })
     ),
 })
