@@ -25,6 +25,7 @@ from schemas.__private.custom_schemas import (
     Authority,
     EmptyArray,
     EmptyString,
+    HbdExchangeRate,
     HardforkVersion,
     HiveVersion,
     Hex,

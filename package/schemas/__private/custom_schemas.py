@@ -159,6 +159,30 @@ class HiveVersion(CustomSchema):
             'node_type': Str(pattern=r'^(mainnet|testnet|mirrornet)$')
         })
 
+class HbdExchangeRate(CustomSchema):
+    def __init__(self, legacy_format=False):
+        """
+        A field similar to the `Price` type, with the difference that it is allowed to return a value by this field:
+          {
+            base: Hbd or Hive
+            quote: Hive
+          }
+        Explanation. When creating a new witness, the `update_witnesses_operation` completes the field
+        `hbd_exchange_rate` with default value (base: HIVE, quote: HIVE). Which is inconsistent with the `Price` field.
+        This is because the pointer in hive must be set to an existing value. Cannot be a null pointer.
+        :param legacy_format: Set to `True` to validate `HbdExchangeRate` in legacy format.
+        """
+        super().__init__()
+        self.legacy_format = legacy_format
+
+    def _define_schema(self) -> Schema:
+        return Map({
+            'base': AnyOf(AssetHbd(), AssetHive()) if self.legacy_format is False else AnyOf(LegacyAssetHbd(),
+                                                                                             LegacyAssetHive()),
+            'quote': AssetHive() if self.legacy_format is self.legacy_format is False else LegacyAssetHive(),
+        })
+
+
 class Hex(CustomSchema):
     def _define_schema(self) -> Schema:
         return Str(pattern=r'^[0-9a-fA-F]*$')

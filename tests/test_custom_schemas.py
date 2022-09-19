@@ -68,6 +68,40 @@ from schemas.__private.custom_schemas import AssetAny, LegacyAssetAny
         #  HardforkVersion
         (HardforkVersion(), '0.0.0'),
 
+        #  HbdExchangeRate
+        (HbdExchangeRate(), {
+            "base": {
+                'amount': '100',
+                'precision': 3,
+                'nai': '@@000000013'
+            },
+            "quote": {
+                'amount': '100',
+                'precision': 3,
+                'nai': '@@000000021'
+            }
+        }),
+        (HbdExchangeRate(), {
+            "base": {
+                'amount': '100',
+                'precision': 3,
+                'nai': '@@000000021'
+            },
+            "quote": {
+                'amount': '100',
+                'precision': 3,
+                'nai': '@@000000021'
+            }
+        }),
+        (HbdExchangeRate(legacy_format=True), {
+            'base': '0.667 HBD',
+            'quote': '1.000 HIVE'
+        }),
+        (HbdExchangeRate(legacy_format=True), {
+            'base': '0.667 HIVE',
+            'quote': '1.000 HIVE',
+        }),
+
         # Hex
         (Hex(), '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'),
         (Hex(), 'd94aa5bbc88beaf09b67f825aa4450cf5105d111149ba6db560b582c7dbb026c7fc9c2eb5051815a72b17f6896ed59d3851d'),
@@ -239,6 +273,26 @@ def test_validation_of_correct_type(schema, instance):
 
         #  HardforkVersion
         (HardforkVersion(), '0.0.a'),
+
+
+         #  HbdExchangeRate
+        (HbdExchangeRate(), {
+            "base": {
+                'amount': '100',
+                'precision': 3,
+                'nai': '@@000000013'
+            },
+            "quote": {
+                'amount': '100',
+                'precision': 3,
+                'nai': '@@000000013'
+            }
+        }),
+        (HbdExchangeRate(legacy_format=True), {
+            'base': '0.667 HBD',
+            'quote': '1.000 HBD',
+        }),
+
 
         # Hex
         (Hex(), 'ghijklmnoprstuvwxyz'),  # there is no such hexadecimal digits
