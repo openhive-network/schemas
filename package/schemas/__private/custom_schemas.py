@@ -39,7 +39,7 @@ class ApiOperationObject(CustomSchema):
                     'type': Str(),
                     'value': Map({}, allow_additional_properties=True),
                 }),
-                ArrayStrict(Str(), Map({}))
+                ArrayStrict(Str(), Map({}, allow_additional_properties=True))
             )
         })
 
