@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 import pprint
 from typing import Any, Dict, List, Optional
@@ -45,6 +47,10 @@ class Schema(ABC):
                                   f'\n'
                                   f'You can check all available types here:\n'
                                   f'  schemas/package/schemas/predefined.py')
+
+    def __eq__(self, other: Schema):
+        """This is helper method which allows schemas testing."""
+        return self._create_schema() == other._create_schema()
 
 
 class AllOf(Schema):
