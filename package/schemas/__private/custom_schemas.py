@@ -155,7 +155,8 @@ class HiveVersion(CustomSchema):
             'blockchain_version': HardforkVersion(),
             'hive_revision': Hex(),
             'fc_revision': Hex(),
-            'chain_id': Hex()
+            'chain_id': Hex(),
+            'node_type': Str(pattern=r'^(mainnet|testnet)$')
         })
 
 class Hex(CustomSchema):
