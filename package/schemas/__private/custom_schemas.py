@@ -149,6 +149,14 @@ class HardforkVersion(CustomSchema):
     def _define_schema(self) -> Schema:
         return Str(pattern=r'^\d+\.\d+\.\d+$')
 
+class HiveVersion(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Map({
+            'blockchain_version': HardforkVersion(),
+            'hive_revision': Hex(),
+            'fc_revision': Hex(),
+            'chain_id': Hex()
+        })
 
 class Hex(CustomSchema):
     def _define_schema(self) -> Schema:

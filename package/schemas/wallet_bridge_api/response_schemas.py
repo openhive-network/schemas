@@ -317,12 +317,7 @@ get_transaction = Map({
     'transaction_num': Int(),
 })
 
-get_version = Map({
-    'blockchain_version': HardforkVersion(),
-    'hive_revision': Str(),
-    'fc_revision': Str(),
-    'chain_id': Str(),
-})
+get_version = HiveVersion()
 
 get_withdraw_routes = Array(
     Map({

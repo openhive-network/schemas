@@ -26,6 +26,7 @@ from schemas.__private.custom_schemas import (
     EmptyArray,
     EmptyString,
     HardforkVersion,
+    HiveVersion,
     Hex,
     LegacyAssetAny,
     LegacyAssetHbd,

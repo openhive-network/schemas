@@ -735,12 +735,7 @@ get_transaction_hex = Map({
     'hex': Hex()
 })
 
-get_version = Map({
-    'blockchain_version': HardforkVersion(),
-    'hive_revision': Hex(),
-    'fc_revision': Hex(),
-    'chain_id': Hex()
-})
+get_version = HiveVersion()
 
 get_witness_schedule = Map({
     'id': Int(),
