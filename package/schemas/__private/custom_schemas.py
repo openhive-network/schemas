@@ -153,10 +153,10 @@ class HiveVersion(CustomSchema):
     def _define_schema(self) -> Schema:
         return Map({
             'blockchain_version': HardforkVersion(),
-            'hive_revision': Hex(),
-            'fc_revision': Hex(),
-            'chain_id': Hex(),
-            'node_type': Str(pattern=r'^(mainnet|testnet)$')
+            'hive_revision': Hex(minLength=40, maxLength=40),
+            'fc_revision': Hex(minLength=40, maxLength=40),
+            'chain_id': Hex(minLength=64, maxLength=64),
+            'node_type': Str(pattern=r'^(mainnet|testnet|mirrornet)$')
         })
 
 class Hex(CustomSchema):
