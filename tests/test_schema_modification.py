@@ -1,4 +1,5 @@
 from schemas.__private.modify.schema_expander import add_schema_to_array, add_schema_to_map
+from schemas.__private.modify.schema_reducer import remove_schema_from_map, remove_schema_from_array
 from schemas.predefined import *
 
 
@@ -105,6 +106,77 @@ def test_single_addition_to_array_nested_in_different_types():
                 ),
                 'name': AccountName(),
             })
+        )
+    )
+
+
+def test_single_deletion_in_outer_map():
+    schema = Map({'number': Int()})
+    remove_schema_from_map(schema, path='number')
+    assert schema == Map({})
+
+
+def test_single_deletion_in_inner_map():
+    schema = Map({
+        'inner_map': Map({
+            'id': Int()
+        })
+    })
+    remove_schema_from_map(schema, path='inner_map.id')
+
+    assert schema == Map({
+        'inner_map': Map({})
+    })
+
+
+def test_single_deletion_in_map_nested_in_different_types():
+    schema = Array(
+        ArrayStrict(
+            Map({
+                'values': AnyOf(
+                    Str(),
+                    Int(),
+                    Map({
+                        'key_to_delete': Str(),
+                    })
+                ),
+                'name': AccountName(),
+            })
+        )
+    )
+
+    remove_schema_from_map(schema, path='0.0.values.2.key_to_delete')
+
+    assert schema == Array(
+        ArrayStrict(
+            Map({
+                'values': AnyOf(
+                    Str(),
+                    Int(),
+                    Map({
+                    })
+                ),
+                'name': AccountName(),
+            })
+        )
+    )
+
+
+def test_single_deletion_in_outer_array():
+    schema = Array(Int(), Str())
+    remove_schema_from_array(schema, path='1')
+    assert schema == Array(Int())
+
+
+def test_single_deletion_in_inner_array():
+    schema = Array(
+        Array(
+            Hex(), Str(), Int(),
+        ))
+    remove_schema_from_array(schema, path='0.2')
+    assert schema == Array(
+        Array(
+            Hex(), Str(),
         )
     )
 
