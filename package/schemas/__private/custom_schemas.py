@@ -180,13 +180,21 @@ class HbdExchangeRate(CustomSchema):
         :param legacy_format: Set to `True` to validate `HbdExchangeRate` in legacy format.
         """
         super().__init__()
-        self.legacy_format = legacy_format
+        self.__legacy_format = legacy_format
+
+    @property
+    def legacy_format(self):
+        return self.__legacy_format
+
+    @legacy_format.setter
+    def legacy_format(self, value: bool):
+        self.__legacy_format = value
 
     def _define_schema(self) -> Schema:
         return Map({
-            'base': AnyOf(AssetHbd(), AssetHive()) if self.legacy_format is False else AnyOf(LegacyAssetHbd(),
-                                                                                             LegacyAssetHive()),
-            'quote': AssetHive() if self.legacy_format is self.legacy_format is False else LegacyAssetHive(),
+            'base': AnyOf(AssetHbd(), AssetHive()) if self.__legacy_format is False else AnyOf(LegacyAssetHbd(),
+                                                                                               LegacyAssetHive()),
+            'quote': AssetHive() if self.__legacy_format is self.__legacy_format is False else LegacyAssetHive(),
         })
 
 
@@ -253,17 +261,25 @@ class Price(CustomSchema):
         :param legacy_format: Set to `True` to validate `Price` in legacy format.
         """
         super().__init__()
-        self.legacy_format = legacy_format
+        self.__legacy_format = legacy_format
+
+    @property
+    def legacy_format(self):
+        return self.__legacy_format
+
+    @legacy_format.setter
+    def legacy_format(self, value: bool):
+        self.__legacy_format = value
 
     def _define_schema(self) -> Schema:
         return AnyOf(
             Map({
-                'base': AssetHbd() if self.legacy_format is False else LegacyAssetHbd(),
-                'quote': AssetHive() if self.legacy_format is self.legacy_format is False else LegacyAssetHive(),
+                'base': AssetHbd() if self.__legacy_format is False else LegacyAssetHbd(),
+                'quote': AssetHive() if self.__legacy_format is self.__legacy_format is False else LegacyAssetHive(),
             }),
             Map({
-                'base': AssetHive() if self.legacy_format is False else LegacyAssetHive(),
-                'quote': AssetHbd() if self.legacy_format is self.legacy_format is False else LegacyAssetHbd(),
+                'base': AssetHive() if self.__legacy_format is False else LegacyAssetHive(),
+                'quote': AssetHbd() if self.__legacy_format is self.__legacy_format is False else LegacyAssetHbd(),
             }),
         )
 
