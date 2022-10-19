@@ -1,6 +1,6 @@
 from abc import abstractmethod
 import typing
-from typing import Dict
+from typing import Any, Dict, Optional
 
 from schemas.__private.fundamental_schemas import Any_, AnyOf, Array, ArrayStrict, Bool, Date, Int, Map, Schema, Str
 
@@ -269,6 +269,10 @@ class Price(CustomSchema):
 
 
 class Proposal(CustomSchema):
+    def __init__(self, *, legacy_format: [Optional] = False, **options: Any):
+        super().__init__(**options)
+        self.__legacy_format = legacy_format
+
     def _define_schema(self) -> Schema:
         return Map({
             'id': Int(),
@@ -277,7 +281,7 @@ class Proposal(CustomSchema):
             'receiver': Str(),
             'start_date': Date(),
             'end_date': Date(),
-            'daily_pay': AssetHbd(),
+            'daily_pay': LegacyAssetHbd() if self.__legacy_format else AssetHbd(),
             'subject': Str(),
             'permlink': Str(),
             'total_votes': Int(),
