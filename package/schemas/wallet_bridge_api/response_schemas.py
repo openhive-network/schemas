@@ -385,7 +385,11 @@ list_rc_direct_delegations = Array(
 
 get_active_witnesses = Map({
     'witnesses': Array(Str(), minItems=1, maxItems=21),
-})
+    'future_witnesses': Array(Str(), minItems=1, maxItems=21)
+},
+required_keys=[
+  'witnesses'
+])
 
 get_witness = AnyOf(
     Null(),
@@ -425,6 +429,7 @@ get_witness_schedule = Map({
     'current_virtual_time': Int(),
     'next_shuffle_block_num': Int(),
     'current_shuffled_witnesses': Array(Str(), minItems=1, maxItems=21),
+    'future_shuffled_witnesses': Array(Str(), minItems=1, maxItems=21),
     'num_scheduled_witnesses': Int(minimum=1, maximum=21),
     'elected_weight': Int(),
     'timeshare_weight': Int(),
@@ -435,7 +440,7 @@ get_witness_schedule = Map({
         'maximum_block_size': Int(),
         'hbd_interest_rate': Int(),
         'account_subsidy_budget': Int(),
-        'account_subsidy_decay': Int(),
+        'account_subsidy_decay': Int()
     }),
     'majority_version': HardforkVersion(),
     'max_voted_witnesses': Int(),
@@ -449,7 +454,7 @@ get_witness_schedule = Map({
         'max_pool_size': Int(),
         'decay_params': Map({
             'decay_per_time_unit': Int(),
-            'decay_per_time_unit_denom_shift': Int(),
+            'decay_per_time_unit_denom_shift': Int()
         }),
         'min_decay': Int(),
     }),
@@ -460,12 +465,65 @@ get_witness_schedule = Map({
         'max_pool_size': Int(),
         'decay_params': Map({
             'decay_per_time_unit': Int(),
-            'decay_per_time_unit_denom_shift': Int(),
+            'decay_per_time_unit_denom_shift': Int()
         }),
         'min_decay': Int(),
     }),
     'min_witness_account_subsidy_decay': Int(),
-})
+    'future_changes': Map({
+        'num_scheduled_witnesses': Int(minimum=1, maximum=21),
+        'elected_weight': Int(),
+        'timeshare_weight': Int(),
+        'miner_weight': Int(),
+        'witness_pay_normalization_factor': Int(),
+        'median_props': Map({
+            'account_creation_fee': AssetHive(),
+            'maximum_block_size': Int(),
+            'hbd_interest_rate': Int(),
+            'account_subsidy_budget': Int(),
+            'account_subsidy_decay': Int()
+        },
+        required_keys=[
+        ]),
+        'majority_version': HardforkVersion(),
+        'max_voted_witnesses': Int(),
+        'max_miner_witnesses': Int(),
+        'max_runner_witnesses': Int(),
+        'hardfork_required_witnesses': Int(),
+        'account_subsidy_rd': Map({
+            'resource_unit': Int(),
+            'budget_per_time_unit': Int(),
+            'pool_eq': Int(),
+            'max_pool_size': Int(),
+            'decay_params': Map({
+                'decay_per_time_unit': Int(),
+                'decay_per_time_unit_denom_shift': Int()
+            }),
+            'min_decay': Int()
+        }),
+        'account_subsidy_witness_rd': Map({
+            'resource_unit': Int(),
+            'budget_per_time_unit': Int(),
+            'pool_eq': Int(),
+            'max_pool_size': Int(),
+            'decay_params': Map({
+                'decay_per_time_unit': Int(),
+                'decay_per_time_unit_denom_shift': Int()
+            }),
+            'min_decay': Int()
+        }),
+        'min_witness_account_subsidy_decay': Int()
+    },
+    required_keys=[
+    ])
+},
+required_keys=[
+    'id', 'current_virtual_time', 'next_shuffle_block_num', 'current_shuffled_witnesses',
+    'num_scheduled_witnesses', 'elected_weight', 'timeshare_weight', 'miner_weight',
+    'witness_pay_normalization_factor', 'median_props', 'majority_version', 'max_voted_witnesses',
+    'max_miner_witnesses', 'max_runner_witnesses', 'hardfork_required_witnesses',
+    'account_subsidy_rd', 'account_subsidy_witness_rd', 'min_witness_account_subsidy_decay'
+])
 
 list_witnesses = Map({
     'witnesses': Array(
