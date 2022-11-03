@@ -162,6 +162,33 @@ from schemas.predefined import *
             }
         ),
 
+        # Map - optional_keys
+        (
+                Map(
+                    {
+                        'name': Str(),
+                        'extra-key': Str(),
+                    }, optional_keys=['extra-key']
+                ),
+                # When optional key is present.
+                {
+                    'name': 'Josh',
+                    'extra-key': 'extra-key',
+                }
+        ),
+        (
+                Map(
+                    {
+                        'name': Str(),
+                        'extra-key': Str(),
+                    }, optional_keys=['extra-key']
+                ),
+                # When optional key is missing.
+                {
+                    'name': 'Josh',
+                }
+        ),
+
         # Null
         (Null(), None),
 
