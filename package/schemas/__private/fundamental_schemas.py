@@ -271,7 +271,7 @@ class Json(Schema):
 
 class Map(Schema):
     def __init__(self, schema: Dict, required_keys: Optional[List[str]] = None,
-                 allow_additional_properties: bool = False, **options: Any):
+                 allow_additional_properties: bool = False, optional_keys: Optional[List[str]] = None, **options: Any):
         """
         Validates JSON objects (in Python they are called dicts).
         :param schema: Collection of properties. Each of the individual properties has a key
@@ -282,6 +282,7 @@ class Map(Schema):
         :param allow_additional_properties: By default map does not accept additional undefined properties.
         All instance elements not defined in the schema will be reported as a 'ValidationError'.
         Set this parameter to True, it will allow the correct validation of additional properties in the instance.
+        :param optional_keys: In this parameter you can specify which keys can be optional.
         :param options: Other options that can be given in the form of a dictionary.
         Documentation: http://json-schema.org/understanding-json-schema/reference/object.html
         """
@@ -289,6 +290,12 @@ class Map(Schema):
         self.__allow_additional_properties: bool = allow_additional_properties
         self.__schema = schema
         self.__required_keys: List[str] = list(self.__schema.keys()) if required_keys is None else required_keys
+        if optional_keys is not None and required_keys is not None:
+            raise RuntimeError("Options `optional_keys` and `required_keys` cannot be combined.")
+        if optional_keys is not None:
+            if isinstance(optional_keys, list) and len(optional_keys) == 0:
+                raise RuntimeError("Options `optional_keys` must be specified. Provide key that exists in the schema")
+            self.__required_keys = list(set(self.__required_keys).difference(set(optional_keys)))
 
     def __delitem__(self, key):
         self.__required_keys.remove(key)

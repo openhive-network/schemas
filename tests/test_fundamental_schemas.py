@@ -162,6 +162,33 @@ from schemas.predefined import *
             }
         ),
 
+        # Map - optional_keys
+        (
+                Map(
+                    {
+                        'name': Str(),
+                        'extra-key': Str(),
+                    }, optional_keys=['extra-key']
+                ),
+                # When optional key is present.
+                {
+                    'name': 'Josh',
+                    'extra-key': 'extra-key',
+                }
+        ),
+        (
+                Map(
+                    {
+                        'name': Str(),
+                        'extra-key': Str(),
+                    }, optional_keys=['extra-key']
+                ),
+                # When optional key is missing.
+                {
+                    'name': 'Josh',
+                }
+        ),
+
         # Null
         (Null(), None),
 
@@ -360,3 +387,13 @@ def test_banned_way_of_array_creation_without_explicitly_passed_item_types():
 
     with pytest.raises(TypeError):
         Array()
+
+
+def test_banned_way_of_map_creation_with_empty_optional_key_option():
+    with pytest.raises(RuntimeError):
+        Map({'name': Str(),}, optional_keys=[])
+
+
+def test_banned_way_of_map_creation_with_incorrect_options_combined():
+    with pytest.raises(RuntimeError):
+        Map({'name': Str(),}, optional_keys=["name"], required_keys=["name"])
