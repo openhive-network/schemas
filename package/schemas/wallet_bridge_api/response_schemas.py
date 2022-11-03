@@ -371,9 +371,7 @@ get_active_witnesses = Map({
     'witnesses': Array(AccountName(), minItems=1, maxItems=21),
     'future_witnesses': Array(Str(), minItems=1, maxItems=21)
 },
-required_keys=[
-  'witnesses'
-])
+optional_keys=["future_witnesses"])
 
 get_witness = AnyOf(
     Null(),
@@ -447,8 +445,7 @@ get_witness_schedule = Map({
             'account_subsidy_budget': Int(),
             'account_subsidy_decay': Int()
         },
-        required_keys=[
-        ]),
+            required_keys=[]),
         'majority_version': HardforkVersion(),
         'max_voted_witnesses': Int(),
         'max_miner_witnesses': Int(),
@@ -458,16 +455,8 @@ get_witness_schedule = Map({
         'account_subsidy_witness_rd': RdDynamicParams(),
         'min_witness_account_subsidy_decay': Int()
     },
-    required_keys=[
-    ])
-},
-required_keys=[
-    'id', 'current_virtual_time', 'next_shuffle_block_num', 'current_shuffled_witnesses',
-    'num_scheduled_witnesses', 'elected_weight', 'timeshare_weight', 'miner_weight',
-    'witness_pay_normalization_factor', 'median_props', 'majority_version', 'max_voted_witnesses',
-    'max_miner_witnesses', 'max_runner_witnesses', 'hardfork_required_witnesses',
-    'account_subsidy_rd', 'account_subsidy_witness_rd', 'min_witness_account_subsidy_decay'
-])
+        required_keys=[])
+}, optional_keys=["future_changes", "future_shuffled_witnesses"])
 
 list_witnesses = Map({
     'witnesses': Array(
