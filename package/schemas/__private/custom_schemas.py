@@ -154,6 +154,7 @@ class HardforkVersion(CustomSchema):
     def _define_schema(self) -> Schema:
         return Str(pattern=r'^\d+\.\d+\.\d+$')
 
+
 class HiveVersion(CustomSchema):
     def _define_schema(self) -> Schema:
         return Map({
@@ -163,6 +164,7 @@ class HiveVersion(CustomSchema):
             'chain_id': Sha256(),
             'node_type': Str(pattern=r'^(mainnet|testnet|mirrornet)$')
         })
+
 
 class HbdExchangeRate(CustomSchema):
     def __init__(self, legacy_format=False):
