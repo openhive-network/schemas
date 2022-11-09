@@ -18,22 +18,22 @@ broadcast_transaction_synchronous = Map({
 
 __account = Map({
     'id': Int(),
-    'name': Str(),
+    'name': AccountName(),
     'owner': Authority(),
     'active': Authority(),
     'posting': Authority(),
     'memo_key': PublicKey(),
     'json_metadata': AnyOf(Json(), EmptyString()),
     'posting_json_metadata': AnyOf(Json(), EmptyString()),
-    'proxy': Str(),
+    'proxy': AnyOf(AccountName(), EmptyString()),
     'previous_owner_update': Date(),
     'last_owner_update': Date(),
     'last_account_update': Date(),
     'created': Date(),
     'mined': Bool(),
-    'recovery_account': Str(),
+    'recovery_account': AnyOf(AccountName(), EmptyString()),
     'last_account_recovery': Date(),
-    'reset_account': Str(),
+    'reset_account': AccountName(),
     'comment_count': Int(),
     'lifetime_vote_count': Int(),
     'post_count': Int(),
@@ -102,7 +102,7 @@ get_account_history = Array(
 
 get_accounts = Array(__account)
 
-list_accounts = Array(Str())
+list_accounts = Array(AccountName())
 
 list_my_accounts = Array(__account)
 
@@ -110,8 +110,8 @@ find_recurrent_transfers = Array(
     Map({
         'id': Int(),
         'trigger_date': Date(),
-        'from': Str(),
-        'to': Str(),
+        'from': AccountName(),
+        'to': AccountName(),
         'amount': AssetHive(),
         'memo': Str(),
         'recurrence': Int(),
@@ -126,7 +126,7 @@ get_block = AnyOf(
         'block': Map({
             'previous': TransactionId(),
             'timestamp': Date(),
-            'witness': Str(),
+            'witness': AccountName(),
             'transaction_merkle_root': TransactionId(),
             'extensions': Array(
                 Map({
@@ -157,7 +157,7 @@ get_chain_properties = Map({
 get_collateralized_conversion_requests = Array(
     Map({
         'id': Int(),
-        'owner': Str(),
+        'owner': AccountName(),
         'requestid': Int(),
         'collateral_amount': AssetHive(),
         'converted_amount': AssetHbd(),
@@ -168,7 +168,7 @@ get_collateralized_conversion_requests = Array(
 get_conversion_requests = Array(
     Map({
         'id': Int(),
-        'owner': Str(),
+        'owner': AccountName(),
         'requestid': Int(),
         'amount': AssetHbd(),
         'conversion_date': Date(),
@@ -182,7 +182,7 @@ get_dynamic_global_properties = Map({
     'head_block_number': Int(),
     'head_block_id': TransactionId(),
     'time': Date(),
-    'current_witness': Str(),
+    'current_witness': AccountName(),
     'total_pow': Int(),
     'num_pow_witnesses': Int(),
     'virtual_supply': AssetHive(),
@@ -244,7 +244,7 @@ get_open_orders = Array(
         'id': Int(),
         'created': Date(),
         'expiration': Date(),
-        'seller': Str(),
+        'seller': AccountName(),
         'orderid': Int(),
         'for_sale': Int(),
         'sell_price': Price(AssetHive(), AssetHbd()),
@@ -280,7 +280,7 @@ get_owner_history = Map({
     'owner_auths': Array(
         Map({
             'id': Int(),
-            'account': Str(),
+            'account': AccountName(),
             'previous_owner_authority': Authority(),
             'last_valid_time': Date(),
         })
@@ -289,7 +289,7 @@ get_owner_history = Map({
 
 get_reward_fund = Map({
     'id': Int(),
-    'name': Str(),
+    'name': AccountName(),
     'reward_balance': AssetHive(),
     'recent_claims': Int(),
     'last_update': Date(),
@@ -322,8 +322,8 @@ get_version = HiveVersion()
 get_withdraw_routes = Array(
     Map({
         'id': Int(),
-        'from_account': Str(),
-        'to_account': Str(),
+        'from_account': AccountName(),
+        'to_account': AccountName(),
         'percent': Int(),
         'auto_vest': Bool(),
     })
@@ -341,7 +341,7 @@ list_proposal_votes = Map({
     'proposal_votes': Array(
         Map({
             'id': Int(),
-            'voter': Str(),
+            'voter': AccountName(),
             'proposal': Proposal(),
         })
     )
@@ -355,7 +355,7 @@ list_proposals = Map({
 
 find_rc_accounts = Array(
     Map({
-        'account': Str(),
+        'account': AccountName(),
         'rc_manabar': Manabar(),
         'max_rc_creation_adjustment': AssetVests(),
         'max_rc': Int(),
@@ -366,7 +366,7 @@ find_rc_accounts = Array(
 
 list_rc_accounts = Array(
     Map({
-        'account': Str(),
+        'account': AccountName(),
         'rc_manabar': Manabar(),
         'max_rc_creation_adjustment': AssetVests(),
         'max_rc': Int(),
@@ -377,14 +377,14 @@ list_rc_accounts = Array(
 
 list_rc_direct_delegations = Array(
     Map({
-        'from': Str(),
-        'to': Str(),
+        'from': AccountName(),
+        'to': AccountName(),
         'delegated_rc': Int(),
     })
 )
 
 get_active_witnesses = Map({
-    'witnesses': Array(Str(), minItems=1, maxItems=21),
+    'witnesses': Array(AccountName(), minItems=1, maxItems=21),
     'future_witnesses': Array(Str(), minItems=1, maxItems=21)
 },
 required_keys=[
@@ -395,7 +395,7 @@ get_witness = AnyOf(
     Null(),
     Map({
         'id': Int(),
-        'owner': Str(),
+        'owner': AccountName(),
         'created': Date(),
         'url': Str(),
         'votes': Int(),
@@ -529,7 +529,7 @@ list_witnesses = Map({
     'witnesses': Array(
         Map({
             'id': Int(),
-            'owner': Str(),
+            'owner': AccountName(),
             'created': Date(),
             'url': Str(),
             'votes': Int(),
