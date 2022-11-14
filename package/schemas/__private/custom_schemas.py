@@ -292,6 +292,18 @@ class PublicKey(CustomSchema):
         return Str(pattern=wif_private_key_regex)
 
 
+class RcAccountObject(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Map({
+            'account': AccountName(),
+            'rc_manabar': Manabar(),
+            'max_rc_creation_adjustment': AssetVests(),
+            'max_rc': Int(),
+            'delegated_rc': Int(),
+            'received_delegated_rc': Int(),
+        })
+
+
 class Sha256(CustomSchema):
     def _define_schema(self) -> Schema:
         return Hex(minLength=64, maxLength=64)

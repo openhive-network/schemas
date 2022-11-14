@@ -39,6 +39,7 @@ from schemas.__private.custom_schemas import (
     Price,
     Proposal,
     PublicKey,
+    RcAccountObject,
     Sha256,
     Signature,
     TransactionId,
