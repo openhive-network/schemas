@@ -351,27 +351,9 @@ list_proposals = Map({
         )
     })
 
-find_rc_accounts = Array(
-    Map({
-        'account': AccountName(),
-        'rc_manabar': Manabar(),
-        'max_rc_creation_adjustment': AssetVests(),
-        'max_rc': Int(),
-        'delegated_rc': Int(),
-        'received_delegated_rc': Int(),
-    })
-)
+find_rc_accounts = Array(RcAccountObject())
 
-list_rc_accounts = Array(
-    Map({
-        'account': AccountName(),
-        'rc_manabar': Manabar(),
-        'max_rc_creation_adjustment': AssetVests(),
-        'max_rc': Int(),
-        'delegated_rc': Int(),
-        'received_delegated_rc': Int(),
-    })
-)
+list_rc_accounts = Array(RcAccountObject())
 
 list_rc_direct_delegations = Array(
     Map({
