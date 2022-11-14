@@ -7,6 +7,15 @@ from schemas.predefined import *
 # [op]get_transaction 'operations'
 # [op]get_ops_in_block 'pole 'op'
 
+__RC_ACCOUNT_API_OBJECT = Map({
+    'account': AccountName(),
+    'rc_manabar': Manabar(),
+    'max_rc_creation_adjustment': AssetVests(),
+    'max_rc': Int(),
+    'delegated_rc': Int(),
+    'received_delegated_rc': Int(),
+})
+
 broadcast_transaction = Map({})
 
 broadcast_transaction_synchronous = Map({
@@ -351,27 +360,9 @@ list_proposals = Map({
         )
     })
 
-find_rc_accounts = Array(
-    Map({
-        'account': AccountName(),
-        'rc_manabar': Manabar(),
-        'max_rc_creation_adjustment': AssetVests(),
-        'max_rc': Int(),
-        'delegated_rc': Int(),
-        'received_delegated_rc': Int(),
-    })
-)
+find_rc_accounts = Array(__RC_ACCOUNT_API_OBJECT)
 
-list_rc_accounts = Array(
-    Map({
-        'account': AccountName(),
-        'rc_manabar': Manabar(),
-        'max_rc_creation_adjustment': AssetVests(),
-        'max_rc': Int(),
-        'delegated_rc': Int(),
-        'received_delegated_rc': Int(),
-    })
-)
+list_rc_accounts = Array(__RC_ACCOUNT_API_OBJECT)
 
 list_rc_direct_delegations = Array(
     Map({

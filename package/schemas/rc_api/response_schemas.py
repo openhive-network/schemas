@@ -1,17 +1,12 @@
 from schemas.predefined import *
 
-
-find_rc_accounts = Map({
-    'rc_accounts': Array(
-        Map({
-            'account': AccountName(),
-            'rc_manabar': Manabar(),
-            'max_rc_creation_adjustment': AssetVests(),
-            'max_rc': Int(),
-            'delegated_rc': Int(),
-            'received_delegated_rc': Int(),
-        })
-    )
+__RC_ACCOUNT_API_OBJECT = Map({
+    'account': AccountName(),
+    'rc_manabar': Manabar(),
+    'max_rc_creation_adjustment': AssetVests(),
+    'max_rc': Int(),
+    'delegated_rc': Int(),
+    'received_delegated_rc': Int(),
 })
 
 __RESOURCE_DYNAMIC_PARAMS = Map({
@@ -30,6 +25,10 @@ __PRICE_CURVE_PARAMS = Map({
     'coeff_a': Int(),
     'coeff_b': Int(),
     'shift': Int(),
+})
+
+find_rc_accounts = Map({
+    'rc_accounts': Array(__RC_ACCOUNT_API_OBJECT)
 })
 
 get_resource_params = Map({
@@ -167,4 +166,18 @@ get_resource_pool = Map({
             'resource_execution_time',
         ]
     })
+})
+
+list_rc_accounts = Map({
+    'rc_accounts': Array(__RC_ACCOUNT_API_OBJECT)
+})
+
+list_rc_direct_delegations = Map({
+    'rc_direct_delegations': Array(
+        Map({
+            'delegated_rc': Int(),
+            'from': AccountName(),
+            'to': AccountName()
+        })
+    )
 })

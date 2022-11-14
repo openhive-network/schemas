@@ -1,5 +1,14 @@
 from schemas.predefined import *
 
+__RC_ACCOUNT_API_OBJECT = Map({
+    'account': AccountName(),
+    'rc_manabar': Manabar(),
+    'max_rc_creation_adjustment': AssetVests(),
+    'max_rc': Int(),
+    'delegated_rc': Int(),
+    'received_delegated_rc': Int(),
+})
+
 broadcast_transaction = Map({})
 
 broadcast_transaction_synchronous = Map({
@@ -24,16 +33,7 @@ find_proposals = Array(
     })
 )
 
-find_rc_accounts = Array(
-    Map({
-        'account': AccountName(),
-        'rc_manabar': Manabar(),
-        'max_rc_creation_adjustment': AssetVests(),
-        'max_rc': Int(),
-        'delegated_rc': Int(),
-        'received_delegated_rc': Int(),
-    })
-)
+find_rc_accounts = Array(__RC_ACCOUNT_API_OBJECT)
 
 find_recurrent_transfers = Array(
     Map({
@@ -1024,16 +1024,7 @@ list_proposals = Array(
     })
 )
 
-list_rc_accounts = Array(
-    Map({
-        'account': AccountName(),
-        'rc_manabar': Manabar(),
-        'max_rc_creation_adjustment': AssetVests(),
-        'max_rc': Int(),
-        'delegated_rc': Int(),
-        'received_delegated_rc': Int(),
-    })
-)
+list_rc_accounts = Array(__RC_ACCOUNT_API_OBJECT)
 
 list_rc_direct_delegations = Array(
     Map({
