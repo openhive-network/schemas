@@ -39,9 +39,15 @@ get_transaction = Map({
             'value': Map({}, allow_additional_properties=True),
         }),
     ),
+    'rc_cost': Int(),
     'ref_block_num': Int(),
     'ref_block_prefix': Int(),
     'signatures': Array(Signature()),
     'transaction_id': TransactionId(),
     'transaction_num': Int(),
-})
+},
+required_keys=[
+    'block_num', 'expiration', 'extensions', 'operations',
+    'ref_block_num', 'ref_block_prefix', 'signatures',
+    'transaction_id', 'transaction_num'
+])

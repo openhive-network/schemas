@@ -6,8 +6,12 @@ broadcast_transaction_synchronous = Map({
     'block_num': Int(),
     'expired': Bool(),
     'id': TransactionId(),
+    'rc_cost': Int(),
     'trx_num': Int(),
-})
+},
+required_keys=[
+    'block_num', 'expired', 'id', 'trx_num'
+])
 
 find_proposals = Array(
     Map({

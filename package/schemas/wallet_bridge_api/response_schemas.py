@@ -13,8 +13,12 @@ broadcast_transaction_synchronous = Map({
     'block_num': Int(),
     'expired': Bool(),
     'id': TransactionId(),
+    'rc_cost': Int(),
     'trx_num': Int(),
-})
+},
+required_keys=[
+    'block_num', 'expired', 'id', 'trx_num'
+])
 
 __account = Map({
     'id': Int(),
@@ -313,7 +317,13 @@ get_transaction = Map({
     'transaction_id': TransactionId(),
     'block_num': Int(),
     'transaction_num': Int(),
-})
+    'rc_cost': Int()
+},
+required_keys=[
+    'ref_block_num', 'ref_block_prefix', 'expiration',
+    'operations', 'extensions', 'signatures',
+    'transaction_id', 'block_num', 'transaction_num'
+])
 
 get_version = HiveVersion()
 
