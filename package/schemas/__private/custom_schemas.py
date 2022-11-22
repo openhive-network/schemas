@@ -25,8 +25,9 @@ class AccountName(CustomSchema):
 
 
 class ApiOperationObject(CustomSchema):
-    def _define_schema(self) -> Schema:
-        return Map({
+    def __init__(self, **options: Any):
+        super().__init__(**options)
+        self.__data = Map({
             'trx_id': TransactionId(),
             'block': Int(),
             'trx_in_block': Int(),
@@ -42,6 +43,15 @@ class ApiOperationObject(CustomSchema):
                 ArrayStrict(Str(), Map({}, allow_additional_properties=True))
             )
         })
+
+    def __setitem__(self, key, schema):
+        self.__data[key] = schema
+
+    def __delitem__(self, key):
+        del self.__data[key]
+
+    def _define_schema(self) -> Schema:
+        return self.__data
 
 
 class AssetAny(CustomSchema):

@@ -10,6 +10,28 @@ def test_single_addition_to_outer_map():
     assert schema == Map({'number': Int()})
 
 
+def test_single_addition_to_api_operation_object():
+    schema = ApiOperationObject()
+    add_schema_to_map(schema, key='number', schema=Int())
+    assert schema == Map({
+        'trx_id': TransactionId(),
+        'block': Int(),
+        'trx_in_block': Int(),
+        'op_in_trx': Int(),
+        'virtual_op': Bool(),
+        'operation_id': Int(),
+        'timestamp': Date(),
+        'op': AnyOf(
+            Map({
+                'type': Str(),
+                'value': Map({}, allow_additional_properties=True),
+            }),
+            ArrayStrict(Str(), Map({}, allow_additional_properties=True))
+        ),
+        'number': Int(),
+    })
+
+
 def test_single_addition_to_proposal():
     schema = Proposal()
     add_schema_to_map(schema, key='number', schema=Int())
@@ -134,6 +156,20 @@ def test_single_deletion_in_outer_map():
     schema = Map({'number': Int()})
     remove_schema_from_map(schema, path='number')
     assert schema == Map({})
+
+
+def test_single_deletion_in_api_operation_object():
+    schema = ApiOperationObject()
+    remove_schema_from_map(schema, path='op')
+    assert schema == Map({
+        'trx_id': TransactionId(),
+        'block': Int(),
+        'trx_in_block': Int(),
+        'op_in_trx': Int(),
+        'virtual_op': Bool(),
+        'operation_id': Int(),
+        'timestamp': Date(),
+    })
 
 
 def test_single_deletion_in_proposal():
