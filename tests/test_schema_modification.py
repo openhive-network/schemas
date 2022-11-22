@@ -10,6 +10,26 @@ def test_single_addition_to_outer_map():
     assert schema == Map({'number': Int()})
 
 
+def test_single_addition_to_proposal():
+    schema = Proposal()
+    add_schema_to_map(schema, key='number', schema=Int())
+
+    assert schema == Map({
+            'id': Int(),
+            'proposal_id': Int(),
+            'creator': Str(),
+            'receiver': Str(),
+            'start_date': Date(),
+            'end_date': Date(),
+            'daily_pay': AssetHbd(),
+            'subject': Str(),
+            'permlink': Str(),
+            'total_votes': Int(),
+            'status': Str(),
+            'number': Int(),
+        })
+
+
 def test_single_addition_to_inner_map():
     schema = Map({
         'inner_map': Map({})
@@ -114,6 +134,24 @@ def test_single_deletion_in_outer_map():
     schema = Map({'number': Int()})
     remove_schema_from_map(schema, path='number')
     assert schema == Map({})
+
+
+def test_single_deletion_in_proposal():
+    schema = Proposal()
+    remove_schema_from_map(schema, path='status')
+
+    assert schema == Map({
+            'id': Int(),
+            'proposal_id': Int(),
+            'creator': Str(),
+            'receiver': Str(),
+            'start_date': Date(),
+            'end_date': Date(),
+            'daily_pay': AssetHbd(),
+            'subject': Str(),
+            'permlink': Str(),
+            'total_votes': Int(),
+        })
 
 
 def test_single_deletion_in_inner_map():

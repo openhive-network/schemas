@@ -288,9 +288,7 @@ class Proposal(CustomSchema):
     def __init__(self, *, legacy_format: [Optional] = False, **options: Any):
         super().__init__(**options)
         self.__legacy_format = legacy_format
-
-    def _define_schema(self) -> Schema:
-        return Map({
+        self.__data = Map({
             'id': Int(),
             'proposal_id': Int(),
             'creator': Str(),
@@ -303,6 +301,24 @@ class Proposal(CustomSchema):
             'total_votes': Int(),
             'status': Str(),
         })
+
+    def __setitem__(self, key: str, schema: Schema):
+        self.__data[key] = schema
+
+    def __delitem__(self, key):
+        del self.__data[key]
+
+    @property
+    def legacy_format(self):
+        return self.__legacy_format
+
+    @legacy_format.setter
+    def legacy_format(self, value: bool):
+        self.__legacy_format = value
+        self.__data['daily_pay'] = LegacyAssetHbd() if self.__legacy_format else AssetHbd()
+
+    def _define_schema(self) -> Schema:
+        return self.__data
 
 
 class PublicKey(CustomSchema):
