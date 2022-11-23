@@ -317,13 +317,7 @@ get_transaction = Map({
     'transaction_id': TransactionId(),
     'block_num': Int(),
     'transaction_num': Int(),
-    'rc_cost': Int()
-},
-required_keys=[
-    'ref_block_num', 'ref_block_prefix', 'expiration',
-    'operations', 'extensions', 'signatures',
-    'transaction_id', 'block_num', 'transaction_num'
-])
+})
 
 get_version = HiveVersion()
 
