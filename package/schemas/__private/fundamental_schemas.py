@@ -104,7 +104,36 @@ class Any_(Schema):
         return {}
 
 
-class Array(Schema):
+class ArrayBase(ABC):
+    """
+    Base Array class for Array and ArrayStrict with dunder methods. It can't be instanciated or validated.
+    """
+
+    def __init__(self):
+        self._items = list()
+
+    def __delitem__(self, index):
+        del self._items[index]
+
+    def __getitem__(self, key: int):
+        return self._items[key]
+
+    def __len__(self):
+        return len(self._items)
+
+    def __setitem__(self, key, value):
+        self._items[key] = value
+
+    @abstractmethod
+    def insert(self, index: Optional[int], schema: Schema) -> None:
+        """
+        Method for inserting new elements to _items attribute. It is possible to insert element on specified index by
+        giving 'index' parameter. Without given 'index' new element is appended to list.
+        """
+        pass
+
+
+class Array(Schema, ArrayBase):
     def __init__(self, item: Schema, *items: Schema, unique_items=False, **options: Any):
         """
         Ensures that given instance is an array and contains items of required types, e.g.:
@@ -116,21 +145,12 @@ class Array(Schema):
         :param unique_items: Duplicated items in array are treated as error.
         """
         super().__init__(**options)
-        self.__items: List[Schema] = [item, *items]
+        self._items: List[Schema] = [item, *items]
         self.__unique_items = unique_items
-
-    def __getitem__(self, key: int):
-        return self.__items[key]
-
-    def __len__(self):
-        return len(self.__items)
-
-    def __setitem__(self, key, value):
-        self.__items[key] = value
 
     def _create_core_of_schema(self) -> Dict[str, Any]:
         items_as_dicts = []
-        for schema in self.__items:
+        for schema in self._items:
             self._assert_that_schema_has_correct_type(schema)
             items_as_dicts.append(schema._create_schema())
 
@@ -152,8 +172,15 @@ class Array(Schema):
             'items': items_as_dicts[0],
         }
 
+    def insert(self, index: int, schema: Schema):
+        if index is not None:
+            raise RuntimeError('You tried to add element to array in specified index, this operation has no effect.'
+                               'If sequence of elements is important, use ArrayStrict.')
+        else:
+            self._items.append(schema)
 
-class ArrayStrict(Schema):
+
+class ArrayStrict(Schema, ArrayBase):
     """
     Array Strict checks that the nth element in the instance, matches the nth type specified in the schema.
     example_array =  [0, 'string', True]
@@ -168,19 +195,10 @@ class ArrayStrict(Schema):
     """
     def __init__(self, *items, **options: Any):
         super().__init__(**options)
-        self.__items = list(items)
-
-    def __getitem__(self, key: int):
-        return self.__items[key]
-
-    def __len__(self):
-        return len(self.__items)
-
-    def __setitem__(self, key, value):
-        self.__items[key] = value
+        self._items = list(items)
 
     def _create_core_of_schema(self) -> Dict[str, Any]:
-        items_as_dicts = self.__items.copy()
+        items_as_dicts = self._items.copy()
         for index, schema in enumerate(items_as_dicts):
             self._assert_that_schema_has_correct_type(schema)
             items_as_dicts[index] = schema._create_schema()
@@ -191,6 +209,12 @@ class ArrayStrict(Schema):
             "minItems": len(items_as_dicts),
             'maxItems': len(items_as_dicts),
         }
+
+    def insert(self, index: int, schema: Schema):
+        if index:
+            self._items.insert(index, schema)
+        else:
+            self._items.append(schema)
 
 
 class Bool(Schema):
