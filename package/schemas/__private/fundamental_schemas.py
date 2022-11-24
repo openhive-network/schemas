@@ -76,6 +76,15 @@ class AnyOf(Schema):
         super().__init__(**options)
         self.__items = list(items)
 
+    def __getitem__(self, key: int):
+        return self.__items[key]
+
+    def __len__(self):
+        return len(self.__items)
+
+    def __setitem__(self, key, value):
+        self.__items[key] = value
+
     def _create_core_of_schema(self) -> Dict[str, Any]:
         items_as_dicts = []
         for schema in self.__items:
@@ -109,6 +118,15 @@ class Array(Schema):
         super().__init__(**options)
         self.__items: List[Schema] = [item, *items]
         self.__unique_items = unique_items
+
+    def __getitem__(self, key: int):
+        return self.__items[key]
+
+    def __len__(self):
+        return len(self.__items)
+
+    def __setitem__(self, key, value):
+        self.__items[key] = value
 
     def _create_core_of_schema(self) -> Dict[str, Any]:
         items_as_dicts = []
@@ -151,6 +169,15 @@ class ArrayStrict(Schema):
     def __init__(self, *items, **options: Any):
         super().__init__(**options)
         self.__items = list(items)
+
+    def __getitem__(self, key: int):
+        return self.__items[key]
+
+    def __len__(self):
+        return len(self.__items)
+
+    def __setitem__(self, key, value):
+        self.__items[key] = value
 
     def _create_core_of_schema(self) -> Dict[str, Any]:
         items_as_dicts = self.__items.copy()
@@ -232,6 +259,23 @@ class Map(Schema):
         self.__allow_additional_properties: bool = allow_additional_properties
         self.__schema = schema
         self.__required_keys: List[str] = list(self.__schema.keys()) if required_keys is None else required_keys
+
+    def __delitem__(self, key):
+        self.__required_keys.remove(key)
+        return self.__schema.__delitem__(key)
+
+    def __getitem__(self, key):
+        return self.__schema[key]
+
+    def __setitem__(self, key: str, schema: Schema):
+        number_or_elements_before_assigning = len(self.__schema.keys())
+        self.__schema[key] = schema
+        number_of_elements_after_assigning = len(self.__schema.keys())
+        if number_or_elements_before_assigning != number_of_elements_after_assigning:
+            self.__required_keys.append(key)
+
+    def keys(self) -> list:
+        return list(self.__schema.keys())
 
     def _create_core_of_schema(self) -> Dict[str, Any]:
         items_as_dicts = self.__schema.copy()
