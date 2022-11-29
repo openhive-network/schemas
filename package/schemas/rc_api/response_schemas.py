@@ -169,3 +169,107 @@ list_rc_direct_delegations = Map({
         })
     )
 })
+
+get_rc_stats = Map({
+    'rc_stats': Map({
+        'block': Int(),
+        'regen': Int(),
+        'budget': Array(Int()),
+        'pool': Array(Int()),
+        'share': Array(Int()),
+        'vote': Int(),
+        'comment': Int(),
+        'transfer': Int(),
+        'ops': Map({
+            'vote_operation': RcOperationStats(),
+            'comment_operation': RcOperationStats(),
+            'transfer_operation': RcOperationStats(),
+            'transfer_to_vesting_operation': RcOperationStats(),
+            'withdraw_vesting_operation': RcOperationStats(),
+            'limit_order_create_operation': RcOperationStats(),
+            'limit_order_cancel_operation': RcOperationStats(),
+            'feed_publish_operation': RcOperationStats(),
+            'convert_operation': RcOperationStats(),
+            'account_create_operation': RcOperationStats(),
+            'account_update_operation': RcOperationStats(),
+            'witness_update_operation': RcOperationStats(),
+            'account_witness_vote_operation': RcOperationStats(),
+            'account_witness_proxy_operation': RcOperationStats(),
+            'pow_operation': RcOperationStats(),
+            'custom_operation': RcOperationStats(),
+            'witness_block_approve_operation': RcOperationStats(),
+            'delete_comment_operation': RcOperationStats(),
+            'custom_json_operation': RcOperationStats(),
+            'comment_options_operation': RcOperationStats(),
+            'set_withdraw_vesting_route_operation': RcOperationStats(),
+            'limit_order_create2_operation': RcOperationStats(),
+            'claim_account_operation': RcOperationStats(),
+            'create_claimed_account_operation': RcOperationStats(),
+            'request_account_recovery_operation': RcOperationStats(),
+            'recover_account_operation': RcOperationStats(),
+            'change_recovery_account_operation': RcOperationStats(),
+            'escrow_transfer_operation': RcOperationStats(),
+            'escrow_dispute_operation': RcOperationStats(),
+            'escrow_release_operation': RcOperationStats(),
+            'pow2_operation': RcOperationStats(),
+            'escrow_approve_operation': RcOperationStats(),
+            'transfer_to_savings_operation': RcOperationStats(),
+            'transfer_from_savings_operation': RcOperationStats(),
+            'cancel_transfer_from_savings_operation': RcOperationStats(),
+            'custom_binary_operation': RcOperationStats(),
+            'decline_voting_rights_operation': RcOperationStats(),
+            'reset_account_operation': RcOperationStats(),
+            'set_reset_account_operation': RcOperationStats(),
+            'claim_reward_balance_operation': RcOperationStats(),
+            'delegate_vesting_shares_operation': RcOperationStats(),
+            'account_create_with_delegation_operation': RcOperationStats(),
+            'witness_set_properties_operation': RcOperationStats(),
+            'account_update2_operation': RcOperationStats(),
+            'create_proposal_operation': RcOperationStats(),
+            'update_proposal_votes_operation': RcOperationStats(),
+            'remove_proposal_operation': RcOperationStats(),
+            'update_proposal_operation': RcOperationStats(),
+            'collateralized_convert_operation': RcOperationStats(),
+            'recurrent_transfer_operation': RcOperationStats(),
+            'multiop': RcOperationStats(),
+        }, required_keys=[]),
+        'payers': Array(Map({
+            "rank": Int(minimum=0, maximum=7),
+            "count": Int(),
+            "lt5": Int(),
+            "lt10": Int(),
+            "lt20": Int(),
+            "cant_afford": Map({
+                "vote": Int(),
+                "comment": Int(),
+                "transfer": Int(),
+            })
+        }, required_keys=["rank", "count"]))
+    })
+})
+
+get_rc_operation_stats = Map({
+    'count': Int(minimum=0),
+    'avg_cost_rc': Int(),
+    'resource_cost': Map({
+        'history_rc': Int(),
+        'tokens_rc': Int(),
+        'market_rc': Int(),
+        'state_rc': Int(),
+        'exec_rc': Int(),
+    }),
+    'resource_cost_share': Map({
+        'history_bp': Int(minimum=0),
+        'tokens_bp': Int(minimum=0),
+        'market_bp': Int(minimum=0),
+        'state_bp': Int(minimum=0),
+        'exec_bp': Int(minimum=0),
+    }),
+    'resource_usage': Map({
+        'history_bytes': Int(),
+        'tokens': FloatAsString(),
+        'market_bytes': Int(),
+        'state_hbytes': Int(),
+        'exec_ns': Int(),
+    })
+})
