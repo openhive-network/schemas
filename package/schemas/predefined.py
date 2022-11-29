@@ -44,4 +44,6 @@ from schemas.__private.custom_schemas import (
     Sha256,
     Signature,
     TransactionId,
+    RcOperationStats,
+    RcPayerStats,
 )

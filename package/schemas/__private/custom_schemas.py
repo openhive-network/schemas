@@ -378,3 +378,27 @@ class Signature(CustomSchema):
 class TransactionId(CustomSchema):
     def _define_schema(self) -> Schema:
         return Hex(minLength=40, maxLength=40)
+
+
+class RcOperationStats(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Map({
+            'count': Int(),
+            'avg_cost': Int(),
+        })
+
+
+class RcPayerStats(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Map({
+            'rank': Int(),
+            'count': Int(),
+            'lt5': Int(),
+            'lt10': Int(),
+            'lt20': Int(),
+            'cant_afford': Map({
+                'vote': Int(),
+                'comment': Int(),
+                'transfer': Int()
+            })
+        }, required_keys=['rank', 'count'])
