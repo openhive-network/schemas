@@ -350,6 +350,21 @@ class RcAccountObject(CustomSchema):
         })
 
 
+class RdDynamicParams(CustomSchema):
+    def _define_schema(self) -> Schema:
+        return Map({
+            'resource_unit': Int(),
+            'budget_per_time_unit': Int(),
+            'pool_eq': Int(),
+            'max_pool_size': Int(),
+            'decay_params': Map({
+                'decay_per_time_unit': Int(),
+                'decay_per_time_unit_denom_shift': Int()
+            }),
+            'min_decay': Int(),
+        })
+
+
 class Sha256(CustomSchema):
     def _define_schema(self) -> Schema:
         return Hex(minLength=64, maxLength=64)

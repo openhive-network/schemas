@@ -785,28 +785,8 @@ get_witness_schedule = Map({
     'max_miner_witnesses': Int(),
     'max_runner_witnesses': Int(),
     'hardfork_required_witnesses': Int(),
-    'account_subsidy_rd': Map({
-        'resource_unit': Int(),
-        'budget_per_time_unit': Int(),
-        'pool_eq': Int(),
-        'max_pool_size': Int(),
-        'decay_params': Map({
-            'decay_per_time_unit': Int(),
-            'decay_per_time_unit_denom_shift': Int()
-        }),
-        'min_decay': Int(),
-    }),
-    'account_subsidy_witness_rd': Map({
-        'resource_unit': Int(),
-        'budget_per_time_unit': Int(),
-        'pool_eq': Int(),
-        'max_pool_size': Int(),
-        'decay_params': Map({
-            'decay_per_time_unit': Int(),
-            'decay_per_time_unit_denom_shift': Int()
-        }),
-        'min_decay': Int(),
-    }),
+    'account_subsidy_rd': RdDynamicParams(),
+    'account_subsidy_witness_rd': RdDynamicParams(),
     'min_witness_account_subsidy_decay': Int(),
     'future_changes': Map({
         'num_scheduled_witnesses': Int(),
@@ -828,28 +808,8 @@ get_witness_schedule = Map({
         'max_miner_witnesses': Int(),
         'max_runner_witnesses': Int(),
         'hardfork_required_witnesses': Int(),
-        'account_subsidy_rd': Map({
-            'resource_unit': Int(),
-            'budget_per_time_unit': Int(),
-            'pool_eq': Int(),
-            'max_pool_size': Int(),
-            'decay_params': Map({
-                'decay_per_time_unit': Int(),
-                'decay_per_time_unit_denom_shift': Int()
-            }),
-            'min_decay': Int()
-        }),
-        'account_subsidy_witness_rd': Map({
-            'resource_unit': Int(),
-            'budget_per_time_unit': Int(),
-            'pool_eq': Int(),
-            'max_pool_size': Int(),
-            'decay_params': Map({
-                'decay_per_time_unit': Int(),
-                'decay_per_time_unit_denom_shift': Int()
-            }),
-            'min_decay': Int()
-        }),
+        'account_subsidy_rd': RdDynamicParams(),
+        'account_subsidy_witness_rd': RdDynamicParams(),
         'min_witness_account_subsidy_decay': Int()
     },
     required_keys=[
