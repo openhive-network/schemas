@@ -391,7 +391,7 @@ class RcOperationStats(CustomSchema):
 class RcPayerStats(CustomSchema):
     def _define_schema(self) -> Schema:
         return Map({
-            'rank': Int(),
+            'rank': Int(minimum=0, maximum=7),
             'count': Int(),
             'lt5': Int(),
             'lt10': Int(),
