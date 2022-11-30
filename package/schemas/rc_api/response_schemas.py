@@ -233,18 +233,7 @@ get_rc_stats = Map({
             'recurrent_transfer_operation': RcOperationStats(),
             'multiop': RcOperationStats(),
         }, required_keys=[]),
-        'payers': Array(Map({
-            "rank": Int(minimum=0, maximum=7),
-            "count": Int(),
-            "lt5": Int(),
-            "lt10": Int(),
-            "lt20": Int(),
-            "cant_afford": Map({
-                "vote": Int(),
-                "comment": Int(),
-                "transfer": Int(),
-            })
-        }, required_keys=["rank", "count"]))
+        'payers': Array(RcPayerStats())
     })
 })
 
