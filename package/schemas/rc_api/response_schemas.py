@@ -79,6 +79,7 @@ get_resource_params = Map({
                 'create_proposal_subject_permlink_char_size',
                 'update_proposal_votes_member_size',
                 'recurrent_transfer_base_size',
+                'recurrent_transfer_memo_char_size',
                 'delegate_rc_base_size',
             ]
         }),
