@@ -6,11 +6,17 @@ from datetime import datetime
 """
 We don't need as much fields as it was in old schemas. Pydantic gives us some ready fields or let us to 
 create our own in much shorter and easier way than it was. That's the reason why it is one directory not 2 as it was.
-In future it will the place with all fields to create schemas of response from API
 """
+HIVE_100_PERCENT = 10000
+HIVE_1_PERCENT = HIVE_100_PERCENT/100
+HIVE_MAX_TRANSACTION_SIZE = 1024*64
+HIVE_MIN_BLOCK_SIZE_LIMIT = HIVE_MAX_TRANSACTION_SIZE
 
 
 class HiveInt(ConstrainedInt):
+    """
+    HiveInt can come into the str format. This custom type check and convert it to integer type as it should be.
+    """
     ge = 0
 
     @classmethod
@@ -23,6 +29,11 @@ class HiveInt(ConstrainedInt):
         return hive_int
 
 
+class EmptyString(ConstrainedStr):
+    min_length = 0
+    max_length = 0
+
+
 class AccountName(ConstrainedStr):
     regex = re.compile(r'[a-z][a-z0-9\-]+[a-z0-9]')
     min_length = 3
@@ -31,6 +42,20 @@ class AccountName(ConstrainedStr):
 
 class PublicKey(ConstrainedStr):
     regex = re.compile(r'^(?:STM|TST)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$')
+
+
+class HiveDateTime(datetime):
+    """
+    Date and time in HIVE must bee in ISO format '%Y-%m-%dT%H:%M:%S'.
+    """
+    @classmethod
+    @validator('isoformat')
+    def check_custom_format(cls, v):
+        try:
+            datetime.strptime(v, '%Y-%m-%dT%H:%M:%S')
+        except ValueError:
+            raise ValueError('date must be in format %Y-%m-%dT%H:%M:%S')
+        return v
 
 
 class Authority(BaseModel):
@@ -88,6 +113,16 @@ class Uint16t(ConstrainedInt):
     le = 65535
 
 
+class Int64t(ConstrainedInt):
+    ge = -9223372036854775808
+    le = 9223372036854775807
+
+
+class Int16t(ConstrainedInt):
+    ge = -32768
+    le = 32767
+
+
 class LegacyAssetHive(ConstrainedStr):
     regex = re.compile(r'^[0-9]+\.[0-9]{3} (?:HIVE|TESTS)$')
 
@@ -108,3 +143,19 @@ class HbdExchangeRateLegacyTrue(BaseModel):
 class HbdExchangeRateLegacyFalse(BaseModel):
     base: AssetHbd | AssetHive
     quote: AssetHive
+
+
+class LegacyChainProperties(BaseModel):
+    account_creation_fee: AssetHive | LegacyAssetHive
+    maximum_block_size: Uint32t = HIVE_MIN_BLOCK_SIZE_LIMIT * 2
+    hbd_interest_rate: Uint16t = 10*HIVE_1_PERCENT
+
+
+class CustomIdType(ConstrainedInt):
+    @classmethod
+    @validator('length_checker')
+    def check_length(cls, v):
+        if len(str(v)) > 32:
+            raise ValueError('Much be shorter than 32 !')
+        else:
+            return v
