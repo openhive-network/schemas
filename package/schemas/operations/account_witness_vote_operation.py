@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Extra
 
-from schemas.__private.fields_schemas import AccountName
+from schemas.predefined import AccountName
 
 
 class AccountWitnessVoteOperation(BaseModel, extra=Extra.forbid):

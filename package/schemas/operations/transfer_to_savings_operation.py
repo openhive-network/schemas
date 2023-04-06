@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Extra
 
-from schemas.__private.fields_schemas import AccountName, LegacyAssetHbd, LegacyAssetHive, PublicKey
+from schemas.predefined import AccountName, LegacyAssetHbd, LegacyAssetHive, PublicKey
 
 
 class TransferToSavingsOperation(BaseModel, extra=Extra.forbid):

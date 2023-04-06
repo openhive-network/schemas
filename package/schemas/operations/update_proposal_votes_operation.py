@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Extra
 
-from schemas.__private.fields_schemas import AccountName, Uint32t
+from schemas.predefined import AccountName, Int64t
 
 
 class UpdateProposalVotesOperation(BaseModel, extra=Extra.forbid):
     voter: AccountName
-    proposal_ids: Uint32t
+    proposal_ids: list[Int64t]
     approve: bool = False
     

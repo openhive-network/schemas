@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Extra, Json
 from typing import Optional
 
-from schemas.__private.fields_schemas import AccountName, Authority, PublicKey
+from schemas.predefined import AccountName, Authority, PublicKey
 
 
 class AccountUpdate2Operation(BaseModel, extra=Extra.forbid):
