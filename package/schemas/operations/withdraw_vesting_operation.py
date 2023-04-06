@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Extra
 
-from schemas.__private.fields_schemas import AccountName, LegacyAssetVests
+from schemas.predefined import AccountName, LegacyAssetVests
 
 
 class WithdrawVestingOperation(BaseModel, extra=Extra.forbid):
