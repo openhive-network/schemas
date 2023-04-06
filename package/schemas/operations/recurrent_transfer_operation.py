@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Extra
 
-from schemas.__private.fields_schemas import AccountName, LegacyAssetHive, LegacyAssetHbd, PublicKey, Uint16t
+from schemas.predefined import AccountName, LegacyAssetHive, LegacyAssetHbd, PublicKey, Uint16t
 
 
 class RecurrentTransferOperation(BaseModel, extra=Extra.forbid):

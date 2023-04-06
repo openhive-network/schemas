@@ -2,12 +2,12 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Extra
 
-from schemas.__private.fields_schemas import (AccountName,
-                                              Uint32t,
-                                              LegacyAssetHbd,
-                                              LegacyAssetHive,
-                                              HbdExchangeRateLegacyTrue,
-                                              HbdExchangeRateLegacyFalse)
+from schemas.predefined import (AccountName,
+                                Uint32t,
+                                LegacyAssetHbd,
+                                LegacyAssetHive,
+                                HbdExchangeRateLegacyTrue,
+                                HbdExchangeRateLegacyFalse)
 
 
 class LimitOrderCreate2Operation(BaseModel, extra=Extra.forbid):
