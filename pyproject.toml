@@ -13,13 +13,13 @@ authors = [
     "Michał Kudela <kudmich@syncad.com>",
 ]
 packages = [
-    { include = "schemas", from = "package" },
+    { include = "schemas" },
 ]
 
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pydantic = "1.10.7"
+pydantic = "1.10.11"
 
 
 [tool.poetry.dev-dependencies]
@@ -37,6 +37,7 @@ line-length = 120
 [tool.mypy]
 strict = true
 disallow_untyped_decorators = false
+plugins = "pydantic.mypy"
 
 
 [tool.ruff]
@@ -66,6 +67,8 @@ select = [  # https://beta.ruff.rs/docs/rules/
     "RUF",
 ]
 ignore = [
+    "TCH001", # required for pydantic if we don't want to call update_forward_refs
+    "TCH002", # required for pydantic if we don't want to call update_forward_refs
     "E501", # line too long, handled by black
     "TRY003", # too restrictive
 ]
