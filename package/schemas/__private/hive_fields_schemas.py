@@ -3,6 +3,7 @@ import re
 
 from pydantic import BaseModel, validator, ConstrainedStr, ConstrainedInt
 from datetime import datetime
+from typing import Optional
 """
 We don't need as much fields as it was in old schemas. Pydantic gives us some ready fields or let us to 
 create our own in much shorter and easier way than it was. That's the reason why it is one directory not 2 as it was.
@@ -15,7 +16,8 @@ HIVE_MIN_BLOCK_SIZE_LIMIT = HIVE_MAX_TRANSACTION_SIZE
 
 class HiveInt(ConstrainedInt):
     """
-    HiveInt can come into the str format. This custom type check and convert it to integer type as it should be.
+    HiveInt sometimes can come into the str format. This custom type check and convert it to
+    integer type as it should be.
     """
     ge = 0
 
@@ -46,7 +48,7 @@ class PublicKey(ConstrainedStr):
 
 class HiveDateTime(datetime):
     """
-    Date and time in HIVE must bee in ISO format '%Y-%m-%dT%H:%M:%S'.
+    Date-time in HIVE must bee in ISO format '%Y-%m-%dT%H:%M:%S'.
     """
     @classmethod
     @validator('isoformat')
@@ -103,6 +105,19 @@ class AssetVests(BaseModel):
         return nai
 
 
+class AssetAny(BaseModel):
+    amount: HiveInt
+    precision: HiveInt
+    nai: str
+
+    @classmethod
+    @validator('nai')
+    def check_nai(cls, nai):
+        if nai not in ("@@000000037", "@@000000013", "@@000000021"):
+            raise ValueError('Invalid nai!')
+        return nai
+
+
 class Uint32t(ConstrainedInt):
     ge = 0
     le = 4294967295
@@ -135,14 +150,9 @@ class LegacyAssetVests(ConstrainedStr):
     regex = re.compile(r'^[0-9]+\.[0-9]{6} VESTS$')
 
 
-class HbdExchangeRateLegacyTrue(BaseModel):
-    base: LegacyAssetHbd | LegacyAssetHive
-    quote: LegacyAssetHive
-
-
-class HbdExchangeRateLegacyFalse(BaseModel):
-    base: AssetHbd | AssetHive
-    quote: AssetHive
+class HbdExchangeRate(BaseModel):
+    base: LegacyAssetHbd | LegacyAssetHive | AssetHive | AssetHbd
+    quote:  LegacyAssetHive | AssetHive
 
 
 class LegacyChainProperties(BaseModel):
@@ -156,6 +166,6 @@ class CustomIdType(ConstrainedInt):
     @validator('length_checker')
     def check_length(cls, v):
         if len(str(v)) > 32:
-            raise ValueError('Much be shorter than 32 !')
+            raise ValueError('Must be shorter than 32 !')
         else:
             return v

@@ -14,8 +14,8 @@ class EscrowTransferOperation(BaseModel, extra=Extra.forbid):
     to: AccountName
     agent: AccountName
     escrow_id: Uint32t = 30
-    hbd_amount: AssetHbd | LegacyAssetHbd
-    hive_amount: AssetHive | LegacyAssetHbd
+    hbd_amount: AssetHbd | LegacyAssetHbd  # to check
+    hive_amount: AssetHive | LegacyAssetHbd  # to check
     fee: AssetHive | AssetHbd | LegacyAssetHbd | LegacyAssetHive
     ratification_deadline: HiveDateTime
     escrow_expiration: HiveDateTime
