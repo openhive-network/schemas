@@ -4,9 +4,9 @@ import re
 from pydantic import BaseModel, validator, ConstrainedStr, ConstrainedInt
 from datetime import datetime
 """
-We don't need as much fields as it was in old schemas. Pydantic gives us much ready fields or let us to 
-create our own in much shorter way than it was. That's the reason why it is one directory not 2 as it was.
-Here you can find all special fields to create your schema.
+We don't need as much fields as it was in old schemas. Pydantic gives us some ready fields or let us to 
+create our own in much shorter and easier way than it was. That's the reason why it is one directory not 2 as it was.
+In future it will the place with all fields to create schemas of response from API
 """
 
 
