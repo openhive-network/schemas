@@ -3,32 +3,16 @@ import re
 
 from pydantic import BaseModel, validator, ConstrainedStr, ConstrainedInt
 from datetime import datetime
-from typing import Optional
+
 """
 We don't need as much fields as it was in old schemas. Pydantic gives us some ready fields or let us to 
 create our own in much shorter and easier way than it was. That's the reason why it is one directory not 2 as it was.
 """
+
 HIVE_100_PERCENT = 10000
 HIVE_1_PERCENT = HIVE_100_PERCENT/100
 HIVE_MAX_TRANSACTION_SIZE = 1024*64
 HIVE_MIN_BLOCK_SIZE_LIMIT = HIVE_MAX_TRANSACTION_SIZE
-
-
-class HiveInt(ConstrainedInt):
-    """
-    HiveInt sometimes can come into the str format. This custom type check and convert it to
-    integer type as it should be.
-    """
-    ge = 0
-
-    @classmethod
-    @validator('hiveformat')
-    def check_int_hive_format(cls, v):
-        try:
-            hive_int = int(v)
-        except ValueError:
-            raise ValueError('That is not int, and cant convert it to int')
-        return hive_int
 
 
 class EmptyString(ConstrainedStr):
@@ -61,14 +45,14 @@ class HiveDateTime(datetime):
 
 
 class Authority(BaseModel):
-    weight_threshold: HiveInt
-    account_auths: list[tuple[AccountName, HiveInt]]
-    key_auths: list[tuple[PublicKey, HiveInt]]
+    weight_threshold: int
+    account_auths: list[tuple[AccountName, int]]
+    key_auths: list[tuple[PublicKey, int]]
 
 
 class AssetHive(BaseModel):
-    amount: HiveInt
-    precision: HiveInt
+    amount: int
+    precision: int
     nai: str
 
     @classmethod
@@ -80,8 +64,8 @@ class AssetHive(BaseModel):
 
 
 class AssetHbd(BaseModel):
-    amount: HiveInt
-    precision: HiveInt
+    amount: int
+    precision: int
     nai: str
 
     @classmethod
@@ -93,8 +77,8 @@ class AssetHbd(BaseModel):
 
 
 class AssetVests(BaseModel):
-    amount: HiveInt
-    precision: HiveInt
+    amount: int
+    precision: int
     nai: str
 
     @classmethod
@@ -106,8 +90,8 @@ class AssetVests(BaseModel):
 
 
 class AssetAny(BaseModel):
-    amount: HiveInt
-    precision: HiveInt
+    amount: int
+    precision: int
     nai: str
 
     @classmethod
@@ -169,3 +153,5 @@ class CustomIdType(ConstrainedInt):
             raise ValueError('Must be shorter than 32 !')
         else:
             return v
+
+
