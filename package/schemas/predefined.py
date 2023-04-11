@@ -1,5 +1,4 @@
-from schemas.__private.hive_fields_schemas import (HiveInt,
-                                                   EmptyString,
+from schemas.__private.hive_fields_schemas import (EmptyString,
                                                    AccountName,
                                                    PublicKey,
                                                    HiveDateTime,
