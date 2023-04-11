@@ -1,9 +1,10 @@
-from pydantic import BaseModel, Extra, Json
+from pydantic import Json
 
-from schemas.predefined import AccountName, CustomIdType
+from schemas.package.schemas.predefined import AccountName, CustomIdType
+from preconfigure_base_model import PreconfiguredBaseModel
 
 
-class CustomJsonOperation(BaseModel, extra=Extra.forbid):
+class CustomJsonOperation(PreconfiguredBaseModel):
     required_auths: list[AccountName]
     required_posting_auths: list[AccountName]
     id: CustomIdType

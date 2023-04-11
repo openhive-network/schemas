@@ -1,15 +1,14 @@
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import (AccountName,
+                                                AssetHbd,
+                                                AssetHive,
+                                                AssetVests,
+                                                LegacyAssetHbd,
+                                                LegacyAssetHive,
+                                                LegacyAssetVests)
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import (AccountName,
-                                AssetHbd,
-                                AssetHive,
-                                AssetVests,
-                                LegacyAssetHbd,
-                                LegacyAssetHive,
-                                LegacyAssetVests)
 
-
-class ClaimRewardBalanceOperation(BaseModel, extra=Extra.forbid):
+class ClaimRewardBalanceOperation(PreconfiguredBaseModel):
     account: AccountName
     reward_hive: AssetHive | LegacyAssetHive
     reward_hbd: AssetHbd | LegacyAssetHbd

@@ -2,9 +2,9 @@ from __future__ import annotations
 import re
 
 from abc import ABC, abstractmethod
-from pydantic import BaseModel, validator, ConstrainedStr, ConstrainedInt, Field
+from pydantic import BaseModel, validator, ConstrainedStr, ConstrainedInt
 from datetime import datetime
-from typing import TypeVar
+
 
 """
 We don't need as much fields as it was in old schemas. Pydantic gives us some ready fields or let us to 
@@ -15,7 +15,6 @@ HIVE_100_PERCENT = 10000
 HIVE_1_PERCENT = HIVE_100_PERCENT/100
 HIVE_MAX_TRANSACTION_SIZE = 1024*64
 HIVE_MIN_BLOCK_SIZE_LIMIT = HIVE_MAX_TRANSACTION_SIZE
-Nai = TypeVar('Nai')
 
 
 class EmptyString(ConstrainedStr):

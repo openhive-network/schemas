@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, AssetHbd, LegacyAssetHbd, Uint16t, HIVE_100_PERCENT
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, AssetHbd, LegacyAssetHbd, Uint16t, HIVE_100_PERCENT
 
-
-class CommentOptionsOperation(BaseModel, extra=Extra.forbid):
+class CommentOptionsOperation(PreconfiguredBaseModel):
     author: AccountName
     permlink: str
     max_accepted_payout: AssetHbd | LegacyAssetHbd  # 1000000000 HBD default value

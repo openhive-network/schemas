@@ -1,9 +1,7 @@
-from pydantic import BaseModel, Extra
-from typing import Dict
-
-from schemas.predefined import AccountName, LegacyChainProperties
+from schemas.package.schemas.predefined import AccountName, LegacyChainProperties
+from preconfigure_base_model import PreconfiguredBaseModel
 
 
-class WitnessSetPropertiesOperation(BaseModel, extra=Extra.forbid):
+class WitnessSetPropertiesOperation(PreconfiguredBaseModel):
     witness: AccountName
     props: LegacyChainProperties

@@ -1,9 +1,8 @@
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, Authority
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, Authority
 
-
-class RecoverAccountOperation(BaseModel, extra=Extra.forbid):
+class RecoverAccountOperation(PreconfiguredBaseModel):
     account_to_recover: AccountName
     new_owner_authority: Authority
     recent_owner_authority: Authority

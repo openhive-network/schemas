@@ -1,9 +1,8 @@
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName
 
-
-class ChangeRecoveryAccountOperation(BaseModel, extra=Extra.forbid):
+class ChangeRecoveryAccountOperation(PreconfiguredBaseModel):
     account_to_recover: AccountName
     new_recovery_account: AccountName
     

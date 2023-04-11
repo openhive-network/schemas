@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, CustomIdType, Authority
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, CustomIdType, Authority
 
-
-class CustomBinaryOperation(BaseModel, extra=Extra.forbid):
+class CustomBinaryOperation(PreconfiguredBaseModel):
     required_owner_auths: list[AccountName]
     required_active_auths: list[AccountName]
     required_posting_auths: list[AccountName]

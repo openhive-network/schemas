@@ -1,9 +1,10 @@
-from pydantic import BaseModel, Extra, Json
+from pydantic import Json
 
-from schemas.predefined import AccountName, Authority, PublicKey
+from schemas.package.schemas.predefined import AccountName, Authority, PublicKey
+from preconfigure_base_model import PreconfiguredBaseModel
 
 
-class CreateClaimedAccountOperation(BaseModel, extra=Extra.forbid):
+class CreateClaimedAccountOperation(PreconfiguredBaseModel):
     creator: AccountName
     new_account_name: AccountName
     owner: Authority
