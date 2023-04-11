@@ -1,9 +1,8 @@
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName
 
-
-class SetResetAccountOperation(BaseModel, extra=Extra.forbid):
+class SetResetAccountOperation(PreconfiguredBaseModel):
     account: AccountName
     current_reset_account: AccountName
     reset_account: AccountName

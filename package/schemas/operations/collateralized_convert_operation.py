@@ -1,9 +1,8 @@
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, Uint32t, LegacyAssetHive
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, Uint32t, LegacyAssetHive
 
-
-class CollateralizedConvertOperation(BaseModel, extra=Extra.forbid):
+class CollateralizedConvertOperation(PreconfiguredBaseModel):
     owner: AccountName
     request_id: Uint32t = 0
     amount: LegacyAssetHive

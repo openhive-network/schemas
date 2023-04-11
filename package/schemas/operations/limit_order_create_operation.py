@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, Uint32t, LegacyAssetHbd, LegacyAssetHive, HiveDateTime
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, Uint32t, LegacyAssetHbd, LegacyAssetHive, HiveDateTime
 
-
-class LimitOrderCreateOperation(BaseModel, extra=Extra.forbid):
+class LimitOrderCreateOperation(PreconfiguredBaseModel):
     owner: AccountName
     order_id: Uint32t = 0
     amount_to_sell: LegacyAssetHbd | LegacyAssetHive

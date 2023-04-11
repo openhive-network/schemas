@@ -1,10 +1,11 @@
-from pydantic import BaseModel, Extra, Json
+from pydantic import Json
 from typing import Optional
 
-from schemas.predefined import AccountName, Authority, PublicKey
+from schemas.package.schemas.predefined import AccountName, Authority, PublicKey
+from preconfigure_base_model import PreconfiguredBaseModel
 
 
-class AccountUpdate2Operation(BaseModel, extra=Extra.forbid):
+class AccountUpdate2Operation(PreconfiguredBaseModel):
     account: AccountName
     owner: Optional[Authority]
     active: Optional[Authority]

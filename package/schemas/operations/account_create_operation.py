@@ -1,9 +1,10 @@
-from pydantic import BaseModel, Extra, Json
+from pydantic import Json
 
-from schemas.predefined import AccountName, AssetHive, LegacyAssetHive, Authority, PublicKey
+from schemas.package.schemas.predefined import AccountName, AssetHive, LegacyAssetHive, Authority, PublicKey
+from preconfigure_base_model import PreconfiguredBaseModel
 
 
-class AccountCreateOperation(BaseModel, extra=Extra.forbid):
+class AccountCreateOperation(PreconfiguredBaseModel):
     fee: AssetHive | LegacyAssetHive
     creator: AccountName
     new_account_name: AccountName

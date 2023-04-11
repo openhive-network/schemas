@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, Int64t
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, Int64t
 
-
-class UpdateProposalVotesOperation(BaseModel, extra=Extra.forbid):
+class UpdateProposalVotesOperation(PreconfiguredBaseModel):
     voter: AccountName
     proposal_ids: list[Int64t]
     approve: bool = False

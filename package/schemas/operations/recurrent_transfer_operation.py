@@ -1,9 +1,8 @@
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, LegacyAssetHive, LegacyAssetHbd, Uint16t
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, LegacyAssetHive, LegacyAssetHbd, Uint16t
 
-
-class RecurrentTransferOperation(BaseModel, extra=Extra.forbid):
+class RecurrentTransferOperation(PreconfiguredBaseModel):
     From: AccountName
     to: AccountName
     amount: LegacyAssetHbd | LegacyAssetHive

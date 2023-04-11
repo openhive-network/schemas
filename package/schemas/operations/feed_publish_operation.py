@@ -1,8 +1,7 @@
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, HbdExchangeRate
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, HbdExchangeRate
 
-
-class FeedPublishOperation(BaseModel, extra=Extra.forbid):
+class FeedPublishOperation(PreconfiguredBaseModel):
     publisher: AccountName
     exchange_rate: HbdExchangeRate

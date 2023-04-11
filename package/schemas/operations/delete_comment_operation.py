@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName
 
-
-class DeleteCommentOperation(BaseModel, extra=Extra.forbid):
+class DeleteCommentOperation(PreconfiguredBaseModel):
     author: AccountName
     permlink: str

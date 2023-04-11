@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, PublicKey, LegacyChainProperties, AssetHive, LegacyAssetHive
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, PublicKey, LegacyChainProperties, AssetHive, LegacyAssetHive
 
-
-class WitnessUpdateOperation(BaseModel, extra=Extra.forbid):
+class WitnessUpdateOperation(PreconfiguredBaseModel):
     owner: AccountName
     url: str
     block_signing_key: PublicKey

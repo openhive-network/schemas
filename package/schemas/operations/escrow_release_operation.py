@@ -1,9 +1,9 @@
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, Uint32t, AssetHbd, LegacyAssetHbd, AssetHive, \
+    LegacyAssetHive
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, Uint32t, AssetHbd, LegacyAssetHbd, AssetHive, LegacyAssetHive
 
-
-class EscrowReleaseOperation(BaseModel, extra=Extra.forbid):
+class EscrowReleaseOperation(PreconfiguredBaseModel):
     From: AccountName
     to: AccountName
     agent: AccountName

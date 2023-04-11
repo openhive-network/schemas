@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, Int64t, AssetHbd, LegacyAssetHbd, HiveDateTime
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, Int64t, AssetHbd, LegacyAssetHbd, HiveDateTime
 
-
-class UpdateProposalOperation(BaseModel, extra=Extra.forbid):
+class UpdateProposalOperation(PreconfiguredBaseModel):
     proposal_id: Int64t
     creator: AccountName
     daily_pay: LegacyAssetHbd | AssetHbd

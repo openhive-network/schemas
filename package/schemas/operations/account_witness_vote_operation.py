@@ -1,9 +1,8 @@
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName
 
-
-class AccountWitnessVoteOperation(BaseModel, extra=Extra.forbid):
+class AccountWitnessVoteOperation(PreconfiguredBaseModel):
     account: AccountName
     witness: AccountName
     approve: bool = True
