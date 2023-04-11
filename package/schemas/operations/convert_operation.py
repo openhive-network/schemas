@@ -1,9 +1,8 @@
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, Uint32t, LegacyAssetHbd
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, Uint32t, LegacyAssetHbd
 
-
-class ConvertOperation(BaseModel, extra=Extra.forbid):
+class ConvertOperation(PreconfiguredBaseModel):
     From: AccountName
     request_id: Uint32t = 0
     amount: LegacyAssetHbd

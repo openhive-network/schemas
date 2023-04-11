@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, Uint16t
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, Uint16t
 
-
-class SetWithdrawVestingRouteOperation(BaseModel, extra=Extra.forbid):
+class SetWithdrawVestingRouteOperation(PreconfiguredBaseModel):
     from_account: AccountName
     to_account: AccountName
     percent: Uint16t = 0

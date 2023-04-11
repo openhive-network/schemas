@@ -1,12 +1,9 @@
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, PublicKey, LegacyAssetHive, LegacyAssetHbd
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, PublicKey, LegacyAssetHive, LegacyAssetHbd
 
-
-class TransferOperation(BaseModel, extra=Extra.forbid):
+class TransferOperation(PreconfiguredBaseModel):
     From: AccountName
     to: AccountName
     amount: LegacyAssetHive | LegacyAssetHbd
     memo: PublicKey
-
-

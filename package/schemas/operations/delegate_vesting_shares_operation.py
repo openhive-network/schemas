@@ -1,9 +1,8 @@
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, AssetVests, LegacyAssetVests
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, AssetVests, LegacyAssetVests
 
-
-class DelegateVestingSharesOperation(BaseModel, extra=Extra.forbid):
+class DelegateVestingSharesOperation(PreconfiguredBaseModel):
     delegator: AccountName
     delegatee: AccountName
     vesting_shares: AssetVests | LegacyAssetVests

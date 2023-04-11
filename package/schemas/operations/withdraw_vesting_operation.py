@@ -1,8 +1,7 @@
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, LegacyAssetVests
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, LegacyAssetVests
 
-
-class WithdrawVestingOperation(BaseModel, extra=Extra.forbid):
+class WithdrawVestingOperation(PreconfiguredBaseModel):
     account: AccountName
     vesting_shares: LegacyAssetVests

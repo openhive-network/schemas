@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName
 
-
-class DeclineVotingRightsOperation(BaseModel, extra=Extra.forbid):
+class DeclineVotingRightsOperation(PreconfiguredBaseModel):
     account: AccountName
     decline: bool = True

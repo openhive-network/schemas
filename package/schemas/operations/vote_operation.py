@@ -1,9 +1,8 @@
-from pydantic import BaseModel, Extra
+from schemas.package.schemas.predefined import AccountName, Int16t
+from preconfigure_base_model import PreconfiguredBaseModel
 
-from schemas.predefined import AccountName, Int16t
 
-
-class VoteOperation(BaseModel, extra=Extra.forbid):
+class VoteOperation(PreconfiguredBaseModel):
     voter: AccountName
     author: AccountName
     permlink: str

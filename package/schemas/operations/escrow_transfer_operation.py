@@ -1,15 +1,16 @@
-from pydantic import BaseModel, Extra, Json
+from pydantic import Json
 
-from schemas.predefined import (AccountName,
-                                Uint32t,
-                                AssetHive,
-                                AssetHbd,
-                                LegacyAssetHive,
-                                LegacyAssetHbd,
-                                HiveDateTime)
+from schemas.package.schemas.predefined import (AccountName,
+                                                Uint32t,
+                                                AssetHive,
+                                                AssetHbd,
+                                                LegacyAssetHive,
+                                                LegacyAssetHbd,
+                                                HiveDateTime)
+from preconfigure_base_model import PreconfiguredBaseModel
 
 
-class EscrowTransferOperation(BaseModel, extra=Extra.forbid):
+class EscrowTransferOperation(PreconfiguredBaseModel):
     From: AccountName
     to: AccountName
     agent: AccountName
