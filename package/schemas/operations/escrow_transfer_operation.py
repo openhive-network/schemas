@@ -1,4 +1,4 @@
-from pydantic import Json
+from pydantic import Json, Field
 
 from schemas.package.schemas.predefined import (AccountName,
                                                 Uint32t,
@@ -11,7 +11,7 @@ from preconfigure_base_model import PreconfiguredBaseModel
 
 
 class EscrowTransferOperation(PreconfiguredBaseModel):
-    From: AccountName
+    from_: AccountName = Field(..., alias='from')
     to: AccountName
     agent: AccountName
     escrow_id: Uint32t = 30
