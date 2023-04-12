@@ -1,6 +1,26 @@
 [build-system]
-requires = [
-  "setuptools >= 42",
-  "wheel",
+requires = ["poetry-core>=1.1.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry]
+name = "schemas"
+version = "0.0.0"
+description = "Tools for checking if message fits expected format"
+readme = "readme.md"
+repository = "https://gitlab.syncad.com/hive/clive"
+authors = [
+    "Michał Kudela <kudmich@syncad.com>",
 ]
-build-backend = "setuptools.build_meta"
+packages = [
+    { include = "schemas", from = "package" },
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.10"
+jsonschema = "4.4.0"
+
+
+[tool.poetry.dev-dependencies]
+pytest = "7.1.2"
