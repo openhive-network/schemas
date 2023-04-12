@@ -1,14 +1,23 @@
-image: ubuntu:22.04
+# Refers to: ubuntu22.04-4
+image: "registry.gitlab.syncad.com/hive/hive/ci-base-image@sha256:03eb2e1d0a30c0478c590347ba5ccdcba45d0903fadfc5ab6a302326a8a2aabd"
 
 stages:
   - tests
 
+.shared_tags: &shared_tags
+  - public-runner-docker
+
+.configuration:
+  before_script:
+    - python3 -V
+    - poetry self update
+    - poetry install
+    - source $(poetry env info --path)/bin/activate
+    - pip list
+
 tests:
   stage: tests
-  before_script:
-    - apt update && apt install -y python3-pip
-    - pip install .[test]
+  extends: .configuration
   script:
     - pytest tests/
-  tags:
-    - public-runner-docker
+  tags: *shared_tags
