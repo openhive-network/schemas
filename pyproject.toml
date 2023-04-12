@@ -24,3 +24,52 @@ jsonschema = "4.4.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "7.1.2"
+black = "23.3.0"
+mypy = "1.1.1"
+pre-commit = "2.21.0"
+ruff = "0.0.259"
+
+
+[tool.black]
+line-length = 120
+
+
+[tool.mypy]
+strict = true
+disallow_untyped_decorators = false
+
+
+[tool.ruff]
+line-length = 120
+select = [  # https://beta.ruff.rs/docs/rules/
+    "F",
+    "E",
+    "W",
+    "C",
+    "I",
+    "N",
+    "UP",
+    "BLE",
+    "B",
+    "A",
+    "C4",
+    "PIE",
+    "T20",
+    "RET",
+    "SIM",
+    "TCH",
+    "ARG",
+    "PTH",
+    "ERA",
+    "PL",
+    "TRY",
+    "RUF",
+]
+ignore = [
+    "E501", # line too long, handled by black
+    "TRY003", # too restrictive
+]
+
+[tool.ruff.isort]
+known-first-party = ["schemas"]
+required-imports = ["from __future__ import annotations"]
