@@ -1,7 +1,14 @@
 image: "$CI_REGISTRY_IMAGE/ci-base-image@sha256:0236a419d6cc18a1c39344417c5f53cf5c9dc11436a8a4785b797cc988ac0dd2"
 
 stages:
+  - static_code_analysis
   - tests
+
+variables:
+  PACKAGES_TO_CHECK: "package/ tests/"
+  # colors:
+  TXT_BLUE: "\e[1;34m"
+  TXT_CLEAR: "\e[0m"
 
 .shared_tags: &shared_tags
   - public-runner-docker
@@ -13,10 +20,49 @@ stages:
     - poetry install
     - source $(poetry env info --path)/bin/activate
     - pip list
+  tags: *shared_tags
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>| STATIC CODE ANALYSIS |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+pre_commit_checks:
+  stage: static_code_analysis
+  extends: .configuration
+  script:
+    - echo -e "${TXT_BLUE}Checking all files with pre-commit hooks...${TXT_CLEAR}" &&
+      pre-commit run --all-files
+
+lint_code_with_ruff:
+  stage: static_code_analysis
+  extends: .configuration
+  script:
+    - echo -e "${TXT_BLUE}Linting all sources with Ruff (check)...${TXT_CLEAR}" &&
+      ruff ${PACKAGES_TO_CHECK}
+    - echo -e "${TXT_BLUE}Linting all sources with Ruff (diff)...${TXT_CLEAR}" &&
+      ruff ${PACKAGES_TO_CHECK} --diff
+
+formatting_with_black_check:
+  stage: static_code_analysis
+  extends: .configuration
+  script:
+    - echo -e "${TXT_BLUE}Checking code formatting with Black...${TXT_CLEAR}" &&
+      black ${PACKAGES_TO_CHECK} --check --diff --color
+
+type_check_with_mypy:
+  stage: static_code_analysis
+  extends: .configuration
+  script:
+    - echo -e "${TXT_BLUE}Checking types with mypy...${TXT_CLEAR}" &&
+      mypy ${PACKAGES_TO_CHECK}
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| STATIC CODE ANALYSIS |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>| TESTS |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 tests:
   stage: tests
   extends: .configuration
+  needs: [ ]  # to start immediately, without waiting for previous stages
   script:
     - pytest tests/
-  tags: *shared_tags
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| TESTS |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
