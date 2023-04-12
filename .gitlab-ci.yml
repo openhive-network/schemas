@@ -1,14 +1,22 @@
-image: ubuntu:22.04
+image: "$CI_REGISTRY_IMAGE/ci-base-image@sha256:0236a419d6cc18a1c39344417c5f53cf5c9dc11436a8a4785b797cc988ac0dd2"
 
 stages:
   - tests
 
+.shared_tags: &shared_tags
+  - public-runner-docker
+
+.configuration:
+  before_script:
+    - python3 -V
+    - poetry self update
+    - poetry install
+    - source $(poetry env info --path)/bin/activate
+    - pip list
+
 tests:
   stage: tests
-  before_script:
-    - apt update && apt install -y python3-pip
-    - pip install .[test]
+  extends: .configuration
   script:
     - pytest tests/
-  tags:
-    - public-runner-docker
+  tags: *shared_tags
