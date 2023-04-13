@@ -1,7 +1,7 @@
 from pydantic import Field
 
-from schemas.package.schemas.predefined import AccountName, LegacyAssetHive
-from preconfigure_base_model import PreconfiguredBaseModel
+from schemas.__private.hive_fields_schemas import AccountName, LegacyAssetHive
+from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
 
 
 class TransferToVestingOperation(PreconfiguredBaseModel):

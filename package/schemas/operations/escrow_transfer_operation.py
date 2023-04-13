@@ -1,6 +1,6 @@
 from pydantic import Json, Field
 
-from schemas.package.schemas.predefined import (
+from schemas.__private.hive_fields_schemas import (
     AccountName,
     Uint32t,
     AssetHive,
@@ -9,7 +9,7 @@ from schemas.package.schemas.predefined import (
     LegacyAssetHbd,
     HiveDateTime,
 )
-from preconfigure_base_model import PreconfiguredBaseModel
+from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
 
 
 class EscrowTransferOperation(PreconfiguredBaseModel):

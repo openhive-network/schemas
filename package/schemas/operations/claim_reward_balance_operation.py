@@ -1,4 +1,4 @@
-from schemas.package.schemas.predefined import (
+from schemas.__private.hive_fields_schemas import (
     AccountName,
     AssetHbd,
     AssetHive,
@@ -7,7 +7,7 @@ from schemas.package.schemas.predefined import (
     LegacyAssetHive,
     LegacyAssetVests,
 )
-from preconfigure_base_model import PreconfiguredBaseModel
+from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
 
 
 class ClaimRewardBalanceOperation(PreconfiguredBaseModel):

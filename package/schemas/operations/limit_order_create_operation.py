@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from schemas.package.schemas.predefined import AccountName, Uint32t, LegacyAssetHbd, LegacyAssetHive, HiveDateTime
-from preconfigure_base_model import PreconfiguredBaseModel
+from schemas.__private.hive_fields_schemas import AccountName, Uint32t, LegacyAssetHbd, LegacyAssetHive, HiveDateTime
+from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
 
 
 class LimitOrderCreateOperation(PreconfiguredBaseModel):
