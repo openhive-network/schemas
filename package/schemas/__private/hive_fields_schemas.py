@@ -1,10 +1,9 @@
 from __future__ import annotations
-import re
 
-from abc import ABC, abstractmethod
-from pydantic import BaseModel, validator, ConstrainedStr, ConstrainedInt
+import re
 from datetime import datetime
 
+from pydantic import BaseModel, ConstrainedInt, ConstrainedStr, validator
 
 """
 We don't need as much fields as it was in old schemas. Pydantic gives us some ready fields or let us to
@@ -42,8 +41,8 @@ class HiveDateTime(datetime):
     def check_custom_format(cls, v):
         try:
             datetime.strptime(v, "%Y-%m-%dT%H:%M:%S")
-        except ValueError:
-            raise ValueError("date must be in format %Y-%m-%dT%H:%M:%S")
+        except ValueError as error:
+            raise ValueError("date must be in format %Y-%m-%dT%H:%M:%S") from error
         return v
 
 
@@ -155,7 +154,7 @@ class CustomIdType(int):
 
     @classmethod
     def validate(cls, v: int) -> int:
-        if len(str(v)) > 32:
+        max_id_length = 32
+        if len(str(v)) > max_id_length:
             raise ValueError("Must be shorter than 32 !")
-        else:
-            return v
+        return v

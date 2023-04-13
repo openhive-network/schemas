@@ -1,7 +1,17 @@
 from __future__ import annotations
 
-from schemas.__private.hive_fields_schemas import AccountName, PublicKey, LegacyChainProperties, AssetHive, LegacyAssetHive
+from typing import TYPE_CHECKING
+
 from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
+
+if TYPE_CHECKING:
+    from schemas.__private.hive_fields_schemas import (
+        AccountName,
+        AssetHive,
+        LegacyAssetHive,
+        LegacyChainProperties,
+        PublicKey,
+    )
 
 
 class WitnessUpdateOperation(PreconfiguredBaseModel):
