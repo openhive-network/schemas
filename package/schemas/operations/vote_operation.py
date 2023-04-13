@@ -12,4 +12,4 @@ class VoteOperation(PreconfiguredBaseModel):
     voter: AccountName
     author: AccountName
     permlink: str
-    weight: Int16t = 0
+    weight: Int16t = 0  # type: ignore

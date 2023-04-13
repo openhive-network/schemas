@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pydantic import Field, Json
 
@@ -14,4 +14,4 @@ class CustomJsonOperation(PreconfiguredBaseModel):
     required_auths: list[AccountName]
     required_posting_auths: list[AccountName]
     id_: CustomIdType = Field(..., alias="id")
-    json: Json
+    json: Json[Any]

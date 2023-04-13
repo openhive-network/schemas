@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pydantic import Field, Json
 
@@ -22,10 +22,10 @@ class EscrowTransferOperation(PreconfiguredBaseModel):
     from_: AccountName = Field(..., alias="from")
     to: AccountName
     agent: AccountName
-    escrow_id: Uint32t = 30
+    escrow_id: Uint32t = 30  # type: ignore
     hbd_amount: AssetHbd | LegacyAssetHbd  # to check
     hive_amount: AssetHive | LegacyAssetHbd  # to check
     fee: AssetHive | AssetHbd | LegacyAssetHbd | LegacyAssetHive
     ratification_deadline: HiveDateTime
     escrow_expiration: HiveDateTime
-    json_meta: Json
+    json_meta: Json[Any]

@@ -11,5 +11,5 @@ if TYPE_CHECKING:
 class SetWithdrawVestingRouteOperation(PreconfiguredBaseModel):
     from_account: AccountName
     to_account: AccountName
-    percent: Uint16t = 0
+    percent: Uint16t = 0  # type: ignore
     auto_vest: bool = False

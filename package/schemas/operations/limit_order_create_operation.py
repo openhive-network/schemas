@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 class LimitOrderCreateOperation(PreconfiguredBaseModel):
     owner: AccountName
-    order_id: Uint32t = 0
+    order_id: Uint32t = 0  # type: ignore
     amount_to_sell: LegacyAssetHbd | LegacyAssetHive
     min_to_receive: LegacyAssetHbd | LegacyAssetHive
     fill_or_kill: bool = False
