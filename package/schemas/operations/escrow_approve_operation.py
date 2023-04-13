@@ -15,5 +15,5 @@ class EscrowApproveOperation(PreconfiguredBaseModel):
     to: AccountName
     agent: AccountName
     who: AccountName
-    escrow_id: Uint32t = 30
+    escrow_id: Uint32t = 30  # type: ignore
     approve: bool = True

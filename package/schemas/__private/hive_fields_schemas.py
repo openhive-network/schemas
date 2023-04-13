@@ -2,8 +2,12 @@ from __future__ import annotations
 
 import re
 from datetime import datetime
+from typing import TYPE_CHECKING, Any
 
 from pydantic import BaseModel, ConstrainedInt, ConstrainedStr, validator
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 """
 We don't need as much fields as it was in old schemas. Pydantic gives us some ready fields or let us to
@@ -11,7 +15,7 @@ create our own in much shorter and easier way than it was. That's the reason why
 """
 
 HIVE_100_PERCENT = 10000
-HIVE_1_PERCENT = HIVE_100_PERCENT / 100
+HIVE_1_PERCENT = int(HIVE_100_PERCENT / 100)
 HIVE_MAX_TRANSACTION_SIZE = 1024 * 64
 HIVE_MIN_BLOCK_SIZE_LIMIT = HIVE_MAX_TRANSACTION_SIZE
 
@@ -38,7 +42,7 @@ class HiveDateTime(datetime):
 
     @classmethod
     @validator("isoformat")
-    def check_custom_format(cls, v):
+    def check_custom_format(cls, v: str) -> str:
         try:
             datetime.strptime(v, "%Y-%m-%dT%H:%M:%S")
         except ValueError as error:
@@ -59,7 +63,7 @@ class AssetHive(BaseModel):
 
     @classmethod
     @validator("nai")
-    def check_nai(cls, nai):
+    def check_nai(cls, nai: Any) -> Any:
         if nai != "@@000000021":
             raise ValueError("Invalid nai!")
         return nai
@@ -72,7 +76,7 @@ class AssetHbd(BaseModel):
 
     @classmethod
     @validator("nai")
-    def check_nai(cls, nai):
+    def check_nai(cls, nai: Any) -> Any:
         if nai != "@@000000013":
             raise ValueError("Invalid nai!")
         return nai
@@ -85,7 +89,7 @@ class AssetVests(BaseModel):
 
     @classmethod
     @validator("nai")
-    def check_nai(cls, nai):
+    def check_nai(cls, nai: Any) -> Any:
         if nai != "@@000000037":
             raise ValueError("Invalid nai!")
         return nai
@@ -98,7 +102,7 @@ class AssetAny(BaseModel):
 
     @classmethod
     @validator("nai")
-    def check_nai(cls, nai):
+    def check_nai(cls, nai: Any) -> Any:
         if nai not in ("@@000000037", "@@000000013", "@@000000021"):
             raise ValueError("Invalid nai!")
         return nai
@@ -143,18 +147,18 @@ class HbdExchangeRate(BaseModel):
 
 class LegacyChainProperties(BaseModel):
     account_creation_fee: AssetHive | LegacyAssetHive
-    maximum_block_size: Uint32t = HIVE_MIN_BLOCK_SIZE_LIMIT * 2
-    hbd_interest_rate: Uint16t = 10 * HIVE_1_PERCENT
+    maximum_block_size: Uint32t = Uint32t(HIVE_MIN_BLOCK_SIZE_LIMIT * 2)
+    hbd_interest_rate: Uint16t = Uint16t(10 * HIVE_1_PERCENT)
 
 
 class CustomIdType(int):
     @classmethod
-    def __get_validators__(cls):
+    def __get_validators__(cls) -> Iterator[Any]:
         yield cls.validate
 
     @classmethod
-    def validate(cls, v: int) -> int:
+    def validate(cls, v: Any) -> Any:
         max_id_length = 32
         if len(str(v)) > max_id_length:
             raise ValueError("Must be shorter than 32 !")
-        return v
+        return int(v)
