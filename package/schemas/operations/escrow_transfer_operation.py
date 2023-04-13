@@ -1,15 +1,21 @@
-from pydantic import Json, Field
+from __future__ import annotations
 
-from schemas.__private.hive_fields_schemas import (
-    AccountName,
-    Uint32t,
-    AssetHive,
-    AssetHbd,
-    LegacyAssetHive,
-    LegacyAssetHbd,
-    HiveDateTime,
-)
+from typing import TYPE_CHECKING
+
+from pydantic import Field, Json
+
 from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
+
+if TYPE_CHECKING:
+    from schemas.__private.hive_fields_schemas import (
+        AccountName,
+        AssetHbd,
+        AssetHive,
+        HiveDateTime,
+        LegacyAssetHbd,
+        LegacyAssetHive,
+        Uint32t,
+    )
 
 
 class EscrowTransferOperation(PreconfiguredBaseModel):
