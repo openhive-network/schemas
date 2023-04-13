@@ -7,6 +7,8 @@ from typing import TYPE_CHECKING, Any, TypeAlias
 
 from pydantic import BaseModel, ConstrainedInt, ConstrainedStr, validator
 
+from schemas.__private.defaults import HBD_INTEREST_RATE, MAXIMUM_BLOCK_SIZE
+
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
@@ -14,11 +16,6 @@ if TYPE_CHECKING:
 We don't need as much fields as it was in old schemas. Pydantic gives us some ready fields or let us to
 create our own in much shorter and easier way than it was. That's the reason why it is one directory not 2 as it was.
 """
-
-HIVE_100_PERCENT = 10000
-HIVE_1_PERCENT = int(HIVE_100_PERCENT / 100)
-HIVE_MAX_TRANSACTION_SIZE = 1024 * 64
-HIVE_MIN_BLOCK_SIZE_LIMIT = HIVE_MAX_TRANSACTION_SIZE
 
 
 class EmptyString(ConstrainedStr):
@@ -137,8 +134,8 @@ class HbdExchangeRate(BaseModel):
 
 class LegacyChainProperties(BaseModel):
     account_creation_fee: AssetHive | LegacyAssetHive
-    maximum_block_size: Uint32t = Uint32t(HIVE_MIN_BLOCK_SIZE_LIMIT * 2)
-    hbd_interest_rate: Uint16t = Uint16t(10 * HIVE_1_PERCENT)
+    maximum_block_size: Uint32t = MAXIMUM_BLOCK_SIZE
+    hbd_interest_rate: Uint16t = HBD_INTEREST_RATE
 
 
 class CustomIdType(int):
