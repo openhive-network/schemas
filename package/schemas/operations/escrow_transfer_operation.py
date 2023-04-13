@@ -1,17 +1,19 @@
 from pydantic import Json, Field
 
-from schemas.package.schemas.predefined import (AccountName,
-                                                Uint32t,
-                                                AssetHive,
-                                                AssetHbd,
-                                                LegacyAssetHive,
-                                                LegacyAssetHbd,
-                                                HiveDateTime)
+from schemas.package.schemas.predefined import (
+    AccountName,
+    Uint32t,
+    AssetHive,
+    AssetHbd,
+    LegacyAssetHive,
+    LegacyAssetHbd,
+    HiveDateTime,
+)
 from preconfigure_base_model import PreconfiguredBaseModel
 
 
 class EscrowTransferOperation(PreconfiguredBaseModel):
-    from_: AccountName = Field(..., alias='from')
+    from_: AccountName = Field(..., alias="from")
     to: AccountName
     agent: AccountName
     escrow_id: Uint32t = 30

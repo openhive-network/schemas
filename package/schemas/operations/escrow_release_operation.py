@@ -1,12 +1,18 @@
 from pydantic import Field
 
-from schemas.package.schemas.predefined import AccountName, Uint32t, AssetHbd, LegacyAssetHbd, AssetHive, \
-    LegacyAssetHive
+from schemas.package.schemas.predefined import (
+    AccountName,
+    Uint32t,
+    AssetHbd,
+    LegacyAssetHbd,
+    AssetHive,
+    LegacyAssetHive,
+)
 from preconfigure_base_model import PreconfiguredBaseModel
 
 
 class EscrowReleaseOperation(PreconfiguredBaseModel):
-    from_: AccountName = Field(..., alias='from')
+    from_: AccountName = Field(..., alias="from")
     to: AccountName
     agent: AccountName
     who: AccountName

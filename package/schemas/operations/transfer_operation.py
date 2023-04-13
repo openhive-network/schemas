@@ -5,7 +5,7 @@ from preconfigure_base_model import PreconfiguredBaseModel
 
 
 class TransferOperation(PreconfiguredBaseModel):
-    from_: AccountName = Field(..., alias='from')
+    from_: AccountName = Field(..., alias="from")
     to: AccountName
     amount: LegacyAssetHive | LegacyAssetHbd
     memo: PublicKey
