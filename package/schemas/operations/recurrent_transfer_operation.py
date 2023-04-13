@@ -1,7 +1,7 @@
 from pydantic import Field
 
-from schemas.package.schemas.predefined import AccountName, LegacyAssetHive, LegacyAssetHbd, Uint16t
-from preconfigure_base_model import PreconfiguredBaseModel
+from schemas.__private.hive_fields_schemas import AccountName, LegacyAssetHive, LegacyAssetHbd, Uint16t
+from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
 
 
 class RecurrentTransferOperation(PreconfiguredBaseModel):

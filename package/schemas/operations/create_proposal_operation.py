@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from schemas.package.schemas.predefined import AccountName, HiveDateTime, AssetHbd, LegacyAssetHbd
-from preconfigure_base_model import PreconfiguredBaseModel
+from schemas.__private.hive_fields_schemas import AccountName, HiveDateTime, AssetHbd, LegacyAssetHbd
+from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
 
 
 class CreateProposalOperation(PreconfiguredBaseModel):
