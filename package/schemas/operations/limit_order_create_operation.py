@@ -11,4 +11,3 @@ class LimitOrderCreateOperation(PreconfiguredBaseModel):
     min_to_receive: LegacyAssetHbd | LegacyAssetHive
     fill_or_kill: bool = False
     time_point_sec: HiveDateTime
-

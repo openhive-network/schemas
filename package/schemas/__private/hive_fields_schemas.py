@@ -7,7 +7,7 @@ from datetime import datetime
 
 
 """
-We don't need as much fields as it was in old schemas. Pydantic gives us some ready fields or let us to 
+We don't need as much fields as it was in old schemas. Pydantic gives us some ready fields or let us to
 create our own in much shorter and easier way than it was. That's the reason why it is one directory not 2 as it was.
 """
 
@@ -158,7 +158,3 @@ class CustomIdType(int):
             raise ValueError('Must be shorter than 32 !')
         else:
             return v
-
-
-
-

@@ -9,4 +9,3 @@ class SetWithdrawVestingRouteOperation(PreconfiguredBaseModel):
     to_account: AccountName
     percent: Uint16t = 0
     auto_vest: bool = False
-    

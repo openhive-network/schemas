@@ -17,4 +17,3 @@ from schemas.package.schemas.__private.hive_fields_schemas import (EmptyString,
                                                                    LegacyChainProperties,
                                                                    CustomIdType,
                                                                    HIVE_100_PERCENT)
-

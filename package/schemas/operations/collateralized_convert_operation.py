@@ -6,4 +6,3 @@ class CollateralizedConvertOperation(PreconfiguredBaseModel):
     owner: AccountName
     request_id: Uint32t = 0
     amount: LegacyAssetHive
-    
