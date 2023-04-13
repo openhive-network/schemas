@@ -1,7 +1,13 @@
 from __future__ import annotations
 
-from schemas.package.schemas.predefined import (AccountName, Uint32t, LegacyAssetHbd, LegacyAssetHive, HbdExchangeRate,
-                                                HiveDateTime)
+from schemas.package.schemas.predefined import (
+    AccountName,
+    Uint32t,
+    LegacyAssetHbd,
+    LegacyAssetHive,
+    HbdExchangeRate,
+    HiveDateTime,
+)
 from preconfigure_base_model import PreconfiguredBaseModel
 
 
