@@ -1,7 +1,11 @@
 from __future__ import annotations
 
-from schemas.__private.hive_fields_schemas import AccountName, Int64t, AssetHbd, LegacyAssetHbd, HiveDateTime
+from typing import TYPE_CHECKING
+
 from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
+
+if TYPE_CHECKING:
+    from schemas.__private.hive_fields_schemas import AccountName, AssetHbd, HiveDateTime, Int64t, LegacyAssetHbd
 
 
 class UpdateProposalOperation(PreconfiguredBaseModel):

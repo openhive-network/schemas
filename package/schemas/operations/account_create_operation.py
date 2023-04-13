@@ -1,7 +1,13 @@
-from pydantic import Json
+from __future__ import annotations
 
-from schemas.__private.hive_fields_schemas import AccountName, AssetHive, LegacyAssetHive, Authority, PublicKey
+from typing import TYPE_CHECKING
+
 from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
+
+if TYPE_CHECKING:
+    from pydantic import Json
+
+    from schemas.__private.hive_fields_schemas import AccountName, AssetHive, Authority, LegacyAssetHive, PublicKey
 
 
 class AccountCreateOperation(PreconfiguredBaseModel):
