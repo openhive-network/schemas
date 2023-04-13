@@ -10,5 +10,5 @@ if TYPE_CHECKING:
 
 class CollateralizedConvertOperation(PreconfiguredBaseModel):
     owner: AccountName
-    request_id: Uint32t = 0
+    request_id: Uint32t = 0  # type: ignore
     amount: LegacyAssetHive

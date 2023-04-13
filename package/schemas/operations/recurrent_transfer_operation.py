@@ -15,5 +15,5 @@ class RecurrentTransferOperation(PreconfiguredBaseModel):
     to: AccountName
     amount: LegacyAssetHbd | LegacyAssetHive
     memo: str
-    recurrence: Uint16t = 0
-    executions: Uint16t = 0
+    recurrence: Uint16t = 0  # type: ignore
+    executions: Uint16t = 0  # type: ignore

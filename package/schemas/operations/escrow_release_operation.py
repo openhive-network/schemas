@@ -23,6 +23,6 @@ class EscrowReleaseOperation(PreconfiguredBaseModel):
     agent: AccountName
     who: AccountName
     receiver: AccountName
-    escrow_id: Uint32t = 30
+    escrow_id: Uint32t = 30  # type: ignore
     hbd_amount: AssetHbd | LegacyAssetHbd  # here add default value
     hive_amount: AssetHive | LegacyAssetHive  # here add default value

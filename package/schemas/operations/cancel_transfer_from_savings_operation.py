@@ -10,4 +10,4 @@ if TYPE_CHECKING:
 
 class CancelTransferFromSavingsOperation(PreconfiguredBaseModel):
     From: AccountName
-    request_id: Uint32t = 0
+    request_id: Uint32t = 0  # type: ignore

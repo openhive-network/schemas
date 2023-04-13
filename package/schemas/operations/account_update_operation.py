@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
 
@@ -16,4 +16,4 @@ class AccountUpdateOperation(PreconfiguredBaseModel):
     active: Authority | None
     posting: Authority | None
     memo_key: PublicKey
-    json_metadata: Json
+    json_metadata: Json[Any]

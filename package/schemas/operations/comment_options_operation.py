@@ -8,7 +8,7 @@ class CommentOptionsOperation(PreconfiguredBaseModel):
     author: AccountName
     permlink: str
     max_accepted_payout: AssetHbd | LegacyAssetHbd  # 1000000000 HBD default value
-    percent_hbd: Uint16t = HIVE_100_PERCENT
+    percent_hbd: Uint16t = Uint16t(HIVE_100_PERCENT)
     allow_votes: bool = True
     allow_curation_rewards: bool = True
     extensions: str

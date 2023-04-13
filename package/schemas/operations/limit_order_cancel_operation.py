@@ -10,4 +10,4 @@ if TYPE_CHECKING:
 
 class LimitOrderCancelOperation(PreconfiguredBaseModel):
     owner: AccountName
-    order_id: Uint32t = 0
+    order_id: Uint32t = 0  # type: ignore

@@ -12,5 +12,5 @@ if TYPE_CHECKING:
 
 class ConvertOperation(PreconfiguredBaseModel):
     from_: AccountName = Field(..., alias="from")
-    request_id: Uint32t = 0
+    request_id: Uint32t = 0  # type: ignore
     amount: LegacyAssetHbd
