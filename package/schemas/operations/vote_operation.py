@@ -1,5 +1,5 @@
-from schemas.package.schemas.predefined import AccountName, Int16t
-from preconfigure_base_model import PreconfiguredBaseModel
+from schemas.__private.hive_fields_schemas import AccountName, Int16t
+from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
 
 
 class VoteOperation(PreconfiguredBaseModel):

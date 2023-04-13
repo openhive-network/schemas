@@ -1,5 +1,5 @@
-from schemas.package.schemas.predefined import AccountName, Authority
-from preconfigure_base_model import PreconfiguredBaseModel
+from schemas.__private.hive_fields_schemas import AccountName, Authority
+from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
 
 
 class RequestAccountRecoveryOperation(PreconfiguredBaseModel):

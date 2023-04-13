@@ -1,7 +1,7 @@
 from pydantic import Json
 
-from schemas.package.schemas.predefined import AccountName, AssetHive, LegacyAssetHive, Authority, PublicKey
-from preconfigure_base_model import PreconfiguredBaseModel
+from schemas.__private.hive_fields_schemas import AccountName, AssetHive, LegacyAssetHive, Authority, PublicKey
+from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
 
 
 class AccountCreateOperation(PreconfiguredBaseModel):

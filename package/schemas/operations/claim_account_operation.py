@@ -1,7 +1,7 @@
 from pydantic import conint
 
-from schemas.package.schemas.predefined import AccountName, AssetHive, LegacyAssetHive
-from preconfigure_base_model import PreconfiguredBaseModel
+from schemas.__private.hive_fields_schemas import AccountName, AssetHive, LegacyAssetHive
+from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
 
 """
 If a user wants to pay a fee in RC fee should be equal 0.
