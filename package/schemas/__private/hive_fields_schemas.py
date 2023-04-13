@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import re
+from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypeAlias
 
 from pydantic import BaseModel, ConstrainedInt, ConstrainedStr, validator
 
@@ -56,56 +57,45 @@ class Authority(BaseModel):
     key_auths: list[tuple[PublicKey, int]]
 
 
-class AssetHive(BaseModel):
+class BaseAsset(BaseModel, ABC):
+    """Base class for all asset fields"""
+
     amount: int
     precision: int
     nai: str
 
     @classmethod
-    @validator("nai")
-    def check_nai(cls, nai: Any) -> Any:
-        if nai != "@@000000021":
-            raise ValueError("Invalid nai!")
-        return nai
-
-
-class AssetHbd(BaseModel):
-    amount: int
-    precision: int
-    nai: str
+    @abstractmethod
+    def get_nai_pattern(cls) -> str:
+        """This method set nai_pattern, which we use to check nai field"""
 
     @classmethod
     @validator("nai")
-    def check_nai(cls, nai: Any) -> Any:
-        if nai != "@@000000013":
-            raise ValueError("Invalid nai!")
-        return nai
+    def check_nai(cls, v: Any) -> Any:
+        if v != cls.get_nai_pattern():
+            raise ValueError("Invalid nai !")
+        return v
 
 
-class AssetVests(BaseModel):
-    amount: int
-    precision: int
-    nai: str
-
+class AssetHive(BaseAsset):
     @classmethod
-    @validator("nai")
-    def check_nai(cls, nai: Any) -> Any:
-        if nai != "@@000000037":
-            raise ValueError("Invalid nai!")
-        return nai
+    def get_nai_pattern(cls) -> str:
+        return "@@000000021"
 
 
-class AssetAny(BaseModel):
-    amount: int
-    precision: int
-    nai: str
-
+class AssetHbd(BaseAsset):
     @classmethod
-    @validator("nai")
-    def check_nai(cls, nai: Any) -> Any:
-        if nai not in ("@@000000037", "@@000000013", "@@000000021"):
-            raise ValueError("Invalid nai!")
-        return nai
+    def get_nai_pattern(cls) -> str:
+        return "@@000000013"
+
+
+class AssetVests(BaseAsset):
+    @classmethod
+    def get_nai_pattern(cls) -> str:
+        return "@@000000037"
+
+
+AssetAny: TypeAlias = AssetVests | AssetHbd | AssetHive
 
 
 class Uint32t(ConstrainedInt):
