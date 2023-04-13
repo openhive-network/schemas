@@ -13,5 +13,3 @@ class ClaimRewardBalanceOperation(PreconfiguredBaseModel):
     reward_hive: AssetHive | LegacyAssetHive
     reward_hbd: AssetHbd | LegacyAssetHbd
     reward_vests: AssetVests | LegacyAssetVests
-
-

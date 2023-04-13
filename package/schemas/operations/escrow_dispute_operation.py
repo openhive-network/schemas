@@ -10,4 +10,3 @@ class EscrowDisputeOperation(PreconfiguredBaseModel):
     agent: AccountName
     who: AccountName
     escrow_id: Uint32t = 30
-    

@@ -11,4 +11,3 @@ class CustomBinaryOperation(PreconfiguredBaseModel):
     required_auths: list[Authority]
     id: CustomIdType
     data: list[str]
-

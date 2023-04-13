@@ -6,4 +6,3 @@ class SetResetAccountOperation(PreconfiguredBaseModel):
     account: AccountName
     current_reset_account: AccountName
     reset_account: AccountName
-    
