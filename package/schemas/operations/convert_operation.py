@@ -5,6 +5,6 @@ from preconfigure_base_model import PreconfiguredBaseModel
 
 
 class ConvertOperation(PreconfiguredBaseModel):
-    from_: AccountName = Field(..., alias='from')
+    from_: AccountName = Field(..., alias="from")
     request_id: Uint32t = 0
     amount: LegacyAssetHbd

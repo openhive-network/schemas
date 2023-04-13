@@ -12,8 +12,8 @@ create our own in much shorter and easier way than it was. That's the reason why
 """
 
 HIVE_100_PERCENT = 10000
-HIVE_1_PERCENT = HIVE_100_PERCENT/100
-HIVE_MAX_TRANSACTION_SIZE = 1024*64
+HIVE_1_PERCENT = HIVE_100_PERCENT / 100
+HIVE_MAX_TRANSACTION_SIZE = 1024 * 64
 HIVE_MIN_BLOCK_SIZE_LIMIT = HIVE_MAX_TRANSACTION_SIZE
 
 
@@ -23,26 +23,27 @@ class EmptyString(ConstrainedStr):
 
 
 class AccountName(ConstrainedStr):
-    regex = re.compile(r'[a-z][a-z0-9\-]+[a-z0-9]')
+    regex = re.compile(r"[a-z][a-z0-9\-]+[a-z0-9]")
     min_length = 3
     max_length = 16
 
 
 class PublicKey(ConstrainedStr):
-    regex = re.compile(r'^(?:STM|TST)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$')
+    regex = re.compile(r"^(?:STM|TST)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$")
 
 
 class HiveDateTime(datetime):
     """
     Date-time in HIVE must bee in ISO format '%Y-%m-%dT%H:%M:%S'.
     """
+
     @classmethod
-    @validator('isoformat')
+    @validator("isoformat")
     def check_custom_format(cls, v):
         try:
-            datetime.strptime(v, '%Y-%m-%dT%H:%M:%S')
+            datetime.strptime(v, "%Y-%m-%dT%H:%M:%S")
         except ValueError:
-            raise ValueError('date must be in format %Y-%m-%dT%H:%M:%S')
+            raise ValueError("date must be in format %Y-%m-%dT%H:%M:%S")
         return v
 
 
@@ -58,7 +59,7 @@ class AssetHive(BaseModel):
     nai: str
 
     @classmethod
-    @validator('nai')
+    @validator("nai")
     def check_nai(cls, nai):
         if nai != "@@000000021":
             raise ValueError("Invalid nai!")
@@ -71,7 +72,7 @@ class AssetHbd(BaseModel):
     nai: str
 
     @classmethod
-    @validator('nai')
+    @validator("nai")
     def check_nai(cls, nai):
         if nai != "@@000000013":
             raise ValueError("Invalid nai!")
@@ -84,7 +85,7 @@ class AssetVests(BaseModel):
     nai: str
 
     @classmethod
-    @validator('nai')
+    @validator("nai")
     def check_nai(cls, nai):
         if nai != "@@000000037":
             raise ValueError("Invalid nai!")
@@ -97,10 +98,10 @@ class AssetAny(BaseModel):
     nai: str
 
     @classmethod
-    @validator('nai')
+    @validator("nai")
     def check_nai(cls, nai):
         if nai not in ("@@000000037", "@@000000013", "@@000000021"):
-            raise ValueError('Invalid nai!')
+            raise ValueError("Invalid nai!")
         return nai
 
 
@@ -125,26 +126,26 @@ class Int16t(ConstrainedInt):
 
 
 class LegacyAssetHive(ConstrainedStr):
-    regex = re.compile(r'^[0-9]+\.[0-9]{3} (?:HIVE|TESTS)$')
+    regex = re.compile(r"^[0-9]+\.[0-9]{3} (?:HIVE|TESTS)$")
 
 
 class LegacyAssetHbd(ConstrainedStr):
-    regex = re.compile(r'^[0-9]+\.[0-9]{3} (?:HBD|TBD)$')
+    regex = re.compile(r"^[0-9]+\.[0-9]{3} (?:HBD|TBD)$")
 
 
 class LegacyAssetVests(ConstrainedStr):
-    regex = re.compile(r'^[0-9]+\.[0-9]{6} VESTS$')
+    regex = re.compile(r"^[0-9]+\.[0-9]{6} VESTS$")
 
 
 class HbdExchangeRate(BaseModel):
     base: LegacyAssetHbd | LegacyAssetHive | AssetHive | AssetHbd
-    quote:  LegacyAssetHive | AssetHive
+    quote: LegacyAssetHive | AssetHive
 
 
 class LegacyChainProperties(BaseModel):
     account_creation_fee: AssetHive | LegacyAssetHive
     maximum_block_size: Uint32t = HIVE_MIN_BLOCK_SIZE_LIMIT * 2
-    hbd_interest_rate: Uint16t = 10*HIVE_1_PERCENT
+    hbd_interest_rate: Uint16t = 10 * HIVE_1_PERCENT
 
 
 class CustomIdType(int):
@@ -155,6 +156,6 @@ class CustomIdType(int):
     @classmethod
     def validate(cls, v: int) -> int:
         if len(str(v)) > 32:
-            raise ValueError('Must be shorter than 32 !')
+            raise ValueError("Must be shorter than 32 !")
         else:
             return v
