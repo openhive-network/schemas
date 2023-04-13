@@ -12,6 +12,3 @@ class LimitOrderCreate2Operation(PreconfiguredBaseModel):
     fill_or_kill: bool = False
     exchange_rate: HbdExchangeRate
     expiration: HiveDateTime
-
-
-

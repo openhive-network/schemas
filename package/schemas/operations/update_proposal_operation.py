@@ -11,4 +11,3 @@ class UpdateProposalOperation(PreconfiguredBaseModel):
     subject: str
     permlink: str
     extensions: HiveDateTime
-    

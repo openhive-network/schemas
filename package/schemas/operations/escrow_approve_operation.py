@@ -13,4 +13,3 @@ class EscrowApproveOperation(PreconfiguredBaseModel):
     who: AccountName
     escrow_id: Uint32t = 30
     approve: bool = True
-    

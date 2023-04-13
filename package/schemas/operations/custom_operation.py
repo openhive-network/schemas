@@ -6,4 +6,3 @@ class CustomOperation(PreconfiguredBaseModel):
     required_auths: list[AccountName]
     id: Uint16t = 0
     data: list[str]
-    

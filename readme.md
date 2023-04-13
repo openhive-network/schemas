@@ -185,7 +185,7 @@ we have three custom schemas ready to use:</th>
     "nai": "@@000000013"
 }
 ```
-  
+
 </td>
 <td>
 

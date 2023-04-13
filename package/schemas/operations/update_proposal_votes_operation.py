@@ -8,4 +8,3 @@ class UpdateProposalVotesOperation(PreconfiguredBaseModel):
     voter: AccountName
     proposal_ids: list[Int64t]
     approve: bool = False
-    

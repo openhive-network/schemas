@@ -18,4 +18,3 @@ class CommentOperation(PreconfiguredBaseModel):
     title: str
     body: str
     json_metadata: Json
-

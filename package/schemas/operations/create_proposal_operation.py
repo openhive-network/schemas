@@ -12,8 +12,3 @@ class CreateProposalOperation(PreconfiguredBaseModel):
     daily_pay: AssetHbd | LegacyAssetHbd
     subject: str
     permlink: str
-    
-
-
-
-

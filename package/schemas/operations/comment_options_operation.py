@@ -11,4 +11,4 @@ class CommentOptionsOperation(PreconfiguredBaseModel):
     percent_hbd: Uint16t = HIVE_100_PERCENT
     allow_votes: bool = True
     allow_curation_rewards: bool = True
-    extensions: str  
+    extensions: str

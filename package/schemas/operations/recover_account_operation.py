@@ -6,4 +6,3 @@ class RecoverAccountOperation(PreconfiguredBaseModel):
     account_to_recover: AccountName
     new_owner_authority: Authority
     recent_owner_authority: Authority
-    
