@@ -1,7 +1,3 @@
-from __future__ import annotations
-
-from typing import Final
-
 """
 This file contains global constants closely related to the behavior of the blockchain, its configuration and specific
 rules prevailing in the hive network. e.g.:
@@ -9,6 +5,10 @@ rules prevailing in the hive network. e.g.:
  - maximum transaction/block size,
  - number of witnesses in the schedule.
 """
+from __future__ import annotations
+
+from typing import Final
+
 HIVE_100_PERCENT: Final[int] = 10000
 HIVE_1_PERCENT: Final[int] = int(HIVE_100_PERCENT / 100)
 HIVE_MAX_TRANSACTION_SIZE: Final[int] = 1024 * 64
