@@ -73,8 +73,8 @@ class Authority(PreconfiguredBaseModel):
     key_auths: list[tuple[PublicKey, HiveInt]]
 
 
-class BaseAsset(PreconfiguredBaseModel, ABC):
-    """Base class for all asset fields"""
+class NaiAsset(PreconfiguredBaseModel, ABC):
+    """Base class for all nai asset fields"""
 
     amount: HiveInt
     precision: HiveInt
@@ -93,25 +93,41 @@ class BaseAsset(PreconfiguredBaseModel, ABC):
         return v
 
 
-class AssetHive(BaseAsset):
+class AssetNaiHive(NaiAsset):
     @classmethod
     def get_nai_pattern(cls) -> str:
         return "@@000000021"
 
 
-class AssetHbd(BaseAsset):
+class AssetNaiHbd(NaiAsset):
     @classmethod
     def get_nai_pattern(cls) -> str:
         return "@@000000013"
 
 
-class AssetVests(BaseAsset):
+class AssetNaiVests(NaiAsset):
     @classmethod
     def get_nai_pattern(cls) -> str:
         return "@@000000037"
 
 
-AssetAny: TypeAlias = AssetVests | AssetHbd | AssetHive
+class LegacyAssetHive(ConstrainedStr):
+    regex = re.compile(r"^[0-9]+\.[0-9]{3} (?:HIVE|TESTS)$")
+
+
+class LegacyAssetHbd(ConstrainedStr):
+    regex = re.compile(r"^[0-9]+\.[0-9]{3} (?:HBD|TBD)$")
+
+
+class LegacyAssetVests(ConstrainedStr):
+    regex = re.compile(r"^[0-9]+\.[0-9]{6} VESTS$")
+
+
+"""Assets to use just in situation when it doesn't matter that Assets must be in nai or legacy format"""
+
+AssetHbd: TypeAlias = AssetNaiHbd | LegacyAssetHbd
+AssetHive: TypeAlias = AssetNaiHive | LegacyAssetHive
+AssetVests: TypeAlias = AssetNaiVests | LegacyAssetVests
 
 
 class Uint32t(ConstrainedInt):
@@ -134,25 +150,13 @@ class Int16t(ConstrainedInt):
     le = 32767
 
 
-class LegacyAssetHive(ConstrainedStr):
-    regex = re.compile(r"^[0-9]+\.[0-9]{3} (?:HIVE|TESTS)$")
-
-
-class LegacyAssetHbd(ConstrainedStr):
-    regex = re.compile(r"^[0-9]+\.[0-9]{3} (?:HBD|TBD)$")
-
-
-class LegacyAssetVests(ConstrainedStr):
-    regex = re.compile(r"^[0-9]+\.[0-9]{6} VESTS$")
-
-
 class HbdExchangeRate(PreconfiguredBaseModel):
-    base: LegacyAssetHbd | LegacyAssetHive | AssetHive | AssetHbd
-    quote: LegacyAssetHive | AssetHive
+    base: AssetHive | AssetHbd
+    quote: AssetHive
 
 
 class LegacyChainProperties(PreconfiguredBaseModel):
-    account_creation_fee: AssetHive | LegacyAssetHive
+    account_creation_fee: AssetHive
     maximum_block_size: Uint32t = Uint32t(MAXIMUM_BLOCK_SIZE)
     hbd_interest_rate: Uint16t = Uint16t(HBD_INTEREST_RATE)
 
