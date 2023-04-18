@@ -78,7 +78,7 @@ class Authority(PreconfiguredBaseModel):
     key_auths: list[tuple[PublicKey, HiveInt]]
 
 
-class NaiAsset(PreconfiguredBaseModel, ABC):
+class AssetNai(PreconfiguredBaseModel, ABC):
     """Base class for all nai asset fields"""
 
     amount: HiveInt
@@ -98,41 +98,41 @@ class NaiAsset(PreconfiguredBaseModel, ABC):
         return v
 
 
-class AssetNaiHive(NaiAsset):
+class AssetHiveNai(AssetNai):
     @classmethod
     def get_nai_pattern(cls) -> str:
         return "@@000000021"
 
 
-class AssetNaiHbd(NaiAsset):
+class AssetHbdNai(AssetNai):
     @classmethod
     def get_nai_pattern(cls) -> str:
         return "@@000000013"
 
 
-class AssetNaiVests(NaiAsset):
+class AssetVestsNai(AssetNai):
     @classmethod
     def get_nai_pattern(cls) -> str:
         return "@@000000037"
 
 
-class LegacyAssetHive(ConstrainedStr):
+class AssetHiveLegacy(ConstrainedStr):
     regex = re.compile(r"^[0-9]+\.[0-9]{3} (?:HIVE|TESTS)$")
 
 
-class LegacyAssetHbd(ConstrainedStr):
+class AssetHbdLegacy(ConstrainedStr):
     regex = re.compile(r"^[0-9]+\.[0-9]{3} (?:HBD|TBD)$")
 
 
-class LegacyAssetVests(ConstrainedStr):
+class AssetVestsLegacy(ConstrainedStr):
     regex = re.compile(r"^[0-9]+\.[0-9]{6} VESTS$")
 
 
 """Assets to use just in situation when it doesn't matter that Assets must be in nai or legacy format"""
 
-AssetHbd: TypeAlias = AssetNaiHbd | LegacyAssetHbd
-AssetHive: TypeAlias = AssetNaiHive | LegacyAssetHive
-AssetVests: TypeAlias = AssetNaiVests | LegacyAssetVests
+AssetHbd: TypeAlias = AssetHbdNai | AssetHbdLegacy
+AssetHive: TypeAlias = AssetHiveNai | AssetHiveLegacy
+AssetVests: TypeAlias = AssetVestsNai | AssetVestsLegacy
 
 
 class Uint32t(ConstrainedInt):

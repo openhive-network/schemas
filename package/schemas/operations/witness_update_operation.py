@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from schemas.__private.hive_fields_schemas import (
         AccountName,
         AssetHive,
-        LegacyAssetHive,
+        AssetHiveLegacy,
         LegacyChainProperties,
         PublicKey,
     )
@@ -19,4 +19,4 @@ class WitnessUpdateOperation(PreconfiguredBaseModel):
     url: str
     block_signing_key: PublicKey
     props: LegacyChainProperties
-    fee: AssetHive | LegacyAssetHive  # currently ignored but validated
+    fee: AssetHive | AssetHiveLegacy  # currently ignored but validated

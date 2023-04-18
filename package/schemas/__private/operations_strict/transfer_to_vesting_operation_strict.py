@@ -7,10 +7,10 @@ from pydantic import Field
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 if TYPE_CHECKING:
-    from schemas.__private.hive_fields_schemas import AccountName, LegacyAssetHive
+    from schemas.__private.hive_fields_schemas import AccountName, AssetHiveLegacy
 
 
 class TransferToVestingOperationStrict(PreconfiguredBaseModel):
     from_: AccountName = Field(..., alias="from")
     to: AccountName | None
-    amount: LegacyAssetHive
+    amount: AssetHiveLegacy

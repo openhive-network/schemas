@@ -10,9 +10,9 @@ if TYPE_CHECKING:
     from schemas.__private.hive_fields_schemas import (
         AccountName,
         AssetHbd,
+        AssetHbdLegacy,
         AssetHive,
-        LegacyAssetHbd,
-        LegacyAssetHive,
+        AssetHiveLegacy,
         Uint32t,
     )
 
@@ -24,5 +24,5 @@ class EscrowReleaseOperationStrict(PreconfiguredBaseModel):
     who: AccountName
     receiver: AccountName
     escrow_id: Uint32t
-    hbd_amount: AssetHbd | LegacyAssetHbd  # here add default value
-    hive_amount: AssetHive | LegacyAssetHive  # here add default value
+    hbd_amount: AssetHbd | AssetHbdLegacy  # here add default value
+    hive_amount: AssetHive | AssetHiveLegacy  # here add default value

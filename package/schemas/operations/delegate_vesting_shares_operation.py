@@ -5,10 +5,10 @@ from typing import TYPE_CHECKING
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 if TYPE_CHECKING:
-    from schemas.__private.hive_fields_schemas import AccountName, AssetVests, LegacyAssetVests
+    from schemas.__private.hive_fields_schemas import AccountName, AssetVests, AssetVestsLegacy
 
 
 class DelegateVestingSharesOperation(PreconfiguredBaseModel):
     delegator: AccountName
     delegatee: AccountName
-    vesting_shares: AssetVests | LegacyAssetVests
+    vesting_shares: AssetVests | AssetVestsLegacy
