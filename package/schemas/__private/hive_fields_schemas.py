@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, TypeAlias
 from pydantic import ConstrainedInt, ConstrainedStr, validator
 
 from schemas.__private.defaults import HBD_INTEREST_RATE, MAXIMUM_BLOCK_SIZE
-from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
+from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
