@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Final
 
 from pydantic import Field, Json
 
+from schemas.__private.hive_fields_schemas import Uint32t
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 if TYPE_CHECKING:
@@ -14,17 +15,18 @@ if TYPE_CHECKING:
         HiveDateTime,
         LegacyAssetHbd,
         LegacyAssetHive,
-        Uint32t,
     )
+
+DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 
 
 class EscrowTransferOperation(PreconfiguredBaseModel):
     from_: AccountName = Field(..., alias="from")
     to: AccountName
     agent: AccountName
-    escrow_id: Uint32t = 30  # type: ignore
-    hbd_amount: AssetHbd | LegacyAssetHbd  # to check
-    hive_amount: AssetHive | LegacyAssetHbd  # to check
+    escrow_id: Uint32t = DEFAULT_ESCROW_ID
+    hbd_amount: AssetHbd | LegacyAssetHbd
+    hive_amount: AssetHive | LegacyAssetHbd
     fee: AssetHive | AssetHbd | LegacyAssetHbd | LegacyAssetHive
     ratification_deadline: HiveDateTime
     escrow_expiration: HiveDateTime

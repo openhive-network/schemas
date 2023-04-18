@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Final
 
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
@@ -14,11 +14,13 @@ if TYPE_CHECKING:
         Uint32t,
     )
 
+DEFAULT_FILL_OR_KILL: Final[bool] = False
+
 
 class LimitOrderCreate2Operation(PreconfiguredBaseModel):
     owner: AccountName
     order_id: Uint32t
     amount_to_sell: LegacyAssetHive | LegacyAssetHbd
-    fill_or_kill: bool = False
+    fill_or_kill: bool = DEFAULT_FILL_OR_KILL
     exchange_rate: HbdExchangeRate
     expiration: HiveDateTime
