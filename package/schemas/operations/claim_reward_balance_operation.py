@@ -8,16 +8,16 @@ if TYPE_CHECKING:
     from schemas.__private.hive_fields_schemas import (
         AccountName,
         AssetHbd,
+        AssetHbdLegacy,
         AssetHive,
+        AssetHiveLegacy,
         AssetVests,
-        LegacyAssetHbd,
-        LegacyAssetHive,
-        LegacyAssetVests,
+        AssetVestsLegacy,
     )
 
 
 class ClaimRewardBalanceOperation(PreconfiguredBaseModel):
     account: AccountName
-    reward_hive: AssetHive | LegacyAssetHive
-    reward_hbd: AssetHbd | LegacyAssetHbd
-    reward_vests: AssetVests | LegacyAssetVests
+    reward_hive: AssetHive | AssetHiveLegacy
+    reward_hbd: AssetHbd | AssetHbdLegacy
+    reward_vests: AssetVests | AssetVestsLegacy

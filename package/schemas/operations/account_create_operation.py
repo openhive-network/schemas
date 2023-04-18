@@ -7,11 +7,11 @@ from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 if TYPE_CHECKING:
     from pydantic import Json
 
-    from schemas.__private.hive_fields_schemas import AccountName, AssetHive, Authority, LegacyAssetHive, PublicKey
+    from schemas.__private.hive_fields_schemas import AccountName, AssetHive, AssetHiveLegacy, Authority, PublicKey
 
 
 class AccountCreateOperation(PreconfiguredBaseModel):
-    fee: AssetHive | LegacyAssetHive
+    fee: AssetHive | AssetHiveLegacy
     creator: AccountName
     new_account_name: AccountName
     owner: Authority
