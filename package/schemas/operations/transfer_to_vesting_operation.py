@@ -2,15 +2,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import Field
-
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.__private.operations_strict.transfer_to_vesting_operation_strict import TransferToVestingOperationStrict
 
 if TYPE_CHECKING:
-    from schemas.__private.hive_fields_schemas import AccountName, LegacyAssetHive
+    from schemas.__private.hive_fields_schemas import AccountName
 
 
-class TransferToVestingOperation(PreconfiguredBaseModel):
-    from_: AccountName = Field(..., alias="from")
-    to: AccountName | None
-    amount: LegacyAssetHive
+class TransferToVestingOperation(TransferToVestingOperationStrict):
+    to: AccountName | None = None
