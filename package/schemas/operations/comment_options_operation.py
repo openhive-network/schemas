@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from schemas.__private.defaults import HIVE_100_PERCENT
+from schemas.__private.hive_constants import HIVE_100_PERCENT
 from schemas.__private.hive_fields_schemas import AccountName, AssetHbd, LegacyAssetHbd, Uint16t
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
