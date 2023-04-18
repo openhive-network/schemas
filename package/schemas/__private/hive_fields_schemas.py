@@ -172,7 +172,7 @@ class CustomIdType(int):
         yield cls.validate
 
     @classmethod
-    def validate(cls, v: Any) -> Any:
+    def validate(cls, v: Any) -> int:
         max_id_length = 32
         if len(str(v)) > max_id_length:
             raise ValueError("Must be shorter than 32 !")
