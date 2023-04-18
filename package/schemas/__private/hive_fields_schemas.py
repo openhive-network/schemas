@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any, TypeAlias
 
 from pydantic import ConstrainedInt, ConstrainedStr, validator
 
-from schemas.__private.defaults import HBD_INTEREST_RATE, MAXIMUM_BLOCK_SIZE
+from schemas.__private.hive_constants import HBD_INTEREST_RATE, MAXIMUM_BLOCK_SIZE
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 if TYPE_CHECKING:
@@ -153,8 +153,8 @@ class HbdExchangeRate(PreconfiguredBaseModel):
 
 class LegacyChainProperties(PreconfiguredBaseModel):
     account_creation_fee: AssetHive | LegacyAssetHive
-    maximum_block_size: Uint32t = MAXIMUM_BLOCK_SIZE
-    hbd_interest_rate: Uint16t = HBD_INTEREST_RATE
+    maximum_block_size: Uint32t = Uint32t(MAXIMUM_BLOCK_SIZE)
+    hbd_interest_rate: Uint16t = Uint16t(HBD_INTEREST_RATE)
 
 
 class CustomIdType(int):
