@@ -13,28 +13,33 @@ from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
+    from pydantic.typing import CallableGenerator
+
 """
 We don't need as much fields as it was in old schemas. Pydantic gives us some ready fields or let us to
 create our own in much shorter and easier way than it was. That's the reason why it is one directory not 2 as it was.
 """
 
 
-class HiveInt(int):
+class HiveInt(ConstrainedInt):
     @classmethod
-    def __get_validators__(cls) -> Iterator[Any]:
+    def __get_validators__(cls) -> CallableGenerator:
         yield cls.validate
+        yield from super().__get_validators__()
 
     @classmethod
-    def validate(cls, v: Any) -> Any:
-        if type(v) is int:
-            return v
-        if type(v) is str:
+    def validate(cls, value: Any) -> int:
+        error_template = ValueError("The value could only be int or string that can be converted to int!")
+
+        if type(value) is int:
+            return value
+
+        if type(value) is str:
             try:
-                v = int(v)
-            except ValueError as error:
-                raise ValueError("The value is not int and not string that can be converted to int!") from error
-            return v
-        raise ValueError("The value is not string or int")
+                return int(value)
+            except (ValueError, TypeError) as error:
+                raise error_template from error
+        raise error_template
 
 
 class EmptyString(ConstrainedStr):
