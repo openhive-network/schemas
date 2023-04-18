@@ -7,10 +7,10 @@ from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 if TYPE_CHECKING:
     from schemas.__private.hive_fields_schemas import (
         AccountName,
+        AssetHbdLegacy,
+        AssetHiveLegacy,
         HbdExchangeRate,
         HiveDateTime,
-        LegacyAssetHbd,
-        LegacyAssetHive,
         Uint32t,
     )
 
@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 class LimitOrderCreate2OperationStrict(PreconfiguredBaseModel):
     owner: AccountName
     order_id: Uint32t
-    amount_to_sell: LegacyAssetHive | LegacyAssetHbd
+    amount_to_sell: AssetHiveLegacy | AssetHbdLegacy
     fill_or_kill: bool
     exchange_rate: HbdExchangeRate
     expiration: HiveDateTime

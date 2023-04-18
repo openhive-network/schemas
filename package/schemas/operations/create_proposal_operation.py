@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 if TYPE_CHECKING:
-    from schemas.__private.hive_fields_schemas import AccountName, AssetHbd, HiveDateTime, LegacyAssetHbd
+    from schemas.__private.hive_fields_schemas import AccountName, AssetHbd, AssetHbdLegacy, HiveDateTime
 
 
 class CreateProposalOperation(PreconfiguredBaseModel):
@@ -13,6 +13,6 @@ class CreateProposalOperation(PreconfiguredBaseModel):
     receiver: AccountName
     start_date: HiveDateTime
     end_date: HiveDateTime
-    daily_pay: AssetHbd | LegacyAssetHbd
+    daily_pay: AssetHbd | AssetHbdLegacy
     subject: str
     permlink: str
