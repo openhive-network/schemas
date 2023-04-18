@@ -18,6 +18,24 @@ create our own in much shorter and easier way than it was. That's the reason why
 """
 
 
+class HiveInt(int):
+    @classmethod
+    def __get_validators__(cls) -> Iterator[Any]:
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v: Any) -> Any:
+        if type(v) is int:
+            return v
+        if type(v) is str:
+            try:
+                v = int(v)
+            except ValueError as error:
+                raise ValueError("The value is not int and not string that can be converted to int!") from error
+            return v
+        raise ValueError("The value is not string or int")
+
+
 class EmptyString(ConstrainedStr):
     min_length = 0
     max_length = 0
@@ -49,16 +67,16 @@ class HiveDateTime(datetime):
 
 
 class Authority(BaseModel):
-    weight_threshold: int
-    account_auths: list[tuple[AccountName, int]]
-    key_auths: list[tuple[PublicKey, int]]
+    weight_threshold: HiveInt
+    account_auths: list[tuple[AccountName, HiveInt]]
+    key_auths: list[tuple[PublicKey, HiveInt]]
 
 
 class BaseAsset(BaseModel, ABC):
     """Base class for all asset fields"""
 
-    amount: int
-    precision: int
+    amount: HiveInt
+    precision: HiveInt
     nai: str
 
     @classmethod
