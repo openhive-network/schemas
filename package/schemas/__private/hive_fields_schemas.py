@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, TypeAlias
+from typing import TYPE_CHECKING, Any
 
 from pydantic import ConstrainedInt, ConstrainedStr, validator
 
@@ -14,6 +14,9 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
 
     from pydantic.typing import CallableGenerator
+
+    from schemas.types import AssetHbd, AssetHive
+
 
 """
 We don't need as much fields as it was in old schemas. Pydantic gives us some ready fields or let us to
@@ -129,10 +132,6 @@ class AssetVestsLegacy(ConstrainedStr):
 
 
 """Assets to use just in situation when it doesn't matter that Assets must be in nai or legacy format"""
-
-AssetHbd: TypeAlias = AssetHbdNai | AssetHbdLegacy
-AssetHive: TypeAlias = AssetHiveNai | AssetHiveLegacy
-AssetVests: TypeAlias = AssetVestsNai | AssetVestsLegacy
 
 
 class Uint32t(ConstrainedInt):
