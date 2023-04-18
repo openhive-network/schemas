@@ -5,9 +5,10 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import TYPE_CHECKING, Any, TypeAlias
 
-from pydantic import BaseModel, ConstrainedInt, ConstrainedStr, validator
+from pydantic import ConstrainedInt, ConstrainedStr, validator
 
 from schemas.__private.defaults import HBD_INTEREST_RATE, MAXIMUM_BLOCK_SIZE
+from schemas.operations.preconfigure_base_model import PreconfiguredBaseModel
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -66,13 +67,13 @@ class HiveDateTime(datetime):
         return v
 
 
-class Authority(BaseModel):
+class Authority(PreconfiguredBaseModel):
     weight_threshold: HiveInt
     account_auths: list[tuple[AccountName, HiveInt]]
     key_auths: list[tuple[PublicKey, HiveInt]]
 
 
-class BaseAsset(BaseModel, ABC):
+class BaseAsset(PreconfiguredBaseModel, ABC):
     """Base class for all asset fields"""
 
     amount: HiveInt
@@ -145,12 +146,12 @@ class LegacyAssetVests(ConstrainedStr):
     regex = re.compile(r"^[0-9]+\.[0-9]{6} VESTS$")
 
 
-class HbdExchangeRate(BaseModel):
+class HbdExchangeRate(PreconfiguredBaseModel):
     base: LegacyAssetHbd | LegacyAssetHive | AssetHive | AssetHbd
     quote: LegacyAssetHive | AssetHive
 
 
-class LegacyChainProperties(BaseModel):
+class LegacyChainProperties(PreconfiguredBaseModel):
     account_creation_fee: AssetHive | LegacyAssetHive
     maximum_block_size: Uint32t = MAXIMUM_BLOCK_SIZE
     hbd_interest_rate: Uint16t = HBD_INTEREST_RATE
