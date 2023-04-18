@@ -1,19 +1,14 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.__private.operations_strict.account_update_operation_strict import AccountUpdateOperationStrict
 
 if TYPE_CHECKING:
-    from pydantic import Json
-
-    from schemas.__private.hive_fields_schemas import AccountName, Authority, PublicKey
+    from schemas.__private.hive_fields_schemas import Authority
 
 
-class AccountUpdateOperation(PreconfiguredBaseModel):
-    account: AccountName
-    owner: Authority | None
-    active: Authority | None
-    posting: Authority | None
-    memo_key: PublicKey
-    json_metadata: Json[Any]
+class AccountUpdateOperation(AccountUpdateOperationStrict):
+    owner: Authority | None = None
+    active: Authority | None = None
+    posting: Authority | None = None
