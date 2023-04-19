@@ -13,7 +13,7 @@ authors = [
     "Michał Kudela <kudmich@syncad.com>",
 ]
 packages = [
-    { include = "schemas", from = "package" },
+    { include = "schemas" },
 ]
 
 
