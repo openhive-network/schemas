@@ -67,6 +67,8 @@ select = [  # https://beta.ruff.rs/docs/rules/
     "RUF",
 ]
 ignore = [
+    "TCH001", # required for pydantic if we don't want to call update_forward_refs
+    "TCH002", # required for pydantic if we don't want to call update_forward_refs
     "E501", # line too long, handled by black
     "TRY003", # too restrictive
 ]
