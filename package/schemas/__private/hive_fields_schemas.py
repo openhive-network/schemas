@@ -116,15 +116,19 @@ class AssetVestsNai(AssetNai):
         return "@@000000037"
 
 
-class AssetHiveLegacy(ConstrainedStr):
+class AssetLegacy(ConstrainedStr, ABC):
+    """Base class for all legacy assets"""
+
+
+class AssetHiveLegacy(AssetLegacy):
     regex = re.compile(r"^[0-9]+\.[0-9]{3} (?:HIVE|TESTS)$")
 
 
-class AssetHbdLegacy(ConstrainedStr):
+class AssetHbdLegacy(AssetLegacy):
     regex = re.compile(r"^[0-9]+\.[0-9]{3} (?:HBD|TBD)$")
 
 
-class AssetVestsLegacy(ConstrainedStr):
+class AssetVestsLegacy(AssetLegacy):
     regex = re.compile(r"^[0-9]+\.[0-9]{6} VESTS$")
 
 
