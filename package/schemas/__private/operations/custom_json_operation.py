@@ -12,4 +12,4 @@ class CustomJsonOperation(PreconfiguredBaseModel):
     required_auths: list[AccountName]
     required_posting_auths: list[AccountName]
     id_: CustomIdType = Field(..., alias="id")
-    json: Json[Any]
+    json_: Json[Any] = Field(..., alias="json")
