@@ -10,7 +10,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import TYPE_CHECKING, Any, TypeAlias
 
-from pydantic import ConstrainedInt, ConstrainedStr, validator
+from pydantic import ConstrainedInt, ConstrainedStr, PrivateAttr, validator
 
 from schemas.__private.hive_constants import HBD_INTEREST_RATE, MAXIMUM_BLOCK_SIZE
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
@@ -48,7 +48,8 @@ class EmptyString(ConstrainedStr):
 
 
 class AccountName(ConstrainedStr):
-    regex = re.compile(r"[a-z][a-z0-9\-]+[a-z0-9]")
+    __name_segment = PrivateAttr(r"[a-z][a-z0-9\-]+[a-z0-9]")
+    regex = rf"^{__name_segment}(?:\.{__name_segment})*$"
     min_length = 3
     max_length = 16
 
