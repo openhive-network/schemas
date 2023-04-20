@@ -1,5 +1,5 @@
 """
-    It is module with hive fields to use in python code, and to check api response(fields without defaults - non-strict)
+    It is module with hive fields to use in python code, and to check api response(fields without defaults)
     It helps to create hive fields without remember about for example fill nai when creating AssetNai.
 """
 
@@ -71,8 +71,6 @@ class HiveDateTime(datetime):
             return datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")
         except ValueError as error:
             raise ValueError("date must be in format %Y-%m-%dT%H:%M:%S") from error
-
-        return value
 
 
 class Authority(PreconfiguredBaseModel):
