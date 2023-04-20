@@ -57,19 +57,21 @@ class PublicKey(ConstrainedStr):
     regex = re.compile(r"^(?:STM|TST)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$")
 
 
-class HiveDateTime(datetime):
+class HiveDateTimeStrict(datetime):
     """
     Date-time in HIVE must bee in ISO format '%Y-%m-%dT%H:%M:%S'.
     """
 
     @classmethod
-    @validator("isoformat")
-    def check_custom_format(cls, v: str) -> str:
+    def __get_validators__(cls) -> CallableGenerator:
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v: Any) -> datetime:
         try:
-            datetime.strptime(v, "%Y-%m-%dT%H:%M:%S")
+            return datetime.strptime(v, "%Y-%m-%dT%H:%M:%S")
         except ValueError as error:
             raise ValueError("date must be in format %Y-%m-%dT%H:%M:%S") from error
-        return v
 
 
 class Authority(PreconfiguredBaseModel):

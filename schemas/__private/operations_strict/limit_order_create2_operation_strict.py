@@ -5,7 +5,7 @@ from schemas.__private.hive_fields_schemas_strict import (
     AssetHbdLegacy,
     AssetHiveLegacy,
     HbdExchangeRate,
-    HiveDateTime,
+    HiveDateTimeStrict,
     Uint32t,
 )
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
@@ -17,4 +17,4 @@ class LimitOrderCreate2OperationStrict(PreconfiguredBaseModel):
     amount_to_sell: AssetHiveLegacy | AssetHbdLegacy
     fill_or_kill: bool
     exchange_rate: HbdExchangeRate
-    expiration: HiveDateTime
+    expiration: HiveDateTimeStrict
