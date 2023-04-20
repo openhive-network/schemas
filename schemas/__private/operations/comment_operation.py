@@ -19,4 +19,4 @@ class CommentOperation(PreconfiguredBaseModel):
     permlink: str
     title: str
     body: str
-    json_metadata: Json[Any]
+    json_metadata: Json[Any] | EmptyString
