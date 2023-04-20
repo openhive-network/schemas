@@ -5,7 +5,7 @@ from typing import Any
 import pytest
 from pydantic import BaseModel
 
-from schemas.__private.hive_fields_schemas_strict import HiveInt
+from schemas.__private.hive_fields_schemas import HiveInt
 
 
 @pytest.mark.parametrize("valid_value, invalid_value", [(1, True), ("312412", "xyz"), (123, 123.123)])

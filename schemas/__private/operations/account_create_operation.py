@@ -4,7 +4,7 @@ from typing import Any
 
 from pydantic import Json
 
-from schemas.__private.hive_fields_schemas_strict import (
+from schemas.__private.hive_fields_schemas import (
     AccountName,
     AssetHive,
     Authority,

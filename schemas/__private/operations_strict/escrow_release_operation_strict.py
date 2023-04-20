@@ -2,12 +2,8 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from schemas.__private.hive_fields_schemas_strict import (
-    AccountName,
-    AssetHbd,
-    AssetHive,
-    Uint32t,
-)
+from schemas.__private.hive_fields_schemas import AccountName, Uint32t
+from schemas.__private.hive_fields_schemas_strict import AssetHbdStrict, AssetHiveStrict
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 
@@ -18,5 +14,5 @@ class EscrowReleaseOperationStrict(PreconfiguredBaseModel):
     who: AccountName
     receiver: AccountName
     escrow_id: Uint32t
-    hbd_amount: AssetHbd  # here add default value
-    hive_amount: AssetHive  # here add default value
+    hbd_amount: AssetHbdStrict  # here add default value
+    hive_amount: AssetHiveStrict  # here add default value
