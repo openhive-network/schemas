@@ -4,14 +4,13 @@ from typing import Any
 
 from pydantic import Field, Json
 
-from schemas.__private.hive_fields_schemas_strict import (
+from schemas.__private.hive_fields_schemas import (
     AccountName,
-    AssetHbd,
-    AssetHive,
     EmptyString,
-    HiveDateTimeStrict,
+    HiveDateTime,
     Uint32t,
 )
+from schemas.__private.hive_fields_schemas_strict import AssetHbdStrict, AssetHiveStrict
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 
@@ -20,9 +19,9 @@ class EscrowTransferOperationStrict(PreconfiguredBaseModel):
     to: AccountName
     agent: AccountName
     escrow_id: Uint32t
-    hbd_amount: AssetHbd
-    hive_amount: AssetHive
-    fee: AssetHive | AssetHbd
-    ratification_deadline: HiveDateTimeStrict
-    escrow_expiration: HiveDateTimeStrict
+    hbd_amount: AssetHbdStrict
+    hive_amount: AssetHiveStrict
+    fee: AssetHiveStrict | AssetHbdStrict
+    ratification_deadline: HiveDateTime
+    escrow_expiration: HiveDateTime
     json_meta: Json[Any] | EmptyString
