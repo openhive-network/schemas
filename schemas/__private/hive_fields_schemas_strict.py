@@ -1,4 +1,5 @@
-"""Strict versions of fields are using for checking poles from api response. In this situation it is undeliverable
+"""
+    Strict versions of fields are using for checking poles from api response. In this situation it is undeliverable
     to include default values to some poles like for example nai in NaiAssets, situation like that would lead to
     situation when nai field is empty in response from api and for pydantic it would be okay due to defaults
 """
