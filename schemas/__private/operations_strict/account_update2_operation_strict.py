@@ -15,4 +15,4 @@ class AccountUpdate2OperationStrict(PreconfiguredBaseModel):
     posting: Authority | None
     memo_key: PublicKey | None
     json_metadata: Json[Any] | EmptyString
-    posting_json_metadata: Json[Any]
+    posting_json_metadata: Json[Any] | EmptyString
