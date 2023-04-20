@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from schemas.__private.hive_fields_schemas import AccountName, LegacyChainProperties
+from schemas.__private.hive_fields_schemas_strict import AccountName, LegacyChainProperties
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 
