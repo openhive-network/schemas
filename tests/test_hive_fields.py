@@ -5,7 +5,7 @@ from typing import Any
 import pytest
 from pydantic import BaseModel
 
-from schemas.__private.hive_fields_schemas import HiveInt
+from schemas.__private.hive_fields_schemas import EmptyString, HiveInt
 
 
 @pytest.mark.parametrize("hive_int", [(1,), ("312412",), (412441.0,)])
@@ -38,3 +38,18 @@ def test_hive_int_with_incorrect_values(not_hive_int: Any) -> None:
 
     # ASSERT
     assert "The value could only be int or string that can be converted to int!" in error
+
+
+def test_empty_string_incorrect_value() -> None:
+    # ARRANGE
+    class TestEmptyString(BaseModel):
+        empty_str_test: EmptyString
+
+    # ACT
+    try:
+        TestEmptyString(empty_str_test="it is not empty")
+    except ValueError as e:
+        error = str(e)
+
+    # ASSERT
+    assert "ensure this value has at most 0 characters " in error
