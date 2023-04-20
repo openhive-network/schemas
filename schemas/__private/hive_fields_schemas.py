@@ -91,8 +91,8 @@ class AssetNai(PreconfiguredBaseModel, ABC):
     def get_nai_pattern(cls) -> str:
         """This method set nai_pattern, which we use to check nai field"""
 
-    @classmethod
     @validator("nai")
+    @classmethod
     def check_nai(cls, v: Any) -> Any:
         if v != cls.get_nai_pattern():
             raise ValueError("Invalid nai !")
