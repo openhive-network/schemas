@@ -10,6 +10,7 @@ from schemas.__private.hive_fields_schemas_strict import (
     AssetHbdLegacy,
     AssetHive,
     AssetHiveLegacy,
+    EmptyString,
     HiveDateTimeStrict,
     Uint32t,
 )
@@ -26,4 +27,4 @@ class EscrowTransferOperationStrict(PreconfiguredBaseModel):
     fee: AssetHive | AssetHbd | AssetHbdLegacy | AssetHiveLegacy
     ratification_deadline: HiveDateTimeStrict
     escrow_expiration: HiveDateTimeStrict
-    json_meta: Json[Any]
+    json_meta: Json[Any] | EmptyString
