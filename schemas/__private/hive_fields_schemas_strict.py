@@ -85,7 +85,7 @@ class Authority(PreconfiguredBaseModel):
     key_auths: list[tuple[PublicKey, HiveInt]]
 
 
-class AssetNai(PreconfiguredBaseModel, ABC):
+class AssetNaiStrict(PreconfiguredBaseModel, ABC):
     """Base class for all nai asset fields"""
 
     amount: HiveInt
@@ -105,19 +105,19 @@ class AssetNai(PreconfiguredBaseModel, ABC):
         return v
 
 
-class AssetHiveNai(AssetNai):
+class AssetHiveNaiStrict(AssetNaiStrict):
     @classmethod
     def get_nai_pattern(cls) -> str:
         return "@@000000021"
 
 
-class AssetHbdNai(AssetNai):
+class AssetHbdNaiStrict(AssetNaiStrict):
     @classmethod
     def get_nai_pattern(cls) -> str:
         return "@@000000013"
 
 
-class AssetVestsNai(AssetNai):
+class AssetVestsNaiStrict(AssetNaiStrict):
     @classmethod
     def get_nai_pattern(cls) -> str:
         return "@@000000037"
@@ -140,9 +140,9 @@ class AssetVestsLegacy(AssetLegacy):
 
 
 """Assets to use just in situation when it doesn't matter that Assets must be in nai or legacy format"""
-AssetHbd: TypeAlias = AssetHbdNai | AssetHbdLegacy
-AssetHive: TypeAlias = AssetHiveNai | AssetHiveLegacy
-AssetVests: TypeAlias = AssetVestsNai | AssetVestsLegacy
+AssetHbd: TypeAlias = AssetHbdNaiStrict | AssetHbdLegacy
+AssetHive: TypeAlias = AssetHiveNaiStrict | AssetHiveLegacy
+AssetVests: TypeAlias = AssetVestsNaiStrict | AssetVestsLegacy
 
 
 class Uint32t(ConstrainedInt):

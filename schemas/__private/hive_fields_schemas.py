@@ -10,7 +10,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from schemas.__private.hive_fields_schemas_strict import HiveDateTimeStrict
+from schemas.__private.hive_fields_schemas_strict import AssetNaiStrict, HiveDateTimeStrict, HiveInt
 
 
 class HiveDateTime(HiveDateTimeStrict):
@@ -20,3 +20,30 @@ class HiveDateTime(HiveDateTimeStrict):
             return value
 
         return super().validate(value)
+
+
+class AssetNaiHive(AssetNaiStrict):
+    precision: HiveInt = HiveInt(3)
+    nai: str = "@@000000021"
+
+    @classmethod
+    def get_nai_pattern(cls) -> str:
+        return "@@000000021"
+
+
+class AssetNaiHbd(AssetNaiStrict):
+    precision: HiveInt = HiveInt(3)
+    nai: str = "@@000000013"
+
+    @classmethod
+    def get_nai_pattern(cls) -> str:
+        return "@@000000013"
+
+
+class AssetNaiVests(AssetNaiStrict):
+    precision: HiveInt = HiveInt(3)
+    nai: str = "@@000000037"
+
+    @classmethod
+    def get_nai_pattern(cls) -> str:
+        return "@@000000037"
