@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import datetime
 from typing import Any
 
 import pytest
@@ -7,7 +8,7 @@ from pydantic import BaseModel, ValidationError
 
 from schemas.__private.hive_fields_schemas import EmptyString, HiveInt
 from schemas.__private.hive_fields_schemas_strict import AssetHbdNaiStrict, AssetHiveNaiStrict, AssetVestsNaiStrict
-from schemas.operations import AccountWitnessProxyOperation
+from schemas.operations import AccountWitnessProxyOperation, UpdateProposalOperation
 
 
 @pytest.mark.parametrize("hive_int", [1, "312412", 412441])
@@ -122,3 +123,49 @@ def test_asset_nai_vests_field_incorrect_amount(invalid_amount: str) -> None:
 
     # ASSERT
     assert "The value could only be int or string that can be converted to int!" in error
+
+
+@pytest.mark.parametrize(
+    "valid_datetime", ["1970-01-01T00:00:00", datetime.datetime.strptime("1970-01-01T00:00:00", "%Y-%m-%dT%H:%M:%S")]
+)
+def test_hive_datetime_field_correct_values(valid_datetime: str | datetime.datetime) -> None:
+    # ARRANGE
+    reference_date = datetime.datetime.strptime("1970-01-01T00:00:00", "%Y-%m-%dT%H:%M:%S")
+    date_after_operation = reference_date + datetime.timedelta(days=2)
+
+    # ACT
+    try:
+        test_instance = UpdateProposalOperation(
+            proposal_id=123,
+            creator="alice",
+            daily_pay="1.000 HBD",
+            subject="test_subject",
+            permlink="test_permlink",
+            extensions=valid_datetime,
+        )
+    except ValidationError as error:
+        raise ValueError("Data in invalid format") from error
+
+    test_operation_on_date = test_instance.extensions + datetime.timedelta(days=2)
+
+    # ASSERT
+    assert reference_date == test_instance.extensions and date_after_operation == test_operation_on_date
+
+
+@pytest.mark.parametrize("invalid_datetime", ["1970-01-01"])
+def test_hive_datetime_field_incorrect_values(invalid_datetime: str | datetime.datetime) -> None:
+    # ARRANGE & ACT
+    try:
+        UpdateProposalOperation(
+            proposal_id=123,
+            creator="alice",
+            daily_pay="1.000 HBD",
+            subject="test_subject",
+            permlink="test_permlink",
+            extensions=invalid_datetime,
+        )
+    except ValidationError as e:
+        error = str(e)
+
+    # ASSERT
+    assert "date must be in format %Y-%m-%dT%H:%M:%S" in error
