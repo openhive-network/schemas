@@ -8,7 +8,8 @@ from pydantic import BaseModel, ValidationError
 
 from schemas.__private.hive_fields_schemas import EmptyString, HiveInt
 from schemas.__private.hive_fields_schemas_strict import AssetHbdNaiStrict, AssetHiveNaiStrict, AssetVestsNaiStrict
-from schemas.operations import AccountWitnessProxyOperation, UpdateProposalOperation
+from schemas.operations import AccountWitnessProxyOperation, ResetAccountOperation, UpdateProposalOperation
+from tests.hive_tests_constants import ACTIVE, OWNER, POSTING
 
 
 @pytest.mark.parametrize("hive_int", [1, "312412", 412441])
@@ -169,3 +170,32 @@ def test_hive_datetime_field_incorrect_values(invalid_datetime: str | datetime.d
 
     # ASSERT
     assert "date must be in format %Y-%m-%dT%H:%M:%S" in error
+
+
+@pytest.mark.parametrize("authority", [POSTING, ACTIVE, OWNER])
+def test_authority_field_correct_values(authority: dict[str, Any]) -> None:
+    # ARRANGE & ACT
+    try:
+        ResetAccountOperation(reset_account="initminer", account_to_reset="alice", new_owner_authority=authority)
+    except ValidationError as error:
+        raise ValueError("Error in authority field") from error
+
+
+@pytest.mark.parametrize("authority, parameter", [(POSTING, "Not_int"), (OWNER, "Bad_account_name"), (ACTIVE, "SMT@@")])
+def test_authority_field_incorrect_values(authority: dict[str, Any], parameter: str) -> None:
+    # ARRANGE
+    if authority == POSTING:
+        authority["weight_threshold"] = parameter
+    elif authority == OWNER:
+        authority["account_auths"].append([parameter, 1])
+    else:
+        authority["key_auths"][0][0] = parameter
+
+    # ACT
+    try:
+        ResetAccountOperation(reset_account="alice", account_to_reset="alice", new_owner_authority=authority)
+    except ValidationError as e:
+        error = str(e)
+
+    # ASSERT
+    assert "string does not match regex" in error or "he value could only be int" in error
