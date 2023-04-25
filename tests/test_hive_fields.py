@@ -6,7 +6,7 @@ from typing import Any
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from schemas.__private.hive_fields_schemas import EmptyString, HiveInt
+from schemas.__private.hive_fields_schemas import EmptyString, HiveInt, PublicKey
 from schemas.__private.hive_fields_schemas_strict import AssetHbdNaiStrict, AssetHiveNaiStrict, AssetVestsNaiStrict
 from schemas.operations import AccountWitnessProxyOperation, ResetAccountOperation, UpdateProposalOperation
 from tests.hive_tests_constants import ACTIVE, OWNER, POSTING
@@ -199,3 +199,26 @@ def test_authority_field_incorrect_values(authority: dict[str, Any], parameter: 
 
     # ASSERT
     assert "string does not match regex" in error or "he value could only be int" in error
+
+
+@pytest.mark.parametrize(
+    "public_key",
+    [
+        "SMM69zfrFGnZtU3gWFWpQJ6GhND1nz7TJsKBTjcWfebS1JzBEweQy",
+        "STM12345",
+        "STM1234KASJDzskakxKqwedskldmeokllsdsdbfwsggdaWf123dfs3efa2sga2wdwsfnKSM",
+    ],
+)
+def test_public_key_field_incorrect_values(public_key: str) -> None:
+    # ARRANGE
+    class TestPublicKey(BaseModel):
+        test_key: PublicKey
+
+    # ACT
+    try:
+        TestPublicKey(test_key=public_key)
+    except ValidationError as e:
+        error = str(e)
+
+    # ASSERT
+    assert "string does not match regex" in error
