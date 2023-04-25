@@ -3,9 +3,10 @@ from __future__ import annotations
 from typing import Any
 
 import pytest
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from schemas.__private.hive_fields_schemas import EmptyString, HiveInt
+from schemas.__private.hive_fields_schemas_strict import AssetHbdNaiStrict, AssetHiveNaiStrict, AssetVestsNaiStrict
 from schemas.operations import AccountWitnessProxyOperation
 
 
@@ -70,3 +71,54 @@ def test_account_name_incorrect_value(invalid_name: str) -> None:
         or "ensure this value has at least 3 characters" in error
         or "string does not match regex" in error
     )
+
+
+@pytest.mark.parametrize("valid_name", ["alice", "bob", "initminer"])
+def test_account_name_correct_value(valid_name: str) -> None:
+    # ARRANGE & ACT
+    try:
+        test_instance = AccountWitnessProxyOperation(account=valid_name, proxy=valid_name)
+    except ValueError as error:
+        raise ValueError("Invalid name format") from error
+
+    created_account = test_instance.account
+    created_proxy = test_instance.account
+
+    # ASSERT
+    assert created_account == valid_name and created_proxy == valid_name
+
+
+@pytest.mark.parametrize("invalid_nai_pattern", ["nai_pattern", 12345, "@@0000021"])
+def test_asset_nai_hive_field_incorrect_pattern(invalid_nai_pattern: str | int) -> None:
+    # ARRANGE & ACT
+    try:
+        AssetHiveNaiStrict(amount=12, precision=3, nai=invalid_nai_pattern)
+    except ValidationError as e:
+        error = str(e)
+
+    # ASSERT
+    assert "Invalid nai !" in error
+
+
+@pytest.mark.parametrize("invalid_precision", ["nai_pattern", 12345, "@@0000013"])
+def test_asset_nai_hbd_field_incorrect_precision(invalid_precision: str | int) -> None:
+    # ARRANGE & ACT
+    try:
+        AssetHbdNaiStrict(amount=12, precision=invalid_precision, nai="@@000000013")
+    except ValidationError as e:
+        error = str(e)
+
+    # ASSERT
+    assert "Invalid precision" or "The value could only be int or string that can be converted to int!" in error
+
+
+@pytest.mark.parametrize("invalid_amount", ["nai_pattern", "@@0000013"])
+def test_asset_nai_vests_field_incorrect_amount(invalid_amount: str) -> None:
+    # ARRANGE & ACT
+    try:
+        AssetVestsNaiStrict(amount=invalid_amount, precision=6, nai="@@000000037")
+    except ValidationError as e:
+        error = str(e)
+
+    # ASSERT
+    assert "The value could only be int or string that can be converted to int!" in error
