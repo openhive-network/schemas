@@ -94,10 +94,24 @@ class AssetNai(PreconfiguredBaseModel, ABC):
 
     @validator("nai")
     @classmethod
-    def check_nai(cls, v: Any) -> Any:
-        if v != cls.get_nai_pattern():
+    def check_nai(cls, value: Any) -> Any:
+        if value != cls.get_nai_pattern():
             raise ValueError("Invalid nai !")
-        return v
+        return value
+
+    @validator("precision")
+    @classmethod
+    def check_precision(cls, value: int) -> int:
+        nai_pattern = cls.get_nai_pattern()
+        valid_precision_vests = 6
+        valid_precision_hbd_hive = 3
+
+        if nai_pattern == "@@000000037":
+            if value != valid_precision_vests:
+                raise ValueError("Invalid precission")
+        elif (nai_pattern == "@@000000037" or nai_pattern == "@@000000021") and value != valid_precision_hbd_hive:
+            raise ValueError("Invalid precission")
+        return value
 
 
 class AssetHiveNai(AssetNai):
@@ -119,7 +133,7 @@ class AssetHbdNai(AssetNai):
 
 
 class AssetVestsNai(AssetNai):
-    precision: HiveInt = HiveInt(3)
+    precision: HiveInt = HiveInt(6)
     nai: str = "@@000000037"
 
     @classmethod
