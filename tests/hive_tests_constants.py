@@ -19,4 +19,4 @@ POSTING: Final[dict[str, Any]] = {
     "key_auths": [["STM6vJmrwaX5TjgTS9dPH8KsArso5m91fVodJvv91j7G765wqcNM9", 1]],
 }
 HIVE_EXAMPLE_DATE: Final[str] = "1970-01-01T00:00:00"
-MEMO_EXAMPLE_KEY = "STM7wrsg1BZogeK7X3eG4ivxmLaH69FomR8rLkBbepb3z3hm5SbXu"
+MEMO_EXAMPLE_KEY: Final[str] = "STM7wrsg1BZogeK7X3eG4ivxmLaH69FomR8rLkBbepb3z3hm5SbXu"

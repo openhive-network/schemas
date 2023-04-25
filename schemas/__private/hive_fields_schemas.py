@@ -108,9 +108,9 @@ class AssetNai(PreconfiguredBaseModel, ABC):
 
         if nai_pattern == "@@000000037":
             if value != valid_precision_vests:
-                raise ValueError("Invalid precission")
+                raise ValueError("Invalid precision")
         elif (nai_pattern == "@@000000037" or nai_pattern == "@@000000021") and value != valid_precision_hbd_hive:
-            raise ValueError("Invalid precission")
+            raise ValueError("Invalid precision")
         return value
 
 
