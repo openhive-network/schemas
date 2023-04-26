@@ -1,105 +1,108 @@
 from __future__ import annotations
 
 import datetime
-from typing import Any
+from typing import Any, Final
 
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from schemas.__private.hive_fields_schemas import EmptyString, HiveInt, PublicKey
+from schemas.__private.hive_fields_schemas import AccountName, EmptyString, HiveInt, PublicKey
 from schemas.__private.hive_fields_schemas_strict import AssetHbdNaiStrict, AssetHiveNaiStrict, AssetVestsNaiStrict
-from schemas.operations import AccountWitnessProxyOperation, ResetAccountOperation, UpdateProposalOperation
-from tests.hive_tests_constants import ACTIVE, OWNER, POSTING
+from schemas.operations import ResetAccountOperation, UpdateProposalOperation
+
+from .hive_tests_constants import ACTIVE, OWNER, POSTING
 
 
-@pytest.mark.parametrize("hive_int", [1, "312412", 412441])
-def test_hive_int_with_correct_values(hive_int: int | str) -> None:
-    # ARRANGE
-    class TestHiveInt(BaseModel):
-        example_field: HiveInt
+class HiveIntModel(BaseModel):
+    field: HiveInt
 
+
+class EmptyStringModel(BaseModel):
+    field: EmptyString
+
+
+class AccountNameModel(BaseModel):
+    field: AccountName
+
+
+@pytest.mark.parametrize("value", [1, "312412", 412441])
+def test_hive_int_with_correct_values(value: int | str) -> None:
     # ACT
-    try:
-        test_instance = TestHiveInt(example_field=hive_int)
-    except ValueError as error:
-        raise AssertionError() from error
+    instance = HiveIntModel(field=value)
 
     # ASSERT
-    assert type(test_instance.example_field) is int
+    assert instance.field == int(value)
 
 
-@pytest.mark.parametrize("not_hive_int", [True, "it is not int", 412441.412411])
-def test_hive_int_with_incorrect_values(not_hive_int: Any) -> None:
+@pytest.mark.parametrize("value", [True, "it is not int", 412441.412411])
+def test_hive_int_with_incorrect_values(value: Any) -> None:
     # ARRANGE
-    class TestHiveInt(BaseModel):
-        example_field: HiveInt
+    expected_message: Final[str] = "The value could only be int or string that can be converted to int!"
 
     # ACT
-    try:
-        TestHiveInt(example_field=not_hive_int)
-    except ValueError as e:
-        error = str(e)
+    with pytest.raises(ValidationError) as error:
+        HiveIntModel(field=value)
 
     # ASSERT
-    assert "The value could only be int or string that can be converted to int!" in error
+    assert expected_message in str(error.value)
+
+
+def test_empty_string_correct_value() -> None:
+    # ACT
+    instance = EmptyStringModel(field="")
+
+    # ASSERT
+    assert instance.field == ""  # noqa: PLC1901 - we want to check if it is empty string explicitly
 
 
 def test_empty_string_incorrect_value() -> None:
-    # ARRANGE
-    class TestEmptyString(BaseModel):
-        empty_str_test: EmptyString
+    expected_message: Final[str] = "ensure this value has at most 0 characters"
 
     # ACT
-    try:
-        TestEmptyString(empty_str_test="it is not empty")
-    except ValueError as e:
-        error = str(e)
+    with pytest.raises(ValidationError) as error:
+        EmptyStringModel(field="not empty")
 
     # ASSERT
-    assert "ensure this value has at most 0 characters " in error
+    assert expected_message in str(error.value)
 
 
-@pytest.mark.parametrize("invalid_name", ["definitely too long name", "to", "123"])
-def test_account_name_incorrect_value(invalid_name: str) -> None:
-    # ARRANGE & ACT
-    try:
-        AccountWitnessProxyOperation(account=invalid_name, proxy=invalid_name)
-    except ValueError as e:
-        error = str(e)
-
-    # ASSERT
-    assert (
-        "ensure this value has at most 16 characters" in error
-        or "ensure this value has at least 3 characters" in error
-        or "string does not match regex" in error
-    )
-
-
-@pytest.mark.parametrize("valid_name", ["alice", "bob", "initminer"])
-def test_account_name_correct_value(valid_name: str) -> None:
-    # ARRANGE & ACT
-    try:
-        test_instance = AccountWitnessProxyOperation(account=valid_name, proxy=valid_name)
-    except ValueError as error:
-        raise ValueError("Invalid name format") from error
-
-    created_account = test_instance.account
-    created_proxy = test_instance.account
+@pytest.mark.parametrize(
+    "value, expected_message",
+    [
+        ("definitely too long name", "ensure this value has at most 16 characters"),
+        ("to", "ensure this value has at least 3 characters"),
+        ("123", "string does not match regex"),
+    ],
+)
+def test_account_name_incorrect_value(value: str, expected_message: str) -> None:
+    # ACT
+    with pytest.raises(ValidationError) as error:
+        AccountNameModel(field=value)
 
     # ASSERT
-    assert created_account == valid_name and created_proxy == valid_name
+    assert expected_message in str(error.value)
 
 
-@pytest.mark.parametrize("invalid_nai_pattern", ["nai_pattern", 12345, "@@0000021"])
-def test_asset_nai_hive_field_incorrect_pattern(invalid_nai_pattern: str | int) -> None:
-    # ARRANGE & ACT
-    try:
-        AssetHiveNaiStrict(amount=12, precision=3, nai=invalid_nai_pattern)
-    except ValidationError as e:
-        error = str(e)
+@pytest.mark.parametrize("value", ["alice", "bob", "initminer"])
+def test_account_name_correct_value(value: str) -> None:
+    # ACT
+    instance = AccountNameModel(field=value)
 
     # ASSERT
-    assert "Invalid nai !" in error
+    assert instance.field == value
+
+
+@pytest.mark.parametrize("value", ["incorrect", 12345, "@@0000021"])
+def test_asset_nai_hive_field_incorrect_pattern(value: str | int) -> None:
+    # ARRANGE
+    expected_message: Final[str] = "Invalid nai !"
+
+    # ACT
+    with pytest.raises(ValidationError) as error:
+        AssetHiveNaiStrict(amount=12, precision=3, nai=value)
+
+    # ASSERT
+    assert expected_message in str(error.value)
 
 
 @pytest.mark.parametrize("invalid_precision", ["nai_pattern", 12345, "@@0000013"])
