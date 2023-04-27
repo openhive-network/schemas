@@ -2,11 +2,12 @@ from __future__ import annotations
 
 from typing import Final
 
-from schemas.__private.hive_fields_schemas import Uint32t
-from schemas.__private.operations_strict.limit_order_create_operation_strict import LimitOrderCreateOperationStrict
+from schemas.__private.hive_fields_schemas import AccountName, Uint32t
+from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 DEFAULT_ORDER_ID: Final[Uint32t] = Uint32t(0)
 
 
-class LimitOrderCancelOperation(LimitOrderCreateOperationStrict):
+class LimitOrderCancelOperation(PreconfiguredBaseModel):
+    owner: AccountName
     order_id: Uint32t = DEFAULT_ORDER_ID

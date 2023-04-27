@@ -6,8 +6,14 @@ from typing import Any
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from schemas.__private.hive_fields_schemas import EmptyString, HiveInt, PublicKey
-from schemas.__private.hive_fields_schemas_strict import AssetHbdNaiStrict, AssetHiveNaiStrict, AssetVestsNaiStrict
+from schemas.__private.hive_fields_schemas import (
+    AssetHbdNai,
+    AssetHiveNai,
+    AssetVestsNai,
+    EmptyString,
+    HiveInt,
+    PublicKey,
+)
 from schemas.operations import AccountWitnessProxyOperation, ResetAccountOperation, UpdateProposalOperation
 from tests.hive_tests_constants import ACTIVE, OWNER, POSTING
 
@@ -94,7 +100,7 @@ def test_account_name_correct_value(valid_name: str) -> None:
 def test_asset_nai_hive_field_incorrect_pattern(invalid_nai_pattern: str | int) -> None:
     # ARRANGE & ACT
     try:
-        AssetHiveNaiStrict(amount=12, precision=3, nai=invalid_nai_pattern)
+        AssetHiveNai(amount=12, precision=3, nai=invalid_nai_pattern)
     except ValidationError as e:
         error = str(e)
 
@@ -106,7 +112,7 @@ def test_asset_nai_hive_field_incorrect_pattern(invalid_nai_pattern: str | int) 
 def test_asset_nai_hbd_field_incorrect_precision(invalid_precision: str | int) -> None:
     # ARRANGE & ACT
     try:
-        AssetHbdNaiStrict(amount=12, precision=invalid_precision, nai="@@000000013")
+        AssetHbdNai(amount=12, precision=invalid_precision, nai="@@000000013")
     except ValidationError as e:
         error = str(e)
 
@@ -118,7 +124,7 @@ def test_asset_nai_hbd_field_incorrect_precision(invalid_precision: str | int) -
 def test_asset_nai_vests_field_incorrect_amount(invalid_amount: str) -> None:
     # ARRANGE & ACT
     try:
-        AssetVestsNaiStrict(amount=invalid_amount, precision=6, nai="@@000000037")
+        AssetVestsNai(amount=invalid_amount, precision=6, nai="@@000000037")
     except ValidationError as e:
         error = str(e)
 

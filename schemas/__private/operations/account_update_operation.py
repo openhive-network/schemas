@@ -1,10 +1,17 @@
 from __future__ import annotations
 
-from schemas.__private.hive_fields_schemas import Authority
-from schemas.__private.operations_strict.account_update_operation_strict import AccountUpdateOperationStrict
+from typing import Any
+
+from pydantic import Json
+
+from schemas.__private.hive_fields_schemas import AccountName, Authority, EmptyString, PublicKey
+from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 
-class AccountUpdateOperation(AccountUpdateOperationStrict):
+class AccountUpdateOperation(PreconfiguredBaseModel):
+    account: AccountName
     owner: Authority | None = None
     active: Authority | None = None
     posting: Authority | None = None
+    memo_key: PublicKey
+    json_metadata: Json[Any] | EmptyString
