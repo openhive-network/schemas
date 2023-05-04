@@ -5,7 +5,7 @@ from typing import Any, Final
 TRANSFER_OPERATION_VALID_DATA: Final[dict[str, Any]] = {
     "from": "alice",
     "to": "bob",
-    "amount": "1.000 HIVE",
+    "amount": {"amount": "0", "precision": 3, "nai": "@@000000021"},
     "memo": "",
 }
 

@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from typing import Any, Final
+from typing import Any, Final, Generic
 
 from pydantic import Field, Json
+from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_schemas import (
     AccountName,
@@ -17,7 +18,7 @@ from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 
 
-class EscrowTransferOperation(PreconfiguredBaseModel):
+class EscrowTransferOperation(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
     from_: AccountName = Field(..., alias="from")
     to: AccountName
     agent: AccountName

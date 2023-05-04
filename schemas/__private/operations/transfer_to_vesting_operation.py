@@ -1,12 +1,15 @@
 from __future__ import annotations
 
-from pydantic import Field
+from typing import Generic
 
-from schemas.__private.hive_fields_schemas import AccountName, AssetHiveLegacy
+from pydantic import Field
+from pydantic.generics import GenericModel
+
+from schemas.__private.hive_fields_schemas import AccountName, AssetHive
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 
-class TransferToVestingOperation(PreconfiguredBaseModel):
+class TransferToVestingOperation(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
     from_: AccountName = Field(..., alias="from")
     to: AccountName | None = None
-    amount: AssetHiveLegacy
+    amount: AssetHive

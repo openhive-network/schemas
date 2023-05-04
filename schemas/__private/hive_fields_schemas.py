@@ -1,6 +1,5 @@
 """
-    It is module with hive fields to use in python code, and to check api response(fields without defaults)
-    It helps to create hive fields without remember about for example fill nai when creating AssetNai.
+    It is module with hive fields to use in python code, and to check api response
 """
 
 from __future__ import annotations
@@ -8,9 +7,10 @@ from __future__ import annotations
 import re
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, TypeAlias
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from pydantic import ConstrainedInt, ConstrainedStr, PrivateAttr, validator
+from pydantic.generics import GenericModel
 
 from schemas.__private.hive_constants import HBD_INTEREST_RATE, MAXIMUM_BLOCK_SIZE
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
@@ -157,10 +157,9 @@ class AssetVestsLegacy(AssetLegacy):
     regex = re.compile(r"^[0-9]+\.[0-9]{6} VESTS$")
 
 
-"""Assets to use just in situation when it doesn't matter that Assets must be in nai or legacy format"""
-AssetHbd: TypeAlias = AssetHbdNai | AssetHbdLegacy
-AssetHive: TypeAlias = AssetHiveNai | AssetHiveLegacy
-AssetVests: TypeAlias = AssetVestsNai | AssetVestsLegacy
+AssetHive = TypeVar("AssetHive", AssetHiveNai, AssetHiveLegacy)
+AssetHbd = TypeVar("AssetHbd", AssetHbdNai, AssetHbdLegacy)
+AssetVests = TypeVar("AssetVests", AssetVestsNai, AssetVestsLegacy)
 
 
 class Uint32t(ConstrainedInt):
@@ -196,12 +195,12 @@ class CustomIdType(int):
         return int(v)
 
 
-class HbdExchangeRate(PreconfiguredBaseModel):
+class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd, AssetHive]):
     base: AssetHive | AssetHbd
     quote: AssetHive
 
 
 class LegacyChainProperties(PreconfiguredBaseModel):
-    account_creation_fee: AssetHive
+    account_creation_fee: AssetHiveLegacy
     maximum_block_size: Uint32t = Uint32t(MAXIMUM_BLOCK_SIZE)
     hbd_interest_rate: Uint16t = Uint16t(HBD_INTEREST_RATE)

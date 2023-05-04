@@ -145,7 +145,7 @@ def test_hive_datetime_field_correct_values(valid_datetime: str | datetime.datet
         test_instance = UpdateProposalOperation(
             proposal_id=123,
             creator="alice",
-            daily_pay="1.000 HBD",
+            daily_pay={"amount": "0", "precision": 3, "nai": "@@000000013"},
             subject="test_subject",
             permlink="test_permlink",
             extensions=valid_datetime,
