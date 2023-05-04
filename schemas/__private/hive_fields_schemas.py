@@ -214,3 +214,18 @@ class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetH
     account_creation_fee: AssetHive
     maximum_block_size: Uint32t = Uint32t(MAXIMUM_BLOCK_SIZE)
     hbd_interest_rate: Uint16t = Uint16t(HBD_INTEREST_RATE)
+
+
+class Manabar(PreconfiguredBaseModel):
+    current_mana: HiveInt
+    last_update_time: HiveInt
+
+
+class DelayedVotes(PreconfiguredBaseModel):
+    time: HiveDateTime
+    val: HiveInt
+
+
+class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+    base: AssetHive | AssetHbd
+    quote: AssetHive | AssetHbd
