@@ -8,11 +8,14 @@ from pydantic import BaseModel, ValidationError
 
 from schemas.__private.hive_fields_schemas import (
     AccountName,
+    AssetHbdLegacy,
     AssetHbdNai,
+    AssetHiveLegacy,
     AssetHiveNai,
     AssetVestsNai,
     Authority,
     EmptyString,
+    HbdExchangeRate,
     HiveDateTime,
     HiveInt,
     PublicKey,
@@ -43,6 +46,18 @@ class AuthorityModel(BaseModel):
 
 class PublicKeyModel(BaseModel):
     field: PublicKey
+
+
+class HbdExchangeRateModelLegacy(BaseModel):
+    field: HbdExchangeRate[AssetHbdLegacy, AssetHiveLegacy]
+
+
+class HbdExchangeRateModelNai(BaseModel):
+    field: HbdExchangeRate[AssetHbdNai, AssetHiveNai]
+
+
+class AssetHiveLegacyModel(BaseModel):
+    field: AssetHiveLegacy
 
 
 @pytest.mark.parametrize("value", [1, "312412", 412441])
@@ -229,6 +244,62 @@ def test_public_key_field_incorrect_values(value: str) -> None:
     # ACT
     with pytest.raises(ValidationError) as error:
         PublicKeyModel(field=value)
+
+    # ASSERT
+    assert expected_message in str(error.value)
+
+
+@pytest.mark.parametrize(
+    "hive_legacy, hbd_legacy, hive_nai, hbd_nai",
+    [
+        (
+            "1.000 HIVE",
+            "1.000 HBD",
+            {"amount": 1, "precision": 3, "nai": "@@000000021"},
+            {"amount": 1, "precision": 3, "nai": "@@000000013"},
+        )
+    ],
+)
+def test_hbd_exchange_rate_incorrect_values(
+    hive_legacy: str, hbd_legacy: str, hive_nai: dict[str, Any], hbd_nai: dict[str, Any]
+) -> None:
+    """HbdExchangeRate accept two Asset types -> legacy and nai. Choose of the Asset type is performed by genetic.
+    So this test is used to check if validation after choose type of Asset is performed fine. To check it nai Assets
+    have been putted to Legacy version and legacy Assets to nai version.
+    """
+    # ARRANGE
+    expected_message_nai: Final[str] = "value is not a valid dict"
+    expected_message_legacy: Final[str] = "str type expected"
+
+    hbd_exchange_nai = HbdExchangeRate[AssetHbdNai, AssetHiveNai]
+    hbd_exchange_legacy = HbdExchangeRate[AssetHbdLegacy, AssetHiveLegacy]
+
+    # ACT
+    with pytest.raises(ValidationError) as error_legacy:
+        HbdExchangeRateModelLegacy(field=hbd_exchange_legacy(base=hbd_nai, quote=hive_nai))
+
+    with pytest.raises(ValidationError) as error_nai:
+        HbdExchangeRateModelNai(field=hbd_exchange_nai(base=hbd_legacy, quote=hive_legacy))
+
+    # ASSERT
+    assert expected_message_nai in str(error_nai.value) and expected_message_legacy in str(error_legacy.value)
+
+
+def test_correct_value_asset_hive_legacy() -> None:
+    # ACT
+    instance = AssetHiveLegacyModel(field="1.000 HIVE")
+
+    # ASSERT
+    assert instance.field == "1.000 HIVE"
+
+
+def test_incorrect_value_asset_hive_legacy() -> None:
+    # ARRANGE
+    expected_message: Final[str] = "string does not match regex"
+
+    # ACT
+    with pytest.raises(ValidationError) as error:
+        AssetHiveLegacyModel(field="1.000 BAD")
 
     # ASSERT
     assert expected_message in str(error.value)
