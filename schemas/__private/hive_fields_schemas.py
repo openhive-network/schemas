@@ -200,7 +200,7 @@ class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd, As
     quote: AssetHive
 
 
-class LegacyChainProperties(PreconfiguredBaseModel):
-    account_creation_fee: AssetHiveLegacy
+class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+    account_creation_fee: AssetHive
     maximum_block_size: Uint32t = Uint32t(MAXIMUM_BLOCK_SIZE)
     hbd_interest_rate: Uint16t = Uint16t(HBD_INTEREST_RATE)
