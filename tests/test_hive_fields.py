@@ -1,194 +1,203 @@
 from __future__ import annotations
 
 import datetime
-from typing import Any
+from typing import Any, Final
 
 import pytest
 from pydantic import BaseModel, ValidationError
 
 from schemas.__private.hive_fields_schemas import (
+    AccountName,
     AssetHbdNai,
     AssetHiveNai,
     AssetVestsNai,
+    Authority,
     EmptyString,
+    HiveDateTime,
     HiveInt,
     PublicKey,
 )
-from schemas.operations import AccountWitnessProxyOperation, ResetAccountOperation, UpdateProposalOperation
-from tests.hive_tests_constants import ACTIVE, OWNER, POSTING
+
+from .hive_tests_constants import ACTIVE, OWNER, POSTING
 
 
-@pytest.mark.parametrize("hive_int", [1, "312412", 412441])
-def test_hive_int_with_correct_values(hive_int: int | str) -> None:
-    # ARRANGE
-    class TestHiveInt(BaseModel):
-        example_field: HiveInt
+class HiveIntModel(BaseModel):
+    field: HiveInt
 
+
+class EmptyStringModel(BaseModel):
+    field: EmptyString
+
+
+class AccountNameModel(BaseModel):
+    field: AccountName
+
+
+class HiveDateTimeModel(BaseModel):
+    field: HiveDateTime
+
+
+class AuthorityModel(BaseModel):
+    field: Authority
+
+
+class PublicKeyModel(BaseModel):
+    field: PublicKey
+
+
+@pytest.mark.parametrize("value", [1, "312412", 412441])
+def test_hive_int_with_correct_values(value: int | str) -> None:
     # ACT
-    try:
-        test_instance = TestHiveInt(example_field=hive_int)
-    except ValueError as error:
-        raise AssertionError() from error
+    instance = HiveIntModel(field=value)
 
     # ASSERT
-    assert type(test_instance.example_field) is int
+    assert instance.field == int(value)
 
 
-@pytest.mark.parametrize("not_hive_int", [True, "it is not int", 412441.412411])
-def test_hive_int_with_incorrect_values(not_hive_int: Any) -> None:
+@pytest.mark.parametrize("value", [True, "it is not int", 412441.412411])
+def test_hive_int_with_incorrect_values(value: Any) -> None:
     # ARRANGE
-    class TestHiveInt(BaseModel):
-        example_field: HiveInt
+    expected_message: Final[str] = "The value could only be int or string that can be converted to int!"
 
     # ACT
-    try:
-        TestHiveInt(example_field=not_hive_int)
-    except ValueError as e:
-        error = str(e)
+    with pytest.raises(ValidationError) as error:
+        HiveIntModel(field=value)
 
     # ASSERT
-    assert "The value could only be int or string that can be converted to int!" in error
+    assert expected_message in str(error.value)
+
+
+def test_empty_string_correct_value() -> None:
+    # ACT
+    instance = EmptyStringModel(field="")
+
+    # ASSERT
+    assert instance.field == ""  # noqa: PLC1901 - we want to check if it is empty string explicitly
 
 
 def test_empty_string_incorrect_value() -> None:
-    # ARRANGE
-    class TestEmptyString(BaseModel):
-        empty_str_test: EmptyString
+    expected_message: Final[str] = "ensure this value has at most 0 characters"
 
     # ACT
-    try:
-        TestEmptyString(empty_str_test="it is not empty")
-    except ValueError as e:
-        error = str(e)
+    with pytest.raises(ValidationError) as error:
+        EmptyStringModel(field="not empty")
 
     # ASSERT
-    assert "ensure this value has at most 0 characters " in error
-
-
-@pytest.mark.parametrize("invalid_name", ["definitely too long name", "to", "123"])
-def test_account_name_incorrect_value(invalid_name: str) -> None:
-    # ARRANGE & ACT
-    try:
-        AccountWitnessProxyOperation(account=invalid_name, proxy=invalid_name)
-    except ValueError as e:
-        error = str(e)
-
-    # ASSERT
-    assert (
-        "ensure this value has at most 16 characters" in error
-        or "ensure this value has at least 3 characters" in error
-        or "string does not match regex" in error
-    )
-
-
-@pytest.mark.parametrize("valid_name", ["alice", "bob", "initminer"])
-def test_account_name_correct_value(valid_name: str) -> None:
-    # ARRANGE & ACT
-    try:
-        test_instance = AccountWitnessProxyOperation(account=valid_name, proxy=valid_name)
-    except ValueError as error:
-        raise ValueError("Invalid name format") from error
-
-    created_account = test_instance.account
-    created_proxy = test_instance.account
-
-    # ASSERT
-    assert created_account == valid_name and created_proxy == valid_name
-
-
-@pytest.mark.parametrize("invalid_nai_pattern", ["nai_pattern", 12345, "@@0000021"])
-def test_asset_nai_hive_field_incorrect_pattern(invalid_nai_pattern: str | int) -> None:
-    # ARRANGE & ACT
-    try:
-        AssetHiveNai(amount=12, precision=3, nai=invalid_nai_pattern)
-    except ValidationError as e:
-        error = str(e)
-
-    # ASSERT
-    assert "Invalid nai !" in error
-
-
-@pytest.mark.parametrize("invalid_precision", ["nai_pattern", 12345, "@@0000013"])
-def test_asset_nai_hbd_field_incorrect_precision(invalid_precision: str | int) -> None:
-    # ARRANGE & ACT
-    try:
-        AssetHbdNai(amount=12, precision=invalid_precision, nai="@@000000013")
-    except ValidationError as e:
-        error = str(e)
-
-    # ASSERT
-    assert "Invalid precision" or "The value could only be int or string that can be converted to int!" in error
-
-
-@pytest.mark.parametrize("invalid_amount", ["nai_pattern", "@@0000013"])
-def test_asset_nai_vests_field_incorrect_amount(invalid_amount: str) -> None:
-    # ARRANGE & ACT
-    try:
-        AssetVestsNai(amount=invalid_amount, precision=6, nai="@@000000037")
-    except ValidationError as e:
-        error = str(e)
-
-    # ASSERT
-    assert "The value could only be int or string that can be converted to int!" in error
+    assert expected_message in str(error.value)
 
 
 @pytest.mark.parametrize(
-    "valid_datetime", ["1970-01-01T00:00:00", datetime.datetime.strptime("1970-01-01T00:00:00", "%Y-%m-%dT%H:%M:%S")]
+    "value, expected_message",
+    [
+        ("definitely too long name", "ensure this value has at most 16 characters"),
+        ("to", "ensure this value has at least 3 characters"),
+        ("123", "string does not match regex"),
+    ],
 )
-def test_hive_datetime_field_correct_values(valid_datetime: str | datetime.datetime) -> None:
+def test_account_name_incorrect_value(value: str, expected_message: str) -> None:
+    # ACT
+    with pytest.raises(ValidationError) as error:
+        AccountNameModel(field=value)
+
+    # ASSERT
+    assert expected_message in str(error.value)
+
+
+@pytest.mark.parametrize("value", ["alice", "bob", "initminer"])
+def test_account_name_correct_value(value: str) -> None:
+    # ACT
+    instance = AccountNameModel(field=value)
+
+    # ASSERT
+    assert instance.field == value
+
+
+@pytest.mark.parametrize("value", ["incorrect", 12345, "@@0000013"])
+def test_asset_nai_hive_field_incorrect_pattern(value: str | int) -> None:
     # ARRANGE
-    reference_date = datetime.datetime.strptime("1970-01-01T00:00:00", "%Y-%m-%dT%H:%M:%S")
-    date_after_operation = reference_date + datetime.timedelta(days=2)
+    expected_message: Final[str] = "Invalid nai !"
 
     # ACT
-    try:
-        test_instance = UpdateProposalOperation(
-            proposal_id=123,
-            creator="alice",
-            daily_pay={"amount": "0", "precision": 3, "nai": "@@000000013"},
-            subject="test_subject",
-            permlink="test_permlink",
-            extensions=valid_datetime,
-        )
-    except ValidationError as error:
-        raise ValueError("Data in invalid format") from error
-
-    test_operation_on_date = test_instance.extensions + datetime.timedelta(days=2)
+    with pytest.raises(ValidationError) as error:
+        AssetHiveNai(amount=12, precision=3, nai=value)
 
     # ASSERT
-    assert reference_date == test_instance.extensions and date_after_operation == test_operation_on_date
+    assert expected_message in str(error.value)
 
 
-@pytest.mark.parametrize("invalid_datetime", ["1970-01-01"])
-def test_hive_datetime_field_incorrect_values(invalid_datetime: str | datetime.datetime) -> None:
-    # ARRANGE & ACT
-    try:
-        UpdateProposalOperation(
-            proposal_id=123,
-            creator="alice",
-            daily_pay="1.000 HBD",
-            subject="test_subject",
-            permlink="test_permlink",
-            extensions=invalid_datetime,
-        )
-    except ValidationError as e:
-        error = str(e)
+@pytest.mark.parametrize("value", ["nai_pattern", "@@0000013"])
+def test_asset_nai_hbd_field_incorrect_precision(value: str | int) -> None:
+    # ARRANGE
+    expected_message: Final[str] = "The value could only be int or string that can be converted to int!"
+
+    # ACT
+    with pytest.raises(ValidationError) as error:
+        AssetHbdNai(amount=10, precision=value, nai="@@000000013")
 
     # ASSERT
-    assert "date must be in format %Y-%m-%dT%H:%M:%S" in error
+    assert expected_message in str(error.value)
 
 
-@pytest.mark.parametrize("authority", [POSTING, ACTIVE, OWNER])
-def test_authority_field_correct_values(authority: dict[str, Any]) -> None:
-    # ARRANGE & ACT
-    try:
-        ResetAccountOperation(reset_account="initminer", account_to_reset="alice", new_owner_authority=authority)
-    except ValidationError as error:
-        raise ValueError("Error in authority field") from error
+@pytest.mark.parametrize("value", ["nai_pattern", "@@0000013"])
+def test_asset_nai_vests_field_incorrect_amount(value: str) -> None:
+    # ARRANGE
+    expected_message: Final[str] = "The value could only be int or string that can be converted to int!"
+
+    # ACT
+    with pytest.raises(ValidationError) as error:
+        AssetVestsNai(amount=value, precision=6, nai="@@000000037")
+
+    # ASSERT
+    assert expected_message in str(error.value)
 
 
-@pytest.mark.parametrize("authority, parameter", [(POSTING, "Not_int"), (OWNER, "Bad_account_name"), (ACTIVE, "SMT@@")])
-def test_authority_field_incorrect_values(authority: dict[str, Any], parameter: str) -> None:
+@pytest.mark.parametrize(
+    "value", ["1970-01-01T00:00:00", datetime.datetime.strptime("1970-01-01T00:00:00", "%Y-%m-%dT%H:%M:%S")]
+)
+def test_hive_datetime_field_correct_values(value: str | datetime.datetime) -> None:
+    # ARRANGE
+    expected_date = datetime.datetime.strptime("1970-01-01T00:00:00", "%Y-%m-%dT%H:%M:%S")
+    expected_date_after_operation = expected_date + datetime.timedelta(days=2)
+
+    # ACT
+    instance = HiveDateTimeModel(field=value)
+    operation = instance.field + datetime.timedelta(days=2)
+
+    # ASSERT
+    assert expected_date == instance.field and operation == expected_date_after_operation
+
+
+@pytest.mark.parametrize("value", ["1970-01-01"])
+def test_hive_datetime_field_incorrect_values(value: str | datetime.datetime) -> None:
+    # ARRANGE
+    expected_message: Final[str] = "date must be in format %Y-%m-%dT%H:%M:%S"
+
+    # ACT
+    with pytest.raises(ValidationError) as error:
+        HiveDateTimeModel(field=value)
+
+    # ASSERT
+    assert expected_message in str(error.value)
+
+
+@pytest.mark.parametrize("value", [POSTING, ACTIVE, OWNER])
+def test_authority_field_correct_values(value: dict[str, Any]) -> None:
+    # ACT
+    instance = AuthorityModel(field=value)
+
+    # ASSERT
+    assert instance.field.key_auths[0][0] == value["key_auths"][0][0]
+
+
+@pytest.mark.parametrize(
+    "authority, parameter, message",
+    [
+        (POSTING, "Not_int", "The value could only be int or string that can be converted to int!"),
+        (OWNER, "Bad_account_name", "string does not match regex"),
+        (ACTIVE, "SMT@@", "string does not match regex"),
+    ],
+)
+def test_authority_field_incorrect_values(authority: dict[str, Any], parameter: str, message: str) -> None:
     # ARRANGE
     if authority == POSTING:
         authority["weight_threshold"] = parameter
@@ -198,33 +207,28 @@ def test_authority_field_incorrect_values(authority: dict[str, Any], parameter: 
         authority["key_auths"][0][0] = parameter
 
     # ACT
-    try:
-        ResetAccountOperation(reset_account="alice", account_to_reset="alice", new_owner_authority=authority)
-    except ValidationError as e:
-        error = str(e)
+    with pytest.raises(ValidationError) as error:
+        AuthorityModel(field=authority)
 
     # ASSERT
-    assert "string does not match regex" in error or "he value could only be int" in error
+    assert message in str(error.value)
 
 
 @pytest.mark.parametrize(
-    "public_key",
+    "value",
     [
         "SMM69zfrFGnZtU3gWFWpQJ6GhND1nz7TJsKBTjcWfebS1JzBEweQy",
         "STM12345",
         "STM1234KASJDzskakxKqwedskldmeokllsdsdbfwsggdaWf123dfs3efa2sga2wdwsfnKSM",
     ],
 )
-def test_public_key_field_incorrect_values(public_key: str) -> None:
+def test_public_key_field_incorrect_values(value: str) -> None:
     # ARRANGE
-    class TestPublicKey(BaseModel):
-        test_key: PublicKey
+    expected_message: Final[str] = "string does not match regex"
 
     # ACT
-    try:
-        TestPublicKey(test_key=public_key)
-    except ValidationError as e:
-        error = str(e)
+    with pytest.raises(ValidationError) as error:
+        PublicKeyModel(field=value)
 
     # ASSERT
-    assert "string does not match regex" in error
+    assert expected_message in str(error.value)
