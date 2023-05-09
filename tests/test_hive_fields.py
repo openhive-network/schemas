@@ -49,11 +49,11 @@ class PublicKeyModel(BaseModel):
 
 
 class HbdExchangeRateModelLegacy(BaseModel):
-    field: HbdExchangeRate[AssetHbdLegacy, AssetHiveLegacy]
+    field: HbdExchangeRate[AssetHiveLegacy, AssetHbdLegacy]
 
 
 class HbdExchangeRateModelNai(BaseModel):
-    field: HbdExchangeRate[AssetHbdNai, AssetHiveNai]
+    field: HbdExchangeRate[AssetHiveNai, AssetHbdNai]
 
 
 class AssetHiveLegacyModel(BaseModel):
@@ -263,7 +263,7 @@ def test_public_key_field_incorrect_values(value: str) -> None:
 def test_hbd_exchange_rate_incorrect_values(
     hive_legacy: str, hbd_legacy: str, hive_nai: dict[str, Any], hbd_nai: dict[str, Any]
 ) -> None:
-    """HbdExchangeRate accept two Asset types -> legacy and nai. Choose of the Asset type is performed by genetic.
+    """HbdExchangeRate accept two Asset types -> legacy and nai. Choose of the Asset type is performed by generic.
     So this test is used to check if validation after choose type of Asset is performed fine. To check it nai Assets
     have been putted to Legacy version and legacy Assets to nai version.
     """
@@ -271,8 +271,8 @@ def test_hbd_exchange_rate_incorrect_values(
     expected_message_nai: Final[str] = "value is not a valid dict"
     expected_message_legacy: Final[str] = "str type expected"
 
-    hbd_exchange_nai = HbdExchangeRate[AssetHbdNai, AssetHiveNai]
-    hbd_exchange_legacy = HbdExchangeRate[AssetHbdLegacy, AssetHiveLegacy]
+    hbd_exchange_nai = HbdExchangeRate[AssetHiveNai, AssetHbdNai]
+    hbd_exchange_legacy = HbdExchangeRate[AssetHiveLegacy, AssetHbdLegacy]
 
     # ACT
     with pytest.raises(ValidationError) as error_legacy:

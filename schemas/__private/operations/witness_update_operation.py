@@ -4,12 +4,7 @@ from typing import Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.__private import LegacyChainProperties
-from schemas.__private.hive_fields_schemas import (
-    AccountName,
-    AssetHive,
-    PublicKey,
-)
+from schemas.__private.hive_fields_schemas import AccountName, AssetHive, AssetHiveNai, LegacyChainProperties, PublicKey
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 
@@ -17,5 +12,5 @@ class WitnessUpdateOperation(PreconfiguredBaseModel, GenericModel, Generic[Asset
     owner: AccountName
     url: str
     block_signing_key: PublicKey
-    props: LegacyChainProperties
+    props: LegacyChainProperties[AssetHiveNai]
     fee: AssetHive  # currently ignored but validated
