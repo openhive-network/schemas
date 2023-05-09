@@ -282,3 +282,41 @@ class HardforkVersion(ConstrainedStr):
 
 class Permlink(ConstrainedStr):
     max_length = 256
+
+
+class TransactionId(Hex):
+    min_length = 40
+    max_length = 40
+
+
+class FloatAsString(ConstrainedStr):
+    regex = re.compile(r"^(?:(?:[1-9][0-9]*)|0)\.[0-9]+$")
+
+
+class NodeType(ConstrainedStr):
+    regex = re.compile(r"^(mainnet|testnet|mirrornet)$")
+
+
+class HiveVersion(PreconfiguredBaseModel):
+    blockchain_version: HardforkVersion
+    hive_revision: TransactionId
+    fc_revision: TransactionId
+    chain_id: Sha256
+    node_type: NodeType
+
+
+class Props(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+    account_creation_fee: AssetHive
+    maximum_block_size: HiveInt
+    hbd_interest_rate: HiveInt
+    account_subsidy_budget: HiveInt
+    account_subsidy_decay: HiveInt
+
+
+class RdDynamicParams(PreconfiguredBaseModel):
+    resource_unit: HiveInt
+    budget_per_time_unit: HiveInt
+    pool_eq: HiveInt
+    max_pool_size: HiveInt
+    decay_params: dict[str, HiveInt]
+    min_decay: HiveInt
