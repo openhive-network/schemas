@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Generic
 
-from pydantic import Field, Json
+from pydantic import Field, Json, validator
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_schemas import (
@@ -15,11 +15,15 @@ from schemas.__private.hive_fields_schemas import (
     Authority,
     DelayedVotes,
     EmptyString,
+    HardforkVersion,
+    HbdExchangeRate,
     HiveDateTime,
     HiveInt,
     Manabar,
+    Permlink,
     Price,
     PublicKey,
+    Sha256,
 )
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
@@ -190,3 +194,126 @@ class FindLimitOrdersFundament(PreconfiguredBaseModel):
     orderid: HiveInt
     for_sale: HiveInt
     sell_price: Price[AssetHiveNai, AssetHbdNai]
+
+
+class FindOwnerHistoriesFundament(PreconfiguredBaseModel):
+    id_: HiveInt = Field(..., alias="id")
+    account: AccountName
+    previous_owner_authority: Authority
+    last_valid_date: HiveDateTime
+
+
+class FindRecurrentTransfersFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+    id_: HiveInt = Field(..., alias="id")
+    trigger_date: HiveDateTime
+    from_: AccountName = Field(..., alias="from")
+    to: AccountName
+    amount: AssetHive
+    memo: str
+    recurrence: HiveInt
+    consecutive_failures: HiveInt
+    remaining_executions: HiveInt
+
+
+class FindSavingsWithdrawalsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+    id_: HiveInt = Field(..., alias="id")
+    from_: AccountName = Field(..., alias="from")
+    to: AccountName
+    memo: str
+    request_id: HiveInt
+    amount: AssetHive | AssetHbd
+    complete: HiveDateTime
+
+
+class FindVestingDelegationExpirationsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
+    id_: HiveInt = Field(..., alias="id")
+    delegator: AccountName
+    vesting_shares: AssetVests
+    expiration: HiveDateTime
+
+
+class FindVestingDelegationsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
+    id_: HiveInt = Field(..., alias="id")
+    delegator: AccountName
+    delegatee: AccountName
+    vesting_shares: AssetVests
+    min_delegation_time: HiveDateTime
+
+
+class FindWithdrawVestingRoutesFundament(PreconfiguredBaseModel):
+    id_: HiveInt = Field(..., alias="id")
+    from_account: AccountName
+    to_account: AccountName
+    percent: HiveInt
+    auto_vest: bool
+
+
+class FindWitnessFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+    id_: HiveInt = Field(..., alias="id")
+    owner: AccountName
+    created: HiveDateTime
+    url: str
+    votes: HiveInt
+    virtual_last_update: str
+    virtual_position: str
+    virtual_scheduled_time: str
+    total_missed: HiveInt
+    last_aslot: int
+    last_confirmed_block_num: HiveInt
+    pow_worker: HiveInt
+    signing_key: PublicKey
+    props: dict[str, AssetHive | HiveInt]
+    hbd_exchange_rate: HbdExchangeRate[AssetHiveNai, AssetHbdNai]
+    last_hbd_exchange_update: HiveDateTime
+    last_work: Sha256
+    running_version: HardforkVersion
+    hardfork_version_vote: HardforkVersion
+    hardfork_time_vote: HiveDateTime
+    available_witness_account_subsidies: HiveInt
+
+    @validator("props")
+    @classmethod
+    def check_props(cls, value: dict[str, AssetHiveNai | HiveInt]) -> dict[str, AssetHiveNai | HiveInt]:
+        allowed_keys = [
+            "account_creation_fee",
+            "maximum_block_size",
+            "hbd_interest_rate",
+            "account_subsidy_budget",
+            "account_subsidy_decay",
+        ]
+        for key in value:
+            if key not in allowed_keys:
+                raise ValueError("Unrecognized key in field props !")
+        return value
+
+
+class CashoutInfoField(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
+    """
+    This is cashout_info field from get_comment_pending_payouts response
+    """
+
+    total_vote_weight: HiveInt
+    total_payout_value: AssetHbd
+    curator_payout_value: AssetHbd
+    max_accepted_payout: AssetHbd
+    author_rewards: HiveInt
+    children_abs_rshares: HiveInt
+    net_rshares: HiveInt
+    abs_rshares: HiveInt
+    vote_rshares: HiveInt
+    net_votes: HiveInt
+    last_payout: HiveDateTime
+    cashout_time: HiveDateTime
+    max_cashout_time: HiveDateTime
+    percent_hbd: HiveInt
+    reward_weight: HiveInt
+    allow_replies: bool
+    allow_votes: bool
+    allow_curation_rewards: bool
+    was_voted_on: bool
+
+
+class GetCommentPendingPayoutsFundament(PreconfiguredBaseModel):
+    author: AccountName
+    permlink: Permlink
+    cashout_info: CashoutInfoField[AssetHbdNai]
