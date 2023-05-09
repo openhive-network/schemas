@@ -9,7 +9,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
-from pydantic import ConstrainedInt, ConstrainedStr, PrivateAttr, validator
+from pydantic import ConstrainedInt, ConstrainedStr, Field, PrivateAttr, validator
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_constants import HBD_INTEREST_RATE, MAXIMUM_BLOCK_SIZE
@@ -205,12 +205,26 @@ class CustomIdType(int):
         return int(v)
 
 
-class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd, AssetHive]):
+class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+    """
+    Field similar to price, but just base can be Hive or Hbd. Quote must be Hive.
+    To choose format of Assets you can do it like in Price field:
+    Legacy -> HbdExchangeRate[AssetHiveLegacy, AssetHbdLegacy](parameters)
+    Nai -> HbdExchangeRate[AssetHiveNai, AssetNaiHbd](parameters)
+    Here Hive also must be first parameter of generic
+    """
+
     base: AssetHive | AssetHbd
     quote: AssetHive
 
 
 class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+    """
+    You can choose of Asset format for this field, to do it:
+    Legacy -> LegacyChainProperties[AssetHiveLegacy](parameters)
+    Nai -> LegacyChainProperties[AssetHiveNai](parameters)
+    """
+
     account_creation_fee: AssetHive
     maximum_block_size: Uint32t = Uint32t(MAXIMUM_BLOCK_SIZE)
     hbd_interest_rate: Uint16t = Uint16t(HBD_INTEREST_RATE)
@@ -227,5 +241,27 @@ class DelayedVotes(PreconfiguredBaseModel):
 
 
 class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+    """
+    Valid structure for Price field is:
+    base: Hive quote: Hbd or base: Hbd quote: Hive
+    You can choose format of Assets, to choose legacy format -> Price[AssetHiveLegacy, AssetHbdLegacy](parameters).
+    For Nai format -> Price[AssetHiveNai, AssetHbdNai].
+    Remember that Hive must be first parameter of generic !
+    """
+
     base: AssetHive | AssetHbd
     quote: AssetHive | AssetHbd
+
+
+class Proposal(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
+    id_: HiveInt = Field(..., alias="id")
+    proposal_id: HiveInt
+    creator: AccountName
+    receiver: AccountName
+    start_date: HiveDateTime
+    end_date: HiveDateTime
+    daily_pay: AssetHbd
+    subject: str
+    permlink: str
+    total_votes: HiveInt
+    status: str
