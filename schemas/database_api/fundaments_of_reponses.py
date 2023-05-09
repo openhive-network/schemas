@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Generic
 
-from pydantic import Field, Json, validator
+from pydantic import Field, Json
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_schemas import (
@@ -15,6 +15,7 @@ from schemas.__private.hive_fields_schemas import (
     Authority,
     DelayedVotes,
     EmptyString,
+    FloatAsString,
     HardforkVersion,
     HbdExchangeRate,
     HiveDateTime,
@@ -22,6 +23,8 @@ from schemas.__private.hive_fields_schemas import (
     Manabar,
     Permlink,
     Price,
+    Proposal,
+    Props,
     PublicKey,
     Sha256,
 )
@@ -162,7 +165,9 @@ class FindDeclineVotingRightsRequestsFundament(PreconfiguredBaseModel):
     effective_date: HiveDateTime
 
 
-class FindEscrowsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class EscrowsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+    """Fundament class for list_escrows and find_escrows API responses"""
+
     id_: HiveInt = Field(..., alias="id")
     escrow_id: HiveInt
     from_: AccountName = Field(..., alias="from")
@@ -178,7 +183,9 @@ class FindEscrowsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHi
     disputed: bool
 
 
-class FindHbdConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
+class HbdConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
+    """Fundament class for find_hbd_convertion_requests and list_hbd_conversion_requests"""
+
     id_: HiveInt = Field(..., alias="id")
     owner: AccountName
     requestid: HiveInt
@@ -186,7 +193,9 @@ class FindHbdConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, G
     conversion_date: HiveDateTime
 
 
-class FindLimitOrdersFundament(PreconfiguredBaseModel):
+class LimitOrdersFundament(PreconfiguredBaseModel):
+    """Fundament class for find_limit_orders and list_limit_orders API responses"""
+
     id_: HiveInt = Field(..., alias="id")
     created: HiveDateTime
     expiration: HiveDateTime
@@ -196,7 +205,9 @@ class FindLimitOrdersFundament(PreconfiguredBaseModel):
     sell_price: Price[AssetHiveNai, AssetHbdNai]
 
 
-class FindOwnerHistoriesFundament(PreconfiguredBaseModel):
+class OwnerHistoriesFundament(PreconfiguredBaseModel):
+    """Fundament class for find_owner_histories and list_owner_histories API response"""
+
     id_: HiveInt = Field(..., alias="id")
     account: AccountName
     previous_owner_authority: Authority
@@ -215,7 +226,9 @@ class FindRecurrentTransfersFundament(PreconfiguredBaseModel, GenericModel, Gene
     remaining_executions: HiveInt
 
 
-class FindSavingsWithdrawalsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class SavingsWithdrawalsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+    """Fundament class for find_savings_withdrawals and list_savings_withdrawals"""
+
     id_: HiveInt = Field(..., alias="id")
     from_: AccountName = Field(..., alias="from")
     to: AccountName
@@ -225,14 +238,18 @@ class FindSavingsWithdrawalsFundament(PreconfiguredBaseModel, GenericModel, Gene
     complete: HiveDateTime
 
 
-class FindVestingDelegationExpirationsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
+class VestingDelegationExpirationsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
+    """Fundament class for find_vesting_delegation_expirations and list_vesting_delegation_expirations"""
+
     id_: HiveInt = Field(..., alias="id")
     delegator: AccountName
     vesting_shares: AssetVests
     expiration: HiveDateTime
 
 
-class FindVestingDelegationsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
+class VestingDelegationsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
+    """Fundament class for find_vesting_delegation and list_vesting_delegation"""
+
     id_: HiveInt = Field(..., alias="id")
     delegator: AccountName
     delegatee: AccountName
@@ -240,7 +257,9 @@ class FindVestingDelegationsFundament(PreconfiguredBaseModel, GenericModel, Gene
     min_delegation_time: HiveDateTime
 
 
-class FindWithdrawVestingRoutesFundament(PreconfiguredBaseModel):
+class WithdrawVestingRoutesFundament(PreconfiguredBaseModel):
+    """Fundament class for find_withdraw_vesting_routes and list_withdraw_vesting_routes"""
+
     id_: HiveInt = Field(..., alias="id")
     from_account: AccountName
     to_account: AccountName
@@ -248,7 +267,9 @@ class FindWithdrawVestingRoutesFundament(PreconfiguredBaseModel):
     auto_vest: bool
 
 
-class FindWitnessFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+class WitnessesFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+    """Fundament class for find_witnesses and list_witnesses API responses"""
+
     id_: HiveInt = Field(..., alias="id")
     owner: AccountName
     created: HiveDateTime
@@ -262,7 +283,7 @@ class FindWitnessFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHi
     last_confirmed_block_num: HiveInt
     pow_worker: HiveInt
     signing_key: PublicKey
-    props: dict[str, AssetHive | HiveInt]
+    props: Props[AssetHiveNai]
     hbd_exchange_rate: HbdExchangeRate[AssetHiveNai, AssetHbdNai]
     last_hbd_exchange_update: HiveDateTime
     last_work: Sha256
@@ -270,21 +291,6 @@ class FindWitnessFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHi
     hardfork_version_vote: HardforkVersion
     hardfork_time_vote: HiveDateTime
     available_witness_account_subsidies: HiveInt
-
-    @validator("props")
-    @classmethod
-    def check_props(cls, value: dict[str, AssetHiveNai | HiveInt]) -> dict[str, AssetHiveNai | HiveInt]:
-        allowed_keys = [
-            "account_creation_fee",
-            "maximum_block_size",
-            "hbd_interest_rate",
-            "account_subsidy_budget",
-            "account_subsidy_decay",
-        ]
-        for key in value:
-            if key not in allowed_keys:
-                raise ValueError("Unrecognized key in field props !")
-        return value
 
 
 class CashoutInfoField(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
@@ -317,3 +323,118 @@ class GetCommentPendingPayoutsFundament(PreconfiguredBaseModel):
     author: AccountName
     permlink: Permlink
     cashout_info: CashoutInfoField[AssetHbdNai]
+
+
+class GetOrderBookFundament(PreconfiguredBaseModel):
+    """
+    Fundament class for both fields in GetOrderBook
+    """
+
+    order_price: Price[AssetHiveNai, AssetHbdNai]
+    real_price: FloatAsString
+    hive: HiveInt
+    hbd: HiveInt
+    created: HiveDateTime
+
+
+class GetRewardFundsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+    id_: HiveInt = Field(..., alias="id")
+    name: AccountName
+    reward_balance: AssetHive
+    recent_claims: HiveInt
+    last_update: HiveDateTime
+    content_constant: HiveInt
+    percent_curation_rewards: HiveInt
+    percent_content_rewards: HiveInt
+    author_reward_curve: str
+    curation_reward_curve: str
+
+
+class GetWitnessScheduleFutureChangesFundament(PreconfiguredBaseModel):
+    """Fundament class for future_changes field in get_witness_schedule response from API"""
+
+    num_scheduled_witnesses: HiveInt
+    elected_weight: HiveInt
+    timeshare_weight: HiveInt
+    miner_weight: HiveInt
+    witness_pay_normalization_factor: HiveInt
+    median_props: Props[AssetHiveNai]
+
+
+class ListAccountRecoveryRequestsFundament(PreconfiguredBaseModel):
+    id_: HiveInt = Field(..., alias="id")
+    account_to_recover: AccountName
+    new_owner_authority: Authority
+    expires: HiveDateTime
+
+
+class ListChangeRecoveryAccountRequestsFundament(PreconfiguredBaseModel):
+    id_: HiveInt = Field(..., alias="id")
+    account_to_recover: AccountName
+    recovery_account: AccountName | EmptyString
+    effective_on: HiveDateTime
+
+
+class ListCollateralizedConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+    id_: HiveInt = Field(..., alias="id")
+    owner: AccountName
+    requestid: HiveInt
+    collateral_amount: AssetHive
+    converted_amount: AssetHbd
+    conversion_date: HiveDateTime
+
+
+class ListCommentsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
+    active: HiveDateTime
+    author_rewards: HiveInt
+    id_: HiveInt = Field(..., alias="id")
+    author: AccountName
+    permlink: Permlink
+    category: str
+    title: str
+    body: str
+    json_metadata: Json[Any] | EmptyString
+    created: HiveDateTime
+    last_update: HiveDateTime
+    depth: HiveInt
+    children: HiveInt
+    last_payout: HiveDateTime
+    cashout_time: HiveDateTime
+    max_cashout_time: HiveDateTime
+    curator_payout_value: AssetHbd
+    total_payout_value: AssetHbd
+    reward_weight: HiveInt
+    root_author: AccountName
+    root_permlink: Permlink
+    allow_replies: bool
+    allow_votes: bool
+    allow_curation_rewards: bool
+    parent_author: AccountName
+    parent_permlink: Permlink
+    beneficiaries: list[str]
+    max_accepted_payout: AssetHbd
+    percent_hbd: HiveInt
+    net_votes: HiveInt
+    total_vote_weight: HiveInt
+    vote_rshares: HiveInt
+    net_rshares: HiveInt
+    abs_rshares: HiveInt
+    children_abs_rshares: HiveInt
+
+
+class ListDeclineVotingRightsRequestsFundament(PreconfiguredBaseModel):
+    id_: HiveInt = Field(..., alias="id")
+    account: AccountName
+    effective_date: HiveDateTime
+
+
+class ListProposalVotesFundament(PreconfiguredBaseModel):
+    id_: HiveInt = Field(..., alias="id")
+    voter: AccountName
+    proposal: Proposal[AssetHbdNai]
+
+
+class ListWitnessVotesFundament(PreconfiguredBaseModel):
+    id_: HiveInt = Field(..., alias="id")
+    witness: AccountName
+    account: AccountName
