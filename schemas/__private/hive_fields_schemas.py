@@ -265,3 +265,20 @@ class Proposal(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
     permlink: str
     total_votes: HiveInt
     status: str
+
+
+class Hex(ConstrainedStr):
+    regex = re.compile(r"^[0-9a-fA-F]*$")
+
+
+class Sha256(Hex):
+    min_length = 64
+    max_length = 64
+
+
+class HardforkVersion(ConstrainedStr):
+    regex = re.compile(r"^\d+\.\d+\.\d+$")
+
+
+class Permlink(ConstrainedStr):
+    max_length = 256
