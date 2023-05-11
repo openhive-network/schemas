@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import TYPE_CHECKING, Any
 
 from pydantic import BaseModel, Extra, create_model
@@ -33,8 +34,10 @@ class PreconfiguredBaseModel(BaseModel):
         models_as_dict: bool = True,
         **dumps_kwargs: Any,
     ) -> str:
+        name = self.__repr_name__()
+        name = re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
         value = {
-            "type": self.__repr_name__().lower(),
+            "type": name,
             "value": super().json(
                 include=include,
                 exclude=exclude,
