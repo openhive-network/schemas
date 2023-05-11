@@ -80,10 +80,25 @@ class Authority(PreconfiguredBaseModel):
     key_auths: list[tuple[PublicKey, HiveInt]]
 
 
+class AssetNaiAmount(HiveInt):
+    """
+    Amount in nai have to be serialized as str, to be properly recognized by c++
+    """
+
+    @classmethod
+    def __get_validators__(cls) -> CallableGenerator:
+        yield from super().__get_validators__()
+        yield cls.__stringify
+
+    @classmethod
+    def __stringify(cls, value: int | str) -> str:
+        return str(value)
+
+
 class AssetNai(PreconfiguredBaseModel, ABC):
     """Base class for all nai asset fields"""
 
-    amount: HiveInt
+    amount: AssetNaiAmount
     precision: HiveInt
     nai: str
 
