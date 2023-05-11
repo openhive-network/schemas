@@ -1,17 +1,13 @@
 from __future__ import annotations
 
-from typing import Generic, Literal
+from typing import Literal
 
 from pydantic import Field
-from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_schemas import (
     AccountName,
-    AssetHbd,
     AssetHbdNai,
-    AssetHive,
     AssetHiveNai,
-    AssetVests,
     AssetVestsNai,
     EmptyString,
     HardforkVersion,
@@ -63,7 +59,7 @@ class FindAccountRecoveryRequests(PreconfiguredBaseModel):
 
 
 class FindAccounts(PreconfiguredBaseModel):
-    accounts: list[AccountItemFundament[AssetHiveNai, AssetHbdNai, AssetVestsNai]]
+    accounts: list[AccountItemFundament]
 
 
 class FindChangeRecoveryAccountRequests(PreconfiguredBaseModel):
@@ -71,11 +67,11 @@ class FindChangeRecoveryAccountRequests(PreconfiguredBaseModel):
 
 
 class FindCollateralizedConversionRequests(PreconfiguredBaseModel):
-    requests: list[FindCollateralizedConversionRequestsFundament[AssetHiveNai, AssetHbdNai]]
+    requests: list[FindCollateralizedConversionRequestsFundament]
 
 
 class FindComments(PreconfiguredBaseModel):
-    comments: list[FindCommentsFundament[AssetHbdNai]]
+    comments: list[FindCommentsFundament]
 
 
 class FindDeclineVotingRightsRequests(PreconfiguredBaseModel):
@@ -83,11 +79,11 @@ class FindDeclineVotingRightsRequests(PreconfiguredBaseModel):
 
 
 class FindEscrows(PreconfiguredBaseModel):
-    escrows: list[EscrowsFundament[AssetHiveNai, AssetHbdNai]]
+    escrows: list[EscrowsFundament]
 
 
 class FindHbdConversionRequests(PreconfiguredBaseModel):
-    requests: list[HbdConversionRequestsFundament[AssetHbdNai]]
+    requests: list[HbdConversionRequestsFundament]
 
 
 class FindLimitOrders(PreconfiguredBaseModel):
@@ -108,19 +104,19 @@ class FindProposals(PreconfiguredBaseModel):
 
 
 class FindRecurrentTransfers(PreconfiguredBaseModel):
-    recurrent_transfers: list[FindRecurrentTransfersFundament[AssetHiveNai]]
+    recurrent_transfers: list[FindRecurrentTransfersFundament]
 
 
 class FindSavingsWithdrawals(PreconfiguredBaseModel):
-    withdrawals: list[SavingsWithdrawalsFundament[AssetHiveNai, AssetHbdNai]]
+    withdrawals: list[SavingsWithdrawalsFundament]
 
 
 class FindVestingDelegationExpirations(PreconfiguredBaseModel):
-    delegations: list[VestingDelegationExpirationsFundament[AssetVestsNai]]
+    delegations: list[VestingDelegationExpirationsFundament]
 
 
 class FindVestingDelegations(PreconfiguredBaseModel):
-    delegations: list[VestingDelegationsFundament[AssetVestsNai]]
+    delegations: list[VestingDelegationsFundament]
 
 
 class FindWithdrawVestingRoutes(PreconfiguredBaseModel):
@@ -128,7 +124,7 @@ class FindWithdrawVestingRoutes(PreconfiguredBaseModel):
 
 
 class FindWitnesses(PreconfiguredBaseModel):
-    witnesses: list[WitnessesFundament[AssetHiveNai]]
+    witnesses: list[WitnessesFundament]
 
 
 class GetActiveWitnesses(PreconfiguredBaseModel):
@@ -145,7 +141,7 @@ class GetCommentPendingPayouts(PreconfiguredBaseModel):
     cashout_infos: list[GetCommentPendingPayoutsFundament]
 
 
-class GetConfig(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class GetConfig(PreconfiguredBaseModel):
     """
     This response includes just one dict, so also doesn't need fundament class
     To use this class choose type of Assets so:
@@ -268,20 +264,20 @@ class GetConfig(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHb
     HIVE_CREATE_ACCOUNT_WITH_HIVE_MODIFIER: HiveInt
     HIVE_CREATE_ACCOUNT_DELEGATION_RATIO: HiveInt
     HIVE_CREATE_ACCOUNT_DELEGATION_TIME: HiveInt
-    HIVE_MINING_REWARD: AssetHive
+    HIVE_MINING_REWARD: AssetHiveNai
     HIVE_EQUIHASH_N: HiveInt
     HIVE_EQUIHASH_K: HiveInt
     HIVE_LIQUIDITY_TIMEOUT_SEC: HiveInt
     HIVE_MIN_LIQUIDITY_REWARD_PERIOD_SEC: HiveInt
     HIVE_LIQUIDITY_REWARD_PERIOD_SEC: HiveInt
     HIVE_LIQUIDITY_REWARD_BLOCKS: HiveInt
-    HIVE_MIN_LIQUIDITY_REWARD: AssetHive
-    HIVE_MIN_CONTENT_REWARD: AssetHive
-    HIVE_MIN_CURATE_REWARD: AssetHive
-    HIVE_MIN_PRODUCER_REWARD: AssetHive
-    HIVE_MIN_POW_REWARD: AssetHive
-    HIVE_ACTIVE_CHALLENGE_FEE: AssetHive
-    HIVE_OWNER_CHALLENGE_FEE: AssetHive
+    HIVE_MIN_LIQUIDITY_REWARD: AssetHiveNai
+    HIVE_MIN_CONTENT_REWARD: AssetHiveNai
+    HIVE_MIN_CURATE_REWARD: AssetHiveNai
+    HIVE_MIN_PRODUCER_REWARD: AssetHiveNai
+    HIVE_MIN_POW_REWARD: AssetHiveNai
+    HIVE_ACTIVE_CHALLENGE_FEE: AssetHiveNai
+    HIVE_OWNER_CHALLENGE_FEE: AssetHiveNai
     HIVE_ACTIVE_CHALLENGE_COOLDOWN: HiveInt
     HIVE_OWNER_CHALLENGE_COOLDOWN: HiveInt
     HIVE_POST_REWARD_FUND_NAME: str
@@ -300,7 +296,7 @@ class GetConfig(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHb
     HIVE_LIQUIDITY_APR_PERCENT: HiveInt
     HIVE_PRODUCER_APR_PERCENT: HiveInt
     HIVE_POW_APR_PERCENT: HiveInt
-    HIVE_MIN_PAYOUT_HBD: AssetHbd
+    HIVE_MIN_PAYOUT_HBD: AssetHbdNai
     HIVE_HBD_START_PERCENT_HF14: HiveInt
     HIVE_HBD_STOP_PERCENT_HF14: HiveInt
     HIVE_HBD_START_PERCENT_HF20: HiveInt
@@ -407,7 +403,7 @@ class GetCurrentPriceFeed(Price[AssetHiveNai, AssetHbdNai]):
     """
 
 
-class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
+class GetDynamicGlobalProperties(PreconfiguredBaseModel):
     """
     This class doesn't need fundament class
     Required to choose Asset format by generic when create instance
@@ -416,9 +412,9 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[A
     available_account_subsidies: HiveInt
     content_reward_percent: HiveInt
     current_aslot: HiveInt
-    current_hbd_supply: AssetHbd
+    current_hbd_supply: AssetHbdNai
     current_remove_threshold: HiveInt
-    current_supply: AssetHive
+    current_supply: AssetHiveNai
     current_witness: AccountName
     delegation_return_period: HiveInt
     downvote_pool_percent: HiveInt
@@ -430,7 +426,7 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[A
     head_block_id: TransactionId
     head_block_number: HiveInt
     id_: HiveInt = Field(..., alias="id")
-    init_hbd_supply: AssetHbd
+    init_hbd_supply: AssetHbdNai
     last_budget_time: HiveDateTime
     last_irreversible_block_num: HiveInt
     max_consecutive_recurrent_transfer_failures: HiveInt
@@ -443,27 +439,27 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[A
     next_maintenance_time: HiveDateTime
     num_pow_witnesses: HiveDateTime
     participation_count: HiveDateTime
-    pending_rewarded_vesting_hive: AssetHive
-    pending_rewarded_vesting_shares: AssetVests
+    pending_rewarded_vesting_hive: AssetHiveNai
+    pending_rewarded_vesting_shares: AssetVestsNai
     recent_slots_filled: HiveInt
     required_actions_partition_percent: HiveInt
     reverse_auction_seconds: HiveInt
     proposal_fund_percent: HiveInt
-    dhf_interval_ledger: AssetHbd
+    dhf_interval_ledger: AssetHbdNai
     time: HiveDateTime
     total_pow: HiveInt
-    total_reward_fund_hive: AssetHive
+    total_reward_fund_hive: AssetHiveNai
     total_reward_shares2: HiveInt
-    total_vesting_fund_hive: AssetHive
-    total_vesting_shares: AssetVests
+    total_vesting_fund_hive: AssetHiveNai
+    total_vesting_shares: AssetVestsNai
     vesting_reward_percent: HiveInt
-    virtual_supply: AssetHive
+    virtual_supply: AssetHiveNai
     vote_power_reserve_rate: HiveInt
 
 
 class GetFeedHistory(PreconfiguredBaseModel):
     """
-    This class doesn't need fundament class. You don't need to choose Asset format
+    This class doesn't need fundament class.
     """
 
     id_: HiveInt = Field(..., alias="id")
@@ -507,7 +503,7 @@ class GetRequiredSignatures(GetPotentialSignatures):
 
 
 class GetRewardFunds(PreconfiguredBaseModel):
-    funds: list[GetRewardFundsFundament[AssetHiveNai]]
+    funds: list[GetRewardFundsFundament]
 
 
 class GetTransactionHex(PreconfiguredBaseModel):
@@ -550,7 +546,7 @@ class ListAccountRecoveryRequests(PreconfiguredBaseModel):
 
 
 class ListAccounts(PreconfiguredBaseModel):
-    accounts: list[AccountItemFundament[AssetHiveNai, AssetHbdNai, AssetVestsNai]]
+    accounts: list[AccountItemFundament]
 
 
 class ListChangeRecoveryAccountRequests(PreconfiguredBaseModel):
@@ -558,11 +554,11 @@ class ListChangeRecoveryAccountRequests(PreconfiguredBaseModel):
 
 
 class ListCollateralizedConversionRequests(PreconfiguredBaseModel):
-    requests: list[ListCollateralizedConversionRequestsFundament[AssetHiveNai, AssetHbdNai]]
+    requests: list[ListCollateralizedConversionRequestsFundament]
 
 
 class ListComments(PreconfiguredBaseModel):
-    comments: list[ListCommentsFundament[AssetHbdNai]]
+    comments: list[ListCommentsFundament]
 
 
 class ListDeclineVotingRightsRequests(PreconfiguredBaseModel):
@@ -570,11 +566,11 @@ class ListDeclineVotingRightsRequests(PreconfiguredBaseModel):
 
 
 class ListEscrows(PreconfiguredBaseModel):
-    escrows: list[EscrowsFundament[AssetHiveNai, AssetHbdNai]]
+    escrows: list[EscrowsFundament]
 
 
 class ListHbdConversionRequests(PreconfiguredBaseModel):
-    requests: list[HbdConversionRequestsFundament[AssetHbdNai]]
+    requests: list[HbdConversionRequestsFundament]
 
 
 class ListLimitOrders(PreconfiguredBaseModel):
@@ -594,15 +590,15 @@ class ListProposals(PreconfiguredBaseModel):
 
 
 class ListSavingsWithdrawals(PreconfiguredBaseModel):
-    withdrawals: list[SavingsWithdrawalsFundament[AssetHiveNai, AssetHbdNai]]
+    withdrawals: list[SavingsWithdrawalsFundament]
 
 
 class ListVestingDelegationExpirations(PreconfiguredBaseModel):
-    delegations: list[VestingDelegationExpirationsFundament[AssetVestsNai]]
+    delegations: list[VestingDelegationExpirationsFundament]
 
 
 class ListVestingDelegations(PreconfiguredBaseModel):
-    delegations: list[VestingDelegationsFundament[AssetVestsNai]]
+    delegations: list[VestingDelegationsFundament]
 
 
 class ListWithdrawVestingRoutes(PreconfiguredBaseModel):
@@ -614,7 +610,7 @@ class ListWitnessVotes(PreconfiguredBaseModel):
 
 
 class ListWitnesses(PreconfiguredBaseModel):
-    witnesses: list[WitnessesFundament[AssetHiveNai]]
+    witnesses: list[WitnessesFundament]
 
 
 class VerifyAccountAuthority(PreconfiguredBaseModel):

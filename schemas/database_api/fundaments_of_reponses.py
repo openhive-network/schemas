@@ -1,17 +1,14 @@
 from __future__ import annotations
 
-from typing import Any, Generic
+from typing import Any
 
 from pydantic import Field, Json
-from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_schemas import (
     AccountName,
-    AssetHbd,
     AssetHbdNai,
-    AssetHive,
     AssetHiveNai,
-    AssetVests,
+    AssetVestsNai,
     Authority,
     DelayedVotes,
     EmptyString,
@@ -38,7 +35,7 @@ class FindAccountRecoveryRequestsFundament(PreconfiguredBaseModel):
     expires: HiveDateTime
 
 
-class AccountItemFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
+class AccountItemFundament(PreconfiguredBaseModel):
     """Base class for FindAccount and ListAccounts"""
 
     id_: HiveInt = Field(..., alias="id")
@@ -64,26 +61,26 @@ class AccountItemFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHi
     can_vote: bool
     voting_manabar: Manabar
     downvote_manabar: Manabar
-    balance: AssetHive
-    savings_balance: AssetHive
-    hbd_balance: AssetHbd
+    balance: AssetHiveNai
+    savings_balance: AssetHiveNai
+    hbd_balance: AssetHbdNai
     hbd_seconds: HiveInt
     hbd_seconds_last_update: HiveDateTime
     hbd_last_interest_payment: HiveDateTime
-    savings_hbd_balance: AssetHbd
+    savings_hbd_balance: AssetHbdNai
     savings_hbd_seconds: HiveInt
     savings_hbd_seconds_last_update: HiveDateTime
     savings_hbd_last_interest_payment: HiveDateTime
     savings_withdraw_requests: HiveInt
-    reward_hbd_balance: AssetHbd
-    reward_hive_balance: AssetHive
-    reward_vesting_balance: AssetVests
-    reward_vesting_hive: AssetHive
-    vesting_shares: AssetVests
-    delegated_vesting_shares: AssetVests
-    received_vesting_shares: AssetVests
-    vesting_withdraw_rate: AssetVests
-    post_voting_power: AssetVests
+    reward_hbd_balance: AssetHbdNai
+    reward_hive_balance: AssetHiveNai
+    reward_vesting_balance: AssetVestsNai
+    reward_vesting_hive: AssetHiveNai
+    vesting_shares: AssetVestsNai
+    delegated_vesting_shares: AssetVestsNai
+    received_vesting_shares: AssetVestsNai
+    vesting_withdraw_rate: AssetVestsNai
+    post_voting_power: AssetVestsNai
     next_vesting_withdrawal: HiveDateTime
     withdrawn: HiveInt
     to_withdraw: HiveInt
@@ -112,16 +109,16 @@ class FindChangeRecoveryAccountRequestsFundament(PreconfiguredBaseModel):
     effective_on: HiveDateTime
 
 
-class FindCollateralizedConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class FindCollateralizedConversionRequestsFundament(PreconfiguredBaseModel):
     id_: HiveInt = Field(..., alias="id")
     owner: AccountName
     request_id: HiveInt
-    collateral_amount: AssetHive
-    converted_amount: AssetHbd
+    collateral_amount: AssetHiveNai
+    converted_amount: AssetHbdNai
     conversion_date: HiveDateTime
 
 
-class FindCommentsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
+class FindCommentsFundament(PreconfiguredBaseModel):
     id_: HiveInt = Field(..., alias="id")
     author: EmptyString
     permlink: EmptyString
@@ -144,13 +141,13 @@ class FindCommentsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetH
     max_cashout_time: HiveDateTime
     total_vote_weight: HiveDateTime
     reward_weight: HiveInt
-    total_payout_value: AssetHbd
-    curator_payout_value: AssetHbd
+    total_payout_value: AssetHbdNai
+    curator_payout_value: AssetHbdNai
     author_rewards: HiveInt
     net_votes: HiveInt
     root_author: EmptyString
     root_permlink: EmptyString
-    max_accepted_payout: AssetHbd
+    max_accepted_payout: AssetHbdNai
     percent_hbd: HiveInt
     allow_replies: bool
     allow_votes: bool
@@ -165,7 +162,7 @@ class FindDeclineVotingRightsRequestsFundament(PreconfiguredBaseModel):
     effective_date: HiveDateTime
 
 
-class EscrowsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class EscrowsFundament(PreconfiguredBaseModel):
     """Fundament class for list_escrows and find_escrows API responses"""
 
     id_: HiveInt = Field(..., alias="id")
@@ -175,21 +172,21 @@ class EscrowsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, 
     agent: AccountName
     ratification_deadline: HiveDateTime
     escrow_expiration: HiveDateTime
-    hbd_balance: AssetHbd
-    hive_balance: AssetHive
-    pending_fee: AssetHbd | AssetHive
+    hbd_balance: AssetHbdNai
+    hive_balance: AssetHiveNai
+    pending_fee: AssetHbdNai | AssetHiveNai
     to_approved: bool
     agent_approved: bool
     disputed: bool
 
 
-class HbdConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
+class HbdConversionRequestsFundament(PreconfiguredBaseModel):
     """Fundament class for find_hbd_convertion_requests and list_hbd_conversion_requests"""
 
     id_: HiveInt = Field(..., alias="id")
     owner: AccountName
     requestid: HiveInt
-    amount: AssetHbd
+    amount: AssetHbdNai
     conversion_date: HiveDateTime
 
 
@@ -214,19 +211,19 @@ class OwnerHistoriesFundament(PreconfiguredBaseModel):
     last_valid_date: HiveDateTime
 
 
-class FindRecurrentTransfersFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+class FindRecurrentTransfersFundament(PreconfiguredBaseModel):
     id_: HiveInt = Field(..., alias="id")
     trigger_date: HiveDateTime
     from_: AccountName = Field(..., alias="from")
     to: AccountName
-    amount: AssetHive
+    amount: AssetHiveNai
     memo: str
     recurrence: HiveInt
     consecutive_failures: HiveInt
     remaining_executions: HiveInt
 
 
-class SavingsWithdrawalsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class SavingsWithdrawalsFundament(PreconfiguredBaseModel):
     """Fundament class for find_savings_withdrawals and list_savings_withdrawals"""
 
     id_: HiveInt = Field(..., alias="id")
@@ -234,26 +231,26 @@ class SavingsWithdrawalsFundament(PreconfiguredBaseModel, GenericModel, Generic[
     to: AccountName
     memo: str
     request_id: HiveInt
-    amount: AssetHive | AssetHbd
+    amount: AssetHiveNai | AssetHbdNai
     complete: HiveDateTime
 
 
-class VestingDelegationExpirationsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
+class VestingDelegationExpirationsFundament(PreconfiguredBaseModel):
     """Fundament class for find_vesting_delegation_expirations and list_vesting_delegation_expirations"""
 
     id_: HiveInt = Field(..., alias="id")
     delegator: AccountName
-    vesting_shares: AssetVests
+    vesting_shares: AssetVestsNai
     expiration: HiveDateTime
 
 
-class VestingDelegationsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
+class VestingDelegationsFundament(PreconfiguredBaseModel):
     """Fundament class for find_vesting_delegation and list_vesting_delegation"""
 
     id_: HiveInt = Field(..., alias="id")
     delegator: AccountName
     delegatee: AccountName
-    vesting_shares: AssetVests
+    vesting_shares: AssetVestsNai
     min_delegation_time: HiveDateTime
 
 
@@ -267,7 +264,7 @@ class WithdrawVestingRoutesFundament(PreconfiguredBaseModel):
     auto_vest: bool
 
 
-class WitnessesFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+class WitnessesFundament(PreconfiguredBaseModel):
     """Fundament class for find_witnesses and list_witnesses API responses"""
 
     id_: HiveInt = Field(..., alias="id")
@@ -293,15 +290,15 @@ class WitnessesFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive
     available_witness_account_subsidies: HiveInt
 
 
-class CashoutInfoField(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
+class CashoutInfoField(PreconfiguredBaseModel):
     """
     This is cashout_info field from get_comment_pending_payouts response
     """
 
     total_vote_weight: HiveInt
-    total_payout_value: AssetHbd
-    curator_payout_value: AssetHbd
-    max_accepted_payout: AssetHbd
+    total_payout_value: AssetHbdNai
+    curator_payout_value: AssetHbdNai
+    max_accepted_payout: AssetHbdNai
     author_rewards: HiveInt
     children_abs_rshares: HiveInt
     net_rshares: HiveInt
@@ -322,7 +319,7 @@ class CashoutInfoField(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
 class GetCommentPendingPayoutsFundament(PreconfiguredBaseModel):
     author: AccountName
     permlink: Permlink
-    cashout_info: CashoutInfoField[AssetHbdNai]
+    cashout_info: CashoutInfoField
 
 
 class GetOrderBookFundament(PreconfiguredBaseModel):
@@ -337,10 +334,10 @@ class GetOrderBookFundament(PreconfiguredBaseModel):
     created: HiveDateTime
 
 
-class GetRewardFundsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+class GetRewardFundsFundament(PreconfiguredBaseModel):
     id_: HiveInt = Field(..., alias="id")
     name: AccountName
-    reward_balance: AssetHive
+    reward_balance: AssetHiveNai
     recent_claims: HiveInt
     last_update: HiveDateTime
     content_constant: HiveInt
@@ -375,16 +372,16 @@ class ListChangeRecoveryAccountRequestsFundament(PreconfiguredBaseModel):
     effective_on: HiveDateTime
 
 
-class ListCollateralizedConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class ListCollateralizedConversionRequestsFundament(PreconfiguredBaseModel):
     id_: HiveInt = Field(..., alias="id")
     owner: AccountName
     requestid: HiveInt
-    collateral_amount: AssetHive
-    converted_amount: AssetHbd
+    collateral_amount: AssetHiveNai
+    converted_amount: AssetHbdNai
     conversion_date: HiveDateTime
 
 
-class ListCommentsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
+class ListCommentsFundament(PreconfiguredBaseModel):
     active: HiveDateTime
     author_rewards: HiveInt
     id_: HiveInt = Field(..., alias="id")
@@ -401,8 +398,8 @@ class ListCommentsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetH
     last_payout: HiveDateTime
     cashout_time: HiveDateTime
     max_cashout_time: HiveDateTime
-    curator_payout_value: AssetHbd
-    total_payout_value: AssetHbd
+    curator_payout_value: AssetHbdNai
+    total_payout_value: AssetHbdNai
     reward_weight: HiveInt
     root_author: AccountName
     root_permlink: Permlink
@@ -412,7 +409,7 @@ class ListCommentsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetH
     parent_author: AccountName
     parent_permlink: Permlink
     beneficiaries: list[str]
-    max_accepted_payout: AssetHbd
+    max_accepted_payout: AssetHbdNai
     percent_hbd: HiveInt
     net_votes: HiveInt
     total_vote_weight: HiveInt
