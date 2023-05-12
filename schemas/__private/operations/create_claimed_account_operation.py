@@ -5,10 +5,10 @@ from typing import Any
 from pydantic import Json
 
 from schemas.__private.hive_fields_schemas import AccountName, Authority, EmptyString, PublicKey
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.__private.preconfigured_base_model import Operation
 
 
-class CreateClaimedAccountOperation(PreconfiguredBaseModel):
+class CreateClaimedAccountOperation(Operation):
     creator: AccountName
     new_account_name: AccountName
     owner: Authority

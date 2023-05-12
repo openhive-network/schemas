@@ -6,10 +6,10 @@ from pydantic import Field
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_schemas import AccountName, AssetHbd, AssetHive
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.__private.preconfigured_base_model import Operation
 
 
-class TransferOperation(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class TransferOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
     from_: AccountName = Field(..., alias="from")
     to: AccountName
     amount: AssetHive | AssetHbd
