@@ -55,43 +55,43 @@ from schemas.database_api.fundaments_of_reponses import (
 
 
 class FindAccountRecoveryRequests(PreconfiguredBaseModel):
-    requests: list[FindAccountRecoveryRequestsFundament]
+    requests: list[FindAccountRecoveryRequestsFundament] | list[str]
 
 
 class FindAccounts(PreconfiguredBaseModel):
-    accounts: list[AccountItemFundament]
+    accounts: list[AccountItemFundament] | list[str]
 
 
 class FindChangeRecoveryAccountRequests(PreconfiguredBaseModel):
-    requests: list[FindChangeRecoveryAccountRequestsFundament]
+    requests: list[FindChangeRecoveryAccountRequestsFundament] | list[str]
 
 
 class FindCollateralizedConversionRequests(PreconfiguredBaseModel):
-    requests: list[FindCollateralizedConversionRequestsFundament]
+    requests: list[FindCollateralizedConversionRequestsFundament] | list[str]
 
 
 class FindComments(PreconfiguredBaseModel):
-    comments: list[FindCommentsFundament]
+    comments: list[FindCommentsFundament] | list[str]
 
 
 class FindDeclineVotingRightsRequests(PreconfiguredBaseModel):
-    requests: list[FindDeclineVotingRightsRequestsFundament]
+    requests: list[FindDeclineVotingRightsRequestsFundament] | list[str]
 
 
 class FindEscrows(PreconfiguredBaseModel):
-    escrows: list[EscrowsFundament]
+    escrows: list[EscrowsFundament] | list[str]
 
 
 class FindHbdConversionRequests(PreconfiguredBaseModel):
-    requests: list[HbdConversionRequestsFundament]
+    requests: list[HbdConversionRequestsFundament] | list[str]
 
 
 class FindLimitOrders(PreconfiguredBaseModel):
-    orders: list[LimitOrdersFundament]
+    orders: list[LimitOrdersFundament] | list[str]
 
 
 class FindOwnerHistories(PreconfiguredBaseModel):
-    owner_auths: list[OwnerHistoriesFundament]
+    owner_auths: list[OwnerHistoriesFundament] | list[str]
 
 
 class FindProposals(PreconfiguredBaseModel):
@@ -100,31 +100,31 @@ class FindProposals(PreconfiguredBaseModel):
     Fundament of this response is field Proposal
     """
 
-    proposals: list[Proposal[AssetHbdNai]]
+    proposals: list[Proposal[AssetHbdNai]] | list[str]
 
 
 class FindRecurrentTransfers(PreconfiguredBaseModel):
-    recurrent_transfers: list[FindRecurrentTransfersFundament]
+    recurrent_transfers: list[FindRecurrentTransfersFundament] | list[str]
 
 
 class FindSavingsWithdrawals(PreconfiguredBaseModel):
-    withdrawals: list[SavingsWithdrawalsFundament]
+    withdrawals: list[SavingsWithdrawalsFundament] | list[str]
 
 
 class FindVestingDelegationExpirations(PreconfiguredBaseModel):
-    delegations: list[VestingDelegationExpirationsFundament]
+    delegations: list[VestingDelegationExpirationsFundament] | list[str]
 
 
 class FindVestingDelegations(PreconfiguredBaseModel):
-    delegations: list[VestingDelegationsFundament]
+    delegations: list[VestingDelegationsFundament] | list[str]
 
 
 class FindWithdrawVestingRoutes(PreconfiguredBaseModel):
-    routes: list[WithdrawVestingRoutesFundament]
+    routes: list[WithdrawVestingRoutesFundament] | list[str]
 
 
 class FindWitnesses(PreconfiguredBaseModel):
-    witnesses: list[WitnessesFundament]
+    witnesses: list[WitnessesFundament] | list[str]
 
 
 class GetActiveWitnesses(PreconfiguredBaseModel):
@@ -138,7 +138,7 @@ class GetActiveWitnesses(PreconfiguredBaseModel):
 
 
 class GetCommentPendingPayouts(PreconfiguredBaseModel):
-    cashout_infos: list[GetCommentPendingPayoutsFundament]
+    cashout_infos: list[GetCommentPendingPayoutsFundament] | list[str]
 
 
 class GetConfig(PreconfiguredBaseModel):
@@ -406,7 +406,6 @@ class GetCurrentPriceFeed(Price[AssetHiveNai, AssetHbdNai]):
 class GetDynamicGlobalProperties(PreconfiguredBaseModel):
     """
     This class doesn't need fundament class
-    Required to choose Asset format by generic when create instance
     """
 
     available_account_subsidies: HiveInt
@@ -484,8 +483,8 @@ class GetHardforkProperties(PreconfiguredBaseModel):
 
 
 class GetOrderBook(PreconfiguredBaseModel):
-    asks: list[GetOrderBookFundament]
-    bids: list[GetOrderBookFundament]
+    asks: list[GetOrderBookFundament] | list[str]
+    bids: list[GetOrderBookFundament] | list[str]
 
 
 class GetPotentialSignatures(PreconfiguredBaseModel):
@@ -493,7 +492,7 @@ class GetPotentialSignatures(PreconfiguredBaseModel):
     This response is a list of keys, so doesn't need fundament class
     """
 
-    keys: list[PublicKey]
+    keys: list[PublicKey] | list[str]
 
 
 class GetRequiredSignatures(GetPotentialSignatures):
@@ -503,7 +502,7 @@ class GetRequiredSignatures(GetPotentialSignatures):
 
 
 class GetRewardFunds(PreconfiguredBaseModel):
-    funds: list[GetRewardFundsFundament]
+    funds: list[GetRewardFundsFundament] | list[str]
 
 
 class GetTransactionHex(PreconfiguredBaseModel):
@@ -542,75 +541,75 @@ class IsKnownTransaction(PreconfiguredBaseModel):
 
 
 class ListAccountRecoveryRequests(PreconfiguredBaseModel):
-    requests: list[ListAccountRecoveryRequestsFundament]
+    requests: list[ListAccountRecoveryRequestsFundament] | list[str]
 
 
 class ListAccounts(PreconfiguredBaseModel):
-    accounts: list[AccountItemFundament]
+    accounts: list[AccountItemFundament] | list[str]
 
 
 class ListChangeRecoveryAccountRequests(PreconfiguredBaseModel):
-    requests: list[ListChangeRecoveryAccountRequestsFundament]
+    requests: list[ListChangeRecoveryAccountRequestsFundament] | list[str]
 
 
 class ListCollateralizedConversionRequests(PreconfiguredBaseModel):
-    requests: list[ListCollateralizedConversionRequestsFundament]
+    requests: list[ListCollateralizedConversionRequestsFundament] | list[str]
 
 
 class ListComments(PreconfiguredBaseModel):
-    comments: list[ListCommentsFundament]
+    comments: list[ListCommentsFundament] | list[str]
 
 
 class ListDeclineVotingRightsRequests(PreconfiguredBaseModel):
-    requests: list[ListDeclineVotingRightsRequestsFundament]
+    requests: list[ListDeclineVotingRightsRequestsFundament] | list[str]
 
 
 class ListEscrows(PreconfiguredBaseModel):
-    escrows: list[EscrowsFundament]
+    escrows: list[EscrowsFundament] | list[str]
 
 
 class ListHbdConversionRequests(PreconfiguredBaseModel):
-    requests: list[HbdConversionRequestsFundament]
+    requests: list[HbdConversionRequestsFundament] | list[str]
 
 
 class ListLimitOrders(PreconfiguredBaseModel):
-    orders: list[LimitOrdersFundament]
+    orders: list[LimitOrdersFundament] | list[str]
 
 
 class ListOwnerHistories(PreconfiguredBaseModel):
-    owner_auths: list[OwnerHistoriesFundament]
+    owner_auths: list[OwnerHistoriesFundament] | list[str]
 
 
 class ListProposalVotes(PreconfiguredBaseModel):
-    proposal_votes: list[ListProposalVotesFundament]
+    proposal_votes: list[ListProposalVotesFundament] | list[str]
 
 
 class ListProposals(PreconfiguredBaseModel):
-    proposals: list[Proposal[AssetHbdNai]]
+    proposals: list[Proposal[AssetHbdNai]] | list[str]
 
 
 class ListSavingsWithdrawals(PreconfiguredBaseModel):
-    withdrawals: list[SavingsWithdrawalsFundament]
+    withdrawals: list[SavingsWithdrawalsFundament] | list[str]
 
 
 class ListVestingDelegationExpirations(PreconfiguredBaseModel):
-    delegations: list[VestingDelegationExpirationsFundament]
+    delegations: list[VestingDelegationExpirationsFundament] | list[str]
 
 
 class ListVestingDelegations(PreconfiguredBaseModel):
-    delegations: list[VestingDelegationsFundament]
+    delegations: list[VestingDelegationsFundament] | list[str]
 
 
 class ListWithdrawVestingRoutes(PreconfiguredBaseModel):
-    routes: list[WithdrawVestingRoutesFundament]
+    routes: list[WithdrawVestingRoutesFundament] | list[str]
 
 
 class ListWitnessVotes(PreconfiguredBaseModel):
-    votes: list[ListWitnessVotesFundament]
+    votes: list[ListWitnessVotesFundament] | list[str]
 
 
 class ListWitnesses(PreconfiguredBaseModel):
-    witnesses: list[WitnessesFundament]
+    witnesses: list[WitnessesFundament] | list[str]
 
 
 class VerifyAccountAuthority(PreconfiguredBaseModel):
