@@ -436,8 +436,8 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel):
     min_recurrent_transfers_recurrence: HiveInt
     next_daily_maintenance_time: HiveDateTime
     next_maintenance_time: HiveDateTime
-    num_pow_witnesses: HiveDateTime
-    participation_count: HiveDateTime
+    num_pow_witnesses: HiveInt
+    participation_count: HiveInt
     pending_rewarded_vesting_hive: AssetHiveNai
     pending_rewarded_vesting_shares: AssetVestsNai
     recent_slots_filled: HiveInt
