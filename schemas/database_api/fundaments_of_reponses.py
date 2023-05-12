@@ -196,7 +196,7 @@ class LimitOrdersFundament(PreconfiguredBaseModel):
     id_: HiveInt = Field(..., alias="id")
     created: HiveDateTime
     expiration: HiveDateTime
-    seller: AccountName
+    seller: AccountName | EmptyString
     orderid: HiveInt
     for_sale: HiveInt
     sell_price: Price[AssetHiveNai, AssetHbdNai]
@@ -208,7 +208,7 @@ class OwnerHistoriesFundament(PreconfiguredBaseModel):
     id_: HiveInt = Field(..., alias="id")
     account: AccountName
     previous_owner_authority: Authority
-    last_valid_date: HiveDateTime
+    last_valid_time: HiveDateTime
 
 
 class FindRecurrentTransfersFundament(PreconfiguredBaseModel):
@@ -248,8 +248,8 @@ class VestingDelegationsFundament(PreconfiguredBaseModel):
     """Fundament class for find_vesting_delegation and list_vesting_delegation"""
 
     id_: HiveInt = Field(..., alias="id")
-    delegator: AccountName
-    delegatee: AccountName
+    delegator: AccountName | EmptyString
+    delegatee: AccountName | EmptyString
     vesting_shares: AssetVestsNai
     min_delegation_time: HiveDateTime
 
@@ -382,7 +382,6 @@ class ListCollateralizedConversionRequestsFundament(PreconfiguredBaseModel):
 
 
 class ListCommentsFundament(PreconfiguredBaseModel):
-    active: HiveDateTime
     author_rewards: HiveInt
     id_: HiveInt = Field(..., alias="id")
     author: AccountName
@@ -406,7 +405,7 @@ class ListCommentsFundament(PreconfiguredBaseModel):
     allow_replies: bool
     allow_votes: bool
     allow_curation_rewards: bool
-    parent_author: AccountName
+    parent_author: AccountName | EmptyString
     parent_permlink: Permlink
     beneficiaries: list[str]
     max_accepted_payout: AssetHbdNai
