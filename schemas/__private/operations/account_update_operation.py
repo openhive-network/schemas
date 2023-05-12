@@ -5,10 +5,10 @@ from typing import Any
 from pydantic import Json
 
 from schemas.__private.hive_fields_schemas import AccountName, Authority, EmptyString, PublicKey
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.__private.preconfigured_base_model import Operation
 
 
-class AccountUpdateOperation(PreconfiguredBaseModel):
+class AccountUpdateOperation(Operation):
     account: AccountName
     owner: Authority | None = None
     active: Authority | None = None

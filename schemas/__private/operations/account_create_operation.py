@@ -6,10 +6,10 @@ from pydantic import Json
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_schemas import AccountName, AssetHive, Authority, EmptyString, PublicKey
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.__private.preconfigured_base_model import Operation
 
 
-class AccountCreateOperation(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+class AccountCreateOperation(Operation, GenericModel, Generic[AssetHive]):
     fee: AssetHive
     creator: AccountName
     new_account_name: AccountName

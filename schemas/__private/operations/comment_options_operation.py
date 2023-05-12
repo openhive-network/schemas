@@ -6,13 +6,13 @@ from pydantic.generics import GenericModel
 
 from schemas.__private.hive_constants import HIVE_100_PERCENT
 from schemas.__private.hive_fields_schemas import AccountName, AssetHbd, Uint16t
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.__private.preconfigured_base_model import Operation
 
 DEFAULT_ALLOW_VOTES: Final[bool] = True
 DEFAULT_ALLOW_CURATION_REWARDS: Final[bool] = True
 
 
-class CommentOptionsOperation(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
+class CommentOptionsOperation(Operation, GenericModel, Generic[AssetHbd]):
     author: AccountName
     permlink: str
     max_accepted_payout: AssetHbd

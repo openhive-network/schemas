@@ -10,10 +10,10 @@ from schemas.__private.hive_fields_schemas import (
     HiveDateTime,
     Int64t,
 )
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.__private.preconfigured_base_model import Operation
 
 
-class UpdateProposalOperation(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
+class UpdateProposalOperation(Operation, GenericModel, Generic[AssetHbd]):
     proposal_id: Int64t
     creator: AccountName
     daily_pay: AssetHbd

@@ -5,10 +5,10 @@ from typing import Any
 from pydantic import Field, Json
 
 from schemas.__private.hive_fields_schemas import AccountName, CustomIdType, EmptyString
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.__private.preconfigured_base_model import Operation
 
 
-class CustomJsonOperation(PreconfiguredBaseModel):
+class CustomJsonOperation(Operation):
     required_auths: list[AccountName]
     required_posting_auths: list[AccountName]
     id_: CustomIdType = Field(..., alias="id")
