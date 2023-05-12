@@ -177,8 +177,8 @@ FIND_LIMIT_ORDERS = {
                 },
             }
         ],
-        "id": 1,
     },
+    "id": 1,
 }
 FIND_OWNER_HISTORIES = {"jsonrpc": "2.0", "result": {"owner_auths": []}, "id": 1}
 FIND_SAVINGS_WITHDRAWALS = {"jsonrpc": "2.0", "result": {"withdrawals": []}, "id": 1}
