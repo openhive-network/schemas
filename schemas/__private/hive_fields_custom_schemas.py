@@ -11,6 +11,7 @@ from pydantic import ConstrainedStr, Field
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, AssetHive, HiveDateTime, HiveInt
+from schemas.__private.operations import OperationType
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 
@@ -104,3 +105,14 @@ class RdDynamicParams(PreconfiguredBaseModel):
     max_pool_size: HiveInt
     decay_params: dict[str, HiveInt]
     min_decay: HiveInt
+
+
+class ApiOperationObject(PreconfiguredBaseModel):
+    trx_id: TransactionId
+    block: HiveInt
+    trx_in_block: HiveInt
+    op_in_trx: HiveInt
+    virtual_op: bool
+    operation_id: HiveInt
+    timestamp: HiveDateTime
+    op: dict[str, OperationType]
