@@ -5,7 +5,7 @@ from typing import Final, Generic
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_constants import HIVE_100_PERCENT
-from schemas.__private.hive_fields_schemas import AccountName, AssetHbd, Uint16t
+from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, Uint16t
 from schemas.__private.preconfigured_base_model import Operation
 
 DEFAULT_ALLOW_VOTES: Final[bool] = True

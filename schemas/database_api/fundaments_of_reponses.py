@@ -4,25 +4,27 @@ from typing import Any
 
 from pydantic import Field, Json
 
-from schemas.__private.hive_fields_schemas import (
+from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
     AssetHbdNai,
     AssetHiveNai,
     AssetVestsNai,
     Authority,
-    DelayedVotes,
     EmptyString,
-    FloatAsString,
-    HardforkVersion,
     HbdExchangeRate,
     HiveDateTime,
     HiveInt,
+    PublicKey,
+)
+from schemas.__private.hive_fields_custom_schemas import (
+    DelayedVotes,
+    FloatAsString,
+    HardforkVersion,
     Manabar,
     Permlink,
     Price,
     Proposal,
     Props,
-    PublicKey,
     Sha256,
 )
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
