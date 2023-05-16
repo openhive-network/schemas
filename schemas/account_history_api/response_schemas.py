@@ -27,8 +27,9 @@ class GetTransaction(PreconfiguredBaseModel):
     block_num: HiveInt
     expiration: HiveDateTime
     extensions: list[Any]
-    operations: list[dict[str, OperationType]]
+    operations: list[OperationType]
     ref_block_num: HiveInt
     ref_block_prefix: HiveInt
     signatures: list[Signature]
     transaction_id: TransactionId
+    transaction_num: HiveInt
