@@ -104,7 +104,7 @@ class AccountItemFundament(PreconfiguredBaseModel):
 
 class FindChangeRecoveryAccountRequestsFundament(PreconfiguredBaseModel):
     id_: HiveInt = Field(..., alias="id")
-    account_to_recover: AccountName
+    account_to_recover: AccountName | EmptyString
     recovery_account: AccountName | EmptyString
     effective_on: HiveDateTime
 
@@ -120,13 +120,13 @@ class FindCollateralizedConversionRequestsFundament(PreconfiguredBaseModel):
 
 class FindCommentsFundament(PreconfiguredBaseModel):
     id_: HiveInt = Field(..., alias="id")
-    author: EmptyString
-    permlink: EmptyString
-    category: EmptyString
-    parent_author: EmptyString
-    parent_permlink: EmptyString
-    title: EmptyString
-    body: EmptyString
+    author: AccountName
+    permlink: EmptyString | Permlink
+    category: EmptyString | str
+    parent_author: EmptyString | AccountName
+    parent_permlink: EmptyString | Permlink
+    title: EmptyString | str
+    body: EmptyString | str
     json_metadata: Json[Any] | EmptyString
     last_update: HiveDateTime
     created: HiveDateTime
@@ -139,20 +139,19 @@ class FindCommentsFundament(PreconfiguredBaseModel):
     children_abs_rshares: HiveInt
     cashout_time: HiveDateTime
     max_cashout_time: HiveDateTime
-    total_vote_weight: HiveDateTime
+    total_vote_weight: HiveInt
     reward_weight: HiveInt
     total_payout_value: AssetHbdNai
     curator_payout_value: AssetHbdNai
     author_rewards: HiveInt
     net_votes: HiveInt
-    root_author: EmptyString
-    root_permlink: EmptyString
+    root_author: AccountName | EmptyString
+    root_permlink: Permlink | EmptyString
     max_accepted_payout: AssetHbdNai
     percent_hbd: HiveInt
     allow_replies: bool
     allow_votes: bool
     allow_curation_rewards: bool
-    was_voted_on: bool
     beneficiaries: list[Any]
 
 
@@ -258,8 +257,8 @@ class WithdrawVestingRoutesFundament(PreconfiguredBaseModel):
     """Fundament class for find_withdraw_vesting_routes and list_withdraw_vesting_routes"""
 
     id_: HiveInt = Field(..., alias="id")
-    from_account: AccountName
-    to_account: AccountName
+    from_account: AccountName | EmptyString
+    to_account: AccountName | EmptyString
     percent: HiveInt
     auto_vest: bool
 
@@ -319,7 +318,7 @@ class CashoutInfoField(PreconfiguredBaseModel):
 class GetCommentPendingPayoutsFundament(PreconfiguredBaseModel):
     author: AccountName
     permlink: Permlink
-    cashout_info: CashoutInfoField
+    cashout_info: CashoutInfoField | None
 
 
 class GetOrderBookFundament(PreconfiguredBaseModel):
