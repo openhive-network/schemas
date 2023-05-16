@@ -114,7 +114,7 @@ from tests.test_database_api.reponses_from_api import (
 
 
 @pytest.mark.parametrize(
-    "parameter, schema",
+    "parameters, schema",
     [
         (FIND_PROPOSALS, FindProposals),
         (LIST_ESCROWS, ListEscrows),
@@ -169,6 +169,6 @@ from tests.test_database_api.reponses_from_api import (
         (LIST_PROPOSALS, ListProposals),
     ],
 )
-def test_schemas_of_database_api_responses(parameter: dict[str, Any], schema: Any) -> None:
+def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: Any) -> None:
     # ACT & ASSERT
-    HiveResult.factory(schema, **parameter)
+    HiveResult.factory(schema, **parameters)

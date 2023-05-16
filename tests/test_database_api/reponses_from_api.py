@@ -203,8 +203,8 @@ FIND_VESTING_DELEGATIONS = {
         "delegations": [
             {
                 "id": 0,
-                "delegator": "",
-                "delegatee": "",
+                "delegator": "alice",
+                "delegatee": "bob",
                 "vesting_shares": {"amount": "0", "precision": 6, "nai": "@@000000037"},
                 "min_delegation_time": "2018-02-28T15:36:51",
             }
@@ -299,7 +299,7 @@ FIND_VOTES = {
 }
 FIND_WITHDRAW_VESTING_ROUTES = {
     "jsonrpc": "2.0",
-    "result": {"routes": [{"id": 0, "from_account": "", "to_account": "", "percent": 0, "auto_vest": True}]},
+    "result": {"routes": [{"id": 0, "from_account": "alice", "to_account": "bob", "percent": 0, "auto_vest": True}]},
     "id": 1,
 }
 FIND_WITNESSES = {
