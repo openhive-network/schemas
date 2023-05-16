@@ -2520,3 +2520,11 @@ FIND_RECURRENT_TRANSFERS = {
     },
     "id": 1,
 }
+GET_CURRENT_PRICE_FEED = {
+    "jsonrpc": "2.0",
+    "result": {
+        "base": {"amount": "368", "precision": 3, "nai": "@@000000013"},
+        "quote": {"amount": "1000", "precision": 3, "nai": "@@000000021"},
+    },
+    "id": 1,
+}
