@@ -116,3 +116,8 @@ class ApiOperationObject(PreconfiguredBaseModel):
     operation_id: HiveInt
     timestamp: HiveDateTime
     op: dict[str, OperationType]
+
+
+class Signature(Hex):
+    min_length = 130
+    max_length = 130
