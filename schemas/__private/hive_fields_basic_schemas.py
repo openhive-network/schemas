@@ -6,10 +6,11 @@ from __future__ import annotations
 
 import re
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from datetime import datetime
 from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
-from pydantic import ConstrainedInt, ConstrainedStr, PrivateAttr, validator
+from pydantic import ConstrainedInt, ConstrainedStr, Field, PrivateAttr, StrRegexError, validator
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_constants import HBD_INTEREST_RATE, MAXIMUM_BLOCK_SIZE
@@ -95,91 +96,102 @@ class AssetNaiAmount(HiveInt):
         return str(value)
 
 
-class AssetNai(PreconfiguredBaseModel, ABC):
-    """Base class for all nai asset fields"""
-
-    amount: AssetNaiAmount
+@dataclass
+class AssetInfo:
     precision: HiveInt
     nai: str
+    symbol: tuple[str, str]
 
+
+class AssetBase(ABC):
     @classmethod
     @abstractmethod
-    def get_nai_pattern(cls) -> str:
-        """This method set nai_pattern, which we use to check nai field"""
+    def get_asset_information(cls) -> AssetInfo:
+        """This method returns asset details, which we use to perform checks"""
+
+
+class AssetLegacy(ConstrainedStr, AssetBase):
+    """Base class for all legacy assets"""
 
     @classmethod
-    @abstractmethod
-    def get_precision(cls) -> int:
-        """This method set precision, which we use to check precision field"""
+    def legacy_regex_validator(cls, value: str) -> str:
+        info = cls.get_asset_information()
+        regex = re.compile(r"^\d+\.\d{" + str(info.precision) + r"} (?:" + "|".join(info.symbol) + r")$")
+        if regex.match(value) is None:
+            raise StrRegexError(pattern=cls._get_pattern(regex))
+        return value
+
+    @classmethod
+    def __get_validators__(cls) -> CallableGenerator:
+        yield from super().__get_validators__()
+        yield cls.legacy_regex_validator
+
+
+class AssetNai(PreconfiguredBaseModel, AssetBase):
+    """Base class for all nai asset fields"""
+
+    amount: HiveInt
+    precision: HiveInt
+    nai: str
 
     @validator("nai")
     @classmethod
     def check_nai(cls, value: Any) -> Any:
-        if value != cls.get_nai_pattern():
+        if value != cls.get_asset_information().nai:
             raise ValueError("Invalid nai !")
         return value
 
     @validator("precision")
     @classmethod
     def check_precision(cls, value: int) -> int:
-        if value != cls.get_precision():
+        if value != cls.get_asset_information().precision:
             raise ValueError("Invalid precision")
         return value
 
 
 class AssetHiveNai(AssetNai):
-    precision: HiveInt = HiveInt(3)
-    nai: str = "@@000000021"
+    precision: HiveInt = Field(default_factory=lambda: AssetHiveNai.get_asset_information().precision)
+    nai: str = Field(default_factory=lambda: AssetHiveNai.get_asset_information().nai)
 
     @classmethod
-    def get_nai_pattern(cls) -> str:
-        return "@@000000021"
-
-    @classmethod
-    def get_precision(cls) -> int:
-        return 3
+    def get_asset_information(cls) -> AssetInfo:
+        return AssetInfo(precision=HiveInt(3), nai="@@000000021", symbol=("HIVE", "TESTS"))
 
 
 class AssetHbdNai(AssetNai):
-    precision: HiveInt = HiveInt(3)
-    nai: str = "@@000000013"
+    precision: HiveInt = Field(default_factory=lambda: AssetHbdNai.get_asset_information().precision)
+    nai: str = Field(default_factory=lambda: AssetHbdNai.get_asset_information().nai)
 
     @classmethod
-    def get_nai_pattern(cls) -> str:
-        return "@@000000013"
-
-    @classmethod
-    def get_precision(cls) -> int:
-        return 3
+    def get_asset_information(cls) -> AssetInfo:
+        return AssetInfo(precision=HiveInt(3), nai="@@000000013", symbol=("HBD", "TBD"))
 
 
 class AssetVestsNai(AssetNai):
-    precision: HiveInt = HiveInt(6)
-    nai: str = "@@000000037"
+    precision: HiveInt = Field(default_factory=lambda: AssetVestsNai.get_asset_information().precision)
+    nai: str = Field(default_factory=lambda: AssetVestsNai.get_asset_information().nai)
 
     @classmethod
-    def get_nai_pattern(cls) -> str:
-        return "@@000000037"
-
-    @classmethod
-    def get_precision(cls) -> int:
-        return 6
-
-
-class AssetLegacy(ConstrainedStr, ABC):
-    """Base class for all legacy assets"""
+    def get_asset_information(cls) -> AssetInfo:
+        return AssetInfo(precision=HiveInt(6), nai="@@000000037", symbol=("VESTS", "VESTS"))
 
 
 class AssetHiveLegacy(AssetLegacy):
-    regex = re.compile(r"^[0-9]+\.[0-9]{3} (?:HIVE|TESTS)$")
+    @classmethod
+    def get_asset_information(cls) -> AssetInfo:
+        return AssetHiveNai.get_asset_information()
 
 
 class AssetHbdLegacy(AssetLegacy):
-    regex = re.compile(r"^[0-9]+\.[0-9]{3} (?:HBD|TBD)$")
+    @classmethod
+    def get_asset_information(cls) -> AssetInfo:
+        return AssetHbdNai.get_asset_information()
 
 
 class AssetVestsLegacy(AssetLegacy):
-    regex = re.compile(r"^[0-9]+\.[0-9]{6} VESTS$")
+    @classmethod
+    def get_asset_information(cls) -> AssetInfo:
+        return AssetVestsNai.get_asset_information()
 
 
 AssetHive = TypeVar("AssetHive", AssetHiveNai, AssetHiveLegacy)
