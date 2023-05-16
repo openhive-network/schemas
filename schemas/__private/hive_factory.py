@@ -22,4 +22,8 @@ class HiveResult(GenericModel, Generic[T]):
 
     @staticmethod
     def factory(t: Any, **kwargs: Any) -> HiveResult[T]:
+        """t -> type of response from api, **kwargs -> unpacked parameters got from api.
+        This function is used to return validation on result field, you choose model of result field
+        by generic. Factory return just result field from api.
+        """
         return HiveResult[t](**kwargs)
