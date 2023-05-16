@@ -5,13 +5,12 @@ It is file with fields that are used just in creation models of api responses !
 from __future__ import annotations
 
 import re
-from typing import Generic
+from typing import Any, Generic
 
 from pydantic import ConstrainedStr, Field
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, AssetHive, HiveDateTime, HiveInt
-from schemas.__private.operations import OperationType
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 
@@ -107,6 +106,11 @@ class RdDynamicParams(PreconfiguredBaseModel):
     min_decay: HiveInt
 
 
+class OperationType(PreconfiguredBaseModel):
+    type_: str = Field(..., alias="type")
+    value: dict[str, Any]
+
+
 class ApiOperationObject(PreconfiguredBaseModel):
     trx_id: TransactionId
     block: HiveInt
@@ -115,7 +119,7 @@ class ApiOperationObject(PreconfiguredBaseModel):
     virtual_op: bool
     operation_id: HiveInt
     timestamp: HiveDateTime
-    op: dict[str, OperationType]
+    op: OperationType
 
 
 class Signature(Hex):

@@ -3,15 +3,14 @@ from __future__ import annotations
 from typing import Any
 
 from schemas.__private.hive_fields_basic_schemas import HiveDateTime, HiveInt
-from schemas.__private.hive_fields_custom_schemas import ApiOperationObject, Signature, TransactionId
-from schemas.__private.operations import OperationType
+from schemas.__private.hive_fields_custom_schemas import ApiOperationObject, OperationType, Signature, TransactionId
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament
 
 
 class EnumVirtualOps(PreconfiguredBaseModel):
     ops: list[ApiOperationObject]
-    ops_by_block: list[EnumVirtualOpsFieldFundament]
+    ops_by_block: list[EnumVirtualOpsFieldFundament] | list[str]
     next_block_range_begin: HiveInt
     next_operation_begin: HiveInt
 
