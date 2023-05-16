@@ -30,7 +30,6 @@ from schemas.__private.operations import (
     LimitOrderCancelOperation,
     LimitOrderCreate2Operation,
     LimitOrderCreateOperation,
-    OperationType,
     RecoverAccountOperation,
     RecurrentTransferOperation,
     RemoveProposalOperation,
@@ -99,5 +98,4 @@ __all__ = [
     "WitnessBlockApproveOperation",
     "WitnessSetPropertiesOperation",
     "WitnessUpdateOperation",
-    "OperationType",
 ]
