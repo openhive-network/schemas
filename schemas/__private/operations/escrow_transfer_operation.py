@@ -5,7 +5,7 @@ from typing import Any, Final, Generic
 from pydantic import Field, Json
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_schemas import (
+from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
     AssetHbd,
     AssetHive,

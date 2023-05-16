@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from schemas.__private.hive_fields_schemas import AssetHbdNai, AssetHiveNai, AssetVestsNai
+from schemas.__private.hive_fields_basic_schemas import AssetHbdNai, AssetHiveNai, AssetVestsNai
 from schemas.__private.operations.account_create_operation import (
     AccountCreateOperation as AccountCreateOperationGeneric,
 )
@@ -104,6 +104,55 @@ UpdateProposalOperation = UpdateProposalOperationGeneric[AssetHbdNai]
 WithdrawVestingOperation = WithdrawVestingOperationGeneric[AssetVestsNai]
 WitnessUpdateOperation = WitnessUpdateOperationGeneric[AssetHiveNai]
 
+OperationType = (
+    AccountCreateOperation
+    | AccountUpdate2Operation
+    | AccountUpdateOperation
+    | AccountWitnessProxyOperation
+    | AccountWitnessVoteOperation
+    | CancelTransferFromSavingsOperation
+    | ChangeRecoveryAccountOperation
+    | ClaimAccountOperation
+    | ClaimRewardBalanceOperation
+    | CollateralizedConvertOperation
+    | CommentOperation
+    | CommentOptionsOperation
+    | ConvertOperation
+    | CreateClaimedAccountOperation
+    | CreateProposalOperation
+    | CustomBinaryOperation
+    | CustomJsonOperation
+    | CustomOperation
+    | DeclineVotingRightsOperation
+    | DelegateVestingSharesOperation
+    | DeleteCommentOperation
+    | EscrowApproveOperation
+    | EscrowDisputeOperation
+    | EscrowReleaseOperation
+    | EscrowTransferOperation
+    | FeedPublishOperation
+    | LimitOrderCancelOperation
+    | LimitOrderCreate2Operation
+    | LimitOrderCreateOperation
+    | RecoverAccountOperation
+    | RecurrentTransferOperation
+    | RemoveProposalOperation
+    | RequestAccountRecoveryOperation
+    | ResetAccountOperation
+    | SetResetAccountOperation
+    | SetWithdrawVestingRouteOperation
+    | TransferFromSavingsOperation
+    | TransferOperation
+    | TransferToSavingsOperation
+    | TransferToVestingOperation
+    | UpdateProposalOperation
+    | UpdateProposalVotesOperation
+    | VoteOperation
+    | WithdrawVestingOperation
+    | WitnessBlockApproveOperation
+    | WitnessSetPropertiesOperation
+    | WitnessUpdateOperation
+)
 __all__ = [
     "AccountCreateOperation",
     "AccountUpdate2Operation",
@@ -152,4 +201,5 @@ __all__ = [
     "WitnessBlockApproveOperation",
     "WitnessSetPropertiesOperation",
     "WitnessUpdateOperation",
+    "OperationType",
 ]

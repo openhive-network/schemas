@@ -6,7 +6,7 @@ from typing import Any, Final
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from schemas.__private.hive_fields_schemas import (
+from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
     AssetHbdLegacy,
     AssetHbdNai,

@@ -4,21 +4,23 @@ from typing import Literal
 
 from pydantic import Field
 
-from schemas.__private.hive_fields_schemas import (
+from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
     AssetHbdNai,
     AssetHiveNai,
     AssetVestsNai,
     EmptyString,
-    HardforkVersion,
-    Hex,
     HiveDateTime,
     HiveInt,
+    PublicKey,
+)
+from schemas.__private.hive_fields_custom_schemas import (
+    HardforkVersion,
+    Hex,
     HiveVersion,
     Price,
     Proposal,
     Props,
-    PublicKey,
     RdDynamicParams,
     TransactionId,
 )
