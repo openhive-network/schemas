@@ -130,7 +130,7 @@ class AssetLegacy(ConstrainedStr, AssetBase):
 class AssetNai(PreconfiguredBaseModel, AssetBase):
     """Base class for all nai asset fields"""
 
-    amount: HiveInt
+    amount: AssetNaiAmount
     precision: HiveInt
     nai: str
 
