@@ -247,8 +247,8 @@ class VestingDelegationsFundament(PreconfiguredBaseModel):
     """Fundament class for find_vesting_delegation and list_vesting_delegation"""
 
     id_: HiveInt = Field(..., alias="id")
-    delegator: AccountName | EmptyString
-    delegatee: AccountName | EmptyString
+    delegator: AccountName
+    delegatee: AccountName
     vesting_shares: AssetVestsNai
     min_delegation_time: HiveDateTime
 
@@ -257,8 +257,8 @@ class WithdrawVestingRoutesFundament(PreconfiguredBaseModel):
     """Fundament class for find_withdraw_vesting_routes and list_withdraw_vesting_routes"""
 
     id_: HiveInt = Field(..., alias="id")
-    from_account: AccountName | EmptyString
-    to_account: AccountName | EmptyString
+    from_account: AccountName
+    to_account: AccountName
     percent: HiveInt
     auto_vest: bool
 
