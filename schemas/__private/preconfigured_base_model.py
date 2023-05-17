@@ -6,9 +6,8 @@
 from __future__ import annotations
 
 import re
-from typing import Any
 
-from pydantic import BaseModel, Extra, Field, create_model
+from pydantic import BaseModel, Extra, create_model  # pyright: ignore
 from typing_extensions import Self
 
 
@@ -16,6 +15,7 @@ class PreconfiguredBaseModel(BaseModel):
     class Config:
         extra = Extra.forbid
         allow_population_by_field_name = True
+        smart_union = True
 
     @classmethod
     def as_strict_model(cls, recursively: bool = True) -> type[Self]:
@@ -40,18 +40,14 @@ class PreconfiguredBaseModel(BaseModel):
         return create_model(f"{cls.__name__}Strict", **field_definitions)  # type: ignore
 
 
-class OperationWrapper(BaseModel):
-    """This clas is used to create model of operation in HF26 format"""
-
-    type_: str = Field(..., alias="type")
-    value: dict[str, Any]
-
-
 class Operation(PreconfiguredBaseModel):
     """Base class for all operations to provide valid json serialization"""
 
-    def get_name(self) -> str:
+    @classmethod
+    def get_class_name(cls) -> str:
+        return cls.__name__.split("[")[0]
+
+    @classmethod
+    def get_name(cls) -> str:
         """conversion name of operation from CamelCase to snake_case"""
-        name = self.__repr_name__()
-        name = re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
-        return name
+        return re.sub(r"(?<!^)(?=[A-Z])", "_", cls.get_class_name()).lower()
