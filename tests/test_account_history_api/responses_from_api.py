@@ -323,7 +323,16 @@ GET_TRANSACTION = {
                     "reward_hbd": {"amount": "0", "precision": 3, "nai": "@@000000013"},
                     "reward_vests": {"amount": "1", "precision": 6, "nai": "@@000000037"},
                 },
-            }
+            },
+            {
+                "type": "vote_operation",
+                "value": {
+                    "voter": "lecumberre",
+                    "author": "hiveio",
+                    "permlink": "announcing-the-launch-of-hive-blockchain",
+                    "weight": 10000,
+                },
+            },
         ],
         "extensions": [],
         "signatures": [
