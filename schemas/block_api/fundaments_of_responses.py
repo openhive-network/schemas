@@ -21,15 +21,21 @@ class Block(PreconfiguredBaseModel):
     witness_signature: Signature
 
 
-class GetBlockEmptyModel(PreconfiguredBaseModel):
-    """get_block can be an empty model or in format below"""
+class EmptyModel(PreconfiguredBaseModel):
+    """get_block and get_block_header can be an empty model or in format below"""
 
 
-class GetBlockNotEmptyModel(PreconfiguredBaseModel):
+class GetBlockFundament(PreconfiguredBaseModel):
     """Second possible format of get_block model"""
 
     block: Block
 
 
-class GetBlockHeaderEmptyModel(PreconfiguredBaseModel):
-    """as model above get_block_header can also be empty or in format below"""
+class GetBlockHeaderFundament(PreconfiguredBaseModel):
+    """as model above get_block_header can also be empty, so it is second possible format of this response"""
+
+    extensions: list[Any]
+    previous: TransactionId
+    timestamp: HiveDateTime
+    transaction_merkle_root: TransactionId
+    witness: AccountName
