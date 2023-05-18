@@ -199,9 +199,9 @@ AssetHbd = TypeVar("AssetHbd", AssetHbdNai, AssetHbdLegacy)
 AssetVests = TypeVar("AssetVests", AssetVestsNai, AssetVestsLegacy)
 
 
-class Uint32t(ConstrainedInt):
+class Uint8t(ConstrainedInt):
     ge = 0
-    le = 4294967295
+    le = 255
 
 
 class Uint16t(ConstrainedInt):
@@ -209,14 +209,24 @@ class Uint16t(ConstrainedInt):
     le = 65535
 
 
+class Int16t(ConstrainedInt):
+    ge = -32768
+    le = 32767
+
+
+class Uint32t(ConstrainedInt):
+    ge = 0
+    le = 4294967295
+
+
 class Int64t(ConstrainedInt):
     ge = -9223372036854775808
     le = 9223372036854775807
 
 
-class Int16t(ConstrainedInt):
-    ge = -32768
-    le = 32767
+class Uint64t(ConstrainedInt):
+    ge = 0
+    le = 18446744073709554615
 
 
 class CustomIdType(int):
@@ -255,3 +265,11 @@ class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetH
     account_creation_fee: AssetHive
     maximum_block_size: Uint32t = Uint32t(MAXIMUM_BLOCK_SIZE)
     hbd_interest_rate: Uint16t = Uint16t(HBD_INTEREST_RATE)
+
+
+class ShareType(Int64t):
+    """Identical data-type as Int64t"""
+
+
+class UShareType(Uint64t):
+    """Identical data-type as Uint64t"""
