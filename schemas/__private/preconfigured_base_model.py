@@ -51,3 +51,7 @@ class Operation(PreconfiguredBaseModel):
     def get_name(cls) -> str:
         """conversion name of operation from CamelCase to snake_case"""
         return re.sub(r"(?<!^)(?=[A-Z])", "_", cls.get_class_name()).lower()
+
+
+class VirtualOperation(PreconfiguredBaseModel):
+    """Base class for all virtual operations"""
