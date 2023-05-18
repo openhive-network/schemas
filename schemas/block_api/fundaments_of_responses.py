@@ -5,6 +5,7 @@ from typing import Any
 from schemas.__private.hive_fields_basic_schemas import AccountName, HiveDateTime, PublicKey
 from schemas.__private.hive_fields_custom_schemas import Signature, TransactionId
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.transaction_model.transaction import Hf26Transaction
 
 
 class Block(PreconfiguredBaseModel):
@@ -15,7 +16,7 @@ class Block(PreconfiguredBaseModel):
     timestamp: HiveDateTime
     transaction_ids: TransactionId
     transaction_merkle_root: TransactionId
-    transactions: list[Any]  # Here will be placed transaction model
+    transactions: list[Hf26Transaction]
     witness: AccountName
     witness_signature: Signature
 
