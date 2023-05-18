@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from schemas.__private.hive_fields_basic_schemas import HiveDateTime, HiveInt
-from schemas.__private.hive_fields_custom_schemas import ApiOperationObject, Signature, TransactionId
+from schemas.__private.hive_fields_custom_schemas import Signature, TransactionId
 from schemas.__private.operation_objects import Hf26ApiOperationObject
 from schemas.__private.operations import Hf26OperationRepresentationType  # pyright: ignore
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
@@ -18,11 +18,11 @@ class EnumVirtualOps(PreconfiguredBaseModel):
 
 
 class GetAccountHistory(PreconfiguredBaseModel):
-    history: list[tuple[HiveInt, ApiOperationObject]]
+    history: list[tuple[HiveInt, Hf26ApiOperationObject]]
 
 
 class GetOpsInBlock(PreconfiguredBaseModel):
-    ops: list[ApiOperationObject]
+    ops: list[Hf26ApiOperationObject]
 
 
 class GetTransaction(PreconfiguredBaseModel):

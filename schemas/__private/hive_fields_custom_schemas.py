@@ -5,7 +5,7 @@ It is file with fields that are used just in creation models of api responses !
 from __future__ import annotations
 
 import re
-from typing import Any, Generic
+from typing import Generic
 
 from pydantic import ConstrainedStr, Field
 from pydantic.generics import GenericModel
@@ -104,22 +104,6 @@ class RdDynamicParams(PreconfiguredBaseModel):
     max_pool_size: HiveInt
     decay_params: dict[str, HiveInt]
     min_decay: HiveInt
-
-
-class OperationType(PreconfiguredBaseModel):
-    type_: str = Field(..., alias="type")
-    value: dict[str, Any]
-
-
-class ApiOperationObject(PreconfiguredBaseModel):
-    trx_id: TransactionId
-    block: HiveInt
-    trx_in_block: HiveInt
-    op_in_trx: HiveInt
-    virtual_op: bool
-    operation_id: HiveInt
-    timestamp: HiveDateTime
-    op: OperationType
 
 
 class Signature(Hex):
