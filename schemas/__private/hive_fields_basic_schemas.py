@@ -83,7 +83,7 @@ class Authority(PreconfiguredBaseModel):
 
 class AssetNaiAmount(HiveInt):
     """
-    Amount in nai have to be serialized as str, to be properly recognized by c++
+    Amount in HF26 have to be serialized as str, to be properly recognized by c++
     """
 
     @classmethod
@@ -127,7 +127,7 @@ class AssetLegacy(ConstrainedStr, AssetBase):
         yield cls.legacy_regex_validator
 
 
-class AssetNai(PreconfiguredBaseModel, AssetBase):
+class AssetHF26(PreconfiguredBaseModel, AssetBase):
     """Base class for all nai asset fields"""
 
     amount: AssetNaiAmount
@@ -149,27 +149,27 @@ class AssetNai(PreconfiguredBaseModel, AssetBase):
         return value
 
 
-class AssetHiveNai(AssetNai):
-    precision: HiveInt = Field(default_factory=lambda: AssetHiveNai.get_asset_information().precision)
-    nai: str = Field(default_factory=lambda: AssetHiveNai.get_asset_information().nai)
+class AssetHiveHF26(AssetHF26):
+    precision: HiveInt = Field(default_factory=lambda: AssetHiveHF26.get_asset_information().precision)
+    nai: str = Field(default_factory=lambda: AssetHiveHF26.get_asset_information().nai)
 
     @classmethod
     def get_asset_information(cls) -> AssetInfo:
         return AssetInfo(precision=HiveInt(3), nai="@@000000021", symbol=("HIVE", "TESTS"))
 
 
-class AssetHbdNai(AssetNai):
-    precision: HiveInt = Field(default_factory=lambda: AssetHbdNai.get_asset_information().precision)
-    nai: str = Field(default_factory=lambda: AssetHbdNai.get_asset_information().nai)
+class AssetHbdHF26(AssetHF26):
+    precision: HiveInt = Field(default_factory=lambda: AssetHbdHF26.get_asset_information().precision)
+    nai: str = Field(default_factory=lambda: AssetHbdHF26.get_asset_information().nai)
 
     @classmethod
     def get_asset_information(cls) -> AssetInfo:
         return AssetInfo(precision=HiveInt(3), nai="@@000000013", symbol=("HBD", "TBD"))
 
 
-class AssetVestsNai(AssetNai):
-    precision: HiveInt = Field(default_factory=lambda: AssetVestsNai.get_asset_information().precision)
-    nai: str = Field(default_factory=lambda: AssetVestsNai.get_asset_information().nai)
+class AssetVestsHF26(AssetHF26):
+    precision: HiveInt = Field(default_factory=lambda: AssetVestsHF26.get_asset_information().precision)
+    nai: str = Field(default_factory=lambda: AssetVestsHF26.get_asset_information().nai)
 
     @classmethod
     def get_asset_information(cls) -> AssetInfo:
@@ -179,24 +179,24 @@ class AssetVestsNai(AssetNai):
 class AssetHiveLegacy(AssetLegacy):
     @classmethod
     def get_asset_information(cls) -> AssetInfo:
-        return AssetHiveNai.get_asset_information()
+        return AssetHiveHF26.get_asset_information()
 
 
 class AssetHbdLegacy(AssetLegacy):
     @classmethod
     def get_asset_information(cls) -> AssetInfo:
-        return AssetHbdNai.get_asset_information()
+        return AssetHbdHF26.get_asset_information()
 
 
 class AssetVestsLegacy(AssetLegacy):
     @classmethod
     def get_asset_information(cls) -> AssetInfo:
-        return AssetVestsNai.get_asset_information()
+        return AssetVestsHF26.get_asset_information()
 
 
-AssetHive = TypeVar("AssetHive", AssetHiveNai, AssetHiveLegacy)
-AssetHbd = TypeVar("AssetHbd", AssetHbdNai, AssetHbdLegacy)
-AssetVests = TypeVar("AssetVests", AssetVestsNai, AssetVestsLegacy)
+AssetHive = TypeVar("AssetHive", AssetHiveHF26, AssetHiveLegacy)
+AssetHbd = TypeVar("AssetHbd", AssetHbdHF26, AssetHbdLegacy)
+AssetVests = TypeVar("AssetVests", AssetVestsHF26, AssetVestsLegacy)
 
 
 class Uint8t(ConstrainedInt):
@@ -247,7 +247,7 @@ class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, A
     Field similar to price, but just base can be Hive or Hbd. Quote must be Hive.
     To choose format of Assets you can do it like in Price field:
     Legacy -> HbdExchangeRate[AssetHiveLegacy, AssetHbdLegacy](parameters)
-    Nai -> HbdExchangeRate[AssetHiveNai, AssetNaiHbd](parameters)
+    HF26 -> HbdExchangeRate[AssetHiveHF26, AssetHbdHF26](parameters)
     Here Hive also must be first parameter of generic
     """
 
@@ -259,7 +259,7 @@ class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetH
     """
     You can choose of Asset format for this field, to do it:
     Legacy -> LegacyChainProperties[AssetHiveLegacy](parameters)
-    Nai -> LegacyChainProperties[AssetHiveNai](parameters)
+    Nai -> LegacyChainProperties[AssetHiveHF26](parameters)
     """
 
     account_creation_fee: AssetHive

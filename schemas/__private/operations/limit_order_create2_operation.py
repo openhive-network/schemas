@@ -7,9 +7,9 @@ from pydantic.generics import GenericModel
 from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
     AssetHbd,
-    AssetHbdNai,
+    AssetHbdHF26,
     AssetHive,
-    AssetHiveNai,
+    AssetHiveHF26,
     HbdExchangeRate,
     HiveDateTime,
     Uint32t,
@@ -24,5 +24,5 @@ class LimitOrderCreate2Operation(Operation, GenericModel, Generic[AssetHbd, Asse
     order_id: Uint32t
     amount_to_sell: AssetHive | AssetHbd
     fill_or_kill: bool = DEFAULT_FILL_OR_KILL
-    exchange_rate: HbdExchangeRate[AssetHiveNai, AssetHbdNai]
+    exchange_rate: HbdExchangeRate[AssetHiveHF26, AssetHbdHF26]
     expiration: HiveDateTime
