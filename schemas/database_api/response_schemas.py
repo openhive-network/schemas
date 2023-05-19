@@ -6,9 +6,9 @@ from pydantic import Field
 
 from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
-    AssetHbdNai,
-    AssetHiveNai,
-    AssetVestsNai,
+    AssetHbdHF26,
+    AssetHiveHF26,
+    AssetVestsHF26,
     EmptyString,
     HiveDateTime,
     HiveInt,
@@ -102,7 +102,7 @@ class FindProposals(PreconfiguredBaseModel):
     Fundament of this response is field Proposal
     """
 
-    proposals: list[Proposal[AssetHbdNai]] | list[str]
+    proposals: list[Proposal[AssetHbdHF26]] | list[str]
 
 
 class FindRecurrentTransfers(PreconfiguredBaseModel):
@@ -266,20 +266,20 @@ class GetConfig(PreconfiguredBaseModel):
     HIVE_CREATE_ACCOUNT_WITH_HIVE_MODIFIER: HiveInt
     HIVE_CREATE_ACCOUNT_DELEGATION_RATIO: HiveInt
     HIVE_CREATE_ACCOUNT_DELEGATION_TIME: HiveInt
-    HIVE_MINING_REWARD: AssetHiveNai
+    HIVE_MINING_REWARD: AssetHiveHF26
     HIVE_EQUIHASH_N: HiveInt
     HIVE_EQUIHASH_K: HiveInt
     HIVE_LIQUIDITY_TIMEOUT_SEC: HiveInt
     HIVE_MIN_LIQUIDITY_REWARD_PERIOD_SEC: HiveInt
     HIVE_LIQUIDITY_REWARD_PERIOD_SEC: HiveInt
     HIVE_LIQUIDITY_REWARD_BLOCKS: HiveInt
-    HIVE_MIN_LIQUIDITY_REWARD: AssetHiveNai
-    HIVE_MIN_CONTENT_REWARD: AssetHiveNai
-    HIVE_MIN_CURATE_REWARD: AssetHiveNai
-    HIVE_MIN_PRODUCER_REWARD: AssetHiveNai
-    HIVE_MIN_POW_REWARD: AssetHiveNai
-    HIVE_ACTIVE_CHALLENGE_FEE: AssetHiveNai
-    HIVE_OWNER_CHALLENGE_FEE: AssetHiveNai
+    HIVE_MIN_LIQUIDITY_REWARD: AssetHiveHF26
+    HIVE_MIN_CONTENT_REWARD: AssetHiveHF26
+    HIVE_MIN_CURATE_REWARD: AssetHiveHF26
+    HIVE_MIN_PRODUCER_REWARD: AssetHiveHF26
+    HIVE_MIN_POW_REWARD: AssetHiveHF26
+    HIVE_ACTIVE_CHALLENGE_FEE: AssetHiveHF26
+    HIVE_OWNER_CHALLENGE_FEE: AssetHiveHF26
     HIVE_ACTIVE_CHALLENGE_COOLDOWN: HiveInt
     HIVE_OWNER_CHALLENGE_COOLDOWN: HiveInt
     HIVE_POST_REWARD_FUND_NAME: str
@@ -298,7 +298,7 @@ class GetConfig(PreconfiguredBaseModel):
     HIVE_LIQUIDITY_APR_PERCENT: HiveInt
     HIVE_PRODUCER_APR_PERCENT: HiveInt
     HIVE_POW_APR_PERCENT: HiveInt
-    HIVE_MIN_PAYOUT_HBD: AssetHbdNai
+    HIVE_MIN_PAYOUT_HBD: AssetHbdHF26
     HIVE_HBD_START_PERCENT_HF14: HiveInt
     HIVE_HBD_STOP_PERCENT_HF14: HiveInt
     HIVE_HBD_START_PERCENT_HF20: HiveInt
@@ -399,7 +399,7 @@ class GetConfig(PreconfiguredBaseModel):
     HIVE_UP_TO_DATE_MARGIN__PENDING_TXS: HiveInt
 
 
-class GetCurrentPriceFeed(Price[AssetHiveNai, AssetHbdNai]):
+class GetCurrentPriceFeed(Price[AssetHiveHF26, AssetHbdHF26]):
     """
     This response is identical as Price hive field.
     """
@@ -413,9 +413,9 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel):
     available_account_subsidies: HiveInt
     content_reward_percent: HiveInt
     current_aslot: HiveInt
-    current_hbd_supply: AssetHbdNai
+    current_hbd_supply: AssetHbdHF26
     current_remove_threshold: HiveInt
-    current_supply: AssetHiveNai
+    current_supply: AssetHiveHF26
     current_witness: AccountName
     delegation_return_period: HiveInt
     downvote_pool_percent: HiveInt
@@ -427,7 +427,7 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel):
     head_block_id: TransactionId
     head_block_number: HiveInt
     id_: HiveInt = Field(..., alias="id")
-    init_hbd_supply: AssetHbdNai
+    init_hbd_supply: AssetHbdHF26
     last_budget_time: HiveDateTime
     last_irreversible_block_num: HiveInt
     max_consecutive_recurrent_transfer_failures: HiveInt
@@ -440,21 +440,21 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel):
     next_maintenance_time: HiveDateTime
     num_pow_witnesses: HiveInt
     participation_count: HiveInt
-    pending_rewarded_vesting_hive: AssetHiveNai
-    pending_rewarded_vesting_shares: AssetVestsNai
+    pending_rewarded_vesting_hive: AssetHiveHF26
+    pending_rewarded_vesting_shares: AssetVestsHF26
     recent_slots_filled: HiveInt
     required_actions_partition_percent: HiveInt
     reverse_auction_seconds: HiveInt
     proposal_fund_percent: HiveInt
-    dhf_interval_ledger: AssetHbdNai
+    dhf_interval_ledger: AssetHbdHF26
     time: HiveDateTime
     total_pow: HiveInt
-    total_reward_fund_hive: AssetHiveNai
+    total_reward_fund_hive: AssetHiveHF26
     total_reward_shares2: HiveInt
-    total_vesting_fund_hive: AssetHiveNai
-    total_vesting_shares: AssetVestsNai
+    total_vesting_fund_hive: AssetHiveHF26
+    total_vesting_shares: AssetVestsHF26
     vesting_reward_percent: HiveInt
-    virtual_supply: AssetHiveNai
+    virtual_supply: AssetHiveHF26
     vote_power_reserve_rate: HiveInt
 
 
@@ -464,11 +464,11 @@ class GetFeedHistory(PreconfiguredBaseModel):
     """
 
     id_: HiveInt = Field(..., alias="id")
-    current_median_history: Price[AssetHiveNai, AssetHbdNai]
-    market_median_history: Price[AssetHiveNai, AssetHbdNai]
-    current_min_history: Price[AssetHiveNai, AssetHbdNai]
-    current_max_history: Price[AssetHiveNai, AssetHbdNai]
-    price_history: list[Price[AssetHiveNai, AssetHbdNai]]
+    current_median_history: Price[AssetHiveHF26, AssetHbdHF26]
+    market_median_history: Price[AssetHiveHF26, AssetHbdHF26]
+    current_min_history: Price[AssetHiveHF26, AssetHbdHF26]
+    current_max_history: Price[AssetHiveHF26, AssetHbdHF26]
+    price_history: list[Price[AssetHiveHF26, AssetHbdHF26]]
 
 
 class GetHardforkProperties(PreconfiguredBaseModel):
@@ -526,7 +526,7 @@ class GetWitnessSchedule(PreconfiguredBaseModel):
     timeshare_weight: HiveInt
     miner_weight: HiveInt
     witness_pay_normalization_factor: HiveInt
-    median_props: Props[AssetHiveNai]
+    median_props: Props[AssetHiveHF26]
     majority_version: HardforkVersion
     max_voted_witnesses: HiveInt
     max_miner_witnesses: HiveInt
@@ -587,7 +587,7 @@ class ListProposalVotes(PreconfiguredBaseModel):
 
 
 class ListProposals(PreconfiguredBaseModel):
-    proposals: list[Proposal[AssetHbdNai]] | list[str]
+    proposals: list[Proposal[AssetHbdHF26]] | list[str]
 
 
 class ListSavingsWithdrawals(PreconfiguredBaseModel):

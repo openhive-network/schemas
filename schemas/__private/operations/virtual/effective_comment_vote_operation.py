@@ -9,8 +9,8 @@ from pydantic.generics import GenericModel
 from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
     AssetHbd,
+    AssetHbdHF26,
     AssetHbdLegacy,
-    AssetHbdNai,
     Int64t,
     Uint64t,
 )
@@ -47,8 +47,8 @@ class LegacyEffectiveCommentVoteOperation(EffectiveCommentVoteOperation[AssetHbd
         return EffectiveCommentVoteOperation.get_name()
 
 
-class NaiEffectiveCommentVoteOperation(EffectiveCommentVoteOperation[AssetHbdNai]):
-    pending_payout: AssetHbdNai = Field(default_factory=lambda: AssetHbdNai(amount="0"))
+class NaiEffectiveCommentVoteOperation(EffectiveCommentVoteOperation[AssetHbdHF26]):
+    pending_payout: AssetHbdHF26 = Field(default_factory=lambda: AssetHbdHF26(amount="0"))
 
     @classmethod
     def get_class_name(cls) -> str:

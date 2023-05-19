@@ -1,5 +1,7 @@
 """
 It is file with fields that are used just in creation models of api responses !
+Notice when model of field inheritance from GenericModel you must choose format of assets, when
+want to use this field.
 """
 
 from __future__ import annotations
@@ -29,7 +31,7 @@ class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
     Valid structure for Price field is:
     base: Hive quote: Hbd or base: Hbd quote: Hive
     You can choose format of Assets, to choose legacy format -> Price[AssetHiveLegacy, AssetHbdLegacy](parameters).
-    For Nai format -> Price[AssetHiveNai, AssetHbdNai].
+    For HF26 format -> Price[AssetHiveHF26, AssetHbdHF26].
     Remember that Hive must be first parameter of generic !
     """
 

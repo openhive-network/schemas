@@ -7,14 +7,14 @@ from typing_extensions import Annotated  # noqa: UP035
 
 from schemas.__private.hive_fields_basic_schemas import (
     AssetHbd,
+    AssetHbdHF26,
     AssetHbdLegacy,
-    AssetHbdNai,
     AssetHive,
+    AssetHiveHF26,
     AssetHiveLegacy,
-    AssetHiveNai,
     AssetVests,
+    AssetVestsHF26,
     AssetVestsLegacy,
-    AssetVestsNai,
 )
 from schemas.__private.operations.account_create_operation import AccountCreateOperation
 from schemas.__private.operations.account_update2_operation import AccountUpdate2Operation
@@ -117,7 +117,7 @@ OperationType = (
     | WitnessUpdateOperation[AssetHive]
 )
 
-Hf26OperationType = OperationType[AssetHiveNai, AssetHbdNai, AssetVestsNai]
+Hf26OperationType = OperationType[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
 LegacyOperationType = OperationType[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
 
 

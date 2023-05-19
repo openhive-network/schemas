@@ -8,11 +8,11 @@ from pydantic import BaseModel, ValidationError
 
 from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
+    AssetHbdHF26,
     AssetHbdLegacy,
-    AssetHbdNai,
+    AssetHiveHF26,
     AssetHiveLegacy,
-    AssetHiveNai,
-    AssetVestsNai,
+    AssetVestsHF26,
     Authority,
     EmptyString,
     HbdExchangeRate,
@@ -53,7 +53,7 @@ class HbdExchangeRateModelLegacy(BaseModel):
 
 
 class HbdExchangeRateModelNai(BaseModel):
-    field: HbdExchangeRate[AssetHiveNai, AssetHbdNai]
+    field: HbdExchangeRate[AssetHiveHF26, AssetHbdHF26]
 
 
 class AssetHiveLegacyModel(BaseModel):
@@ -134,7 +134,7 @@ def test_asset_nai_hive_field_incorrect_pattern(value: str | int) -> None:
 
     # ACT
     with pytest.raises(ValidationError) as error:
-        AssetHiveNai(amount=12, precision=3, nai=value)
+        AssetHiveHF26(amount=12, precision=3, nai=value)
 
     # ASSERT
     assert expected_message in str(error.value)
@@ -147,7 +147,7 @@ def test_asset_nai_hbd_field_incorrect_precision(value: str | int) -> None:
 
     # ACT
     with pytest.raises(ValidationError) as error:
-        AssetHbdNai(amount=10, precision=value, nai="@@000000013")
+        AssetHbdHF26(amount=10, precision=value, nai="@@000000013")
 
     # ASSERT
     assert expected_message in str(error.value)
@@ -160,7 +160,7 @@ def test_asset_nai_vests_field_incorrect_amount(value: str) -> None:
 
     # ACT
     with pytest.raises(ValidationError) as error:
-        AssetVestsNai(amount=value, precision=6, nai="@@000000037")
+        AssetVestsHF26(amount=value, precision=6, nai="@@000000037")
 
     # ASSERT
     assert expected_message in str(error.value)
@@ -271,7 +271,7 @@ def test_hbd_exchange_rate_incorrect_values(
     expected_message_nai: Final[str] = "value is not a valid dict"
     expected_message_legacy: Final[str] = "str type expected"
 
-    hbd_exchange_nai = HbdExchangeRate[AssetHiveNai, AssetHbdNai]
+    hbd_exchange_nai = HbdExchangeRate[AssetHiveHF26, AssetHbdHF26]
     hbd_exchange_legacy = HbdExchangeRate[AssetHiveLegacy, AssetHbdLegacy]
 
     # ACT
