@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import warnings
 from typing import Literal, NamedTuple, Union, get_args  # pyright: ignore # noqa: F401
 
 from pydantic import Field
@@ -66,6 +65,8 @@ from schemas.__private.operations.witness_set_properties_operation import Witnes
 from schemas.__private.operations.witness_update_operation import WitnessUpdateOperation
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
+from .virtual import LegacyEffectiveCommentVoteOperation, NaiEffectiveCommentVoteOperation, VirtualOperationType
+
 OperationType = (
     AccountCreateOperation[AssetHive]
     | AccountUpdate2Operation
@@ -130,7 +131,6 @@ def __create_hf26_representation(incoming_type: type[Hf26OperationType]) -> type
 
 
 def __create_legacy_representation(cls: type[LegacyOperationType]) -> type[PreconfiguredBaseModel]:
-    warnings.warn("This code fragment is not tested, and requires urgent refactor", stacklevel=1)
     """Representation of operation in legacy format
 
     Args:
@@ -158,6 +158,12 @@ LegacyOperationRepresentationUnionType = Union[tuple(__create_legacy_representat
 
 Hf26OperationRepresentationType = Annotated[Hf26OperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
 LegacyOperationRepresentationType = Annotated[LegacyOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
+
+Hf26VirtualOperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in (*get_args(VirtualOperationType), NaiEffectiveCommentVoteOperation))]  # type: ignore
+LegacyVirtualOperationRepresentationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(VirtualOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore
+
+Hf26VirtualOperationRepresentationType = Annotated[Hf26VirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
+LegacyVirtualOperationRepresentationType = Annotated[LegacyVirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
 
 __all__ = [
     "AccountCreateOperation",
@@ -210,4 +216,6 @@ __all__ = [
     "OperationType",
     "Hf26OperationRepresentationType",
     "LegacyOperationRepresentationType",
+    "Hf26VirtualOperationRepresentationType",
+    "LegacyVirtualOperationRepresentationType",
 ]
