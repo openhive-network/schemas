@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from schemas.__private.virtual_operations import (
+from schemas.__private.operations.virtual import (
     AccountCreatedOperation,
     AuthorRewardOperation,
     ChangedRecoveryAccountOperation,
@@ -15,7 +15,6 @@ from schemas.__private.virtual_operations import (
     DelayedVotingOperation,
     DhfConversionOperation,
     DhfFundingOperation,
-    EffectiveCommentVoteOperation,
     EscrowApprovedOperation,
     EscrowRejectedOperation,
     ExpiredAccountNotificationOperation,
@@ -31,8 +30,10 @@ from schemas.__private.virtual_operations import (
     HardforkOperation,
     IneffectiveDeleteCommentOperation,
     InterestOperation,
+    LegacyEffectiveCommentVoteOperation,
     LimitOrderCancelledOperation,
     LiquidityRewardOperation,
+    NaiEffectiveCommentVoteOperation,
     PowRewardOperation,
     ProducerMissedOperation,
     ProducerRewardOperation,
@@ -61,7 +62,8 @@ __all__ = [
     "DelayedVotingOperation",
     "DhfConversionOperation",
     "DhfFundingOperation",
-    "EffectiveCommentVoteOperation",
+    "LegacyEffectiveCommentVoteOperation",
+    "NaiEffectiveCommentVoteOperation",
     "EscrowApprovedOperation",
     "EscrowRejectedOperation",
     "ExpiredAccountNotificationOperation",

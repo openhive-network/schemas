@@ -53,5 +53,5 @@ class Operation(PreconfiguredBaseModel):
         return re.sub(r"(?<!^)(?=[A-Z])", "_", cls.get_class_name()).lower()
 
 
-class VirtualOperation(PreconfiguredBaseModel):
+class VirtualOperation(Operation):
     """Base class for all virtual operations"""

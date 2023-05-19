@@ -5,7 +5,10 @@ from typing import Any
 from schemas.__private.hive_fields_basic_schemas import HiveDateTime, HiveInt
 from schemas.__private.hive_fields_custom_schemas import Signature, TransactionId
 from schemas.__private.operation_objects import Hf26ApiOperationObject
-from schemas.__private.operations import Hf26OperationRepresentationType  # pyright: ignore
+from schemas.__private.operations import (
+    Hf26OperationRepresentationType,  # pyright: ignore
+    Hf26VirtualOperationRepresentationType,  # pyright: ignore
+)
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament
 
@@ -29,7 +32,7 @@ class GetTransaction(PreconfiguredBaseModel):
     block_num: HiveInt
     expiration: HiveDateTime
     extensions: list[Any]
-    operations: list[Hf26OperationRepresentationType]
+    operations: list[Hf26OperationRepresentationType | Hf26VirtualOperationRepresentationType]
     ref_block_num: HiveInt
     ref_block_prefix: HiveInt
     signatures: list[Signature]
