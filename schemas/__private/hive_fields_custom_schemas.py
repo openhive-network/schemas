@@ -12,7 +12,14 @@ from typing import Generic
 from pydantic import ConstrainedStr, Field
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, AssetHive, HiveDateTime, HiveInt
+from schemas.__private.hive_fields_basic_schemas import (
+    AccountName,
+    AssetHbd,
+    AssetHive,
+    AssetVests,
+    HiveDateTime,
+    HiveInt,
+)
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 
@@ -111,3 +118,12 @@ class RdDynamicParams(PreconfiguredBaseModel):
 class Signature(Hex):
     min_length = 130
     max_length = 130
+
+
+class RcAccountObject(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
+    account: AccountName
+    rc_manabar: Manabar
+    max_rc_creation_adjustment: AssetVests
+    max_rc: HiveInt
+    delegated_rc: HiveInt
+    received_delegated_rc: HiveInt
