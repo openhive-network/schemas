@@ -4,7 +4,12 @@ from typing import Any
 
 from schemas.__private.hive_fields_basic_schemas import HiveDateTime, HiveInt
 from schemas.__private.hive_fields_custom_schemas import Signature
-from schemas.__private.operations import Hf26OperationRepresentationType, LegacyOperationRepresentationType
+from schemas.__private.operations import (
+    Hf26OperationRepresentationType,
+    Hf26VirtualOperationRepresentationType,
+    LegacyOperationRepresentationType,
+    LegacyVirtualOperationRepresentationType,
+)
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 
@@ -17,8 +22,8 @@ class TransactionCommon(PreconfiguredBaseModel):
 
 
 class Hf26Transaction(TransactionCommon):
-    operations: list[Hf26OperationRepresentationType]
+    operations: list[Hf26OperationRepresentationType | Hf26VirtualOperationRepresentationType]
 
 
 class LegacyTransaction(TransactionCommon):
-    operations: list[LegacyOperationRepresentationType]
+    operations: list[LegacyOperationRepresentationType | LegacyVirtualOperationRepresentationType]
