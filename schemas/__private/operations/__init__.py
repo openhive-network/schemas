@@ -127,6 +127,8 @@ LegacyVirtualOperationType = VirtualOperationType[AssetHiveLegacy, AssetHbdLegac
 class Hf26OperationRepresentation(PreconfiguredBaseModel):
     type: str  # noqa: A003
     value: Hf26OperationType
+
+
 HF26OperationTypes: dict[str, type[Hf26OperationType]] = {}
 
 

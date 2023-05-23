@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import Field
 
@@ -18,6 +18,14 @@ from schemas.__private.hive_fields_basic_schemas import (
 from schemas.__private.hive_fields_custom_schemas import Permlink
 from schemas.__private.operation_objects import LegacyApiAllOperationObject
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+
+
+class HiveMindResponses(PreconfiguredBaseModel):
+    """Base class for all responses from HiveMind"""
+
+    code: Literal[-32003]
+    message: str
+    data: dict[str, Any]
 
 
 class GetAccountReputationsFundament(PreconfiguredBaseModel):
