@@ -6,9 +6,7 @@ from schemas.__private.hive_fields_basic_schemas import HiveDateTime, HiveInt
 from schemas.__private.hive_fields_custom_schemas import Signature
 from schemas.__private.operations import (
     Hf26OperationRepresentationType,
-    Hf26VirtualOperationRepresentationType,
     LegacyOperationRepresentationType,
-    LegacyVirtualOperationRepresentationType,
 )
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
@@ -18,12 +16,12 @@ class TransactionCommon(PreconfiguredBaseModel):
     ref_block_prefix: HiveInt
     expiration: HiveDateTime
     extensions: list[Any]
-    signatures: Signature
+    signatures: list[Signature]
 
 
 class Hf26Transaction(TransactionCommon):
-    operations: list[Hf26OperationRepresentationType | Hf26VirtualOperationRepresentationType]
+    operations: list[Hf26OperationRepresentationType]
 
 
 class LegacyTransaction(TransactionCommon):
-    operations: list[LegacyOperationRepresentationType | LegacyVirtualOperationRepresentationType]
+    operations: list[LegacyOperationRepresentationType]
