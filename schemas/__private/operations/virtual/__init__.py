@@ -63,8 +63,8 @@ from schemas.__private.operations.virtual.transfer_to_vesting_completed_operatio
 from schemas.__private.operations.virtual.vesting_shares_split_operation import VestingSharesSplitOperation
 
 VirtualOperationType = (
-    AccountCreatedOperation[AssetVests]
-    | AuthorRewardOperation[AssetHive, AssetHbd, AssetVests]
+    AuthorRewardOperation[AssetHive, AssetHbd, AssetVests]
+    | AccountCreatedOperation[AssetVests]
     | ChangedRecoveryAccountOperation
     | ClearNullAccountBalanceOperation[AssetHive, AssetHbd, AssetVests]
     | CollateralizedConvertImmediateConversionOperation[AssetHbd]
