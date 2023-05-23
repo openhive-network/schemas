@@ -121,6 +121,7 @@ find_recurrent_transfers = Array(
         'recurrence': Int(),
         'consecutive_failures': Int(),
         'remaining_executions': Int(),
+        'pair_id': Int(),
     })
 )
 

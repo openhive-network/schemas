@@ -241,6 +241,7 @@ find_recurrent_transfers = Map({
             'recurrence': Int(),
             'consecutive_failures': Int(),
             'remaining_executions': Int(),
+            'pair_id': Int(),
         })
     )
 })
