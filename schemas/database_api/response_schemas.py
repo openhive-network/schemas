@@ -1,12 +1,15 @@
 from __future__ import annotations
 
-from typing import Literal
+from typing import Generic, Literal
 
 from pydantic import Field
+from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
+    AssetHbd,
     AssetHbdHF26,
+    AssetHive,
     AssetHiveHF26,
     AssetVestsHF26,
     EmptyString,
@@ -143,12 +146,12 @@ class GetCommentPendingPayouts(PreconfiguredBaseModel):
     cashout_infos: list[GetCommentPendingPayoutsFundament[AssetHbdHF26]] | list[str]
 
 
-class GetConfig(PreconfiguredBaseModel):
+class GetConfig(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
     """
     This response includes just one dict, so also doesn't need fundament class
     To use this class choose type of Assets so:
     Legacy -> GetConfig[AssetHiveLegacy, AssetHbdLegacy](parameters)
-    Nai -> GetConfig[AssetHiveNai, AssetHbdNai](parameters)
+    HF26 -> GetConfig[AssetHiveNai, AssetHbdNai](parameters)
     """
 
     HIVE_CHAIN_ID: Hex
@@ -266,20 +269,20 @@ class GetConfig(PreconfiguredBaseModel):
     HIVE_CREATE_ACCOUNT_WITH_HIVE_MODIFIER: HiveInt
     HIVE_CREATE_ACCOUNT_DELEGATION_RATIO: HiveInt
     HIVE_CREATE_ACCOUNT_DELEGATION_TIME: HiveInt
-    HIVE_MINING_REWARD: AssetHiveHF26
+    HIVE_MINING_REWARD: AssetHive
     HIVE_EQUIHASH_N: HiveInt
     HIVE_EQUIHASH_K: HiveInt
     HIVE_LIQUIDITY_TIMEOUT_SEC: HiveInt
     HIVE_MIN_LIQUIDITY_REWARD_PERIOD_SEC: HiveInt
     HIVE_LIQUIDITY_REWARD_PERIOD_SEC: HiveInt
     HIVE_LIQUIDITY_REWARD_BLOCKS: HiveInt
-    HIVE_MIN_LIQUIDITY_REWARD: AssetHiveHF26
-    HIVE_MIN_CONTENT_REWARD: AssetHiveHF26
-    HIVE_MIN_CURATE_REWARD: AssetHiveHF26
-    HIVE_MIN_PRODUCER_REWARD: AssetHiveHF26
-    HIVE_MIN_POW_REWARD: AssetHiveHF26
-    HIVE_ACTIVE_CHALLENGE_FEE: AssetHiveHF26
-    HIVE_OWNER_CHALLENGE_FEE: AssetHiveHF26
+    HIVE_MIN_LIQUIDITY_REWARD: AssetHive
+    HIVE_MIN_CONTENT_REWARD: AssetHive
+    HIVE_MIN_CURATE_REWARD: AssetHive
+    HIVE_MIN_PRODUCER_REWARD: AssetHive
+    HIVE_MIN_POW_REWARD: AssetHive
+    HIVE_ACTIVE_CHALLENGE_FEE: AssetHive
+    HIVE_OWNER_CHALLENGE_FEE: AssetHive
     HIVE_ACTIVE_CHALLENGE_COOLDOWN: HiveInt
     HIVE_OWNER_CHALLENGE_COOLDOWN: HiveInt
     HIVE_POST_REWARD_FUND_NAME: str
@@ -298,7 +301,7 @@ class GetConfig(PreconfiguredBaseModel):
     HIVE_LIQUIDITY_APR_PERCENT: HiveInt
     HIVE_PRODUCER_APR_PERCENT: HiveInt
     HIVE_POW_APR_PERCENT: HiveInt
-    HIVE_MIN_PAYOUT_HBD: AssetHbdHF26
+    HIVE_MIN_PAYOUT_HBD: AssetHbd
     HIVE_HBD_START_PERCENT_HF14: HiveInt
     HIVE_HBD_STOP_PERCENT_HF14: HiveInt
     HIVE_HBD_START_PERCENT_HF20: HiveInt
