@@ -11,6 +11,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHbdHF26,
     AssetHive,
     AssetHiveHF26,
+    AssetVests,
     AssetVestsHF26,
     EmptyString,
     HiveDateTime,
@@ -408,17 +409,18 @@ class GetCurrentPriceFeed(Price[AssetHiveHF26, AssetHbdHF26]):
     """
 
 
-class GetDynamicGlobalProperties(PreconfiguredBaseModel):
+class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
     """
     This class doesn't need fundament class
+    You need to choose asset format by generics when you want to use this class
     """
 
     available_account_subsidies: HiveInt
     content_reward_percent: HiveInt
     current_aslot: HiveInt
-    current_hbd_supply: AssetHbdHF26
+    current_hbd_supply: AssetHbd
     current_remove_threshold: HiveInt
-    current_supply: AssetHiveHF26
+    current_supply: AssetHive
     current_witness: AccountName
     delegation_return_period: HiveInt
     downvote_pool_percent: HiveInt
@@ -430,7 +432,7 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel):
     head_block_id: TransactionId
     head_block_number: HiveInt
     id_: HiveInt = Field(..., alias="id")
-    init_hbd_supply: AssetHbdHF26
+    init_hbd_supply: AssetHbd
     last_budget_time: HiveDateTime
     last_irreversible_block_num: HiveInt
     max_consecutive_recurrent_transfer_failures: HiveInt
@@ -443,35 +445,35 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel):
     next_maintenance_time: HiveDateTime
     num_pow_witnesses: HiveInt
     participation_count: HiveInt
-    pending_rewarded_vesting_hive: AssetHiveHF26
-    pending_rewarded_vesting_shares: AssetVestsHF26
+    pending_rewarded_vesting_hive: AssetHive
+    pending_rewarded_vesting_shares: AssetVests
     recent_slots_filled: HiveInt
     required_actions_partition_percent: HiveInt
     reverse_auction_seconds: HiveInt
     proposal_fund_percent: HiveInt
-    dhf_interval_ledger: AssetHbdHF26
+    dhf_interval_ledger: AssetHbd
     time: HiveDateTime
     total_pow: HiveInt
-    total_reward_fund_hive: AssetHiveHF26
+    total_reward_fund_hive: AssetHive
     total_reward_shares2: HiveInt
-    total_vesting_fund_hive: AssetHiveHF26
-    total_vesting_shares: AssetVestsHF26
+    total_vesting_fund_hive: AssetHive
+    total_vesting_shares: AssetVests
     vesting_reward_percent: HiveInt
-    virtual_supply: AssetHiveHF26
+    virtual_supply: AssetHive
     vote_power_reserve_rate: HiveInt
 
 
-class GetFeedHistory(PreconfiguredBaseModel):
+class GetFeedHistory(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
     """
     This class doesn't need fundament class.
     """
 
     id_: HiveInt = Field(..., alias="id")
-    current_median_history: Price[AssetHiveHF26, AssetHbdHF26]
-    market_median_history: Price[AssetHiveHF26, AssetHbdHF26]
-    current_min_history: Price[AssetHiveHF26, AssetHbdHF26]
-    current_max_history: Price[AssetHiveHF26, AssetHbdHF26]
-    price_history: list[Price[AssetHiveHF26, AssetHbdHF26]]
+    current_median_history: Price[AssetHive, AssetHbd]
+    market_median_history: Price[AssetHive, AssetHbd]
+    current_min_history: Price[AssetHive, AssetHbd]
+    current_max_history: Price[AssetHive, AssetHbd]
+    price_history: list[Price[AssetHive, AssetHbd]]
 
 
 class GetHardforkProperties(PreconfiguredBaseModel):
