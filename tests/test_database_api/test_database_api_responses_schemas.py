@@ -5,6 +5,7 @@ from typing import Any
 import pytest
 
 from schemas.__private.hive_factory import HiveResult
+from schemas.__private.hive_fields_basic_schemas import AssetHbdHF26, AssetHiveHF26, AssetVestsHF26
 from schemas.database_api import (
     FindAccountRecoveryRequests,
     FindAccounts,
@@ -135,7 +136,7 @@ from tests.test_database_api.reponses_from_api import (
         (LIST_PROPOSAL_VOTES, ListProposalVotes),
         (LIST_VESTING_DELEGATIONS, ListVestingDelegations),
         (FIND_LIMIT_ORDERS, FindLimitOrders),
-        (GET_DYNAMIC_GLOBAL_PROPERTIES, GetDynamicGlobalProperties),
+        (GET_DYNAMIC_GLOBAL_PROPERTIES, GetDynamicGlobalProperties[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]),
         (GET_CONFIG, GetConfig),
         (GET_POTENTIAL_SIGNATURES, GetPotentialSignatures),
         (GET_WITNESS_SCHEDULE, GetWitnessSchedule),
@@ -144,7 +145,7 @@ from tests.test_database_api.reponses_from_api import (
         (GET_REQUIRED_SIGNATURES, GetRequiredSignatures),
         (GET_VERSION, GetVersion),
         (GET_ORDER_BOOK, GetOrderBook),
-        (GET_FEED_HISTORY, GetFeedHistory),
+        (GET_FEED_HISTORY, GetFeedHistory[AssetHiveHF26, AssetHbdHF26]),
         (GET_REWARD_FUNDS, GetRewardFunds),
         (GET_ACTIVE_WITNESSES, GetActiveWitnesses),
         (GET_TRANSACTION_HEX, GetTransactionHex),
