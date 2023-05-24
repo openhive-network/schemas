@@ -124,3 +124,45 @@ class GetCommentDiscussionsByPayoutFundament(fundaments_database_api.FindComment
     root_title: str
     post_id: HiveInt
     active_votes: list[ActiveVotes]
+
+
+class GetDiscussionsByAuthorBeforeDateFundament(GetCommentDiscussionsByPayoutFundament):
+    """The same structure as response above ->  GetCommentDiscussionsByPayoutFundament"""
+
+
+class GetEscrowFundament(fundaments_database_api.EscrowsFundament[AssetHiveLegacy, AssetHbdLegacy]):
+    """Identical like response from database_api, just one additional field and Legacy format of Assets
+    This response could also be null, the reason why split into Fundament and main response
+    """
+
+
+class GetExpiringVestingDelegationFundament(PreconfiguredBaseModel):
+    id_: HiveInt = Field(..., alias="id")
+    delegator: AccountName
+    vesting_shares: AssetVestsLegacy
+    expiration: HiveDateTime
+
+
+class FollowFundament(PreconfiguredBaseModel):
+    """response without base in any other api
+    fundament for get_followers and get_following
+    """
+
+    follower: AccountName
+    following: AccountName
+    what: list[str]
+
+
+class GetOpsInBlockFundament(LegacyApiAllOperationObject):
+    """just operation_id from base excluded, rest the same"""
+
+    operation_id: HiveInt | None = Field(None, exclude=True)  # type: ignore
+
+
+class GetTrendingTagsFundament(PreconfiguredBaseModel):
+    name: AccountName
+    total_payouts: AssetHbdLegacy
+    top_posts: HiveInt
+    comments: HiveInt
+    net_votes: HiveInt | None
+    trending: str | None
