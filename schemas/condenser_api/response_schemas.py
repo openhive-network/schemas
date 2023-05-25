@@ -1,3 +1,8 @@
+"""
+    All the responses from this file have already specified Assets types to Legacy.
+    There is no need to specify it by Generic, when want ot use.
+"""
+
 from __future__ import annotations
 
 from typing import Any, Literal
@@ -23,7 +28,15 @@ from schemas.__private.hive_fields_basic_schemas import (
     HiveInt,
     PublicKey,
 )
-from schemas.__private.hive_fields_custom_schemas import FloatAsString, HardforkVersion, Hex, Price, Proposal
+from schemas.__private.hive_fields_custom_schemas import (
+    FloatAsString,
+    HardforkVersion,
+    Hex,
+    HiveVersion,
+    Price,
+    Proposal,
+    RcAccountObject,
+)
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.condenser_api.fundaments_of_responses import (
     FollowFundament,
@@ -41,6 +54,9 @@ from schemas.condenser_api.fundaments_of_responses import (
     GetOpsInBlockFundament,
     GetTrendingTagsFundament,
     HiveMindResponses,
+    ListProposalsFundament,
+    ListRcDirectDelegationsFundament,
+    LookupAccountNamesFundament,
 )
 
 
@@ -65,7 +81,8 @@ class FindRecurrentTransfers(fundaments_database_api.FindRecurrentTransfersFunda
     """Identical response like fundament for find_recurrent_transfers from database_api, but assets are legacy"""
 
 
-GetAccountCount = HiveInt  # should return just integer
+class GetAccountCount(HiveInt):
+    """Should return just integer"""
 
 
 GetAccountHistory = list[HiveInt, GetAccountHistoryFundament]  # type: ignore
@@ -347,3 +364,75 @@ GetTransactionHex = Hex
 
 """"list of fundament from fundaments_file"""
 GetTrendingTags = list[GetTrendingTagsFundament]
+
+
+class GetVersion(HiveVersion):
+    """Identical as field HiveVersion"""
+
+
+class ListVestingDelegations(fundaments_database_api.VestingDelegationsFundament[AssetVestsLegacy]):
+    """Identical as in database_api, just legacy format of Assets"""
+
+
+class GetVolume(market_history_api.GetVolume[AssetHiveLegacy, AssetHbdLegacy]):
+    """Everything the same as in market_history_api"""
+
+
+"""List of fundaments for list_withdraw_vesting_routes from database_api"""
+GetWithdrawRoutes = list[fundaments_database_api.WithdrawVestingRoutesFundament]
+
+
+class GetWitnessByAccount(fundaments_database_api.WitnessesFundament[AssetHiveLegacy, AssetHbdLegacy]):
+    """Identical as in database_api, just Legacy format of Assets"""
+
+
+class GetWitnessCount(HiveInt):
+    """Should return just integer"""
+
+
+class GetWitnessesSchedule(database_api.GetWitnessSchedule[AssetHiveLegacy]):
+    """Identical as in database_api, just Legacy format of Assets"""
+
+
+"""List of fundaments from database_api in Legacy Asset format"""
+GetWitnesses = list[fundaments_database_api.WitnessesFundament[AssetHiveLegacy, AssetHbdLegacy]]
+
+
+class GetWitnessesByVote(GetWitnesses):
+    """Identical response as GetWitnesses from condenser_api"""
+
+
+"""Should return just bool value"""
+IsKnownTransaction = bool
+
+
+"""List of fundaments from database_api in Legacy format"""
+ListProposalVotes = list[fundaments_database_api.ListProposalVotesFundament[AssetHbdLegacy]]
+
+
+"""Fundament is from fields -> Proposal, status pole excluded  and Asset converted to Legacy"""
+ListProposals = list[ListProposalsFundament]
+
+
+"""List of field from custom_fields in Legacy Asset format """
+ListRcAccounts = list[RcAccountObject[AssetVestsLegacy]]
+
+
+ListRcDirectDelegations = list[ListRcDirectDelegationsFundament]
+
+
+LookupAccountNames = list[LookupAccountNamesFundament]
+
+
+class LookupAccounts(wallet_bridge_api.ListAccounts):
+    """Identical as in wallet_bridge_api"""
+
+
+LookupWitnessAccounts = list[AccountName]
+
+
+"""Should return just bool"""
+VerifyAccountAuthority = bool
+
+"""Should return just bool"""
+verify_authority = bool
