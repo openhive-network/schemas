@@ -5100,3 +5100,30 @@ LOOKUP_ACCOUNTS: Final[dict[str, Any]] = {
     ],
     "id": 1,
 }
+GET_FEED: Final[dict[str, Any]] = {
+    "jsonrpc": "2.0",
+    "error": {
+        "code": -32003,
+        "message": "Assert Exception:false: Supported by hivemind",
+        "data": {
+            "code": 10,
+            "name": "assert_exception",
+            "message": "Assert Exception",
+            "stack": [
+                {
+                    "context": {
+                        "level": "error",
+                        "file": "condenser_api.cpp",
+                        "line": 1053,
+                        "method": "get_feed",
+                        "hostname": "",
+                        "timestamp": "2023-05-25T12:36:17",
+                    },
+                    "format": "false: Supported by hivemind",
+                    "data": {},
+                }
+            ],
+        },
+    },
+    "id": 1,
+}
