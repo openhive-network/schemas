@@ -15,7 +15,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     HiveDateTime,
     HiveInt,
 )
-from schemas.__private.hive_fields_custom_schemas import Permlink
+from schemas.__private.hive_fields_custom_schemas import Permlink, Proposal
 from schemas.__private.operation_objects import LegacyApiAllOperationObject
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
@@ -166,3 +166,22 @@ class GetTrendingTagsFundament(PreconfiguredBaseModel):
     comments: HiveInt
     net_votes: HiveInt | None
     trending: str | None
+
+
+class ListProposalsFundament(Proposal[AssetHbdLegacy]):
+    """Proposal field converted to Legacy format of Assets"""
+
+
+class ListRcDirectDelegationsFundament(PreconfiguredBaseModel):
+    from_: AccountName = Field(..., alias="from")
+    to: AccountName
+    delegated_rc: HiveInt
+
+
+class LookupAccountNamesFundament(
+    fundaments_database_api.AccountItemFundament[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
+):
+    last_post_edit: HiveDateTime | None = Field(None, exclude=True)  # type: ignore
+    is_smt: bool | None = Field(None, exclude=True)  # type: ignore
+
+    voting_power: HiveInt
