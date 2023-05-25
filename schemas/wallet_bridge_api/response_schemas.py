@@ -5,7 +5,14 @@ from typing import Generic
 from pydantic import Field
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import AssetHbdHF26, AssetHive, AssetHiveHF26, AssetVests, HiveInt
+from schemas.__private.hive_fields_basic_schemas import (
+    AccountName,
+    AssetHbdHF26,
+    AssetHive,
+    AssetHiveHF26,
+    AssetVests,
+    HiveInt,
+)
 from schemas.__private.hive_fields_custom_schemas import Price, RcAccountObject, TransactionId
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.wallet_bridge_api.fundaments_of_responses import (
@@ -41,3 +48,6 @@ GetConversionRequests = list[GetConversionRequestsFundament[AssetHbdHF26]]
 
 class GetCurrentMedianHistoryPrice(Price[AssetHiveHF26, AssetHbdHF26]):
     """Identical response as Price field, HF26 format of Assets"""
+
+
+ListAccounts = list[AccountName]
