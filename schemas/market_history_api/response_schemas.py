@@ -48,3 +48,10 @@ class GetTicker(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHb
 
 class GetTradeHistory(PreconfiguredBaseModel):
     trades: list[GetTradeHistoryFundament[AssetHiveHF26, AssetHbdHF26]]
+
+
+class GetVolume(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+    """Must specify type of Assets by generic when using"""
+
+    hive_volume: AssetHive
+    hbd_volume: AssetHbd
