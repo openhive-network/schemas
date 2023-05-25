@@ -520,7 +520,9 @@ class GetVersion(HiveVersion):
     """Identical response as HiveVersion field"""
 
 
-class GetWitnessSchedule(PreconfiguredBaseModel):
+class GetWitnessSchedule(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+    """When want to use must specify Asset type by Generic"""
+
     id_: HiveInt = Field(..., alias="id")
     current_virtual_time: HiveInt
     next_shuffle_block_num: HiveInt
@@ -531,7 +533,7 @@ class GetWitnessSchedule(PreconfiguredBaseModel):
     timeshare_weight: HiveInt
     miner_weight: HiveInt
     witness_pay_normalization_factor: HiveInt
-    median_props: Props[AssetHiveHF26]
+    median_props: Props[AssetHive]
     majority_version: HardforkVersion
     max_voted_witnesses: HiveInt
     max_miner_witnesses: HiveInt
@@ -540,7 +542,7 @@ class GetWitnessSchedule(PreconfiguredBaseModel):
     account_subsidy_rd: RdDynamicParams
     account_subsidy_witness_rd: RdDynamicParams
     min_witness_account_subsidy_decay: HiveInt
-    future_changes: GetWitnessScheduleFutureChangesFundament[AssetHiveHF26] | None
+    future_changes: GetWitnessScheduleFutureChangesFundament[AssetHive] | None
 
 
 class IsKnownTransaction(PreconfiguredBaseModel):
