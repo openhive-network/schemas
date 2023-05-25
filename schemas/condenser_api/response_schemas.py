@@ -23,7 +23,6 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHbdLegacy,
     AssetHiveLegacy,
     AssetVestsLegacy,
-    EmptyString,
     HiveDateTime,
     HiveInt,
     PublicKey,
@@ -34,11 +33,11 @@ from schemas.__private.hive_fields_custom_schemas import (
     Hex,
     HiveVersion,
     Price,
-    Proposal,
     RcAccountObject,
 )
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.condenser_api.fundaments_of_responses import (
+    FindProposalsFundament,
     FollowFundament,
     GetAccountHistoryFundament,
     GetAccountReputationsFundament,
@@ -68,24 +67,22 @@ class BroadcastTransactionSynchronous(wallet_bridge_api.BroadcastTransactionSync
     """Identical response as response from wallet_bridge_api"""
 
 
-class FindProposals(Proposal[AssetHbdLegacy]):
-    """This response is identical as Proposal field, but here Legacy format is required and status excluded"""
-
-    status: str | None = Field(None, exclude=True)  # type: ignore
+"""List of Proposals in Legacy format and without status field"""
+FindProposals = list[FindProposalsFundament]
 
 
 FindRcAccounts = wallet_bridge_api.FindRcAccounts[AssetVestsLegacy]  # identical as in wallet_bridge_api, but legacy
 
 
-class FindRecurrentTransfers(fundaments_database_api.FindRecurrentTransfersFundament[AssetHiveLegacy]):
-    """Identical response like fundament for find_recurrent_transfers from database_api, but assets are legacy"""
+"""List of FindRecurrentTransfersFundaments from database_api in Legacy Assets format"""
+FindRecurrentTransfers = list[fundaments_database_api.FindRecurrentTransfersFundament[AssetHiveLegacy]] | list[str]
 
 
 class GetAccountCount(HiveInt):
     """Should return just integer"""
 
 
-GetAccountHistory = list[HiveInt, GetAccountHistoryFundament]  # type: ignore
+GetAccountHistory = list[tuple[HiveInt, GetAccountHistoryFundament]]
 
 
 GetAccountReputations = list[GetAccountReputationsFundament]
@@ -97,10 +94,7 @@ GetAccounts = list[GetAccountsFundament]
 GetActiveVotes = list[GetActiveVotesFundament]
 
 
-class GetActiveWitnesses(database_api.GetActiveWitnesses):
-    """Identical response as in database_api, future_witnesses pole exclude"""
-
-    future_witnesses: list[AccountName | EmptyString] | None = Field(None, exclude=True)
+GetActiveWitnesses = list[AccountName]
 
 
 GetBlock = GetBlockFundament | fundaments_block_api.EmptyModel
@@ -141,21 +135,20 @@ class GetConfig(database_api.GetConfig[AssetHiveLegacy, AssetHbdLegacy]):
 class GetContent(fundaments_database_api.FindCommentsFundament[AssetHbdLegacy]):
     """Base from database_api, some additional fields"""
 
-    active: HiveDateTime
     url: str
     root_title: str
-    pending_payout_value: AssetHiveLegacy
-    total_pending_payout_value: AssetHiveLegacy
-    active_votes: list[str]
+    pending_payout_value: AssetHiveLegacy | AssetHbdLegacy
+    total_pending_payout_value: AssetHiveLegacy | AssetHbdLegacy
+    active_votes: list[GetActiveVotesFundament]
     replies: list[str]
     author_reputation: HiveInt
-    promoted: AssetHiveLegacy
+    promoted: AssetHiveLegacy | AssetHbdLegacy
     body_length: HiveInt
     reblogged_by: list[str]
 
 
-class GetContentReplies(GetContent):
-    """Identical response like GetContent above"""
+"""List of GetContent fields"""
+GetContentReplies = list[GetContent]
 
 
 """Identical as in wallet_bridge_api, just Legacy Asset format"""
@@ -270,7 +263,7 @@ class GetMarketHistory(fundaments_market_history_api.GetMarketHistoryFundament):
 
 
 """This response should includes list with sizes of buckets"""
-GetMarketHistoryBuckets = market_history_api.GetMarketHistoryBuckets.check_bucket_sizes
+GetMarketHistoryBuckets = list[fundaments_market_history_api.BucketSizes]
 
 
 class GetNextScheduledHardfork(PreconfiguredBaseModel):
@@ -294,8 +287,8 @@ GetOpsInBlock = list[GetOpsInBlockFundament]  # something is wrong with operatio
 class GetOrderBook(PreconfiguredBaseModel):
     """Types of poles are from database_api_fundaments"""
 
-    asks: fundaments_database_api.GetOrderBookFundament[AssetHiveLegacy, AssetHbdLegacy]
-    bids: fundaments_database_api.GetOrderBookFundament[AssetHiveLegacy, AssetHbdLegacy]
+    asks: list[fundaments_database_api.GetOrderBookFundament[AssetHiveLegacy, AssetHbdLegacy]]
+    bids: list[fundaments_database_api.GetOrderBookFundament[AssetHiveLegacy, AssetHbdLegacy]]
 
 
 class GetOwnerHistory(fundaments_database_api.OwnerHistoriesFundament):
@@ -314,8 +307,8 @@ GetPotentialSignatures = list[PublicKey] | list[str]
 GetRebloggedBy = list[AccountName]
 
 
-class GetRecentTrades(fundaments_market_history_api.GetRecentTradesFundament[AssetHiveLegacy, AssetHbdLegacy]):
-    """The same as fundament for get_recent_trades from market_history_api"""
+"""List of fundament from database_api"""
+GetRecentTrades = list[fundaments_market_history_api.GetRecentTradesFundament[AssetHiveLegacy, AssetHbdLegacy]]
 
 
 """Null or fundament from database_api"""
@@ -350,8 +343,8 @@ class GetTicker(market_history_api.GetTicker[AssetHiveLegacy, AssetHbdLegacy]):
     """The same response as in market_history_api"""
 
 
-class GetTradeHistory(fundaments_market_history_api.GetTradeHistoryFundament[AssetHiveLegacy, AssetHbdLegacy]):
-    """The same response as fundament for get_trade_history from market_history_api"""
+"""List of fundament from database_api"""
+GetTradeHistory = list[fundaments_market_history_api.GetTradeHistoryFundament[AssetHiveLegacy, AssetHbdLegacy]]
 
 
 class GetTransaction(account_history_api.GetTransaction):

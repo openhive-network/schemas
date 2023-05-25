@@ -28,6 +28,12 @@ class HiveMindResponses(PreconfiguredBaseModel):
     data: dict[str, Any]
 
 
+class FindProposalsFundament(Proposal[AssetHbdLegacy]):
+    """Change format of Assets to Legacy, excluded status field"""
+
+    status: str | None = Field(None, exclude=True)  # type: ignore
+
+
 class GetAccountReputationsFundament(PreconfiguredBaseModel):
     account: AccountName
     reputation: HiveInt
@@ -73,20 +79,11 @@ class GetBlockFundament(fundaments_block_api.Block):
     extensions: list[tuple[str, Any]]
 
 
-class GetBlogFundament(fundaments_database_api.FindCommentsFundament[AssetHbdLegacy]):
-    """Identical as find_comments in database_api, just four more fields"""
-
-    active: HiveDateTime
-    blog: AccountName
-    reblog_on: HiveDateTime
-    entry_id: HiveInt
-
-
 class GetBlogEntriesFundament(PreconfiguredBaseModel):
     author: AccountName
     permlink: str
     blog: AccountName
-    reblog_on: HiveDateTime
+    reblogged_on: HiveDateTime
     entry_id: HiveInt
 
 
@@ -124,6 +121,15 @@ class GetCommentDiscussionsByPayoutFundament(fundaments_database_api.FindComment
     root_title: str
     post_id: HiveInt
     active_votes: list[ActiveVotes]
+
+
+class GetBlogFundament(PreconfiguredBaseModel):
+    """Identical as find_comments in database_api, just four more fields"""
+
+    blog: AccountName
+    entry_id: HiveInt
+    comment: GetCommentDiscussionsByPayoutFundament  # this field is the same as model GetCommentDiscussionByPayout
+    reblogged_on: HiveDateTime
 
 
 class GetDiscussionsByAuthorBeforeDateFundament(GetCommentDiscussionsByPayoutFundament):
@@ -170,6 +176,8 @@ class GetTrendingTagsFundament(PreconfiguredBaseModel):
 
 class ListProposalsFundament(Proposal[AssetHbdLegacy]):
     """Proposal field converted to Legacy format of Assets"""
+
+    status: str | None = Field(None, exclude=True)  # type: ignore
 
 
 class ListRcDirectDelegationsFundament(PreconfiguredBaseModel):

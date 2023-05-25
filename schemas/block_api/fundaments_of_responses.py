@@ -14,7 +14,7 @@ class Block(PreconfiguredBaseModel):
     previous: TransactionId
     signing_key: PublicKey
     timestamp: HiveDateTime
-    transaction_ids: TransactionId
+    transaction_ids: list[TransactionId]
     transaction_merkle_root: TransactionId
     transactions: list[Hf26Transaction | LegacyTransaction]
     witness: AccountName
