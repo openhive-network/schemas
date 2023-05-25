@@ -33,6 +33,7 @@ from schemas.condenser_api.response_schemas import (
     GetDiscussionsByTrending,
     GetDynamicGlobalProperties,
     GetEscrow,
+    GetFeed,
     GetFeedHistory,
     GetFollowCount,
     GetFollowers,
@@ -93,6 +94,7 @@ from tests.test_condenser_api.responses_from_api import (
     GET_DISCUSSIONS_BY_TRENDING,
     GET_DYNAMIC_GLOBAL_PROPERTIES,
     GET_ESCROW,
+    GET_FEED,
     GET_FEED_HISTORY,
     GET_FOLLOW_COUNT,
     GET_FOLLOWERS,
@@ -188,6 +190,7 @@ from tests.test_condenser_api.responses_from_api import (
         (GetAccountHistory, GET_ACCOUNT_HISTORY),
         (GetOpsInBlock, GET_OPS_IN_BLOCK),
         (GetTransaction, GET_TRANSACTION),
+        (GetFeed, GET_FEED),
     ],
 )
 def test_condenser_api_correct_values(schema: Any, parameters: Any) -> None:

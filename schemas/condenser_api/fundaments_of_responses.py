@@ -24,7 +24,7 @@ class HiveMindResponses(PreconfiguredBaseModel):
     """Base class for all responses from HiveMind"""
 
     code: Literal[-32003]
-    message: str
+    message: Literal["Assert Exception:false: Supported by hivemind"]
     data: dict[str, Any]
 
 
