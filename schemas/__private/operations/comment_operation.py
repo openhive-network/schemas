@@ -19,4 +19,4 @@ class CommentOperation(Operation):
     permlink: str
     title: str
     body: str
-    json_metadata: Json[Any] | EmptyString
+    json_metadata: str

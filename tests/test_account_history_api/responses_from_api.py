@@ -165,31 +165,7 @@ GET_ACCOUNT_HISTORY = {
                     },
                     "operation_id": 0,
                 },
-            ],
-            [
-                1000,
-                {
-                    "trx_id": "7a31d99559a3d93526bd1a05fd9fa0f55b1ebcb8",
-                    "block": 41745898,
-                    "trx_in_block": 13,
-                    "op_in_trx": 1,
-                    "virtual_op": True,
-                    "timestamp": "2020-03-18T01:11:48",
-                    "op": {
-                        "type": "effective_comment_vote_operation",
-                        "value": {
-                            "voter": "lecumberre",
-                            "author": "hiveio",
-                            "permlink": "announcing-the-launch-of-hive-blockchain",
-                            "weight": 835,
-                            "rshares": "56243682705",
-                            "total_vote_weight": 21629700,
-                            "pending_payout": {"amount": "150705", "precision": 3, "nai": "@@000000013"},
-                        },
-                    },
-                    "operation_id": 0,
-                },
-            ],
+            ]
         ]
     },
     "id": 1,
