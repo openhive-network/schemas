@@ -7,7 +7,6 @@ from pydantic.generics import GenericModel
 
 import schemas.account_history_api.response_schemas as account_history_api
 import schemas.block_api.fundaments_of_responses as fundaments_block_api
-import schemas.condenser_api.response_schemas as condenser_api
 import schemas.database_api.fundaments_of_reponses as fundaments_database_api
 import schemas.database_api.response_schemas as database_api
 import schemas.network_broadcast_api.response_schemas as network_broadcast_api
@@ -135,8 +134,7 @@ class GetVersion(database_api.GetVersion):
     """Identical as in database_api"""
 
 
-class GetWithdrawRoutes(condenser_api.GetWithdrawRoutes):
-    """identical as in condenser_api"""
+GetWithdrawRoutes = list[fundaments_database_api.WithdrawVestingRoutesFundament]
 
 
 GetWitness = Literal["Null"] | AccountName
