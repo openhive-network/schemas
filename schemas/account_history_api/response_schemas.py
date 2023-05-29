@@ -12,9 +12,11 @@ from schemas.__private.operation_objects import (
     LegacyApiOperationObject,
     LegacyApiVirtualOperationObject,
 )
+from schemas.__private.operations import Hf26OperationRepresentationType, LegacyOperationRepresentationType
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament
 
+OperationT = TypeVar("OperationT", bound=Hf26OperationRepresentationType | LegacyOperationRepresentationType)
 ApiOperationObjectT = TypeVar("ApiOperationObjectT", bound=Hf26ApiOperationObject | LegacyApiOperationObject)
 ApiVirtualOperationObjectT = TypeVar(
     "ApiVirtualOperationObjectT", bound=Hf26ApiVirtualOperationObject | LegacyApiVirtualOperationObject
@@ -36,11 +38,11 @@ class GetOpsInBlock(PreconfiguredBaseModel, GenericModel, Generic[ApiOperationOb
     ops: list[ApiOperationObjectT | ApiVirtualOperationObjectT]
 
 
-class GetTransaction(PreconfiguredBaseModel, GenericModel, Generic[ApiOperationObjectT]):
+class GetTransaction(PreconfiguredBaseModel, GenericModel, Generic[OperationT]):
     block_num: HiveInt
     expiration: HiveDateTime
     extensions: list[Any]
-    operations: list[ApiOperationObjectT]
+    operations: list[OperationT]
     ref_block_num: HiveInt
     ref_block_prefix: HiveInt
     signatures: list[Signature]
