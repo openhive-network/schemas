@@ -1,45 +1,46 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Generic, TypeVar
+
+from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_basic_schemas import HiveDateTime, HiveInt
 from schemas.__private.hive_fields_custom_schemas import Signature, TransactionId
-from schemas.__private.operation_objects import Hf26ApiAllOperationObject, LegacyApiAllOperationObject
-from schemas.__private.operations import (
-    Hf26OperationRepresentationType,  # pyright: ignore
-    Hf26VirtualOperationRepresentationType,  # pyright: ignore
-    LegacyOperationRepresentationType,
-    LegacyVirtualOperationRepresentationType,
+from schemas.__private.operation_objects import (
+    Hf26ApiOperationObject,
+    Hf26ApiVirtualOperationObject,
+    LegacyApiOperationObject,
+    LegacyApiVirtualOperationObject,
 )
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament
 
+ApiOperationObjectT = TypeVar("ApiOperationObjectT", bound=Hf26ApiOperationObject | LegacyApiOperationObject)
+ApiVirtualOperationObjectT = TypeVar(
+    "ApiVirtualOperationObjectT", bound=Hf26ApiVirtualOperationObject | LegacyApiVirtualOperationObject
+)
 
-class EnumVirtualOps(PreconfiguredBaseModel):
-    ops: list[Hf26ApiAllOperationObject | LegacyApiAllOperationObject]
+
+class EnumVirtualOps(PreconfiguredBaseModel, GenericModel, Generic[ApiVirtualOperationObjectT]):
+    ops: list[ApiVirtualOperationObjectT]
     ops_by_block: list[EnumVirtualOpsFieldFundament]
     next_block_range_begin: HiveInt
     next_operation_begin: HiveInt
 
 
-class GetAccountHistory(PreconfiguredBaseModel):
-    history: list[tuple[HiveInt, Hf26ApiAllOperationObject | LegacyApiAllOperationObject]]
+class GetAccountHistory(PreconfiguredBaseModel, GenericModel, Generic[ApiOperationObjectT, ApiVirtualOperationObjectT]):
+    history: list[tuple[HiveInt, ApiOperationObjectT | ApiVirtualOperationObjectT]]
 
 
-class GetOpsInBlock(PreconfiguredBaseModel):
-    ops: list[Hf26ApiAllOperationObject | LegacyApiAllOperationObject]
+class GetOpsInBlock(PreconfiguredBaseModel, GenericModel, Generic[ApiOperationObjectT, ApiVirtualOperationObjectT]):
+    ops: list[ApiOperationObjectT | ApiVirtualOperationObjectT]
 
 
-class GetTransaction(PreconfiguredBaseModel):
+class GetTransaction(PreconfiguredBaseModel, GenericModel, Generic[ApiOperationObjectT]):
     block_num: HiveInt
     expiration: HiveDateTime
     extensions: list[Any]
-    operations: list[
-        Hf26OperationRepresentationType
-        | Hf26VirtualOperationRepresentationType
-        | LegacyOperationRepresentationType
-        | LegacyVirtualOperationRepresentationType
-    ]
+    operations: list[ApiOperationObjectT]
     ref_block_num: HiveInt
     ref_block_prefix: HiveInt
     signatures: list[Signature]
