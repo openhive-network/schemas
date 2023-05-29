@@ -165,7 +165,7 @@ GET_ACCOUNT_HISTORY = {
                     },
                     "operation_id": 0,
                 },
-            ]
+            ],
         ]
     },
     "id": 1,

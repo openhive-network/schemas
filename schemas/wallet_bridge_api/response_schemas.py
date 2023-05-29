@@ -27,6 +27,7 @@ from schemas.__private.hive_fields_custom_schemas import (
     TransactionId,
 )
 from schemas.__private.operation_objects import Hf26ApiOperationObject
+from schemas.__private.operations import LegacyOperationRepresentationType
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.wallet_bridge_api.fundaments_of_responses import (
     Account,
@@ -126,7 +127,7 @@ class GetOwnerHistory(fundaments_database_api.OwnerHistoriesFundament):
     """Identical as in database_api"""
 
 
-class GetTransaction(account_history_api.GetTransaction):
+class GetTransaction(account_history_api.GetTransaction[LegacyOperationRepresentationType]):
     """Identical as in account_history_api"""
 
 
