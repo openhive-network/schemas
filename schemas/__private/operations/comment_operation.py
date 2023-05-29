@@ -1,9 +1,5 @@
 from __future__ import annotations
 
-from typing import Any
-
-from pydantic import Json
-
 from schemas.__private.hive_fields_basic_schemas import AccountName, EmptyString
 from schemas.__private.preconfigured_base_model import Operation
 

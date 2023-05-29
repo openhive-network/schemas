@@ -35,6 +35,7 @@ from schemas.__private.hive_fields_custom_schemas import (
     Price,
     RcAccountObject,
 )
+from schemas.__private.operations import LegacyOperationRepresentationType
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.condenser_api.fundaments_of_responses import (
     FindProposalsFundament,
@@ -347,7 +348,7 @@ class GetTicker(market_history_api.GetTicker[AssetHiveLegacy, AssetHbdLegacy]):
 GetTradeHistory = list[fundaments_market_history_api.GetTradeHistoryFundament[AssetHiveLegacy, AssetHbdLegacy]]
 
 
-class GetTransaction(account_history_api.GetTransaction):
+class GetTransaction(account_history_api.GetTransaction[LegacyOperationRepresentationType]):
     """The same as in account_history_api"""
 
 
