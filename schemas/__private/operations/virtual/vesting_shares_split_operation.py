@@ -8,7 +8,7 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetVests
 from schemas.__private.preconfigured_base_model import VirtualOperation
 
 
-class VestingSharesSplitOperation(VirtualOperation, GenericModel, Generic[AssetVests]):
+class VestingSharesSplitOperation(Generic[AssetVests], GenericModel, VirtualOperation):
     owner: AccountName
     vesting_shares_before_split: AssetVests
     vesting_shares_after_split: AssetVests

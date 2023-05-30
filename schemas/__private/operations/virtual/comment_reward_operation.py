@@ -8,7 +8,7 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, S
 from schemas.__private.preconfigured_base_model import VirtualOperation
 
 
-class CommentRewardOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
+class CommentRewardOperation(Generic[AssetHbd], GenericModel, VirtualOperation):
     author: AccountName
     permlink: str
     payout: AssetHbd

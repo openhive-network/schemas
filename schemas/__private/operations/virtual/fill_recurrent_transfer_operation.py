@@ -11,7 +11,7 @@ from schemas.__private.preconfigured_base_model import VirtualOperation
 DEFAULT_REMAINING_EXECUTIONS: Final[Uint16t] = Uint16t(0)
 
 
-class FillRecurrentTransferOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd]):
+class FillRecurrentTransferOperation(Generic[AssetHive, AssetHbd], GenericModel, VirtualOperation):
     from_: AccountName = Field(..., alias="from")
     to: AccountName
     amount: AssetHive | AssetHbd

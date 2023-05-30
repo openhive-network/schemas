@@ -15,7 +15,6 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHbdHF26,
     AssetHive,
     AssetHiveHF26,
-    AssetVests,
     AssetVestsHF26,
     HiveInt,
 )
@@ -54,7 +53,7 @@ class FindProposals(PreconfiguredBaseModel):
     proposals: list[Proposal[AssetHbdHF26]]
 
 
-FindRcAccounts = list[RcAccountObject[AssetVests]]
+FindRcAccounts = list[RcAccountObject[AssetVestsHF26]]
 
 
 FindRecurrentTransfers = list[FindRecurrentTransfersFundament[AssetHiveHF26]]

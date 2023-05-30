@@ -8,6 +8,6 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetVests
 from schemas.__private.preconfigured_base_model import VirtualOperation
 
 
-class ReturnVestingDelegationOperation(VirtualOperation, GenericModel, Generic[AssetVests]):
+class ReturnVestingDelegationOperation(Generic[AssetVests], GenericModel, VirtualOperation):
     account: AccountName
     vesting_shares: AssetVests

@@ -18,7 +18,7 @@ from schemas.__private.preconfigured_base_model import Operation
 DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 
 
-class EscrowTransferOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
+class EscrowTransferOperation(Generic[AssetHive, AssetHbd], GenericModel, Operation):
     from_: AccountName = Field(..., alias="from")
     to: AccountName
     agent: AccountName

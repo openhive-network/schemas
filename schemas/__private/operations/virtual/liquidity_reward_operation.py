@@ -8,6 +8,6 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHive
 from schemas.__private.preconfigured_base_model import VirtualOperation
 
 
-class LiquidityRewardOperation(VirtualOperation, GenericModel, Generic[AssetHive]):
+class LiquidityRewardOperation(Generic[AssetHive], GenericModel, VirtualOperation):
     owner: AccountName
     payout: AssetHive

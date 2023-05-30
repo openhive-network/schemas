@@ -10,7 +10,7 @@ from schemas.__private.preconfigured_base_model import VirtualOperation
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class FillCollateralizedConvertRequestOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd]):
+class FillCollateralizedConvertRequestOperation(Generic[AssetHive, AssetHbd], GenericModel, VirtualOperation):
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
     amount_in: AssetHive

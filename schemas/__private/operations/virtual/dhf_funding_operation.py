@@ -8,6 +8,6 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd
 from schemas.__private.preconfigured_base_model import VirtualOperation
 
 
-class DhfFundingOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
+class DhfFundingOperation(Generic[AssetHbd], GenericModel, VirtualOperation):
     treasury: AccountName
     additional_funds: AssetHbd

@@ -8,7 +8,7 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, A
 from schemas.__private.preconfigured_base_model import VirtualOperation
 
 
-class HardforkHiveOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
+class HardforkHiveOperation(Generic[AssetHive, AssetHbd, AssetVests], GenericModel, VirtualOperation):
     account: AccountName
     treasury: AccountName
     other_affected_accounts: list[AccountName]
