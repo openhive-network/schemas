@@ -10,7 +10,7 @@ from schemas.__private.preconfigured_base_model import VirtualOperation
 DEFAULT_IS_SAVED_INTO_HBD_BALANCE: Final[bool] = False
 
 
-class InterestOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
+class InterestOperation(Generic[AssetHbd], GenericModel, VirtualOperation):
     owner: AccountName
     interest: AssetHbd
     is_saved_into_hbd_balance: bool = DEFAULT_IS_SAVED_INTO_HBD_BALANCE

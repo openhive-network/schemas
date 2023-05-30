@@ -8,7 +8,7 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetVests
 from schemas.__private.preconfigured_base_model import VirtualOperation
 
 
-class AccountCreatedOperation(VirtualOperation, GenericModel, Generic[AssetVests]):
+class AccountCreatedOperation(Generic[AssetVests], GenericModel, VirtualOperation):
     new_account_name: AccountName
     creator: AccountName
     initial_vesting_shares: AssetVests

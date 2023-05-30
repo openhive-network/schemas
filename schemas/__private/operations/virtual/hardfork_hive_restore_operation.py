@@ -8,7 +8,7 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, A
 from schemas.__private.preconfigured_base_model import VirtualOperation
 
 
-class HardforkHiveRestoreOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd]):
+class HardforkHiveRestoreOperation(Generic[AssetHive, AssetHbd], GenericModel, VirtualOperation):
     account: AccountName
     treasury: AccountName
     hbd_transferred: AssetHbd

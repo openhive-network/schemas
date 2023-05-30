@@ -11,7 +11,7 @@ DEFAULT_CURRENT_ORDERID: Final[Uint32t] = Uint32t(0)
 DEFAULT_OPEN_ORDERID: Final[Uint32t] = Uint32t(0)
 
 
-class FillOrderOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd]):
+class FillOrderOperation(Generic[AssetHive, AssetHbd], GenericModel, VirtualOperation):
     current_owner: AccountName
     current_orderid: Uint32t = DEFAULT_CURRENT_ORDERID
     current_pays: AssetHive | AssetHbd

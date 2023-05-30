@@ -10,7 +10,7 @@ from schemas.__private.preconfigured_base_model import VirtualOperation
 DEFAULT_PROPOSAL_ID: Final[Uint32t] = Uint32t(0)
 
 
-class ProposalFeeOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
+class ProposalFeeOperation(Generic[AssetHbd], GenericModel, VirtualOperation):
     creator: AccountName
     treasury: AccountName
     proposal_id: Uint32t = DEFAULT_PROPOSAL_ID

@@ -72,7 +72,7 @@ class BroadcastTransactionSynchronous(wallet_bridge_api.BroadcastTransactionSync
 FindProposals = list[FindProposalsFundament]
 
 
-FindRcAccounts = wallet_bridge_api.FindRcAccounts[AssetVestsLegacy]  # identical as in wallet_bridge_api, but legacy
+FindRcAccounts = list[RcAccountObject[AssetVestsLegacy]]  # identical as in wallet_bridge_api, but legacy
 
 
 """List of FindRecurrentTransfersFundaments from database_api in Legacy Assets format"""

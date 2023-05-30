@@ -17,7 +17,7 @@ DEFAULT_ORDER_ID: Final[Uint32t] = Uint32t(0)
 DEFAULT_FILL_OR_KILL: Final[bool] = False
 
 
-class LimitOrderCreateOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
+class LimitOrderCreateOperation(Generic[AssetHive, AssetHbd], GenericModel, Operation):
     owner: AccountName
     order_id: Uint32t = DEFAULT_ORDER_ID
     amount_to_sell: AssetHbd | AssetHive

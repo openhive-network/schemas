@@ -12,7 +12,7 @@ DEFAULT_ALLOW_VOTES: Final[bool] = True
 DEFAULT_ALLOW_CURATION_REWARDS: Final[bool] = True
 
 
-class CommentOptionsOperation(Operation, GenericModel, Generic[AssetHbd]):
+class CommentOptionsOperation(Generic[AssetHbd], GenericModel, Operation):
     author: AccountName
     permlink: str
     max_accepted_payout: AssetHbd

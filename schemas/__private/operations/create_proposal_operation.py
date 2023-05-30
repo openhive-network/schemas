@@ -8,7 +8,7 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, H
 from schemas.__private.preconfigured_base_model import Operation
 
 
-class CreateProposalOperation(Operation, GenericModel, Generic[AssetHbd]):
+class CreateProposalOperation(Generic[AssetHbd], GenericModel, Operation):
     creator: AccountName
     receiver: AccountName
     start_date: HiveDateTime

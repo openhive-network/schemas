@@ -58,14 +58,17 @@ from schemas.__private.operations.transfer_to_savings_operation import TransferT
 from schemas.__private.operations.transfer_to_vesting_operation import TransferToVestingOperation
 from schemas.__private.operations.update_proposal_operation import UpdateProposalOperation
 from schemas.__private.operations.update_proposal_votes_operation import UpdateProposalVotesOperation
+from schemas.__private.operations.virtual import (
+    LegacyEffectiveCommentVoteOperation,
+    NaiEffectiveCommentVoteOperation,
+    VirtualOperationType,
+)
 from schemas.__private.operations.vote_operation import VoteOperation
 from schemas.__private.operations.withdraw_vesting_operation import WithdrawVestingOperation
 from schemas.__private.operations.witness_block_approve_operation import WitnessBlockApproveOperation
 from schemas.__private.operations.witness_set_properties_operation import WitnessSetPropertiesOperation
 from schemas.__private.operations.witness_update_operation import WitnessUpdateOperation
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
-
-from .virtual import LegacyEffectiveCommentVoteOperation, NaiEffectiveCommentVoteOperation, VirtualOperationType
 
 OperationType = (
     AccountCreateOperation[AssetHive]

@@ -8,7 +8,7 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHive, 
 from schemas.__private.preconfigured_base_model import VirtualOperation
 
 
-class TransferToVestingCompletedOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetVests]):
+class TransferToVestingCompletedOperation(Generic[AssetHive, AssetVests], GenericModel, VirtualOperation):
     from_account: AccountName
     to_account: AccountName
     hive_vested: AssetHive

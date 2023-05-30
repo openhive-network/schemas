@@ -8,5 +8,5 @@ from schemas.__private.hive_fields_basic_schemas import AssetHbd, AssetHive, Ass
 from schemas.__private.preconfigured_base_model import VirtualOperation
 
 
-class ClearNullAccountBalanceOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
+class ClearNullAccountBalanceOperation(Generic[AssetHive, AssetHbd, AssetVests], GenericModel, VirtualOperation):
     total_cleared: list[AssetHive | AssetHbd | AssetVests]
