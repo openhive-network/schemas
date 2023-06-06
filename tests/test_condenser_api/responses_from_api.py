@@ -1625,7 +1625,6 @@ GET_ACCOUNT_HISTORY: Final[dict[str, Any]] = {
                         "account": "hiveio",
                         "json_metadata": "",
                         "posting_json_metadata": '{"profile":{"name":"Hive.io","about":"Official account for the Hive Blockchain","website":"https://hive.io","profile_image":"https://files.steempeak.com/file/steempeak/hiveio/2A1ulfS7-android-chrome-512x512.png","version":2}}',
-                        "extensions": [],
                     },
                 ],
             },
