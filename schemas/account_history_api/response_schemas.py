@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import Any, Generic, TypeVar
 
-from pydantic import root_validator
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_basic_schemas import HiveDateTime, HiveInt
@@ -49,17 +48,3 @@ class GetTransaction(PreconfiguredBaseModel, GenericModel, Generic[OperationT]):
     signatures: list[Signature]
     transaction_id: TransactionId
     transaction_num: HiveInt
-
-    @root_validator(pre=True)
-    @classmethod
-    def check_operation(cls, values: dict[str, Any]) -> dict[str, Any]:
-        operations = values["operations"]
-        for operation in operations:
-            type_of_operation = operation[0]
-            value_of_operation = operation[1]
-
-            result = {"type": type_of_operation, "value": value_of_operation}
-            index_of_operation = operations.index(operation)
-
-            values["operations"][index_of_operation] = result
-        return values

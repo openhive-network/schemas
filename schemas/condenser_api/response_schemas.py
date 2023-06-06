@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import Field, conlist
+from pydantic import Field, conlist, root_validator
 
 import schemas.account_history_api.response_schemas as account_history_api
 import schemas.block_api.fundaments_of_responses as fundaments_block_api
@@ -349,7 +349,19 @@ GetTradeHistory = list[fundaments_market_history_api.GetTradeHistoryFundament[As
 
 
 class GetTransaction(account_history_api.GetTransaction[LegacyOperationRepresentationType]):
-    """The same as in account_history_api"""
+    @root_validator(pre=True)
+    @classmethod
+    def check_operation(cls, values: dict[str, Any]) -> dict[str, Any]:
+        operations = values["operations"]
+        for operation in operations:
+            type_of_operation = operation[0]
+            value_of_operation = operation[1]
+
+            result = {"type": type_of_operation, "value": value_of_operation}
+            index_of_operation = operations.index(operation)
+
+            values["operations"][index_of_operation] = result
+        return values
 
 
 """This response return just Hex"""
