@@ -670,7 +670,6 @@ get_dynamic_global_properties = Map({
     'pending_rewarded_vesting_hive': AssetHive(),
     'pending_rewarded_vesting_shares': AssetVests(),
     'recent_slots_filled': Int(),
-    'required_actions_partition_percent': Int(),
     'reverse_auction_seconds': Int(),
     'proposal_fund_percent': Int(),
     'dhf_interval_ledger': AssetHbd(),

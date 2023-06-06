@@ -203,7 +203,6 @@ get_dynamic_global_properties = Map({
     'hbd_interest_rate': Int(),
     'hbd_print_rate': Int(),
     'maximum_block_size': Int(),
-    'required_actions_partition_percent': Int(),
     'current_aslot': Int(),
     'recent_slots_filled': Int(),
     'participation_count': Int(),
