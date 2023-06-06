@@ -60,7 +60,7 @@ class GetAccountsFundament(
     other_history: list[str]
 
 
-class GetAccountHistoryFundament(LegacyApiAllOperationObject):
+class GetAccountHistoryFundament(LegacyApiAllOperationObject):  # type: ignore
     operation_id: HiveInt = Field(None, exclude=True)  # type: ignore
 
 
