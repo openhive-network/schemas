@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Literal, NamedTuple, Union, get_args  # pyright: ignore # noqa: F401
 
-from pydantic import Field
+from pydantic import BaseModel, Field  # noqa: F401
 from typing_extensions import Annotated  # noqa: UP035
 
 from schemas.__private.hive_fields_basic_schemas import (
@@ -59,8 +59,50 @@ from schemas.__private.operations.transfer_to_vesting_operation import TransferT
 from schemas.__private.operations.update_proposal_operation import UpdateProposalOperation
 from schemas.__private.operations.update_proposal_votes_operation import UpdateProposalVotesOperation
 from schemas.__private.operations.virtual import (
+    AccountCreatedOperation,
+    AuthorRewardOperation,
+    ChangedRecoveryAccountOperation,
+    ClearNullAccountBalanceOperation,
+    CollateralizedConvertImmediateConversionOperation,
+    CommentBenefactorRewardOperation,
+    CommentPayoutUpdateOperation,
+    CommentRewardOperation,
+    ConsolidateTreasuryBalanceOperation,
+    CurationRewardOperation,
+    DeclinedVotingRightsOperation,
+    DelayedVotingOperation,
+    DhfConversionOperation,
+    DhfFundingOperation,
+    EscrowApprovedOperation,
+    EscrowRejectedOperation,
+    ExpiredAccountNotificationOperation,
+    FailedRecurrentTransferOperation,
+    FillCollateralizedConvertRequestOperation,
+    FillConvertRequestOperation,
+    FillOrderOperation,
+    FillRecurrentTransferOperation,
+    FillTransferFromSavingsOperation,
+    FillVestingWithdrawOperation,
+    HardforkHiveOperation,
+    HardforkHiveRestoreOperation,
+    HardforkOperation,
+    IneffectiveDeleteCommentOperation,
+    InterestOperation,
     LegacyEffectiveCommentVoteOperation,
+    LimitOrderCancelledOperation,
+    LiquidityRewardOperation,
     NaiEffectiveCommentVoteOperation,
+    PowRewardOperation,
+    ProducerMissedOperation,
+    ProducerRewardOperation,
+    ProposalFeeOperation,
+    ProposalPayOperation,
+    ProxyClearedOperation,
+    ReturnVestingDelegationOperation,
+    ShutDownWitnessOperation,
+    SystemWarningOperation,
+    TransferToVestingCompletedOperation,
+    VestingSharesSplitOperation,
     VirtualOperationType,
 )
 from schemas.__private.operations.vote_operation import VoteOperation
@@ -120,11 +162,105 @@ OperationType = (
     | WitnessUpdateOperation[AssetHive]
 )
 
+AllOperationType = (
+    AccountCreateOperation[AssetHive]
+    | AccountUpdate2Operation
+    | AccountUpdateOperation
+    | AccountWitnessProxyOperation
+    | AccountWitnessVoteOperation
+    | CancelTransferFromSavingsOperation
+    | ChangeRecoveryAccountOperation
+    | ClaimAccountOperation[AssetHive]
+    | ClaimRewardBalanceOperation[AssetHive, AssetHbd, AssetVests]
+    | CollateralizedConvertOperation[AssetHive]
+    | CommentOperation
+    | CommentOptionsOperation[AssetHbd]
+    | ConvertOperation[AssetHbd]
+    | CreateClaimedAccountOperation
+    | CreateProposalOperation[AssetHbd]
+    | CustomBinaryOperation
+    | CustomJsonOperation
+    | CustomOperation
+    | DeclineVotingRightsOperation
+    | DelegateVestingSharesOperation[AssetVests]
+    | DeleteCommentOperation
+    | EscrowApproveOperation
+    | EscrowDisputeOperation
+    | EscrowReleaseOperation[AssetHive, AssetHbd]
+    | EscrowTransferOperation[AssetHive, AssetHbd]
+    | FeedPublishOperation
+    | LimitOrderCancelOperation
+    | LimitOrderCreate2Operation[AssetHbd, AssetHive]
+    | LimitOrderCreateOperation[AssetHive, AssetHbd]
+    | RecoverAccountOperation
+    | RecurrentTransferOperation[AssetHive, AssetHbd]
+    | RemoveProposalOperation
+    | RequestAccountRecoveryOperation
+    | ResetAccountOperation
+    | SetResetAccountOperation
+    | SetWithdrawVestingRouteOperation
+    | TransferFromSavingsOperation[AssetHive, AssetHbd]
+    | TransferOperation[AssetHive, AssetHbd]
+    | TransferToSavingsOperation[AssetHive, AssetHbd]
+    | TransferToVestingOperation[AssetHive]
+    | UpdateProposalOperation[AssetHbd]
+    | UpdateProposalVotesOperation
+    | VoteOperation
+    | WithdrawVestingOperation[AssetVests]
+    | WitnessBlockApproveOperation
+    | WitnessSetPropertiesOperation
+    | WitnessUpdateOperation[AssetHive]
+    | AccountCreatedOperation[AssetVests]
+    | AuthorRewardOperation[AssetHive, AssetHbd, AssetVests]
+    | ChangedRecoveryAccountOperation
+    | ClearNullAccountBalanceOperation[AssetHive, AssetHbd, AssetVests]
+    | CollateralizedConvertImmediateConversionOperation[AssetHbd]
+    | CommentBenefactorRewardOperation[AssetHive, AssetHbd, AssetVests]
+    | CommentPayoutUpdateOperation
+    | CommentRewardOperation[AssetHbd]
+    | ConsolidateTreasuryBalanceOperation[AssetHive, AssetHbd, AssetVests]
+    | CurationRewardOperation[AssetVests]
+    | DeclinedVotingRightsOperation
+    | DelayedVotingOperation
+    | DhfConversionOperation[AssetHive, AssetHbd]
+    | DhfFundingOperation[AssetHbd]
+    | EscrowApprovedOperation[AssetHive, AssetHbd]
+    | EscrowRejectedOperation[AssetHive, AssetHbd]
+    | ExpiredAccountNotificationOperation
+    | FailedRecurrentTransferOperation[AssetHive, AssetHbd]
+    | FillCollateralizedConvertRequestOperation[AssetHive, AssetHbd]
+    | FillConvertRequestOperation[AssetHive, AssetHbd]
+    | FillOrderOperation[AssetHive, AssetHbd]
+    | FillRecurrentTransferOperation[AssetHive, AssetHbd]
+    | FillTransferFromSavingsOperation[AssetHive, AssetHbd]
+    | FillVestingWithdrawOperation[AssetHive, AssetVests]
+    | HardforkHiveOperation[AssetHive, AssetHbd, AssetVests]
+    | HardforkHiveRestoreOperation[AssetHive, AssetHbd]
+    | HardforkOperation
+    | IneffectiveDeleteCommentOperation
+    | InterestOperation[AssetHbd]
+    | LimitOrderCancelledOperation[AssetHive, AssetHbd]
+    | LiquidityRewardOperation[AssetHive]
+    | PowRewardOperation[AssetHive, AssetVests]
+    | ProducerMissedOperation
+    | ProducerRewardOperation[AssetHive, AssetVests]
+    | ProposalFeeOperation[AssetHbd]
+    | ProposalPayOperation[AssetHbd]
+    | ProxyClearedOperation
+    | ReturnVestingDelegationOperation[AssetVests]
+    | ShutDownWitnessOperation
+    | SystemWarningOperation
+    | TransferToVestingCompletedOperation[AssetHive, AssetVests]
+    | VestingSharesSplitOperation[AssetVests]
+)
+
 Hf26OperationType = OperationType[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
 LegacyOperationType = OperationType[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
 
 Hf26VirtualOperationType = VirtualOperationType[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
 LegacyVirtualOperationType = VirtualOperationType[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
+
+LegacyAllOperationType = AllOperationType[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
 
 
 class Hf26OperationRepresentation(PreconfiguredBaseModel):
@@ -146,25 +282,21 @@ def __create_hf26_representation(incoming_type: type[Hf26OperationType]) -> type
 
 
 def __create_legacy_representation(cls: type[LegacyOperationType]) -> type[PreconfiguredBaseModel]:
-    """Representation of operation in legacy format
-
-    Args:
-        NamedTuple (str, LegacyOperationType):
-
-    Note:
-        noqa A003: NamedTuple is badly supported in pydantic, and
-        pydantic.Field is not supported here, where alias
-        could be used
     """
+    Representation of operation in legacy format
+    Response from api has format [name_of_operation, {parameters}], to provide precise validation in root_validator
+    it is converted to format below.
+    """
+
     cls_name = cls.get_class_name()
+    cls_name_snake = cls.get_name().replace("_operation", "")
     exec(
         f"""
-class LegacyOperation{cls_name}(NamedTuple):
-    type: Literal["{cls.get_name()}"]  # noqa: A003
+class LegacyOperation{cls_name}(BaseModel):
+    type: Literal["{cls_name_snake}"]  # noqa: A003
     value: {cls_name}
     """
     )
-
     return eval(f"LegacyOperation{cls_name}")  # type: ignore
 
 
@@ -179,6 +311,9 @@ LegacyVirtualOperationRepresentationUnionType = Union[tuple(__create_legacy_repr
 
 Hf26VirtualOperationRepresentationType = Annotated[Hf26VirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
 LegacyVirtualOperationRepresentationType = Annotated[LegacyVirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
+
+LegacyAllOperationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(AllOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore
+LegacyAllOperationRepresentationType = Annotated[LegacyAllOperationUnionType, Field(discriminator="type")]  # type: ignore
 
 __all__ = [
     "AccountCreateOperation",
@@ -233,4 +368,5 @@ __all__ = [
     "LegacyOperationRepresentationType",
     "Hf26VirtualOperationRepresentationType",
     "LegacyVirtualOperationRepresentationType",
+    "LegacyAllOperationRepresentationType",
 ]
