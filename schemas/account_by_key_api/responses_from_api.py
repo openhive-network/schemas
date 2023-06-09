@@ -5,4 +5,4 @@ from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 
 class GetKeyReferences(PreconfiguredBaseModel):
-    account: list[tuple[AccountName]]
+    accounts: list[tuple[AccountName]]
