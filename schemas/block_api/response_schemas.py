@@ -7,7 +7,7 @@ GetBlock = EmptyModel | GetBlockFundament
 
 
 class GetBlockHeaderNotEmpty(PreconfiguredBaseModel):
-    header: list[GetBlockHeaderFundament]
+    header: GetBlockHeaderFundament
 
 
 GetBlockHeader = EmptyModel | GetBlockHeaderNotEmpty
