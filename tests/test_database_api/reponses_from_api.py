@@ -655,7 +655,6 @@ GET_DYNAMIC_GLOBAL_PROPERTIES = {
         "hbd_interest_rate": 2000,
         "hbd_print_rate": 10000,
         "maximum_block_size": 65536,
-        "required_actions_partition_percent": 0,
         "current_aslot": 75017547,
         "recent_slots_filled": "340282366920938463463374607431768211455",
         "participation_count": 128,
