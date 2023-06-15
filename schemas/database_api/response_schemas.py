@@ -448,7 +448,6 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[A
     pending_rewarded_vesting_hive: AssetHive
     pending_rewarded_vesting_shares: AssetVests
     recent_slots_filled: HiveInt
-    required_actions_partition_percent: HiveInt
     reverse_auction_seconds: HiveInt
     proposal_fund_percent: HiveInt
     dhf_interval_ledger: AssetHbd
