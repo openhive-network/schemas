@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
-from pydantic import ConstrainedInt, ConstrainedStr, Field, PrivateAttr, StrRegexError, validator
+from pydantic import ConstrainedInt, ConstrainedList, ConstrainedStr, Field, PrivateAttr, StrRegexError, validator
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_constants import HBD_INTEREST_RATE, MAXIMUM_BLOCK_SIZE
@@ -273,3 +273,12 @@ class ShareType(Int64t):
 
 class UShareType(Uint64t):
     """Identical data-type as Uint64t"""
+
+
+HiveBaseModel = TypeVar("HiveBaseModel", bound=PreconfiguredBaseModel)
+
+
+class HiveList(ConstrainedList, Generic[HiveBaseModel]):
+    """Some responses could return empty list, it should not raise any error. This type makes it possible"""
+
+    min_items = 0
