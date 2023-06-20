@@ -16,6 +16,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     EmptyString,
     HiveDateTime,
     HiveInt,
+    HiveList,
     PublicKey,
 )
 from schemas.__private.hive_fields_custom_schemas import (
@@ -61,43 +62,43 @@ from schemas.database_api.fundaments_of_reponses import (
 
 
 class FindAccountRecoveryRequests(PreconfiguredBaseModel):
-    requests: list[FindAccountRecoveryRequestsFundament] | list[str]
+    requests: HiveList[FindAccountRecoveryRequestsFundament]
 
 
 class FindAccounts(PreconfiguredBaseModel):
-    accounts: list[AccountItemFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]] | list[str]
+    accounts: HiveList[AccountItemFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
 
 
 class FindChangeRecoveryAccountRequests(PreconfiguredBaseModel):
-    requests: list[FindChangeRecoveryAccountRequestsFundament] | list[str]
+    requests: HiveList[FindChangeRecoveryAccountRequestsFundament]
 
 
 class FindCollateralizedConversionRequests(PreconfiguredBaseModel):
-    requests: list[FindCollateralizedConversionRequestsFundament[AssetHiveHF26, AssetHbdHF26]] | list[str]
+    requests: HiveList[FindCollateralizedConversionRequestsFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 class FindComments(PreconfiguredBaseModel):
-    comments: list[FindCommentsFundament[AssetHbdHF26]] | list[str]
+    comments: HiveList[FindCommentsFundament[AssetHbdHF26]]
 
 
 class FindDeclineVotingRightsRequests(PreconfiguredBaseModel):
-    requests: list[FindDeclineVotingRightsRequestsFundament] | list[str]
+    requests: HiveList[FindDeclineVotingRightsRequestsFundament]
 
 
 class FindEscrows(PreconfiguredBaseModel):
-    escrows: list[EscrowsFundament[AssetHiveHF26, AssetHbdHF26]] | list[str]
+    escrows: HiveList[EscrowsFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 class FindHbdConversionRequests(PreconfiguredBaseModel):
-    requests: list[HbdConversionRequestsFundament[AssetHbdHF26]] | list[str]
+    requests: HiveList[HbdConversionRequestsFundament[AssetHbdHF26]]
 
 
 class FindLimitOrders(PreconfiguredBaseModel):
-    orders: list[LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26]] | list[str]
+    orders: HiveList[LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 class FindOwnerHistories(PreconfiguredBaseModel):
-    owner_auths: list[OwnerHistoriesFundament] | list[str]
+    owner_auths: HiveList[OwnerHistoriesFundament]
 
 
 class FindProposals(PreconfiguredBaseModel):
@@ -106,31 +107,31 @@ class FindProposals(PreconfiguredBaseModel):
     Fundament of this response is field Proposal
     """
 
-    proposals: list[Proposal[AssetHbdHF26]] | list[str]
+    proposals: HiveList[Proposal[AssetHbdHF26]]
 
 
 class FindRecurrentTransfers(PreconfiguredBaseModel):
-    recurrent_transfers: list[FindRecurrentTransfersFundament[AssetHiveHF26]] | list[str]
+    recurrent_transfers: HiveList[FindRecurrentTransfersFundament[AssetHiveHF26]]
 
 
 class FindSavingsWithdrawals(PreconfiguredBaseModel):
-    withdrawals: list[SavingsWithdrawalsFundament[AssetHiveHF26, AssetHbdHF26]] | list[str]
+    withdrawals: HiveList[SavingsWithdrawalsFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 class FindVestingDelegationExpirations(PreconfiguredBaseModel):
-    delegations: list[VestingDelegationExpirationsFundament[AssetVestsHF26]] | list[str]
+    delegations: HiveList[VestingDelegationExpirationsFundament[AssetVestsHF26]]
 
 
 class FindVestingDelegations(PreconfiguredBaseModel):
-    delegations: list[VestingDelegationsFundament[AssetVestsHF26]] | list[str]
+    delegations: HiveList[VestingDelegationsFundament[AssetVestsHF26]]
 
 
 class FindWithdrawVestingRoutes(PreconfiguredBaseModel):
-    routes: list[WithdrawVestingRoutesFundament] | list[str]
+    routes: HiveList[WithdrawVestingRoutesFundament]
 
 
 class FindWitnesses(PreconfiguredBaseModel):
-    witnesses: list[WitnessesFundament[AssetHiveHF26, AssetHbdHF26]] | list[str]
+    witnesses: HiveList[WitnessesFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 class GetActiveWitnesses(PreconfiguredBaseModel):
@@ -144,7 +145,7 @@ class GetActiveWitnesses(PreconfiguredBaseModel):
 
 
 class GetCommentPendingPayouts(PreconfiguredBaseModel):
-    cashout_infos: list[GetCommentPendingPayoutsFundament[AssetHbdHF26]] | list[str]
+    cashout_infos: HiveList[GetCommentPendingPayoutsFundament[AssetHbdHF26]]
 
 
 class GetConfig(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
@@ -498,7 +499,7 @@ class GetPotentialSignatures(PreconfiguredBaseModel):
     This response is a list of keys, so doesn't need fundament class
     """
 
-    keys: list[PublicKey] | list[str]
+    keys: list[PublicKey]
 
 
 class GetRequiredSignatures(GetPotentialSignatures):
@@ -508,7 +509,7 @@ class GetRequiredSignatures(GetPotentialSignatures):
 
 
 class GetRewardFunds(PreconfiguredBaseModel):
-    funds: list[GetRewardFundsFundament[AssetHiveHF26]] | list[str]
+    funds: HiveList[GetRewardFundsFundament[AssetHiveHF26]]
 
 
 class GetTransactionHex(PreconfiguredBaseModel):
@@ -549,75 +550,75 @@ class IsKnownTransaction(PreconfiguredBaseModel):
 
 
 class ListAccountRecoveryRequests(PreconfiguredBaseModel):
-    requests: list[ListAccountRecoveryRequestsFundament] | list[str]
+    requests: HiveList[ListAccountRecoveryRequestsFundament]
 
 
 class ListAccounts(PreconfiguredBaseModel):
-    accounts: list[AccountItemFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]] | list[str]
+    accounts: HiveList[AccountItemFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
 
 
 class ListChangeRecoveryAccountRequests(PreconfiguredBaseModel):
-    requests: list[ListChangeRecoveryAccountRequestsFundament] | list[str]
+    requests: HiveList[ListChangeRecoveryAccountRequestsFundament]
 
 
 class ListCollateralizedConversionRequests(PreconfiguredBaseModel):
-    requests: list[ListCollateralizedConversionRequestsFundament[AssetHiveHF26, AssetHbdHF26]] | list[str]
+    requests: HiveList[ListCollateralizedConversionRequestsFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 class ListComments(PreconfiguredBaseModel):
-    comments: list[ListCommentsFundament[AssetHbdHF26]] | list[str]
+    comments: HiveList[ListCommentsFundament[AssetHbdHF26]]
 
 
 class ListDeclineVotingRightsRequests(PreconfiguredBaseModel):
-    requests: list[ListDeclineVotingRightsRequestsFundament] | list[str]
+    requests: HiveList[ListDeclineVotingRightsRequestsFundament]
 
 
 class ListEscrows(PreconfiguredBaseModel):
-    escrows: list[EscrowsFundament[AssetHiveHF26, AssetHbdHF26]] | list[str]
+    escrows: HiveList[EscrowsFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 class ListHbdConversionRequests(PreconfiguredBaseModel):
-    requests: list[HbdConversionRequestsFundament[AssetHbdHF26]] | list[str]
+    requests: HiveList[HbdConversionRequestsFundament[AssetHbdHF26]]
 
 
 class ListLimitOrders(PreconfiguredBaseModel):
-    orders: list[LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26]] | list[str]
+    orders: HiveList[LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 class ListOwnerHistories(PreconfiguredBaseModel):
-    owner_auths: list[OwnerHistoriesFundament] | list[str]
+    owner_auths: HiveList[OwnerHistoriesFundament]
 
 
 class ListProposalVotes(PreconfiguredBaseModel):
-    proposal_votes: list[ListProposalVotesFundament[AssetHbdHF26]] | list[str]
+    proposal_votes: HiveList[ListProposalVotesFundament[AssetHbdHF26]]
 
 
 class ListProposals(PreconfiguredBaseModel):
-    proposals: list[Proposal[AssetHbdHF26]] | list[str]
+    proposals: HiveList[Proposal[AssetHbdHF26]]
 
 
 class ListSavingsWithdrawals(PreconfiguredBaseModel):
-    withdrawals: list[SavingsWithdrawalsFundament[AssetHiveHF26, AssetHbdHF26]] | list[str]
+    withdrawals: HiveList[SavingsWithdrawalsFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 class ListVestingDelegationExpirations(PreconfiguredBaseModel):
-    delegations: list[VestingDelegationExpirationsFundament[AssetVestsHF26]] | list[str]
+    delegations: HiveList[VestingDelegationExpirationsFundament[AssetVestsHF26]]
 
 
 class ListVestingDelegations(PreconfiguredBaseModel):
-    delegations: list[VestingDelegationsFundament[AssetVestsHF26]] | list[str]
+    delegations: HiveList[VestingDelegationsFundament[AssetVestsHF26]]
 
 
 class ListWithdrawVestingRoutes(PreconfiguredBaseModel):
-    routes: list[WithdrawVestingRoutesFundament] | list[str]
+    routes: HiveList[WithdrawVestingRoutesFundament]
 
 
 class ListWitnessVotes(PreconfiguredBaseModel):
-    votes: list[ListWitnessVotesFundament] | list[str]
+    votes: HiveList[ListWitnessVotesFundament]
 
 
 class ListWitnesses(PreconfiguredBaseModel):
-    witnesses: list[WitnessesFundament[AssetHiveHF26, AssetHbdHF26]] | list[str]
+    witnesses: HiveList[WitnessesFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 class VerifyAccountAuthority(PreconfiguredBaseModel):

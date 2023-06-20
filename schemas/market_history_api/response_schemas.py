@@ -5,7 +5,14 @@ from typing import Any, Generic
 from pydantic import validator
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import AssetHbd, AssetHbdHF26, AssetHive, AssetHiveHF26, HiveInt
+from schemas.__private.hive_fields_basic_schemas import (
+    AssetHbd,
+    AssetHbdHF26,
+    AssetHive,
+    AssetHiveHF26,
+    HiveInt,
+    HiveList,
+)
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.market_history_api.fundaments_of_responses import (
     BucketSizes,
@@ -16,7 +23,7 @@ from schemas.market_history_api.fundaments_of_responses import (
 
 
 class GetMarketHistory(PreconfiguredBaseModel):
-    buckets: list[GetMarketHistoryFundament]
+    buckets: HiveList[GetMarketHistoryFundament]
 
 
 class GetMarketHistoryBuckets(PreconfiguredBaseModel):
@@ -32,7 +39,7 @@ class GetMarketHistoryBuckets(PreconfiguredBaseModel):
 
 
 class GetRecentTrades(PreconfiguredBaseModel):
-    trades: list[GetRecentTradesFundament[AssetHiveHF26, AssetHbdHF26]]
+    trades: HiveList[GetRecentTradesFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 class GetTicker(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
@@ -47,7 +54,7 @@ class GetTicker(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHb
 
 
 class GetTradeHistory(PreconfiguredBaseModel):
-    trades: list[GetTradeHistoryFundament[AssetHiveHF26, AssetHbdHF26]]
+    trades: HiveList[GetTradeHistoryFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 class GetVolume(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):

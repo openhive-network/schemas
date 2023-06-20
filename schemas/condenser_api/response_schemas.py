@@ -25,6 +25,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetVestsLegacy,
     HiveDateTime,
     HiveInt,
+    HiveList,
     PublicKey,
 )
 from schemas.__private.hive_fields_custom_schemas import (
@@ -69,14 +70,14 @@ class BroadcastTransactionSynchronous(wallet_bridge_api.BroadcastTransactionSync
 
 
 """List of Proposals in Legacy format and without status field"""
-FindProposals = list[FindProposalsFundament]
+FindProposals = HiveList[FindProposalsFundament]
 
 
-FindRcAccounts = list[RcAccountObject[AssetVestsLegacy]]  # identical as in wallet_bridge_api, but legacy
+FindRcAccounts = HiveList[RcAccountObject[AssetVestsLegacy]]  # identical as in wallet_bridge_api, but legacy
 
 
 """List of FindRecurrentTransfersFundaments from database_api in Legacy Assets format"""
-FindRecurrentTransfers = list[fundaments_database_api.FindRecurrentTransfersFundament[AssetHiveLegacy]] | list[str]
+FindRecurrentTransfers = HiveList[fundaments_database_api.FindRecurrentTransfersFundament[AssetHiveLegacy]]
 
 
 class GetAccountCount(HiveInt):
@@ -86,13 +87,13 @@ class GetAccountCount(HiveInt):
 GetAccountHistory = list[tuple[HiveInt, GetAccountHistoryFundament]]
 
 
-GetAccountReputations = list[GetAccountReputationsFundament]
+GetAccountReputations = HiveList[GetAccountReputationsFundament]
 
 
-GetAccounts = list[GetAccountsFundament]
+GetAccounts = HiveList[GetAccountsFundament]
 
 
-GetActiveVotes = list[GetActiveVotesFundament]
+GetActiveVotes = HiveList[GetActiveVotesFundament]
 
 
 GetActiveWitnesses = list[AccountName]
@@ -107,21 +108,21 @@ class GetBlockHeader(fundaments_block_api.GetBlockHeaderFundament):
     extensions: list[tuple[str, Any]]
 
 
-GetBlog = list[GetBlogFundament]
+GetBlog = HiveList[GetBlogFundament]
 
 
-GetBlogEntries = list[GetBlogEntriesFundament]
+GetBlogEntries = HiveList[GetBlogEntriesFundament]
 
 
 GetChainProperties = wallet_bridge_api.GetChainProperties[AssetHiveLegacy]  # like in wallet_bridge_api, just legacy
 
 
-GetCollateralizedConversionRequests = list[
+GetCollateralizedConversionRequests = HiveList[
     fundaments_wallet_bridge_api.GetCollateralizedConversionRequestsFundament[AssetHiveLegacy, AssetHbdLegacy]
 ]
 
 
-GetCommentDiscussionsByPayout = list[GetCommentDiscussionsByPayoutFundament]
+GetCommentDiscussionsByPayout = HiveList[GetCommentDiscussionsByPayoutFundament]
 
 
 class GetConfig(database_api.GetConfig[AssetHiveLegacy, AssetHbdLegacy]):
@@ -140,7 +141,7 @@ class GetContent(fundaments_database_api.FindCommentsFundament[AssetHbdLegacy]):
     root_title: str
     pending_payout_value: AssetHiveLegacy | AssetHbdLegacy
     total_pending_payout_value: AssetHiveLegacy | AssetHbdLegacy
-    active_votes: list[GetActiveVotesFundament]
+    active_votes: HiveList[GetActiveVotesFundament]
     replies: list[str]
     author_reputation: HiveInt
     promoted: AssetHiveLegacy | AssetHbdLegacy
@@ -149,11 +150,11 @@ class GetContent(fundaments_database_api.FindCommentsFundament[AssetHbdLegacy]):
 
 
 """List of GetContent fields"""
-GetContentReplies = list[GetContent]
+GetContentReplies = HiveList[GetContent]
 
 
 """Identical as in wallet_bridge_api, just Legacy Asset format"""
-GetConversionRequests = list[fundaments_wallet_bridge_api.GetConversionRequestsFundament[AssetHbdLegacy]]
+GetConversionRequests = HiveList[fundaments_wallet_bridge_api.GetConversionRequestsFundament[AssetHbdLegacy]]
 
 
 class GetCurrentMedianHistoryPrice(Price[AssetHiveLegacy, AssetHbdLegacy]):
@@ -301,7 +302,7 @@ class GetPostDiscussionsByPayout(GetDiscussionsByAuthorBeforeDate):
 
 
 """List of public keys or empty list"""
-GetPotentialSignatures = list[PublicKey] | list[str]
+GetPotentialSignatures = list[PublicKey]
 
 
 """List of AccountNames is response"""
@@ -309,7 +310,7 @@ GetRebloggedBy = list[AccountName]
 
 
 """List of fundament from database_api"""
-GetRecentTrades = list[fundaments_market_history_api.GetRecentTradesFundament[AssetHiveLegacy, AssetHbdLegacy]]
+GetRecentTrades = HiveList[fundaments_market_history_api.GetRecentTradesFundament[AssetHiveLegacy, AssetHbdLegacy]]
 
 
 """Null or fundament from database_api"""
@@ -321,7 +322,7 @@ class GetRepliesByLastUpdate(GetDiscussionsByAuthorBeforeDate):
 
 
 """List of PublicKeys or empty list"""
-GetRequiredSignatures = list[PublicKey] | list[str]
+GetRequiredSignatures = list[PublicKey]
 
 
 class GetRewardFund(fundaments_database_api.GetRewardFundsFundament[AssetHiveLegacy]):
@@ -345,7 +346,7 @@ class GetTicker(market_history_api.GetTicker[AssetHiveLegacy, AssetHbdLegacy]):
 
 
 """List of fundament from database_api"""
-GetTradeHistory = list[fundaments_market_history_api.GetTradeHistoryFundament[AssetHiveLegacy, AssetHbdLegacy]]
+GetTradeHistory = HiveList[fundaments_market_history_api.GetTradeHistoryFundament[AssetHiveLegacy, AssetHbdLegacy]]
 
 
 class GetTransaction(account_history_api.GetTransaction[LegacyOperationRepresentationType]):
@@ -413,21 +414,21 @@ IsKnownTransaction = bool
 
 
 """List of fundaments from database_api in Legacy format"""
-ListProposalVotes = list[fundaments_database_api.ListProposalVotesFundament[AssetHbdLegacy]]
+ListProposalVotes = HiveList[fundaments_database_api.ListProposalVotesFundament[AssetHbdLegacy]]
 
 
 """Fundament is from fields -> Proposal, status pole excluded  and Asset converted to Legacy"""
-ListProposals = list[ListProposalsFundament]
+ListProposals = HiveList[ListProposalsFundament]
 
 
 """List of field from custom_fields in Legacy Asset format """
-ListRcAccounts = list[RcAccountObject[AssetVestsLegacy]]
+ListRcAccounts = HiveList[RcAccountObject[AssetVestsLegacy]]
 
 
-ListRcDirectDelegations = list[ListRcDirectDelegationsFundament]
+ListRcDirectDelegations = HiveList[ListRcDirectDelegationsFundament]
 
 
-LookupAccountNames = list[LookupAccountNamesFundament]
+LookupAccountNames = HiveList[LookupAccountNamesFundament]
 
 
 class LookupAccounts(wallet_bridge_api.ListAccounts):

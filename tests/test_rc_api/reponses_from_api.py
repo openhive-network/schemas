@@ -11,7 +11,7 @@ FIND_RC_ACCOUNTS = {
                 "max_rc_creation_adjustment": {"amount": "0", "precision": 6, "nai": "@@000000037"},
                 "max_rc": "0",
                 "delegated_rc": "85392710",
-                "received_delegated_rc": "85392710"
+                "received_delegated_rc": "85392710",
             }
         ]
     },

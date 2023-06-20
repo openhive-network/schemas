@@ -17,6 +17,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHiveHF26,
     AssetVestsHF26,
     HiveInt,
+    HiveList,
 )
 from schemas.__private.hive_fields_custom_schemas import (
     HardforkVersion,
@@ -50,13 +51,13 @@ class BroadcastTransactionSynchronous(PreconfiguredBaseModel):
 
 
 class FindProposals(PreconfiguredBaseModel):
-    proposals: list[Proposal[AssetHbdHF26]]
+    proposals: HiveList[Proposal[AssetHbdHF26]]
 
 
-FindRcAccounts = list[RcAccountObject[AssetVestsHF26]]
+FindRcAccounts = HiveList[RcAccountObject[AssetVestsHF26]]
 
 
-FindRecurrentTransfers = list[FindRecurrentTransfersFundament[AssetHiveHF26]]
+FindRecurrentTransfers = HiveList[FindRecurrentTransfersFundament[AssetHiveHF26]]
 
 
 GetAccount = Account[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26] | Literal["Null"]
@@ -65,7 +66,7 @@ GetAccount = Account[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26] | Literal["Nul
 GetAccountHistory = list[tuple[HiveInt, Hf26ApiOperationObject]]
 
 
-GetAccounts = list[Account[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
+GetAccounts = HiveList[Account[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
 
 
 class GetActiveWitnesses(PreconfiguredBaseModel):
@@ -111,7 +112,7 @@ class GetFeedHistory(database_api.GetFeedHistory[AssetHiveHF26, AssetHbdHF26]):
 GetHardforkVersion = HardforkVersion
 
 
-GetOpenOrders = list[fundaments_database_api.LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26]]
+GetOpenOrders = HiveList[fundaments_database_api.LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 class GetOpsInBlock(PreconfiguredBaseModel):
@@ -147,17 +148,17 @@ class GetWitnessSchedule(database_api.GetWitnessSchedule[AssetHiveHF26]):
 IsKnownTransaction = bool
 
 
-ListMyAccounts = list[Account[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
+ListMyAccounts = HiveList[Account[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
 
 
 class ListProposals(database_api.ListProposals):
     """Identical as in database_api"""
 
 
-ListRcAccounts = list[RcAccountObject[AssetVestsHF26]]
+ListRcAccounts = HiveList[RcAccountObject[AssetVestsHF26]]
 
 
-ListRcDirectDelegations = list[ListRcDirectDelegationsFundament]
+ListRcDirectDelegations = HiveList[ListRcDirectDelegationsFundament]
 
 
 class ListWitnesses(database_api.ListWitnesses):
