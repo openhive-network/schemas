@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Final, Generic
+from typing import Any, Final, Generic
 
 from pydantic.generics import GenericModel
 
@@ -19,4 +19,4 @@ class CommentOptionsOperation(Generic[AssetHbd], GenericModel, Operation):
     percent_hbd: Uint16t = Uint16t(HIVE_100_PERCENT)
     allow_votes: bool = DEFAULT_ALLOW_VOTES
     allow_curation_rewards: bool = DEFAULT_ALLOW_CURATION_REWARDS
-    extensions: str
+    extensions: list[Any] | None
