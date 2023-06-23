@@ -17,4 +17,4 @@ class AccountCreateOperation(Generic[AssetHive], GenericModel, Operation):
     active: Authority
     posting: Authority
     memo_key: PublicKey
-    json_metadata: Json[Any] | EmptyString
+    json_metadata: str

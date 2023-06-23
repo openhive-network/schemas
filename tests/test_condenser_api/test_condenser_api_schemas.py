@@ -66,7 +66,7 @@ from schemas.condenser_api.response_schemas import (
     LookupAccountNames,
     LookupAccounts,
 )
-from tests.test_condenser_api.responses_from_api import (
+from .responses_from_api import (
     FIND_PROPOSALS,
     FIND_RECURRENT_TRANSFERS,
     GET_ACCOUNT_COUNT,

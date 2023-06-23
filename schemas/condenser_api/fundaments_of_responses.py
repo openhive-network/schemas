@@ -4,7 +4,6 @@ from typing import Any, Literal
 
 from pydantic import Field
 
-import schemas.block_api.fundaments_of_responses as fundaments_block_api
 import schemas.database_api.fundaments_of_reponses as fundaments_database_api
 from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
@@ -15,7 +14,11 @@ from schemas.__private.hive_fields_basic_schemas import (
     HiveDateTime,
     HiveInt,
 )
-from schemas.__private.hive_fields_custom_schemas import Permlink, Proposal
+from schemas.__private.hive_fields_custom_schemas import (
+    FloatAsString,
+    Permlink,
+    Proposal,
+)
 from schemas.__private.operation_objects import LegacyApiAllOperationObject
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
@@ -39,8 +42,16 @@ class GetAccountReputationsFundament(PreconfiguredBaseModel):
     reputation: HiveInt
 
 
+class LegacyAllOperationUnionType:
+    """
+    I can't find why, but mypy want this class, if removed, even not used, crashes mypy
+    """
+
+
 class GetAccountsFundament(
-    fundaments_database_api.AccountItemFundament[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
+    fundaments_database_api.AccountItemFundament[
+        AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy
+    ]
 ):
     """Base for this response is list_accounts from database api. Some additional fields are here and two excluded"""
 
@@ -60,7 +71,7 @@ class GetAccountsFundament(
     other_history: list[str]
 
 
-class GetAccountHistoryFundament(LegacyApiAllOperationObject):  # type: ignore
+class GetAccountHistoryFundament(LegacyApiAllOperationObject):
     operation_id: HiveInt = Field(None, exclude=True)  # type: ignore
 
 
@@ -71,12 +82,6 @@ class GetActiveVotesFundament(PreconfiguredBaseModel):
     time: HiveDateTime
     voter: AccountName
     weight: HiveInt
-
-
-class GetBlockFundament(fundaments_block_api.Block):
-    """Identical as in block_api, just extensions changed"""
-
-    extensions: list[tuple[str, Any]]
 
 
 class GetBlogEntriesFundament(PreconfiguredBaseModel):
@@ -96,7 +101,9 @@ class ActiveVotes(PreconfiguredBaseModel):
     voter: AccountName
 
 
-class GetCommentDiscussionsByPayoutFundament(fundaments_database_api.FindCommentsFundament[AssetHbdLegacy]):
+class GetCommentDiscussionsByPayoutFundament(
+    fundaments_database_api.FindCommentsFundament[AssetHbdLegacy]
+):
     id_: HiveInt | None = Field(None, exclude=True)  # type: ignore
     abs_rshares: HiveInt | None = Field(None, exclude=True)  # type: ignore
     vote_rshares: HiveInt | None = Field(None, exclude=True)  # type: ignore
@@ -136,7 +143,9 @@ class GetDiscussionsByAuthorBeforeDateFundament(GetCommentDiscussionsByPayoutFun
     """The same structure as response above ->  GetCommentDiscussionsByPayoutFundament"""
 
 
-class GetEscrowFundament(fundaments_database_api.EscrowsFundament[AssetHiveLegacy, AssetHbdLegacy]):
+class GetEscrowFundament(
+    fundaments_database_api.EscrowsFundament[AssetHiveLegacy, AssetHbdLegacy]
+):
     """Identical like response from database_api, just one additional field and Legacy format of Assets
     This response could also be null, the reason why split into Fundament and main response
     """
@@ -187,9 +196,35 @@ class ListRcDirectDelegationsFundament(PreconfiguredBaseModel):
 
 
 class LookupAccountNamesFundament(
-    fundaments_database_api.AccountItemFundament[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
+    fundaments_database_api.AccountItemFundament[
+        AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy
+    ]
 ):
     last_post_edit: HiveDateTime | None = Field(None, exclude=True)  # type: ignore
     is_smt: bool | None = Field(None, exclude=True)  # type: ignore
 
     voting_power: HiveInt
+
+
+class GetExpiringVestingDelegationsFundament(PreconfiguredBaseModel):
+    id_: HiveInt = Field(alias="id")
+    delegator: AccountName
+    vesting_shares: AssetVestsLegacy
+    expiration: HiveDateTime
+
+
+class GetOpenOrdersFundament(
+    fundaments_database_api.LimitOrdersFundament[AssetHiveLegacy, AssetHbdLegacy]
+):
+    """Same as in database_api -> list_limit_orders, just Legacy format of Assets and two additional fields"""
+
+    real_price: FloatAsString
+    rewarded: bool
+
+
+class GetVestingDelegationsFundament(PreconfiguredBaseModel):
+    id_: HiveInt = Field(alias="id")
+    delegator: AccountName
+    delegatee: AccountName
+    vesting_shares: AssetVestsLegacy
+    min_delegation_time: HiveDateTime

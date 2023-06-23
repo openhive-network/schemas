@@ -527,7 +527,7 @@ class GetWitnessSchedule(PreconfiguredBaseModel, GenericModel, Generic[AssetHive
     current_virtual_time: HiveInt
     next_shuffle_block_num: HiveInt
     current_shuffled_witnesses: list[AccountName | EmptyString]
-    future_shuffled_witnesses: list[AccountName | EmptyString] | None
+    future_shuffled_witnesses: list[AccountName | EmptyString] | None = None
     num_scheduled_witnesses: HiveInt
     elected_weight: HiveInt
     timeshare_weight: HiveInt
@@ -542,7 +542,7 @@ class GetWitnessSchedule(PreconfiguredBaseModel, GenericModel, Generic[AssetHive
     account_subsidy_rd: RdDynamicParams
     account_subsidy_witness_rd: RdDynamicParams
     min_witness_account_subsidy_decay: HiveInt
-    future_changes: GetWitnessScheduleFutureChangesFundament[AssetHive] | None
+    future_changes: GetWitnessScheduleFutureChangesFundament[AssetHive] | None = None
 
 
 class IsKnownTransaction(PreconfiguredBaseModel):

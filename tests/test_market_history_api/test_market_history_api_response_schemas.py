@@ -13,7 +13,7 @@ from schemas.market_history_api.response_schemas import (
     GetTradeHistory,
     GetVolume,
 )
-from tests.test_market_history_api.response_schemas import (
+from .response_schemas import (
     GET_MARKET_HISTORY,
     GET_MARKET_HISTORY_BUCKETS,
     GET_RECENT_TRADES,

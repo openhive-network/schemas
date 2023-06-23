@@ -5,8 +5,9 @@ from typing import Any
 import pytest
 
 from schemas.__private.hive_factory import HiveResult
-from schemas.account_by_key_api.responses_from_api import GetKeyReferences
-from tests.test_account_by_key_api.response_from_api import GET_KEY_REFERENCES
+from schemas.account_by_key_api.response_schemas import GetKeyReferences
+
+from .response_from_api import GET_KEY_REFERENCES
 
 
 @pytest.mark.parametrize("schema, parameters", [(GetKeyReferences, GET_KEY_REFERENCES)])

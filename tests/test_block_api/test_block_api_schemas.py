@@ -6,7 +6,7 @@ import pytest
 
 from schemas.__private.hive_factory import HiveResult
 from schemas.block_api.response_schemas import GetBlock, GetBlockHeader, GetBlockRange
-from tests.test_block_api.resonse_schemas import GET_BLOCK, GET_BLOCK_HEADER, GET_BLOCK_RANGE
+from .resonse_schemas import GET_BLOCK, GET_BLOCK_HEADER, GET_BLOCK_RANGE
 
 
 @pytest.mark.parametrize(

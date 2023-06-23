@@ -17,6 +17,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHbd,
     AssetHive,
     AssetVests,
+    AssetVestsHF26,
     HiveDateTime,
     HiveInt,
 )
@@ -69,8 +70,11 @@ class Sha256(Hex):
     max_length = 64
 
 
-class HardforkVersion(ConstrainedStr):
+class Version(ConstrainedStr):
     regex = re.compile(r"^\d+\.\d+\.\d+$")
+
+
+HardforkVersion = Version
 
 
 class Permlink(ConstrainedStr):
@@ -99,11 +103,16 @@ class HiveVersion(PreconfiguredBaseModel):
 
 
 class Props(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
-    account_creation_fee: AssetHive
-    maximum_block_size: HiveInt
-    hbd_interest_rate: HiveInt
-    account_subsidy_budget: HiveInt
-    account_subsidy_decay: HiveInt
+    account_creation_fee: AssetHive | None = None
+    maximum_block_size: HiveInt | None = None
+    hbd_interest_rate: HiveInt | None = None
+    account_subsidy_budget: HiveInt | None = None
+    account_subsidy_decay: HiveInt | None = None
+
+
+class RdDecayParams(PreconfiguredBaseModel):
+    decay_per_time_unit: HiveInt
+    decay_per_time_unit_denom_shift: HiveInt
 
 
 class RdDynamicParams(PreconfiguredBaseModel):
@@ -111,7 +120,7 @@ class RdDynamicParams(PreconfiguredBaseModel):
     budget_per_time_unit: HiveInt
     pool_eq: HiveInt
     max_pool_size: HiveInt
-    decay_params: dict[str, HiveInt]
+    decay_params: RdDecayParams
     min_decay: HiveInt
 
 
@@ -123,7 +132,7 @@ class Signature(Hex):
 class RcAccountObject(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
     account: AccountName
     rc_manabar: Manabar
-    max_rc_creation_adjustment: AssetVests
+    max_rc_creation_adjustment: AssetVestsHF26  # TODO: change to AssetVests
     max_rc: HiveInt
     delegated_rc: HiveInt
     received_delegated_rc: HiveInt

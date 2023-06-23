@@ -59,7 +59,7 @@ from schemas.database_api import (
     VerifyAuthority,
     VerifySignatures,
 )
-from tests.test_database_api.reponses_from_api import (
+from .reponses_from_api import (
     FIND_ACCOUNT_RECOVERY_REQUESTS,
     FIND_ACCOUNTS,
     FIND_CHANGE_RECOVERY_ACCOUNT_REQUESTS,

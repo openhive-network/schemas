@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Literal, NamedTuple, Union, get_args  # pyright: ignore # noqa: F401
 
-from pydantic import BaseModel, Field  # noqa: F401
-from typing_extensions import Annotated  # noqa: UP035
+from pydantic import BaseModel, Field, create_model_from_namedtuple  # noqa: F401
+from typing_extensions import Annotated, override  # noqa: UP035
 
 from schemas.__private.hive_fields_basic_schemas import (
     AssetHbd,
@@ -45,6 +45,7 @@ from schemas.__private.operations.feed_publish_operation import FeedPublishOpera
 from schemas.__private.operations.limit_order_cancel_operation import LimitOrderCancelOperation
 from schemas.__private.operations.limit_order_create2_operation import LimitOrderCreate2Operation
 from schemas.__private.operations.limit_order_create_operation import LimitOrderCreateOperation
+from schemas.__private.operations.pow_operation import PowOperation
 from schemas.__private.operations.recover_account_operation import RecoverAccountOperation
 from schemas.__private.operations.recurrent_transfer_operation import RecurrentTransferOperation
 from schemas.__private.operations.remove_proposal_operation import RemoveProposalOperation
@@ -110,7 +111,7 @@ from schemas.__private.operations.withdraw_vesting_operation import WithdrawVest
 from schemas.__private.operations.witness_block_approve_operation import WitnessBlockApproveOperation
 from schemas.__private.operations.witness_set_properties_operation import WitnessSetPropertiesOperation
 from schemas.__private.operations.witness_update_operation import WitnessUpdateOperation
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.__private.preconfigured_base_model import Operation, PreconfiguredBaseModel
 
 OperationType = (
     AccountCreateOperation[AssetHive]
@@ -130,6 +131,7 @@ OperationType = (
     | CreateProposalOperation[AssetHbd]
     | CustomBinaryOperation
     | CustomJsonOperation
+    | PowOperation
     | CustomOperation
     | DeclineVotingRightsOperation
     | DelegateVestingSharesOperation[AssetVests]
@@ -180,6 +182,7 @@ AllOperationType = (
     | CreateProposalOperation[AssetHbd]
     | CustomBinaryOperation
     | CustomJsonOperation
+    | PowOperation
     | CustomOperation
     | DeclineVotingRightsOperation
     | DelegateVestingSharesOperation[AssetVests]
@@ -261,17 +264,33 @@ Hf26VirtualOperationType = VirtualOperationType[AssetHiveHF26, AssetHbdHF26, Ass
 LegacyVirtualOperationType = VirtualOperationType[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
 
 LegacyAllOperationType = AllOperationType[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
+Hf26AllOperationType = AllOperationType[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
 
 
 class Hf26OperationRepresentation(PreconfiguredBaseModel):
     type: str  # noqa: A003
-    value: Hf26OperationType
+    value: Hf26AllOperationType
+
+class LegacyOperationBase(PreconfiguredBaseModel):
+    type: str  # noqa: A003
+    value: LegacyAllOperationType
+
+    def __getitem__(self, key: str | int) -> str | LegacyAllOperationType:
+        if isinstance(key, int):
+            match (key):
+                case 0:
+                    return self.value.get_name().replace("_operation", "")
+                case 1:
+                    return self.value
+                case _:
+                    raise ValueError("out of bound")
+        return super().__getitem__(key)
 
 
 HF26OperationTypes: dict[str, type[Hf26OperationType]] = {}
+LegacyOperationTypes: dict[str, type[NamedTuple]] = {}
 
-
-def __create_hf26_representation(incoming_type: type[Hf26OperationType]) -> type[PreconfiguredBaseModel]:
+def __create_hf26_representation(incoming_type: type[Hf26OperationType]) -> type[Hf26OperationRepresentation]:
     class Hf26Operation(Hf26OperationRepresentation):
         type: Literal[f"{incoming_type.get_name()}"]  # type: ignore[valid-type]  # noqa: A003
         value: incoming_type  # type: ignore[valid-type]
@@ -281,23 +300,21 @@ def __create_hf26_representation(incoming_type: type[Hf26OperationType]) -> type
     return Hf26Operation
 
 
-def __create_legacy_representation(cls: type[LegacyOperationType]) -> type[PreconfiguredBaseModel]:
+def __create_legacy_representation(icls: type[LegacyOperationType]) -> type[LegacyOperationBase]:
     """
     Representation of operation in legacy format
     Response from api has format [name_of_operation, {parameters}], to provide precise validation in root_validator
     it is converted to format below.
     """
 
-    cls_name = cls.get_class_name()
-    cls_name_snake = cls.get_name().replace("_operation", "")
-    exec(
-        f"""
-class LegacyOperation{cls_name}(BaseModel):
-    type: Literal["{cls_name_snake}"]  # noqa: A003
-    value: {cls_name}
-    """
-    )
-    return eval(f"LegacyOperation{cls_name}")  # type: ignore
+    cls_name = icls.get_class_name()
+    cls_name_snake: str = icls.get_name().replace("_operation", "")
+    class LegacyOperation(LegacyOperationBase):
+        type: Literal[cls_name_snake]  # noqa: A003
+        value: icls
+    LegacyOperation.update_forward_refs(**locals())
+    LegacyOperationTypes[cls_name_snake] = LegacyOperation
+    return LegacyOperation
 
 
 Hf26OperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(Hf26OperationType))]  # type: ignore
@@ -314,6 +331,9 @@ LegacyVirtualOperationRepresentationType = Annotated[LegacyVirtualOperationRepre
 
 LegacyAllOperationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(AllOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore
 LegacyAllOperationRepresentationType = Annotated[LegacyAllOperationUnionType, Field(discriminator="type")]  # type: ignore
+
+Hf26AllOperationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in (*get_args(AllOperationType), NaiEffectiveCommentVoteOperation))]  # type: ignore
+Hf26AllOperationRepresentationType = Annotated[Hf26AllOperationUnionType, Field(discriminator="type")]  # type: ignore
 
 __all__ = [
     "AccountCreateOperation",
