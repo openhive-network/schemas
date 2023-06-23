@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import re
+from typing import Any
 
 from pydantic import BaseModel, Extra, create_model  # pyright: ignore
 from typing_extensions import Self
@@ -16,6 +17,15 @@ class PreconfiguredBaseModel(BaseModel):
         extra = Extra.forbid
         allow_population_by_field_name = True
         smart_union = True
+
+    def __getitem__(self, key: str) -> Any:
+        """
+        This allows using any schema from this repo as dictionary
+        """
+        assert hasattr(
+            self, key
+        ), f"`{key}` does not exists in `{self.__class__.__name__}`, available are: {list(self.dict().keys())}"
+        return getattr(self, key)
 
     @classmethod
     def as_strict_model(cls, recursively: bool = True) -> type[Self]:
