@@ -12,7 +12,7 @@ from pydantic.generics import GenericModel
 
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
-T = TypeVar("T", bound=PreconfiguredBaseModel)
+T = TypeVar("T", bound=PreconfiguredBaseModel | list[PreconfiguredBaseModel])
 
 
 class HiveError(GenericModel, Generic[T]):
