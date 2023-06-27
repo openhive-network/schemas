@@ -277,8 +277,11 @@ class UShareType(Uint64t):
 
 HiveBaseModel = TypeVar("HiveBaseModel", bound=PreconfiguredBaseModel)
 
+if TYPE_CHECKING:
+    HiveList = list
+else:
 
-class HiveList(ConstrainedList, Generic[HiveBaseModel]):
-    """Some responses could return empty list, it should not raise any error. This type makes it possible"""
+    class HiveList(ConstrainedList, Generic[HiveBaseModel]):
+        """Some responses could return empty list, it should not raise any error. This type makes it possible"""
 
-    min_items = 0
+        min_items = 0
