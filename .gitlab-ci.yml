@@ -1,4 +1,4 @@
-image: "$CI_REGISTRY_IMAGE/ci-base-image@sha256:0236a419d6cc18a1c39344417c5f53cf5c9dc11436a8a4785b797cc988ac0dd2"
+image: "$CI_REGISTRY_IMAGE/ci-base-image@sha256:b04abc8e4520e1969bcd22e8e2b830d89a12eb05fcdcda5b77864d231f0d61dd"
 
 stages:
   - static_code_analysis
