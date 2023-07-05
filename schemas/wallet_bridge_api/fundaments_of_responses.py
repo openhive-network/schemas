@@ -112,6 +112,7 @@ class FindRecurrentTransfersFundament(PreconfiguredBaseModel, GenericModel, Gene
     recurrence: HiveInt
     consecutive_failures: HiveInt
     remaining_executions: HiveInt
+    pair_id: HiveInt
 
 
 class ListRcDirectDelegationsFundament(PreconfiguredBaseModel):
