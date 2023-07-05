@@ -33,6 +33,7 @@ FIND_RECURRENT_TRANSFERS: Final[dict[str, Any]] = {
             "recurrence": 26,
             "consecutive_failures": 0,
             "remaining_executions": 3,
+            "pair_id": 1,
         }
     ],
     "id": 1,
