@@ -2514,6 +2514,7 @@ FIND_RECURRENT_TRANSFERS = {
                 "recurrence": 26,
                 "consecutive_failures": 0,
                 "remaining_executions": 3,
+                "pair_id": 1,
             }
         ]
     },
