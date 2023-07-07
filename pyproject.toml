@@ -19,7 +19,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pydantic = "1.10.7"
+pydantic = "1.10.11"
 
 
 [tool.poetry.dev-dependencies]
