@@ -6,9 +6,12 @@
 from __future__ import annotations
 
 import re
-from typing import Any
+import types
+import typing
+from typing import Any, get_args, get_origin
 
-from pydantic import BaseModel, Extra, create_model  # pyright: ignore
+import pydantic
+from pydantic import BaseModel, Extra, Field, create_model  # pyright: ignore
 from typing_extensions import Self
 
 
@@ -28,7 +31,7 @@ class PreconfiguredBaseModel(BaseModel):
         return getattr(self, key)
 
     @classmethod
-    def as_strict_model(cls, recursively: bool = True) -> type[Self]:
+    def as_strict_model(cls, recursively: bool = True) -> type[Self]:  # noqa: C901
         """
         Generate a BaseModel class with all the same fields like the class on which the method was called but with
         required fields only (no defaults allowed).
@@ -38,16 +41,42 @@ class PreconfiguredBaseModel(BaseModel):
         """
 
         # ellipsis is used to indicate that the field is required
-        field_definitions = {field.name: (field.type_, ...) for field in cls.__fields__.values()}
+        field_definitions = {field.name: (field.type_, Field(alias=field.alias)) for field in cls.__fields__.values()}
+
+        def process_type(type_: Any) -> Any:  # noqa: PLR0911
+            def resolve_for_all_args(outer_type: Any) -> Any:
+                return outer_type[tuple(process_type(arg) for arg in get_args(type_))]
+
+            type_origin = get_origin(type_)
+            if (
+                type_ in {type(None), typing.Any}
+                or type(type_) in {typing.TypeVar, pydantic.fields.FieldInfo}
+                or type_origin in {typing.Literal}
+            ):
+                return type_
+
+            if type_origin is not None:
+                if type_origin in {types.UnionType, typing.Union}:
+                    return resolve_for_all_args(typing.Union)
+
+                if type_origin in {tuple, typing.Tuple}:  # noqa: UP006
+                    return resolve_for_all_args(typing.Tuple)  # noqa: UP006
+
+                if type_origin in {list, typing.List}:  # noqa: UP006
+                    return resolve_for_all_args(typing.List)  # noqa: UP006
+
+                if type_origin in {typing.Annotated}:
+                    return resolve_for_all_args(typing.Annotated)
+
+            if issubclass(type_, PreconfiguredBaseModel):
+                return type_.as_strict_model()
+            return type_
 
         if recursively:
             for field_name, pack in field_definitions.items():
-                field_type = pack[0]
-                if issubclass(field_type, PreconfiguredBaseModel):
-                    strict_type = field_type.as_strict_model(recursively=True)
-                    field_definitions[field_name] = (strict_type, ...)
+                field_definitions[field_name] = (process_type(pack[0]), ...)
 
-        return create_model(f"{cls.__name__}Strict", **field_definitions)  # type: ignore
+        return create_model(f"{cls.__name__}Strict", **field_definitions, __base__=PreconfiguredBaseModel)  # type: ignore
 
 
 class Operation(PreconfiguredBaseModel):
