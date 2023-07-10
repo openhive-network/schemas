@@ -45,6 +45,7 @@ from schemas.__private.operations.feed_publish_operation import FeedPublishOpera
 from schemas.__private.operations.limit_order_cancel_operation import LimitOrderCancelOperation
 from schemas.__private.operations.limit_order_create2_operation import LimitOrderCreate2Operation
 from schemas.__private.operations.limit_order_create_operation import LimitOrderCreateOperation
+from schemas.__private.operations.pow_operation import PowOperation
 from schemas.__private.operations.recover_account_operation import RecoverAccountOperation
 from schemas.__private.operations.recurrent_transfer_operation import RecurrentTransferOperation
 from schemas.__private.operations.remove_proposal_operation import RemoveProposalOperation
@@ -130,6 +131,7 @@ OperationType = (
     | CreateProposalOperation[AssetHbd]
     | CustomBinaryOperation
     | CustomJsonOperation
+    | PowOperation
     | CustomOperation
     | DeclineVotingRightsOperation
     | DelegateVestingSharesOperation[AssetVests]
@@ -180,6 +182,7 @@ AllOperationType = (
     | CreateProposalOperation[AssetHbd]
     | CustomBinaryOperation
     | CustomJsonOperation
+    | PowOperation
     | CustomOperation
     | DeclineVotingRightsOperation
     | DelegateVestingSharesOperation[AssetVests]
@@ -333,6 +336,7 @@ __all__ = [
     "CreateProposalOperation",
     "CustomBinaryOperation",
     "CustomJsonOperation",
+    "PowOperation",
     "CustomOperation",
     "DeclineVotingRightsOperation",
     "DelegateVestingSharesOperation",
