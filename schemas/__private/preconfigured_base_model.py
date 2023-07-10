@@ -62,17 +62,6 @@ class Operation(PreconfiguredBaseModel):
         """conversion name of operation from CamelCase to snake_case"""
         return re.sub(r"(?<!^)(?=[A-Z])", "_", cls.get_class_name()).lower()
 
-    def __getitem__(self, key: str | int) -> Any:
-        if isinstance(key, int):
-            match (key):
-                case 0:
-                    return self.get_name()
-                case 1:
-                    return self
-                case _:
-                    raise ValueError("out of bound")
-        return super().__getitem__(key)
-
 
 class VirtualOperation(Operation):
     """Base class for all virtual operations"""
