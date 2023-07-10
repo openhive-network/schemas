@@ -432,7 +432,7 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[A
     hbd_stop_percent: HiveInt
     head_block_id: TransactionId
     head_block_number: HiveInt
-    id_: HiveInt = Field(..., alias="id")
+    id_: HiveInt = Field(alias="id")
     init_hbd_supply: AssetHbd
     last_budget_time: HiveDateTime
     last_irreversible_block_num: HiveInt
@@ -468,7 +468,7 @@ class GetFeedHistory(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, As
     This class doesn't need fundament class.
     """
 
-    id_: HiveInt = Field(..., alias="id")
+    id_: HiveInt = Field(alias="id")
     current_median_history: Price[AssetHive, AssetHbd]
     market_median_history: Price[AssetHive, AssetHbd]
     current_min_history: Price[AssetHive, AssetHbd]
@@ -481,7 +481,7 @@ class GetHardforkProperties(PreconfiguredBaseModel):
     This class doesn't need fundament class.
     """
 
-    id_: HiveInt = Field(..., alias="id")
+    id_: HiveInt = Field(alias="id")
     processed_hardforks: list[HiveDateTime]
     last_hardfork: HiveInt
     current_hardfork_version: HardforkVersion
@@ -513,7 +513,7 @@ class GetRewardFunds(PreconfiguredBaseModel):
 
 
 class GetTransactionHex(PreconfiguredBaseModel):
-    hex_: Hex = Field(..., alias="hex")
+    hex_: Hex = Field(alias="hex")
 
 
 class GetVersion(HiveVersion):
@@ -523,7 +523,7 @@ class GetVersion(HiveVersion):
 class GetWitnessSchedule(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
     """When want to use must specify Asset type by Generic"""
 
-    id_: HiveInt = Field(..., alias="id")
+    id_: HiveInt = Field(alias="id")
     current_virtual_time: HiveInt
     next_shuffle_block_num: HiveInt
     current_shuffled_witnesses: list[AccountName | EmptyString]

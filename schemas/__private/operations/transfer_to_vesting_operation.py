@@ -10,6 +10,6 @@ from schemas.__private.preconfigured_base_model import Operation
 
 
 class TransferToVestingOperation(Generic[AssetHive], GenericModel, Operation):
-    from_: AccountName = Field(..., alias="from")
+    from_: AccountName = Field(alias="from")
     to: AccountName | EmptyString
     amount: AssetHive

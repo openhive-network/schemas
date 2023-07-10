@@ -49,7 +49,7 @@ class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
 
 
 class Proposal(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
-    id_: HiveInt = Field(..., alias="id")
+    id_: HiveInt = Field(alias="id")
     proposal_id: HiveInt
     creator: AccountName
     receiver: AccountName

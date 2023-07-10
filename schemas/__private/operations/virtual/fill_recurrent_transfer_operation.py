@@ -12,7 +12,7 @@ DEFAULT_REMAINING_EXECUTIONS: Final[Uint16t] = Uint16t(0)
 
 
 class FillRecurrentTransferOperation(Generic[AssetHive, AssetHbd], GenericModel, VirtualOperation):
-    from_: AccountName = Field(..., alias="from")
+    from_: AccountName = Field(alias="from")
     to: AccountName
     amount: AssetHive | AssetHbd
     memo: str

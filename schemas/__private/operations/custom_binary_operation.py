@@ -11,5 +11,5 @@ class CustomBinaryOperation(Operation):
     required_active_auths: list[AccountName]
     required_posting_auths: list[AccountName]
     required_auths: list[Authority]
-    id_: CustomIdType = Field(..., alias="id")
+    id_: CustomIdType = Field(alias="id")
     data: list[str]

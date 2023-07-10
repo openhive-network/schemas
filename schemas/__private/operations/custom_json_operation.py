@@ -11,5 +11,5 @@ from schemas.__private.preconfigured_base_model import Operation
 class CustomJsonOperation(Operation):
     required_auths: list[AccountName]
     required_posting_auths: list[AccountName]
-    id_: CustomIdType = Field(..., alias="id")
-    json_: Json[Any] | EmptyString = Field(..., alias="json")
+    id_: CustomIdType = Field(alias="id")
+    json_: Json[Any] | EmptyString = Field(alias="json")

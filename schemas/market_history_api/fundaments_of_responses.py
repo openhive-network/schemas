@@ -19,14 +19,14 @@ class GetMarketHistoryField(PreconfiguredBaseModel):
 
     high: HiveInt
     low: HiveInt
-    open_: HiveInt = Field(..., alias="open")
+    open_: HiveInt = Field(alias="open")
     close: HiveInt
     volume: HiveInt
 
 
 class GetMarketHistoryFundament(PreconfiguredBaseModel):
-    id_: HiveInt = Field(..., alias="id")
-    open_: HiveDateTime = Field(..., alias="open")
+    id_: HiveInt = Field(alias="id")
+    open_: HiveDateTime = Field(alias="open")
     seconds: HiveInt
     hive: GetMarketHistoryField
     non_hive: GetMarketHistoryField

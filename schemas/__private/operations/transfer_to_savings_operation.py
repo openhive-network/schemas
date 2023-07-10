@@ -10,7 +10,7 @@ from schemas.__private.preconfigured_base_model import Operation
 
 
 class TransferToSavingsOperation(Generic[AssetHive, AssetHbd], GenericModel, Operation):
-    from_: AccountName = Field(..., alias="from")
+    from_: AccountName = Field(alias="from")
     to: AccountName
     amount: AssetHbd | AssetHive
     memo: str
