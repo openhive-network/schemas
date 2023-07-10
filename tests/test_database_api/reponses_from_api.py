@@ -127,6 +127,7 @@ FIND_COMMENTS = {
                 "percent_hbd": 10000,
                 "net_votes": 128,
                 "total_vote_weight": 0,
+                "was_voted_on": True,
                 "vote_rshares": 0,
                 "net_rshares": 0,
                 "abs_rshares": 0,

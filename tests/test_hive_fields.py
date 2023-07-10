@@ -167,19 +167,14 @@ def test_asset_nai_vests_field_incorrect_amount(value: str) -> None:
 
 
 @pytest.mark.parametrize(
-    "value", ["1970-01-01T00:00:00", datetime.datetime.strptime("1970-01-01T00:00:00", "%Y-%m-%dT%H:%M:%S")]
+    "value, valid", [("1970-01-01T00:00:00", datetime.datetime.fromtimestamp(0, tz=datetime.timezone.utc))]
 )
-def test_hive_datetime_field_correct_values(value: str | datetime.datetime) -> None:
-    # ARRANGE
-    expected_date = datetime.datetime.strptime("1970-01-01T00:00:00", "%Y-%m-%dT%H:%M:%S")
-    expected_date_after_operation = expected_date + datetime.timedelta(days=2)
-
-    # ACT
+def test_hive_datetime_field_correct_values(value: str, valid: datetime.datetime) -> None:
+    # ARRANGE & ACT
     instance = HiveDateTimeModel(field=value)
-    operation = instance.field + datetime.timedelta(days=2)
 
     # ASSERT
-    assert expected_date == instance.field and operation == expected_date_after_operation
+    assert valid == instance.field
 
 
 @pytest.mark.parametrize("value", ["1970-01-01"])

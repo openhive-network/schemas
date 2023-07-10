@@ -6,7 +6,8 @@ import pytest
 
 from schemas.__private.hive_factory import HiveResult
 from schemas.rc_api import FindRcAccounts, GetResourceParams, GetResourcePool, ListRcAccounts, ListRcDirectDelegations
-from tests.test_rc_api.reponses_from_api import (
+
+from .reponses_from_api import (
     FIND_RC_ACCOUNTS,
     GET_RESOURCE_PARAMS,
     GET_RESOURCE_POOL,
