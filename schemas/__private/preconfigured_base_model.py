@@ -8,6 +8,7 @@ from __future__ import annotations
 import re
 import types
 import typing
+from datetime import datetime
 from typing import Any, get_args, get_origin
 
 import pydantic
@@ -20,15 +21,38 @@ class PreconfiguredBaseModel(BaseModel):
         extra = Extra.forbid
         allow_population_by_field_name = True
         smart_union = True
+        json_encoders = {datetime: lambda x: x.strftime("%Y-%m-%dT%H:%M:%S")}
+
+    @classmethod
+    def __is_aliased_field_name(cls, field_name: str) -> bool:
+        return field_name in {
+            "id",
+            "from",
+            "json",
+            "schema",
+            "open",
+            "field",
+            "input",
+            "hex",
+        }
 
     def __getitem__(self, key: str) -> Any:
         """
         This allows using any schema from this repo as dictionary
         """
+        if not hasattr(self, key) and self.__is_aliased_field_name(key):
+            key = f"{key}_"
+
         assert hasattr(
             self, key
         ), f"`{key}` does not exists in `{self.__class__.__name__}`, available are: {list(self.dict().keys())}"
         return getattr(self, key)
+
+    def shallow_dict(self) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in self.__dict__.items():
+            result[key.strip("_")] = value
+        return result
 
     @classmethod
     def as_strict_model(cls, recursively: bool = True) -> type[Self]:  # noqa: C901
