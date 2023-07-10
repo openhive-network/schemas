@@ -59,14 +59,15 @@ from schemas.condenser_api.response_schemas import (
     GetWitnessCount,
     GetWitnesses,
     GetWitnessesByVote,
-    GetWitnessesSchedule,
+    GetWitnessSchedule,
     IsKnownTransaction,
     ListProposals,
     ListProposalVotes,
     LookupAccountNames,
     LookupAccounts,
 )
-from tests.test_condenser_api.responses_from_api import (
+
+from .responses_from_api import (
     FIND_PROPOSALS,
     FIND_RECURRENT_TRANSFERS,
     GET_ACCOUNT_COUNT,
@@ -179,7 +180,7 @@ from tests.test_condenser_api.responses_from_api import (
         (GetWithdrawRoutes, GET_WITHDRAW_ROUTES),
         (GetWitnessByAccount, GET_WITNESS_BY_ACCOUNT),
         (GetWitnessCount, GET_WITNESS_COUNT),
-        (GetWitnessesSchedule, GET_WITNESS_SCHEDULE),
+        (GetWitnessSchedule, GET_WITNESS_SCHEDULE),
         (GetWitnesses, GET_WITNESSES),
         (GetWitnessesByVote, GET_WITNESSES_BY_VOTE),
         (IsKnownTransaction, IS_KNOWN_TRANSACTION),

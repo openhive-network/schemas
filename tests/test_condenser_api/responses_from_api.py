@@ -71,6 +71,7 @@ GET_DISCUSSIONS_BY_AUTHOR_BEFORE_DATE: Final[dict[str, Any]] = {
             "percent_hbd": 10000,
             "post_id": 123721714,
             "net_rshares": 19331428900025,
+            "was_voted_on": True,
             "active_votes": [
                 {"percent": "10000", "reputation": 7606052098882, "rshares": 817822454, "voter": "konelectric"},
                 {"percent": "10000", "reputation": 7084649348142, "rshares": 399494720371, "voter": "kendewitt"},
@@ -2255,6 +2256,7 @@ GET_BLOG: Final[dict[str, Any]] = {
                 "percent_hbd": 10000,
                 "post_id": 123721714,
                 "net_rshares": 19331428900025,
+                "was_voted_on": True,
                 "active_votes": [
                     {"percent": "10000", "reputation": 7606052098882, "rshares": 817822454, "voter": "konelectric"},
                     {"percent": "10000", "reputation": 7084649348142, "rshares": 399494720371, "voter": "kendewitt"},
@@ -2437,6 +2439,7 @@ GET_COMMENT_DISCUSSION_BY_PAYOUT: Final[dict[str, Any]] = {
             "percent_hbd": 10000,
             "post_id": 123615714,
             "net_rshares": 509581466063,
+            "was_voted_on": False,
             "active_votes": [
                 {"percent": "10000", "reputation": 280616224641976, "rshares": 474641612071, "voter": "justyy"},
                 {"percent": "300", "reputation": 872751821566595, "rshares": 34939853992, "voter": "bozz"},
@@ -2743,6 +2746,7 @@ GET_CONTENT: Final[dict[str, Any]] = {
         "vote_rshares": 19331428900025,
         "net_rshares": 19331428900025,
         "abs_rshares": 19331428900025,
+        "was_voted_on": True,
         "active_votes": [
             {
                 "percent": 10000,
@@ -3379,6 +3383,7 @@ GET_CONTENT_REPLIES: Final[dict[str, Any]] = {
             "vote_rshares": 0,
             "net_rshares": 0,
             "abs_rshares": 0,
+            "was_voted_on": True,
             "active_votes": [],
         },
         {
@@ -3425,6 +3430,7 @@ GET_CONTENT_REPLIES: Final[dict[str, Any]] = {
             "vote_rshares": 0,
             "net_rshares": 0,
             "abs_rshares": 0,
+            "was_voted_on": True,
             "active_votes": [],
         },
         {
@@ -3471,6 +3477,7 @@ GET_CONTENT_REPLIES: Final[dict[str, Any]] = {
             "vote_rshares": 28301117063,
             "net_rshares": 28301117063,
             "abs_rshares": 28301117063,
+            "was_voted_on": True,
             "active_votes": [
                 {
                     "percent": 5000,
@@ -3526,6 +3533,7 @@ GET_CONTENT_REPLIES: Final[dict[str, Any]] = {
             "vote_rshares": 0,
             "net_rshares": 0,
             "abs_rshares": 0,
+            "was_voted_on": True,
             "active_votes": [],
         },
     ],
@@ -3536,7 +3544,7 @@ GET_CURRENT_MEDIAN_HISTORY_PRICE: Final[dict[str, Any]] = {
     "jsonrpc": "2.0",
     "result": {"base": "0.357 HBD", "quote": "1.000 HIVE"},
 }
-GET_ESCROW: Final[dict[str, Any]] = {"jsonrpc": "2.0", "result": "null", "id": 1}
+GET_ESCROW: Final[dict[str, Any]] = {"jsonrpc": "2.0", "result": None, "id": 1}
 GET_FOLLOW_COUNT: Final[dict[str, Any]] = {
     "jsonrpc": "2.0",
     "result": {"account": "hiveio", "following_count": 0, "follower_count": 2023},
