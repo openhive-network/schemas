@@ -256,7 +256,7 @@ class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, A
     """
 
     base: AssetHive | AssetHbd
-    quote: AssetHive
+    quote: AssetHive | AssetHbd
 
 
 class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
