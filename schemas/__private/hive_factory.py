@@ -15,13 +15,13 @@ from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 T = TypeVar("T", bound=PreconfiguredBaseModel | list[PreconfiguredBaseModel])
 
 
-class HiveError(GenericModel, Generic[T]):
+class HiveError(PreconfiguredBaseModel, GenericModel, Generic[T]):
     id_: int = Field(..., alias="id")
     jsonrpc: str
     error: T
 
 
-class HiveResult(GenericModel, Generic[T]):
+class HiveResult(PreconfiguredBaseModel, GenericModel, Generic[T]):
     id_: int = Field(..., alias="id")
     jsonrpc: str
     result: T
@@ -34,7 +34,6 @@ class HiveResult(GenericModel, Generic[T]):
         In case when something is wrong and result field is not present, but error this method return
         HiveError instance of class
         """
-
-        if "result" in kwargs:
-            return HiveResult[t](**kwargs)
-        return HiveError[t](**kwargs)
+        response_cls = HiveResult[t] if "result" in kwargs else HiveError[t]
+        response_cls.update_forward_refs(**locals())
+        return response_cls(**kwargs)  # type: ignore[return-value]
