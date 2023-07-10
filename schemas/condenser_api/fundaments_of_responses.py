@@ -143,7 +143,7 @@ class GetEscrowFundament(fundaments_database_api.EscrowsFundament[AssetHiveLegac
 
 
 class GetExpiringVestingDelegationFundament(PreconfiguredBaseModel):
-    id_: HiveInt = Field(..., alias="id")
+    id_: HiveInt = Field(alias="id")
     delegator: AccountName
     vesting_shares: AssetVestsLegacy
     expiration: HiveDateTime
@@ -181,7 +181,7 @@ class ListProposalsFundament(Proposal[AssetHbdLegacy]):
 
 
 class ListRcDirectDelegationsFundament(PreconfiguredBaseModel):
-    from_: AccountName = Field(..., alias="from")
+    from_: AccountName = Field(alias="from")
     to: AccountName
     delegated_rc: HiveInt
 

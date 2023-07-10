@@ -12,6 +12,6 @@ DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
 class ConvertOperation(Generic[AssetHbd], GenericModel, Operation):
-    from_: AccountName = Field(..., alias="from")
+    from_: AccountName = Field(alias="from")
     request_id: Uint32t = DEFAULT_REQUEST_ID
     amount: AssetHbd

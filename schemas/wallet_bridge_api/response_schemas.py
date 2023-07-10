@@ -44,7 +44,7 @@ class BroadcastTransaction(network_broadcast_api.BroadcastTransaction):
 class BroadcastTransactionSynchronous(PreconfiguredBaseModel):
     block_num: HiveInt
     expired: bool
-    id_: TransactionId = Field(..., alias="id")
+    id_: TransactionId = Field(alias="id")
     rc_cost: HiveInt | None
     trx_num: HiveInt
 

@@ -18,7 +18,7 @@ class DebugGenerateBlocksUntil(DebugGenerateBlocks):
 
 
 class DebugGetHardforkPropertyObject(PreconfiguredBaseModel):
-    id_: HiveInt = Field(..., alias="id")
+    id_: HiveInt = Field(alias="id")
     processed_hardforks: list[HiveDateTime]
     last_hardfork: HiveInt
     current_hardfork_version: HardforkVersion
@@ -27,11 +27,11 @@ class DebugGetHardforkPropertyObject(PreconfiguredBaseModel):
 
 
 class DebugGetJsonSchema(PreconfiguredBaseModel):
-    schema_: str = Field(..., alias="schema")
+    schema_: str = Field(alias="schema")
 
 
 class DebugGetWitnessSchedule(PreconfiguredBaseModel):
-    id_: HiveInt = Field(..., alias="id")
+    id_: HiveInt = Field(alias="id")
     current_virtual_time: HiveInt
     next_shuffle_block_num: HiveInt
     current_shuffled_witnesses: list[AccountName | EmptyString]

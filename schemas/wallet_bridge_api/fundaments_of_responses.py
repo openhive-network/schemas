@@ -21,7 +21,7 @@ from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 
 class Account(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
-    id_: HiveInt = Field(..., alias="id")
+    id_: HiveInt = Field(alias="id")
     name: AccountName
     owner: Authority
     active: Authority
@@ -86,7 +86,7 @@ class Account(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd,
 
 
 class GetCollateralizedConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
-    id_: HiveInt = Field(..., alias="id")
+    id_: HiveInt = Field(alias="id")
     owner: AccountName
     requestid: HiveInt
     collateral_amount: AssetHive
@@ -95,7 +95,7 @@ class GetCollateralizedConversionRequestsFundament(PreconfiguredBaseModel, Gener
 
 
 class GetConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
-    id_: HiveInt = Field(..., alias="id")
+    id_: HiveInt = Field(alias="id")
     owner: AccountName
     requestid: HiveInt
     amount: AssetHbd
@@ -103,9 +103,9 @@ class GetConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Gener
 
 
 class FindRecurrentTransfersFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
-    id_: HiveInt = Field(..., alias="id")
+    id_: HiveInt = Field(alias="id")
     trigger_date: HiveDateTime
-    from_: AccountName = Field(..., alias="from")
+    from_: AccountName = Field(alias="from")
     to: AccountName
     amount: AssetHive
     memo: str
@@ -116,6 +116,6 @@ class FindRecurrentTransfersFundament(PreconfiguredBaseModel, GenericModel, Gene
 
 
 class ListRcDirectDelegationsFundament(PreconfiguredBaseModel):
-    from_: AccountName = Field(..., alias="from")
+    from_: AccountName = Field(alias="from")
     to: AccountName
     delegated_rc: HiveInt

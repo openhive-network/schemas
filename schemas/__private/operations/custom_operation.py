@@ -8,5 +8,5 @@ from schemas.__private.preconfigured_base_model import Operation
 
 class CustomOperation(Operation):
     required_auths: list[AccountName]
-    id_: Uint16t = Field(..., alias="id")
+    id_: Uint16t = Field(alias="id")
     data: list[str]

@@ -14,7 +14,7 @@ DEFAULT_DELETED: Final[bool] = False
 
 
 class FailedRecurrentTransferOperation(Generic[AssetHive, AssetHbd], GenericModel, VirtualOperation):
-    from_: AccountName = Field(..., alias="from")
+    from_: AccountName = Field(alias="from")
     to: AccountName
     amount: AssetHive | AssetHbd
     memo: str

@@ -16,13 +16,13 @@ T = TypeVar("T", bound=PreconfiguredBaseModel | list[PreconfiguredBaseModel])
 
 
 class HiveError(PreconfiguredBaseModel, GenericModel, Generic[T]):
-    id_: int = Field(..., alias="id")
+    id_: int = Field(alias="id")
     jsonrpc: str
     error: T
 
 
 class HiveResult(PreconfiguredBaseModel, GenericModel, Generic[T]):
-    id_: int = Field(..., alias="id")
+    id_: int = Field(alias="id")
     jsonrpc: str
     result: T
 
