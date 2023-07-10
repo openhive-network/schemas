@@ -2,17 +2,22 @@ from __future__ import annotations
 
 from schemas.__private.hive_fields_basic_schemas import HiveList
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
-from schemas.block_api.fundaments_of_responses import Block, EmptyModel, GetBlockFundament, GetBlockHeaderFundament
-
-GetBlock = EmptyModel | GetBlockFundament
+from schemas.block_api.fundaments_of_responses import GetBlockHeaderFundament, Hf26Block
 
 
-class GetBlockHeaderNotEmpty(PreconfiguredBaseModel):
+class GetBlockBase(PreconfiguredBaseModel):
+    block: Hf26Block
+
+
+GetBlock = GetBlockBase | PreconfiguredBaseModel
+
+
+class GetBlockHeaderBase(PreconfiguredBaseModel):
     header: GetBlockHeaderFundament
 
 
-GetBlockHeader = EmptyModel | GetBlockHeaderNotEmpty
+GetBlockHeader = GetBlockHeaderBase | PreconfiguredBaseModel
 
 
 class GetBlockRange(PreconfiguredBaseModel):
-    blocks: HiveList[Block]
+    blocks: HiveList[Hf26Block]

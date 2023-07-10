@@ -23,20 +23,23 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHbdLegacy,
     AssetHiveLegacy,
     AssetVestsLegacy,
+    EmptyString,
     HiveDateTime,
     HiveInt,
     HiveList,
     PublicKey,
 )
 from schemas.__private.hive_fields_custom_schemas import (
-    FloatAsString,
     HardforkVersion,
     Hex,
     HiveVersion,
     Price,
     RcAccountObject,
 )
-from schemas.__private.operations import LegacyOperationRepresentationType
+from schemas.__private.operations import (
+    LegacyOperationRepresentationType,
+    LegacyOperationTypes,
+)
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.condenser_api.fundaments_of_responses import (
     FindProposalsFundament,
@@ -45,15 +48,17 @@ from schemas.condenser_api.fundaments_of_responses import (
     GetAccountReputationsFundament,
     GetAccountsFundament,
     GetActiveVotesFundament,
-    GetBlockFundament,
     GetBlogEntriesFundament,
     GetBlogFundament,
     GetCommentDiscussionsByPayoutFundament,
     GetDiscussionsByAuthorBeforeDateFundament,
     GetEscrowFundament,
     GetExpiringVestingDelegationFundament,
+    GetExpiringVestingDelegationsFundament,
+    GetOpenOrdersFundament,
     GetOpsInBlockFundament,
     GetTrendingTagsFundament,
+    GetVestingDelegationsFundament,
     HiveMindResponses,
     ListProposalsFundament,
     ListRcDirectDelegationsFundament,
@@ -96,10 +101,13 @@ GetAccounts = HiveList[GetAccountsFundament]
 GetActiveVotes = HiveList[GetActiveVotesFundament]
 
 
-GetActiveWitnesses = list[AccountName]
+GetActiveWitnesses = list[AccountName | EmptyString]
 
 
-GetBlock = GetBlockFundament | fundaments_block_api.EmptyModel
+class GetBlock(fundaments_block_api.LegacyBlock):
+    """Identical as in block_api, just extensions changed"""
+
+    extensions: list[tuple[str, Any]]
 
 
 class GetBlockHeader(fundaments_block_api.GetBlockHeaderFundament):
@@ -128,8 +136,8 @@ GetCommentDiscussionsByPayout = HiveList[GetCommentDiscussionsByPayoutFundament]
 class GetConfig(database_api.GetConfig[AssetHiveLegacy, AssetHbdLegacy]):
     """Field like in database_api, with few modifications"""
 
-    HBD_SYMBOL: Literal["HBD"]  # type: ignore
-    HIVE_SYMBOL: Literal["HIVE"]  # type: ignore
+    HBD_SYMBOL: Literal["HBD", "TBD"]  # type: ignore
+    HIVE_SYMBOL: Literal["HIVE", "TESTS"]  # type: ignore
     VESTS_SYMBOL: Literal["VESTS"]  # type: ignore
     NEW_HIVE_TREASURY_ACCOUNT: AccountName
 
@@ -217,7 +225,7 @@ class GetDynamicGlobalProperties(
 
 
 """GetEscrowFundament -> the same as in database_api, GetEscrow could also be null"""
-GetEscrow = GetEscrowFundament | Literal["null"]
+GetEscrow = GetEscrowFundament | None
 
 
 """Could be list of defined in fundaments or empty list"""
@@ -257,15 +265,16 @@ GetHardforkVersion = HardforkVersion
 
 
 """This response is list which includes list of AccountNames"""
-GetKeyReferences = list[tuple[AccountName]]
+GetKeyReferences = list[list[AccountName]]
 
 
-class GetMarketHistory(fundaments_market_history_api.GetMarketHistoryFundament):
-    """Identical response as fundament of get_market_history from market_history_api"""
+GetMarketHistory = list[fundaments_market_history_api.GetMarketHistoryFundament]
 
 
 """This response should includes list with sizes of buckets"""
 GetMarketHistoryBuckets = list[fundaments_market_history_api.BucketSizes]
+
+GetExpiringVestingDelegations = list[GetExpiringVestingDelegationsFundament]
 
 
 class GetNextScheduledHardfork(PreconfiguredBaseModel):
@@ -275,12 +284,7 @@ class GetNextScheduledHardfork(PreconfiguredBaseModel):
     live_time: HiveDateTime
 
 
-class GetOpenOrders(fundaments_database_api.LimitOrdersFundament[AssetHiveLegacy, AssetHbdLegacy]):
-    """Same as in database_api -> list_limit_orders, just Legacy format of Assets and two additional fields"""
-
-    real_price: FloatAsString
-    rewarded: bool
-
+GetOpenOrders = list[GetOpenOrdersFundament]
 
 """List of fundaments from fundaments_of_responses"""
 GetOpsInBlock = list[GetOpsInBlockFundament]  # something is wrong with operation
@@ -293,8 +297,7 @@ class GetOrderBook(PreconfiguredBaseModel):
     bids: list[fundaments_database_api.GetOrderBookFundament[AssetHiveLegacy, AssetHbdLegacy]]
 
 
-class GetOwnerHistory(fundaments_database_api.OwnerHistoriesFundament):
-    """Identical response like in owner_auths field from list_owner_histories model in database api"""
+GetOwnerHistory = list[fundaments_database_api.OwnerHistoriesFundament]
 
 
 class GetPostDiscussionsByPayout(GetDiscussionsByAuthorBeforeDate):
@@ -314,7 +317,7 @@ GetRecentTrades = HiveList[fundaments_market_history_api.GetRecentTradesFundamen
 
 
 """Null or fundament from database_api"""
-GetRecoveryRequest = fundaments_database_api.FindAccountRecoveryRequestsFundament | Literal["null"]
+GetRecoveryRequest = fundaments_database_api.FindAccountRecoveryRequestsFundament | None
 
 
 class GetRepliesByLastUpdate(GetDiscussionsByAuthorBeforeDate):
@@ -329,8 +332,7 @@ class GetRewardFund(fundaments_database_api.GetRewardFundsFundament[AssetHiveLeg
     """Identical as get_reward_funds funds field, just different Assets format"""
 
 
-class GetSavingsWithdrawFrom(fundaments_database_api.SavingsWithdrawalsFundament[AssetHiveLegacy, AssetHbdLegacy]):
-    """Just different Assets format, rest the same as in database_api"""
+GetSavingsWithdrawFrom = list[fundaments_database_api.SavingsWithdrawalsFundament[AssetHiveLegacy, AssetHbdLegacy]]
 
 
 class GetSavingsWithdrawTo(GetSavingsWithdrawFrom):
@@ -349,19 +351,13 @@ class GetTicker(market_history_api.GetTicker[AssetHiveLegacy, AssetHbdLegacy]):
 GetTradeHistory = HiveList[fundaments_market_history_api.GetTradeHistoryFundament[AssetHiveLegacy, AssetHbdLegacy]]
 
 
-class GetTransaction(account_history_api.GetTransaction[LegacyOperationRepresentationType]):
+class GetTransaction(account_history_api.GetTransactionModel[LegacyOperationRepresentationType]):
     @root_validator(pre=True)
     @classmethod
     def check_operation(cls, values: dict[str, Any]) -> dict[str, Any]:
-        operations = values["operations"]
-        for operation in operations:
-            type_of_operation = operation[0]
-            value_of_operation = operation[1]
-
-            result = {"type": type_of_operation, "value": value_of_operation}
-            index_of_operation = operations.index(operation)
-
-            values["operations"][index_of_operation] = result
+        values["operations"] = [
+            LegacyOperationTypes[op_name](type=op_name, value=op_value) for op_name, op_value in values["operations"]
+        ]
         return values
 
 
@@ -397,12 +393,12 @@ class GetWitnessCount(HiveInt):
     """Should return just integer"""
 
 
-class GetWitnessesSchedule(database_api.GetWitnessSchedule[AssetHiveLegacy]):
+class GetWitnessSchedule(database_api.GetWitnessSchedule[AssetHiveLegacy]):
     """Identical as in database_api, just Legacy format of Assets"""
 
 
 """List of fundaments from database_api in Legacy Asset format"""
-GetWitnesses = list[fundaments_database_api.WitnessesFundament[AssetHiveLegacy, AssetHbdLegacy]]
+GetWitnesses = list[fundaments_database_api.WitnessesFundament[AssetHiveLegacy, AssetHbdLegacy] | None]
 
 
 class GetWitnessesByVote(GetWitnesses):
@@ -442,4 +438,6 @@ LookupWitnessAccounts = list[AccountName]
 VerifyAccountAuthority = bool
 
 """Should return just bool"""
-verify_authority = bool
+VerifyAuthority = bool
+
+GetVestingDelegations = list[GetVestingDelegationsFundament]

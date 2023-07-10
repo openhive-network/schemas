@@ -1,34 +1,21 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Generic
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, HiveDateTime, PublicKey
+from pydantic.generics import GenericModel
+
+from schemas.__private.hive_fields_basic_schemas import (
+    AccountName,
+    HiveDateTime,
+    PublicKey,
+)
 from schemas.__private.hive_fields_custom_schemas import Signature, TransactionId
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
-from schemas.transaction_model.transaction import Hf26Transaction, LegacyTransaction
-
-
-class Block(PreconfiguredBaseModel):
-    block_id: TransactionId
-    extensions: list[Any]
-    previous: TransactionId
-    signing_key: PublicKey
-    timestamp: HiveDateTime
-    transaction_ids: list[TransactionId]
-    transaction_merkle_root: TransactionId
-    transactions: list[Hf26Transaction | LegacyTransaction]
-    witness: AccountName
-    witness_signature: Signature
-
-
-class EmptyModel(PreconfiguredBaseModel):
-    """get_block and get_block_header can be an empty model or in format below"""
-
-
-class GetBlockFundament(PreconfiguredBaseModel):
-    """Second possible format of get_block model"""
-
-    block: Block
+from schemas.transaction_model.transaction import (
+    Hf26Transaction,
+    LegacyTransaction,
+    TransactionT,
+)
 
 
 class GetBlockHeaderFundament(PreconfiguredBaseModel):
@@ -39,3 +26,22 @@ class GetBlockHeaderFundament(PreconfiguredBaseModel):
     timestamp: HiveDateTime
     transaction_merkle_root: TransactionId
     witness: AccountName
+
+
+class SignedBlock(GetBlockHeaderFundament, GenericModel, Generic[TransactionT]):
+    witness_signature: Signature
+    transactions: list[TransactionT]
+
+
+class Block(SignedBlock[TransactionT], GenericModel, Generic[TransactionT]):
+    block_id: TransactionId
+    signing_key: PublicKey
+    transaction_ids: list[TransactionId]
+
+
+Hf26Block = Block[Hf26Transaction]
+LegacyBlock = Block[LegacyTransaction]
+
+
+class EmptyModel(PreconfiguredBaseModel):
+    """get_block and get_block_header can be an empty model or in format below"""

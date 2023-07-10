@@ -8,6 +8,7 @@ from pydantic.generics import GenericModel
 from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
     AssetVests,
+    AssetVestsHF26,
     HiveInt,
 )
 from schemas.__private.hive_fields_custom_schemas import Manabar
@@ -17,7 +18,7 @@ from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 class RcAccount(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
     account: AccountName
     rc_manabar: Manabar
-    max_rc_creation_adjustment: AssetVests
+    max_rc_creation_adjustment: AssetVestsHF26  # TODO: change to AssetVests
     max_rc: HiveInt
     delegated_rc: HiveInt
     received_delegated_rc: HiveInt
@@ -57,98 +58,94 @@ class ResourceParams(PreconfiguredBaseModel):
 
 
 class ResourceStateBytes(PreconfiguredBaseModel):
-    authority_base_size: HiveInt
+    TEMPORARY_STATE_BYTE: HiveInt
+    LASTING_STATE_BYTE: HiveInt
+    PERSISTENT_STATE_BYTE: HiveInt
+    account_create_base_size: HiveInt
     authority_account_member_size: HiveInt
     authority_key_member_size: HiveInt
-    account_object_base_size: HiveInt
-    account_authority_object_base_size: HiveInt
-    account_recovery_request_object_base_size: HiveInt
-    comment_object_base_size: HiveInt
-    comment_object_permlink_char_size: HiveInt
-    comment_object_parent_permlink_char_size: HiveInt
-    comment_object_beneficiaries_member_size: HiveInt
-    comment_vote_object_base_size: HiveInt
-    convert_request_object_base_size: HiveInt
-    decline_voting_rights_request_object_base_size: HiveInt
-    escrow_object_base_size: HiveInt
-    limit_order_object_base_size: HiveInt
-    savings_withdraw_object_byte_size: HiveInt
-    transaction_object_base_size: HiveInt
-    transaction_object_byte_size: HiveInt
-    vesting_delegation_object_base_size: HiveInt
-    vesting_delegation_expiration_object_base_size: HiveInt
-    withdraw_vesting_route_object_base_size: HiveInt
-    witness_object_base_size: HiveInt
-    witness_object_url_char_size: HiveInt
-    witness_vote_object_base_size: HiveInt
-    proposal_object_base_size: HiveInt
-    proposal_vote_object_base_size: HiveInt
-    proposal_vote_object_member_size: HiveInt
-    smt_token_object_size: HiveInt
-    smt_ico_object_size: HiveInt
-    smt_token_emissions_object_size: HiveInt
-    smt_ico_tier_object_size: HiveInt
-    smt_contribution_object_size: HiveInt
-    votable_assets_item_size: HiveInt
-    STATE_BYTES_SCALE: HiveInt
+    owner_authority_history_object_size: HiveInt
+    transfer_to_vesting_size: HiveInt
+    request_account_recovery_size: HiveInt
+    change_recovery_account_size: HiveInt
+    comment_base_size: HiveInt
+    comment_permlink_char_size: HiveInt
+    comment_beneficiaries_member_size: HiveInt
+    vote_size: HiveInt
+    convert_size: HiveInt
+    collateralized_convert_size: HiveInt
+    decline_voting_rights_size: HiveInt
+    escrow_transfer_size: HiveInt
+    limit_order_create_size: HiveInt
+    transfer_from_savings_size: HiveInt
+    transaction_base_size: HiveInt
+    vesting_delegation_object_size: HiveInt
+    vesting_delegation_expiration_object_size: HiveInt
+    delegate_vesting_shares_size: HiveInt
+    set_withdraw_vesting_route_size: HiveInt
+    witness_update_base_size: HiveInt
+    witness_update_url_char_size: HiveInt
+    account_witness_vote_size: HiveInt
+    create_proposal_base_size: HiveInt
+    create_proposal_subject_permlink_char_size: HiveInt
+    update_proposal_votes_member_size: HiveInt
+    recurrent_transfer_base_size: HiveInt
+    recurrent_transfer_memo_char_size: HiveInt
+    delegate_rc_base_size: HiveInt
 
 
 class ResourceExecutionTime(PreconfiguredBaseModel):
-    account_create_operation_exec_time: HiveInt
-    account_create_with_delegation_operation_exec_time: HiveInt
-    account_update_operation_exec_time: HiveInt
-    account_update2_operation_exec_time: HiveInt
-    account_witness_proxy_operation_exec_time: HiveInt
-    account_witness_vote_operation_exec_time: HiveInt
-    cancel_transfer_from_savings_operation_exec_time: HiveInt
-    change_recovery_account_operation_exec_time: HiveInt
-    claim_account_operation_exec_time: HiveInt
-    claim_reward_balance_operation_exec_time: HiveInt
-    comment_operation_exec_time: HiveInt
-    comment_options_operation_exec_time: HiveInt
-    convert_operation_exec_time: HiveInt
-    create_claimed_account_operation_exec_time: HiveInt
-    custom_operation_exec_time: HiveInt
-    custom_json_operation_exec_time: HiveInt
-    custom_binary_operation_exec_time: HiveInt
-    decline_voting_rights_operation_exec_time: HiveInt
-    delegate_vesting_shares_operation_exec_time: HiveInt
-    delete_comment_operation_exec_time: HiveInt
-    escrow_approve_operation_exec_time: HiveInt
-    escrow_dispute_operation_exec_time: HiveInt
-    escrow_release_operation_exec_time: HiveInt
-    escrow_transfer_operation_exec_time: HiveInt
-    feed_publish_operation_exec_time: HiveInt
-    limit_order_cancel_operation_exec_time: HiveInt
-    limit_order_create_operation_exec_time: HiveInt
-    limit_order_create2_operation_exec_time: HiveInt
-    request_account_recovery_operation_exec_time: HiveInt
-    set_withdraw_vesting_route_operation_exec_time: HiveInt
-    transfer_from_savings_operation_exec_time: HiveInt
-    transfer_operation_exec_time: HiveInt
-    transfer_to_savings_operation_exec_time: HiveInt
-    transfer_to_vesting_operation_exec_time: HiveInt
-    vote_operation_exec_time: HiveInt
-    withdraw_vesting_operation_exec_time: HiveInt
-    witness_set_properties_operation_exec_time: HiveInt
-    witness_update_operation_exec_time: HiveInt
-    claim_reward_balance2_operation_exec_time: HiveInt
-    smt_setup_operation_exec_time: HiveInt
-    smt_setup_emissions_operation_exec_time: HiveInt
-    smt_set_setup_parameters_operation_exec_time: HiveInt
-    smt_set_runtime_parameters_operation_exec_time: HiveInt
-    smt_create_operation_exec_time: HiveInt
-    smt_contribute_operation_exec_time: HiveInt
-    smt_setup_ico_tier_operation_exec_time: HiveInt
-    smt_contributor_payout_action_exec_time: HiveInt
-    smt_founder_payout_action_exec_time: HiveInt
-    smt_token_launch_action_exec_time: HiveInt
-    smt_ico_evaluation_action_exec_time: HiveInt
-    smt_ico_launch_action_exec_time: HiveInt
-    smt_token_emission_action_exec_time: HiveInt
-    create_proposal_operation_exec_time: HiveInt
-    update_proposal_votes_operation_exec_time: HiveInt
-    remove_proposal_operation_exec_time: HiveInt
+    account_create_time: HiveInt
+    account_create_with_delegation_time: HiveInt
+    account_witness_vote_time: HiveInt
+    comment_time: HiveInt
+    comment_options_time: HiveInt
+    convert_time: HiveInt
+    collateralized_convert_time: HiveInt
+    create_claimed_account_time: HiveInt
+    decline_voting_rights_time: HiveInt
+    delegate_vesting_shares_time: HiveInt
+    escrow_transfer_time: HiveInt
+    limit_order_create_time: HiveInt
+    limit_order_create2_time: HiveInt
+    request_account_recovery_time: HiveInt
+    set_withdraw_vesting_route_time: HiveInt
+    vote_time: HiveInt
+    witness_update_time: HiveInt
+    transfer_time: HiveInt
+    transfer_to_vesting_time: HiveInt
+    transfer_to_savings_time: HiveInt
+    transfer_from_savings_time: HiveInt
+    claim_reward_balance_time: HiveInt
+    withdraw_vesting_time: HiveInt
+    account_update_time: HiveInt
+    account_update2_time: HiveInt
+    account_witness_proxy_time: HiveInt
+    cancel_transfer_from_savings_time: HiveInt
+    change_recovery_account_time: HiveInt
+    claim_account_time: HiveInt
+    custom_time: HiveInt
+    custom_json_time: HiveInt
+    custom_binary_time: HiveInt
+    delete_comment_time: HiveInt
+    escrow_approve_time: HiveInt
+    escrow_dispute_time: HiveInt
+    escrow_release_time: HiveInt
+    feed_publish_time: HiveInt
+    limit_order_cancel_time: HiveInt
+    witness_set_properties_time: HiveInt
+    create_proposal_time: HiveInt
+    update_proposal_time: HiveInt
+    update_proposal_votes_time: HiveInt
+    remove_proposal_time: HiveInt
+    recurrent_transfer_base_time: HiveInt
+    recurrent_transfer_processing_time: HiveInt
+    delegate_rc_time: HiveInt
+    verify_authority_time: HiveInt
+    transaction_time: HiveInt
+    recover_account_time: HiveInt
+    pow_time: HiveInt
+    pow2_time: HiveInt
 
 
 class SizeInfo(PreconfiguredBaseModel):
@@ -158,6 +155,7 @@ class SizeInfo(PreconfiguredBaseModel):
 
 class Pool(PreconfiguredBaseModel):
     pool: HiveInt
+    fill_level: HiveInt
 
 
 class ResourcePool(PreconfiguredBaseModel):
@@ -169,8 +167,6 @@ class ResourcePool(PreconfiguredBaseModel):
 
 
 class RcDirectDelegations(PreconfiguredBaseModel):
-    from_id: HiveInt
-    to_id: HiveInt
     from_: AccountName = Field(alias="from")
     to: AccountName
     delegated_rc: HiveInt

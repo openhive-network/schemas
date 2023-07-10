@@ -26,7 +26,9 @@ from schemas.__private.hive_fields_custom_schemas import (
     Price,
     Proposal,
     Props,
+    RdDynamicParams,
     Sha256,
+    Version,
 )
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
@@ -47,7 +49,7 @@ class AccountItemFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHi
     active: Authority
     posting: Authority
     memo_key: PublicKey
-    json_metadata: Json[Any] | EmptyString
+    json_metadata: str
     posting_json_metadata: Json[Any] | EmptyString
     proxy: AccountName | EmptyString
     previous_owner_update: HiveDateTime
@@ -101,8 +103,8 @@ class AccountItemFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHi
     pending_claimed_accounts: HiveInt
     open_recurrent_transfers: HiveInt
     is_smt: bool
-    delayed_votes: list[DelayedVotes]
     governance_vote_expiration_ts: HiveDateTime
+    delayed_votes: list[DelayedVotes] = Field(default_factory=list)
 
 
 class FindChangeRecoveryAccountRequestsFundament(PreconfiguredBaseModel):
@@ -115,7 +117,7 @@ class FindChangeRecoveryAccountRequestsFundament(PreconfiguredBaseModel):
 class FindCollateralizedConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
     id_: HiveInt = Field(..., alias="id")
     owner: AccountName
-    request_id: HiveInt
+    requestid: HiveInt
     collateral_amount: AssetHive
     converted_amount: AssetHbd
     conversion_date: HiveDateTime
@@ -123,14 +125,14 @@ class FindCollateralizedConversionRequestsFundament(PreconfiguredBaseModel, Gene
 
 class FindCommentsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
     id_: HiveInt = Field(..., alias="id")
-    author: AccountName
+    author: EmptyString | AccountName
     permlink: EmptyString | Permlink
     category: EmptyString | str
     parent_author: EmptyString | AccountName
     parent_permlink: EmptyString | Permlink
     title: EmptyString | str
     body: EmptyString | str
-    json_metadata: Json[Any] | EmptyString
+    json_metadata: str
     last_update: HiveDateTime
     created: HiveDateTime
     last_payout: HiveDateTime
@@ -156,6 +158,7 @@ class FindCommentsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetH
     allow_votes: bool
     allow_curation_rewards: bool
     beneficiaries: list[Any]
+    was_voted_on: bool
 
 
 class FindDeclineVotingRightsRequestsFundament(PreconfiguredBaseModel):
@@ -353,12 +356,20 @@ class GetRewardFundsFundament(PreconfiguredBaseModel, GenericModel, Generic[Asse
 class GetWitnessScheduleFutureChangesFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
     """Fundament class for future_changes field in get_witness_schedule response from API"""
 
-    num_scheduled_witnesses: HiveInt
-    elected_weight: HiveInt
-    timeshare_weight: HiveInt
-    miner_weight: HiveInt
-    witness_pay_normalization_factor: HiveInt
-    median_props: Props[AssetHive]
+    median_props: Props[AssetHive] | None = None
+    num_scheduled_witnesses: HiveInt | None = None
+    elected_weight: HiveInt | None = None
+    timeshare_weight: HiveInt | None = None
+    miner_weight: HiveInt | None = None
+    witness_pay_normalization_factor: HiveInt | None = None
+    majority_version: Version | None = None
+    max_voted_witnesses: HiveInt | None = None
+    max_miner_witnesses: HiveInt | None = None
+    max_runner_witnesses: HiveInt | None = None
+    hardfork_required_witnesses: HiveInt | None = None
+    account_subsidy_rd: RdDynamicParams | None = None
+    account_subsidy_witness_rd: RdDynamicParams | None = None
+    min_witness_account_subsidy_decay: HiveInt | None = None
 
 
 class ListAccountRecoveryRequestsFundament(PreconfiguredBaseModel):
@@ -392,7 +403,7 @@ class ListCommentsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetH
     category: str
     title: str
     body: str
-    json_metadata: Json[Any] | EmptyString
+    json_metadata: str
     created: HiveDateTime
     last_update: HiveDateTime
     depth: HiveInt
