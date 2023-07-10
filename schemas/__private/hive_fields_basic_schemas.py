@@ -7,7 +7,7 @@ from __future__ import annotations
 import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from pydantic import ConstrainedInt, ConstrainedList, ConstrainedStr, Field, PrivateAttr, StrRegexError, validator
@@ -66,13 +66,17 @@ class HiveDateTime(datetime):
 
     @classmethod
     def validate(cls, value: Any) -> datetime:
-        if type(value) is datetime:
-            return value
+        if isinstance(value, datetime):
+            return cls.__normalize(value)
 
         try:
-            return datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")
+            return cls.__normalize(datetime.strptime(value, "%Y-%m-%dT%H:%M:%S"))
         except ValueError as error:
             raise ValueError("date must be in format %Y-%m-%dT%H:%M:%S") from error
+
+    @classmethod
+    def __normalize(cls, value: datetime) -> datetime:
+        return value.replace(tzinfo=timezone.utc)
 
 
 class Authority(PreconfiguredBaseModel):
