@@ -264,6 +264,7 @@ Hf26VirtualOperationType = VirtualOperationType[AssetHiveHF26, AssetHbdHF26, Ass
 LegacyVirtualOperationType = VirtualOperationType[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
 
 LegacyAllOperationType = AllOperationType[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
+Hf26AllOperationType = AllOperationType[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
 
 
 class Hf26OperationRepresentation(PreconfiguredBaseModel):
@@ -317,6 +318,9 @@ LegacyVirtualOperationRepresentationType = Annotated[LegacyVirtualOperationRepre
 
 LegacyAllOperationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(AllOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore
 LegacyAllOperationRepresentationType = Annotated[LegacyAllOperationUnionType, Field(discriminator="type")]  # type: ignore
+
+Hf26AllOperationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in (*get_args(AllOperationType), NaiEffectiveCommentVoteOperation))]  # type: ignore
+Hf26AllOperationRepresentationType = Annotated[Hf26AllOperationUnionType, Field(discriminator="type")]  # type: ignore
 
 __all__ = [
     "AccountCreateOperation",
