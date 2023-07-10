@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from typing import Literal, NamedTuple, Union, get_args  # pyright: ignore # noqa: F401
+from typing import Any, Literal, Union, get_args  # pyright: ignore
 
-from pydantic import BaseModel, Field  # noqa: F401
+from pydantic import Field
 from typing_extensions import Annotated  # noqa: UP035
 
 from schemas.__private.hive_fields_basic_schemas import (
@@ -269,13 +269,30 @@ Hf26AllOperationType = AllOperationType[AssetHiveHF26, AssetHbdHF26, AssetVestsH
 
 class Hf26OperationRepresentation(PreconfiguredBaseModel):
     type: str  # noqa: A003
-    value: Hf26OperationType
+    value: Hf26AllOperationType
+
+
+class LegacyOperationBase(PreconfiguredBaseModel):
+    type: str  # noqa: A003
+    value: LegacyAllOperationType
+
+    def __getitem__(self, key: str | int) -> str | LegacyAllOperationType | Any:
+        if isinstance(key, int):
+            match (key):
+                case 0:
+                    return self.value.get_name().replace("_operation", "")
+                case 1:
+                    return self.value
+                case _:
+                    raise ValueError("out of bound")
+        return super().__getitem__(key)
 
 
 HF26OperationTypes: dict[str, type[Hf26OperationType]] = {}
+LegacyOperationTypes: dict[str, type[LegacyOperationBase]] = {}
 
 
-def __create_hf26_representation(incoming_type: type[Hf26OperationType]) -> type[PreconfiguredBaseModel]:
+def __create_hf26_representation(incoming_type: type[Hf26OperationType]) -> type[Hf26OperationRepresentation]:
     class Hf26Operation(Hf26OperationRepresentation):
         type: Literal[f"{incoming_type.get_name()}"]  # type: ignore[valid-type]  # noqa: A003
         value: incoming_type  # type: ignore[valid-type]
@@ -285,23 +302,22 @@ def __create_hf26_representation(incoming_type: type[Hf26OperationType]) -> type
     return Hf26Operation
 
 
-def __create_legacy_representation(cls: type[LegacyOperationType]) -> type[PreconfiguredBaseModel]:
+def __create_legacy_representation(incoming_cls: type[LegacyOperationType]) -> type[LegacyOperationBase]:
     """
     Representation of operation in legacy format
     Response from api has format [name_of_operation, {parameters}], to provide precise validation in root_validator
     it is converted to format below.
     """
 
-    cls_name = cls.get_class_name()
-    cls_name_snake = cls.get_name().replace("_operation", "")
-    exec(
-        f"""
-class LegacyOperation{cls_name}(BaseModel):
-    type: Literal["{cls_name_snake}"]  # noqa: A003
-    value: {cls_name}
-    """
-    )
-    return eval(f"LegacyOperation{cls_name}")  # type: ignore
+    cls_name_snake: str = incoming_cls.get_name().replace("_operation", "")
+
+    class LegacyOperation(LegacyOperationBase):
+        type: Literal[f"{cls_name_snake}"]  # type: ignore[valid-type] # noqa: A003
+        value: incoming_cls  # type: ignore[valid-type]
+
+    LegacyOperation.update_forward_refs(**locals())
+    LegacyOperationTypes[cls_name_snake] = LegacyOperation
+    return LegacyOperation
 
 
 Hf26OperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(Hf26OperationType))]  # type: ignore
