@@ -10,11 +10,13 @@ from schemas.__private.hive_fields_basic_schemas import (
 )
 from schemas.__private.hive_fields_custom_schemas import TransactionId
 from schemas.__private.operations import (
-    Hf26OperationRepresentationType,  # pyright: ignore
-    Hf26VirtualOperationRepresentationType,  # pyright: ignore
-    LegacyAllOperationRepresentationType,  # pyright: ignore
-    LegacyOperationRepresentationType,  # pyright: ignore
-    LegacyVirtualOperationRepresentationType,  # pyright: ignore
+    Hf26AllOperationRepresentationType,
+    Hf26OperationRepresentationType,
+    Hf26VirtualOperationRepresentationType,
+    LegacyAllOperationRepresentationType,
+    LegacyOperationRepresentationType,
+    LegacyOperationTypes,
+    LegacyVirtualOperationRepresentationType,
 )
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
@@ -41,9 +43,7 @@ class LegacyApiOperationObject(ApiOperationObjectCommons):
     def check_operation(cls, values: dict[str, Any]) -> dict[str, Any]:
         type_of_operation = values["op"][0]
         value_of_operation = values["op"][1]
-        result = {"type": type_of_operation, "value": value_of_operation}
-
-        values["op"] = result
+        values["op"] = LegacyOperationTypes[type_of_operation](type=type_of_operation, value=value_of_operation)
         return values
 
 
@@ -56,7 +56,7 @@ class LegacyApiVirtualOperationObject(LegacyApiOperationObject):
 
 
 class Hf26ApiAllOperationObject(ApiOperationObjectCommons):
-    op: Hf26OperationRepresentationType | Hf26VirtualOperationRepresentationType
+    op: Hf26AllOperationRepresentationType  # type: ignore
 
 
 class LegacyApiAllOperationObject(LegacyApiOperationObject):
