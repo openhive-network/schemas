@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from typing import Any, Generic
+from typing import Generic
 
-from pydantic import Json
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHive, Authority, EmptyString, PublicKey
+from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHive, Authority, PublicKey
 from schemas.__private.preconfigured_base_model import Operation
 
 
@@ -17,4 +16,4 @@ class AccountCreateOperation(Generic[AssetHive], GenericModel, Operation):
     active: Authority
     posting: Authority
     memo_key: PublicKey
-    json_metadata: Json[Any] | EmptyString
+    json_metadata: str
