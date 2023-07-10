@@ -27,7 +27,7 @@ class Account(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd,
     active: Authority
     posting: Authority
     memo_key: PublicKey
-    json_metadata: Json[Any] | EmptyString
+    json_metadata: str
     posting_json_metadata: Json[Any] | EmptyString
     proxy: AccountName | EmptyString
     previous_owner_update: HiveDateTime
@@ -81,8 +81,8 @@ class Account(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd,
     pending_claimed_accounts: HiveInt
     open_recurrent_transfers: HiveInt
     is_smt: bool
-    delayed_votes: list[DelayedVotes]
     governance_vote_expiration_ts: HiveDateTime
+    delayed_votes: list[DelayedVotes] = Field(default_factory=list)
 
 
 class GetCollateralizedConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
@@ -95,7 +95,7 @@ class GetCollateralizedConversionRequestsFundament(PreconfiguredBaseModel, Gener
 
 
 class GetConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
-    id_: HiveInt = Field(..., alias="field")
+    id_: HiveInt = Field(..., alias="id")
     owner: AccountName
     requestid: HiveInt
     amount: AssetHbd

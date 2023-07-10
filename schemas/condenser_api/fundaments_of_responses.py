@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from typing import Any, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 from pydantic import Field
 
-import schemas.block_api.fundaments_of_responses as fundaments_block_api
 import schemas.database_api.fundaments_of_reponses as fundaments_database_api
 from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
@@ -15,9 +14,16 @@ from schemas.__private.hive_fields_basic_schemas import (
     HiveDateTime,
     HiveInt,
 )
-from schemas.__private.hive_fields_custom_schemas import Permlink, Proposal
+from schemas.__private.hive_fields_custom_schemas import (
+    FloatAsString,
+    Permlink,
+    Proposal,
+)
 from schemas.__private.operation_objects import LegacyApiAllOperationObject
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+
+if TYPE_CHECKING:
+    from schemas.__private.operations import LegacyAllOperationUnionType  # noqa: F401
 
 
 class HiveMindResponses(PreconfiguredBaseModel):
@@ -60,7 +66,7 @@ class GetAccountsFundament(
     other_history: list[str]
 
 
-class GetAccountHistoryFundament(LegacyApiAllOperationObject):  # type: ignore
+class GetAccountHistoryFundament(LegacyApiAllOperationObject):
     operation_id: HiveInt = Field(None, exclude=True)  # type: ignore
 
 
@@ -71,12 +77,6 @@ class GetActiveVotesFundament(PreconfiguredBaseModel):
     time: HiveDateTime
     voter: AccountName
     weight: HiveInt
-
-
-class GetBlockFundament(fundaments_block_api.Block):
-    """Identical as in block_api, just extensions changed"""
-
-    extensions: list[tuple[str, Any]]
 
 
 class GetBlogEntriesFundament(PreconfiguredBaseModel):
@@ -193,3 +193,25 @@ class LookupAccountNamesFundament(
     is_smt: bool | None = Field(None, exclude=True)  # type: ignore
 
     voting_power: HiveInt
+
+
+class GetExpiringVestingDelegationsFundament(PreconfiguredBaseModel):
+    id_: HiveInt = Field(alias="id")
+    delegator: AccountName
+    vesting_shares: AssetVestsLegacy
+    expiration: HiveDateTime
+
+
+class GetOpenOrdersFundament(fundaments_database_api.LimitOrdersFundament[AssetHiveLegacy, AssetHbdLegacy]):
+    """Same as in database_api -> list_limit_orders, just Legacy format of Assets and two additional fields"""
+
+    real_price: FloatAsString
+    rewarded: bool
+
+
+class GetVestingDelegationsFundament(PreconfiguredBaseModel):
+    id_: HiveInt = Field(alias="id")
+    delegator: AccountName
+    delegatee: AccountName
+    vesting_shares: AssetVestsLegacy
+    min_delegation_time: HiveDateTime

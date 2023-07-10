@@ -5,6 +5,8 @@ from pydantic import Field
 from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHiveHF26, EmptyString, HiveDateTime, HiveInt
 from schemas.__private.hive_fields_custom_schemas import HardforkVersion, Props, RdDynamicParams
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.block_api.fundaments_of_responses import SignedBlock
+from schemas.transaction_model.transaction import Hf26Transaction
 
 
 class DebugGenerateBlocks(PreconfiguredBaseModel):
@@ -63,3 +65,15 @@ class DebugPushBlocks(DebugGenerateBlocks):
 
 class DebugSetHardfork(PreconfiguredBaseModel):
     """Empty model"""
+
+
+class DebugSetVestPrice(PreconfiguredBaseModel):
+    """Empty model"""
+
+
+class DebugThrowException(PreconfiguredBaseModel):
+    """Empty model"""
+
+
+class DebugGetHeadBlock(PreconfiguredBaseModel):
+    block: SignedBlock[Hf26Transaction] | None = None
