@@ -13,6 +13,7 @@ ASSERT_ARGUMENTS = [
         (HbdExchangeRate(), HbdExchangeRate(legacy_format=True)),
         (Price(), Price(legacy_format=True)),
         (Proposal(), Proposal(legacy_format=True)),
+        (RcAccountObject(), RcAccountObject(legacy_format=True))
     ]
 
 
