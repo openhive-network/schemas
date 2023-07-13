@@ -56,6 +56,7 @@ convert = {
     Map: __convert_map,
     Price: __convert_custom_schema,
     Proposal: __convert_custom_schema,
+    RcAccountObject: __convert_map,
 }
 
 

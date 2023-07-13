@@ -339,15 +339,41 @@ class PublicKey(CustomSchema):
 
 
 class RcAccountObject(CustomSchema):
-    def _define_schema(self) -> Schema:
-        return Map({
+    def __init__(self, *, legacy_format: [Optional] = False, **options: Any):
+        super().__init__(**options)
+        self.__legacy_format = legacy_format
+        self.__data = Map({
             'account': AccountName(),
             'rc_manabar': Manabar(),
-            'max_rc_creation_adjustment': AssetVests(),
+            'max_rc_creation_adjustment': LegacyAssetVests() if self.__legacy_format else AssetVests(),
             'max_rc': Int(),
             'delegated_rc': Int(),
             'received_delegated_rc': Int(),
         })
+
+    def __getitem__(self, key):
+        return self.__data[key]
+
+    def __setitem__(self, key: str, schema: Schema):
+        self.__data[key] = schema
+
+    def __delitem__(self, key):
+        del self.__data[key]
+
+    @property
+    def legacy_format(self):
+        return self.__legacy_format
+
+    @legacy_format.setter
+    def legacy_format(self, value: bool):
+        self.__legacy_format = value
+        self.__data['max_rc_creation_adjustment'] = LegacyAssetVests() if self.__legacy_format else AssetVests()
+
+    def _define_schema(self) -> Schema:
+        return self.__data
+
+    def keys(self) -> list:
+        return list(self.__data.keys())
 
 
 class RdDynamicParams(CustomSchema):
