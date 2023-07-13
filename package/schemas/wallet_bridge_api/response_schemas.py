@@ -1,5 +1,7 @@
 from schemas.predefined import *
 
+from ..rc_api import response_schemas as rc_schemas
+from schemas.__private.modify.schema_asset_converter import convert_assets_to_legacy_format
 
 # TODO After development the custom schema checking the 'operations', complete the diagrams below.
 # [op]get_account_history
@@ -355,17 +357,11 @@ list_proposals = Map({
         )
     })
 
-find_rc_accounts = Array(RcAccountObject())
+find_rc_accounts = rc_schemas.find_rc_accounts["rc_accounts"]
 
-list_rc_accounts = Array(RcAccountObject())
+list_rc_accounts = rc_schemas.list_rc_accounts["rc_accounts"]
 
-list_rc_direct_delegations = Array(
-    Map({
-        'from': AccountName(),
-        'to': AccountName(),
-        'delegated_rc': Int(),
-    })
-)
+list_rc_direct_delegations = rc_schemas.list_rc_direct_delegations["rc_direct_delegations"]
 
 get_active_witnesses = Map({
     'witnesses': Array(AccountName(), minItems=1, maxItems=21),

@@ -6,6 +6,7 @@ from ..wallet_bridge_api import response_schemas as wallet_bridge_schemas
 from ..database_api import response_schemas as database_schemas
 from ..account_history_api import response_schemas as account_history_schemas
 from ..market_history_api import response_schemas as market_history_schemas
+from ..rc_api import response_schemas as rc_schemas
 
 from schemas.__private.modify.schema_asset_converter import convert_assets_to_legacy_format
 from schemas.__private.modify.schema_expander import add_schema_to_map
@@ -25,7 +26,7 @@ find_proposals = convert_assets_to_legacy_format(find_proposals)
 find_recurrent_transfers = convert_assets_to_legacy_format(database_schemas.find_recurrent_transfers['recurrent_transfers'])
 
 
-find_rc_accounts = wallet_bridge_schemas.find_rc_accounts
+find_rc_accounts = convert_assets_to_legacy_format(rc_schemas.find_rc_accounts["rc_accounts"])
 
 
 get_account_count = Int()
@@ -224,15 +225,11 @@ get_witness_schedule = convert_assets_to_legacy_format(database_schemas.get_witn
 get_witnesses = convert_assets_to_legacy_format(database_schemas.list_witnesses['witnesses'])
 
 
-list_rc_accounts = Array(RcAccountObject())
+list_rc_accounts = convert_assets_to_legacy_format(rc_schemas.list_rc_accounts["rc_accounts"])
 
-list_rc_direct_delegations = Array(
-    Map({
-        'from': AccountName(),
-        'to': AccountName(),
-        'delegated_rc': Int(),
-    })
-)
+
+list_rc_direct_delegations = rc_schemas.list_rc_direct_delegations["rc_direct_delegations"]
+
 
 get_witnesses_by_vote = convert_assets_to_legacy_format(database_schemas.list_witnesses['witnesses'])
 
