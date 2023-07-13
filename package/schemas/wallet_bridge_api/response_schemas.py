@@ -7,7 +7,9 @@ from schemas.predefined import *
 # [op]get_transaction 'operations'
 # [op]get_ops_in_block 'pole 'op'
 
-broadcast_transaction = Map({})
+broadcast_transaction = Map({
+    'id': TransactionId(),
+})
 
 broadcast_transaction_synchronous = Map({
     'block_num': Int(),
