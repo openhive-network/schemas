@@ -288,8 +288,21 @@ class LegacyOperationBase(PreconfiguredBaseModel):
         return super().__getitem__(key)
 
 
-HF26OperationTypes: dict[str, type[Hf26OperationType]] = {}
-LegacyOperationTypes: dict[str, type[LegacyOperationBase]] = {}
+__HF26OperationTypes: dict[str, type[Hf26OperationRepresentation]] = {}
+__LegacyOperationTypes: dict[str, type[LegacyOperationBase]] = {}
+
+
+def __get_representation_from_type_dict(type_name: str, collection: dict[str, type]) -> type:
+    assert type_name in collection, f"`{type_name}` not found, available are: {list(collection.keys())}"
+    return collection[type_name]
+
+
+def get_hf26_representation(type_name: str) -> type[Hf26OperationRepresentation]:
+    return __get_representation_from_type_dict(type_name, __HF26OperationTypes)
+
+
+def get_legacy_representation(type_name: str) -> type[LegacyOperationBase]:
+    return __get_representation_from_type_dict(type_name, __LegacyOperationTypes)
 
 
 def __create_hf26_representation(incoming_type: type[Hf26OperationType]) -> type[Hf26OperationRepresentation]:
@@ -298,7 +311,7 @@ def __create_hf26_representation(incoming_type: type[Hf26OperationType]) -> type
         value: incoming_type  # type: ignore[valid-type]
 
     Hf26Operation.update_forward_refs(**locals())
-    HF26OperationTypes[incoming_type.get_name()] = Hf26Operation  # type: ignore[assignment]
+    __HF26OperationTypes[incoming_type.get_name()] = Hf26Operation
     return Hf26Operation
 
 
@@ -316,27 +329,27 @@ def __create_legacy_representation(incoming_cls: type[LegacyOperationType]) -> t
         value: incoming_cls  # type: ignore[valid-type]
 
     LegacyOperation.update_forward_refs(**locals())
-    LegacyOperationTypes[cls_name_snake] = LegacyOperation
+    __LegacyOperationTypes[cls_name_snake] = LegacyOperation
     return LegacyOperation
 
 
-Hf26OperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(Hf26OperationType))]  # type: ignore
-LegacyOperationRepresentationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in get_args(LegacyOperationType))]  # type: ignore
+# NON-VIRTUAL
+__Hf26OperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(Hf26OperationType))]  # type: ignore
+__LegacyOperationRepresentationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in get_args(LegacyOperationType))]  # type: ignore
+Hf26OperationRepresentationType = Annotated[__Hf26OperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
+LegacyOperationRepresentationType = Annotated[__LegacyOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
 
-Hf26OperationRepresentationType = Annotated[Hf26OperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
-LegacyOperationRepresentationType = Annotated[LegacyOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
+# VIRTUAL
+__Hf26VirtualOperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in (*get_args(Hf26VirtualOperationType), NaiEffectiveCommentVoteOperation))]  # type: ignore
+__LegacyVirtualOperationRepresentationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(LegacyVirtualOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore
+Hf26VirtualOperationRepresentationType = Annotated[__Hf26VirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
+LegacyVirtualOperationRepresentationType = Annotated[__LegacyVirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
 
-Hf26VirtualOperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in (*get_args(Hf26VirtualOperationType), NaiEffectiveCommentVoteOperation))]  # type: ignore
-LegacyVirtualOperationRepresentationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(LegacyVirtualOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore
-
-Hf26VirtualOperationRepresentationType = Annotated[Hf26VirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
-LegacyVirtualOperationRepresentationType = Annotated[LegacyVirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
-
-LegacyAllOperationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(AllOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore
-LegacyAllOperationRepresentationType = Annotated[LegacyAllOperationUnionType, Field(discriminator="type")]  # type: ignore
-
-Hf26AllOperationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in (*get_args(AllOperationType), NaiEffectiveCommentVoteOperation))]  # type: ignore
-Hf26AllOperationRepresentationType = Annotated[Hf26AllOperationUnionType, Field(discriminator="type")]  # type: ignore
+# ALL
+__Hf26AllOperationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in (*get_args(AllOperationType), NaiEffectiveCommentVoteOperation))]  # type: ignore
+__LegacyAllOperationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(AllOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore
+Hf26AllOperationRepresentationType = Annotated[__Hf26AllOperationUnionType, Field(discriminator="type")]  # type: ignore
+LegacyAllOperationRepresentationType = Annotated[__LegacyAllOperationUnionType, Field(discriminator="type")]  # type: ignore
 
 __all__ = [
     "AccountCreateOperation",
