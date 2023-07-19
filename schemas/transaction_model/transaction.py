@@ -9,7 +9,7 @@ from schemas.__private.hive_fields_custom_schemas import Signature, TransactionI
 from schemas.__private.operations import (
     Hf26OperationRepresentationType,
     LegacyOperationRepresentationType,
-    LegacyOperationTypes,
+    get_legacy_representation,
 )
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
@@ -36,7 +36,7 @@ class LegacyTransaction(TransactionCommon):
     @classmethod
     def operations_converter(cls, value: Any) -> list[LegacyOperationRepresentationType]:
         assert isinstance(value, list)
-        return [LegacyOperationTypes[op_name](type=op_name, value=op_value) for op_name, op_value in value]
+        return [get_legacy_representation(op_name)(type=op_name, value=op_value) for op_name, op_value in value]
 
 
 TransactionT = TypeVar("TransactionT", bound=Hf26Transaction | LegacyTransaction)

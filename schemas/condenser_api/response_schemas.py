@@ -38,7 +38,7 @@ from schemas.__private.hive_fields_custom_schemas import (
 )
 from schemas.__private.operations import (
     LegacyOperationRepresentationType,
-    LegacyOperationTypes,
+    get_legacy_representation,
 )
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.condenser_api.fundaments_of_responses import (
@@ -356,7 +356,8 @@ class GetTransaction(account_history_api.GetTransactionModel[LegacyOperationRepr
     @classmethod
     def check_operation(cls, values: dict[str, Any]) -> dict[str, Any]:
         values["operations"] = [
-            LegacyOperationTypes[op_name](type=op_name, value=op_value) for op_name, op_value in values["operations"]
+            get_legacy_representation(op_name)(type=op_name, value=op_value)
+            for op_name, op_value in values["operations"]
         ]
         return values
 
