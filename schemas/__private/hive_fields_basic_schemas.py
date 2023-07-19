@@ -23,8 +23,6 @@ if TYPE_CHECKING:
 
 
 class HiveInt(ConstrainedInt):
-    ge = 0
-
     @classmethod
     def __get_validators__(cls) -> CallableGenerator:
         yield cls.validate
@@ -92,6 +90,8 @@ class AssetNaiAmount(HiveInt):
     Amount in HF26 have to be serialized as str, to be properly recognized by c++
     """
 
+    ge = 0
+
     @classmethod
     def __get_validators__(cls) -> CallableGenerator:
         yield from super().__get_validators__()
@@ -121,6 +121,8 @@ class AssetLegacy(ConstrainedStr, AssetBase):
 
     @classmethod
     def legacy_regex_validator(cls, value: str) -> str:
+        if "-" in value:
+            raise ValueError("Asset could not be negative value!")
         info = cls.get_asset_information()
         regex = re.compile(r"^\d+\.\d{" + str(info.precision) + r"} (?:" + "|".join(info.symbol) + r")$")
         if regex.match(value) is None:
