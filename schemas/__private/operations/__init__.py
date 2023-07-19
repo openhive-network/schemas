@@ -288,8 +288,8 @@ class LegacyOperationRepresentation(PreconfiguredBaseModel):
         return super().__getitem__(key)
 
 
-__HF26OperationTypes: dict[str, type[Hf26OperationRepresentation]] = {}
-__LegacyOperationTypes: dict[str, type[LegacyOperationRepresentation]] = {}
+__hf26_operation_representations: dict[str, type[Hf26OperationRepresentation]] = {}
+__legacy_operation_representations: dict[str, type[LegacyOperationRepresentation]] = {}
 
 
 def __get_representation_from_type_dict(type_name: str, collection: dict[str, type]) -> type:
@@ -298,11 +298,11 @@ def __get_representation_from_type_dict(type_name: str, collection: dict[str, ty
 
 
 def get_hf26_representation(type_name: str) -> type[Hf26OperationRepresentation]:
-    return __get_representation_from_type_dict(type_name, __HF26OperationTypes)
+    return __get_representation_from_type_dict(type_name, __hf26_operation_representations)
 
 
 def get_legacy_representation(type_name: str) -> type[LegacyOperationRepresentation]:
-    return __get_representation_from_type_dict(type_name, __LegacyOperationTypes)
+    return __get_representation_from_type_dict(type_name, __legacy_operation_representations)
 
 
 def __create_hf26_representation(incoming_type: type[Hf26OperationType]) -> type[Hf26OperationRepresentation]:
@@ -311,7 +311,7 @@ def __create_hf26_representation(incoming_type: type[Hf26OperationType]) -> type
         value: incoming_type  # type: ignore[valid-type]
 
     Hf26Operation.update_forward_refs(**locals())
-    __HF26OperationTypes[incoming_type.get_name()] = Hf26Operation
+    __hf26_operation_representations[incoming_type.get_name()] = Hf26Operation
     return Hf26Operation
 
 
@@ -329,7 +329,7 @@ def __create_legacy_representation(incoming_cls: type[LegacyOperationType]) -> t
         value: incoming_cls  # type: ignore[valid-type]
 
     LegacyOperation.update_forward_refs(**locals())
-    __LegacyOperationTypes[cls_name_snake] = LegacyOperation
+    __legacy_operation_representations[cls_name_snake] = LegacyOperation
     return LegacyOperation
 
 
