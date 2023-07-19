@@ -272,7 +272,7 @@ class Hf26OperationRepresentation(PreconfiguredBaseModel):
     value: Hf26AllOperationType
 
 
-class LegacyOperationBase(PreconfiguredBaseModel):
+class LegacyOperationRepresentation(PreconfiguredBaseModel):
     type: str  # noqa: A003
     value: LegacyAllOperationType
 
@@ -289,7 +289,7 @@ class LegacyOperationBase(PreconfiguredBaseModel):
 
 
 __HF26OperationTypes: dict[str, type[Hf26OperationRepresentation]] = {}
-__LegacyOperationTypes: dict[str, type[LegacyOperationBase]] = {}
+__LegacyOperationTypes: dict[str, type[LegacyOperationRepresentation]] = {}
 
 
 def __get_representation_from_type_dict(type_name: str, collection: dict[str, type]) -> type:
@@ -301,7 +301,7 @@ def get_hf26_representation(type_name: str) -> type[Hf26OperationRepresentation]
     return __get_representation_from_type_dict(type_name, __HF26OperationTypes)
 
 
-def get_legacy_representation(type_name: str) -> type[LegacyOperationBase]:
+def get_legacy_representation(type_name: str) -> type[LegacyOperationRepresentation]:
     return __get_representation_from_type_dict(type_name, __LegacyOperationTypes)
 
 
@@ -315,7 +315,7 @@ def __create_hf26_representation(incoming_type: type[Hf26OperationType]) -> type
     return Hf26Operation
 
 
-def __create_legacy_representation(incoming_cls: type[LegacyOperationType]) -> type[LegacyOperationBase]:
+def __create_legacy_representation(incoming_cls: type[LegacyOperationType]) -> type[LegacyOperationRepresentation]:
     """
     Representation of operation in legacy format
     Response from api has format [name_of_operation, {parameters}], to provide precise validation in root_validator
@@ -324,7 +324,7 @@ def __create_legacy_representation(incoming_cls: type[LegacyOperationType]) -> t
 
     cls_name_snake: str = incoming_cls.get_name().replace("_operation", "")
 
-    class LegacyOperation(LegacyOperationBase):
+    class LegacyOperation(LegacyOperationRepresentation):
         type: Literal[f"{cls_name_snake}"]  # type: ignore[valid-type] # noqa: A003
         value: incoming_cls  # type: ignore[valid-type]
 
