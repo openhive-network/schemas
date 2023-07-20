@@ -60,50 +60,8 @@ from schemas.__private.operations.transfer_to_vesting_operation import TransferT
 from schemas.__private.operations.update_proposal_operation import UpdateProposalOperation
 from schemas.__private.operations.update_proposal_votes_operation import UpdateProposalVotesOperation
 from schemas.__private.operations.virtual import (
-    AccountCreatedOperation,
-    AuthorRewardOperation,
-    ChangedRecoveryAccountOperation,
-    ClearNullAccountBalanceOperation,
-    CollateralizedConvertImmediateConversionOperation,
-    CommentBenefactorRewardOperation,
-    CommentPayoutUpdateOperation,
-    CommentRewardOperation,
-    ConsolidateTreasuryBalanceOperation,
-    CurationRewardOperation,
-    DeclinedVotingRightsOperation,
-    DelayedVotingOperation,
-    DhfConversionOperation,
-    DhfFundingOperation,
-    EscrowApprovedOperation,
-    EscrowRejectedOperation,
-    ExpiredAccountNotificationOperation,
-    FailedRecurrentTransferOperation,
-    FillCollateralizedConvertRequestOperation,
-    FillConvertRequestOperation,
-    FillOrderOperation,
-    FillRecurrentTransferOperation,
-    FillTransferFromSavingsOperation,
-    FillVestingWithdrawOperation,
-    HardforkHiveOperation,
-    HardforkHiveRestoreOperation,
-    HardforkOperation,
-    IneffectiveDeleteCommentOperation,
-    InterestOperation,
     LegacyEffectiveCommentVoteOperation,
-    LimitOrderCancelledOperation,
-    LiquidityRewardOperation,
     NaiEffectiveCommentVoteOperation,
-    PowRewardOperation,
-    ProducerMissedOperation,
-    ProducerRewardOperation,
-    ProposalFeeOperation,
-    ProposalPayOperation,
-    ProxyClearedOperation,
-    ReturnVestingDelegationOperation,
-    ShutDownWitnessOperation,
-    SystemWarningOperation,
-    TransferToVestingCompletedOperation,
-    VestingSharesSplitOperation,
     VirtualOperationType,
 )
 from schemas.__private.operations.vote_operation import VoteOperation
@@ -165,96 +123,7 @@ OperationType = (
 )
 
 AllOperationType = (
-    AccountCreateOperation[AssetHive]
-    | AccountUpdate2Operation
-    | AccountUpdateOperation
-    | AccountWitnessProxyOperation
-    | AccountWitnessVoteOperation
-    | CancelTransferFromSavingsOperation
-    | ChangeRecoveryAccountOperation
-    | ClaimAccountOperation[AssetHive]
-    | ClaimRewardBalanceOperation[AssetHive, AssetHbd, AssetVests]
-    | CollateralizedConvertOperation[AssetHive]
-    | CommentOperation
-    | CommentOptionsOperation[AssetHbd]
-    | ConvertOperation[AssetHbd]
-    | CreateClaimedAccountOperation
-    | CreateProposalOperation[AssetHbd]
-    | CustomBinaryOperation
-    | CustomJsonOperation
-    | PowOperation
-    | CustomOperation
-    | DeclineVotingRightsOperation
-    | DelegateVestingSharesOperation[AssetVests]
-    | DeleteCommentOperation
-    | EscrowApproveOperation
-    | EscrowDisputeOperation
-    | EscrowReleaseOperation[AssetHive, AssetHbd]
-    | EscrowTransferOperation[AssetHive, AssetHbd]
-    | FeedPublishOperation
-    | LimitOrderCancelOperation
-    | LimitOrderCreate2Operation[AssetHbd, AssetHive]
-    | LimitOrderCreateOperation[AssetHive, AssetHbd]
-    | RecoverAccountOperation
-    | RecurrentTransferOperation[AssetHive, AssetHbd]
-    | RemoveProposalOperation
-    | RequestAccountRecoveryOperation
-    | ResetAccountOperation
-    | SetResetAccountOperation
-    | SetWithdrawVestingRouteOperation
-    | TransferFromSavingsOperation[AssetHive, AssetHbd]
-    | TransferOperation[AssetHive, AssetHbd]
-    | TransferToSavingsOperation[AssetHive, AssetHbd]
-    | TransferToVestingOperation[AssetHive]
-    | UpdateProposalOperation[AssetHbd]
-    | UpdateProposalVotesOperation
-    | VoteOperation
-    | WithdrawVestingOperation[AssetVests]
-    | WitnessBlockApproveOperation
-    | WitnessSetPropertiesOperation
-    | WitnessUpdateOperation[AssetHive]
-    | AccountCreatedOperation[AssetVests]
-    | AuthorRewardOperation[AssetHive, AssetHbd, AssetVests]
-    | ChangedRecoveryAccountOperation
-    | ClearNullAccountBalanceOperation[AssetHive, AssetHbd, AssetVests]
-    | CollateralizedConvertImmediateConversionOperation[AssetHbd]
-    | CommentBenefactorRewardOperation[AssetHive, AssetHbd, AssetVests]
-    | CommentPayoutUpdateOperation
-    | CommentRewardOperation[AssetHbd]
-    | ConsolidateTreasuryBalanceOperation[AssetHive, AssetHbd, AssetVests]
-    | CurationRewardOperation[AssetVests]
-    | DeclinedVotingRightsOperation
-    | DelayedVotingOperation
-    | DhfConversionOperation[AssetHive, AssetHbd]
-    | DhfFundingOperation[AssetHbd]
-    | EscrowApprovedOperation[AssetHive, AssetHbd]
-    | EscrowRejectedOperation[AssetHive, AssetHbd]
-    | ExpiredAccountNotificationOperation
-    | FailedRecurrentTransferOperation[AssetHive, AssetHbd]
-    | FillCollateralizedConvertRequestOperation[AssetHive, AssetHbd]
-    | FillConvertRequestOperation[AssetHive, AssetHbd]
-    | FillOrderOperation[AssetHive, AssetHbd]
-    | FillRecurrentTransferOperation[AssetHive, AssetHbd]
-    | FillTransferFromSavingsOperation[AssetHive, AssetHbd]
-    | FillVestingWithdrawOperation[AssetHive, AssetVests]
-    | HardforkHiveOperation[AssetHive, AssetHbd, AssetVests]
-    | HardforkHiveRestoreOperation[AssetHive, AssetHbd]
-    | HardforkOperation
-    | IneffectiveDeleteCommentOperation
-    | InterestOperation[AssetHbd]
-    | LimitOrderCancelledOperation[AssetHive, AssetHbd]
-    | LiquidityRewardOperation[AssetHive]
-    | PowRewardOperation[AssetHive, AssetVests]
-    | ProducerMissedOperation
-    | ProducerRewardOperation[AssetHive, AssetVests]
-    | ProposalFeeOperation[AssetHbd]
-    | ProposalPayOperation[AssetHbd]
-    | ProxyClearedOperation
-    | ReturnVestingDelegationOperation[AssetVests]
-    | ShutDownWitnessOperation
-    | SystemWarningOperation
-    | TransferToVestingCompletedOperation[AssetHive, AssetVests]
-    | VestingSharesSplitOperation[AssetVests]
+    OperationType[AssetHive, AssetHbd, AssetVests] | VirtualOperationType[AssetHive, AssetHbd, AssetVests]
 )
 
 Hf26OperationType = OperationType[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
