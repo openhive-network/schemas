@@ -8,7 +8,6 @@ from pydantic.generics import GenericModel
 from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
     AssetVests,
-    AssetVestsHF26,
     HiveInt,
 )
 from schemas.__private.hive_fields_custom_schemas import Manabar
@@ -18,7 +17,7 @@ from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 class RcAccount(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
     account: AccountName
     rc_manabar: Manabar
-    max_rc_creation_adjustment: AssetVestsHF26  # TODO: change to AssetVests
+    max_rc_creation_adjustment: AssetVests
     max_rc: HiveInt
     delegated_rc: HiveInt
     received_delegated_rc: HiveInt
