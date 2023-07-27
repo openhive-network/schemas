@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from typing import Literal
 
-from schemas.hive_fields_basic_schemas import HiveInt
-from schemas.network_node_api.fundaments_of_responses import (
+from schemas.apis.network_node_api.fundaments_of_responses import (
     ApiPeerStatus,
     PublicKeyData,
 )
+from schemas.hive_fields_basic_schemas import HiveInt
 from schemas.preconfigured_base_model import PreconfiguredBaseModel
 
 

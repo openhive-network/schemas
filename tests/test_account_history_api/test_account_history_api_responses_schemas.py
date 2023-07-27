@@ -5,7 +5,7 @@ from typing import Any
 
 import pytest
 
-from schemas.account_history_api.response_schemas import (
+from schemas.apis.account_history_api.response_schemas import (
     EnumVirtualOps,
     GetAccountHistory,
     GetOpsInBlock,

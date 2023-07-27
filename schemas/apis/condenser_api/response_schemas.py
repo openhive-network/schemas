@@ -9,16 +9,16 @@ from typing import Any, Literal
 
 from pydantic import Field, conlist, root_validator
 
-import schemas.account_history_api.response_schemas as account_history_api
-import schemas.block_api.fundaments_of_responses as fundaments_block_api
-import schemas.database_api.fundaments_of_reponses as fundaments_database_api
-import schemas.database_api.response_schemas as database_api
-import schemas.market_history_api.fundaments_of_responses as fundaments_market_history_api
-import schemas.market_history_api.response_schemas as market_history_api
-import schemas.network_broadcast_api.response_schemas as broadcast_api
-import schemas.wallet_bridge_api.fundaments_of_responses as fundaments_wallet_bridge_api
-import schemas.wallet_bridge_api.response_schemas as wallet_bridge_api
-from schemas.condenser_api.fundaments_of_responses import (
+import schemas.apis.account_history_api.response_schemas as account_history_api
+import schemas.apis.block_api.fundaments_of_responses as fundaments_block_api
+import schemas.apis.database_api.fundaments_of_reponses as fundaments_database_api
+import schemas.apis.database_api.response_schemas as database_api
+import schemas.apis.market_history_api.fundaments_of_responses as fundaments_market_history_api
+import schemas.apis.market_history_api.response_schemas as market_history_api
+import schemas.apis.network_broadcast_api.response_schemas as broadcast_api
+import schemas.apis.wallet_bridge_api.fundaments_of_responses as fundaments_wallet_bridge_api
+import schemas.apis.wallet_bridge_api.response_schemas as wallet_bridge_api
+from schemas.apis.condenser_api.fundaments_of_responses import (
     FindProposalsFundament,
     FollowFundament,
     GetAccountHistoryFundament,

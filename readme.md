@@ -96,7 +96,7 @@ get_conversion_requests_schema.validate(response)
 ```
 
 More real world examples:
-- [schemas definitions for wallet bridge API](schemas/wallet_bridge_api/response_schemas.py)
+- [schemas definitions for wallet bridge API](schemas/apis/wallet_bridge_api/response_schemas.py)
 - [message format tests for wallet bridge API](https://gitlab.syncad.com/hive/hive/-/tree/develop/tests/api_tests/message_format_tests/wallet_bridge_api_tests)
 
 ### Automatic responses validation

@@ -4,7 +4,7 @@ from typing import Any, Generic, TypeVar
 
 from pydantic.generics import GenericModel
 
-from schemas.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament
+from schemas.apis.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament
 from schemas.hive_fields_basic_schemas import HiveDateTime, HiveInt
 from schemas.hive_fields_custom_schemas import Signature, TransactionId
 from schemas.operation_objects import (
