@@ -36,7 +36,7 @@ from schemas.__private.hive_fields_custom_schemas import (
     Price,
     RcAccountObject,
 )
-from schemas.__private.operations import (
+from schemas.__private.operations._operation_representation_types import (
     LegacyOperationRepresentationType,
     get_legacy_representation,
 )

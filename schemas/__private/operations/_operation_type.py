@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from schemas.__private.hive_fields_basic_schemas import AssetHbd, AssetHive, AssetVests
 from schemas.__private.operations.account_create_operation import AccountCreateOperation
 from schemas.__private.operations.account_update2_operation import AccountUpdate2Operation
 from schemas.__private.operations.account_update_operation import AccountUpdateOperation
@@ -49,53 +50,55 @@ from schemas.__private.operations.witness_block_approve_operation import Witness
 from schemas.__private.operations.witness_set_properties_operation import WitnessSetPropertiesOperation
 from schemas.__private.operations.witness_update_operation import WitnessUpdateOperation
 
-__all__ = [
-    "AccountCreateOperation",
-    "AccountUpdate2Operation",
-    "AccountUpdateOperation",
-    "AccountWitnessProxyOperation",
-    "AccountWitnessVoteOperation",
-    "CancelTransferFromSavingsOperation",
-    "ChangeRecoveryAccountOperation",
-    "ClaimAccountOperation",
-    "ClaimRewardBalanceOperation",
-    "CollateralizedConvertOperation",
-    "CommentOperation",
-    "CommentOptionsOperation",
-    "ConvertOperation",
-    "CreateClaimedAccountOperation",
-    "CreateProposalOperation",
-    "CustomBinaryOperation",
-    "CustomJsonOperation",
-    "PowOperation",
-    "CustomOperation",
-    "DeclineVotingRightsOperation",
-    "DelegateVestingSharesOperation",
-    "DeleteCommentOperation",
-    "EscrowApproveOperation",
-    "EscrowDisputeOperation",
-    "EscrowReleaseOperation",
-    "EscrowTransferOperation",
-    "FeedPublishOperation",
-    "LimitOrderCancelOperation",
-    "LimitOrderCreate2Operation",
-    "LimitOrderCreateOperation",
-    "RecoverAccountOperation",
-    "RecurrentTransferOperation",
-    "RemoveProposalOperation",
-    "RequestAccountRecoveryOperation",
-    "ResetAccountOperation",
-    "SetResetAccountOperation",
-    "SetWithdrawVestingRouteOperation",
-    "TransferFromSavingsOperation",
-    "TransferOperation",
-    "TransferToSavingsOperation",
-    "TransferToVestingOperation",
-    "UpdateProposalOperation",
-    "UpdateProposalVotesOperation",
-    "VoteOperation",
-    "WithdrawVestingOperation",
-    "WitnessBlockApproveOperation",
-    "WitnessSetPropertiesOperation",
-    "WitnessUpdateOperation",
-]
+OperationType = (
+    AccountCreateOperation[AssetHive]
+    | AccountUpdate2Operation
+    | AccountUpdateOperation
+    | AccountWitnessProxyOperation
+    | AccountWitnessVoteOperation
+    | CancelTransferFromSavingsOperation
+    | ChangeRecoveryAccountOperation
+    | ClaimAccountOperation[AssetHive]
+    | ClaimRewardBalanceOperation[AssetHive, AssetHbd, AssetVests]
+    | CollateralizedConvertOperation[AssetHive]
+    | CommentOperation
+    | CommentOptionsOperation[AssetHbd]
+    | ConvertOperation[AssetHbd]
+    | CreateClaimedAccountOperation
+    | CreateProposalOperation[AssetHbd]
+    | CustomBinaryOperation
+    | CustomJsonOperation
+    | PowOperation
+    | CustomOperation
+    | DeclineVotingRightsOperation
+    | DelegateVestingSharesOperation[AssetVests]
+    | DeleteCommentOperation
+    | EscrowApproveOperation
+    | EscrowDisputeOperation
+    | EscrowReleaseOperation[AssetHive, AssetHbd]
+    | EscrowTransferOperation[AssetHive, AssetHbd]
+    | FeedPublishOperation
+    | LimitOrderCancelOperation
+    | LimitOrderCreate2Operation[AssetHbd, AssetHive]
+    | LimitOrderCreateOperation[AssetHive, AssetHbd]
+    | RecoverAccountOperation
+    | RecurrentTransferOperation[AssetHive, AssetHbd]
+    | RemoveProposalOperation
+    | RequestAccountRecoveryOperation
+    | ResetAccountOperation
+    | SetResetAccountOperation
+    | SetWithdrawVestingRouteOperation
+    | TransferFromSavingsOperation[AssetHive, AssetHbd]
+    | TransferOperation[AssetHive, AssetHbd]
+    | TransferToSavingsOperation[AssetHive, AssetHbd]
+    | TransferToVestingOperation[AssetHive]
+    | UpdateProposalOperation[AssetHbd]
+    | UpdateProposalVotesOperation
+    | VoteOperation
+    | WithdrawVestingOperation[AssetVests]
+    | WitnessBlockApproveOperation
+    | WitnessSetPropertiesOperation
+    | WitnessUpdateOperation[AssetHive]
+)
+
+__all__ = ["OperationType"]

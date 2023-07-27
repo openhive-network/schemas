@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from schemas.__private.operations.virtual._virtual_operation_type import VirtualOperationType
+from schemas.__private.hive_fields_basic_schemas import AssetHbd, AssetHive, AssetVests
 from schemas.__private.operations.virtual.account_created_operation import AccountCreatedOperation
 from schemas.__private.operations.virtual.author_reward_operation import AuthorRewardOperation
 from schemas.__private.operations.virtual.changed_recovery_account_operation import ChangedRecoveryAccountOperation
@@ -19,10 +19,6 @@ from schemas.__private.operations.virtual.declined_voting_rights_operation impor
 from schemas.__private.operations.virtual.delayed_voting_operation import DelayedVotingOperation
 from schemas.__private.operations.virtual.dhf_conversion_operation import DhfConversionOperation
 from schemas.__private.operations.virtual.dhf_funding_operation import DhfFundingOperation
-from schemas.__private.operations.virtual.effective_comment_vote_operation import (
-    LegacyEffectiveCommentVoteOperation,
-    NaiEffectiveCommentVoteOperation,
-)
 from schemas.__private.operations.virtual.escrow_approved_operation import EscrowApprovedOperation
 from schemas.__private.operations.virtual.escrow_rejected_operation import EscrowRejectedOperation
 from schemas.__private.operations.virtual.expired_account_notification_operation import (
@@ -58,50 +54,50 @@ from schemas.__private.operations.virtual.transfer_to_vesting_completed_operatio
 )
 from schemas.__private.operations.virtual.vesting_shares_split_operation import VestingSharesSplitOperation
 
-__all__ = [
-    "AccountCreatedOperation",
-    "AuthorRewardOperation",
-    "ChangedRecoveryAccountOperation",
-    "ClearNullAccountBalanceOperation",
-    "CollateralizedConvertImmediateConversionOperation",
-    "CommentBenefactorRewardOperation",
-    "CommentPayoutUpdateOperation",
-    "CommentRewardOperation",
-    "ConsolidateTreasuryBalanceOperation",
-    "CurationRewardOperation",
-    "DeclinedVotingRightsOperation",
-    "DelayedVotingOperation",
-    "DhfConversionOperation",
-    "DhfFundingOperation",
-    "LegacyEffectiveCommentVoteOperation",
-    "NaiEffectiveCommentVoteOperation",
-    "EscrowApprovedOperation",
-    "EscrowRejectedOperation",
-    "ExpiredAccountNotificationOperation",
-    "FailedRecurrentTransferOperation",
-    "FillCollateralizedConvertRequestOperation",
-    "FillConvertRequestOperation",
-    "FillOrderOperation",
-    "FillRecurrentTransferOperation",
-    "FillTransferFromSavingsOperation",
-    "FillVestingWithdrawOperation",
-    "HardforkHiveOperation",
-    "HardforkHiveRestoreOperation",
-    "HardforkOperation",
-    "IneffectiveDeleteCommentOperation",
-    "InterestOperation",
-    "LimitOrderCancelledOperation",
-    "LiquidityRewardOperation",
-    "PowRewardOperation",
-    "ProducerMissedOperation",
-    "ProducerRewardOperation",
-    "ProposalFeeOperation",
-    "ProposalPayOperation",
-    "ProxyClearedOperation",
-    "ReturnVestingDelegationOperation",
-    "ShutDownWitnessOperation",
-    "SystemWarningOperation",
-    "TransferToVestingCompletedOperation",
-    "VestingSharesSplitOperation",
-    "VirtualOperationType",
-]
+VirtualOperationType = (
+    AuthorRewardOperation[AssetHive, AssetHbd, AssetVests]
+    | AccountCreatedOperation[AssetVests]
+    | ChangedRecoveryAccountOperation
+    | ClearNullAccountBalanceOperation[AssetHive, AssetHbd, AssetVests]
+    | CollateralizedConvertImmediateConversionOperation[AssetHbd]
+    | CommentBenefactorRewardOperation[AssetHive, AssetHbd, AssetVests]
+    | CommentPayoutUpdateOperation
+    | CommentRewardOperation[AssetHbd]
+    | ConsolidateTreasuryBalanceOperation[AssetHive, AssetHbd, AssetVests]
+    | CurationRewardOperation[AssetVests]
+    | DeclinedVotingRightsOperation
+    | DelayedVotingOperation
+    | DhfConversionOperation[AssetHive, AssetHbd]
+    | DhfFundingOperation[AssetHbd]
+    | EscrowApprovedOperation[AssetHive, AssetHbd]
+    | EscrowRejectedOperation[AssetHive, AssetHbd]
+    | ExpiredAccountNotificationOperation
+    | FailedRecurrentTransferOperation[AssetHive, AssetHbd]
+    | FillCollateralizedConvertRequestOperation[AssetHive, AssetHbd]
+    | FillConvertRequestOperation[AssetHive, AssetHbd]
+    | FillOrderOperation[AssetHive, AssetHbd]
+    | FillRecurrentTransferOperation[AssetHive, AssetHbd]
+    | FillTransferFromSavingsOperation[AssetHive, AssetHbd]
+    | FillVestingWithdrawOperation[AssetHive, AssetVests]
+    | HardforkHiveOperation[AssetHive, AssetHbd, AssetVests]
+    | HardforkHiveRestoreOperation[AssetHive, AssetHbd]
+    | HardforkOperation
+    | IneffectiveDeleteCommentOperation
+    | InterestOperation[AssetHbd]
+    | LimitOrderCancelledOperation[AssetHive, AssetHbd]
+    | LiquidityRewardOperation[AssetHive]
+    | PowRewardOperation[AssetHive, AssetVests]
+    | ProducerMissedOperation
+    | ProducerRewardOperation[AssetHive, AssetVests]
+    | ProposalFeeOperation[AssetHbd]
+    | ProposalPayOperation[AssetHbd]
+    | ProxyClearedOperation
+    | ReturnVestingDelegationOperation[AssetVests]
+    | ShutDownWitnessOperation
+    | SystemWarningOperation
+    | TransferToVestingCompletedOperation[AssetHive, AssetVests]
+    | VestingSharesSplitOperation[AssetVests]
+)
+
+
+__all__ = ["VirtualOperationType"]
