@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+from schemas.__private.operations._operation_representation_types import (
+    Hf26OperationRepresentationType,
+    LegacyOperationRepresentationType,
+)
 from schemas.__private.operations._operation_types import (
     AllOperationType,
     Hf26AllOperationType,
@@ -87,9 +91,11 @@ __all__ = [
     "EscrowTransferOperation",
     "FeedPublishOperation",
     "Hf26AllOperationType",
+    "Hf26OperationRepresentationType",
     "Hf26OperationType",
     "Hf26VirtualOperationType",
     "LegacyAllOperationType",
+    "LegacyOperationRepresentationType",
     "LegacyOperationType",
     "LegacyVirtualOperationType",
     "LimitOrderCancelOperation",
