@@ -4,8 +4,8 @@ from typing import Any
 
 import pytest
 
-from schemas.__private.hive_factory import HiveResult
 from schemas.account_by_key_api.response_schemas import GetKeyReferences
+from schemas.hive_factory import HiveResult
 
 from .response_from_api import GET_KEY_REFERENCES
 

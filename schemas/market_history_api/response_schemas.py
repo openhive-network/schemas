@@ -4,14 +4,13 @@ from typing import Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import (
+from schemas.hive_fields_basic_schemas import (
     AssetHbd,
     AssetHbdHF26,
     AssetHive,
     AssetHiveHF26,
     HiveList,
 )
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.market_history_api.fundaments_of_responses import (
     BucketSizes,
     GetMarketHistoryFundament,
@@ -19,6 +18,7 @@ from schemas.market_history_api.fundaments_of_responses import (
     GetTradeHistoryFundament,
     Order,
 )
+from schemas.preconfigured_base_model import PreconfiguredBaseModel
 
 
 class GetMarketHistory(PreconfiguredBaseModel):

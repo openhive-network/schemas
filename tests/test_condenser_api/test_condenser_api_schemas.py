@@ -4,7 +4,6 @@ from typing import Any
 
 import pytest
 
-from schemas.__private.hive_factory import HiveResult
 from schemas.condenser_api.response_schemas import (
     FindProposals,
     FindRecurrentTransfers,
@@ -66,6 +65,7 @@ from schemas.condenser_api.response_schemas import (
     LookupAccountNames,
     LookupAccounts,
 )
+from schemas.hive_factory import HiveResult
 
 from .responses_from_api import (
     FIND_PROPOSALS,

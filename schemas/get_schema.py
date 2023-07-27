@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 import inflection
 
 if TYPE_CHECKING:
-    from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+    from schemas.preconfigured_base_model import PreconfiguredBaseModel
 
 
 from schemas.account_by_key_api import (

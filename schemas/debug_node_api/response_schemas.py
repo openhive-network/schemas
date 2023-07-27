@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHiveHF26, EmptyString, HiveDateTime, HiveInt
-from schemas.__private.hive_fields_custom_schemas import HardforkVersion, Props, RdDynamicParams
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.block_api.fundaments_of_responses import SignedBlock
+from schemas.hive_fields_basic_schemas import AccountName, AssetHiveHF26, EmptyString, HiveDateTime, HiveInt
+from schemas.hive_fields_custom_schemas import HardforkVersion, Props, RdDynamicParams
+from schemas.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.transaction_model.transaction import Hf26Transaction
 
 

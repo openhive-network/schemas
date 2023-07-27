@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from schemas.__private.operations.virtual import (
+from schemas.operations.virtual import (
     AccountCreatedOperation,
     AuthorRewardOperation,
     ChangedRecoveryAccountOperation,
