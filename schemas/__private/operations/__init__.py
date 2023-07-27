@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+from time import time
+
+ref = time()
+
+
 from typing import Any, Literal, Union, get_args  # pyright: ignore
 
 from pydantic import Field
@@ -71,6 +76,16 @@ from schemas.__private.operations.witness_set_properties_operation import Witnes
 from schemas.__private.operations.witness_update_operation import WitnessUpdateOperation
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
+
+def time_check():
+    global ref
+    taken = time() - ref
+    ref = time()
+    return taken
+
+
+print(f"everything is imported: {time_check()}")
+
 OperationType = (
     AccountCreateOperation[AssetHive]
     | AccountUpdate2Operation
@@ -134,6 +149,8 @@ LegacyVirtualOperationType = VirtualOperationType[AssetHiveLegacy, AssetHbdLegac
 
 LegacyAllOperationType = AllOperationType[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
 Hf26AllOperationType = AllOperationType[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
+
+print(f"operation types are defined {time_check()}")
 
 
 class Hf26OperationRepresentation(PreconfiguredBaseModel):
@@ -202,6 +219,8 @@ def __create_legacy_representation(incoming_cls: type[LegacyOperationType]) -> t
     return LegacyOperation
 
 
+print(f"starting to create operation representations {time_check()}")
+
 # NON-VIRTUAL
 __Hf26OperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(Hf26OperationType))]  # type: ignore
 __LegacyOperationRepresentationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in get_args(LegacyOperationType))]  # type: ignore
@@ -219,6 +238,8 @@ __Hf26AllOperationUnionType = Union[tuple(__create_hf26_representation(arg) for 
 __LegacyAllOperationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(AllOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore
 Hf26AllOperationRepresentationType = Annotated[__Hf26AllOperationUnionType, Field(discriminator="type")]  # type: ignore
 LegacyAllOperationRepresentationType = Annotated[__LegacyAllOperationUnionType, Field(discriminator="type")]  # type: ignore
+
+print(f"operation representations are created {time_check()}")
 
 __all__ = [
     "AccountCreateOperation",
