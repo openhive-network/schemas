@@ -5,12 +5,12 @@
 
 from __future__ import annotations
 
-import re
 import types
 import typing
 from datetime import datetime
 from typing import Any, get_args, get_origin
 
+import inflection
 import pydantic
 from pydantic import BaseModel, Extra, Field, create_model  # pyright: ignore
 from typing_extensions import Self
@@ -113,7 +113,7 @@ class Operation(PreconfiguredBaseModel):
     @classmethod
     def get_name(cls) -> str:
         """conversion name of operation from CamelCase to snake_case"""
-        return re.sub(r"(?<!^)(?=[A-Z])", "_", cls.get_class_name()).lower()
+        return inflection.underscore(cls.get_class_name())
 
 
 class VirtualOperation(Operation):
