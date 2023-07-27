@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import inflection
+
 if TYPE_CHECKING:
     from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
@@ -38,14 +40,11 @@ apis = {key: value for key, value in __locals.items() if key.endswith("_api") or
 
 
 def get_schema(schema_name: str) -> type[PreconfiguredBaseModel]:
-    def __snake_case_to_pascal_case(text: str) -> str:
-        return "".join([segment.title() for segment in text.split("_")])
-
     api, method = schema_name.split(".")
     assert api in apis, f"Api `{api}` not found, currently supported are: {apis}"
     schemas_module = apis[api]
 
-    method = __snake_case_to_pascal_case(method)
+    method = inflection.camelize(method)
     try:
         return getattr(schemas_module, method)  # type: ignore[no-any-return]
     except ImportError as e:
