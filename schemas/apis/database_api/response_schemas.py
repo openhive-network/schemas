@@ -5,7 +5,7 @@ from typing import Generic, Literal
 from pydantic import Field
 from pydantic.generics import GenericModel
 
-from schemas.database_api.fundaments_of_reponses import (
+from schemas.apis.database_api.fundaments_of_reponses import (
     AccountItemFundament,
     EscrowsFundament,
     FindAccountRecoveryRequestsFundament,

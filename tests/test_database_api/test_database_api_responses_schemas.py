@@ -4,7 +4,7 @@ from typing import Any
 
 import pytest
 
-from schemas.database_api import (
+from schemas.apis.database_api import (
     FindAccountRecoveryRequests,
     FindAccounts,
     FindChangeRecoveryAccountRequests,

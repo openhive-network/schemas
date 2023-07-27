@@ -4,7 +4,7 @@ from typing import Any
 
 import pytest
 
-from schemas.condenser_api.response_schemas import (
+from schemas.apis.condenser_api.response_schemas import (
     FindProposals,
     FindRecurrentTransfers,
     GetAccountCount,

@@ -4,8 +4,7 @@ from typing import Any
 
 import pytest
 
-from schemas.hive_factory import HiveResult
-from schemas.market_history_api.response_schemas import (
+from schemas.apis.market_history_api.response_schemas import (
     GetMarketHistory,
     GetMarketHistoryBuckets,
     GetRecentTrades,
@@ -13,6 +12,7 @@ from schemas.market_history_api.response_schemas import (
     GetTradeHistory,
     GetVolume,
 )
+from schemas.hive_factory import HiveResult
 
 from .response_schemas import (
     GET_MARKET_HISTORY,

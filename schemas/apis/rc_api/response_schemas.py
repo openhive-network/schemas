@@ -4,17 +4,17 @@ from typing import Generic, Literal
 
 from pydantic.generics import GenericModel
 
-from schemas.hive_fields_basic_schemas import (
-    AssetVests,
-)
-from schemas.preconfigured_base_model import PreconfiguredBaseModel
-from schemas.rc_api.fundaments_of_responses import (
+from schemas.apis.rc_api.fundaments_of_responses import (
     RcAccount,
     RcDirectDelegations,
     ResourceParams,
     ResourcePool,
     SizeInfo,
 )
+from schemas.hive_fields_basic_schemas import (
+    AssetVests,
+)
+from schemas.preconfigured_base_model import PreconfiguredBaseModel
 
 
 class FindRcAccounts(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):

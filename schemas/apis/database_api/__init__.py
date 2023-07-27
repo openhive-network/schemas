@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from schemas.database_api.response_schemas import (
+from schemas.apis.database_api.response_schemas import (
     FindAccountRecoveryRequests,
     FindAccounts,
     FindChangeRecoveryAccountRequests,

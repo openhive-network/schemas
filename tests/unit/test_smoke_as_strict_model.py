@@ -4,20 +4,20 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-import schemas.account_by_key_api.response_schemas as account_by_key_api
-import schemas.account_history_api.response_schemas as account_history_api
-import schemas.block_api.response_schemas as block_api
-import schemas.condenser_api.response_schemas as condenser_api
-import schemas.database_api.response_schemas as database_api
-import schemas.debug_node_api.response_schemas as debug_node_api
-import schemas.jsonrpc.response_schemas as jsonrpc
-import schemas.market_history_api.response_schemas as market_history_api
-import schemas.network_broadcast_api.response_schemas as network_broadcast_api
-import schemas.network_node_api.response_schemas as network_node_api
-import schemas.rc_api.response_schemas as rc_api
-import schemas.reputation_api.response_schemas as reputation_api
-import schemas.transaction_status_api.response_schemas as transaction_status_api
-import schemas.wallet_bridge_api.response_schemas as wallet_bridge_api
+import schemas.apis.account_by_key_api.response_schemas as account_by_key_api
+import schemas.apis.account_history_api.response_schemas as account_history_api
+import schemas.apis.block_api.response_schemas as block_api
+import schemas.apis.condenser_api.response_schemas as condenser_api
+import schemas.apis.database_api.response_schemas as database_api
+import schemas.apis.debug_node_api.response_schemas as debug_node_api
+import schemas.apis.jsonrpc.response_schemas as jsonrpc
+import schemas.apis.market_history_api.response_schemas as market_history_api
+import schemas.apis.network_broadcast_api.response_schemas as network_broadcast_api
+import schemas.apis.network_node_api.response_schemas as network_node_api
+import schemas.apis.rc_api.response_schemas as rc_api
+import schemas.apis.reputation_api.response_schemas as reputation_api
+import schemas.apis.transaction_status_api.response_schemas as transaction_status_api
+import schemas.apis.wallet_bridge_api.response_schemas as wallet_bridge_api
 from schemas.preconfigured_base_model import PreconfiguredBaseModel
 
 if TYPE_CHECKING:
