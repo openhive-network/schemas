@@ -4,10 +4,10 @@ from typing import Any
 
 from pydantic import ConstrainedStr
 
-from schemas.__private.hive_fields_basic_schemas import (
+from schemas.hive_fields_basic_schemas import (
     HiveInt,
 )
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.preconfigured_base_model import PreconfiguredBaseModel
 
 
 class PublicKeyData(ConstrainedStr):

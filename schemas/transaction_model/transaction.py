@@ -4,14 +4,14 @@ from typing import Any, TypeVar
 
 from pydantic import validator
 
-from schemas.__private.hive_fields_basic_schemas import HiveDateTime, HiveInt
-from schemas.__private.hive_fields_custom_schemas import Signature, TransactionId
-from schemas.__private.operations._operation_representation_types import (
+from schemas.hive_fields_basic_schemas import HiveDateTime, HiveInt
+from schemas.hive_fields_custom_schemas import Signature, TransactionId
+from schemas.operations._operation_representation_types import (
     Hf26OperationRepresentationType,
     LegacyOperationRepresentationType,
     get_legacy_representation,
 )
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.preconfigured_base_model import PreconfiguredBaseModel
 
 
 class TransactionCommon(PreconfiguredBaseModel):

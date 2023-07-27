@@ -5,7 +5,7 @@ from typing import Any, Literal
 from pydantic import Field
 
 import schemas.database_api.fundaments_of_reponses as fundaments_database_api
-from schemas.__private.hive_fields_basic_schemas import (
+from schemas.hive_fields_basic_schemas import (
     AccountName,
     AssetHbdLegacy,
     AssetHiveLegacy,
@@ -14,13 +14,13 @@ from schemas.__private.hive_fields_basic_schemas import (
     HiveDateTime,
     HiveInt,
 )
-from schemas.__private.hive_fields_custom_schemas import (
+from schemas.hive_fields_custom_schemas import (
     FloatAsString,
     Permlink,
     Proposal,
 )
-from schemas.__private.operation_objects import LegacyApiAllOperationObject
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.operation_objects import LegacyApiAllOperationObject
+from schemas.preconfigured_base_model import PreconfiguredBaseModel
 
 
 class HiveMindResponses(PreconfiguredBaseModel):

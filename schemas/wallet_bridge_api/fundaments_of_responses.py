@@ -5,7 +5,7 @@ from typing import Any, Generic
 from pydantic import Field, Json
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import (
+from schemas.hive_fields_basic_schemas import (
     AccountName,
     AssetHbd,
     AssetHive,
@@ -16,8 +16,8 @@ from schemas.__private.hive_fields_basic_schemas import (
     HiveInt,
     PublicKey,
 )
-from schemas.__private.hive_fields_custom_schemas import DelayedVotes, Manabar
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.hive_fields_custom_schemas import DelayedVotes, Manabar
+from schemas.preconfigured_base_model import PreconfiguredBaseModel
 
 
 class Account(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):

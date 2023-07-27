@@ -4,8 +4,6 @@ from typing import Any
 
 import pytest
 
-from schemas.__private.hive_factory import HiveResult
-from schemas.__private.hive_fields_basic_schemas import AssetHbdHF26, AssetHiveHF26, AssetVestsHF26
 from schemas.database_api import (
     FindAccountRecoveryRequests,
     FindAccounts,
@@ -59,6 +57,8 @@ from schemas.database_api import (
     VerifyAuthority,
     VerifySignatures,
 )
+from schemas.hive_factory import HiveResult
+from schemas.hive_fields_basic_schemas import AssetHbdHF26, AssetHiveHF26, AssetVestsHF26
 
 from .reponses_from_api import (
     FIND_ACCOUNT_RECOVERY_REQUESTS,

@@ -5,31 +5,6 @@ from typing import Generic, Literal
 from pydantic import Field
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import (
-    AccountName,
-    AssetHbd,
-    AssetHbdHF26,
-    AssetHive,
-    AssetHiveHF26,
-    AssetVests,
-    AssetVestsHF26,
-    EmptyString,
-    HiveDateTime,
-    HiveInt,
-    HiveList,
-    PublicKey,
-)
-from schemas.__private.hive_fields_custom_schemas import (
-    HardforkVersion,
-    Hex,
-    HiveVersion,
-    Price,
-    Proposal,
-    Props,
-    RdDynamicParams,
-    TransactionId,
-)
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.database_api.fundaments_of_reponses import (
     AccountItemFundament,
     EscrowsFundament,
@@ -59,6 +34,31 @@ from schemas.database_api.fundaments_of_reponses import (
     WithdrawVestingRoutesFundament,
     WitnessesFundament,
 )
+from schemas.hive_fields_basic_schemas import (
+    AccountName,
+    AssetHbd,
+    AssetHbdHF26,
+    AssetHive,
+    AssetHiveHF26,
+    AssetVests,
+    AssetVestsHF26,
+    EmptyString,
+    HiveDateTime,
+    HiveInt,
+    HiveList,
+    PublicKey,
+)
+from schemas.hive_fields_custom_schemas import (
+    HardforkVersion,
+    Hex,
+    HiveVersion,
+    Price,
+    Proposal,
+    Props,
+    RdDynamicParams,
+    TransactionId,
+)
+from schemas.preconfigured_base_model import PreconfiguredBaseModel
 
 
 class FindAccountRecoveryRequests(PreconfiguredBaseModel):

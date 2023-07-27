@@ -4,20 +4,20 @@ from typing import Any, Generic, TypeVar
 
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import HiveDateTime, HiveInt
-from schemas.__private.hive_fields_custom_schemas import Signature, TransactionId
-from schemas.__private.operation_objects import (
+from schemas.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament
+from schemas.hive_fields_basic_schemas import HiveDateTime, HiveInt
+from schemas.hive_fields_custom_schemas import Signature, TransactionId
+from schemas.operation_objects import (
     Hf26ApiOperationObject,
     Hf26ApiVirtualOperationObject,
     LegacyApiOperationObject,
     LegacyApiVirtualOperationObject,
 )
-from schemas.__private.operations._operation_representation_types import (
+from schemas.operations._operation_representation_types import (
     Hf26OperationRepresentationType,
     LegacyOperationRepresentationType,
 )
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
-from schemas.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament
+from schemas.preconfigured_base_model import PreconfiguredBaseModel
 
 OperationT = TypeVar("OperationT", bound=Hf26OperationRepresentationType | LegacyOperationRepresentationType)
 ApiOperationObjectT = TypeVar("ApiOperationObjectT", bound=Hf26ApiOperationObject | LegacyApiOperationObject)
