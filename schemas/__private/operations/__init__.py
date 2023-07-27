@@ -1,5 +1,14 @@
 from __future__ import annotations
 
+from schemas.__private.operations._operation_types import (
+    AllOperationType,
+    Hf26AllOperationType,
+    Hf26OperationType,
+    Hf26VirtualOperationType,
+    LegacyAllOperationType,
+    LegacyOperationType,
+    LegacyVirtualOperationType,
+)
 from schemas.__private.operations.account_create_operation import AccountCreateOperation
 from schemas.__private.operations.account_update2_operation import AccountUpdate2Operation
 from schemas.__private.operations.account_update_operation import AccountUpdateOperation
@@ -55,6 +64,7 @@ __all__ = [
     "AccountUpdateOperation",
     "AccountWitnessProxyOperation",
     "AccountWitnessVoteOperation",
+    "AllOperationType",
     "CancelTransferFromSavingsOperation",
     "ChangeRecoveryAccountOperation",
     "ClaimAccountOperation",
@@ -76,6 +86,12 @@ __all__ = [
     "EscrowReleaseOperation",
     "EscrowTransferOperation",
     "FeedPublishOperation",
+    "Hf26AllOperationType",
+    "Hf26OperationType",
+    "Hf26VirtualOperationType",
+    "LegacyAllOperationType",
+    "LegacyOperationType",
+    "LegacyVirtualOperationType",
     "LimitOrderCancelOperation",
     "LimitOrderCreate2Operation",
     "LimitOrderCreateOperation",
