@@ -7,7 +7,6 @@ want to use this field.
 from __future__ import annotations
 
 import re
-import warnings
 from typing import Generic
 
 from pydantic import ConstrainedStr, Field
@@ -128,12 +127,6 @@ class RdDynamicParams(PreconfiguredBaseModel):
 class Signature(Hex):
     min_length = 130
     max_length = 130
-
-
-warnings.warn(
-    "change max_rc_creation_adjustment to AssetVests after fix of: https://gitlab.syncad.com/hive/hive/-/issues/540",
-    stacklevel=0,
-)
 
 
 class RcAccountObject(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
