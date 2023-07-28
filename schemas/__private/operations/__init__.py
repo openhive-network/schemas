@@ -69,7 +69,7 @@ from schemas.__private.operations.withdraw_vesting_operation import WithdrawVest
 from schemas.__private.operations.witness_block_approve_operation import WitnessBlockApproveOperation
 from schemas.__private.operations.witness_set_properties_operation import WitnessSetPropertiesOperation
 from schemas.__private.operations.witness_update_operation import WitnessUpdateOperation
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.__private.preconfigured_base_model import Operation, PreconfiguredBaseModel
 
 OperationType = (
     AccountCreateOperation[AssetHive]
@@ -138,12 +138,12 @@ Hf26AllOperationType = AllOperationType[AssetHiveHF26, AssetHbdHF26, AssetVestsH
 
 class Hf26OperationRepresentation(PreconfiguredBaseModel):
     type: str  # noqa: A003
-    value: Hf26AllOperationType
+    value: Operation
 
 
 class LegacyOperationRepresentation(PreconfiguredBaseModel):
     type: str  # noqa: A003
-    value: LegacyAllOperationType
+    value: Operation
 
     def __getitem__(self, key: str | int) -> str | LegacyAllOperationType | Any:
         if isinstance(key, int):
