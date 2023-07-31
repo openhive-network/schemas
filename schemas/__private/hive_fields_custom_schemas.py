@@ -17,7 +17,6 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHbd,
     AssetHive,
     AssetVests,
-    AssetVestsHF26,
     HiveDateTime,
     HiveInt,
 )
@@ -132,7 +131,7 @@ class Signature(Hex):
 class RcAccountObject(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
     account: AccountName
     rc_manabar: Manabar
-    max_rc_creation_adjustment: AssetVestsHF26
+    max_rc_creation_adjustment: AssetVests
     max_rc: HiveInt
     delegated_rc: HiveInt
     received_delegated_rc: HiveInt
