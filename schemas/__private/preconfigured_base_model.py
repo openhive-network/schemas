@@ -40,13 +40,15 @@ class PreconfiguredBaseModel(BaseModel):
         """
         This allows using any schema from this repo as dictionary
         """
-        if not hasattr(self, key) and self.__is_aliased_field_name(key):
-            key = f"{key}_"
-
-        assert hasattr(
-            self, key
-        ), f"`{key}` does not exists in `{self.__class__.__name__}`, available are: {list(self.dict().keys())}"
+        key = self.__get_field_name(key)
         return getattr(self, key)
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        """
+        This allows using any schema from this repo as dictionary
+        """
+        key = self.__get_field_name(key)
+        setattr(self, key, value)
 
     def shallow_dict(self) -> dict[str, Any]:
         result: dict[str, Any] = {}
@@ -101,6 +103,15 @@ class PreconfiguredBaseModel(BaseModel):
                 field_definitions[field_name] = (process_type(pack[0]), ...)
 
         return create_model(f"{cls.__name__}Strict", **field_definitions, __base__=PreconfiguredBaseModel)  # type: ignore
+
+    def __get_field_name(self, name: str) -> str:
+        if not hasattr(self, name) and self.__is_aliased_field_name(name):
+            name = f"{name}_"
+
+        assert hasattr(
+            self, name
+        ), f"`{name}` does not exists in `{self.__class__.__name__}`, available are: {list(self.dict().keys())}"
+        return name
 
 
 class Operation(PreconfiguredBaseModel):
