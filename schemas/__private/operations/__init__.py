@@ -149,7 +149,7 @@ class LegacyOperationRepresentation(PreconfiguredBaseModel):
         if isinstance(key, int):
             match (key):
                 case 0:
-                    return self.value.get_name().replace("_operation", "")
+                    return self.value.get_name()
                 case 1:
                     return self.value
                 case _:
@@ -176,7 +176,7 @@ def get_legacy_representation(type_name: str) -> type[LegacyOperationRepresentat
 
 def __create_hf26_representation(incoming_type: type[Hf26OperationType]) -> type[Hf26OperationRepresentation]:
     class Hf26Operation(Hf26OperationRepresentation):
-        type: Literal[f"{incoming_type.get_name()}"]  # type: ignore[valid-type]  # noqa: A003
+        type: Literal[incoming_type.get_name_with_suffix()]  # type: ignore[valid-type]  # noqa: A003
         value: incoming_type  # type: ignore[valid-type]
 
     Hf26Operation.update_forward_refs(**locals())
@@ -191,14 +191,12 @@ def __create_legacy_representation(incoming_cls: type[LegacyOperationType]) -> t
     it is converted to format below.
     """
 
-    cls_name_snake: str = incoming_cls.get_name().replace("_operation", "")
-
     class LegacyOperation(LegacyOperationRepresentation):
-        type: Literal[f"{cls_name_snake}"]  # type: ignore[valid-type] # noqa: A003
+        type: Literal[incoming_cls.get_name()]  # type: ignore[valid-type] # noqa: A003
         value: incoming_cls  # type: ignore[valid-type]
 
     LegacyOperation.update_forward_refs(**locals())
-    __legacy_operation_representations[cls_name_snake] = LegacyOperation
+    __legacy_operation_representations[incoming_cls.get_name()] = LegacyOperation
     return LegacyOperation
 
 
