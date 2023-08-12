@@ -12,6 +12,9 @@ from schemas.account_by_key_api import (
 from schemas.account_history_api import (
     response_schemas as account_history_api,  # noqa: F401
 )
+from schemas.beekeeper_api import (
+    response_schemas as beekeeper_api,  # noqa: F401
+)
 from schemas.block_api import response_schemas as block_api  # noqa: F401
 from schemas.condenser_api import response_schemas as condenser_api  # noqa: F401
 from schemas.database_api import response_schemas as database_api  # noqa: F401
