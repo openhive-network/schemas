@@ -1,17 +1,5 @@
 from __future__ import annotations
 
-from schemas.rc_api.response_schemas import (
-    FindRcAccounts,
-    GetResourceParams,
-    GetResourcePool,
-    ListRcAccounts,
-    ListRcDirectDelegations,
-)
+from schemas.network_node_api.response_schemas import AddNode, GetConnectedPeers, GetInfo, SetAllowedPeers
 
-__all__ = [
-    "FindRcAccounts",
-    "GetResourceParams",
-    "GetResourcePool",
-    "ListRcAccounts",
-    "ListRcDirectDelegations",
-]
+__all__ = ["AddNode", "GetConnectedPeers", "GetInfo", "SetAllowedPeers"]
