@@ -15,25 +15,26 @@ from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 T = TypeVar("T", bound=PreconfiguredBaseModel | list[PreconfiguredBaseModel])
 
 
-class HiveError(PreconfiguredBaseModel, GenericModel, Generic[T]):
+class JsonRpcBase(PreconfiguredBaseModel):
     id_: int = Field(alias="id")
     jsonrpc: str
-    error: T
 
 
-class HiveResult(PreconfiguredBaseModel, GenericModel, Generic[T]):
-    id_: int = Field(alias="id")
-    jsonrpc: str
+class HiveError(JsonRpcBase):
+    error: dict[str, Any]
+
+
+class HiveResult(JsonRpcBase, GenericModel, Generic[T]):
     result: T
 
     @staticmethod
-    def factory(t: Any, **kwargs: Any) -> HiveResult[T] | HiveError[T]:
+    def factory(t: Any, **kwargs: Any) -> HiveResult[T] | HiveError:
         """t -> type of response from api, **kwargs -> unpacked parameters got from api.
         This function is used to return validation on result field, you choose model of result field
         by generic. Factory return just result field from api.
         In case when something is wrong and result field is not present, but error this method return
         HiveError instance of class
         """
-        response_cls = HiveResult[t] if "result" in kwargs else HiveError[t]
+        response_cls = HiveResult[t] if "result" in kwargs else HiveError
         response_cls.update_forward_refs(**locals())
         return response_cls(**kwargs)  # type: ignore[return-value]
