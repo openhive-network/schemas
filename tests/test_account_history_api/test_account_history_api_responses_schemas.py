@@ -35,7 +35,7 @@ def test_account_history_api_correct_values(parameters: dict[str, Any], schema: 
     pattern = json.dumps(parameters, sort_keys=True)
 
     # ACT
-    parsed: HiveResult[schema] | HiveError[schema] = HiveResult.factory(schema, **parameters)
+    parsed: HiveResult[schema] | HiveError = HiveResult.factory(schema, **parameters)
     reserialized = parsed.json(by_alias=True, sort_keys=True)
 
     # ASSERT
