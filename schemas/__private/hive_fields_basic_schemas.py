@@ -7,8 +7,8 @@ from __future__ import annotations
 import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import TYPE_CHECKING, Any, Generic, TypeVar
+from datetime import _TzInfo, datetime, timezone
+from typing import TYPE_CHECKING, Any, Generic, Self, TypeVar
 
 from pydantic import ConstrainedInt, ConstrainedList, ConstrainedStr, Field, PrivateAttr, StrRegexError, validator
 from pydantic.generics import GenericModel
@@ -77,6 +77,10 @@ class HiveDateTime(datetime):
     @classmethod
     def __normalize(cls, value: datetime) -> datetime:
         return value.replace(tzinfo=timezone.utc)
+
+    @classmethod
+    def now(cls, tz: _TzInfo | None = None) -> Self:  # noqa: ARG003
+        return cls.utcnow()
 
 
 class Authority(PreconfiguredBaseModel):
