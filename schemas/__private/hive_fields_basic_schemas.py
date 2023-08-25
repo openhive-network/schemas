@@ -7,8 +7,8 @@ from __future__ import annotations
 import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from datetime import _TzInfo, datetime, timezone
-from typing import TYPE_CHECKING, Any, Generic, Self, TypeVar
+from datetime import datetime, timezone
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from pydantic import ConstrainedInt, ConstrainedList, ConstrainedStr, Field, PrivateAttr, StrRegexError, validator
 from pydantic.generics import GenericModel
@@ -20,6 +20,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
 
     from pydantic.typing import CallableGenerator
+    from typing_extensions import Self
 
 
 class HiveInt(ConstrainedInt):
@@ -79,7 +80,7 @@ class HiveDateTime(datetime):
         return value.replace(tzinfo=timezone.utc)
 
     @classmethod
-    def now(cls, tz: _TzInfo | None = None) -> Self:  # noqa: ARG003
+    def now(cls) -> Self:  # type: ignore[override]
         return cls.utcnow()
 
 
