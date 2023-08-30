@@ -17,8 +17,6 @@ from schemas.__private.hive_constants import HBD_INTEREST_RATE, MAXIMUM_BLOCK_SI
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
-
     from pydantic.typing import CallableGenerator
     from typing_extensions import Self
 
@@ -242,17 +240,8 @@ class Uint64t(ConstrainedInt):
     le = 18446744073709554615
 
 
-class CustomIdType(int):
-    @classmethod
-    def __get_validators__(cls) -> Iterator[Any]:
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v: Any) -> int:
-        max_id_length = 32
-        if len(str(v)) > max_id_length:
-            raise ValueError("Must be shorter than 32 !")
-        return int(v)
+class CustomIdType(ConstrainedStr):
+    max_length = 32
 
 
 class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
