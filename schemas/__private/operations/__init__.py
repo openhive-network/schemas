@@ -201,20 +201,20 @@ def __create_legacy_representation(incoming_cls: type[LegacyOperationType]) -> t
 
 
 # NON-VIRTUAL
-__Hf26OperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(Hf26OperationType))]  # type: ignore
-__LegacyOperationRepresentationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in get_args(LegacyOperationType))]  # type: ignore
+__Hf26OperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(Hf26OperationType))]  # type: ignore  # noqa: UP007
+__LegacyOperationRepresentationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in get_args(LegacyOperationType))]  # type: ignore  # noqa: UP007
 Hf26OperationRepresentationType = Annotated[__Hf26OperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
 LegacyOperationRepresentationType = Annotated[__LegacyOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
 
 # VIRTUAL
-__Hf26VirtualOperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in (*get_args(Hf26VirtualOperationType), NaiEffectiveCommentVoteOperation))]  # type: ignore
-__LegacyVirtualOperationRepresentationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(LegacyVirtualOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore
+__Hf26VirtualOperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in (*get_args(Hf26VirtualOperationType), NaiEffectiveCommentVoteOperation))]  # type: ignore  # noqa: UP007
+__LegacyVirtualOperationRepresentationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(LegacyVirtualOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore  # noqa: UP007
 Hf26VirtualOperationRepresentationType = Annotated[__Hf26VirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
 LegacyVirtualOperationRepresentationType = Annotated[__LegacyVirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
 
 # ALL
-__Hf26AllOperationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in (*get_args(AllOperationType), NaiEffectiveCommentVoteOperation))]  # type: ignore
-__LegacyAllOperationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(AllOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore
+__Hf26AllOperationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in (*get_args(AllOperationType), NaiEffectiveCommentVoteOperation))]  # type: ignore  # noqa: UP007
+__LegacyAllOperationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(AllOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore  # noqa: UP007
 Hf26AllOperationRepresentationType = Annotated[__Hf26AllOperationUnionType, Field(discriminator="type")]  # type: ignore
 LegacyAllOperationRepresentationType = Annotated[__LegacyAllOperationUnionType, Field(discriminator="type")]  # type: ignore
 

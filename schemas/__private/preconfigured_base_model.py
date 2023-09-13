@@ -21,7 +21,7 @@ class PreconfiguredBaseModel(BaseModel):
         extra = Extra.forbid
         allow_population_by_field_name = True
         smart_union = True
-        json_encoders = {datetime: lambda x: x.strftime("%Y-%m-%dT%H:%M:%S")}
+        json_encoders = {datetime: lambda x: x.strftime("%Y-%m-%dT%H:%M:%S")}  # noqa: RUF012
 
     @classmethod
     def __is_aliased_field_name(cls, field_name: str) -> bool:

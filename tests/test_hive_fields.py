@@ -87,7 +87,7 @@ def test_empty_string_correct_value() -> None:
     instance = EmptyStringModel(field="")
 
     # ASSERT
-    assert instance.field == ""  # noqa: PLC1901 - we want to check if it is empty string explicitly
+    assert instance.field == ""  # - we want to check if it is empty string explicitly
 
 
 def test_empty_string_incorrect_value() -> None:
