@@ -13,7 +13,7 @@ DEFAULT_REMAINING_EXECUTIONS: Final[Uint16t] = Uint16t(0)
 DEFAULT_DELETED: Final[bool] = False
 
 
-class FailedRecurrentTransferOperation(Generic[AssetHive, AssetHbd], GenericModel, VirtualOperation):
+class FailedRecurrentTransferOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd]):
     from_: AccountName = Field(alias="from")
     to: AccountName
     amount: AssetHive | AssetHbd

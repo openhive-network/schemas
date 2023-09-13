@@ -10,7 +10,7 @@ from schemas.__private.preconfigured_base_model import VirtualOperation
 DEFAULT_PAYOUT_MUST_BE_CLAIMED: Final[bool] = False
 
 
-class CurationRewardOperation(Generic[AssetVests], GenericModel, VirtualOperation):
+class CurationRewardOperation(VirtualOperation, GenericModel, Generic[AssetVests]):
     curator: AccountName
     reward: AssetVests
     comment_author: AccountName

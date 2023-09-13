@@ -8,5 +8,5 @@ from schemas.__private.hive_fields_basic_schemas import AssetHbd, AssetHive, Ass
 from schemas.__private.preconfigured_base_model import VirtualOperation
 
 
-class ConsolidateTreasuryBalanceOperation(Generic[AssetHive, AssetHbd, AssetVests], GenericModel, VirtualOperation):
+class ConsolidateTreasuryBalanceOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
     total_moved: list[AssetHive | AssetHbd | AssetVests]

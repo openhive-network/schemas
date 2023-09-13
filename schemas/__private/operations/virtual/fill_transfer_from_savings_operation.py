@@ -11,7 +11,7 @@ from schemas.__private.preconfigured_base_model import VirtualOperation
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class FillTransferFromSavingsOperation(Generic[AssetHive, AssetHbd], GenericModel, VirtualOperation):
+class FillTransferFromSavingsOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd]):
     from_: AccountName = Field(alias="from")
     to: AccountName
     amount: AssetHive | AssetHbd

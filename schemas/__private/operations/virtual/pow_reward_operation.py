@@ -8,6 +8,6 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHive, 
 from schemas.__private.preconfigured_base_model import VirtualOperation
 
 
-class PowRewardOperation(Generic[AssetHive, AssetVests], GenericModel, VirtualOperation):
+class PowRewardOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetVests]):
     worker: AccountName
     reward: AssetHive | AssetVests

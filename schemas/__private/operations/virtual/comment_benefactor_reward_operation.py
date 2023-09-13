@@ -10,7 +10,7 @@ from schemas.__private.preconfigured_base_model import VirtualOperation
 DEFAULT_PAYOUT_MUST_BE_CLAIMED: Final[bool] = False
 
 
-class CommentBenefactorRewardOperation(Generic[AssetHive, AssetHbd, AssetVests], GenericModel, VirtualOperation):
+class CommentBenefactorRewardOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
     benefactor: AccountName
     author: AccountName
     permlink: str
