@@ -10,7 +10,7 @@ from schemas.__private.preconfigured_base_model import VirtualOperation
 DEFAULT_PAYOUT_MUST_BE_CLAIMED: Final[bool] = False
 
 
-class AuthorRewardOperation(Generic[AssetHive, AssetHbd, AssetVests], GenericModel, VirtualOperation):
+class AuthorRewardOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
     author: AccountName
     permlink: str
     hbd_payout: AssetHbd

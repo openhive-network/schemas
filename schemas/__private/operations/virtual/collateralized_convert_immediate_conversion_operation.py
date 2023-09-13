@@ -10,7 +10,7 @@ from schemas.__private.preconfigured_base_model import VirtualOperation
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class CollateralizedConvertImmediateConversionOperation(Generic[AssetHbd], GenericModel, VirtualOperation):
+class CollateralizedConvertImmediateConversionOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
     hbd_out: AssetHbd

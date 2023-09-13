@@ -12,7 +12,7 @@ DEFAULT_PROPOSAL_ID: Final[Uint32t] = Uint32t(0)
 DEFAULT_OP_IN_TRX: Final[Uint16t] = Uint16t(0)
 
 
-class ProposalPayOperation(Generic[AssetHbd], GenericModel, VirtualOperation):
+class ProposalPayOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
     proposal_id: Uint32t = DEFAULT_PROPOSAL_ID
     receiver: AccountName
     payer: AccountName

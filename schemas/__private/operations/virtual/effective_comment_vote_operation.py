@@ -25,7 +25,7 @@ class Empty(BaseModel):
     pass
 
 
-class EffectiveCommentVoteOperation(Generic[AssetHbd], GenericModel, VirtualOperation, ABC):
+class EffectiveCommentVoteOperation(VirtualOperation, GenericModel, Generic[AssetHbd], ABC):
     voter: AccountName
     author: AccountName
     permlink: str

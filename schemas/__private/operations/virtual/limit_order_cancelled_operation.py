@@ -10,7 +10,7 @@ from schemas.__private.preconfigured_base_model import VirtualOperation
 DEFAULT_ORDERID: Final[Uint32t] = Uint32t(0)
 
 
-class LimitOrderCancelledOperation(Generic[AssetHive, AssetHbd], GenericModel, VirtualOperation):
+class LimitOrderCancelledOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd]):
     seller: AccountName
     orderid: Uint32t = DEFAULT_ORDERID
     amount_back: AssetHive | AssetHbd

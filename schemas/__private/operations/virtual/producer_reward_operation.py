@@ -8,6 +8,6 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHive, 
 from schemas.__private.preconfigured_base_model import VirtualOperation
 
 
-class ProducerRewardOperation(Generic[AssetHive, AssetVests], GenericModel, VirtualOperation):
+class ProducerRewardOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetVests]):
     producer: AccountName
     vesting_shares: AssetVests | AssetHive
