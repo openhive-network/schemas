@@ -12,6 +12,6 @@ If a user wants to pay a fee in RC fee should be equal 0.
 """
 
 
-class ClaimAccountOperation(Generic[AssetHive], GenericModel, Operation):
+class ClaimAccountOperation(Operation, GenericModel, Generic[AssetHive]):
     creator: AccountName
     fee: AssetHive | Literal[0]

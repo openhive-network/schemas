@@ -19,7 +19,7 @@ from schemas.__private.preconfigured_base_model import Operation
 DEFAULT_FILL_OR_KILL: Final[bool] = False
 
 
-class LimitOrderCreate2Operation(Generic[AssetHbd, AssetHive], GenericModel, Operation):
+class LimitOrderCreate2Operation(Operation, GenericModel, Generic[AssetHbd, AssetHive]):
     owner: AccountName
     order_id: Uint32t
     amount_to_sell: AssetHive | AssetHbd

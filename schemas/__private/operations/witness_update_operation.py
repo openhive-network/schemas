@@ -14,7 +14,7 @@ from schemas.__private.hive_fields_basic_schemas import (
 from schemas.__private.preconfigured_base_model import Operation
 
 
-class WitnessUpdateOperation(Generic[AssetHive], GenericModel, Operation):
+class WitnessUpdateOperation(Operation, GenericModel, Generic[AssetHive]):
     owner: AccountName
     url: str
     block_signing_key: PublicKey

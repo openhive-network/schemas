@@ -8,7 +8,7 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, A
 from schemas.__private.preconfigured_base_model import Operation
 
 
-class ClaimRewardBalanceOperation(Generic[AssetHive, AssetHbd, AssetVests], GenericModel, Operation):
+class ClaimRewardBalanceOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
     account: AccountName
     reward_hive: AssetHive
     reward_hbd: AssetHbd

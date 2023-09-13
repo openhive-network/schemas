@@ -8,7 +8,7 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHive, 
 from schemas.__private.preconfigured_base_model import Operation
 
 
-class AccountCreateOperation(Generic[AssetHive], GenericModel, Operation):
+class AccountCreateOperation(Operation, GenericModel, Generic[AssetHive]):
     fee: AssetHive
     creator: AccountName
     new_account_name: AccountName
