@@ -3,9 +3,11 @@ from __future__ import annotations
 from typing import Any
 
 import pytest
+from pydantic import ValidationError
 
 from schemas.__private.hive_factory import HiveResult
 from schemas.__private.hive_fields_basic_schemas import AssetHbdHF26, AssetHiveHF26, AssetVestsHF26
+from schemas.__private.policies.missing_fields_in_get_config import MissingFieldsInGetConfig
 from schemas.database_api import (
     FindAccountRecoveryRequests,
     FindAccounts,
@@ -174,3 +176,16 @@ from .reponses_from_api import (
 def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: Any) -> None:
     # ACT & ASSERT
     HiveResult.factory(schema, **parameters)
+
+
+def test_get_config_policy() -> None:
+    try:
+        MissingFieldsInGetConfig(allow=True).apply()
+        from schemas import database_api
+
+        database_api.GetConfig()  # type: ignore[call-arg]
+    finally:
+        MissingFieldsInGetConfig(allow=False).apply()  # this is in finally so it won't interfere other tests
+
+    with pytest.raises(ValidationError):
+        GetConfig()  # type: ignore[call-arg]

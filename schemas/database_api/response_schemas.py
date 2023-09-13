@@ -151,7 +151,7 @@ class GetCommentPendingPayouts(PreconfiguredBaseModel):
     cashout_infos: HiveList[GetCommentPendingPayoutsFundament[AssetHbdHF26]]
 
 
-class GetConfig(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class GetConfigOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
     """
     This response includes just one dict, so also doesn't need fundament class
     To use this class choose type of Assets so:
@@ -407,6 +407,9 @@ class GetConfig(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHb
     HIVE_UP_TO_DATE_MARGIN__BLOCK_STATS: HiveInt
     HIVE_UP_TO_DATE_MARGIN__FAST_CONFIRM: HiveInt
     HIVE_UP_TO_DATE_MARGIN__PENDING_TXS: HiveInt
+
+
+GetConfig = GetConfigOrig
 
 
 class GetCurrentPriceFeed(Price[AssetHiveHF26, AssetHbdHF26]):
