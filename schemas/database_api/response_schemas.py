@@ -14,10 +14,13 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetVests,
     AssetVestsHF26,
     EmptyString,
+    HbdSymbolType,
     HiveDateTime,
     HiveInt,
     HiveList,
+    HiveSymbolType,
     PublicKey,
+    VestsSymbolType,
 )
 from schemas.__private.hive_fields_custom_schemas import (
     HardforkVersion,
@@ -197,9 +200,9 @@ class GetConfig(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHb
     HIVE_REVERSE_AUCTION_WINDOW_SECONDS_HF25: HiveInt
     HIVE_EARLY_VOTING_SECONDS_HF25: HiveInt
     HIVE_MID_VOTING_SECONDS_HF25: HiveInt
-    VESTS_SYMBOL: dict[str, Literal["@@000000037"] | Literal[6]]
-    HIVE_SYMBOL: dict[str, Literal["@@000000021"] | Literal[3]]
-    HBD_SYMBOL: dict[str, Literal["@@000000013"] | Literal[3]]
+    VESTS_SYMBOL: VestsSymbolType
+    HIVE_SYMBOL: HiveSymbolType
+    HBD_SYMBOL: HbdSymbolType
     HIVE_BLOCKCHAIN_HARDFORK_VERSION: HardforkVersion
     HIVE_100_PERCENT: HiveInt
     HIVE_1_PERCENT: HiveInt

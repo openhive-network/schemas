@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
-from pydantic import ConstrainedInt, ConstrainedList, ConstrainedStr, Field, PrivateAttr, StrRegexError, validator
+from pydantic import ConstrainedInt, ConstrainedList, ConstrainedStr, PrivateAttr, StrRegexError, validator
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_constants import HBD_INTEREST_RATE, MAXIMUM_BLOCK_SIZE
@@ -113,9 +113,9 @@ class AssetInfo:
 
 
 class AssetBase(ABC):
-    @classmethod
+    @staticmethod
     @abstractmethod
-    def get_asset_information(cls) -> AssetInfo:
+    def get_asset_information() -> AssetInfo:
         """This method returns asset details, which we use to perform checks"""
 
 
@@ -138,6 +138,65 @@ class AssetLegacy(ConstrainedStr, AssetBase):
         yield cls.legacy_regex_validator
 
 
+def validate_nai(value: Any, asset_info: AssetInfo) -> Any:
+    if value != asset_info.nai:
+        raise ValueError("Invalid nai !")
+    return value
+
+
+def validate_precision(value: int, asset_info: AssetInfo) -> int:
+    if value != asset_info.precision:
+        raise ValueError("Invalid decimals")
+    return value
+
+
+class AssetSymbolType(PreconfiguredBaseModel, AssetBase):
+    """Represents just asset characteristics"""
+
+    decimals: HiveInt
+    nai: str
+
+    class Config:
+        allow_reuse = True
+
+    @validator("nai", allow_reuse=True)
+    @classmethod
+    def check_nai(cls, value: Any) -> Any:
+        return validate_nai(value=value, asset_info=cls.get_asset_information())
+
+    @validator("decimals", allow_reuse=True)
+    @classmethod
+    def check_decimals(cls, value: int) -> int:
+        return validate_precision(value=value, asset_info=cls.get_asset_information())
+
+
+class HiveSymbolType(AssetSymbolType):
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return AssetInfo(precision=HiveInt(3), nai="@@000000021", symbol=("HIVE", "TESTS"))
+
+    decimals: HiveInt = get_asset_information().precision
+    nai: str = get_asset_information().nai
+
+
+class HbdSymbolType(AssetSymbolType):
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return AssetInfo(precision=HiveInt(3), nai="@@000000013", symbol=("HBD", "TBD"))
+
+    decimals: HiveInt = get_asset_information().precision
+    nai: str = get_asset_information().nai
+
+
+class VestsSymbolType(AssetSymbolType):
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return AssetInfo(precision=HiveInt(6), nai="@@000000037", symbol=("VESTS", "VESTS"))
+
+    decimals: HiveInt = get_asset_information().precision
+    nai: str = get_asset_information().nai
+
+
 class AssetHF26(PreconfiguredBaseModel, AssetBase):
     """Base class for all nai asset fields"""
 
@@ -145,64 +204,63 @@ class AssetHF26(PreconfiguredBaseModel, AssetBase):
     precision: HiveInt
     nai: str
 
-    @validator("nai")
+    class Config:
+        allow_reuse = True
+
+    @validator("nai", allow_reuse=True)
     @classmethod
     def check_nai(cls, value: Any) -> Any:
-        if value != cls.get_asset_information().nai:
-            raise ValueError("Invalid nai !")
-        return value
+        return validate_nai(value=value, asset_info=cls.get_asset_information())
 
-    @validator("precision")
+    @validator("precision", allow_reuse=True)
     @classmethod
     def check_precision(cls, value: int) -> int:
-        if value != cls.get_asset_information().precision:
-            raise ValueError("Invalid precision")
-        return value
+        return validate_precision(value=value, asset_info=cls.get_asset_information())
 
 
 class AssetHiveHF26(AssetHF26):
-    precision: HiveInt = Field(default_factory=lambda: AssetHiveHF26.get_asset_information().precision)
-    nai: str = Field(default_factory=lambda: AssetHiveHF26.get_asset_information().nai)
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return HiveSymbolType.get_asset_information()
 
-    @classmethod
-    def get_asset_information(cls) -> AssetInfo:
-        return AssetInfo(precision=HiveInt(3), nai="@@000000021", symbol=("HIVE", "TESTS"))
+    precision: HiveInt = get_asset_information().precision
+    nai: str = get_asset_information().nai
 
 
 class AssetHbdHF26(AssetHF26):
-    precision: HiveInt = Field(default_factory=lambda: AssetHbdHF26.get_asset_information().precision)
-    nai: str = Field(default_factory=lambda: AssetHbdHF26.get_asset_information().nai)
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return HbdSymbolType.get_asset_information()
 
-    @classmethod
-    def get_asset_information(cls) -> AssetInfo:
-        return AssetInfo(precision=HiveInt(3), nai="@@000000013", symbol=("HBD", "TBD"))
+    nai: str = get_asset_information().nai
+    precision: HiveInt = get_asset_information().precision
 
 
 class AssetVestsHF26(AssetHF26):
-    precision: HiveInt = Field(default_factory=lambda: AssetVestsHF26.get_asset_information().precision)
-    nai: str = Field(default_factory=lambda: AssetVestsHF26.get_asset_information().nai)
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return VestsSymbolType.get_asset_information()
 
-    @classmethod
-    def get_asset_information(cls) -> AssetInfo:
-        return AssetInfo(precision=HiveInt(6), nai="@@000000037", symbol=("VESTS", "VESTS"))
+    precision: HiveInt = get_asset_information().precision
+    nai: str = get_asset_information().nai
 
 
 class AssetHiveLegacy(AssetLegacy):
     @classmethod
     def get_asset_information(cls) -> AssetInfo:
-        return AssetHiveHF26.get_asset_information()
+        return HiveSymbolType.get_asset_information()
 
 
 class AssetHbdLegacy(AssetLegacy):
     @classmethod
     def get_asset_information(cls) -> AssetInfo:
-        return AssetHbdHF26.get_asset_information()
+        return HbdSymbolType.get_asset_information()
 
 
 class AssetVestsLegacy(AssetLegacy):
     @classmethod
     def get_asset_information(cls) -> AssetInfo:
-        return AssetVestsHF26.get_asset_information()
+        return VestsSymbolType.get_asset_information()
 
 
 AssetHive = TypeVar("AssetHive", AssetHiveHF26, AssetHiveLegacy)
