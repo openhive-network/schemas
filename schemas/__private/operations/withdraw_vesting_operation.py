@@ -8,6 +8,6 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetVests
 from schemas.__private.preconfigured_base_model import Operation
 
 
-class WithdrawVestingOperation(Generic[AssetVests], GenericModel, Operation):
+class WithdrawVestingOperation(Operation, GenericModel, Generic[AssetVests]):
     account: AccountName
     vesting_shares: AssetVests

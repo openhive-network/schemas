@@ -9,7 +9,7 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHive, 
 from schemas.__private.preconfigured_base_model import Operation
 
 
-class TransferToVestingOperation(Generic[AssetHive], GenericModel, Operation):
+class TransferToVestingOperation(Operation, GenericModel, Generic[AssetHive]):
     from_: AccountName = Field(alias="from")
     to: AccountName | EmptyString
     amount: AssetHive

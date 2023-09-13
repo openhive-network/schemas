@@ -11,7 +11,7 @@ from schemas.__private.preconfigured_base_model import Operation
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class ConvertOperation(Generic[AssetHbd], GenericModel, Operation):
+class ConvertOperation(Operation, GenericModel, Generic[AssetHbd]):
     from_: AccountName = Field(alias="from")
     request_id: Uint32t = DEFAULT_REQUEST_ID
     amount: AssetHbd

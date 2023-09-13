@@ -8,7 +8,7 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetVests
 from schemas.__private.preconfigured_base_model import Operation
 
 
-class DelegateVestingSharesOperation(Generic[AssetVests], GenericModel, Operation):
+class DelegateVestingSharesOperation(Operation, GenericModel, Generic[AssetVests]):
     delegator: AccountName
     delegatee: AccountName
     vesting_shares: AssetVests

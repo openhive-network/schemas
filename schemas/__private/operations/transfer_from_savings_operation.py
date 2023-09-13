@@ -11,7 +11,7 @@ from schemas.__private.preconfigured_base_model import Operation
 DEFAULT_TYPE_ID: Final[Uint32t] = Uint32t(0)
 
 
-class TransferFromSavingsOperation(Generic[AssetHive, AssetHbd], GenericModel, Operation):
+class TransferFromSavingsOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
     from_: AccountName = Field(alias="from")
     to: AccountName
     request_id: Uint32t = DEFAULT_TYPE_ID
