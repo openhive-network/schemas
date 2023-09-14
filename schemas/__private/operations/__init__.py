@@ -1,6 +1,7 @@
+# mypy: disable-error-code="valid-type"
 from __future__ import annotations
 
-from typing import Any, Literal, Union, get_args  # pyright: ignore
+from typing import TYPE_CHECKING, Any, Literal, Union, get_args
 
 from pydantic import Field
 from typing_extensions import Annotated  # noqa: UP035
@@ -60,9 +61,11 @@ from schemas.__private.operations.transfer_to_vesting_operation import TransferT
 from schemas.__private.operations.update_proposal_operation import UpdateProposalOperation
 from schemas.__private.operations.update_proposal_votes_operation import UpdateProposalVotesOperation
 from schemas.__private.operations.virtual import (
+    Hf26VirtualOperationType,
     LegacyEffectiveCommentVoteOperation,
+    LegacyVirtualOperationType,
     NaiEffectiveCommentVoteOperation,
-    VirtualOperationType,
+    list_of_virtual_operations,
 )
 from schemas.__private.operations.vote_operation import VoteOperation
 from schemas.__private.operations.withdraw_vesting_operation import WithdrawVestingOperation
@@ -71,69 +74,83 @@ from schemas.__private.operations.witness_set_properties_operation import Witnes
 from schemas.__private.operations.witness_update_operation import WitnessUpdateOperation
 from schemas.__private.preconfigured_base_model import Operation, PreconfiguredBaseModel
 
-OperationType = (
-    AccountCreateOperation[AssetHive]
-    | AccountUpdate2Operation
-    | AccountUpdateOperation
-    | AccountWitnessProxyOperation
-    | AccountWitnessVoteOperation
-    | CancelTransferFromSavingsOperation
-    | ChangeRecoveryAccountOperation
-    | ClaimAccountOperation[AssetHive]
-    | ClaimRewardBalanceOperation[AssetHive, AssetHbd, AssetVests]
-    | CollateralizedConvertOperation[AssetHive]
-    | CommentOperation
-    | CommentOptionsOperation[AssetHbd]
-    | ConvertOperation[AssetHbd]
-    | CreateClaimedAccountOperation
-    | CreateProposalOperation[AssetHbd]
-    | CustomBinaryOperation
-    | CustomJsonOperation
-    | PowOperation
-    | CustomOperation
-    | DeclineVotingRightsOperation
-    | DelegateVestingSharesOperation[AssetVests]
-    | DeleteCommentOperation
-    | EscrowApproveOperation
-    | EscrowDisputeOperation
-    | EscrowReleaseOperation[AssetHive, AssetHbd]
-    | EscrowTransferOperation[AssetHive, AssetHbd]
-    | FeedPublishOperation
-    | LimitOrderCancelOperation
-    | LimitOrderCreate2Operation[AssetHbd, AssetHive]
-    | LimitOrderCreateOperation[AssetHive, AssetHbd]
-    | RecoverAccountOperation
-    | RecurrentTransferOperation[AssetHive, AssetHbd]
-    | RemoveProposalOperation
-    | RequestAccountRecoveryOperation
-    | ResetAccountOperation
-    | SetResetAccountOperation
-    | SetWithdrawVestingRouteOperation
-    | TransferFromSavingsOperation[AssetHive, AssetHbd]
-    | TransferOperation[AssetHive, AssetHbd]
-    | TransferToSavingsOperation[AssetHive, AssetHbd]
-    | TransferToVestingOperation[AssetHive]
-    | UpdateProposalOperation[AssetHbd]
-    | UpdateProposalVotesOperation
-    | VoteOperation
-    | WithdrawVestingOperation[AssetVests]
-    | WitnessBlockApproveOperation
-    | WitnessSetPropertiesOperation
-    | WitnessUpdateOperation[AssetHive]
-)
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
-AllOperationType = (
-    OperationType[AssetHive, AssetHbd, AssetVests] | VirtualOperationType[AssetHive, AssetHbd, AssetVests]
-)
+list_of_non_virtual_operations: list[Callable[[type[AssetHive], type[AssetHbd], type[AssetVests]], type[Operation]]] = [
+    lambda hive, __, ___: AccountCreateOperation[hive],
+    lambda _, __, ___: AccountUpdate2Operation,
+    lambda _, __, ___: AccountUpdateOperation,
+    lambda _, __, ___: AccountWitnessProxyOperation,
+    lambda _, __, ___: AccountWitnessVoteOperation,
+    lambda _, __, ___: CancelTransferFromSavingsOperation,
+    lambda _, __, ___: ChangeRecoveryAccountOperation,
+    lambda hive, _, __: ClaimAccountOperation[hive],
+    lambda hive, hbd, vests: ClaimRewardBalanceOperation[hive, hbd, vests],
+    lambda hive, _, __: CollateralizedConvertOperation[hive],
+    lambda _, __, ___: CommentOperation,
+    lambda _, hbd, __: CommentOptionsOperation[hbd],
+    lambda _, hbd, __: ConvertOperation[hbd],
+    lambda _, __, ___: CreateClaimedAccountOperation,
+    lambda _, hbd, __: CreateProposalOperation[hbd],
+    lambda _, __, ___: CustomBinaryOperation,
+    lambda _, __, ___: CustomJsonOperation,
+    lambda _, __, ___: PowOperation,
+    lambda _, __, ___: CustomOperation,
+    lambda _, __, ___: DeclineVotingRightsOperation,
+    lambda _, __, vests: DelegateVestingSharesOperation[vests],
+    lambda _, __, ___: DeleteCommentOperation,
+    lambda _, __, ___: EscrowApproveOperation,
+    lambda _, __, ___: EscrowDisputeOperation,
+    lambda hive, hbd, _: EscrowReleaseOperation[hive, hbd],
+    lambda hive, hbd, _: EscrowTransferOperation[hive, hbd],
+    lambda _, __, ___: FeedPublishOperation,
+    lambda _, __, ___: LimitOrderCancelOperation,
+    lambda hive, hbd, _: LimitOrderCreate2Operation[hbd, hive],
+    lambda hive, hbd, _: LimitOrderCreateOperation[hive, hbd],
+    lambda _, __, ___: RecoverAccountOperation,
+    lambda hive, hbd, _: RecurrentTransferOperation[hive, hbd],
+    lambda _, __, ___: RemoveProposalOperation,
+    lambda _, __, ___: RequestAccountRecoveryOperation,
+    lambda _, __, ___: ResetAccountOperation,
+    lambda _, __, ___: SetResetAccountOperation,
+    lambda _, __, ___: SetWithdrawVestingRouteOperation,
+    lambda hive, hbd, _: TransferFromSavingsOperation[hive, hbd],
+    lambda hive, hbd, _: TransferOperation[hive, hbd],
+    lambda hive, hbd, _: TransferToSavingsOperation[hive, hbd],
+    lambda hive, _, __: TransferToVestingOperation[hive],
+    lambda _, hbd, __: UpdateProposalOperation[hbd],
+    lambda _, __, ___: UpdateProposalVotesOperation,
+    lambda _, __, ___: VoteOperation,
+    lambda _, __, vests: WithdrawVestingOperation[vests],
+    lambda _, __, ___: WitnessBlockApproveOperation,
+    lambda _, __, ___: WitnessSetPropertiesOperation,
+    lambda hive, _, __: WitnessUpdateOperation[hive],
+]
 
-Hf26OperationType = OperationType[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
-LegacyOperationType = OperationType[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
+Hf26OperationType = Union[  # noqa: UP007
+    tuple(type_factory(AssetHiveHF26, AssetHbdHF26, AssetVestsHF26) for type_factory in list_of_non_virtual_operations)
+]
+LegacyOperationType = Union[  # noqa: UP007
+    tuple(
+        type_factory(AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy)
+        for type_factory in list_of_non_virtual_operations
+    )
+]
 
-Hf26VirtualOperationType = VirtualOperationType[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
-LegacyVirtualOperationType = VirtualOperationType[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
 
-LegacyAllOperationType = AllOperationType[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
-Hf26AllOperationType = AllOperationType[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
+Hf26AllOperationType = Union[  # noqa: UP007
+    tuple(
+        type_factory(AssetHiveHF26, AssetHbdHF26, AssetVestsHF26)
+        for type_factory in list_of_non_virtual_operations + list_of_virtual_operations
+    )
+]
+LegacyAllOperationType = Union[  # noqa: UP007
+    tuple(
+        type_factory(AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy)
+        for type_factory in list_of_non_virtual_operations + list_of_virtual_operations
+    )
+]
 
 
 class Hf26OperationRepresentation(PreconfiguredBaseModel):
@@ -213,8 +230,8 @@ Hf26VirtualOperationRepresentationType = Annotated[__Hf26VirtualOperationReprese
 LegacyVirtualOperationRepresentationType = Annotated[__LegacyVirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
 
 # ALL
-__Hf26AllOperationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in (*get_args(AllOperationType), NaiEffectiveCommentVoteOperation))]  # type: ignore  # noqa: UP007
-__LegacyAllOperationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(AllOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore  # noqa: UP007
+__Hf26AllOperationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in (*get_args(Hf26AllOperationType), NaiEffectiveCommentVoteOperation))]  # type: ignore  # noqa: UP007
+__LegacyAllOperationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in (*get_args(LegacyAllOperationType), LegacyEffectiveCommentVoteOperation))]  # type: ignore  # noqa: UP007
 Hf26AllOperationRepresentationType = Annotated[__Hf26AllOperationUnionType, Field(discriminator="type")]  # type: ignore
 LegacyAllOperationRepresentationType = Annotated[__LegacyAllOperationUnionType, Field(discriminator="type")]  # type: ignore
 
@@ -267,7 +284,6 @@ __all__ = [
     "WitnessBlockApproveOperation",
     "WitnessSetPropertiesOperation",
     "WitnessUpdateOperation",
-    "OperationType",
     "Hf26OperationRepresentationType",
     "LegacyOperationRepresentationType",
     "Hf26VirtualOperationRepresentationType",

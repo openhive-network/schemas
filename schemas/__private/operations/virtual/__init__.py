@@ -1,9 +1,18 @@
+# mypy: disable-error-code="valid-type"
 from __future__ import annotations
+
+from typing import TYPE_CHECKING, Union
 
 from schemas.__private.hive_fields_basic_schemas import (
     AssetHbd,
+    AssetHbdHF26,
+    AssetHbdLegacy,
     AssetHive,
+    AssetHiveHF26,
+    AssetHiveLegacy,
     AssetVests,
+    AssetVestsHF26,
+    AssetVestsLegacy,
 )
 from schemas.__private.operations.virtual.account_created_operation import AccountCreatedOperation
 from schemas.__private.operations.virtual.author_reward_operation import AuthorRewardOperation
@@ -61,51 +70,65 @@ from schemas.__private.operations.virtual.transfer_to_vesting_completed_operatio
     TransferToVestingCompletedOperation,
 )
 from schemas.__private.operations.virtual.vesting_shares_split_operation import VestingSharesSplitOperation
+from schemas.__private.preconfigured_base_model import Operation
 
-VirtualOperationType = (
-    AuthorRewardOperation[AssetHive, AssetHbd, AssetVests]
-    | AccountCreatedOperation[AssetVests]
-    | ChangedRecoveryAccountOperation
-    | ClearNullAccountBalanceOperation[AssetHive, AssetHbd, AssetVests]
-    | CollateralizedConvertImmediateConversionOperation[AssetHbd]
-    | CommentBenefactorRewardOperation[AssetHive, AssetHbd, AssetVests]
-    | CommentPayoutUpdateOperation
-    | CommentRewardOperation[AssetHbd]
-    | ConsolidateTreasuryBalanceOperation[AssetHive, AssetHbd, AssetVests]
-    | CurationRewardOperation[AssetVests]
-    | DeclinedVotingRightsOperation
-    | DelayedVotingOperation
-    | DhfConversionOperation[AssetHive, AssetHbd]
-    | DhfFundingOperation[AssetHbd]
-    | EscrowApprovedOperation[AssetHive, AssetHbd]
-    | EscrowRejectedOperation[AssetHive, AssetHbd]
-    | ExpiredAccountNotificationOperation
-    | FailedRecurrentTransferOperation[AssetHive, AssetHbd]
-    | FillCollateralizedConvertRequestOperation[AssetHive, AssetHbd]
-    | FillConvertRequestOperation[AssetHive, AssetHbd]
-    | FillOrderOperation[AssetHive, AssetHbd]
-    | FillRecurrentTransferOperation[AssetHive, AssetHbd]
-    | FillTransferFromSavingsOperation[AssetHive, AssetHbd]
-    | FillVestingWithdrawOperation[AssetHive, AssetVests]
-    | HardforkHiveOperation[AssetHive, AssetHbd, AssetVests]
-    | HardforkHiveRestoreOperation[AssetHive, AssetHbd]
-    | HardforkOperation
-    | IneffectiveDeleteCommentOperation
-    | InterestOperation[AssetHbd]
-    | LimitOrderCancelledOperation[AssetHive, AssetHbd]
-    | LiquidityRewardOperation[AssetHive]
-    | PowRewardOperation[AssetHive, AssetVests]
-    | ProducerMissedOperation
-    | ProducerRewardOperation[AssetHive, AssetVests]
-    | ProposalFeeOperation[AssetHbd]
-    | ProposalPayOperation[AssetHbd]
-    | ProxyClearedOperation
-    | ReturnVestingDelegationOperation[AssetVests]
-    | ShutDownWitnessOperation
-    | SystemWarningOperation
-    | TransferToVestingCompletedOperation[AssetHive, AssetVests]
-    | VestingSharesSplitOperation[AssetVests]
-)
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+list_of_virtual_operations: list[Callable[[type[AssetHive], type[AssetHbd], type[AssetVests]], type[Operation]]] = [
+    lambda hive, hbd, vests: AuthorRewardOperation[hive, hbd, vests],
+    lambda _, __, vests: AccountCreatedOperation[vests],
+    lambda _, __, ___: ChangedRecoveryAccountOperation,
+    lambda hive, hbd, vests: ClearNullAccountBalanceOperation[hive, hbd, vests],
+    lambda _, hbd, __: CollateralizedConvertImmediateConversionOperation[hbd],
+    lambda hive, hbd, vests: CommentBenefactorRewardOperation[hive, hbd, vests],
+    lambda _, __, ___: CommentPayoutUpdateOperation,
+    lambda _, hbd, __: CommentRewardOperation[hbd],
+    lambda hive, hbd, vests: ConsolidateTreasuryBalanceOperation[hive, hbd, vests],
+    lambda _, __, vests: CurationRewardOperation[vests],
+    lambda _, __, ___: DeclinedVotingRightsOperation,
+    lambda _, __, ___: DelayedVotingOperation,
+    lambda hive, hbd, _: DhfConversionOperation[hive, hbd],
+    lambda _, hbd, __: DhfFundingOperation[hbd],
+    lambda hive, hbd, _: EscrowApprovedOperation[hive, hbd],
+    lambda hive, hbd, _: EscrowRejectedOperation[hive, hbd],
+    lambda _, __, ___: ExpiredAccountNotificationOperation,
+    lambda hive, hbd, _: FailedRecurrentTransferOperation[hive, hbd],
+    lambda hive, hbd, _: FillCollateralizedConvertRequestOperation[hive, hbd],
+    lambda hive, hbd, _: FillConvertRequestOperation[hive, hbd],
+    lambda hive, hbd, _: FillOrderOperation[hive, hbd],
+    lambda hive, hbd, _: FillRecurrentTransferOperation[hive, hbd],
+    lambda hive, hbd, _: FillTransferFromSavingsOperation[hive, hbd],
+    lambda hive, _, vests: FillVestingWithdrawOperation[hive, vests],
+    lambda hive, hbd, vests: HardforkHiveOperation[hive, hbd, vests],
+    lambda hive, hbd, _: HardforkHiveRestoreOperation[hive, hbd],
+    lambda _, __, ___: HardforkOperation,
+    lambda _, __, ___: IneffectiveDeleteCommentOperation,
+    lambda _, hbd, __: InterestOperation[hbd],
+    lambda hive, hbd, _: LimitOrderCancelledOperation[hive, hbd],
+    lambda hive, _, __: LiquidityRewardOperation[hive],
+    lambda hive, _, vests: PowRewardOperation[hive, vests],
+    lambda _, __, ___: ProducerMissedOperation,
+    lambda hive, _, vests: ProducerRewardOperation[hive, vests],
+    lambda _, hbd, __: ProposalFeeOperation[hbd],
+    lambda _, hbd, __: ProposalPayOperation[hbd],
+    lambda _, __, ___: ProxyClearedOperation,
+    lambda _, __, vests: ReturnVestingDelegationOperation[vests],
+    lambda _, __, ___: ShutDownWitnessOperation,
+    lambda _, __, ___: SystemWarningOperation,
+    lambda hive, _, vests: TransferToVestingCompletedOperation[hive, vests],
+    lambda _, __, vests: VestingSharesSplitOperation[vests],
+]
+
+Hf26VirtualOperationType = Union[  # noqa: UP007
+    tuple(type_factory(AssetHiveHF26, AssetHbdHF26, AssetVestsHF26) for type_factory in list_of_virtual_operations)
+]
+
+LegacyVirtualOperationType = Union[  # noqa: UP007
+    tuple(
+        type_factory(AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy) for type_factory in list_of_virtual_operations
+    )
+]
 
 __all__ = [
     "AccountCreatedOperation",
@@ -152,4 +175,7 @@ __all__ = [
     "SystemWarningOperation",
     "TransferToVestingCompletedOperation",
     "VestingSharesSplitOperation",
+    "Hf26VirtualOperationType",
+    "LegacyVirtualOperationType",
+    "list_of_virtual_operations",
 ]
