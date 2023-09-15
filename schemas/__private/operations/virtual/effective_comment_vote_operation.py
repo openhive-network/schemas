@@ -14,7 +14,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     Int64t,
     Uint64t,
 )
-from schemas.__private.preconfigured_base_model import VirtualOperation
+from schemas.__private.virtual_operation import VirtualOperation
 
 DEFAULT_WEIGHT: Final[Uint64t] = Uint64t(0)
 DEFAULT_RSHARES: Final[Int64t] = Int64t(0)

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from schemas.__private.preconfigured_base_model import VirtualOperation
+from schemas.__private.virtual_operation import VirtualOperation
 
 
 class SystemWarningOperation(VirtualOperation):

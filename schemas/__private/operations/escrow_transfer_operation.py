@@ -13,7 +13,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     HiveDateTime,
     Uint32t,
 )
-from schemas.__private.preconfigured_base_model import Operation
+from schemas.__private.operation import Operation
 
 DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 

@@ -6,7 +6,7 @@ from pydantic import Field
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, AssetHive
-from schemas.__private.preconfigured_base_model import Operation
+from schemas.__private.operation import Operation
 
 
 class TransferOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):

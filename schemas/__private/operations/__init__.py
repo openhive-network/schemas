@@ -16,6 +16,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetVestsHF26,
     AssetVestsLegacy,
 )
+from schemas.__private.operation import Operation
 from schemas.__private.operations.account_create_operation import AccountCreateOperation
 from schemas.__private.operations.account_update2_operation import AccountUpdate2Operation
 from schemas.__private.operations.account_update_operation import AccountUpdateOperation
@@ -69,7 +70,7 @@ from schemas.__private.operations.withdraw_vesting_operation import WithdrawVest
 from schemas.__private.operations.witness_block_approve_operation import WitnessBlockApproveOperation
 from schemas.__private.operations.witness_set_properties_operation import WitnessSetPropertiesOperation
 from schemas.__private.operations.witness_update_operation import WitnessUpdateOperation
-from schemas.__private.preconfigured_base_model import Operation, PreconfiguredBaseModel
+from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 OperationType = (
     AccountCreateOperation[AssetHive]

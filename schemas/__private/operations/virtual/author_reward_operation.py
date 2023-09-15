@@ -5,7 +5,7 @@ from typing import Final, Generic
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, AssetHive, AssetVests
-from schemas.__private.preconfigured_base_model import VirtualOperation
+from schemas.__private.virtual_operation import VirtualOperation
 
 DEFAULT_PAYOUT_MUST_BE_CLAIMED: Final[bool] = False
 

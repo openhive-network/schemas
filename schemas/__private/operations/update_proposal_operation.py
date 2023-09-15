@@ -9,7 +9,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHbd,
     Int64t,
 )
-from schemas.__private.preconfigured_base_model import Operation
+from schemas.__private.operation import Operation
 
 
 class UpdateProposalOperation(Operation, GenericModel, Generic[AssetHbd]):

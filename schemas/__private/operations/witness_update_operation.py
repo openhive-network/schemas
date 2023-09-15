@@ -11,7 +11,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     LegacyChainProperties,
     PublicKey,
 )
-from schemas.__private.preconfigured_base_model import Operation
+from schemas.__private.operation import Operation
 
 
 class WitnessUpdateOperation(Operation, GenericModel, Generic[AssetHive]):
