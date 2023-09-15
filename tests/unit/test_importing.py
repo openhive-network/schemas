@@ -12,13 +12,13 @@ TRANSFER_OPERATION_VALID_DATA: Final[dict[str, Any]] = {
 
 def test_from_schemas_import() -> None:
     # ACT & ASSERT
-    from schemas.operations import TransferOperation
+    from schemas.operations import TransferOperationHF26
 
-    TransferOperation(**TRANSFER_OPERATION_VALID_DATA)
+    TransferOperationHF26(**TRANSFER_OPERATION_VALID_DATA)
 
 
 def test_import_schemas() -> None:
     # ACT & ASSERT
     import schemas
 
-    schemas.operations.TransferOperation(**TRANSFER_OPERATION_VALID_DATA)
+    schemas.operations.TransferOperationHF26(**TRANSFER_OPERATION_VALID_DATA)
