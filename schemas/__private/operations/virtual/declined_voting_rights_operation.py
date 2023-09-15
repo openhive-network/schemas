@@ -5,4 +5,6 @@ from schemas.__private.virtual_operation import VirtualOperation
 
 
 class DeclinedVotingRightsOperation(VirtualOperation):
+    __operation_name__ = "declined_voting_rights"
+
     account: AccountName

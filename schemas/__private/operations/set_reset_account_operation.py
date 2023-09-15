@@ -5,6 +5,8 @@ from schemas.__private.operation import Operation
 
 
 class SetResetAccountOperation(Operation):
+    __operation_name__ = "set_reset_account"
+
     account: AccountName
     current_reset_account: AccountName
     reset_account: AccountName

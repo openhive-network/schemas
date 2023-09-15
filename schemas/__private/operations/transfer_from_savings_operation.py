@@ -5,15 +5,34 @@ from typing import Final, Generic
 from pydantic import Field
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, AssetHive, Uint32t
+from schemas.__private.hive_fields_basic_schemas import (
+    AccountName,
+    AssetHbd,
+    AssetHbdHF26,
+    AssetHbdLegacy,
+    AssetHive,
+    AssetHiveHF26,
+    AssetHiveLegacy,
+    Uint32t,
+)
 from schemas.__private.operation import Operation
 
 DEFAULT_TYPE_ID: Final[Uint32t] = Uint32t(0)
 
 
-class TransferFromSavingsOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
+class _TransferFromSavingsOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
+    __operation_name__ = "transfer_from_savings"
+
     from_: AccountName = Field(alias="from")
     to: AccountName
     request_id: Uint32t = DEFAULT_TYPE_ID
     amount: AssetHive | AssetHbd
     memo: str
+
+
+class TransferFromSavingsOperationHF26(_TransferFromSavingsOperation[AssetHiveHF26, AssetHbdHF26]):
+    ...
+
+
+class TransferFromSavingsOperationLegacy(_TransferFromSavingsOperation[AssetHiveLegacy, AssetHbdLegacy]):
+    ...

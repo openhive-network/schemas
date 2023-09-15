@@ -12,6 +12,8 @@ DEFAULT_APPROVE: Final[bool] = True
 
 
 class EscrowApproveOperation(Operation):
+    __operation_name__ = "escrow_approve"
+
     from_: AccountName = Field(alias="from")
     to: AccountName
     agent: AccountName

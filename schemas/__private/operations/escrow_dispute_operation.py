@@ -11,6 +11,8 @@ DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 
 
 class EscrowDisputeOperation(Operation):
+    __operation_name__ = "escrow_dispute"
+
     from_: AccountName = Field(alias="from")
     to: AccountName
     agent: AccountName

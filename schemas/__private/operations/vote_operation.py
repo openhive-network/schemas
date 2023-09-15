@@ -9,6 +9,8 @@ DEFAULT_WEIGHT: Final[Int16t] = Int16t(0)
 
 
 class VoteOperation(Operation):
+    __operation_name__ = "vote"
+
     voter: AccountName
     author: AccountName
     permlink: str

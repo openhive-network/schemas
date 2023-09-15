@@ -9,5 +9,7 @@ DEFAULT_DECLINE: Final[bool] = True
 
 
 class DeclineVotingRightsOperation(Operation):
+    __operation_name__ = "decline_voting_rights"
+
     account: AccountName
     decline: bool = DEFAULT_DECLINE

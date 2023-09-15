@@ -5,5 +5,7 @@ from schemas.__private.operation import Operation
 
 
 class AccountWitnessProxyOperation(Operation):
+    __operation_name__ = "account_witness_proxy"
+
     account: AccountName
     proxy: AccountName | EmptyString

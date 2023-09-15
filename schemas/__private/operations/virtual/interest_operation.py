@@ -4,13 +4,23 @@ from typing import Final, Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd
+from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, AssetHbdHF26, AssetHbdLegacy
 from schemas.__private.virtual_operation import VirtualOperation
 
 DEFAULT_IS_SAVED_INTO_HBD_BALANCE: Final[bool] = False
 
 
-class InterestOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
+class _InterestOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
+    __operation_name__ = "interest"
+
     owner: AccountName
     interest: AssetHbd
     is_saved_into_hbd_balance: bool = DEFAULT_IS_SAVED_INTO_HBD_BALANCE
+
+
+class InterestOperationHF26(_InterestOperation[AssetHbdHF26]):
+    ...
+
+
+class InterestOperationLegacy(_InterestOperation[AssetHbdLegacy]):
+    ...

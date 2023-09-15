@@ -9,5 +9,7 @@ DEFAULT_ORDER_ID: Final[Uint32t] = Uint32t(0)
 
 
 class LimitOrderCancelOperation(Operation):
+    __operation_name__ = "limit_order_cancel"
+
     owner: AccountName
     order_id: Uint32t = DEFAULT_ORDER_ID

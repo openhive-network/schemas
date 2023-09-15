@@ -9,6 +9,8 @@ DEFAULT_APPROVE: Final[bool] = True
 
 
 class AccountWitnessVoteOperation(Operation):
+    __operation_name__ = "account_witness_vote"
+
     account: AccountName
     witness: AccountName
     approve: bool = DEFAULT_APPROVE

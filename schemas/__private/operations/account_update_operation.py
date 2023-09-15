@@ -5,6 +5,8 @@ from schemas.__private.operation import Operation
 
 
 class AccountUpdateOperation(Operation):
+    __operation_name__ = "account_update"
+
     account: AccountName
     owner: Authority | None = None
     active: Authority | None = None

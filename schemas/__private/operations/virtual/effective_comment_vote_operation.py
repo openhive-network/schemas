@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC
 from typing import Final, Generic
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_basic_schemas import (
@@ -25,7 +25,9 @@ class Empty(BaseModel):
     pass
 
 
-class EffectiveCommentVoteOperation(VirtualOperation, GenericModel, Generic[AssetHbd], ABC):
+class _EffectiveCommentVoteOperation(VirtualOperation, GenericModel, Generic[AssetHbd], ABC):
+    __operation_name__ = "effective_comment_vote"
+
     voter: AccountName
     author: AccountName
     permlink: str
@@ -35,25 +37,9 @@ class EffectiveCommentVoteOperation(VirtualOperation, GenericModel, Generic[Asse
     pending_payout: AssetHbd
 
 
-class LegacyEffectiveCommentVoteOperation(EffectiveCommentVoteOperation[AssetHbdLegacy]):
-    pending_payout: AssetHbdLegacy = Field(default_factory=lambda: AssetHbdLegacy("0.000 HBD"))
-
-    @classmethod
-    def get_class_name(cls) -> str:
-        return EffectiveCommentVoteOperation.get_class_name()
-
-    @classmethod
-    def get_name(cls) -> str:
-        return EffectiveCommentVoteOperation.get_name()
+class EffectiveCommentVoteOperationHF26(_EffectiveCommentVoteOperation[AssetHbdHF26]):
+    ...
 
 
-class NaiEffectiveCommentVoteOperation(EffectiveCommentVoteOperation[AssetHbdHF26]):
-    pending_payout: AssetHbdHF26 = Field(default_factory=lambda: AssetHbdHF26(amount="0"))
-
-    @classmethod
-    def get_class_name(cls) -> str:
-        return EffectiveCommentVoteOperation.get_class_name()
-
-    @classmethod
-    def get_name(cls) -> str:
-        return EffectiveCommentVoteOperation.get_name()
+class EffectiveCommentVoteOperationLegacy(_EffectiveCommentVoteOperation[AssetHbdLegacy]):
+    ...

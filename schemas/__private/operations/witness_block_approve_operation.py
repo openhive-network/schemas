@@ -5,5 +5,7 @@ from schemas.__private.operation import Operation
 
 
 class WitnessBlockApproveOperation(Operation):
+    __operation_name__ = "witness_block_approve"
+
     witness: AccountName
     block_id: Uint32t

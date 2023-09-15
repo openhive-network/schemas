@@ -23,12 +23,16 @@ DEFAULT_FILL_OR_KILL: Final[bool] = False
 
 
 class LegacyChainProperties(PreconfiguredBaseModel):
+    __operation_name__ = "legacy_chain_properties"
+
     maximum_block_size: Uint32t
     hbd_interest_rate: Uint16t
     account_creation_fee: Any
 
 
 class Work(PreconfiguredBaseModel):
+    __operation_name__ = "work"
+
     worker: PublicKey
     input_: Sha256 = Field(alias="input")
     signature: Signature
@@ -36,6 +40,8 @@ class Work(PreconfiguredBaseModel):
 
 
 class PowOperation(Operation):
+    __operation_name__ = "pow"
+
     worker_account: AccountName
     block_id: TransactionId
     nonce: Uint64t

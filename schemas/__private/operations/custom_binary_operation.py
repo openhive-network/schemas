@@ -7,6 +7,8 @@ from schemas.__private.operation import Operation
 
 
 class CustomBinaryOperation(Operation):
+    __operation_name__ = "custom_binary"
+
     required_owner_auths: list[AccountName]
     required_active_auths: list[AccountName]
     required_posting_auths: list[AccountName]

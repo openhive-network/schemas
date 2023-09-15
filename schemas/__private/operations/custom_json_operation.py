@@ -9,6 +9,8 @@ from schemas.__private.operation import Operation
 
 
 class CustomJsonOperation(Operation):
+    __operation_name__ = "custom_json"
+
     required_auths: list[AccountName]
     required_posting_auths: list[AccountName]
     id_: CustomIdType = Field(alias="id")

@@ -5,5 +5,7 @@ from schemas.__private.operation import Operation
 
 
 class FeedPublishOperation(Operation):
+    __operation_name__ = "feed_publish"
+
     publisher: AccountName
     exchange_rate: HbdExchangeRate[AssetHiveHF26, AssetHbdHF26]

@@ -9,6 +9,8 @@ DEFAULT_APPROVE: Final[bool] = False
 
 
 class UpdateProposalVotesOperation(Operation):
+    __operation_name__ = "update_proposal_votes"
+
     voter: AccountName
     proposal_ids: list[Int64t]
     approve: bool = DEFAULT_APPROVE

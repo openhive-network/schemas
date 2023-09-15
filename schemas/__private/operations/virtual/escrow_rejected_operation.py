@@ -5,13 +5,24 @@ from typing import Final, Generic
 from pydantic import Field
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, AssetHive, Uint32t
+from schemas.__private.hive_fields_basic_schemas import (
+    AccountName,
+    AssetHbd,
+    AssetHbdHF26,
+    AssetHbdLegacy,
+    AssetHive,
+    AssetHiveHF26,
+    AssetHiveLegacy,
+    Uint32t,
+)
 from schemas.__private.virtual_operation import VirtualOperation
 
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class EscrowRejectedOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd]):
+class _EscrowRejectedOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd]):
+    __operation_name__ = "escrow_rejected"
+
     from_: AccountName = Field(alias="from")
     to: AccountName
     agent: AccountName
@@ -19,3 +30,11 @@ class EscrowRejectedOperation(VirtualOperation, GenericModel, Generic[AssetHive,
     hbd_amount: AssetHbd
     hive_amount: AssetHive
     fee: AssetHive | AssetHbd
+
+
+class EscrowRejectedOperationHF26(_EscrowRejectedOperation[AssetHiveHF26, AssetHbdHF26]):
+    ...
+
+
+class EscrowRejectedOperationLegacy(_EscrowRejectedOperation[AssetHiveLegacy, AssetHbdLegacy]):
+    ...

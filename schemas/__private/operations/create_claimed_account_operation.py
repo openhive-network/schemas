@@ -5,6 +5,8 @@ from schemas.__private.operation import Operation
 
 
 class CreateClaimedAccountOperation(Operation):
+    __operation_name__ = "create_claimed_account"
+
     creator: AccountName
     new_account_name: AccountName
     owner: Authority

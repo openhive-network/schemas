@@ -10,6 +10,8 @@ DEFAULT_AUTO_VEST: Final[bool] = False
 
 
 class SetWithdrawVestingRouteOperation(Operation):
+    __operation_name__ = "set_withdraw_vesting_route"
+
     from_account: AccountName
     to_account: AccountName
     percent: Uint16t = DEFAULT_PERCENT

@@ -8,7 +8,11 @@ from pydantic.generics import GenericModel
 from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
     AssetHbd,
+    AssetHbdHF26,
+    AssetHbdLegacy,
     AssetHive,
+    AssetHiveHF26,
+    AssetHiveLegacy,
     EmptyString,
     HiveDateTime,
     Uint32t,
@@ -18,7 +22,9 @@ from schemas.__private.operation import Operation
 DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 
 
-class EscrowTransferOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
+class _EscrowTransferOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
+    __operation_name__ = "escrow_transfer"
+
     from_: AccountName = Field(alias="from")
     to: AccountName
     agent: AccountName
@@ -29,3 +35,11 @@ class EscrowTransferOperation(Operation, GenericModel, Generic[AssetHive, AssetH
     ratification_deadline: HiveDateTime
     escrow_expiration: HiveDateTime
     json_meta: Json[Any] | EmptyString
+
+
+class EscrowTransferOperationHF26(_EscrowTransferOperation[AssetHiveHF26, AssetHbdHF26]):
+    ...
+
+
+class EscrowTransferOperationLegacy(_EscrowTransferOperation[AssetHiveLegacy, AssetHbdLegacy]):
+    ...

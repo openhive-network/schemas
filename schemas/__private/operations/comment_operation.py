@@ -9,6 +9,8 @@ If operation creates comment -> parent_author field empty string
 
 
 class CommentOperation(Operation):
+    __operation_name__ = "comment"
+
     parent_author: AccountName | EmptyString
     parent_permlink: str
     author: AccountName

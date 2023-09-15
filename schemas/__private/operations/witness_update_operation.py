@@ -8,15 +8,26 @@ from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
     AssetHive,
     AssetHiveHF26,
+    AssetHiveLegacy,
     LegacyChainProperties,
     PublicKey,
 )
 from schemas.__private.operation import Operation
 
 
-class WitnessUpdateOperation(Operation, GenericModel, Generic[AssetHive]):
+class _WitnessUpdateOperation(Operation, GenericModel, Generic[AssetHive]):
+    __operation_name__ = "witness_update"
+
     owner: AccountName
     url: str
     block_signing_key: PublicKey
     props: LegacyChainProperties[AssetHiveHF26]
     fee: AssetHive  # currently ignored but validated
+
+
+class WitnessUpdateOperationHF26(_WitnessUpdateOperation[AssetHiveHF26]):
+    ...
+
+
+class WitnessUpdateOperationLegacy(_WitnessUpdateOperation[AssetHiveLegacy]):
+    ...

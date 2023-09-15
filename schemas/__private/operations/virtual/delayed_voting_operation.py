@@ -9,5 +9,7 @@ DEFAULT_VOTES: Final[UShareType] = UShareType(0)
 
 
 class DelayedVotingOperation(VirtualOperation):
+    __operation_name__ = "delayed_voting"
+
     voter: AccountName
     votes: UShareType = DEFAULT_VOTES

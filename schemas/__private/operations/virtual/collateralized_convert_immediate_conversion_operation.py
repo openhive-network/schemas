@@ -4,13 +4,33 @@ from typing import Final, Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, Uint32t
+from schemas.__private.hive_fields_basic_schemas import (
+    AccountName,
+    AssetHbd,
+    AssetHbdHF26,
+    AssetHbdLegacy,
+    Uint32t,
+)
 from schemas.__private.virtual_operation import VirtualOperation
 
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class CollateralizedConvertImmediateConversionOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
+class _CollateralizedConvertImmediateConversionOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
+    __operation_name__ = "collateralized_convert_immediate_conversion"
+
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
     hbd_out: AssetHbd
+
+
+class CollateralizedConvertImmediateConversionOperationHF26(
+    _CollateralizedConvertImmediateConversionOperation[AssetHbdHF26]
+):
+    ...
+
+
+class CollateralizedConvertImmediateConversionOperationLegacy(
+    _CollateralizedConvertImmediateConversionOperation[AssetHbdLegacy]
+):
+    ...

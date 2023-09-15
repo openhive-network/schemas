@@ -7,6 +7,8 @@ from schemas.__private.operation import Operation
 
 
 class CustomOperation(Operation):
+    __operation_name__ = "custom"
+
     required_auths: list[AccountName]
     id_: Uint16t = Field(alias="id")
     data: list[str]

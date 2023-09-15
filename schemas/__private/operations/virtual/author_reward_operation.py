@@ -4,13 +4,26 @@ from typing import Final, Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, AssetHive, AssetVests
+from schemas.__private.hive_fields_basic_schemas import (
+    AccountName,
+    AssetHbd,
+    AssetHbdHF26,
+    AssetHbdLegacy,
+    AssetHive,
+    AssetHiveHF26,
+    AssetHiveLegacy,
+    AssetVests,
+    AssetVestsHF26,
+    AssetVestsLegacy,
+)
 from schemas.__private.virtual_operation import VirtualOperation
 
 DEFAULT_PAYOUT_MUST_BE_CLAIMED: Final[bool] = False
 
 
-class AuthorRewardOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
+class _AuthorRewardOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
+    __operation_name__ = "author_reward"
+
     author: AccountName
     permlink: str
     hbd_payout: AssetHbd
@@ -18,3 +31,11 @@ class AuthorRewardOperation(VirtualOperation, GenericModel, Generic[AssetHive, A
     vesting_payout: AssetVests
     curators_vesting_payout: AssetVests
     payout_must_be_claimed: bool = DEFAULT_PAYOUT_MUST_BE_CLAIMED
+
+
+class AuthorRewardOperationHF26(_AuthorRewardOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
+    ...
+
+
+class AuthorRewardOperationLegacy(_AuthorRewardOperation[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]):
+    ...

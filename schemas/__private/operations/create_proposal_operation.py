@@ -4,11 +4,19 @@ from typing import Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, HiveDateTime
+from schemas.__private.hive_fields_basic_schemas import (
+    AccountName,
+    AssetHbd,
+    AssetHbdHF26,
+    AssetHbdLegacy,
+    HiveDateTime,
+)
 from schemas.__private.operation import Operation
 
 
-class CreateProposalOperation(Operation, GenericModel, Generic[AssetHbd]):
+class _CreateProposalOperation(Operation, GenericModel, Generic[AssetHbd]):
+    __operation_name__ = "create_proposal"
+
     creator: AccountName
     receiver: AccountName
     start_date: HiveDateTime
@@ -16,3 +24,11 @@ class CreateProposalOperation(Operation, GenericModel, Generic[AssetHbd]):
     daily_pay: AssetHbd
     subject: str
     permlink: str
+
+
+class CreateProposalOperationHF26(_CreateProposalOperation[AssetHbdHF26]):
+    ...
+
+
+class CreateProposalOperationLegacy(_CreateProposalOperation[AssetHbdLegacy]):
+    ...

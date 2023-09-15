@@ -5,5 +5,7 @@ from schemas.__private.operation import Operation
 
 
 class ChangeRecoveryAccountOperation(Operation):
+    __operation_name__ = "change_recovery_account"
+
     account_to_recover: AccountName
     new_recovery_account: AccountName

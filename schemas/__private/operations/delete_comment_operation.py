@@ -5,5 +5,7 @@ from schemas.__private.operation import Operation
 
 
 class DeleteCommentOperation(Operation):
+    __operation_name__ = "delete_comment"
+
     author: AccountName
     permlink: str
