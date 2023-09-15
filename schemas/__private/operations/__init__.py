@@ -101,7 +101,7 @@ OperationType = (
     | EscrowTransferOperation[AssetHive, AssetHbd]
     | FeedPublishOperation
     | LimitOrderCancelOperation
-    | LimitOrderCreate2Operation[AssetHbd, AssetHive]
+    | LimitOrderCreate2Operation[AssetHive, AssetHbd]
     | LimitOrderCreateOperation[AssetHive, AssetHbd]
     | RecoverAccountOperation
     | RecurrentTransferOperation[AssetHive, AssetHbd]
