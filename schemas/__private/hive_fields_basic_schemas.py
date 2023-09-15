@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING, Any, Generic, TypeVar
 from pydantic import ConstrainedInt, ConstrainedList, ConstrainedStr, PrivateAttr, StrRegexError, validator
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_constants import HBD_INTEREST_RATE, MAXIMUM_BLOCK_SIZE
+from schemas.__private.hive_constants import HIVE_HBD_INTEREST_RATE, HIVE_MAX_BLOCK_SIZE
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 if TYPE_CHECKING:
@@ -323,8 +323,8 @@ class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetH
     """
 
     account_creation_fee: AssetHive
-    maximum_block_size: Uint32t = Uint32t(MAXIMUM_BLOCK_SIZE)
-    hbd_interest_rate: Uint16t = Uint16t(HBD_INTEREST_RATE)
+    maximum_block_size: Uint32t = Uint32t(HIVE_MAX_BLOCK_SIZE)
+    hbd_interest_rate: Uint16t = Uint16t(HIVE_HBD_INTEREST_RATE)
 
 
 class ShareType(Int64t):
