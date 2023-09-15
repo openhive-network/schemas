@@ -15,5 +15,5 @@ class TransferFromSavingsOperation(Operation, GenericModel, Generic[AssetHive, A
     from_: AccountName = Field(alias="from")
     to: AccountName
     request_id: Uint32t = DEFAULT_TYPE_ID
-    amount: AssetHbd | AssetHive
+    amount: AssetHive | AssetHbd
     memo: str

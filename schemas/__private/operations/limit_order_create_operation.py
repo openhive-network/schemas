@@ -20,7 +20,7 @@ DEFAULT_FILL_OR_KILL: Final[bool] = False
 class LimitOrderCreateOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
     owner: AccountName
     orderid: Uint32t = DEFAULT_ORDER_ID
-    amount_to_sell: AssetHbd | AssetHive
-    min_to_receive: AssetHbd | AssetHive
+    amount_to_sell: AssetHive | AssetHbd
+    min_to_receive: AssetHive | AssetHbd
     fill_or_kill: bool = DEFAULT_FILL_OR_KILL
     expiration: HiveDateTime

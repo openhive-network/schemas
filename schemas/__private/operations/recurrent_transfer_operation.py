@@ -16,7 +16,7 @@ DEFAULT_EXTENSIONS: Final[list[Uint8t]] = [Uint8t(0)]
 class RecurrentTransferOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
     from_: AccountName = Field(alias="from")
     to: AccountName
-    amount: AssetHbd | AssetHive
+    amount: AssetHive | AssetHbd
     memo: str
     recurrence: Uint16t = DEFAULT_RECURRENCE
     executions: Uint16t = DEFAULT_EXECUTIONS

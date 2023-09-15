@@ -10,4 +10,4 @@ from schemas.__private.virtual_operation import VirtualOperation
 
 class ProducerRewardOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetVests]):
     producer: AccountName
-    vesting_shares: AssetVests | AssetHive
+    vesting_shares: AssetHive | AssetVests

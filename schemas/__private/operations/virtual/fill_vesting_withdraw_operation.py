@@ -12,4 +12,4 @@ class FillVestingWithdrawOperation(VirtualOperation, GenericModel, Generic[Asset
     from_account: AccountName
     to_account: AccountName
     withdrawn: AssetVests
-    deposited: AssetVests | AssetHive
+    deposited: AssetHive | AssetVests

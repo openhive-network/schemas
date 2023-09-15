@@ -12,5 +12,5 @@ from schemas.__private.operation import Operation
 class TransferToSavingsOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
     from_: AccountName = Field(alias="from")
     to: AccountName
-    amount: AssetHbd | AssetHive
+    amount: AssetHive | AssetHbd
     memo: str
