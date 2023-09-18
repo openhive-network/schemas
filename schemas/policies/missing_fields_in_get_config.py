@@ -6,7 +6,7 @@ from typing import Generic
 from pydantic import Field, create_model
 from pydantic.generics import GenericModel
 
-from schemas.__private.policies.policy import Policy
+from schemas.policies.policy import Policy
 
 
 @dataclass

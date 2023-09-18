@@ -4,8 +4,8 @@ from dataclasses import dataclass
 
 from pydantic import Extra
 
-from schemas.__private.policies.policy import Policy
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.policies.policy import Policy
 
 
 @dataclass
