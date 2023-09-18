@@ -37,12 +37,12 @@ from schemas.apis.database_api.fundaments_of_reponses import (
 )
 from schemas.fields.basic import (
     AccountName,
-    AssetHbd,
     AssetHbdHF26,
-    AssetHive,
+    AssetHbdT,
     AssetHiveHF26,
-    AssetVests,
+    AssetHiveT,
     AssetVestsHF26,
+    AssetVestsT,
     EmptyString,
     HbdSymbolType,
     HiveList,
@@ -151,7 +151,7 @@ class GetCommentPendingPayouts(PreconfiguredBaseModel):
     cashout_infos: HiveList[GetCommentPendingPayoutsFundament[AssetHbdHF26]]
 
 
-class GetConfigOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class GetConfigOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     """
     This response includes just one dict, so also doesn't need fundament class
     To use this class choose type of Assets so:
@@ -275,20 +275,20 @@ class GetConfigOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, Ass
     HIVE_CREATE_ACCOUNT_WITH_HIVE_MODIFIER: HiveInt
     HIVE_CREATE_ACCOUNT_DELEGATION_RATIO: HiveInt
     HIVE_CREATE_ACCOUNT_DELEGATION_TIME: HiveInt
-    HIVE_MINING_REWARD: AssetHive
+    HIVE_MINING_REWARD: AssetHiveT
     HIVE_EQUIHASH_N: HiveInt
     HIVE_EQUIHASH_K: HiveInt
     HIVE_LIQUIDITY_TIMEOUT_SEC: HiveInt
     HIVE_MIN_LIQUIDITY_REWARD_PERIOD_SEC: HiveInt
     HIVE_LIQUIDITY_REWARD_PERIOD_SEC: HiveInt
     HIVE_LIQUIDITY_REWARD_BLOCKS: HiveInt
-    HIVE_MIN_LIQUIDITY_REWARD: AssetHive
-    HIVE_MIN_CONTENT_REWARD: AssetHive
-    HIVE_MIN_CURATE_REWARD: AssetHive
-    HIVE_MIN_PRODUCER_REWARD: AssetHive
-    HIVE_MIN_POW_REWARD: AssetHive
-    HIVE_ACTIVE_CHALLENGE_FEE: AssetHive
-    HIVE_OWNER_CHALLENGE_FEE: AssetHive
+    HIVE_MIN_LIQUIDITY_REWARD: AssetHiveT
+    HIVE_MIN_CONTENT_REWARD: AssetHiveT
+    HIVE_MIN_CURATE_REWARD: AssetHiveT
+    HIVE_MIN_PRODUCER_REWARD: AssetHiveT
+    HIVE_MIN_POW_REWARD: AssetHiveT
+    HIVE_ACTIVE_CHALLENGE_FEE: AssetHiveT
+    HIVE_OWNER_CHALLENGE_FEE: AssetHiveT
     HIVE_ACTIVE_CHALLENGE_COOLDOWN: HiveInt
     HIVE_OWNER_CHALLENGE_COOLDOWN: HiveInt
     HIVE_POST_REWARD_FUND_NAME: str
@@ -307,7 +307,7 @@ class GetConfigOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, Ass
     HIVE_LIQUIDITY_APR_PERCENT: HiveInt
     HIVE_PRODUCER_APR_PERCENT: HiveInt
     HIVE_POW_APR_PERCENT: HiveInt
-    HIVE_MIN_PAYOUT_HBD: AssetHbd
+    HIVE_MIN_PAYOUT_HBD: AssetHbdT
     HIVE_HBD_START_PERCENT_HF14: HiveInt
     HIVE_HBD_STOP_PERCENT_HF14: HiveInt
     HIVE_HBD_START_PERCENT_HF20: HiveInt
@@ -418,7 +418,7 @@ class GetCurrentPriceFeed(Price[AssetHiveHF26, AssetHbdHF26]):
     """
 
 
-class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
+class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     """
     This class doesn't need fundament class
     You need to choose asset format by generics when you want to use this class
@@ -427,9 +427,9 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[A
     available_account_subsidies: HiveInt
     content_reward_percent: HiveInt
     current_aslot: HiveInt
-    current_hbd_supply: AssetHbd
+    current_hbd_supply: AssetHbdT
     current_remove_threshold: HiveInt
-    current_supply: AssetHive
+    current_supply: AssetHiveT
     current_witness: AccountName
     delegation_return_period: HiveInt
     downvote_pool_percent: HiveInt
@@ -441,7 +441,7 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[A
     head_block_id: TransactionId
     head_block_number: HiveInt
     id_: HiveInt = Field(alias="id")
-    init_hbd_supply: AssetHbd
+    init_hbd_supply: AssetHbdT
     last_budget_time: HiveDateTime
     last_irreversible_block_num: HiveInt
     max_consecutive_recurrent_transfer_failures: HiveInt
@@ -454,34 +454,34 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[A
     next_maintenance_time: HiveDateTime
     num_pow_witnesses: HiveInt
     participation_count: HiveInt
-    pending_rewarded_vesting_hive: AssetHive
-    pending_rewarded_vesting_shares: AssetVests
+    pending_rewarded_vesting_hive: AssetHiveT
+    pending_rewarded_vesting_shares: AssetVestsT
     recent_slots_filled: HiveInt
     reverse_auction_seconds: HiveInt
     proposal_fund_percent: HiveInt
-    dhf_interval_ledger: AssetHbd
+    dhf_interval_ledger: AssetHbdT
     time: HiveDateTime
     total_pow: HiveInt
-    total_reward_fund_hive: AssetHive
+    total_reward_fund_hive: AssetHiveT
     total_reward_shares2: HiveInt
-    total_vesting_fund_hive: AssetHive
-    total_vesting_shares: AssetVests
+    total_vesting_fund_hive: AssetHiveT
+    total_vesting_shares: AssetVestsT
     vesting_reward_percent: HiveInt
-    virtual_supply: AssetHive
+    virtual_supply: AssetHiveT
     vote_power_reserve_rate: HiveInt
 
 
-class GetFeedHistory(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class GetFeedHistory(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     """
     This class doesn't need fundament class.
     """
 
     id_: HiveInt = Field(alias="id")
-    current_median_history: Price[AssetHive, AssetHbd]
-    market_median_history: Price[AssetHive, AssetHbd]
-    current_min_history: Price[AssetHive, AssetHbd]
-    current_max_history: Price[AssetHive, AssetHbd]
-    price_history: list[Price[AssetHive, AssetHbd]]
+    current_median_history: Price[AssetHiveT, AssetHbdT]
+    market_median_history: Price[AssetHiveT, AssetHbdT]
+    current_min_history: Price[AssetHiveT, AssetHbdT]
+    current_max_history: Price[AssetHiveT, AssetHbdT]
+    price_history: list[Price[AssetHiveT, AssetHbdT]]
 
 
 class GetHardforkProperties(PreconfiguredBaseModel):
@@ -528,7 +528,7 @@ class GetVersion(HiveVersion):
     """Identical response as HiveVersion field"""
 
 
-class GetWitnessSchedule(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+class GetWitnessSchedule(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
     """When want to use must specify Asset type by Generic"""
 
     id_: HiveInt = Field(alias="id")
@@ -541,7 +541,7 @@ class GetWitnessSchedule(PreconfiguredBaseModel, GenericModel, Generic[AssetHive
     timeshare_weight: HiveInt
     miner_weight: HiveInt
     witness_pay_normalization_factor: HiveInt
-    median_props: Props[AssetHive]
+    median_props: Props[AssetHiveT]
     majority_version: HardforkVersion
     max_voted_witnesses: HiveInt
     max_miner_witnesses: HiveInt
@@ -550,7 +550,7 @@ class GetWitnessSchedule(PreconfiguredBaseModel, GenericModel, Generic[AssetHive
     account_subsidy_rd: RdDynamicParams
     account_subsidy_witness_rd: RdDynamicParams
     min_witness_account_subsidy_decay: HiveInt
-    future_changes: GetWitnessScheduleFutureChangesFundament[AssetHive] | None = None
+    future_changes: GetWitnessScheduleFutureChangesFundament[AssetHiveT] | None = None
 
 
 class IsKnownTransaction(PreconfiguredBaseModel):

@@ -4,15 +4,15 @@ from typing import Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.fields.basic import AccountName, AssetHbd, AssetHbdHF26, AssetHbdLegacy
+from schemas.fields.basic import AccountName, AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.virtual_operation import VirtualOperation
 
 
-class _DhfFundingOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
+class _DhfFundingOperation(VirtualOperation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "dhf_funding"
 
     treasury: AccountName
-    additional_funds: AssetHbd
+    additional_funds: AssetHbdT
 
 
 class DhfFundingOperation(_DhfFundingOperation[AssetHbdHF26]):

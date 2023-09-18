@@ -6,21 +6,21 @@ from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
     AccountName,
-    AssetHive,
     AssetHiveHF26,
     AssetHiveLegacy,
-    AssetVests,
+    AssetHiveT,
     AssetVestsHF26,
     AssetVestsLegacy,
+    AssetVestsT,
 )
 from schemas.virtual_operation import VirtualOperation
 
 
-class _ProducerRewardOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetVests]):
+class _ProducerRewardOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetVestsT]):
     __operation_name__ = "producer_reward"
 
     producer: AccountName
-    vesting_shares: AssetHive | AssetVests
+    vesting_shares: AssetHiveT | AssetVestsT
 
 
 class ProducerRewardOperation(_ProducerRewardOperation[AssetHiveHF26, AssetVestsHF26]):

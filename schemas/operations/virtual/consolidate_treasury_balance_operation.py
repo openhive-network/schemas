@@ -5,23 +5,23 @@ from typing import Generic
 from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
-    AssetHbd,
     AssetHbdHF26,
     AssetHbdLegacy,
-    AssetHive,
+    AssetHbdT,
     AssetHiveHF26,
     AssetHiveLegacy,
-    AssetVests,
+    AssetHiveT,
     AssetVestsHF26,
     AssetVestsLegacy,
+    AssetVestsT,
 )
 from schemas.virtual_operation import VirtualOperation
 
 
-class _ConsolidateTreasuryBalanceOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
+class _ConsolidateTreasuryBalanceOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     __operation_name__ = "consolidate_treasury_balance"
 
-    total_moved: list[AssetHive | AssetHbd | AssetVests]
+    total_moved: list[AssetHiveT | AssetHbdT | AssetVestsT]
 
 
 class ConsolidateTreasuryBalanceOperation(

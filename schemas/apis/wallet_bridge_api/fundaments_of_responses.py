@@ -8,9 +8,9 @@ from pydantic.generics import GenericModel
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import (
     AccountName,
-    AssetHbd,
-    AssetHive,
-    AssetVests,
+    AssetHbdT,
+    AssetHiveT,
+    AssetVestsT,
     Authority,
     EmptyString,
     PublicKey,
@@ -20,7 +20,7 @@ from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 
 
-class Account(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):
+class Account(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     id_: HiveInt = Field(alias="id")
     name: AccountName
     owner: Authority
@@ -44,26 +44,26 @@ class Account(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd,
     can_vote: bool
     voting_manabar: Manabar
     downvote_manabar: Manabar
-    balance: AssetHive
-    savings_balance: AssetHive
-    hbd_balance: AssetHbd
+    balance: AssetHiveT
+    savings_balance: AssetHiveT
+    hbd_balance: AssetHbdT
     hbd_seconds: HiveInt
     hbd_seconds_last_update: HiveDateTime
     hbd_last_interest_payment: HiveDateTime
-    savings_hbd_balance: AssetHbd
+    savings_hbd_balance: AssetHbdT
     savings_hbd_seconds: HiveInt
     savings_hbd_seconds_last_update: HiveDateTime
     savings_hbd_last_interest_payment: HiveDateTime
     savings_withdraw_requests: HiveInt
-    reward_hbd_balance: AssetHbd
-    reward_hive_balance: AssetHive
-    reward_vesting_balance: AssetVests
-    reward_vesting_hive: AssetHive
-    vesting_shares: AssetVests
-    delegated_vesting_shares: AssetVests
-    received_vesting_shares: AssetVests
-    vesting_withdraw_rate: AssetVests
-    post_voting_power: AssetVests
+    reward_hbd_balance: AssetHbdT
+    reward_hive_balance: AssetHiveT
+    reward_vesting_balance: AssetVestsT
+    reward_vesting_hive: AssetHiveT
+    vesting_shares: AssetVestsT
+    delegated_vesting_shares: AssetVestsT
+    received_vesting_shares: AssetVestsT
+    vesting_withdraw_rate: AssetVestsT
+    post_voting_power: AssetVestsT
     next_vesting_withdrawal: HiveDateTime
     withdrawn: HiveInt
     to_withdraw: HiveInt
@@ -85,29 +85,31 @@ class Account(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd,
     delayed_votes: list[DelayedVotes] = Field(default_factory=list)
 
 
-class GetCollateralizedConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class GetCollateralizedConversionRequestsFundament(
+    PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]
+):
     id_: HiveInt = Field(alias="id")
     owner: AccountName
     requestid: HiveInt
-    collateral_amount: AssetHive
-    converted_amount: AssetHbd
+    collateral_amount: AssetHiveT
+    converted_amount: AssetHbdT
     conversion_date: HiveDateTime
 
 
-class GetConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
+class GetConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHbdT]):
     id_: HiveInt = Field(alias="id")
     owner: AccountName
     requestid: HiveInt
-    amount: AssetHbd
+    amount: AssetHbdT
     conversion_date: HiveDateTime
 
 
-class FindRecurrentTransfersFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+class FindRecurrentTransfersFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
     id_: HiveInt = Field(alias="id")
     trigger_date: HiveDateTime
     from_: AccountName = Field(alias="from")
     to: AccountName
-    amount: AssetHive
+    amount: AssetHiveT
     memo: str
     recurrence: HiveInt
     consecutive_failures: HiveInt

@@ -22,8 +22,8 @@ from schemas.apis.wallet_bridge_api.fundaments_of_responses import (
 from schemas.fields.basic import (
     AccountName,
     AssetHbdHF26,
-    AssetHive,
     AssetHiveHF26,
+    AssetHiveT,
     AssetVestsHF26,
     HiveList,
 )
@@ -79,8 +79,8 @@ class GetBlock(PreconfiguredBaseModel):
     block: fundaments_block_api.Hf26Block | None = None
 
 
-class GetChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
-    account_creation_fee: AssetHive
+class GetChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
+    account_creation_fee: AssetHiveT
     maximum_block_size: HiveInt
     hbd_interest_rate: HiveInt
     account_subsidy_budget: HiveInt

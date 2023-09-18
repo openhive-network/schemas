@@ -7,12 +7,12 @@ from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
     AccountName,
-    AssetHbd,
     AssetHbdHF26,
     AssetHbdLegacy,
-    AssetHive,
+    AssetHbdT,
     AssetHiveHF26,
     AssetHiveLegacy,
+    AssetHiveT,
     Uint8t,
     Uint16t,
 )
@@ -23,12 +23,12 @@ DEFAULT_EXECUTIONS: Final[Uint16t] = Uint16t(0)
 DEFAULT_EXTENSIONS: Final[list[Uint8t]] = [Uint8t(0)]
 
 
-class _RecurrentTransferOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
+class _RecurrentTransferOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "recurrent_transfer"
 
     from_: AccountName = Field(alias="from")
     to: AccountName
-    amount: AssetHive | AssetHbd
+    amount: AssetHiveT | AssetHbdT
     memo: str
     recurrence: Uint16t = DEFAULT_RECURRENCE
     executions: Uint16t = DEFAULT_EXECUTIONS

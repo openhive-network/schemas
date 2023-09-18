@@ -6,23 +6,23 @@ from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
     AccountName,
-    AssetHbd,
     AssetHbdHF26,
     AssetHbdLegacy,
-    AssetHive,
+    AssetHbdT,
     AssetHiveHF26,
     AssetHiveLegacy,
+    AssetHiveT,
 )
 from schemas.virtual_operation import VirtualOperation
 
 
-class _HardforkHiveRestoreOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd]):
+class _HardforkHiveRestoreOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "hardfork_hive_restore"
 
     account: AccountName
     treasury: AccountName
-    hbd_transferred: AssetHbd
-    hive_transferred: AssetHive
+    hbd_transferred: AssetHbdT
+    hive_transferred: AssetHiveT
 
 
 class HardforkHiveRestoreOperation(_HardforkHiveRestoreOperation[AssetHiveHF26, AssetHbdHF26]):

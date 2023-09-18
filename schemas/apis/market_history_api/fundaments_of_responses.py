@@ -7,8 +7,8 @@ from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import (
-    AssetHbd,
-    AssetHive,
+    AssetHbdT,
+    AssetHiveT,
 )
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
@@ -36,25 +36,25 @@ class BucketSizes(HiveInt):
     """Enum which represents sizes of Buckets"""
 
 
-class GetRecentTradesFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class GetRecentTradesFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     date: HiveDateTime
-    current_pays: AssetHive | AssetHbd
-    open_pays: AssetHive | AssetHbd
+    current_pays: AssetHiveT | AssetHbdT
+    open_pays: AssetHiveT | AssetHbdT
 
 
-class GetTradeHistoryFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class GetTradeHistoryFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     date: HiveDateTime
-    current_pays: AssetHive | AssetHbd
-    open_pays: AssetHive | AssetHbd
+    current_pays: AssetHiveT | AssetHbdT
+    open_pays: AssetHiveT | AssetHbdT
 
 
-class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
-    base: AssetHive | AssetHbd
-    quote: AssetHive | AssetHbd
+class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+    base: AssetHiveT | AssetHbdT
+    quote: AssetHiveT | AssetHbdT
 
 
-class Order(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
-    order_price: Price[AssetHive, AssetHbd]
+class Order(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+    order_price: Price[AssetHiveT, AssetHbdT]
     real_price: float
     hive: HiveInt
     hbd: HiveInt

@@ -6,9 +6,9 @@ from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
     AccountName,
-    AssetHbd,
     AssetHbdHF26,
     AssetHbdLegacy,
+    AssetHbdT,
     Uint16t,
     Uint32t,
 )
@@ -19,13 +19,13 @@ DEFAULT_PROPOSAL_ID: Final[Uint32t] = Uint32t(0)
 DEFAULT_OP_IN_TRX: Final[Uint16t] = Uint16t(0)
 
 
-class _ProposalPayOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
+class _ProposalPayOperation(VirtualOperation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "proposal_pay"
 
     proposal_id: Uint32t = DEFAULT_PROPOSAL_ID
     receiver: AccountName
     payer: AccountName
-    payment: AssetHbd
+    payment: AssetHbdT
     trx_id: TransactionId
     op_in_trx: Uint16t = DEFAULT_OP_IN_TRX
 

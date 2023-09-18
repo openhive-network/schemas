@@ -6,12 +6,12 @@ from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
     AccountName,
-    AssetHbd,
     AssetHbdHF26,
     AssetHbdLegacy,
-    AssetHive,
+    AssetHbdT,
     AssetHiveHF26,
     AssetHiveLegacy,
+    AssetHiveT,
     Uint32t,
 )
 from schemas.fields.hive_datetime import HiveDateTime
@@ -21,13 +21,13 @@ DEFAULT_ORDER_ID: Final[Uint32t] = Uint32t(0)
 DEFAULT_FILL_OR_KILL: Final[bool] = False
 
 
-class _LimitOrderCreateOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
+class _LimitOrderCreateOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "limit_order_create"
 
     owner: AccountName
     orderid: Uint32t = DEFAULT_ORDER_ID
-    amount_to_sell: AssetHive | AssetHbd
-    min_to_receive: AssetHive | AssetHbd
+    amount_to_sell: AssetHiveT | AssetHbdT
+    min_to_receive: AssetHiveT | AssetHbdT
     fill_or_kill: bool = DEFAULT_FILL_OR_KILL
     expiration: HiveDateTime
 

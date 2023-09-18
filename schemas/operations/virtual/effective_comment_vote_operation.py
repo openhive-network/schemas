@@ -8,9 +8,9 @@ from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
     AccountName,
-    AssetHbd,
     AssetHbdHF26,
     AssetHbdLegacy,
+    AssetHbdT,
     Int64t,
     Uint64t,
 )
@@ -25,7 +25,7 @@ class Empty(BaseModel):
     pass
 
 
-class _EffectiveCommentVoteOperation(VirtualOperation, GenericModel, Generic[AssetHbd], ABC):
+class _EffectiveCommentVoteOperation(VirtualOperation, GenericModel, Generic[AssetHbdT], ABC):
     __operation_name__ = "effective_comment_vote"
 
     voter: AccountName
@@ -34,7 +34,7 @@ class _EffectiveCommentVoteOperation(VirtualOperation, GenericModel, Generic[Ass
     weight: Uint64t = DEFAULT_WEIGHT
     rshares: Int64t = DEFAULT_RSHARES
     total_vote_weight: Uint64t = DEFAULT_TOTAL_VOTE_WEIGHT
-    pending_payout: AssetHbd
+    pending_payout: AssetHbdT
 
 
 class EffectiveCommentVoteOperation(_EffectiveCommentVoteOperation[AssetHbdHF26]):

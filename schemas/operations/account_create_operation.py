@@ -6,19 +6,19 @@ from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
     AccountName,
-    AssetHive,
     AssetHiveHF26,
     AssetHiveLegacy,
+    AssetHiveT,
     Authority,
     PublicKey,
 )
 from schemas.operation import Operation
 
 
-class _AccountCreateOperation(Operation, GenericModel, Generic[AssetHive]):
+class _AccountCreateOperation(Operation, GenericModel, Generic[AssetHiveT]):
     __operation_name__ = "account_create"
 
-    fee: AssetHive
+    fee: AssetHiveT
     creator: AccountName
     new_account_name: AccountName
     owner: Authority

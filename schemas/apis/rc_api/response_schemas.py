@@ -13,12 +13,12 @@ from schemas.apis.rc_api.fundaments_of_responses import (
     SizeInfo,
 )
 from schemas.fields.basic import (
-    AssetVests,
+    AssetVestsT,
 )
 
 
-class FindRcAccounts(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
-    rc_accounts: list[RcAccount[AssetVests]]
+class FindRcAccounts(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
+    rc_accounts: list[RcAccount[AssetVestsT]]
 
 
 class GetResourceParams(PreconfiguredBaseModel):
@@ -39,7 +39,7 @@ class GetResourcePool(PreconfiguredBaseModel):
     resource_pool: ResourcePool
 
 
-class ListRcAccounts(FindRcAccounts[AssetVests]):
+class ListRcAccounts(FindRcAccounts[AssetVestsT]):
     pass
 
 

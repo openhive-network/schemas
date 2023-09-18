@@ -6,21 +6,21 @@ from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
     AccountName,
-    AssetHive,
     AssetHiveHF26,
     AssetHiveLegacy,
-    AssetVests,
+    AssetHiveT,
     AssetVestsHF26,
     AssetVestsLegacy,
+    AssetVestsT,
 )
 from schemas.virtual_operation import VirtualOperation
 
 
-class _PowRewardOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetVests]):
+class _PowRewardOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetVestsT]):
     __operation_name__ = "pow_reward"
 
     worker: AccountName
-    reward: AssetHive | AssetVests
+    reward: AssetHiveT | AssetVestsT
 
 
 class PowRewardOperation(_PowRewardOperation[AssetHiveHF26, AssetVestsHF26]):

@@ -15,9 +15,9 @@ from pydantic.generics import GenericModel
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import (
     AccountName,
-    AssetHbd,
-    AssetHive,
-    AssetVests,
+    AssetHbdT,
+    AssetHiveT,
+    AssetVestsT,
 )
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
@@ -33,7 +33,7 @@ class DelayedVotes(PreconfiguredBaseModel):
     val: HiveInt
 
 
-class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     """
     Valid structure for Price field is:
     base: Hive quote: Hbd or base: Hbd quote: Hive
@@ -42,18 +42,18 @@ class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
     Remember that Hive must be first parameter of generic !
     """
 
-    base: AssetHive | AssetHbd
-    quote: AssetHive | AssetHbd
+    base: AssetHiveT | AssetHbdT
+    quote: AssetHiveT | AssetHbdT
 
 
-class Proposal(PreconfiguredBaseModel, GenericModel, Generic[AssetHbd]):
+class Proposal(PreconfiguredBaseModel, GenericModel, Generic[AssetHbdT]):
     id_: HiveInt = Field(alias="id")
     proposal_id: HiveInt
     creator: AccountName
     receiver: AccountName
     start_date: HiveDateTime
     end_date: HiveDateTime
-    daily_pay: AssetHbd
+    daily_pay: AssetHbdT
     subject: str
     permlink: str
     total_votes: HiveInt
@@ -101,8 +101,8 @@ class HiveVersion(PreconfiguredBaseModel):
     node_type: NodeType
 
 
-class Props(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
-    account_creation_fee: AssetHive | None = None
+class Props(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
+    account_creation_fee: AssetHiveT | None = None
     maximum_block_size: HiveInt | None = None
     hbd_interest_rate: HiveInt | None = None
     account_subsidy_budget: HiveInt | None = None
@@ -128,10 +128,10 @@ class Signature(Hex):
     max_length = 130
 
 
-class RcAccountObject(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):
+class RcAccountObject(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
     account: AccountName
     rc_manabar: Manabar
-    max_rc_creation_adjustment: AssetVests
+    max_rc_creation_adjustment: AssetVestsT
     max_rc: HiveInt
     delegated_rc: HiveInt
     received_delegated_rc: HiveInt

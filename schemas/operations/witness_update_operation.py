@@ -6,23 +6,23 @@ from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
     AccountName,
-    AssetHive,
     AssetHiveHF26,
     AssetHiveLegacy,
+    AssetHiveT,
     LegacyChainProperties,
     PublicKey,
 )
 from schemas.operation import Operation
 
 
-class _WitnessUpdateOperation(Operation, GenericModel, Generic[AssetHive]):
+class _WitnessUpdateOperation(Operation, GenericModel, Generic[AssetHiveT]):
     __operation_name__ = "witness_update"
 
     owner: AccountName
     url: str
     block_signing_key: PublicKey
     props: LegacyChainProperties[AssetHiveHF26]
-    fee: AssetHive  # currently ignored but validated
+    fee: AssetHiveT  # currently ignored but validated
 
 
 class WitnessUpdateOperation(_WitnessUpdateOperation[AssetHiveHF26]):

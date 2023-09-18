@@ -7,12 +7,12 @@ from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
     AccountName,
-    AssetHbd,
     AssetHbdHF26,
     AssetHbdLegacy,
-    AssetHive,
+    AssetHbdT,
     AssetHiveHF26,
     AssetHiveLegacy,
+    AssetHiveT,
     Uint32t,
 )
 from schemas.operation import Operation
@@ -20,13 +20,13 @@ from schemas.operation import Operation
 DEFAULT_TYPE_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _TransferFromSavingsOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
+class _TransferFromSavingsOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "transfer_from_savings"
 
     from_: AccountName = Field(alias="from")
     to: AccountName
     request_id: Uint32t = DEFAULT_TYPE_ID
-    amount: AssetHive | AssetHbd
+    amount: AssetHiveT | AssetHbdT
     memo: str
 
 

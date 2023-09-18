@@ -7,12 +7,12 @@ from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
     AccountName,
-    AssetHbd,
     AssetHbdHF26,
     AssetHbdLegacy,
-    AssetHive,
+    AssetHbdT,
     AssetHiveHF26,
     AssetHiveLegacy,
+    AssetHiveT,
     EmptyString,
     Uint32t,
 )
@@ -22,16 +22,16 @@ from schemas.operation import Operation
 DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 
 
-class _EscrowTransferOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):
+class _EscrowTransferOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "escrow_transfer"
 
     from_: AccountName = Field(alias="from")
     to: AccountName
     agent: AccountName
     escrow_id: Uint32t = DEFAULT_ESCROW_ID
-    hbd_amount: AssetHbd
-    hive_amount: AssetHive
-    fee: AssetHive | AssetHbd
+    hbd_amount: AssetHbdT
+    hive_amount: AssetHiveT
+    fee: AssetHiveT | AssetHbdT
     ratification_deadline: HiveDateTime
     escrow_expiration: HiveDateTime
     json_meta: Json[Any] | EmptyString

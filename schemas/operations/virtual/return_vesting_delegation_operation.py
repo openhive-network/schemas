@@ -4,15 +4,15 @@ from typing import Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.fields.basic import AccountName, AssetVests, AssetVestsHF26, AssetVestsLegacy
+from schemas.fields.basic import AccountName, AssetVestsHF26, AssetVestsLegacy, AssetVestsT
 from schemas.virtual_operation import VirtualOperation
 
 
-class _ReturnVestingDelegationOperation(VirtualOperation, GenericModel, Generic[AssetVests]):
+class _ReturnVestingDelegationOperation(VirtualOperation, GenericModel, Generic[AssetVestsT]):
     __operation_name__ = "return_vesting_delegation"
 
     account: AccountName
-    vesting_shares: AssetVests
+    vesting_shares: AssetVestsT
 
 
 class ReturnVestingDelegationOperation(_ReturnVestingDelegationOperation[AssetVestsHF26]):

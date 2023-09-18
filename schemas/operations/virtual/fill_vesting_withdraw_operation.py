@@ -6,23 +6,23 @@ from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
     AccountName,
-    AssetHive,
     AssetHiveHF26,
     AssetHiveLegacy,
-    AssetVests,
+    AssetHiveT,
     AssetVestsHF26,
     AssetVestsLegacy,
+    AssetVestsT,
 )
 from schemas.virtual_operation import VirtualOperation
 
 
-class _FillVestingWithdrawOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetVests]):
+class _FillVestingWithdrawOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetVestsT]):
     __operation_name__ = "fill_vesting_withdraw"
 
     from_account: AccountName
     to_account: AccountName
-    withdrawn: AssetVests
-    deposited: AssetHive | AssetVests
+    withdrawn: AssetVestsT
+    deposited: AssetHiveT | AssetVestsT
 
 
 class FillVestingWithdrawOperation(_FillVestingWithdrawOperation[AssetHiveHF26, AssetVestsHF26]):

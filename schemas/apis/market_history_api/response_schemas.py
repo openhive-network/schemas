@@ -13,10 +13,10 @@ from schemas.apis.market_history_api.fundaments_of_responses import (
     Order,
 )
 from schemas.fields.basic import (
-    AssetHbd,
     AssetHbdHF26,
-    AssetHive,
+    AssetHbdT,
     AssetHiveHF26,
+    AssetHiveT,
     HiveList,
 )
 
@@ -33,28 +33,28 @@ class GetRecentTrades(PreconfiguredBaseModel):
     trades: HiveList[GetRecentTradesFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
-class GetTicker(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class GetTicker(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     """Must specify type of Assets by generic when using"""
 
     latest: str
     lowest_ask: str
     highest_bid: str
     percent_change: str
-    hive_volume: AssetHive
-    hbd_volume: AssetHbd
+    hive_volume: AssetHiveT
+    hbd_volume: AssetHbdT
 
 
 class GetTradeHistory(PreconfiguredBaseModel):
     trades: HiveList[GetTradeHistoryFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
-class GetVolume(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class GetVolume(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     """Must specify type of Assets by generic when using"""
 
-    hive_volume: AssetHive
-    hbd_volume: AssetHbd
+    hive_volume: AssetHiveT
+    hbd_volume: AssetHbdT
 
 
-class GetOrderBook(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
-    bids: list[Order[AssetHive, AssetHbd]]
-    asks: list[Order[AssetHive, AssetHbd]]
+class GetOrderBook(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+    bids: list[Order[AssetHiveT, AssetHbdT]]
+    asks: list[Order[AssetHiveT, AssetHbdT]]

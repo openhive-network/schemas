@@ -217,9 +217,9 @@ class AssetVestsLegacy(AssetLegacy):
         return VestsSymbolType.get_asset_information()
 
 
-AssetHive = TypeVar("AssetHive", AssetHiveHF26, AssetHiveLegacy)
-AssetHbd = TypeVar("AssetHbd", AssetHbdHF26, AssetHbdLegacy)
-AssetVests = TypeVar("AssetVests", AssetVestsHF26, AssetVestsLegacy)
+AssetHiveT = TypeVar("AssetHiveT", AssetHiveHF26, AssetHiveLegacy)
+AssetHbdT = TypeVar("AssetHbdT", AssetHbdHF26, AssetHbdLegacy)
+AssetVestsT = TypeVar("AssetVestsT", AssetVestsHF26, AssetVestsLegacy)
 
 
 class Uint8t(ConstrainedInt):
@@ -256,7 +256,7 @@ class CustomIdType(ConstrainedStr):
     max_length = 32
 
 
-class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]):
+class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     """
     Field similar to price, but just base can be Hive or Hbd. Quote must be Hive.
     To choose format of Assets you can do it like in Price field:
@@ -265,18 +265,18 @@ class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, A
     Here Hive also must be first parameter of generic
     """
 
-    base: AssetHive | AssetHbd
-    quote: AssetHive | AssetHbd
+    base: AssetHiveT | AssetHbdT
+    quote: AssetHiveT | AssetHbdT
 
 
-class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHive]):
+class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
     """
     You can choose of Asset format for this field, to do it:
     Legacy -> LegacyChainProperties[AssetHiveLegacy](parameters)
     Nai -> LegacyChainProperties[AssetHiveHF26](parameters)
     """
 
-    account_creation_fee: AssetHive
+    account_creation_fee: AssetHiveT
     maximum_block_size: Uint32t = Uint32t(HIVE_MAX_BLOCK_SIZE)
     hbd_interest_rate: Uint16t = Uint16t(HIVE_HBD_INTEREST_RATE)
 

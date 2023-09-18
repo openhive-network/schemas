@@ -6,12 +6,12 @@ from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
     AccountName,
-    AssetHbd,
     AssetHbdHF26,
     AssetHbdLegacy,
-    AssetHive,
+    AssetHbdT,
     AssetHiveHF26,
     AssetHiveLegacy,
+    AssetHiveT,
     Uint32t,
 )
 from schemas.virtual_operation import VirtualOperation
@@ -20,15 +20,15 @@ DEFAULT_CURRENT_ORDERID: Final[Uint32t] = Uint32t(0)
 DEFAULT_OPEN_ORDERID: Final[Uint32t] = Uint32t(0)
 
 
-class _FillOrderOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd]):
+class _FillOrderOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "fill_order"
 
     current_owner: AccountName
     current_orderid: Uint32t = DEFAULT_CURRENT_ORDERID
-    current_pays: AssetHive | AssetHbd
+    current_pays: AssetHiveT | AssetHbdT
     open_owner: AccountName
     open_orderid: Uint32t = DEFAULT_OPEN_ORDERID
-    open_pays: AssetHive | AssetHbd
+    open_pays: AssetHiveT | AssetHbdT
 
 
 class FillOrderOperation(_FillOrderOperation[AssetHiveHF26, AssetHbdHF26]):

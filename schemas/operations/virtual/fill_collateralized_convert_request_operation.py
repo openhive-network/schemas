@@ -6,12 +6,12 @@ from pydantic.generics import GenericModel
 
 from schemas.fields.basic import (
     AccountName,
-    AssetHbd,
     AssetHbdHF26,
     AssetHbdLegacy,
-    AssetHive,
+    AssetHbdT,
     AssetHiveHF26,
     AssetHiveLegacy,
+    AssetHiveT,
     Uint32t,
 )
 from schemas.virtual_operation import VirtualOperation
@@ -19,14 +19,14 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _FillCollateralizedConvertRequestOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd]):
+class _FillCollateralizedConvertRequestOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "fill_collateralized_convert_request"
 
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
-    amount_in: AssetHive
-    amount_out: AssetHbd
-    excess_collateral: AssetHive
+    amount_in: AssetHiveT
+    amount_out: AssetHbdT
+    excess_collateral: AssetHiveT
 
 
 class FillCollateralizedConvertRequestOperation(
