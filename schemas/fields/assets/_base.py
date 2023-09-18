@@ -22,7 +22,7 @@ class AssetBase(ABC):
         """This method returns asset details, which we use to perform checks"""
 
 
-class AssetLegacy(ConstrainedStr, AssetBase):
+class AssetLegacy(ConstrainedStr, AssetBase, ABC):
     """Base class for all legacy assets"""
 
     @classmethod
@@ -58,7 +58,7 @@ class AssetNaiAmount(HiveInt):
         return str(value)
 
 
-class AssetHF26(PreconfiguredBaseModel, AssetBase):
+class AssetHF26(PreconfiguredBaseModel, AssetBase, ABC):
     """Base class for all nai asset fields"""
 
     amount: AssetNaiAmount
