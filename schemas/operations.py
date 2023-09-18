@@ -32,11 +32,6 @@ from schemas.__private.operations import (
     EscrowReleaseOperation,
     EscrowTransferOperation,
     FeedPublishOperation,
-    Hf26AllOperationRepresentationType,
-    Hf26OperationRepresentationType,
-    Hf26VirtualOperationRepresentationType,
-    LegacyOperationRepresentationType,
-    LegacyVirtualOperationRepresentationType,
     LimitOrderCancelOperation,
     LimitOrderCreate2Operation,
     LimitOrderCreateOperation,
@@ -60,15 +55,20 @@ from schemas.__private.operations import (
     WitnessSetPropertiesOperation,
     WitnessUpdateOperation,
 )
+from schemas.__private.operations.representation_types import (
+    Hf26AllOperationRepresentationType,
+    Hf26OperationRepresentationType,
+    LegacyAllOperationRepresentationType,
+    LegacyOperationRepresentationType,
+)
 
 __all__ = [
     "Operation",
     # REPRESENTATIONS
     "Hf26OperationRepresentationType",
     "LegacyOperationRepresentationType",
-    "Hf26VirtualOperationRepresentationType",
-    "LegacyVirtualOperationRepresentationType",
     "Hf26AllOperationRepresentationType",
+    "LegacyAllOperationRepresentationType",
     # ANY OPERATION
     "AnyOperation",
     "AnyLegacyOperation",

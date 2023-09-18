@@ -36,10 +36,10 @@ from schemas.__private.hive_fields_custom_schemas import (
     Price,
     RcAccountObject,
 )
-from schemas.__private.operations import (
+from schemas.__private.operations.representation_types import (
     LegacyOperationRepresentationType,
-    get_legacy_representation,
 )
+from schemas.__private.operations.representations import get_legacy_representation
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.condenser_api.fundaments_of_responses import (
     FindProposalsFundament,

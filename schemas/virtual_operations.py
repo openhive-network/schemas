@@ -47,10 +47,17 @@ from schemas.__private.operations.virtual import (
     TransferToVestingCompletedOperation,
     VestingSharesSplitOperation,
 )
+from schemas.__private.operations.virtual.representation_types import (
+    Hf26VirtualOperationRepresentationType,
+    LegacyVirtualOperationRepresentationType,
+)
 from schemas.__private.virtual_operation import VirtualOperation
 
 __all__ = [
     "VirtualOperation",
+    # REPRESENTATIONS
+    "Hf26VirtualOperationRepresentationType",
+    "LegacyVirtualOperationRepresentationType",
     # ANY OPERATION
     "AnyVirtualOperation",
     "AnyLegacyVirtualOperation",

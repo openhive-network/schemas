@@ -1,11 +1,5 @@
 from __future__ import annotations
 
-from typing import Any, Literal, Union, get_args  # pyright: ignore
-
-from pydantic import Field
-from typing_extensions import Annotated  # noqa: UP035
-
-from schemas.__private.operation import Operation
 from schemas.__private.operations.account_create_operation import (
     AccountCreateOperation,
     AccountCreateOperationLegacy,
@@ -109,7 +103,6 @@ from schemas.__private.operations.witness_update_operation import (
     WitnessUpdateOperation,
     WitnessUpdateOperationLegacy,
 )
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
 AnyOperation = (
     AccountCreateOperation
@@ -218,95 +211,7 @@ AnyEveryOperation = AnyOperation | AnyVirtualOperation
 AnyLegacyEveryOperation = AnyLegacyOperation | AnyLegacyVirtualOperation
 
 
-class Hf26OperationRepresentation(PreconfiguredBaseModel):
-    type: str  # noqa: A003
-    value: Operation
-
-
-class LegacyOperationRepresentation(PreconfiguredBaseModel):
-    type: str  # noqa: A003
-    value: Operation
-
-    def __getitem__(self, key: str | int) -> str | AnyLegacyEveryOperation | Any:
-        if isinstance(key, int):
-            match (key):
-                case 0:
-                    return self.value.get_name()
-                case 1:
-                    return self.value
-                case _:
-                    raise ValueError("out of bound")
-        return super().__getitem__(key)
-
-
-__hf26_operation_representations: dict[str, type[Hf26OperationRepresentation]] = {}
-__legacy_operation_representations: dict[str, type[LegacyOperationRepresentation]] = {}
-
-
-def __get_representation_from_type_dict(type_name: str, collection: dict[str, type]) -> type:
-    assert type_name in collection, f"`{type_name}` not found, available are: {list(collection.keys())}"
-    return collection[type_name]
-
-
-def get_hf26_representation(type_name: str) -> type[Hf26OperationRepresentation]:
-    return __get_representation_from_type_dict(type_name, __hf26_operation_representations)
-
-
-def get_legacy_representation(type_name: str) -> type[LegacyOperationRepresentation]:
-    return __get_representation_from_type_dict(type_name, __legacy_operation_representations)
-
-
-def __create_hf26_representation(incoming_type: type[AnyOperation]) -> type[Hf26OperationRepresentation]:
-    class Hf26Operation(Hf26OperationRepresentation):
-        type: Literal[incoming_type.get_name_with_suffix()]  # type: ignore[valid-type]  # noqa: A003
-        value: incoming_type  # type: ignore[valid-type]
-
-    Hf26Operation.update_forward_refs(**locals())
-    __hf26_operation_representations[incoming_type.get_name()] = Hf26Operation
-    return Hf26Operation
-
-
-def __create_legacy_representation(incoming_cls: type[AnyLegacyOperation]) -> type[LegacyOperationRepresentation]:
-    """
-    Representation of operation in legacy format
-    Response from api has format [name_of_operation, {parameters}], to provide precise validation in root_validator
-    it is converted to format below.
-    """
-
-    class LegacyOperation(LegacyOperationRepresentation):
-        type: Literal[incoming_cls.get_name()]  # type: ignore[valid-type] # noqa: A003
-        value: incoming_cls  # type: ignore[valid-type]
-
-    LegacyOperation.update_forward_refs(**locals())
-    __legacy_operation_representations[incoming_cls.get_name()] = LegacyOperation
-    return LegacyOperation
-
-
-# NON-VIRTUAL
-__Hf26OperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(AnyOperation))]  # type: ignore  # noqa: UP007
-__LegacyOperationRepresentationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in get_args(AnyLegacyOperation))]  # type: ignore  # noqa: UP007
-Hf26OperationRepresentationType = Annotated[__Hf26OperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
-LegacyOperationRepresentationType = Annotated[__LegacyOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
-
-# VIRTUAL
-__Hf26VirtualOperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(AnyVirtualOperation))]  # type: ignore  # noqa: UP007
-__LegacyVirtualOperationRepresentationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in get_args(AnyLegacyVirtualOperation))]  # type: ignore  # noqa: UP007
-Hf26VirtualOperationRepresentationType = Annotated[__Hf26VirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
-LegacyVirtualOperationRepresentationType = Annotated[__LegacyVirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
-
-# ALL
-__Hf26AllOperationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(AnyEveryOperation))]  # type: ignore  # noqa: UP007
-__LegacyAllOperationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in get_args(AnyLegacyEveryOperation))]  # type: ignore  # noqa: UP007
-Hf26AllOperationRepresentationType = Annotated[__Hf26AllOperationUnionType, Field(discriminator="type")]  # type: ignore
-LegacyAllOperationRepresentationType = Annotated[__LegacyAllOperationUnionType, Field(discriminator="type")]  # type: ignore
-
 __all__ = [
-    # REPRESENTATIONS
-    "Hf26OperationRepresentationType",
-    "LegacyOperationRepresentationType",
-    "Hf26VirtualOperationRepresentationType",
-    "LegacyVirtualOperationRepresentationType",
-    "Hf26AllOperationRepresentationType",
     # ANY OPERATION
     "AnyOperation",
     "AnyLegacyOperation",
