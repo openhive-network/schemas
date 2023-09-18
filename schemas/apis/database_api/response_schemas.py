@@ -42,7 +42,6 @@ from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsT
 from schemas.fields.basic import (
     AccountName,
     EmptyString,
-    HiveList,
     PublicKey,
 )
 from schemas.fields.custom import (
@@ -57,6 +56,7 @@ from schemas.fields.custom import (
 )
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
+from schemas.fields.hive_list import HiveList
 
 
 class FindAccountRecoveryRequests(PreconfiguredBaseModel):

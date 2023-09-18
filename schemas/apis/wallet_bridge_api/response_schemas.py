@@ -24,7 +24,6 @@ from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveT
 from schemas.fields.assets.vests import AssetVestsHF26
 from schemas.fields.basic import (
     AccountName,
-    HiveList,
 )
 from schemas.fields.custom import (
     HardforkVersion,
@@ -34,6 +33,7 @@ from schemas.fields.custom import (
     TransactionId,
 )
 from schemas.fields.hive_int import HiveInt
+from schemas.fields.hive_list import HiveList
 
 
 class BroadcastTransaction(network_broadcast_api.BroadcastTransaction):

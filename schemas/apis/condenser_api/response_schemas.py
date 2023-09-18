@@ -48,7 +48,6 @@ from schemas.fields.assets.vests import AssetVestsLegacy
 from schemas.fields.basic import (
     AccountName,
     EmptyString,
-    HiveList,
     PublicKey,
 )
 from schemas.fields.custom import (
@@ -60,6 +59,7 @@ from schemas.fields.custom import (
 )
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
+from schemas.fields.hive_list import HiveList
 from schemas.operations.representation_types import (
     LegacyOperationRepresentationType,
 )

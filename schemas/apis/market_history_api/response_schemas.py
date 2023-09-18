@@ -14,9 +14,7 @@ from schemas.apis.market_history_api.fundaments_of_responses import (
 )
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdT
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveT
-from schemas.fields.basic import (
-    HiveList,
-)
+from schemas.fields.hive_list import HiveList
 
 
 class GetMarketHistory(PreconfiguredBaseModel):
