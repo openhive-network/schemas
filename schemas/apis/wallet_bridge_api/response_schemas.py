@@ -24,9 +24,9 @@ from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveT
 from schemas.fields.assets.vests import AssetVestsHF26
 from schemas.fields.basic import (
     AccountName,
-)
-from schemas.fields.custom import (
     HardforkVersion,
+)
+from schemas.fields.compound import (
     Price,
     Proposal,
     RcAccountObject,

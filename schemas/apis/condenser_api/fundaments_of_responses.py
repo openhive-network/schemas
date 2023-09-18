@@ -13,12 +13,10 @@ from schemas.fields.assets.vests import AssetVestsLegacy
 from schemas.fields.basic import (
     AccountName,
     EmptyString,
-)
-from schemas.fields.custom import (
     FloatAsString,
     Permlink,
-    Proposal,
 )
+from schemas.fields.compound import Proposal
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 

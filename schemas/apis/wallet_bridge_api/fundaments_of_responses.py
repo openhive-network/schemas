@@ -11,11 +11,10 @@ from schemas.fields.assets.hive import AssetHiveT
 from schemas.fields.assets.vests import AssetVestsT
 from schemas.fields.basic import (
     AccountName,
-    Authority,
     EmptyString,
     PublicKey,
 )
-from schemas.fields.custom import DelayedVotes, Manabar
+from schemas.fields.compound import Authority, DelayedVotes, Manabar
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 

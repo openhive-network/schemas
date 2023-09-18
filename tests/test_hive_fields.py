@@ -11,11 +11,10 @@ from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy
 from schemas.fields.assets.vests import AssetVestsHF26
 from schemas.fields.basic import (
     AccountName,
-    Authority,
     EmptyString,
-    HbdExchangeRate,
     PublicKey,
 )
+from schemas.fields.compound import Authority, HbdExchangeRate
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.hive_constants import HIVE_TIME_FORMAT

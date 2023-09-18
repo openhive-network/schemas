@@ -42,10 +42,10 @@ from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsT
 from schemas.fields.basic import (
     AccountName,
     EmptyString,
+    HardforkVersion,
     PublicKey,
 )
-from schemas.fields.custom import (
-    HardforkVersion,
+from schemas.fields.compound import (
     HiveVersion,
     Price,
     Proposal,

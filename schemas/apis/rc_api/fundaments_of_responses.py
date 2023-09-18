@@ -10,7 +10,7 @@ from schemas.fields.assets.vests import AssetVestsT
 from schemas.fields.basic import (
     AccountName,
 )
-from schemas.fields.custom import Manabar
+from schemas.fields.compound import Manabar
 from schemas.fields.hive_int import HiveInt
 
 

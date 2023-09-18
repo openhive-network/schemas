@@ -11,22 +11,22 @@ from schemas.fields.assets.hive import AssetHiveT
 from schemas.fields.assets.vests import AssetVestsT
 from schemas.fields.basic import (
     AccountName,
-    Authority,
     EmptyString,
-    HbdExchangeRate,
-    PublicKey,
-)
-from schemas.fields.custom import (
-    DelayedVotes,
     FloatAsString,
     HardforkVersion,
-    Manabar,
     Permlink,
+    PublicKey,
+    Version,
+)
+from schemas.fields.compound import (
+    Authority,
+    DelayedVotes,
+    HbdExchangeRate,
+    Manabar,
     Price,
     Proposal,
     Props,
     RdDynamicParams,
-    Version,
 )
 from schemas.fields.hex import Sha256
 from schemas.fields.hive_datetime import HiveDateTime

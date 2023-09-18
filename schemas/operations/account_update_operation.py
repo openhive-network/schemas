@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from schemas.fields.basic import AccountName, Authority, PublicKey
+from schemas.fields.basic import AccountName, PublicKey
+from schemas.fields.compound import Authority
 from schemas.operation import Operation
 
 

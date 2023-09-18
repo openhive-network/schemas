@@ -7,9 +7,9 @@ from pydantic.generics import GenericModel
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
     AccountName,
-    Authority,
     PublicKey,
 )
+from schemas.fields.compound import Authority
 from schemas.operation import Operation
 
 

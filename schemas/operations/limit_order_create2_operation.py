@@ -8,8 +8,8 @@ from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
     AccountName,
-    HbdExchangeRate,
 )
+from schemas.fields.compound import HbdExchangeRate
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.integers import Uint32t
 from schemas.operation import Operation
