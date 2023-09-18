@@ -17,7 +17,7 @@ from schemas.__private.operations.representation_types import (
     LegacyOperationRepresentationType,
 )
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
-from schemas.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament
+from schemas.apis.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament
 
 OperationT = TypeVar("OperationT", bound=Hf26OperationRepresentationType | LegacyOperationRepresentationType)
 ApiOperationObjectT = TypeVar("ApiOperationObjectT", bound=Hf26ApiOperationObject | LegacyApiOperationObject)

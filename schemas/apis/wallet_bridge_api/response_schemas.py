@@ -5,11 +5,11 @@ from typing import Generic
 from pydantic import Field, conlist
 from pydantic.generics import GenericModel
 
-import schemas.account_history_api.response_schemas as account_history_api
-import schemas.block_api.fundaments_of_responses as fundaments_block_api
-import schemas.database_api.fundaments_of_reponses as fundaments_database_api
-import schemas.database_api.response_schemas as database_api
-import schemas.network_broadcast_api.response_schemas as network_broadcast_api
+import schemas.apis.account_history_api.response_schemas as account_history_api
+import schemas.apis.block_api.fundaments_of_responses as fundaments_block_api
+import schemas.apis.database_api.fundaments_of_reponses as fundaments_database_api
+import schemas.apis.database_api.response_schemas as database_api
+import schemas.apis.network_broadcast_api.response_schemas as network_broadcast_api
 from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
     AssetHbdHF26,
@@ -28,7 +28,7 @@ from schemas.__private.hive_fields_custom_schemas import (
 )
 from schemas.__private.operation_objects import Hf26ApiAllOperationObject
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
-from schemas.wallet_bridge_api.fundaments_of_responses import (
+from schemas.apis.wallet_bridge_api.fundaments_of_responses import (
     Account,
     FindRecurrentTransfersFundament,
     GetCollateralizedConversionRequestsFundament,

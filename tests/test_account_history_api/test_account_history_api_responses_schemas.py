@@ -6,7 +6,7 @@ from typing import Any
 import pytest
 
 from schemas.__private.hive_factory import HiveError, HiveResult
-from schemas.account_history_api.response_schemas import (
+from schemas.apis.account_history_api.response_schemas import (
     EnumVirtualOps,
     GetAccountHistory,
     GetOpsInBlock,

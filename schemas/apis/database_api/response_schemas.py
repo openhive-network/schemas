@@ -33,7 +33,7 @@ from schemas.__private.hive_fields_custom_schemas import (
     TransactionId,
 )
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
-from schemas.database_api.fundaments_of_reponses import (
+from schemas.apis.database_api.fundaments_of_reponses import (
     AccountItemFundament,
     EscrowsFundament,
     FindAccountRecoveryRequestsFundament,

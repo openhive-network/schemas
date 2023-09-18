@@ -14,10 +14,10 @@ class MissingFieldsInGetConfig(Policy):
     allow: bool
 
     def apply(self) -> None:
-        from schemas import database_api
         from schemas.__private.hive_fields_basic_schemas import AssetHbd, AssetHive
         from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
-        from schemas.database_api.response_schemas import GetConfigOrig
+        from schemas.apis import database_api
+        from schemas.apis.database_api.response_schemas import GetConfigOrig
 
         if self.allow:
             field_definitions = {

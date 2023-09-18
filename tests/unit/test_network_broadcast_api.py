@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 from pydantic import ValidationError
 
-from schemas.network_broadcast_api.response_schemas import BroadcastTransaction
+from schemas.apis.network_broadcast_api.response_schemas import BroadcastTransaction
 
 
 def test_correct_values_broadcast_transaction() -> None:

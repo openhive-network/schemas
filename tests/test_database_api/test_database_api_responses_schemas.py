@@ -8,7 +8,7 @@ from pydantic import ValidationError
 from schemas.__private.hive_factory import HiveResult
 from schemas.__private.hive_fields_basic_schemas import AssetHbdHF26, AssetHiveHF26, AssetVestsHF26
 from schemas.__private.policies.missing_fields_in_get_config import MissingFieldsInGetConfig
-from schemas.database_api import (
+from schemas.apis.database_api import (
     FindAccountRecoveryRequests,
     FindAccounts,
     FindChangeRecoveryAccountRequests,
@@ -181,7 +181,7 @@ def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: A
 def test_get_config_policy() -> None:
     try:
         MissingFieldsInGetConfig(allow=True).apply()
-        from schemas import database_api
+        from schemas.apis import database_api
 
         database_api.GetConfig()  # type: ignore[call-arg]
     finally:

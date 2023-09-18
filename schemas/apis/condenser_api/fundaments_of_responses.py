@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any, Literal
 
 from pydantic import Field
 
-import schemas.database_api.fundaments_of_reponses as fundaments_database_api
+import schemas.apis.database_api.fundaments_of_reponses as fundaments_database_api
 from schemas.__private.hive_fields_basic_schemas import (
     AccountName,
     AssetHbdLegacy,

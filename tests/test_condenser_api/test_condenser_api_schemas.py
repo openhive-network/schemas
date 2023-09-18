@@ -5,7 +5,7 @@ from typing import Any
 import pytest
 
 from schemas.__private.hive_factory import HiveResult
-from schemas.condenser_api.response_schemas import (
+from schemas.apis.condenser_api.response_schemas import (
     FindProposals,
     FindRecurrentTransfers,
     GetAccountCount,
