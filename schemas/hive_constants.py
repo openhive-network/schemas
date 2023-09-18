@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from typing import Final
 
+HIVE_TIME_FORMAT: Final[str] = "%Y-%m-%dT%H:%M:%S"
 HIVE_100_PERCENT: Final[int] = 10000
 HIVE_1_PERCENT: Final[int] = int(HIVE_100_PERCENT / 100)
 HIVE_MAX_TRANSACTION_SIZE: Final[int] = 1024 * 64

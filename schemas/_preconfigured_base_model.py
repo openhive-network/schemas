@@ -14,13 +14,15 @@ import pydantic
 from pydantic import BaseModel, Extra, Field, create_model  # pyright: ignore
 from typing_extensions import Self
 
+from schemas.hive_constants import HIVE_TIME_FORMAT
+
 
 class PreconfiguredBaseModel(BaseModel):
     class Config:
         extra = Extra.forbid
         allow_population_by_field_name = True
         smart_union = True
-        json_encoders = {datetime: lambda x: x.strftime("%Y-%m-%dT%H:%M:%S")}  # noqa: RUF012
+        json_encoders = {datetime: lambda x: x.strftime(HIVE_TIME_FORMAT)}  # noqa: RUF012
 
     @classmethod
     def __is_aliased_field_name(cls, field_name: str) -> bool:

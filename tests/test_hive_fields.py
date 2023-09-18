@@ -20,6 +20,7 @@ from schemas.fields.basic import (
 )
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
+from schemas.hive_constants import HIVE_TIME_FORMAT
 
 from .hive_tests_constants import ACTIVE, OWNER, POSTING
 
@@ -180,7 +181,7 @@ def test_hive_datetime_field_correct_values(value: str, valid: datetime.datetime
 @pytest.mark.parametrize("value", ["1970-01-01"])
 def test_hive_datetime_field_incorrect_values(value: str | datetime.datetime) -> None:
     # ARRANGE
-    expected_message: Final[str] = "date must be in format %Y-%m-%dT%H:%M:%S"
+    expected_message: Final[str] = f"date must be in format {HIVE_TIME_FORMAT}"
 
     # ACT
     with pytest.raises(ValidationError) as error:

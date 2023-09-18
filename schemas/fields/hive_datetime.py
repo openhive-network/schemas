@@ -5,6 +5,8 @@ from typing import TYPE_CHECKING, Any
 
 from typing_extensions import Self
 
+from schemas.hive_constants import HIVE_TIME_FORMAT
+
 if TYPE_CHECKING:
     from pydantic.typing import CallableGenerator
 
@@ -24,9 +26,9 @@ class HiveDateTime(datetime):
             return cls.__normalize(value)
 
         try:
-            return cls.__normalize(datetime.strptime(value, "%Y-%m-%dT%H:%M:%S"))
+            return cls.__normalize(datetime.strptime(value, HIVE_TIME_FORMAT))
         except ValueError as error:
-            raise ValueError("date must be in format %Y-%m-%dT%H:%M:%S") from error
+            raise ValueError(f"date must be in format {HIVE_TIME_FORMAT}") from error
 
     @classmethod
     def __normalize(cls, value: datetime) -> datetime:
