@@ -13,8 +13,8 @@ from typing import TYPE_CHECKING, Any, Generic, TypeVar
 from pydantic import ConstrainedInt, ConstrainedList, ConstrainedStr, PrivateAttr, StrRegexError, validator
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_constants import HIVE_HBD_INTEREST_RATE, HIVE_MAX_BLOCK_SIZE
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.hive_constants import HIVE_HBD_INTEREST_RATE, HIVE_MAX_BLOCK_SIZE
 
 if TYPE_CHECKING:
     from pydantic.typing import CallableGenerator
