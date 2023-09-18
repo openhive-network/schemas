@@ -35,7 +35,7 @@ class _RecurrentTransferOperation(Operation, GenericModel, Generic[AssetHive, As
     extensions: list[Uint8t] = DEFAULT_EXTENSIONS
 
 
-class RecurrentTransferOperationHF26(_RecurrentTransferOperation[AssetHiveHF26, AssetHbdHF26]):
+class RecurrentTransferOperation(_RecurrentTransferOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

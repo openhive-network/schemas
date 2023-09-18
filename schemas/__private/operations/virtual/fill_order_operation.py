@@ -31,7 +31,7 @@ class _FillOrderOperation(VirtualOperation, GenericModel, Generic[AssetHive, Ass
     open_pays: AssetHive | AssetHbd
 
 
-class FillOrderOperationHF26(_FillOrderOperation[AssetHiveHF26, AssetHbdHF26]):
+class FillOrderOperation(_FillOrderOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

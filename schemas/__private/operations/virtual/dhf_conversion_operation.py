@@ -24,7 +24,7 @@ class _DhfConversionOperation(VirtualOperation, GenericModel, Generic[AssetHive,
     hbd_amount_out: AssetHbd
 
 
-class DhfConversionOperationHF26(_DhfConversionOperation[AssetHiveHF26, AssetHbdHF26]):
+class DhfConversionOperation(_DhfConversionOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

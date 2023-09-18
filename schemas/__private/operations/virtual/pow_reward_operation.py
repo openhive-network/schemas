@@ -23,7 +23,7 @@ class _PowRewardOperation(VirtualOperation, GenericModel, Generic[AssetHive, Ass
     reward: AssetHive | AssetVests
 
 
-class PowRewardOperationHF26(_PowRewardOperation[AssetHiveHF26, AssetVestsHF26]):
+class PowRewardOperation(_PowRewardOperation[AssetHiveHF26, AssetVestsHF26]):
     ...
 
 

@@ -33,7 +33,7 @@ class _AuthorRewardOperation(VirtualOperation, GenericModel, Generic[AssetHive, 
     payout_must_be_claimed: bool = DEFAULT_PAYOUT_MUST_BE_CLAIMED
 
 
-class AuthorRewardOperationHF26(_AuthorRewardOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
+class AuthorRewardOperation(_AuthorRewardOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
     ...
 
 

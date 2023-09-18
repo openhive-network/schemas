@@ -35,7 +35,7 @@ class _FailedRecurrentTransferOperation(VirtualOperation, GenericModel, Generic[
     deleted: bool = DEFAULT_DELETED
 
 
-class FailedRecurrentTransferOperationHF26(_FailedRecurrentTransferOperation[AssetHiveHF26, AssetHbdHF26]):
+class FailedRecurrentTransferOperation(_FailedRecurrentTransferOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

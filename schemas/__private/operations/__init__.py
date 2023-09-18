@@ -7,7 +7,7 @@ from typing_extensions import Annotated  # noqa: UP035
 
 from schemas.__private.operation import Operation
 from schemas.__private.operations.account_create_operation import (
-    AccountCreateOperationHF26,
+    AccountCreateOperation,
     AccountCreateOperationLegacy,
 )
 from schemas.__private.operations.account_update2_operation import AccountUpdate2Operation
@@ -16,24 +16,24 @@ from schemas.__private.operations.account_witness_proxy_operation import Account
 from schemas.__private.operations.account_witness_vote_operation import AccountWitnessVoteOperation
 from schemas.__private.operations.cancel_transfer_from_savings_operation import CancelTransferFromSavingsOperation
 from schemas.__private.operations.change_recovery_account_operation import ChangeRecoveryAccountOperation
-from schemas.__private.operations.claim_account_operation import ClaimAccountOperationHF26, ClaimAccountOperationLegacy
+from schemas.__private.operations.claim_account_operation import ClaimAccountOperation, ClaimAccountOperationLegacy
 from schemas.__private.operations.claim_reward_balance_operation import (
-    ClaimRewardBalanceOperationHF26,
+    ClaimRewardBalanceOperation,
     ClaimRewardBalanceOperationLegacy,
 )
 from schemas.__private.operations.collateralized_convert_operation import (
-    CollateralizedConvertOperationHF26,
+    CollateralizedConvertOperation,
     CollateralizedConvertOperationLegacy,
 )
 from schemas.__private.operations.comment_operation import CommentOperation
 from schemas.__private.operations.comment_options_operation import (
-    CommentOptionsOperationHF26,
+    CommentOptionsOperation,
     CommentOptionsOperationLegacy,
 )
-from schemas.__private.operations.convert_operation import ConvertOperationHF26, ConvertOperationLegacy
+from schemas.__private.operations.convert_operation import ConvertOperation, ConvertOperationLegacy
 from schemas.__private.operations.create_claimed_account_operation import CreateClaimedAccountOperation
 from schemas.__private.operations.create_proposal_operation import (
-    CreateProposalOperationHF26,
+    CreateProposalOperation,
     CreateProposalOperationLegacy,
 )
 from schemas.__private.operations.custom_binary_operation import CustomBinaryOperation
@@ -41,34 +41,34 @@ from schemas.__private.operations.custom_json_operation import CustomJsonOperati
 from schemas.__private.operations.custom_operation import CustomOperation
 from schemas.__private.operations.decline_voting_rights_operation import DeclineVotingRightsOperation
 from schemas.__private.operations.delegate_vesting_shares_operation import (
-    DelegateVestingSharesOperationHF26,
+    DelegateVestingSharesOperation,
     DelegateVestingSharesOperationLegacy,
 )
 from schemas.__private.operations.delete_comment_operation import DeleteCommentOperation
 from schemas.__private.operations.escrow_approve_operation import EscrowApproveOperation
 from schemas.__private.operations.escrow_dispute_operation import EscrowDisputeOperation
 from schemas.__private.operations.escrow_release_operation import (
-    EscrowReleaseOperationHF26,
+    EscrowReleaseOperation,
     EscrowReleaseOperationLegacy,
 )
 from schemas.__private.operations.escrow_transfer_operation import (
-    EscrowTransferOperationHF26,
+    EscrowTransferOperation,
     EscrowTransferOperationLegacy,
 )
 from schemas.__private.operations.feed_publish_operation import FeedPublishOperation
 from schemas.__private.operations.limit_order_cancel_operation import LimitOrderCancelOperation
 from schemas.__private.operations.limit_order_create2_operation import (
-    LimitOrderCreate2OperationHF26,
+    LimitOrderCreate2Operation,
     LimitOrderCreate2OperationLegacy,
 )
 from schemas.__private.operations.limit_order_create_operation import (
-    LimitOrderCreateOperationHF26,
+    LimitOrderCreateOperation,
     LimitOrderCreateOperationLegacy,
 )
 from schemas.__private.operations.pow_operation import PowOperation
 from schemas.__private.operations.recover_account_operation import RecoverAccountOperation
 from schemas.__private.operations.recurrent_transfer_operation import (
-    RecurrentTransferOperationHF26,
+    RecurrentTransferOperation,
     RecurrentTransferOperationLegacy,
 )
 from schemas.__private.operations.remove_proposal_operation import RemoveProposalOperation
@@ -77,89 +77,89 @@ from schemas.__private.operations.reset_account_operation import ResetAccountOpe
 from schemas.__private.operations.set_reset_account_operation import SetResetAccountOperation
 from schemas.__private.operations.set_withdraw_vesting_route_operation import SetWithdrawVestingRouteOperation
 from schemas.__private.operations.transfer_from_savings_operation import (
-    TransferFromSavingsOperationHF26,
+    TransferFromSavingsOperation,
     TransferFromSavingsOperationLegacy,
 )
-from schemas.__private.operations.transfer_operation import TransferOperationHF26, TransferOperationLegacy
+from schemas.__private.operations.transfer_operation import TransferOperation, TransferOperationLegacy
 from schemas.__private.operations.transfer_to_savings_operation import (
-    TransferToSavingsOperationHF26,
+    TransferToSavingsOperation,
     TransferToSavingsOperationLegacy,
 )
 from schemas.__private.operations.transfer_to_vesting_operation import (
-    TransferToVestingOperationHF26,
+    TransferToVestingOperation,
     TransferToVestingOperationLegacy,
 )
 from schemas.__private.operations.update_proposal_operation import (
-    UpdateProposalOperationHF26,
+    UpdateProposalOperation,
     UpdateProposalOperationLegacy,
 )
 from schemas.__private.operations.update_proposal_votes_operation import UpdateProposalVotesOperation
 from schemas.__private.operations.virtual import (
-    AnyHF26VirtualOperation,
     AnyLegacyVirtualOperation,
+    AnyVirtualOperation,
 )
 from schemas.__private.operations.vote_operation import VoteOperation
 from schemas.__private.operations.withdraw_vesting_operation import (
-    WithdrawVestingOperationHF26,
+    WithdrawVestingOperation,
     WithdrawVestingOperationLegacy,
 )
 from schemas.__private.operations.witness_block_approve_operation import WitnessBlockApproveOperation
 from schemas.__private.operations.witness_set_properties_operation import WitnessSetPropertiesOperation
 from schemas.__private.operations.witness_update_operation import (
-    WitnessUpdateOperationHF26,
+    WitnessUpdateOperation,
     WitnessUpdateOperationLegacy,
 )
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 
-AnyHF26Operation = (
-    AccountCreateOperationHF26
+AnyOperation = (
+    AccountCreateOperation
     | AccountUpdate2Operation
     | AccountUpdateOperation
     | AccountWitnessProxyOperation
     | AccountWitnessVoteOperation
     | CancelTransferFromSavingsOperation
     | ChangeRecoveryAccountOperation
-    | ClaimAccountOperationHF26
-    | ClaimRewardBalanceOperationHF26
-    | CollateralizedConvertOperationHF26
+    | ClaimAccountOperation
+    | ClaimRewardBalanceOperation
+    | CollateralizedConvertOperation
     | CommentOperation
-    | CommentOptionsOperationHF26
-    | ConvertOperationHF26
+    | CommentOptionsOperation
+    | ConvertOperation
     | CreateClaimedAccountOperation
-    | CreateProposalOperationHF26
+    | CreateProposalOperation
     | CustomBinaryOperation
     | CustomJsonOperation
     | CustomOperation
     | DeclineVotingRightsOperation
-    | DelegateVestingSharesOperationHF26
+    | DelegateVestingSharesOperation
     | DeleteCommentOperation
     | EscrowApproveOperation
     | EscrowDisputeOperation
-    | EscrowReleaseOperationHF26
-    | EscrowTransferOperationHF26
+    | EscrowReleaseOperation
+    | EscrowTransferOperation
     | FeedPublishOperation
     | LimitOrderCancelOperation
-    | LimitOrderCreate2OperationHF26
-    | LimitOrderCreateOperationHF26
+    | LimitOrderCreate2Operation
+    | LimitOrderCreateOperation
     | PowOperation
     | RecoverAccountOperation
-    | RecurrentTransferOperationHF26
+    | RecurrentTransferOperation
     | RemoveProposalOperation
     | RequestAccountRecoveryOperation
     | ResetAccountOperation
     | SetResetAccountOperation
     | SetWithdrawVestingRouteOperation
-    | TransferFromSavingsOperationHF26
-    | TransferOperationHF26
-    | TransferToSavingsOperationHF26
-    | TransferToVestingOperationHF26
-    | UpdateProposalOperationHF26
+    | TransferFromSavingsOperation
+    | TransferOperation
+    | TransferToSavingsOperation
+    | TransferToVestingOperation
+    | UpdateProposalOperation
     | UpdateProposalVotesOperation
     | VoteOperation
-    | WithdrawVestingOperationHF26
+    | WithdrawVestingOperation
     | WitnessBlockApproveOperation
     | WitnessSetPropertiesOperation
-    | WitnessUpdateOperationHF26
+    | WitnessUpdateOperation
 )
 
 AnyLegacyOperation = (
@@ -214,7 +214,7 @@ AnyLegacyOperation = (
 )
 
 
-AnyHF26EveryOperation = AnyHF26Operation | AnyHF26VirtualOperation
+AnyEveryOperation = AnyOperation | AnyVirtualOperation
 AnyLegacyEveryOperation = AnyLegacyOperation | AnyLegacyVirtualOperation
 
 
@@ -256,7 +256,7 @@ def get_legacy_representation(type_name: str) -> type[LegacyOperationRepresentat
     return __get_representation_from_type_dict(type_name, __legacy_operation_representations)
 
 
-def __create_hf26_representation(incoming_type: type[AnyHF26Operation]) -> type[Hf26OperationRepresentation]:
+def __create_hf26_representation(incoming_type: type[AnyOperation]) -> type[Hf26OperationRepresentation]:
     class Hf26Operation(Hf26OperationRepresentation):
         type: Literal[incoming_type.get_name_with_suffix()]  # type: ignore[valid-type]  # noqa: A003
         value: incoming_type  # type: ignore[valid-type]
@@ -283,19 +283,19 @@ def __create_legacy_representation(incoming_cls: type[AnyLegacyOperation]) -> ty
 
 
 # NON-VIRTUAL
-__Hf26OperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(AnyHF26Operation))]  # type: ignore  # noqa: UP007
+__Hf26OperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(AnyOperation))]  # type: ignore  # noqa: UP007
 __LegacyOperationRepresentationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in get_args(AnyLegacyOperation))]  # type: ignore  # noqa: UP007
 Hf26OperationRepresentationType = Annotated[__Hf26OperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
 LegacyOperationRepresentationType = Annotated[__LegacyOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
 
 # VIRTUAL
-__Hf26VirtualOperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(AnyHF26VirtualOperation))]  # type: ignore  # noqa: UP007
+__Hf26VirtualOperationRepresentationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(AnyVirtualOperation))]  # type: ignore  # noqa: UP007
 __LegacyVirtualOperationRepresentationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in get_args(AnyLegacyVirtualOperation))]  # type: ignore  # noqa: UP007
 Hf26VirtualOperationRepresentationType = Annotated[__Hf26VirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
 LegacyVirtualOperationRepresentationType = Annotated[__LegacyVirtualOperationRepresentationUnionType, Field(discriminator="type")]  # type: ignore
 
 # ALL
-__Hf26AllOperationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(AnyHF26EveryOperation))]  # type: ignore  # noqa: UP007
+__Hf26AllOperationUnionType = Union[tuple(__create_hf26_representation(arg) for arg in get_args(AnyEveryOperation))]  # type: ignore  # noqa: UP007
 __LegacyAllOperationUnionType = Union[tuple(__create_legacy_representation(arg) for arg in get_args(AnyLegacyEveryOperation))]  # type: ignore  # noqa: UP007
 Hf26AllOperationRepresentationType = Annotated[__Hf26AllOperationUnionType, Field(discriminator="type")]  # type: ignore
 LegacyAllOperationRepresentationType = Annotated[__LegacyAllOperationUnionType, Field(discriminator="type")]  # type: ignore
@@ -308,61 +308,61 @@ __all__ = [
     "LegacyVirtualOperationRepresentationType",
     "Hf26AllOperationRepresentationType",
     # ANY OPERATION
-    "AnyHF26Operation",
+    "AnyOperation",
     "AnyLegacyOperation",
-    "AnyHF26VirtualOperation",
+    "AnyVirtualOperation",
     "AnyLegacyVirtualOperation",
-    "AnyHF26EveryOperation",
+    "AnyEveryOperation",
     "AnyLegacyEveryOperation",
     # OPERATIONS
-    "AccountCreateOperationHF26",
+    "AccountCreateOperation",
     "AccountUpdate2Operation",
     "AccountUpdateOperation",
     "AccountWitnessProxyOperation",
     "AccountWitnessVoteOperation",
     "CancelTransferFromSavingsOperation",
     "ChangeRecoveryAccountOperation",
-    "ClaimAccountOperationHF26",
-    "ClaimRewardBalanceOperationHF26",
-    "CollateralizedConvertOperationHF26",
+    "ClaimAccountOperation",
+    "ClaimRewardBalanceOperation",
+    "CollateralizedConvertOperation",
     "CommentOperation",
-    "CommentOptionsOperationHF26",
-    "ConvertOperationHF26",
+    "CommentOptionsOperation",
+    "ConvertOperation",
     "CreateClaimedAccountOperation",
-    "CreateProposalOperationHF26",
+    "CreateProposalOperation",
     "CustomBinaryOperation",
     "CustomJsonOperation",
     "CustomOperation",
     "DeclineVotingRightsOperation",
-    "DelegateVestingSharesOperationHF26",
+    "DelegateVestingSharesOperation",
     "DeleteCommentOperation",
     "EscrowApproveOperation",
     "EscrowDisputeOperation",
-    "EscrowReleaseOperationHF26",
-    "EscrowTransferOperationHF26",
+    "EscrowReleaseOperation",
+    "EscrowTransferOperation",
     "FeedPublishOperation",
     "LimitOrderCancelOperation",
-    "LimitOrderCreate2OperationHF26",
-    "LimitOrderCreateOperationHF26",
+    "LimitOrderCreate2Operation",
+    "LimitOrderCreateOperation",
     "PowOperation",
     "RecoverAccountOperation",
-    "RecurrentTransferOperationHF26",
+    "RecurrentTransferOperation",
     "RemoveProposalOperation",
     "RequestAccountRecoveryOperation",
     "ResetAccountOperation",
     "SetResetAccountOperation",
     "SetWithdrawVestingRouteOperation",
-    "TransferFromSavingsOperationHF26",
-    "TransferOperationHF26",
-    "TransferToSavingsOperationHF26",
-    "TransferToVestingOperationHF26",
-    "UpdateProposalOperationHF26",
+    "TransferFromSavingsOperation",
+    "TransferOperation",
+    "TransferToSavingsOperation",
+    "TransferToVestingOperation",
+    "UpdateProposalOperation",
     "UpdateProposalVotesOperation",
     "VoteOperation",
-    "WithdrawVestingOperationHF26",
+    "WithdrawVestingOperation",
     "WitnessBlockApproveOperation",
     "WitnessSetPropertiesOperation",
-    "WitnessUpdateOperationHF26",
+    "WitnessUpdateOperation",
     # LEGACY OPERATIONS
     "AccountCreateOperationLegacy",
     "ClaimAccountOperationLegacy",

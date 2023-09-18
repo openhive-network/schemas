@@ -28,7 +28,7 @@ class _FillConvertRequestOperation(VirtualOperation, GenericModel, Generic[Asset
     amount_out: AssetHive
 
 
-class FillConvertRequestOperationHF26(_FillConvertRequestOperation[AssetHiveHF26, AssetHbdHF26]):
+class FillConvertRequestOperation(_FillConvertRequestOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

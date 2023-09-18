@@ -24,7 +24,7 @@ class _ConsolidateTreasuryBalanceOperation(VirtualOperation, GenericModel, Gener
     total_moved: list[AssetHive | AssetHbd | AssetVests]
 
 
-class ConsolidateTreasuryBalanceOperationHF26(
+class ConsolidateTreasuryBalanceOperation(
     _ConsolidateTreasuryBalanceOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
 ):
     ...

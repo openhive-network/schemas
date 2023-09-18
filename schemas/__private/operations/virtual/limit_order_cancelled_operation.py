@@ -27,7 +27,7 @@ class _LimitOrderCancelledOperation(VirtualOperation, GenericModel, Generic[Asse
     amount_back: AssetHive | AssetHbd
 
 
-class LimitOrderCancelledOperationHF26(_LimitOrderCancelledOperation[AssetHiveHF26, AssetHbdHF26]):
+class LimitOrderCancelledOperation(_LimitOrderCancelledOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

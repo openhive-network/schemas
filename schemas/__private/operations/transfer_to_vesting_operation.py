@@ -23,7 +23,7 @@ class _TransferToVestingOperation(Operation, GenericModel, Generic[AssetHive]):
     amount: AssetHive
 
 
-class TransferToVestingOperationHF26(_TransferToVestingOperation[AssetHiveHF26]):
+class TransferToVestingOperation(_TransferToVestingOperation[AssetHiveHF26]):
     ...
 
 

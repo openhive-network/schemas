@@ -24,9 +24,7 @@ class _ClearNullAccountBalanceOperation(VirtualOperation, GenericModel, Generic[
     total_cleared: list[AssetHive | AssetHbd | AssetVests]
 
 
-class ClearNullAccountBalanceOperationHF26(
-    _ClearNullAccountBalanceOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
-):
+class ClearNullAccountBalanceOperation(_ClearNullAccountBalanceOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
     ...
 
 

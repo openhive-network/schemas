@@ -23,7 +23,7 @@ class _ProducerRewardOperation(VirtualOperation, GenericModel, Generic[AssetHive
     vesting_shares: AssetHive | AssetVests
 
 
-class ProducerRewardOperationHF26(_ProducerRewardOperation[AssetHiveHF26, AssetVestsHF26]):
+class ProducerRewardOperation(_ProducerRewardOperation[AssetHiveHF26, AssetVestsHF26]):
     ...
 
 

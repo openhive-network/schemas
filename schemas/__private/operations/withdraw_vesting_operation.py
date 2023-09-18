@@ -15,7 +15,7 @@ class _WithdrawVestingOperation(Operation, GenericModel, Generic[AssetVests]):
     vesting_shares: AssetVests
 
 
-class WithdrawVestingOperationHF26(_WithdrawVestingOperation[AssetVestsHF26]):
+class WithdrawVestingOperation(_WithdrawVestingOperation[AssetVestsHF26]):
     ...
 
 

@@ -25,7 +25,7 @@ class _FillVestingWithdrawOperation(VirtualOperation, GenericModel, Generic[Asse
     deposited: AssetHive | AssetVests
 
 
-class FillVestingWithdrawOperationHF26(_FillVestingWithdrawOperation[AssetHiveHF26, AssetVestsHF26]):
+class FillVestingWithdrawOperation(_FillVestingWithdrawOperation[AssetHiveHF26, AssetVestsHF26]):
     ...
 
 

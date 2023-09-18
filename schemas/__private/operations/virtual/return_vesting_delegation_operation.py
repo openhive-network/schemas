@@ -15,7 +15,7 @@ class _ReturnVestingDelegationOperation(VirtualOperation, GenericModel, Generic[
     vesting_shares: AssetVests
 
 
-class ReturnVestingDelegationOperationHF26(_ReturnVestingDelegationOperation[AssetVestsHF26]):
+class ReturnVestingDelegationOperation(_ReturnVestingDelegationOperation[AssetVestsHF26]):
     ...
 
 

@@ -30,7 +30,7 @@ class _ProposalPayOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
     op_in_trx: Uint16t = DEFAULT_OP_IN_TRX
 
 
-class ProposalPayOperationHF26(_ProposalPayOperation[AssetHbdHF26]):
+class ProposalPayOperation(_ProposalPayOperation[AssetHbdHF26]):
     ...
 
 

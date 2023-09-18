@@ -26,7 +26,7 @@ class _CreateProposalOperation(Operation, GenericModel, Generic[AssetHbd]):
     permlink: str
 
 
-class CreateProposalOperationHF26(_CreateProposalOperation[AssetHbdHF26]):
+class CreateProposalOperation(_CreateProposalOperation[AssetHbdHF26]):
     ...
 
 

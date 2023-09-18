@@ -28,7 +28,7 @@ class _AccountCreateOperation(Operation, GenericModel, Generic[AssetHive]):
     json_metadata: str
 
 
-class AccountCreateOperationHF26(_AccountCreateOperation[AssetHiveHF26]):
+class AccountCreateOperation(_AccountCreateOperation[AssetHiveHF26]):
     ...
 
 

@@ -30,7 +30,7 @@ class _EscrowApprovedOperation(VirtualOperation, GenericModel, Generic[AssetHive
     fee: AssetHive | AssetHbd
 
 
-class EscrowApprovedOperationHF26(_EscrowApprovedOperation[AssetHiveHF26, AssetHbdHF26]):
+class EscrowApprovedOperation(_EscrowApprovedOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

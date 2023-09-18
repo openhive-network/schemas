@@ -25,7 +25,7 @@ class _WitnessUpdateOperation(Operation, GenericModel, Generic[AssetHive]):
     fee: AssetHive  # currently ignored but validated
 
 
-class WitnessUpdateOperationHF26(_WitnessUpdateOperation[AssetHiveHF26]):
+class WitnessUpdateOperation(_WitnessUpdateOperation[AssetHiveHF26]):
     ...
 
 

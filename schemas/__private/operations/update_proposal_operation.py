@@ -25,7 +25,7 @@ class _UpdateProposalOperation(Operation, GenericModel, Generic[AssetHbd]):
     extensions: list[Any] | None
 
 
-class UpdateProposalOperationHF26(_UpdateProposalOperation[AssetHbdHF26]):
+class UpdateProposalOperation(_UpdateProposalOperation[AssetHbdHF26]):
     ...
 
 

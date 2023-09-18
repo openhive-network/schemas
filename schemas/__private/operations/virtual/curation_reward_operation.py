@@ -20,7 +20,7 @@ class _CurationRewardOperation(VirtualOperation, GenericModel, Generic[AssetVest
     payout_must_be_claimed: bool = DEFAULT_PAYOUT_MUST_BE_CLAIMED
 
 
-class CurationRewardOperationHF26(_CurationRewardOperation[AssetVestsHF26]):
+class CurationRewardOperation(_CurationRewardOperation[AssetVestsHF26]):
     ...
 
 

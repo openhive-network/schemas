@@ -37,7 +37,7 @@ class _EscrowTransferOperation(Operation, GenericModel, Generic[AssetHive, Asset
     json_meta: Json[Any] | EmptyString
 
 
-class EscrowTransferOperationHF26(_EscrowTransferOperation[AssetHiveHF26, AssetHbdHF26]):
+class EscrowTransferOperation(_EscrowTransferOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

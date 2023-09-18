@@ -19,7 +19,7 @@ class _ClaimAccountOperation(Operation, GenericModel, Generic[AssetHive]):
     fee: AssetHive | Literal[0]
 
 
-class ClaimAccountOperationHF26(_ClaimAccountOperation[AssetHiveHF26]):
+class ClaimAccountOperation(_ClaimAccountOperation[AssetHiveHF26]):
     ...
 
 

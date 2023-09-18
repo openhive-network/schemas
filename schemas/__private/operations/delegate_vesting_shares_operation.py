@@ -16,7 +16,7 @@ class _DelegateVestingSharesOperation(Operation, GenericModel, Generic[AssetVest
     vesting_shares: AssetVests
 
 
-class DelegateVestingSharesOperationHF26(_DelegateVestingSharesOperation[AssetVestsHF26]):
+class DelegateVestingSharesOperation(_DelegateVestingSharesOperation[AssetVestsHF26]):
     ...
 
 

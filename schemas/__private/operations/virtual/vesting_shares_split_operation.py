@@ -16,7 +16,7 @@ class _VestingSharesSplitOperation(VirtualOperation, GenericModel, Generic[Asset
     vesting_shares_after_split: AssetVests
 
 
-class VestingSharesSplitOperationHF26(_VestingSharesSplitOperation[AssetVestsHF26]):
+class VestingSharesSplitOperation(_VestingSharesSplitOperation[AssetVestsHF26]):
     ...
 
 

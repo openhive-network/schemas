@@ -32,7 +32,7 @@ class _LimitOrderCreate2Operation(Operation, GenericModel, Generic[AssetHive, As
     expiration: HiveDateTime
 
 
-class LimitOrderCreate2OperationHF26(_LimitOrderCreate2Operation[AssetHiveHF26, AssetHbdHF26]):
+class LimitOrderCreate2Operation(_LimitOrderCreate2Operation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

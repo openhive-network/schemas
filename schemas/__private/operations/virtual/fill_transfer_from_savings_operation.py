@@ -30,7 +30,7 @@ class _FillTransferFromSavingsOperation(VirtualOperation, GenericModel, Generic[
     memo: str
 
 
-class FillTransferFromSavingsOperationHF26(_FillTransferFromSavingsOperation[AssetHiveHF26, AssetHbdHF26]):
+class FillTransferFromSavingsOperation(_FillTransferFromSavingsOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

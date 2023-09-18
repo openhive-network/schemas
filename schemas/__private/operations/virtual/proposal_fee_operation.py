@@ -19,7 +19,7 @@ class _ProposalFeeOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
     fee: AssetHbd
 
 
-class ProposalFeeOperationHF26(_ProposalFeeOperation[AssetHbdHF26]):
+class ProposalFeeOperation(_ProposalFeeOperation[AssetHbdHF26]):
     ...
 
 

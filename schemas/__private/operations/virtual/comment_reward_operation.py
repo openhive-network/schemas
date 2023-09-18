@@ -20,7 +20,7 @@ class _CommentRewardOperation(VirtualOperation, GenericModel, Generic[AssetHbd])
     beneficiary_payout_value: AssetHbd
 
 
-class CommentRewardOperationHF26(_CommentRewardOperation[AssetHbdHF26]):
+class CommentRewardOperation(_CommentRewardOperation[AssetHbdHF26]):
     ...
 
 

@@ -37,7 +37,7 @@ class _EffectiveCommentVoteOperation(VirtualOperation, GenericModel, Generic[Ass
     pending_payout: AssetHbd
 
 
-class EffectiveCommentVoteOperationHF26(_EffectiveCommentVoteOperation[AssetHbdHF26]):
+class EffectiveCommentVoteOperation(_EffectiveCommentVoteOperation[AssetHbdHF26]):
     ...
 
 

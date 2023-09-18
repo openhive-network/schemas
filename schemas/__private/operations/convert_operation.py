@@ -19,7 +19,7 @@ class _ConvertOperation(Operation, GenericModel, Generic[AssetHbd]):
     amount: AssetHbd
 
 
-class ConvertOperationHF26(_ConvertOperation[AssetHbdHF26]):
+class ConvertOperation(_ConvertOperation[AssetHbdHF26]):
     ...
 
 

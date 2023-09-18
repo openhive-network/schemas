@@ -18,7 +18,7 @@ class _CollateralizedConvertOperation(Operation, GenericModel, Generic[AssetHive
     amount: AssetHive
 
 
-class CollateralizedConvertOperationHF26(_CollateralizedConvertOperation[AssetHiveHF26]):
+class CollateralizedConvertOperation(_CollateralizedConvertOperation[AssetHiveHF26]):
     ...
 
 

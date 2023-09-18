@@ -30,7 +30,7 @@ class _FillRecurrentTransferOperation(VirtualOperation, GenericModel, Generic[As
     remaining_executions: Uint16t = DEFAULT_REMAINING_EXECUTIONS
 
 
-class FillRecurrentTransferOperationHF26(_FillRecurrentTransferOperation[AssetHiveHF26, AssetHbdHF26]):
+class FillRecurrentTransferOperation(_FillRecurrentTransferOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

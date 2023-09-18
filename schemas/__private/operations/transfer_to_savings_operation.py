@@ -26,7 +26,7 @@ class _TransferToSavingsOperation(Operation, GenericModel, Generic[AssetHive, As
     memo: str
 
 
-class TransferToSavingsOperationHF26(_TransferToSavingsOperation[AssetHiveHF26, AssetHbdHF26]):
+class TransferToSavingsOperation(_TransferToSavingsOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

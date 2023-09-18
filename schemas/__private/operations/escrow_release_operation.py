@@ -33,7 +33,7 @@ class _EscrowReleaseOperation(Operation, GenericModel, Generic[AssetHive, AssetH
     hive_amount: AssetHive  # here add default
 
 
-class EscrowReleaseOperationHF26(_EscrowReleaseOperation[AssetHiveHF26, AssetHbdHF26]):
+class EscrowReleaseOperation(_EscrowReleaseOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

@@ -25,7 +25,7 @@ class _HardforkHiveRestoreOperation(VirtualOperation, GenericModel, Generic[Asse
     hive_transferred: AssetHive
 
 
-class HardforkHiveRestoreOperationHF26(_HardforkHiveRestoreOperation[AssetHiveHF26, AssetHbdHF26]):
+class HardforkHiveRestoreOperation(_HardforkHiveRestoreOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

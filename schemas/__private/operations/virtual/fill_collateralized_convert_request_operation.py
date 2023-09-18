@@ -29,7 +29,7 @@ class _FillCollateralizedConvertRequestOperation(VirtualOperation, GenericModel,
     excess_collateral: AssetHive
 
 
-class FillCollateralizedConvertRequestOperationHF26(
+class FillCollateralizedConvertRequestOperation(
     _FillCollateralizedConvertRequestOperation[AssetHiveHF26, AssetHbdHF26]
 ):
     ...

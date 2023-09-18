@@ -30,7 +30,7 @@ class _TransferFromSavingsOperation(Operation, GenericModel, Generic[AssetHive, 
     memo: str
 
 
-class TransferFromSavingsOperationHF26(_TransferFromSavingsOperation[AssetHiveHF26, AssetHbdHF26]):
+class TransferFromSavingsOperation(_TransferFromSavingsOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
 

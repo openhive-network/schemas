@@ -15,7 +15,7 @@ class _DhfFundingOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
     additional_funds: AssetHbd
 
 
-class DhfFundingOperationHF26(_DhfFundingOperation[AssetHbdHF26]):
+class DhfFundingOperation(_DhfFundingOperation[AssetHbdHF26]):
     pass
 
 

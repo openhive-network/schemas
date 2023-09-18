@@ -18,7 +18,7 @@ class _InterestOperation(VirtualOperation, GenericModel, Generic[AssetHbd]):
     is_saved_into_hbd_balance: bool = DEFAULT_IS_SAVED_INTO_HBD_BALANCE
 
 
-class InterestOperationHF26(_InterestOperation[AssetHbdHF26]):
+class InterestOperation(_InterestOperation[AssetHbdHF26]):
     ...
 
 

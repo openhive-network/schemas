@@ -17,7 +17,7 @@ class _AccountCreatedOperation(VirtualOperation, GenericModel, Generic[AssetVest
     initial_delegation: AssetVests
 
 
-class AccountCreatedOperationHF26(_AccountCreatedOperation[AssetVestsHF26]):
+class AccountCreatedOperation(_AccountCreatedOperation[AssetVestsHF26]):
     ...
 
 

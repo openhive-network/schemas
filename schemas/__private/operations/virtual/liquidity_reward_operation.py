@@ -15,7 +15,7 @@ class _LiquidityRewardOperation(VirtualOperation, GenericModel, Generic[AssetHiv
     payout: AssetHive
 
 
-class LiquidityRewardOperationHF26(_LiquidityRewardOperation[AssetHiveHF26]):
+class LiquidityRewardOperation(_LiquidityRewardOperation[AssetHiveHF26]):
     ...
 
 

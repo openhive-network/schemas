@@ -24,7 +24,7 @@ class _CommentOptionsOperation(Operation, GenericModel, Generic[AssetHbd]):
     extensions: list[Any] | None
 
 
-class CommentOptionsOperationHF26(_CommentOptionsOperation[AssetHbdHF26]):
+class CommentOptionsOperation(_CommentOptionsOperation[AssetHbdHF26]):
     ...
 
 

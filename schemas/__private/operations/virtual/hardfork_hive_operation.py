@@ -31,7 +31,7 @@ class _HardforkHiveOperation(VirtualOperation, GenericModel, Generic[AssetHive, 
     total_hive_from_vests: AssetHive
 
 
-class HardforkHiveOperationHF26(_HardforkHiveOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
+class HardforkHiveOperation(_HardforkHiveOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
     ...
 
 
