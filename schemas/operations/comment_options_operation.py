@@ -5,7 +5,8 @@ from typing import Any, Final, Generic
 from pydantic.generics import GenericModel
 
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
-from schemas.fields.basic import AccountName, Uint16t
+from schemas.fields.basic import AccountName
+from schemas.fields.integers import Uint16t
 from schemas.hive_constants import HIVE_100_PERCENT
 from schemas.operation import Operation
 

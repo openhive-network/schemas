@@ -7,13 +7,14 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING, Generic, TypeVar
 
-from pydantic import ConstrainedInt, ConstrainedList, ConstrainedStr, PrivateAttr
+from pydantic import ConstrainedList, ConstrainedStr, PrivateAttr
 from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets.hbd import AssetHbdT
 from schemas.fields.assets.hive import AssetHiveT
 from schemas.fields.hive_int import HiveInt
+from schemas.fields.integers import Uint16t, Uint32t
 from schemas.hive_constants import HIVE_HBD_INTEREST_RATE, HIVE_MAX_BLOCK_SIZE
 
 
@@ -37,36 +38,6 @@ class Authority(PreconfiguredBaseModel):
     weight_threshold: HiveInt
     account_auths: list[tuple[AccountName, HiveInt]]
     key_auths: list[tuple[PublicKey, HiveInt]]
-
-
-class Uint8t(ConstrainedInt):
-    ge = 0
-    le = 255
-
-
-class Uint16t(ConstrainedInt):
-    ge = 0
-    le = 65535
-
-
-class Int16t(ConstrainedInt):
-    ge = -32768
-    le = 32767
-
-
-class Uint32t(ConstrainedInt):
-    ge = 0
-    le = 4294967295
-
-
-class Int64t(ConstrainedInt):
-    ge = -9223372036854775808
-    le = 9223372036854775807
-
-
-class Uint64t(ConstrainedInt):
-    ge = 0
-    le = 18446744073709554615
 
 
 class CustomIdType(ConstrainedStr):
@@ -96,14 +67,6 @@ class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetH
     account_creation_fee: AssetHiveT
     maximum_block_size: Uint32t = Uint32t(HIVE_MAX_BLOCK_SIZE)
     hbd_interest_rate: Uint16t = Uint16t(HIVE_HBD_INTEREST_RATE)
-
-
-class ShareType(Int64t):
-    """Identical data-type as Int64t"""
-
-
-class UShareType(Uint64t):
-    """Identical data-type as Uint64t"""
 
 
 HiveBaseModel = TypeVar("HiveBaseModel", bound=PreconfiguredBaseModel)

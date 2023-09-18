@@ -9,8 +9,8 @@ from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
     AccountName,
-    Uint16t,
 )
+from schemas.fields.integers import Uint16t
 from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_REMAINING_EXECUTIONS: Final[Uint16t] = Uint16t(0)

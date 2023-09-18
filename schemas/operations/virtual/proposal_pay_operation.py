@@ -7,10 +7,9 @@ from pydantic.generics import GenericModel
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.basic import (
     AccountName,
-    Uint16t,
-    Uint32t,
 )
 from schemas.fields.custom import TransactionId
+from schemas.fields.integers import Uint16t, Uint32t
 from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_PROPOSAL_ID: Final[Uint32t] = Uint32t(0)

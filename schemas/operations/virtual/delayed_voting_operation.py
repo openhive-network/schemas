@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from typing import Final
 
-from schemas.fields.basic import AccountName, UShareType
+from schemas.fields.basic import AccountName
+from schemas.fields.integers import UShareType
 from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_VOTES: Final[UShareType] = UShareType(0)

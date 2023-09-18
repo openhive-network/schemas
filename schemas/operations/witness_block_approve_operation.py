@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from schemas.fields.basic import AccountName, Uint32t
+from schemas.fields.basic import AccountName
+from schemas.fields.integers import Uint32t
 from schemas.operation import Operation
 
 

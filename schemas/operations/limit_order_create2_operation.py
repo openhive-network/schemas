@@ -9,9 +9,9 @@ from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHive
 from schemas.fields.basic import (
     AccountName,
     HbdExchangeRate,
-    Uint32t,
 )
 from schemas.fields.hive_datetime import HiveDateTime
+from schemas.fields.integers import Uint32t
 from schemas.operation import Operation
 
 DEFAULT_FILL_OR_KILL: Final[bool] = False

@@ -9,9 +9,8 @@ from pydantic.generics import GenericModel
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.basic import (
     AccountName,
-    Int64t,
-    Uint64t,
 )
+from schemas.fields.integers import Int64t, Uint64t
 from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_WEIGHT: Final[Uint64t] = Uint64t(0)

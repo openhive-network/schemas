@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from schemas.fields.basic import AccountName, Int64t
+from schemas.fields.basic import AccountName
+from schemas.fields.integers import Int64t
 from schemas.operation import Operation
 
 
