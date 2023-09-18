@@ -4,19 +4,19 @@ from typing import Any, Final
 
 from pydantic import Field
 
-from schemas.__private.hive_fields_basic_schemas import (
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.basic import (
     AccountName,
     PublicKey,
     Uint16t,
     Uint32t,
     Uint64t,
 )
-from schemas.__private.hive_fields_custom_schemas import (
+from schemas.fields.custom import (
     Sha256,
     Signature,
     TransactionId,
 )
-from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.operation import Operation
 
 DEFAULT_FILL_OR_KILL: Final[bool] = False

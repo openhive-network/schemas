@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from schemas.__private.hive_fields_basic_schemas import HiveList
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.block_api.fundaments_of_responses import GetBlockHeaderFundament, Hf26Block
+from schemas.fields.basic import HiveList
 
 
 class GetBlockBase(PreconfiguredBaseModel):

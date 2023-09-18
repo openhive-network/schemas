@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Final
 
-from schemas.__private.hive_fields_basic_schemas import AccountName
+from schemas.fields.basic import AccountName
 from schemas.operation import Operation
 
 DEFAULT_DECLINE: Final[bool] = True

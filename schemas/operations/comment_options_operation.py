@@ -4,7 +4,7 @@ from typing import Any, Final, Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, AssetHbdHF26, AssetHbdLegacy, Uint16t
+from schemas.fields.basic import AccountName, AssetHbd, AssetHbdHF26, AssetHbdLegacy, Uint16t
 from schemas.hive_constants import HIVE_100_PERCENT
 from schemas.operation import Operation
 

@@ -4,7 +4,7 @@ from typing import Final
 
 from pydantic import Field
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, Uint32t
+from schemas.fields.basic import AccountName, Uint32t
 from schemas.operation import Operation
 
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)

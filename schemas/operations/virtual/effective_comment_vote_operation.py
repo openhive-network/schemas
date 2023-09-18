@@ -6,7 +6,7 @@ from typing import Final, Generic
 from pydantic import BaseModel
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import (
+from schemas.fields.basic import (
     AccountName,
     AssetHbd,
     AssetHbdHF26,

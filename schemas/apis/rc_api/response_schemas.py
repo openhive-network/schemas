@@ -4,9 +4,6 @@ from typing import Generic, Literal
 
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import (
-    AssetVests,
-)
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.rc_api.fundaments_of_responses import (
     RcAccount,
@@ -14,6 +11,9 @@ from schemas.apis.rc_api.fundaments_of_responses import (
     ResourceParams,
     ResourcePool,
     SizeInfo,
+)
+from schemas.fields.basic import (
+    AssetVests,
 )
 
 

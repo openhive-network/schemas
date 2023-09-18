@@ -4,7 +4,7 @@ from typing import Final, Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import (
+from schemas.fields.basic import (
     AccountName,
     AssetHbd,
     AssetHbdHF26,
@@ -12,7 +12,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     Uint16t,
     Uint32t,
 )
-from schemas.__private.hive_fields_custom_schemas import TransactionId
+from schemas.fields.custom import TransactionId
 from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_PROPOSAL_ID: Final[Uint32t] = Uint32t(0)

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, Int64t
+from schemas.fields.basic import AccountName, Int64t
 from schemas.operation import Operation
 
 

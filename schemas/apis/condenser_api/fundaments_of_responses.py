@@ -5,7 +5,9 @@ from typing import TYPE_CHECKING, Any, Literal
 from pydantic import Field
 
 import schemas.apis.database_api.fundaments_of_reponses as fundaments_database_api
-from schemas.__private.hive_fields_basic_schemas import (
+from schemas.__private.operation_objects import LegacyApiAllOperationObject
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.basic import (
     AccountName,
     AssetHbdLegacy,
     AssetHiveLegacy,
@@ -14,13 +16,11 @@ from schemas.__private.hive_fields_basic_schemas import (
     HiveDateTime,
     HiveInt,
 )
-from schemas.__private.hive_fields_custom_schemas import (
+from schemas.fields.custom import (
     FloatAsString,
     Permlink,
     Proposal,
 )
-from schemas.__private.operation_objects import LegacyApiAllOperationObject
-from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 if TYPE_CHECKING:
     from schemas.operations.representation_types import __LegacyAllOperationUnionType  # noqa: F401 # mypy bug

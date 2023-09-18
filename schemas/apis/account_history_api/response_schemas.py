@@ -4,8 +4,6 @@ from typing import Any, Generic, TypeVar
 
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import HiveDateTime, HiveInt
-from schemas.__private.hive_fields_custom_schemas import Signature, TransactionId
 from schemas.__private.operation_objects import (
     Hf26ApiOperationObject,
     Hf26ApiVirtualOperationObject,
@@ -14,6 +12,8 @@ from schemas.__private.operation_objects import (
 )
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament
+from schemas.fields.basic import HiveDateTime, HiveInt
+from schemas.fields.custom import Signature, TransactionId
 from schemas.operations.representation_types import (
     Hf26OperationRepresentationType,
     LegacyOperationRepresentationType,

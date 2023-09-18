@@ -4,13 +4,13 @@ from typing import Any, Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import (
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.basic import (
     AccountName,
     HiveDateTime,
     PublicKey,
 )
-from schemas.__private.hive_fields_custom_schemas import Signature, TransactionId
-from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.custom import Signature, TransactionId
 from schemas.transaction import (
     Transaction,
     TransactionLegacy,

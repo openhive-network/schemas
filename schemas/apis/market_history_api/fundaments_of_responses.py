@@ -5,13 +5,13 @@ from typing import Generic
 from pydantic import Field
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import (
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.basic import (
     AssetHbd,
     AssetHive,
     HiveDateTime,
     HiveInt,
 )
-from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 
 class GetMarketHistoryField(PreconfiguredBaseModel):

@@ -4,12 +4,12 @@ from typing import Any
 
 from pydantic import root_validator
 
-from schemas.__private.hive_fields_basic_schemas import (
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.basic import (
     HiveDateTime,
     HiveInt,
 )
-from schemas.__private.hive_fields_custom_schemas import TransactionId
-from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.custom import TransactionId
 from schemas.operations.representation_types import (
     Hf26AllOperationRepresentationType,
     Hf26OperationRepresentationType,

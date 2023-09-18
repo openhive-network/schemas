@@ -5,7 +5,6 @@ from typing import Any
 import pytest
 from pydantic import ValidationError
 
-from schemas.__private.hive_fields_basic_schemas import AssetHbdHF26, AssetHiveHF26, AssetVestsHF26
 from schemas.apis.database_api import (
     FindAccountRecoveryRequests,
     FindAccounts,
@@ -59,6 +58,7 @@ from schemas.apis.database_api import (
     VerifyAuthority,
     VerifySignatures,
 )
+from schemas.fields.basic import AssetHbdHF26, AssetHiveHF26, AssetVestsHF26
 from schemas.policies import MissingFieldsInGetConfig
 from schemas.responses import HiveResult
 

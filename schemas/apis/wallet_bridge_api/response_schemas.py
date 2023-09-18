@@ -10,22 +10,6 @@ import schemas.apis.block_api.fundaments_of_responses as fundaments_block_api
 import schemas.apis.database_api.fundaments_of_reponses as fundaments_database_api
 import schemas.apis.database_api.response_schemas as database_api
 import schemas.apis.network_broadcast_api.response_schemas as network_broadcast_api
-from schemas.__private.hive_fields_basic_schemas import (
-    AccountName,
-    AssetHbdHF26,
-    AssetHive,
-    AssetHiveHF26,
-    AssetVestsHF26,
-    HiveInt,
-    HiveList,
-)
-from schemas.__private.hive_fields_custom_schemas import (
-    HardforkVersion,
-    Price,
-    Proposal,
-    RcAccountObject,
-    TransactionId,
-)
 from schemas.__private.operation_objects import Hf26ApiAllOperationObject
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.wallet_bridge_api.fundaments_of_responses import (
@@ -34,6 +18,22 @@ from schemas.apis.wallet_bridge_api.fundaments_of_responses import (
     GetCollateralizedConversionRequestsFundament,
     GetConversionRequestsFundament,
     ListRcDirectDelegationsFundament,
+)
+from schemas.fields.basic import (
+    AccountName,
+    AssetHbdHF26,
+    AssetHive,
+    AssetHiveHF26,
+    AssetVestsHF26,
+    HiveInt,
+    HiveList,
+)
+from schemas.fields.custom import (
+    HardforkVersion,
+    Price,
+    Proposal,
+    RcAccountObject,
+    TransactionId,
 )
 
 

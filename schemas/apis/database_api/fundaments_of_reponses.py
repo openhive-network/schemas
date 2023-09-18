@@ -5,7 +5,8 @@ from typing import Any, Generic
 from pydantic import Field, Json
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import (
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.basic import (
     AccountName,
     AssetHbd,
     AssetHive,
@@ -17,7 +18,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     HiveInt,
     PublicKey,
 )
-from schemas.__private.hive_fields_custom_schemas import (
+from schemas.fields.custom import (
     DelayedVotes,
     FloatAsString,
     HardforkVersion,
@@ -30,7 +31,6 @@ from schemas.__private.hive_fields_custom_schemas import (
     Sha256,
     Version,
 )
-from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 
 class FindAccountRecoveryRequestsFundament(PreconfiguredBaseModel):

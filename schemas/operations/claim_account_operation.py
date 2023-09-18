@@ -4,7 +4,7 @@ from typing import Generic, Literal
 
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHive, AssetHiveHF26, AssetHiveLegacy
+from schemas.fields.basic import AccountName, AssetHive, AssetHiveHF26, AssetHiveLegacy
 from schemas.operation import Operation
 
 """

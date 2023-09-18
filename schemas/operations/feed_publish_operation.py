@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbdHF26, AssetHiveHF26, HbdExchangeRate
+from schemas.fields.basic import AccountName, AssetHbdHF26, AssetHiveHF26, HbdExchangeRate
 from schemas.operation import Operation
 
 

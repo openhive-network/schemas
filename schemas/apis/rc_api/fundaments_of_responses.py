@@ -5,13 +5,13 @@ from typing import Generic
 from pydantic import Field
 from pydantic.generics import GenericModel
 
-from schemas.__private.hive_fields_basic_schemas import (
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.basic import (
     AccountName,
     AssetVests,
     HiveInt,
 )
-from schemas.__private.hive_fields_custom_schemas import Manabar
-from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.custom import Manabar
 
 
 class RcAccount(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):

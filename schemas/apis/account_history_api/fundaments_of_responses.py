@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from schemas.__private.hive_fields_basic_schemas import HiveDateTime, HiveInt
 from schemas.__private.operation_objects import Hf26ApiAllOperationObject, LegacyApiAllOperationObject
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.basic import HiveDateTime, HiveInt
 
 
 class EnumVirtualOpsFieldFundament(PreconfiguredBaseModel):

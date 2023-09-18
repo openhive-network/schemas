@@ -18,24 +18,6 @@ import schemas.apis.market_history_api.response_schemas as market_history_api
 import schemas.apis.network_broadcast_api.response_schemas as broadcast_api
 import schemas.apis.wallet_bridge_api.fundaments_of_responses as fundaments_wallet_bridge_api
 import schemas.apis.wallet_bridge_api.response_schemas as wallet_bridge_api
-from schemas.__private.hive_fields_basic_schemas import (
-    AccountName,
-    AssetHbdLegacy,
-    AssetHiveLegacy,
-    AssetVestsLegacy,
-    EmptyString,
-    HiveDateTime,
-    HiveInt,
-    HiveList,
-    PublicKey,
-)
-from schemas.__private.hive_fields_custom_schemas import (
-    HardforkVersion,
-    Hex,
-    HiveVersion,
-    Price,
-    RcAccountObject,
-)
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.condenser_api.fundaments_of_responses import (
     FindProposalsFundament,
@@ -59,6 +41,24 @@ from schemas.apis.condenser_api.fundaments_of_responses import (
     ListProposalsFundament,
     ListRcDirectDelegationsFundament,
     LookupAccountNamesFundament,
+)
+from schemas.fields.basic import (
+    AccountName,
+    AssetHbdLegacy,
+    AssetHiveLegacy,
+    AssetVestsLegacy,
+    EmptyString,
+    HiveDateTime,
+    HiveInt,
+    HiveList,
+    PublicKey,
+)
+from schemas.fields.custom import (
+    HardforkVersion,
+    Hex,
+    HiveVersion,
+    Price,
+    RcAccountObject,
 )
 from schemas.operations.representation_types import (
     LegacyOperationRepresentationType,
