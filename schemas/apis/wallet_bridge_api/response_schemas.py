@@ -10,7 +10,7 @@ import schemas.apis.block_api.fundaments_of_responses as fundaments_block_api
 import schemas.apis.database_api.fundaments_of_reponses as fundaments_database_api
 import schemas.apis.database_api.response_schemas as database_api
 import schemas.apis.network_broadcast_api.response_schemas as network_broadcast_api
-from schemas.__private.operation_objects import Hf26ApiAllOperationObject
+from schemas._operation_objects import Hf26ApiAllOperationObject
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.wallet_bridge_api.fundaments_of_responses import (
     Account,

@@ -4,7 +4,7 @@ from typing import Any, Generic, TypeVar
 
 from pydantic.generics import GenericModel
 
-from schemas.__private.operation_objects import (
+from schemas._operation_objects import (
     Hf26ApiOperationObject,
     Hf26ApiVirtualOperationObject,
     LegacyApiOperationObject,

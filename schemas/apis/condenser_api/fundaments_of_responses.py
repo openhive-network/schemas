@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any, Literal
 from pydantic import Field
 
 import schemas.apis.database_api.fundaments_of_reponses as fundaments_database_api
-from schemas.__private.operation_objects import LegacyApiAllOperationObject
+from schemas._operation_objects import LegacyApiAllOperationObject
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import (
     AccountName,
