@@ -12,8 +12,8 @@ from schemas.__private.hive_fields_basic_schemas import (
 from schemas.__private.hive_fields_custom_schemas import Signature, TransactionId
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.transaction_model.transaction import (
-    Hf26Transaction,
-    LegacyTransaction,
+    Transaction,
+    TransactionLegacy,
     TransactionT,
 )
 
@@ -39,8 +39,8 @@ class Block(SignedBlock[TransactionT], GenericModel, Generic[TransactionT]):
     transaction_ids: list[TransactionId]
 
 
-Hf26Block = Block[Hf26Transaction]
-LegacyBlock = Block[LegacyTransaction]
+Hf26Block = Block[Transaction]
+LegacyBlock = Block[TransactionLegacy]
 
 
 class EmptyModel(PreconfiguredBaseModel):
