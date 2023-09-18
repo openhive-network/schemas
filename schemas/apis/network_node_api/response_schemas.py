@@ -10,6 +10,14 @@ from schemas.apis.network_node_api.fundaments_of_responses import (
 )
 
 
+class AddNode(PreconfiguredBaseModel):
+    endpoint: str
+
+
+class GetConnectedPeers(PreconfiguredBaseModel):
+    connected_peers: list[ApiPeerStatus]
+
+
 class GetInfo(PreconfiguredBaseModel):
     listening_on: str
     node_public_key: PublicKeyData
@@ -18,13 +26,5 @@ class GetInfo(PreconfiguredBaseModel):
     connection_count: HiveInt
 
 
-class AddNode(PreconfiguredBaseModel):
-    endpoint: str
-
-
 class SetAllowedPeers(PreconfiguredBaseModel):
     """Empty model"""
-
-
-class GetConnectedPeers(PreconfiguredBaseModel):
-    connected_peers: list[ApiPeerStatus]

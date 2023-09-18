@@ -97,9 +97,6 @@ class GetCurrentMedianHistoryPrice(Price[AssetHiveHF26, AssetHbdHF26]):
     """Identical response as Price field, HF26 format of Assets"""
 
 
-ListAccounts = list[AccountName]
-
-
 class GetDynamicGlobalProperties(database_api.GetDynamicGlobalProperties[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
     """Identical as in database_api"""
 
@@ -127,6 +124,10 @@ class GetOwnerHistory(PreconfiguredBaseModel):
     """Identical as in database_api"""
 
 
+class GetRewardFund(fundaments_database_api.GetRewardFundsFundament[AssetHiveHF26]):
+    """Identical as get_reward_funds funds field"""
+
+
 class GetTransaction(account_history_api.GetTransaction):
     """Identical as in account_history_api"""
 
@@ -147,6 +148,7 @@ class GetWitnessSchedule(database_api.GetWitnessSchedule[AssetHiveHF26]):
 
 IsKnownTransaction = bool
 
+ListAccounts = list[AccountName]
 
 ListMyAccounts = HiveList[Account[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
 
@@ -167,7 +169,3 @@ ListRcDirectDelegations = HiveList[ListRcDirectDelegationsFundament]
 
 class ListWitnesses(database_api.ListWitnesses):
     """Identical as in database_api"""
-
-
-class GetRewardFund(fundaments_database_api.GetRewardFundsFundament[AssetHiveHF26]):
-    """Identical as get_reward_funds funds field"""

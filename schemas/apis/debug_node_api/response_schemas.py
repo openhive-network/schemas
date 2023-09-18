@@ -26,6 +26,10 @@ class DebugGetHardforkPropertyObject(PreconfiguredBaseModel):
     next_hardfork_time: HiveDateTime
 
 
+class DebugGetHeadBlock(PreconfiguredBaseModel):
+    block: SignedBlock[Transaction] | None = None
+
+
 class DebugGetJsonSchema(PreconfiguredBaseModel):
     schema_: str = Field(alias="schema")
 
@@ -73,7 +77,3 @@ class DebugSetVestPrice(PreconfiguredBaseModel):
 
 class DebugThrowException(PreconfiguredBaseModel):
     """Empty model"""
-
-
-class DebugGetHeadBlock(PreconfiguredBaseModel):
-    block: SignedBlock[Transaction] | None = None

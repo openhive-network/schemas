@@ -597,12 +597,12 @@ class ListOwnerHistories(PreconfiguredBaseModel):
     owner_auths: HiveList[OwnerHistoriesFundament]
 
 
-class ListProposalVotes(PreconfiguredBaseModel):
-    proposal_votes: HiveList[ListProposalVotesFundament[AssetHbdHF26]]
-
-
 class ListProposals(PreconfiguredBaseModel):
     proposals: HiveList[Proposal[AssetHbdHF26]]
+
+
+class ListProposalVotes(PreconfiguredBaseModel):
+    proposal_votes: HiveList[ListProposalVotesFundament[AssetHbdHF26]]
 
 
 class ListSavingsWithdrawals(PreconfiguredBaseModel):
@@ -621,12 +621,12 @@ class ListWithdrawVestingRoutes(PreconfiguredBaseModel):
     routes: HiveList[WithdrawVestingRoutesFundament]
 
 
-class ListWitnessVotes(PreconfiguredBaseModel):
-    votes: HiveList[ListWitnessVotesFundament]
-
-
 class ListWitnesses(PreconfiguredBaseModel):
     witnesses: HiveList[WitnessesFundament[AssetHiveHF26, AssetHbdHF26]]
+
+
+class ListWitnessVotes(PreconfiguredBaseModel):
+    votes: HiveList[ListWitnessVotesFundament]
 
 
 class VerifyAccountAuthority(PreconfiguredBaseModel):
