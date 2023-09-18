@@ -7,6 +7,13 @@ from pydantic import Field
 from schemas.__private.operations import AnyEveryOperation, AnyLegacyEveryOperation, AnyLegacyOperation, AnyOperation
 from schemas.__private.operations.representations import _create_hf26_representation, _create_legacy_representation
 
+__all__ = [
+    "Hf26OperationRepresentationType",
+    "LegacyOperationRepresentationType",
+    "Hf26AllOperationRepresentationType",
+    "LegacyAllOperationRepresentationType",
+]
+
 # NON-VIRTUAL
 __Hf26OperationRepresentationUnionType = Union[  # type: ignore[valid-type]  # noqa: UP007
     tuple(_create_hf26_representation(arg) for arg in get_args(AnyOperation))
@@ -39,11 +46,4 @@ Hf26AllOperationRepresentationType = Annotated[
 
 LegacyAllOperationRepresentationType = Annotated[
     __LegacyAllOperationUnionType, Field(discriminator="type")  # type: ignore[valid-type]
-]
-
-__all__ = [
-    "Hf26OperationRepresentationType",
-    "LegacyOperationRepresentationType",
-    "Hf26AllOperationRepresentationType",
-    "LegacyAllOperationRepresentationType",
 ]
