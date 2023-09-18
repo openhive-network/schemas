@@ -4,7 +4,6 @@ from typing import Any
 
 import pytest
 
-from schemas.__private.hive_factory import HiveResult
 from schemas.apis.rc_api import (
     FindRcAccounts,
     GetResourceParams,
@@ -12,6 +11,7 @@ from schemas.apis.rc_api import (
     ListRcAccounts,
     ListRcDirectDelegations,
 )
+from schemas.responses import HiveResult
 
 from .reponses_from_api import (
     FIND_RC_ACCOUNTS,

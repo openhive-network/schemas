@@ -4,8 +4,8 @@ from typing import Any
 
 import pytest
 
-from schemas.__private.hive_factory import HiveResult
 from schemas.apis.transaction_status_api.response_schemas import FindTransaction
+from schemas.responses import HiveResult
 
 from .response_schemas import FIND_TRANSACTION
 

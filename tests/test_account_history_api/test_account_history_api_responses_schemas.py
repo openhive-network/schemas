@@ -5,13 +5,13 @@ from typing import Any
 
 import pytest
 
-from schemas.__private.hive_factory import HiveError, HiveResult
 from schemas.apis.account_history_api.response_schemas import (
     EnumVirtualOps,
     GetAccountHistory,
     GetOpsInBlock,
     GetTransaction,
 )
+from schemas.responses import HiveError, HiveResult
 
 from .responses_from_api import (
     ENUM_VIRTUAL_OPS,
