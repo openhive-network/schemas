@@ -13,13 +13,13 @@ from pydantic.generics import GenericModel
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 __all__ = [
+    "ExpectResultT",
     "HiveError",
     "HiveResult",
     "JsonRpcBase",
-    "T",
 ]
 
-T = TypeVar("T", bound=PreconfiguredBaseModel | list[PreconfiguredBaseModel])
+ExpectResultT = TypeVar("ExpectResultT", bound=PreconfiguredBaseModel | list[PreconfiguredBaseModel])
 
 
 class JsonRpcBase(PreconfiguredBaseModel):
@@ -31,11 +31,11 @@ class HiveError(JsonRpcBase):
     error: dict[str, Any]
 
 
-class HiveResult(JsonRpcBase, GenericModel, Generic[T]):
-    result: T
+class HiveResult(JsonRpcBase, GenericModel, Generic[ExpectResultT]):
+    result: ExpectResultT
 
     @staticmethod
-    def factory(t: Any, **kwargs: Any) -> HiveResult[T] | HiveError:
+    def factory(t: Any, **kwargs: Any) -> HiveResult[ExpectResultT] | HiveError:
         """t -> type of response from api, **kwargs -> unpacked parameters got from api.
         This function is used to return validation on result field, you choose model of result field
         by generic. Factory return just result field from api.
