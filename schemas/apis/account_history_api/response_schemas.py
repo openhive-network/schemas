@@ -12,7 +12,7 @@ from schemas.__private.operation_objects import (
     LegacyApiOperationObject,
     LegacyApiVirtualOperationObject,
 )
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament
 from schemas.operations.representation_types import (
     Hf26OperationRepresentationType,

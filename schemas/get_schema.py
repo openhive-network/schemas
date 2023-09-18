@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Final
 if TYPE_CHECKING:
     from types import ModuleType
 
-    from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+    from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 
 from schemas.apis.account_by_key_api import response_schemas as account_by_key_api

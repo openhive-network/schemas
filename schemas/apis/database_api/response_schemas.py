@@ -32,7 +32,7 @@ from schemas.__private.hive_fields_custom_schemas import (
     RdDynamicParams,
     TransactionId,
 )
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.database_api.fundaments_of_reponses import (
     AccountItemFundament,
     EscrowsFundament,

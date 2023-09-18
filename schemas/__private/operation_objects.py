@@ -9,7 +9,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     HiveInt,
 )
 from schemas.__private.hive_fields_custom_schemas import TransactionId
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.operations.representation_types import (
     Hf26AllOperationRepresentationType,
     Hf26OperationRepresentationType,

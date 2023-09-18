@@ -5,7 +5,7 @@ from typing import Any, Final
 import pytest
 from pydantic import ValidationError
 
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 
 class Model(PreconfiguredBaseModel):

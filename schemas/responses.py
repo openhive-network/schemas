@@ -10,7 +10,7 @@ from typing import Any, Generic, TypeVar
 from pydantic import Field
 from pydantic.generics import GenericModel
 
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 T = TypeVar("T", bound=PreconfiguredBaseModel | list[PreconfiguredBaseModel])
 

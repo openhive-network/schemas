@@ -7,7 +7,7 @@ from pydantic.generics import GenericModel
 from schemas.__private.hive_fields_basic_schemas import (
     AssetVests,
 )
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.rc_api.fundaments_of_responses import (
     RcAccount,
     RcDirectDelegations,

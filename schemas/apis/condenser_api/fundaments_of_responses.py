@@ -20,7 +20,7 @@ from schemas.__private.hive_fields_custom_schemas import (
     Proposal,
 )
 from schemas.__private.operation_objects import LegacyApiAllOperationObject
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 if TYPE_CHECKING:
     from schemas.operations.representation_types import __LegacyAllOperationUnionType  # noqa: F401 # mypy bug

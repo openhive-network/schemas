@@ -27,7 +27,7 @@ from schemas.__private.hive_fields_custom_schemas import (
     TransactionId,
 )
 from schemas.__private.operation_objects import Hf26ApiAllOperationObject
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.wallet_bridge_api.fundaments_of_responses import (
     Account,
     FindRecurrentTransfersFundament,

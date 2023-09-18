@@ -36,7 +36,7 @@ from schemas.__private.hive_fields_custom_schemas import (
     Price,
     RcAccountObject,
 )
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.condenser_api.fundaments_of_responses import (
     FindProposalsFundament,
     FollowFundament,

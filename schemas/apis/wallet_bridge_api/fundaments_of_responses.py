@@ -17,7 +17,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     PublicKey,
 )
 from schemas.__private.hive_fields_custom_schemas import DelayedVotes, Manabar
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 
 class Account(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):

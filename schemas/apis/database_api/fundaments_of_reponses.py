@@ -30,7 +30,7 @@ from schemas.__private.hive_fields_custom_schemas import (
     Sha256,
     Version,
 )
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 
 class FindAccountRecoveryRequestsFundament(PreconfiguredBaseModel):

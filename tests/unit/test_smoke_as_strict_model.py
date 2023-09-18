@@ -18,7 +18,7 @@ import schemas.apis.rc_api.response_schemas as rc_api
 import schemas.apis.reputation_api.response_schemas as reputation_api
 import schemas.apis.transaction_status_api.response_schemas as transaction_status_api
 import schemas.apis.wallet_bridge_api.response_schemas as wallet_bridge_api
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 if TYPE_CHECKING:
     from types import ModuleType
