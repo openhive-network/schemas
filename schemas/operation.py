@@ -2,6 +2,10 @@ from __future__ import annotations
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
+__all__ = [
+    "Operation",
+]
+
 
 class Operation(PreconfiguredBaseModel):
     """Base class for all operations to provide valid json serialization"""

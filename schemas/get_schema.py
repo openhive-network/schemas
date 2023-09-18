@@ -23,6 +23,11 @@ from schemas.apis.reputation_api import response_schemas as reputation_api
 from schemas.apis.transaction_status_api import response_schemas as transaction_status_api
 from schemas.apis.wallet_bridge_api import response_schemas as wallet_bridge_api
 
+__all__ = [
+    "APIS",
+    "get_schema",
+]
+
 APIS: Final[dict[str, ModuleType]] = {
     "account_by_key_api": account_by_key_api,
     "account_history_api": account_history_api,

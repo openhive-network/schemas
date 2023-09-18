@@ -12,6 +12,13 @@ from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
+__all__ = [
+    "HiveError",
+    "HiveResult",
+    "JsonRpcBase",
+    "T",
+]
+
 T = TypeVar("T", bound=PreconfiguredBaseModel | list[PreconfiguredBaseModel])
 
 
