@@ -4,10 +4,15 @@ import re
 
 from pydantic import ConstrainedStr, PrivateAttr
 
-
-class EmptyString(ConstrainedStr):
-    min_length = 0
-    max_length = 0
+__all__ = [
+    "AccountName",
+    "CustomIdType",
+    "EmptyString",
+    "FloatAsString",
+    "NodeType",
+    "Permlink",
+    "PublicKey",
+]
 
 
 class AccountName(ConstrainedStr):
@@ -17,16 +22,13 @@ class AccountName(ConstrainedStr):
     max_length = 16
 
 
-class PublicKey(ConstrainedStr):
-    regex = re.compile(r"^(?:STM|TST)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$")
-
-
 class CustomIdType(ConstrainedStr):
     max_length = 32
 
 
-class Permlink(ConstrainedStr):
-    max_length = 256
+class EmptyString(ConstrainedStr):
+    min_length = 0
+    max_length = 0
 
 
 class FloatAsString(ConstrainedStr):
@@ -35,3 +37,11 @@ class FloatAsString(ConstrainedStr):
 
 class NodeType(ConstrainedStr):
     regex = re.compile(r"^(mainnet|testnet|mirrornet)$")
+
+
+class Permlink(ConstrainedStr):
+    max_length = 256
+
+
+class PublicKey(ConstrainedStr):
+    regex = re.compile(r"^(?:STM|TST)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$")

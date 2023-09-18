@@ -18,15 +18,60 @@ from schemas.fields.hive_int import HiveInt
 from schemas.fields.integers import Uint16t, Uint32t
 from schemas.hive_constants import HIVE_HBD_INTEREST_RATE, HIVE_MAX_BLOCK_SIZE
 
+__all__ = [
+    "Authority",
+    "DelayedVotes",
+    "HbdExchangeRate",
+    "LegacyChainProperties",
+    "Manabar",
+    "Price",
+    "Proposal",
+    "Props",
+    "RcAccountObject",
+    "RdDecayParams",
+    "RdDynamicParams",
+]
 
-class Manabar(PreconfiguredBaseModel):
-    current_mana: HiveInt
-    last_update_time: HiveInt
+
+class Authority(PreconfiguredBaseModel):
+    weight_threshold: HiveInt
+    account_auths: list[tuple[AccountName, HiveInt]]
+    key_auths: list[tuple[PublicKey, HiveInt]]
 
 
 class DelayedVotes(PreconfiguredBaseModel):
     time: HiveDateTime
     val: HiveInt
+
+
+class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+    """
+    Field similar to price, but just base can be Hive or Hbd. Quote must be Hive.
+    To choose format of Assets you can do it like in Price field:
+    Legacy -> HbdExchangeRate[AssetHiveLegacy, AssetHbdLegacy](parameters)
+    HF26 -> HbdExchangeRate[AssetHiveHF26, AssetHbdHF26](parameters)
+    Here Hive also must be first parameter of generic
+    """
+
+    base: AssetHiveT | AssetHbdT
+    quote: AssetHiveT | AssetHbdT
+
+
+class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
+    """
+    You can choose of Asset format for this field, to do it:
+    Legacy -> LegacyChainProperties[AssetHiveLegacy](parameters)
+    Nai -> LegacyChainProperties[AssetHiveHF26](parameters)
+    """
+
+    account_creation_fee: AssetHiveT
+    maximum_block_size: Uint32t = Uint32t(HIVE_MAX_BLOCK_SIZE)
+    hbd_interest_rate: Uint16t = Uint16t(HIVE_HBD_INTEREST_RATE)
+
+
+class Manabar(PreconfiguredBaseModel):
+    current_mana: HiveInt
+    last_update_time: HiveInt
 
 
 class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
@@ -64,6 +109,15 @@ class Props(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
     account_subsidy_decay: HiveInt | None = None
 
 
+class RcAccountObject(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
+    account: AccountName
+    rc_manabar: Manabar
+    max_rc_creation_adjustment: AssetVestsT
+    max_rc: HiveInt
+    delegated_rc: HiveInt
+    received_delegated_rc: HiveInt
+
+
 class RdDecayParams(PreconfiguredBaseModel):
     decay_per_time_unit: HiveInt
     decay_per_time_unit_denom_shift: HiveInt
@@ -76,43 +130,3 @@ class RdDynamicParams(PreconfiguredBaseModel):
     max_pool_size: HiveInt
     decay_params: RdDecayParams
     min_decay: HiveInt
-
-
-class RcAccountObject(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
-    account: AccountName
-    rc_manabar: Manabar
-    max_rc_creation_adjustment: AssetVestsT
-    max_rc: HiveInt
-    delegated_rc: HiveInt
-    received_delegated_rc: HiveInt
-
-
-class Authority(PreconfiguredBaseModel):
-    weight_threshold: HiveInt
-    account_auths: list[tuple[AccountName, HiveInt]]
-    key_auths: list[tuple[PublicKey, HiveInt]]
-
-
-class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
-    """
-    Field similar to price, but just base can be Hive or Hbd. Quote must be Hive.
-    To choose format of Assets you can do it like in Price field:
-    Legacy -> HbdExchangeRate[AssetHiveLegacy, AssetHbdLegacy](parameters)
-    HF26 -> HbdExchangeRate[AssetHiveHF26, AssetHbdHF26](parameters)
-    Here Hive also must be first parameter of generic
-    """
-
-    base: AssetHiveT | AssetHbdT
-    quote: AssetHiveT | AssetHbdT
-
-
-class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
-    """
-    You can choose of Asset format for this field, to do it:
-    Legacy -> LegacyChainProperties[AssetHiveLegacy](parameters)
-    Nai -> LegacyChainProperties[AssetHiveHF26](parameters)
-    """
-
-    account_creation_fee: AssetHiveT
-    maximum_block_size: Uint32t = Uint32t(HIVE_MAX_BLOCK_SIZE)
-    hbd_interest_rate: Uint16t = Uint16t(HIVE_HBD_INTEREST_RATE)
