@@ -36,10 +36,6 @@ from schemas.__private.hive_fields_custom_schemas import (
     Price,
     RcAccountObject,
 )
-from schemas.__private.operations.representation_types import (
-    LegacyOperationRepresentationType,
-)
-from schemas.__private.operations.representations import get_legacy_representation
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.condenser_api.fundaments_of_responses import (
     FindProposalsFundament,
@@ -64,6 +60,10 @@ from schemas.apis.condenser_api.fundaments_of_responses import (
     ListRcDirectDelegationsFundament,
     LookupAccountNamesFundament,
 )
+from schemas.operations.representation_types import (
+    LegacyOperationRepresentationType,
+)
+from schemas.operations.representations import get_legacy_representation
 
 
 class BroadcastTransaction(broadcast_api.BroadcastTransaction):
