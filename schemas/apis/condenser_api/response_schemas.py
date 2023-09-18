@@ -52,11 +52,11 @@ from schemas.fields.basic import (
 )
 from schemas.fields.custom import (
     HardforkVersion,
-    Hex,
     HiveVersion,
     Price,
     RcAccountObject,
 )
+from schemas.fields.hex import Hex
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.hive_list import HiveList

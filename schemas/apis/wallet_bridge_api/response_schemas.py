@@ -30,8 +30,8 @@ from schemas.fields.custom import (
     Price,
     Proposal,
     RcAccountObject,
-    TransactionId,
 )
+from schemas.fields.hex import TransactionId
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.hive_list import HiveList
 

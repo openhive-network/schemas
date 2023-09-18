@@ -5,7 +5,7 @@ from typing import Any
 from pydantic import root_validator
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.fields.custom import TransactionId
+from schemas.fields.hex import TransactionId
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.operations.representation_types import (

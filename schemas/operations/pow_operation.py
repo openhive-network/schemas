@@ -9,11 +9,7 @@ from schemas.fields.basic import (
     AccountName,
     PublicKey,
 )
-from schemas.fields.custom import (
-    Sha256,
-    Signature,
-    TransactionId,
-)
+from schemas.fields.hex import Sha256, Signature, TransactionId
 from schemas.fields.integers import Uint16t, Uint32t, Uint64t
 from schemas.operation import Operation
 

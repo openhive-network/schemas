@@ -26,9 +26,9 @@ from schemas.fields.custom import (
     Proposal,
     Props,
     RdDynamicParams,
-    Sha256,
     Version,
 )
+from schemas.fields.hex import Sha256
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 

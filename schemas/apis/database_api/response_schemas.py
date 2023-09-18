@@ -46,14 +46,13 @@ from schemas.fields.basic import (
 )
 from schemas.fields.custom import (
     HardforkVersion,
-    Hex,
     HiveVersion,
     Price,
     Proposal,
     Props,
     RdDynamicParams,
-    TransactionId,
 )
+from schemas.fields.hex import Hex, TransactionId
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.hive_list import HiveList

@@ -5,7 +5,7 @@ from typing import Any, TypeVar
 from pydantic import validator
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.fields.custom import Signature, TransactionId
+from schemas.fields.hex import Signature, TransactionId
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.operations.representation_types import (

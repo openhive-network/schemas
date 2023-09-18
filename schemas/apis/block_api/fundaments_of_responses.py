@@ -9,7 +9,7 @@ from schemas.fields.basic import (
     AccountName,
     PublicKey,
 )
-from schemas.fields.custom import Signature, TransactionId
+from schemas.fields.hex import Signature, TransactionId
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.transaction import (
     Transaction,

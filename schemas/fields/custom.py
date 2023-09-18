@@ -19,6 +19,7 @@ from schemas.fields.assets.vests import AssetVestsT
 from schemas.fields.basic import (
     AccountName,
 )
+from schemas.fields.hex import Sha256, TransactionId
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 
@@ -60,15 +61,6 @@ class Proposal(PreconfiguredBaseModel, GenericModel, Generic[AssetHbdT]):
     status: str
 
 
-class Hex(ConstrainedStr):
-    regex = re.compile(r"^[0-9a-fA-F]*$")
-
-
-class Sha256(Hex):
-    min_length = 64
-    max_length = 64
-
-
 class Version(ConstrainedStr):
     regex = re.compile(r"^\d+\.\d+\.\d+$")
 
@@ -78,11 +70,6 @@ HardforkVersion = Version
 
 class Permlink(ConstrainedStr):
     max_length = 256
-
-
-class TransactionId(Hex):
-    min_length = 40
-    max_length = 40
 
 
 class FloatAsString(ConstrainedStr):
@@ -121,11 +108,6 @@ class RdDynamicParams(PreconfiguredBaseModel):
     max_pool_size: HiveInt
     decay_params: RdDecayParams
     min_decay: HiveInt
-
-
-class Signature(Hex):
-    min_length = 130
-    max_length = 130
 
 
 class RcAccountObject(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):

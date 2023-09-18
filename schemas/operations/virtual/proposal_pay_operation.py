@@ -8,7 +8,7 @@ from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.basic import (
     AccountName,
 )
-from schemas.fields.custom import TransactionId
+from schemas.fields.hex import TransactionId
 from schemas.fields.integers import Uint16t, Uint32t
 from schemas.virtual_operation import VirtualOperation
 
