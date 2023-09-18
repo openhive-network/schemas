@@ -6,7 +6,7 @@ from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHiveHF
 from schemas.__private.hive_fields_custom_schemas import HardforkVersion, Props, RdDynamicParams
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.block_api.fundaments_of_responses import SignedBlock
-from schemas.transaction_model.transaction import Transaction
+from schemas.transaction import Transaction
 
 
 class DebugGenerateBlocks(PreconfiguredBaseModel):
