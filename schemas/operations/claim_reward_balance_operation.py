@@ -16,7 +16,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetVestsHF26,
     AssetVestsLegacy,
 )
-from schemas.__private.operation import Operation
+from schemas.operation import Operation
 
 
 class _ClaimRewardBalanceOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):

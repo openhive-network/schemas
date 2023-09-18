@@ -11,7 +11,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHbdLegacy,
     HiveDateTime,
 )
-from schemas.__private.operation import Operation
+from schemas.operation import Operation
 
 
 class _CreateProposalOperation(Operation, GenericModel, Generic[AssetHbd]):

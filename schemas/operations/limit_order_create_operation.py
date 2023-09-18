@@ -15,7 +15,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     HiveDateTime,
     Uint32t,
 )
-from schemas.__private.operation import Operation
+from schemas.operation import Operation
 
 DEFAULT_ORDER_ID: Final[Uint32t] = Uint32t(0)
 DEFAULT_FILL_OR_KILL: Final[bool] = False

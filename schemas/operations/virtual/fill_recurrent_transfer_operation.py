@@ -15,7 +15,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHiveLegacy,
     Uint16t,
 )
-from schemas.__private.virtual_operation import VirtualOperation
+from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_REMAINING_EXECUTIONS: Final[Uint16t] = Uint16t(0)
 

@@ -14,7 +14,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHiveLegacy,
     Uint32t,
 )
-from schemas.__private.virtual_operation import VirtualOperation
+from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_CURRENT_ORDERID: Final[Uint32t] = Uint32t(0)
 DEFAULT_OPEN_ORDERID: Final[Uint32t] = Uint32t(0)

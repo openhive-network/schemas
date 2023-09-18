@@ -16,7 +16,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetVestsHF26,
     AssetVestsLegacy,
 )
-from schemas.__private.virtual_operation import VirtualOperation
+from schemas.virtual_operation import VirtualOperation
 
 
 class _HardforkHiveOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):

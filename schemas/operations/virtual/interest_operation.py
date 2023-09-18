@@ -5,7 +5,7 @@ from typing import Final, Generic
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, AssetHbdHF26, AssetHbdLegacy
-from schemas.__private.virtual_operation import VirtualOperation
+from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_IS_SAVED_INTO_HBD_BALANCE: Final[bool] = False
 

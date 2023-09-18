@@ -11,7 +11,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHbdLegacy,
     Uint32t,
 )
-from schemas.__private.virtual_operation import VirtualOperation
+from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 

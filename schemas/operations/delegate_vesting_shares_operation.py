@@ -5,7 +5,7 @@ from typing import Generic
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_basic_schemas import AccountName, AssetVests, AssetVestsHF26, AssetVestsLegacy
-from schemas.__private.operation import Operation
+from schemas.operation import Operation
 
 
 class _DelegateVestingSharesOperation(Operation, GenericModel, Generic[AssetVests]):

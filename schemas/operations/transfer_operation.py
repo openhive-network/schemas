@@ -14,7 +14,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHiveHF26,
     AssetHiveLegacy,
 )
-from schemas.__private.operation import Operation
+from schemas.operation import Operation
 
 
 class _TransferOperation(Operation, GenericModel, Generic[AssetHive, AssetHbd]):

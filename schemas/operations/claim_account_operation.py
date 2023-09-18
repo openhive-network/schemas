@@ -5,7 +5,7 @@ from typing import Generic, Literal
 from pydantic.generics import GenericModel
 
 from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHive, AssetHiveHF26, AssetHiveLegacy
-from schemas.__private.operation import Operation
+from schemas.operation import Operation
 
 """
 If a user wants to pay a fee in RC fee should be equal 0.

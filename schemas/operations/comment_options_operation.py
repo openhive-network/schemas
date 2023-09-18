@@ -6,7 +6,7 @@ from pydantic.generics import GenericModel
 
 from schemas.__private.hive_constants import HIVE_100_PERCENT
 from schemas.__private.hive_fields_basic_schemas import AccountName, AssetHbd, AssetHbdHF26, AssetHbdLegacy, Uint16t
-from schemas.__private.operation import Operation
+from schemas.operation import Operation
 
 DEFAULT_ALLOW_VOTES: Final[bool] = True
 DEFAULT_ALLOW_CURATION_REWARDS: Final[bool] = True

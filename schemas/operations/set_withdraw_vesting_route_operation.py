@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Final
 
 from schemas.__private.hive_fields_basic_schemas import AccountName, Uint16t
-from schemas.__private.operation import Operation
+from schemas.operation import Operation
 
 DEFAULT_PERCENT: Final[Uint16t] = Uint16t(0)
 DEFAULT_AUTO_VEST: Final[bool] = False

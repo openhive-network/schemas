@@ -13,7 +13,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHiveHF26,
     AssetHiveLegacy,
 )
-from schemas.__private.virtual_operation import VirtualOperation
+from schemas.virtual_operation import VirtualOperation
 
 
 class _DhfConversionOperation(VirtualOperation, GenericModel, Generic[AssetHive, AssetHbd]):

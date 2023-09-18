@@ -11,7 +11,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     AssetHbdLegacy,
     Int64t,
 )
-from schemas.__private.operation import Operation
+from schemas.operation import Operation
 
 
 class _UpdateProposalOperation(Operation, GenericModel, Generic[AssetHbd]):

@@ -16,7 +16,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     Uint8t,
     Uint16t,
 )
-from schemas.__private.operation import Operation
+from schemas.operation import Operation
 
 DEFAULT_RECURRENCE: Final[Uint16t] = Uint16t(0)
 DEFAULT_EXECUTIONS: Final[Uint16t] = Uint16t(0)

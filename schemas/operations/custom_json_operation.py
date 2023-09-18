@@ -5,7 +5,7 @@ from typing import Any
 from pydantic import Field, Json
 
 from schemas.__private.hive_fields_basic_schemas import AccountName, CustomIdType, EmptyString
-from schemas.__private.operation import Operation
+from schemas.operation import Operation
 
 
 class CustomJsonOperation(Operation):

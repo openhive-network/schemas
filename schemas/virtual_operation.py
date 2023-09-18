@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from schemas.__private.operation import Operation
+from schemas.operation import Operation
 
 
 class VirtualOperation(Operation):

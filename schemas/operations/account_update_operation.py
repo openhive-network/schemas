@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from schemas.__private.hive_fields_basic_schemas import AccountName, Authority, PublicKey
-from schemas.__private.operation import Operation
+from schemas.operation import Operation
 
 
 class AccountUpdateOperation(Operation):

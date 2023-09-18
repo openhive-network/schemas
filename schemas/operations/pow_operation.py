@@ -16,8 +16,8 @@ from schemas.__private.hive_fields_custom_schemas import (
     Signature,
     TransactionId,
 )
-from schemas.__private.operation import Operation
 from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.operation import Operation
 
 DEFAULT_FILL_OR_KILL: Final[bool] = False
 

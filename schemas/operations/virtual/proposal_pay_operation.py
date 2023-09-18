@@ -13,7 +13,7 @@ from schemas.__private.hive_fields_basic_schemas import (
     Uint32t,
 )
 from schemas.__private.hive_fields_custom_schemas import TransactionId
-from schemas.__private.virtual_operation import VirtualOperation
+from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_PROPOSAL_ID: Final[Uint32t] = Uint32t(0)
 DEFAULT_OP_IN_TRX: Final[Uint16t] = Uint16t(0)
