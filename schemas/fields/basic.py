@@ -25,13 +25,6 @@ class CustomIdType(ConstrainedStr):
     max_length = 32
 
 
-class Version(ConstrainedStr):
-    regex = re.compile(r"^\d+\.\d+\.\d+$")
-
-
-HardforkVersion = Version
-
-
 class Permlink(ConstrainedStr):
     max_length = 256
 

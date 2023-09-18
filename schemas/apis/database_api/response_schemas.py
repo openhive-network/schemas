@@ -42,11 +42,9 @@ from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsT
 from schemas.fields.basic import (
     AccountName,
     EmptyString,
-    HardforkVersion,
     PublicKey,
 )
 from schemas.fields.compound import (
-    HiveVersion,
     Price,
     Proposal,
     Props,
@@ -56,6 +54,7 @@ from schemas.fields.hex import Hex, TransactionId
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.hive_list import HiveList
+from schemas.fields.version import HardforkVersion, HiveVersion
 
 
 class FindAccountRecoveryRequests(PreconfiguredBaseModel):

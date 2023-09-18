@@ -11,11 +11,8 @@ from schemas.fields.assets.hive import AssetHiveT
 from schemas.fields.assets.vests import AssetVestsT
 from schemas.fields.basic import (
     AccountName,
-    HardforkVersion,
-    NodeType,
     PublicKey,
 )
-from schemas.fields.hex import Sha256, TransactionId
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.integers import Uint16t, Uint32t
@@ -57,14 +54,6 @@ class Proposal(PreconfiguredBaseModel, GenericModel, Generic[AssetHbdT]):
     permlink: str
     total_votes: HiveInt
     status: str
-
-
-class HiveVersion(PreconfiguredBaseModel):
-    blockchain_version: HardforkVersion
-    hive_revision: TransactionId
-    fc_revision: TransactionId
-    chain_id: Sha256
-    node_type: NodeType
 
 
 class Props(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):

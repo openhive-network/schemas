@@ -13,10 +13,8 @@ from schemas.fields.basic import (
     AccountName,
     EmptyString,
     FloatAsString,
-    HardforkVersion,
     Permlink,
     PublicKey,
-    Version,
 )
 from schemas.fields.compound import (
     Authority,
@@ -31,6 +29,7 @@ from schemas.fields.compound import (
 from schemas.fields.hex import Sha256
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
+from schemas.fields.version import HardforkVersion, Version
 
 
 class FindAccountRecoveryRequestsFundament(PreconfiguredBaseModel):
