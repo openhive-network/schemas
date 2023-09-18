@@ -12,9 +12,7 @@ from schemas.apis.rc_api.fundaments_of_responses import (
     ResourcePool,
     SizeInfo,
 )
-from schemas.fields.basic import (
-    AssetVestsT,
-)
+from schemas.fields.assets.vests import AssetVestsT
 
 
 class FindRcAccounts(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):

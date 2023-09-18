@@ -17,7 +17,8 @@ class MissingFieldsInGetConfig(Policy):
         from schemas._preconfigured_base_model import PreconfiguredBaseModel
         from schemas.apis import database_api
         from schemas.apis.database_api.response_schemas import GetConfigOrig
-        from schemas.fields.basic import AssetHbdT, AssetHiveT
+        from schemas.fields.assets.hbd import AssetHbdT
+        from schemas.fields.assets.hive import AssetHiveT
 
         if self.allow:
             field_definitions = {

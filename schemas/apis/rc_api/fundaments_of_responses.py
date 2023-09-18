@@ -6,9 +6,9 @@ from pydantic import Field
 from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.assets.vests import AssetVestsT
 from schemas.fields.basic import (
     AccountName,
-    AssetVestsT,
 )
 from schemas.fields.custom import Manabar
 from schemas.fields.hive_int import HiveInt

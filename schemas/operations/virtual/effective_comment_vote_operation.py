@@ -6,11 +6,9 @@ from typing import Final, Generic
 from pydantic import BaseModel
 from pydantic.generics import GenericModel
 
+from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.basic import (
     AccountName,
-    AssetHbdHF26,
-    AssetHbdLegacy,
-    AssetHbdT,
     Int64t,
     Uint64t,
 )

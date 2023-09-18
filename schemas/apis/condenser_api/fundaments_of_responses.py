@@ -7,11 +7,11 @@ from pydantic import Field
 import schemas.apis.database_api.fundaments_of_reponses as fundaments_database_api
 from schemas._operation_objects import LegacyApiAllOperationObject
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.assets.hbd import AssetHbdLegacy
+from schemas.fields.assets.hive import AssetHiveLegacy
+from schemas.fields.assets.vests import AssetVestsLegacy
 from schemas.fields.basic import (
     AccountName,
-    AssetHbdLegacy,
-    AssetHiveLegacy,
-    AssetVestsLegacy,
     EmptyString,
 )
 from schemas.fields.custom import (

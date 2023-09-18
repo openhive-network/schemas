@@ -4,11 +4,9 @@ from typing import Any, Generic
 
 from pydantic.generics import GenericModel
 
+from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.basic import (
     AccountName,
-    AssetHbdHF26,
-    AssetHbdLegacy,
-    AssetHbdT,
     Int64t,
 )
 from schemas.operation import Operation

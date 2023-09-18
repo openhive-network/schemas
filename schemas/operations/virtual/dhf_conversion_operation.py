@@ -4,14 +4,10 @@ from typing import Generic
 
 from pydantic.generics import GenericModel
 
+from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
+from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
     AccountName,
-    AssetHbdHF26,
-    AssetHbdLegacy,
-    AssetHbdT,
-    AssetHiveHF26,
-    AssetHiveLegacy,
-    AssetHiveT,
 )
 from schemas.virtual_operation import VirtualOperation
 

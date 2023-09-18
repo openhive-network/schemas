@@ -35,20 +35,15 @@ from schemas.apis.database_api.fundaments_of_reponses import (
     WithdrawVestingRoutesFundament,
     WitnessesFundament,
 )
+from schemas.fields.assets._symbol import HbdSymbolType, HiveSymbolType, VestsSymbolType
+from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdT
+from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveT
+from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsT
 from schemas.fields.basic import (
     AccountName,
-    AssetHbdHF26,
-    AssetHbdT,
-    AssetHiveHF26,
-    AssetHiveT,
-    AssetVestsHF26,
-    AssetVestsT,
     EmptyString,
-    HbdSymbolType,
     HiveList,
-    HiveSymbolType,
     PublicKey,
-    VestsSymbolType,
 )
 from schemas.fields.custom import (
     HardforkVersion,

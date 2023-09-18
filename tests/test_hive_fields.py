@@ -6,13 +6,11 @@ from typing import Any, Final
 import pytest
 from pydantic import BaseModel, ValidationError
 
+from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy
+from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy
+from schemas.fields.assets.vests import AssetVestsHF26
 from schemas.fields.basic import (
     AccountName,
-    AssetHbdHF26,
-    AssetHbdLegacy,
-    AssetHiveHF26,
-    AssetHiveLegacy,
-    AssetVestsHF26,
     Authority,
     EmptyString,
     HbdExchangeRate,

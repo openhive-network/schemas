@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from schemas.fields.basic import AccountName, AssetHiveHF26, LegacyChainProperties
+from schemas.fields.assets.hive import AssetHiveHF26
+from schemas.fields.basic import AccountName, LegacyChainProperties
 from schemas.operation import Operation
 
 

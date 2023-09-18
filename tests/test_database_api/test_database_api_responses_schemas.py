@@ -58,7 +58,9 @@ from schemas.apis.database_api import (
     VerifyAuthority,
     VerifySignatures,
 )
-from schemas.fields.basic import AssetHbdHF26, AssetHiveHF26, AssetVestsHF26
+from schemas.fields.assets.hbd import AssetHbdHF26
+from schemas.fields.assets.hive import AssetHiveHF26
+from schemas.fields.assets.vests import AssetVestsHF26
 from schemas.policies import MissingFieldsInGetConfig
 from schemas.responses import HiveResult
 

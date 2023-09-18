@@ -4,7 +4,8 @@ from typing import Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.fields.basic import AccountName, AssetHbdHF26, AssetHbdLegacy, AssetHbdT, ShareType
+from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
+from schemas.fields.basic import AccountName, ShareType
 from schemas.virtual_operation import VirtualOperation
 
 

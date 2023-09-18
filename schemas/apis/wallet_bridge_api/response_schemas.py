@@ -19,12 +19,11 @@ from schemas.apis.wallet_bridge_api.fundaments_of_responses import (
     GetConversionRequestsFundament,
     ListRcDirectDelegationsFundament,
 )
+from schemas.fields.assets.hbd import AssetHbdHF26
+from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveT
+from schemas.fields.assets.vests import AssetVestsHF26
 from schemas.fields.basic import (
     AccountName,
-    AssetHbdHF26,
-    AssetHiveHF26,
-    AssetHiveT,
-    AssetVestsHF26,
     HiveList,
 )
 from schemas.fields.custom import (

@@ -1,0 +1,58 @@
+from __future__ import annotations
+
+from typing import Any
+
+from pydantic import validator
+
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.assets._base import AssetBase
+from schemas.fields.assets._validators import validate_nai, validate_precision
+from schemas.fields.assets.asset_info import AssetInfo
+from schemas.fields.hive_int import HiveInt
+
+
+class AssetSymbolType(PreconfiguredBaseModel, AssetBase):
+    """Represents just asset characteristics"""
+
+    decimals: HiveInt
+    nai: str
+
+    class Config:
+        allow_reuse = True
+
+    @validator("nai", allow_reuse=True)
+    @classmethod
+    def check_nai(cls, value: Any) -> Any:
+        return validate_nai(value=value, asset_info=cls.get_asset_information())
+
+    @validator("decimals", allow_reuse=True)
+    @classmethod
+    def check_decimals(cls, value: int) -> int:
+        return validate_precision(value=value, asset_info=cls.get_asset_information())
+
+
+class HiveSymbolType(AssetSymbolType):
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return AssetInfo(precision=HiveInt(3), nai="@@000000021", symbol=("HIVE", "TESTS"))
+
+    decimals: HiveInt = get_asset_information().precision
+    nai: str = get_asset_information().nai
+
+
+class HbdSymbolType(AssetSymbolType):
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return AssetInfo(precision=HiveInt(3), nai="@@000000013", symbol=("HBD", "TBD"))
+
+    decimals: HiveInt = get_asset_information().precision
+    nai: str = get_asset_information().nai
+
+
+class VestsSymbolType(AssetSymbolType):
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return AssetInfo(precision=HiveInt(6), nai="@@000000037", symbol=("VESTS", "VESTS"))
+
+    decimals: HiveInt = get_asset_information().precision
+    nai: str = get_asset_information().nai

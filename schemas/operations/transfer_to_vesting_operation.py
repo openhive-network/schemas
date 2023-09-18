@@ -5,11 +5,9 @@ from typing import Generic
 from pydantic import Field
 from pydantic.generics import GenericModel
 
+from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
     AccountName,
-    AssetHiveHF26,
-    AssetHiveLegacy,
-    AssetHiveT,
     EmptyString,
 )
 from schemas.operation import Operation

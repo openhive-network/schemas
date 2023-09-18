@@ -42,11 +42,11 @@ from schemas.apis.condenser_api.fundaments_of_responses import (
     ListRcDirectDelegationsFundament,
     LookupAccountNamesFundament,
 )
+from schemas.fields.assets.hbd import AssetHbdLegacy
+from schemas.fields.assets.hive import AssetHiveLegacy
+from schemas.fields.assets.vests import AssetVestsLegacy
 from schemas.fields.basic import (
     AccountName,
-    AssetHbdLegacy,
-    AssetHiveLegacy,
-    AssetVestsLegacy,
     EmptyString,
     HiveList,
     PublicKey,

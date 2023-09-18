@@ -12,11 +12,9 @@ from schemas.apis.market_history_api.fundaments_of_responses import (
     GetTradeHistoryFundament,
     Order,
 )
+from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdT
+from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveT
 from schemas.fields.basic import (
-    AssetHbdHF26,
-    AssetHbdT,
-    AssetHiveHF26,
-    AssetHiveT,
     HiveList,
 )
 

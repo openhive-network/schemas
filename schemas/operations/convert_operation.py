@@ -5,7 +5,8 @@ from typing import Final, Generic
 from pydantic import Field
 from pydantic.generics import GenericModel
 
-from schemas.fields.basic import AccountName, AssetHbdHF26, AssetHbdLegacy, AssetHbdT, Uint32t
+from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
+from schemas.fields.basic import AccountName, Uint32t
 from schemas.operation import Operation
 
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)

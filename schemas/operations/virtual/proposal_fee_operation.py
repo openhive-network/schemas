@@ -4,7 +4,8 @@ from typing import Final, Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.fields.basic import AccountName, AssetHbdHF26, AssetHbdLegacy, AssetHbdT, Uint32t
+from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
+from schemas.fields.basic import AccountName, Uint32t
 from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_PROPOSAL_ID: Final[Uint32t] = Uint32t(0)
