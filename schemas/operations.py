@@ -10,9 +10,7 @@ from schemas.__private.operations import (
     AnyEveryOperation,
     AnyLegacyEveryOperation,
     AnyLegacyOperation,
-    AnyLegacyVirtualOperation,
     AnyOperation,
-    AnyVirtualOperation,
     CancelTransferFromSavingsOperation,
     ChangeRecoveryAccountOperation,
     ClaimAccountOperation,
@@ -74,8 +72,6 @@ __all__ = [
     # ANY OPERATION
     "AnyOperation",
     "AnyLegacyOperation",
-    "AnyVirtualOperation",
-    "AnyLegacyVirtualOperation",
     "AnyEveryOperation",
     "AnyLegacyEveryOperation",
     # OPERATIONS

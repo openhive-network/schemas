@@ -310,8 +310,6 @@ __all__ = [
     # ANY OPERATION
     "AnyOperation",
     "AnyLegacyOperation",
-    "AnyVirtualOperation",
-    "AnyLegacyVirtualOperation",
     "AnyEveryOperation",
     "AnyLegacyEveryOperation",
     # OPERATIONS
