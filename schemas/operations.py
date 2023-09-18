@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from schemas.__private.operation import Operation
 from schemas.__private.operations import (
     AccountCreateOperation,
     AccountUpdate2Operation,
@@ -63,6 +64,7 @@ from schemas.__private.operations import (
 )
 
 __all__ = [
+    "Operation",
     # REPRESENTATIONS
     "Hf26OperationRepresentationType",
     "LegacyOperationRepresentationType",

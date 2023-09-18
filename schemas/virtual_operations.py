@@ -47,8 +47,10 @@ from schemas.__private.operations.virtual import (
     TransferToVestingCompletedOperation,
     VestingSharesSplitOperation,
 )
+from schemas.__private.virtual_operation import VirtualOperation
 
 __all__ = [
+    "VirtualOperation",
     # ANY OPERATION
     "AnyVirtualOperation",
     "AnyLegacyVirtualOperation",
