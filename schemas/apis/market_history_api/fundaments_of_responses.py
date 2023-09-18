@@ -10,8 +10,8 @@ from schemas.fields.basic import (
     AssetHbd,
     AssetHive,
     HiveDateTime,
-    HiveInt,
 )
+from schemas.fields.hive_int import HiveInt
 
 
 class GetMarketHistoryField(PreconfiguredBaseModel):

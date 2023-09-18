@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Literal
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.fields.basic import HiveInt
+from schemas.fields.hive_int import HiveInt
 
 
 class FindTransaction(PreconfiguredBaseModel):

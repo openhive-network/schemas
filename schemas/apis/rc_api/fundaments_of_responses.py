@@ -9,9 +9,9 @@ from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import (
     AccountName,
     AssetVests,
-    HiveInt,
 )
 from schemas.fields.custom import Manabar
+from schemas.fields.hive_int import HiveInt
 
 
 class RcAccount(PreconfiguredBaseModel, GenericModel, Generic[AssetVests]):

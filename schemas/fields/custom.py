@@ -19,8 +19,8 @@ from schemas.fields.basic import (
     AssetHive,
     AssetVests,
     HiveDateTime,
-    HiveInt,
 )
+from schemas.fields.hive_int import HiveInt
 
 
 class Manabar(PreconfiguredBaseModel):

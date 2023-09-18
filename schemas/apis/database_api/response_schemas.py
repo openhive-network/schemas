@@ -46,7 +46,6 @@ from schemas.fields.basic import (
     EmptyString,
     HbdSymbolType,
     HiveDateTime,
-    HiveInt,
     HiveList,
     HiveSymbolType,
     PublicKey,
@@ -62,6 +61,7 @@ from schemas.fields.custom import (
     RdDynamicParams,
     TransactionId,
 )
+from schemas.fields.hive_int import HiveInt
 
 
 class FindAccountRecoveryRequests(PreconfiguredBaseModel):

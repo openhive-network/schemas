@@ -7,7 +7,7 @@ from schemas.apis.network_node_api.fundaments_of_responses import (
     ApiPeerStatus,
     PublicKeyData,
 )
-from schemas.fields.basic import HiveInt
+from schemas.fields.hive_int import HiveInt
 
 
 class AddNode(PreconfiguredBaseModel):

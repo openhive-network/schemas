@@ -14,13 +14,13 @@ from schemas.fields.basic import (
     AssetVestsLegacy,
     EmptyString,
     HiveDateTime,
-    HiveInt,
 )
 from schemas.fields.custom import (
     FloatAsString,
     Permlink,
     Proposal,
 )
+from schemas.fields.hive_int import HiveInt
 
 if TYPE_CHECKING:
     from schemas.operations.representation_types import __LegacyAllOperationUnionType  # noqa: F401 # mypy bug

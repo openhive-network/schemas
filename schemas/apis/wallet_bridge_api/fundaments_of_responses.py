@@ -14,10 +14,10 @@ from schemas.fields.basic import (
     Authority,
     EmptyString,
     HiveDateTime,
-    HiveInt,
     PublicKey,
 )
 from schemas.fields.custom import DelayedVotes, Manabar
+from schemas.fields.hive_int import HiveInt
 
 
 class Account(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd, AssetVests]):

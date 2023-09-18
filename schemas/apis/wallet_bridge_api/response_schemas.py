@@ -25,7 +25,6 @@ from schemas.fields.basic import (
     AssetHive,
     AssetHiveHF26,
     AssetVestsHF26,
-    HiveInt,
     HiveList,
 )
 from schemas.fields.custom import (
@@ -35,6 +34,7 @@ from schemas.fields.custom import (
     RcAccountObject,
     TransactionId,
 )
+from schemas.fields.hive_int import HiveInt
 
 
 class BroadcastTransaction(network_broadcast_api.BroadcastTransaction):

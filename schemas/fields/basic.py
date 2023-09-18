@@ -14,32 +14,12 @@ from pydantic import ConstrainedInt, ConstrainedList, ConstrainedStr, PrivateAtt
 from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.hive_int import HiveInt
 from schemas.hive_constants import HIVE_HBD_INTEREST_RATE, HIVE_MAX_BLOCK_SIZE
 
 if TYPE_CHECKING:
     from pydantic.typing import CallableGenerator
     from typing_extensions import Self
-
-
-class HiveInt(ConstrainedInt):
-    @classmethod
-    def __get_validators__(cls) -> CallableGenerator:
-        yield cls.validate
-        yield from super().__get_validators__()
-
-    @classmethod
-    def validate(cls, value: Any) -> int:
-        error_template = ValueError("The value could only be int or string that can be converted to int!")
-
-        if type(value) is int:
-            return value
-
-        if type(value) is str:
-            try:
-                return int(value)
-            except (ValueError, TypeError) as error:
-                raise error_template from error
-        raise error_template
 
 
 class EmptyString(ConstrainedStr):

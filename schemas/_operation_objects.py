@@ -7,9 +7,9 @@ from pydantic import root_validator
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import (
     HiveDateTime,
-    HiveInt,
 )
 from schemas.fields.custom import TransactionId
+from schemas.fields.hive_int import HiveInt
 from schemas.operations.representation_types import (
     Hf26AllOperationRepresentationType,
     Hf26OperationRepresentationType,
