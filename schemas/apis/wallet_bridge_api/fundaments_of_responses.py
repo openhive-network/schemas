@@ -13,10 +13,10 @@ from schemas.fields.basic import (
     AssetVests,
     Authority,
     EmptyString,
-    HiveDateTime,
     PublicKey,
 )
 from schemas.fields.custom import DelayedVotes, Manabar
+from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 
 

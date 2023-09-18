@@ -9,8 +9,8 @@ from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import (
     AssetHbd,
     AssetHive,
-    HiveDateTime,
 )
+from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 
 

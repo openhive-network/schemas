@@ -13,13 +13,13 @@ from schemas.fields.basic import (
     AssetHiveLegacy,
     AssetVestsLegacy,
     EmptyString,
-    HiveDateTime,
 )
 from schemas.fields.custom import (
     FloatAsString,
     Permlink,
     Proposal,
 )
+from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 
 if TYPE_CHECKING:

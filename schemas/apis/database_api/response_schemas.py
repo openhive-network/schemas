@@ -45,7 +45,6 @@ from schemas.fields.basic import (
     AssetVestsHF26,
     EmptyString,
     HbdSymbolType,
-    HiveDateTime,
     HiveList,
     HiveSymbolType,
     PublicKey,
@@ -61,6 +60,7 @@ from schemas.fields.custom import (
     RdDynamicParams,
     TransactionId,
 )
+from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 
 

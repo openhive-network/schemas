@@ -12,9 +12,9 @@ from schemas.fields.basic import (
     AssetHive,
     AssetHiveHF26,
     AssetHiveLegacy,
-    HiveDateTime,
     Uint32t,
 )
+from schemas.fields.hive_datetime import HiveDateTime
 from schemas.operation import Operation
 
 DEFAULT_ORDER_ID: Final[Uint32t] = Uint32t(0)

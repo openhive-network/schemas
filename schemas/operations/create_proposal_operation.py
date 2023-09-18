@@ -9,8 +9,8 @@ from schemas.fields.basic import (
     AssetHbd,
     AssetHbdHF26,
     AssetHbdLegacy,
-    HiveDateTime,
 )
+from schemas.fields.hive_datetime import HiveDateTime
 from schemas.operation import Operation
 
 

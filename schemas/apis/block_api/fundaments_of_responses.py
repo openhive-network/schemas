@@ -7,10 +7,10 @@ from pydantic.generics import GenericModel
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import (
     AccountName,
-    HiveDateTime,
     PublicKey,
 )
 from schemas.fields.custom import Signature, TransactionId
+from schemas.fields.hive_datetime import HiveDateTime
 from schemas.transaction import (
     Transaction,
     TransactionLegacy,

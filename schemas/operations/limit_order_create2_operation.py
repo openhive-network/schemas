@@ -13,9 +13,9 @@ from schemas.fields.basic import (
     AssetHiveHF26,
     AssetHiveLegacy,
     HbdExchangeRate,
-    HiveDateTime,
     Uint32t,
 )
+from schemas.fields.hive_datetime import HiveDateTime
 from schemas.operation import Operation
 
 DEFAULT_FILL_OR_KILL: Final[bool] = False

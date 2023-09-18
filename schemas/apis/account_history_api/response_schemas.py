@@ -12,8 +12,8 @@ from schemas._operation_objects import (
 )
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament
-from schemas.fields.basic import HiveDateTime
 from schemas.fields.custom import Signature, TransactionId
+from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.operations.representation_types import (
     Hf26OperationRepresentationType,

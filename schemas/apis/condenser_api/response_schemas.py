@@ -48,7 +48,6 @@ from schemas.fields.basic import (
     AssetHiveLegacy,
     AssetVestsLegacy,
     EmptyString,
-    HiveDateTime,
     HiveList,
     PublicKey,
 )
@@ -59,6 +58,7 @@ from schemas.fields.custom import (
     Price,
     RcAccountObject,
 )
+from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.operations.representation_types import (
     LegacyOperationRepresentationType,

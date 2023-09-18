@@ -14,7 +14,6 @@ from schemas.fields.basic import (
     Authority,
     EmptyString,
     HbdExchangeRate,
-    HiveDateTime,
     PublicKey,
 )
 from schemas.fields.custom import (
@@ -30,6 +29,7 @@ from schemas.fields.custom import (
     Sha256,
     Version,
 )
+from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 
 

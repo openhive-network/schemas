@@ -16,9 +16,9 @@ from schemas.fields.basic import (
     Authority,
     EmptyString,
     HbdExchangeRate,
-    HiveDateTime,
     PublicKey,
 )
+from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 
 from .hive_tests_constants import ACTIVE, OWNER, POSTING

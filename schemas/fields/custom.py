@@ -18,8 +18,8 @@ from schemas.fields.basic import (
     AssetHbd,
     AssetHive,
     AssetVests,
-    HiveDateTime,
 )
+from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 
 

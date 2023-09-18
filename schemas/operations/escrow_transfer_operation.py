@@ -14,9 +14,9 @@ from schemas.fields.basic import (
     AssetHiveHF26,
     AssetHiveLegacy,
     EmptyString,
-    HiveDateTime,
     Uint32t,
 )
+from schemas.fields.hive_datetime import HiveDateTime
 from schemas.operation import Operation
 
 DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
