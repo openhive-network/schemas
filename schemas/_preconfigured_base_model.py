@@ -8,7 +8,7 @@ from __future__ import annotations
 import types
 import typing
 from datetime import datetime
-from typing import Any, get_args, get_origin
+from typing import Any, TypeVar, get_args, get_origin
 
 import pydantic
 from pydantic import BaseModel, Extra, Field, create_model  # pyright: ignore
@@ -113,3 +113,6 @@ class PreconfiguredBaseModel(BaseModel):
             self, name
         ), f"`{name}` does not exists in `{self.__class__.__name__}`, available are: {list(self.dict().keys())}"
         return name
+
+
+BaseModelT = TypeVar("BaseModelT", bound=PreconfiguredBaseModel)

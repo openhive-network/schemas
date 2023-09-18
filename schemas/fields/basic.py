@@ -5,12 +5,12 @@ It is file with fields that are used to create model of operation and responses 
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING, Generic
 
 from pydantic import ConstrainedList, ConstrainedStr, PrivateAttr
 from pydantic.generics import GenericModel
 
-from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas._preconfigured_base_model import BaseModelT, PreconfiguredBaseModel
 from schemas.fields.assets.hbd import AssetHbdT
 from schemas.fields.assets.hive import AssetHiveT
 from schemas.fields.hive_int import HiveInt
@@ -69,13 +69,11 @@ class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetH
     hbd_interest_rate: Uint16t = Uint16t(HIVE_HBD_INTEREST_RATE)
 
 
-HiveBaseModel = TypeVar("HiveBaseModel", bound=PreconfiguredBaseModel)
-
 if TYPE_CHECKING:
     HiveList = list
 else:
 
-    class HiveList(ConstrainedList, Generic[HiveBaseModel]):
+    class HiveList(ConstrainedList, Generic[BaseModelT]):
         """Some responses could return empty list, it should not raise any error. This type makes it possible"""
 
         min_items = 0
