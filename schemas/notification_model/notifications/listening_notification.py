@@ -4,10 +4,14 @@ from typing import Literal
 
 from pydantic import Field
 
-from schemas.__private.preconfigured_base_model import PreconfiguredBaseModel
+from schemas.notification_model.notifications.abc.notification_base import NotificationBase
 
 
-class WebserverListening(PreconfiguredBaseModel):
+class WebserverListening(NotificationBase):
     type_: Literal["HTTP", "WS"] = Field(alias="type")
     address: str
     port: int
+
+    @classmethod
+    def get_notification_name(cls) -> str:
+        return "webserver listening"
