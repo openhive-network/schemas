@@ -11,7 +11,7 @@ from schemas.apis.rc_api import (
     ListRcAccounts,
     ListRcDirectDelegations,
 )
-from schemas.jsonrpc import JSONRPCResult
+from schemas.jsonrpc import get_response_model
 
 from .reponses_from_api import (
     FIND_RC_ACCOUNTS,
@@ -34,4 +34,4 @@ from .reponses_from_api import (
 )
 def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: Any) -> None:
     # ACT & ASSERT
-    JSONRPCResult.factory(schema, **parameters)
+    get_response_model(schema, **parameters)

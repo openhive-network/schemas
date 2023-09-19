@@ -13,12 +13,14 @@ from pydantic.generics import GenericModel
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 __all__ = [
+    "get_response_model",
     "ExpectResultT",
     "JSONRPCBase",
     "JSONRPCError",
     "JSONRPCRequest",
     "JSONRPCResult",
 ]
+
 
 ExpectResultT = TypeVar("ExpectResultT", bound=PreconfiguredBaseModel | list[PreconfiguredBaseModel])
 
@@ -40,14 +42,23 @@ class JSONRPCError(JSONRPCBase):
 class JSONRPCResult(JSONRPCBase, GenericModel, Generic[ExpectResultT]):
     result: ExpectResultT
 
-    @staticmethod
-    def factory(t: Any, **kwargs: Any) -> JSONRPCResult[ExpectResultT] | JSONRPCError:
-        """t -> type of response from api, **kwargs -> unpacked parameters got from api.
-        This function is used to return validation on result field, you choose model of result field
-        by generic. Factory return just result field from api.
-        In case when something is wrong and result field is not present, but error this method return
-        HiveError instance of class
-        """
-        response_cls = JSONRPCResult[t] if "result" in kwargs else JSONRPCError
-        response_cls.update_forward_refs(**locals())
-        return response_cls(**kwargs)  # type: ignore[return-value]
+
+def get_response_model(
+    expected_model: type[ExpectResultT], **kwargs: Any
+) -> JSONRPCResult[ExpectResultT] | JSONRPCError:
+    """
+    Use this method to create response model from the given parameters (as kwargs).
+
+    This function is used to perform validation on the result field. You choose the expected type of the result field.
+    In case when something is wrong and result field is not present, the JSONRPCError is returned.
+
+    Args:
+        expected_model: Expected type of the result field.
+        **kwargs: Parameters to create response model.
+
+    Returns:
+        The response model.
+    """
+    response_cls = JSONRPCResult[expected_model] if "result" in kwargs else JSONRPCError  # type: ignore[valid-type]
+    response_cls.update_forward_refs(**locals())
+    return response_cls(**kwargs)  # type: ignore[return-value]

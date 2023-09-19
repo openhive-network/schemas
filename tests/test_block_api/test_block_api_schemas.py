@@ -5,7 +5,7 @@ from typing import Any
 import pytest
 
 from schemas.apis.block_api.response_schemas import GetBlock, GetBlockHeader, GetBlockRange
-from schemas.jsonrpc import JSONRPCResult
+from schemas.jsonrpc import get_response_model
 
 from .resonse_schemas import GET_BLOCK, GET_BLOCK_HEADER, GET_BLOCK_RANGE
 
@@ -15,4 +15,4 @@ from .resonse_schemas import GET_BLOCK, GET_BLOCK_HEADER, GET_BLOCK_RANGE
 )
 def test_block_api_schemas_correct_values(schema: Any, parameters: dict[str, Any]) -> None:
     # ACT & ASSERT
-    JSONRPCResult.factory(schema, **parameters)
+    get_response_model(schema, **parameters)

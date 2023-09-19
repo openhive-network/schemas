@@ -12,7 +12,7 @@ from schemas.apis.market_history_api.response_schemas import (
     GetTradeHistory,
     GetVolume,
 )
-from schemas.jsonrpc import JSONRPCResult
+from schemas.jsonrpc import get_response_model
 
 from .response_schemas import (
     GET_MARKET_HISTORY,
@@ -37,4 +37,4 @@ from .response_schemas import (
 )
 def test_market_history_api_responses_correct_values(schema: Any, parameters: dict[str, Any]) -> None:
     # ACT & ASSERT
-    JSONRPCResult.factory(schema, **parameters)
+    get_response_model(schema, **parameters)

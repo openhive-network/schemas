@@ -61,7 +61,7 @@ from schemas.apis.database_api import (
 from schemas.fields.assets.hbd import AssetHbdHF26
 from schemas.fields.assets.hive import AssetHiveHF26
 from schemas.fields.assets.vests import AssetVestsHF26
-from schemas.jsonrpc import JSONRPCResult
+from schemas.jsonrpc import get_response_model
 from schemas.policies import MissingFieldsInGetConfig
 
 from .reponses_from_api import (
@@ -177,7 +177,7 @@ from .reponses_from_api import (
 )
 def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: Any) -> None:
     # ACT & ASSERT
-    JSONRPCResult.factory(schema, **parameters)
+    get_response_model(schema, **parameters)
 
 
 def test_get_config_policy() -> None:
