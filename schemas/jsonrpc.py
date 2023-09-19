@@ -23,8 +23,8 @@ ExpectResultT = TypeVar("ExpectResultT", bound=PreconfiguredBaseModel | list[Pre
 
 
 class JsonRpcBase(PreconfiguredBaseModel):
-    id_: int = Field(alias="id")
-    jsonrpc: str
+    id_: int = Field(alias="id", default=0)
+    jsonrpc: str = "2.0"
 
 
 class HiveError(JsonRpcBase):
