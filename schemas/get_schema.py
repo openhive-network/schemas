@@ -8,20 +8,22 @@ if TYPE_CHECKING:
     from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 
-from schemas.apis.account_by_key_api import response_schemas as account_by_key_api
-from schemas.apis.account_history_api import response_schemas as account_history_api
-from schemas.apis.block_api import response_schemas as block_api
-from schemas.apis.condenser_api import response_schemas as condenser_api
-from schemas.apis.database_api import response_schemas as database_api
-from schemas.apis.debug_node_api import response_schemas as debug_node_api
-from schemas.apis.jsonrpc import response_schemas as jsonrpc
-from schemas.apis.market_history_api import response_schemas as market_history_api
-from schemas.apis.network_broadcast_api import response_schemas as network_broadcast_api
-from schemas.apis.network_node_api import response_schemas as network_node_api
-from schemas.apis.rc_api import response_schemas as rc_api
-from schemas.apis.reputation_api import response_schemas as reputation_api
-from schemas.apis.transaction_status_api import response_schemas as transaction_status_api
-from schemas.apis.wallet_bridge_api import response_schemas as wallet_bridge_api
+from schemas.apis import (
+    account_by_key_api,
+    account_history_api,
+    block_api,
+    condenser_api,
+    database_api,
+    debug_node_api,
+    jsonrpc,
+    market_history_api,
+    network_broadcast_api,
+    network_node_api,
+    rc_api,
+    reputation_api,
+    transaction_status_api,
+    wallet_bridge_api,
+)
 
 __all__ = [
     "APIS",
