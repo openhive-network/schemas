@@ -65,7 +65,7 @@ from schemas.apis.condenser_api.response_schemas import (
     LookupAccountNames,
     LookupAccounts,
 )
-from schemas.jsonrpc import HiveResult
+from schemas.jsonrpc import JSONRPCResult
 
 from .responses_from_api import (
     FIND_PROPOSALS,
@@ -196,4 +196,4 @@ from .responses_from_api import (
 )
 def test_condenser_api_correct_values(schema: Any, parameters: Any) -> None:
     # ACT & ASSERT
-    HiveResult.factory(schema, **parameters)
+    JSONRPCResult.factory(schema, **parameters)
