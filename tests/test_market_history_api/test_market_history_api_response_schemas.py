@@ -12,7 +12,7 @@ from schemas.apis.market_history_api.response_schemas import (
     GetTradeHistory,
     GetVolume,
 )
-from schemas.responses import HiveResult
+from schemas.jsonrpc import HiveResult
 
 from .response_schemas import (
     GET_MARKET_HISTORY,

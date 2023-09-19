@@ -5,7 +5,7 @@ from typing import Any
 import pytest
 
 from schemas.apis.transaction_status_api.response_schemas import FindTransaction
-from schemas.responses import HiveResult
+from schemas.jsonrpc import HiveResult
 
 from .response_schemas import FIND_TRANSACTION
 

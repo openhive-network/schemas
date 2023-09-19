@@ -11,7 +11,7 @@ from schemas.apis.account_history_api.response_schemas import (
     GetOpsInBlock,
     GetTransaction,
 )
-from schemas.responses import HiveError, HiveResult
+from schemas.jsonrpc import HiveError, HiveResult
 
 from .responses_from_api import (
     ENUM_VIRTUAL_OPS,

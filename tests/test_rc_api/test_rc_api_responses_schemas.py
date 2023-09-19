@@ -11,7 +11,7 @@ from schemas.apis.rc_api import (
     ListRcAccounts,
     ListRcDirectDelegations,
 )
-from schemas.responses import HiveResult
+from schemas.jsonrpc import HiveResult
 
 from .reponses_from_api import (
     FIND_RC_ACCOUNTS,

@@ -61,8 +61,8 @@ from schemas.apis.database_api import (
 from schemas.fields.assets.hbd import AssetHbdHF26
 from schemas.fields.assets.hive import AssetHiveHF26
 from schemas.fields.assets.vests import AssetVestsHF26
+from schemas.jsonrpc import HiveResult
 from schemas.policies import MissingFieldsInGetConfig
-from schemas.responses import HiveResult
 
 from .reponses_from_api import (
     FIND_ACCOUNT_RECOVERY_REQUESTS,

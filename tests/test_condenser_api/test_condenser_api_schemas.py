@@ -65,7 +65,7 @@ from schemas.apis.condenser_api.response_schemas import (
     LookupAccountNames,
     LookupAccounts,
 )
-from schemas.responses import HiveResult
+from schemas.jsonrpc import HiveResult
 
 from .responses_from_api import (
     FIND_PROPOSALS,

@@ -5,7 +5,7 @@ from typing import Any
 import pytest
 
 from schemas.apis.block_api.response_schemas import GetBlock, GetBlockHeader, GetBlockRange
-from schemas.responses import HiveResult
+from schemas.jsonrpc import HiveResult
 
 from .resonse_schemas import GET_BLOCK, GET_BLOCK_HEADER, GET_BLOCK_RANGE
 
