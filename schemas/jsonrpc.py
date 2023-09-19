@@ -16,22 +16,22 @@ __all__ = [
     "ExpectResultT",
     "HiveError",
     "HiveResult",
-    "JsonRpcBase",
+    "JSONRPCBase",
 ]
 
 ExpectResultT = TypeVar("ExpectResultT", bound=PreconfiguredBaseModel | list[PreconfiguredBaseModel])
 
 
-class JsonRpcBase(PreconfiguredBaseModel):
+class JSONRPCBase(PreconfiguredBaseModel):
     id_: int = Field(alias="id", default=0)
     jsonrpc: str = "2.0"
 
 
-class HiveError(JsonRpcBase):
+class HiveError(JSONRPCBase):
     error: dict[str, Any]
 
 
-class HiveResult(JsonRpcBase, GenericModel, Generic[ExpectResultT]):
+class HiveResult(JSONRPCBase, GenericModel, Generic[ExpectResultT]):
     result: ExpectResultT
 
     @staticmethod
