@@ -11,6 +11,7 @@ if TYPE_CHECKING:
 from schemas.apis import (
     account_by_key_api,
     account_history_api,
+    beekeeper_api,
     block_api,
     condenser_api,
     database_api,
@@ -33,6 +34,7 @@ __all__ = [
 APIS: Final[dict[str, ModuleType]] = {
     "account_by_key_api": account_by_key_api,
     "account_history_api": account_history_api,
+    "beekeeper_api": beekeeper_api,
     "block_api": block_api,
     "condenser_api": condenser_api,
     "database_api": database_api,
