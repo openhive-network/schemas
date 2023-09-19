@@ -11,7 +11,7 @@ from schemas.apis.account_history_api.response_schemas import (
     GetOpsInBlock,
     GetTransaction,
 )
-from schemas.jsonrpc import HiveError, HiveResult
+from schemas.jsonrpc import HiveResult, JSONRPCError
 
 from .responses_from_api import (
     ENUM_VIRTUAL_OPS,
@@ -35,7 +35,7 @@ def test_account_history_api_correct_values(parameters: dict[str, Any], schema: 
     pattern = json.dumps(parameters, sort_keys=True)
 
     # ACT
-    parsed: HiveResult[schema] | HiveError = HiveResult.factory(schema, **parameters)
+    parsed: HiveResult[schema] | JSONRPCError = HiveResult.factory(schema, **parameters)
     reserialized = parsed.json(by_alias=True, sort_keys=True)
 
     # ASSERT
