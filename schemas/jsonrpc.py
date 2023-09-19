@@ -17,6 +17,7 @@ __all__ = [
     "HiveError",
     "HiveResult",
     "JSONRPCBase",
+    "JSONRPCRequest",
 ]
 
 ExpectResultT = TypeVar("ExpectResultT", bound=PreconfiguredBaseModel | list[PreconfiguredBaseModel])
@@ -25,6 +26,11 @@ ExpectResultT = TypeVar("ExpectResultT", bound=PreconfiguredBaseModel | list[Pre
 class JSONRPCBase(PreconfiguredBaseModel):
     id_: int = Field(alias="id", default=0)
     jsonrpc: str = "2.0"
+
+
+class JSONRPCRequest(JSONRPCBase):
+    method: str
+    params: dict[str, Any] = Field(default_factory=dict)
 
 
 class HiveError(JSONRPCBase):
