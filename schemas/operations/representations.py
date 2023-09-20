@@ -1,12 +1,18 @@
 from __future__ import annotations
 
-from typing import Any, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.operation import Operation
 from schemas.operations import AnyLegacyEveryOperation
 
+if TYPE_CHECKING:
+    from schemas.operations.representation_types import Hf26OperationRepresentationType
+    from schemas.operations.virtual.representation_types import Hf26VirtualOperationRepresentationType
+    from schemas.virtual_operation import VirtualOperation
+
 __all__ = [
+    "convert_to_representation",
     "get_hf26_representation",
     "get_legacy_representation",
     "Hf26OperationRepresentation",
@@ -45,6 +51,21 @@ def get_hf26_representation(type_name: str) -> type[Hf26OperationRepresentation]
 
 def get_legacy_representation(type_name: str) -> type[LegacyOperationRepresentation]:
     return __get_representation_from_type_dict(type_name, __legacy_operation_representations)
+
+
+def convert_to_representation(
+    operation: Operation | VirtualOperation | Any,
+) -> Hf26OperationRepresentationType | Hf26VirtualOperationRepresentationType:
+    supported_types = (Operation, Hf26OperationRepresentation, LegacyOperationRepresentation)
+    assertion_message = f"Type {type(operation)} is not supported. Supported types are: {supported_types}"
+    assert isinstance(operation, supported_types), assertion_message
+
+    if isinstance(operation, Hf26OperationRepresentation):
+        return operation
+
+    if isinstance(operation, LegacyOperationRepresentation):
+        operation = operation.value
+    return get_hf26_representation(operation.get_name())(type=operation.get_name_with_suffix(), value=operation)
 
 
 def _create_hf26_representation(incoming_type: type[Operation]) -> type[Hf26OperationRepresentation]:
