@@ -6,6 +6,13 @@ from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.operation import Operation
 from schemas.operations import AnyLegacyEveryOperation
 
+__all__ = [
+    "get_hf26_representation",
+    "get_legacy_representation",
+    "Hf26OperationRepresentation",
+    "LegacyOperationRepresentation",
+]
+
 
 class Hf26OperationRepresentation(PreconfiguredBaseModel):
     type: str  # noqa: A003
