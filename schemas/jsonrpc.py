@@ -5,6 +5,7 @@ Yoy must use it like this -> HiveResult.factory(type_of_response, **response_fro
 """
 from __future__ import annotations
 
+from collections.abc import Sequence
 from typing import Any, Generic, TypeVar
 
 from pydantic import Field
@@ -21,8 +22,22 @@ __all__ = [
     "JSONRPCResult",
 ]
 
-
-ExpectResultT = TypeVar("ExpectResultT", bound=PreconfiguredBaseModel | list[PreconfiguredBaseModel])
+"""
+Following union in TypeVar can be extended when new endpoints appear
+"""
+ExpectResultT = TypeVar(
+    "ExpectResultT",
+    bound=PreconfiguredBaseModel
+    | Sequence[PreconfiguredBaseModel]
+    | Sequence[PreconfiguredBaseModel | None]
+    | str
+    | int
+    | None
+    | Sequence[str]
+    | Sequence[int]
+    | Sequence[Sequence[str]]
+    | Sequence[tuple[int, PreconfiguredBaseModel]],
+)
 
 
 class JSONRPCBase(PreconfiguredBaseModel):
