@@ -5,9 +5,9 @@ from typing import TYPE_CHECKING, Any, Literal
 from pydantic import create_model
 
 from schemas._case import snake_case_to_pascal_case
-from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.operation import Operation
-from schemas.operations import AnyLegacyEveryOperation
+from schemas.operations.representations.hf26_representation import HF26OperationRepresentation
+from schemas.operations.representations.legacy_representation import LegacyOperationRepresentation
 
 if TYPE_CHECKING:
     from schemas.operations.representation_types import Hf26OperationRepresentationType
@@ -18,31 +18,7 @@ __all__ = [
     "convert_to_representation",
     "get_hf26_representation",
     "get_legacy_representation",
-    "HF26OperationRepresentation",
-    "LegacyOperationRepresentation",
 ]
-
-
-class HF26OperationRepresentation(PreconfiguredBaseModel):
-    type: str  # noqa: A003
-    value: Operation
-
-
-class LegacyOperationRepresentation(PreconfiguredBaseModel):
-    type: str  # noqa: A003
-    value: Operation
-
-    def __getitem__(self, key: str | int) -> str | AnyLegacyEveryOperation | Any:
-        if isinstance(key, int):
-            match (key):
-                case 0:
-                    return self.value.get_name()
-                case 1:
-                    return self.value
-                case _:
-                    raise ValueError("out of bound")
-        return super().__getitem__(key)
-
 
 __hf26_operation_representations: dict[str, type[HF26OperationRepresentation]] = {}
 __legacy_operation_representations: dict[str, type[LegacyOperationRepresentation]] = {}
