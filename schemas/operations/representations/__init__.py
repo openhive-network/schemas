@@ -5,14 +5,14 @@ from schemas.operations.representations.legacy_representation import LegacyRepre
 from schemas.operations.representations.representation_value_typevar import RepresentationValueT
 from schemas.operations.representations.util import (
     convert_to_representation,
-    get_hf26_representation,
-    get_legacy_representation,
+    get_hf26_operation_representation,
+    get_legacy_operation_representation,
 )
 
 __all__ = [
     "convert_to_representation",
-    "get_hf26_representation",
-    "get_legacy_representation",
+    "get_hf26_operation_representation",
+    "get_legacy_operation_representation",
     "HF26Representation",
     "LegacyRepresentation",
     "RepresentationValueT",

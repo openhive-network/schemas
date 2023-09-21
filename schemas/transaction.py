@@ -12,7 +12,7 @@ from schemas.operations.representation_types import (
     Hf26OperationRepresentationType,
     LegacyOperationRepresentationType,
 )
-from schemas.operations.representations import get_legacy_representation
+from schemas.operations.representations import get_legacy_operation_representation
 
 __all__ = [
     "Transaction",
@@ -43,7 +43,9 @@ class TransactionLegacy(TransactionCommon):
     @classmethod
     def operations_converter(cls, value: Any) -> list[LegacyOperationRepresentationType]:
         assert isinstance(value, list)
-        return [get_legacy_representation(op_name)(type=op_name, value=op_value) for op_name, op_value in value]
+        return [
+            get_legacy_operation_representation(op_name)(type=op_name, value=op_value) for op_name, op_value in value
+        ]
 
 
 TransactionT = TypeVar("TransactionT", bound=Transaction | TransactionLegacy)

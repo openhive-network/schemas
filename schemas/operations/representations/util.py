@@ -16,19 +16,19 @@ if TYPE_CHECKING:
 
 __all__ = [
     "convert_to_representation",
-    "get_hf26_representation",
-    "get_legacy_representation",
+    "get_hf26_operation_representation",
+    "get_legacy_operation_representation",
 ]
 
 __hf26_operation_representations: dict[str, type[HF26Representation[Operation]]] = {}
 __legacy_operation_representations: dict[str, type[LegacyRepresentation[Operation]]] = {}
 
 
-def get_hf26_representation(type_name: str) -> type[HF26Representation[Operation]]:
+def get_hf26_operation_representation(type_name: str) -> type[HF26Representation[Operation]]:
     return __get_representation_from_type_dict(type_name, __hf26_operation_representations)
 
 
-def get_legacy_representation(type_name: str) -> type[LegacyRepresentation[Operation]]:
+def get_legacy_operation_representation(type_name: str) -> type[LegacyRepresentation[Operation]]:
     return __get_representation_from_type_dict(type_name, __legacy_operation_representations)
 
 
@@ -44,7 +44,9 @@ def convert_to_representation(
 
     if isinstance(operation, LegacyRepresentation):
         operation = operation.value
-    return get_hf26_representation(operation.get_name())(type=operation.get_name_with_suffix(), value=operation)
+    return get_hf26_operation_representation(operation.get_name())(
+        type=operation.get_name_with_suffix(), value=operation
+    )
 
 
 def _create_hf26_representation(incoming_type: type[Operation]) -> type[HF26Representation[Operation]]:

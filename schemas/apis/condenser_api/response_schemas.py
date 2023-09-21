@@ -62,7 +62,7 @@ from schemas.fields.version import HardforkVersion, HiveVersion
 from schemas.operations.representation_types import (
     LegacyOperationRepresentationType,
 )
-from schemas.operations.representations import get_legacy_representation
+from schemas.operations.representations import get_legacy_operation_representation
 
 
 class BroadcastTransaction(broadcast_api.BroadcastTransaction):
@@ -355,7 +355,7 @@ class GetTransaction(account_history_api.GetTransactionModel[LegacyOperationRepr
     @classmethod
     def check_operation(cls, values: dict[str, Any]) -> dict[str, Any]:
         values["operations"] = [
-            get_legacy_representation(op_name)(type=op_name, value=op_value)
+            get_legacy_operation_representation(op_name)(type=op_name, value=op_value)
             for op_name, op_value in values["operations"]
         ]
         return values

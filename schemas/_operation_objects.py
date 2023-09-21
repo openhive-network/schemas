@@ -14,7 +14,7 @@ from schemas.operations.representation_types import (
     LegacyAllOperationRepresentationType,
     LegacyOperationRepresentationType,
 )
-from schemas.operations.representations import get_legacy_representation
+from schemas.operations.representations import get_legacy_operation_representation
 from schemas.operations.virtual.representation_types import (
     Hf26VirtualOperationRepresentationType,
     LegacyVirtualOperationRepresentationType,
@@ -43,7 +43,9 @@ class LegacyApiOperationObject(ApiOperationObjectCommons):
     def check_operation(cls, values: dict[str, Any]) -> dict[str, Any]:
         type_of_operation = values["op"][0]
         value_of_operation = values["op"][1]
-        values["op"] = get_legacy_representation(type_of_operation)(type=type_of_operation, value=value_of_operation)
+        values["op"] = get_legacy_operation_representation(type_of_operation)(
+            type=type_of_operation, value=value_of_operation
+        )
         return values
 
 
