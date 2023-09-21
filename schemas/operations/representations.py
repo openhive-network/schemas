@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Literal
 
+from pydantic import create_model
+
+from schemas._case import snake_case_to_pascal_case
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.operation import Operation
 from schemas.operations import AnyLegacyEveryOperation
@@ -69,13 +72,18 @@ def convert_to_representation(
 
 
 def _create_hf26_representation(incoming_type: type[Operation]) -> type[Hf26OperationRepresentation]:
-    class Hf26Operation(Hf26OperationRepresentation):
-        type: Literal[incoming_type.get_name_with_suffix()]  # type: ignore[valid-type]  # noqa: A003
-        value: incoming_type  # type: ignore[valid-type]
+    operation_name_pascal_case = snake_case_to_pascal_case(incoming_type.get_name())
+    new_model_name = f"{operation_name_pascal_case}Hf26OperationRepresentation"
+    field_definitions = {
+        "type": (Literal[incoming_type.get_name_with_suffix()], ...),
+        "value": (incoming_type, ...),
+    }
 
-    Hf26Operation.update_forward_refs(**locals())
+    Hf26Operation = create_model(  # type: ignore[call-overload]   # noqa: N806
+        new_model_name, __base__=Hf26OperationRepresentation, **field_definitions
+    )
     __hf26_operation_representations[incoming_type.get_name()] = Hf26Operation
-    return Hf26Operation
+    return Hf26Operation  # type: ignore[no-any-return]
 
 
 def _create_legacy_representation(incoming_cls: type[Operation]) -> type[LegacyOperationRepresentation]:
@@ -85,13 +93,17 @@ def _create_legacy_representation(incoming_cls: type[Operation]) -> type[LegacyO
     it is converted to format below.
     """
 
-    class LegacyOperation(LegacyOperationRepresentation):
-        type: Literal[incoming_cls.get_name()]  # type: ignore[valid-type] # noqa: A003
-        value: incoming_cls  # type: ignore[valid-type]
-
-    LegacyOperation.update_forward_refs(**locals())
+    operation_name_pascal_case = snake_case_to_pascal_case(incoming_cls.get_name())
+    new_model_name = f"{operation_name_pascal_case}LegacyOperationRepresentation"
+    field_definitions = {
+        "type": (Literal[incoming_cls.get_name()], ...),
+        "value": (incoming_cls, ...),
+    }
+    LegacyOperation = create_model(  # type: ignore[call-overload]   # noqa: N806
+        new_model_name, __base__=LegacyOperationRepresentation, **field_definitions
+    )
     __legacy_operation_representations[incoming_cls.get_name()] = LegacyOperation
-    return LegacyOperation
+    return LegacyOperation  # type: ignore[no-any-return]
 
 
 def __get_representation_from_type_dict(type_name: str, collection: dict[str, type]) -> type:
