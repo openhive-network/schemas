@@ -3,6 +3,8 @@ image: "$CI_REGISTRY_IMAGE/ci-base-image@sha256:b04abc8e4520e1969bcd22e8e2b830d8
 stages:
   - static_code_analysis
   - tests
+  - build
+  - deploy
 
 variables:
   PACKAGES_TO_CHECK: "schemas/ tests/"
@@ -49,3 +51,23 @@ tests:
     - pytest tests/
 
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| TESTS |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>| BUILD |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+build_wheel:
+  stage: build
+  extends: .build_wheel_template
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| BUILD |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>| DEPLOY |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+deploy_wheel:
+  stage: deploy
+  extends: .deploy_wheel_template
+  needs:
+    - job: tests
+    - job: build_wheel
+      artifacts: true
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| DEPLOY |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
