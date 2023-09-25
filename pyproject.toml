@@ -1,6 +1,9 @@
 [build-system]
-requires = ["poetry-core>=1.1.0"]
-build-backend = "poetry.core.masonry.api"
+requires = [
+    "poetry-core>=1.7.0",
+    "poetry-dynamic-versioning>=1.0.0,<2.0.0",
+]
+build-backend = "poetry_dynamic_versioning.backend"
 
 
 [tool.poetry]
@@ -29,6 +32,16 @@ mypy = "1.1.1"
 pre-commit = "2.21.0"
 ruff = "0.0.277"
 
+
+[tool.poetry-dynamic-versioning]
+enable = true
+metadata = true
+dirty = true
+
+[tool.poetry-dynamic-versioning.substitution]
+files = [
+    "clive/__init__.py",
+]
 
 [tool.black]
 line-length = 120
