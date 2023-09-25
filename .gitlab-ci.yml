@@ -10,49 +10,32 @@ variables:
   TXT_BLUE: "\e[1;34m"
   TXT_CLEAR: "\e[0m"
 
-.shared_tags: &shared_tags
-  - public-runner-docker
+include:
+  - project: 'hive/common-ci-configuration'
+    ref: 899a376c9b56d79000372903e75af544c90596ab # develop
+    file: '/templates/python_projects.gitlab-ci.yml'
 
-.configuration:
-  before_script:
-    - python3 -V
-    - poetry self update
-    - poetry install
-    - source $(poetry env info --path)/bin/activate
-    - pip list
-  tags: *shared_tags
+default:
+  tags:
+    - public-runner-docker
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>| STATIC CODE ANALYSIS |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 pre_commit_checks:
   stage: static_code_analysis
-  extends: .configuration
-  script:
-    - echo -e "${TXT_BLUE}Checking all files with pre-commit hooks...${TXT_CLEAR}" &&
-      pre-commit run --all-files
+  extends: .pre_commit_checks_template
 
 lint_code_with_ruff:
   stage: static_code_analysis
-  extends: .configuration
-  script:
-    - echo -e "${TXT_BLUE}Linting all sources with Ruff (check)...${TXT_CLEAR}" &&
-      ruff ${PACKAGES_TO_CHECK}
-    - echo -e "${TXT_BLUE}Linting all sources with Ruff (diff)...${TXT_CLEAR}" &&
-      ruff ${PACKAGES_TO_CHECK} --diff
+  extends: .lint_code_with_ruff_template
 
 formatting_with_black_check:
   stage: static_code_analysis
-  extends: .configuration
-  script:
-    - echo -e "${TXT_BLUE}Checking code formatting with Black...${TXT_CLEAR}" &&
-      black ${PACKAGES_TO_CHECK} --check --diff --color
+  extends: .formatting_with_black_check_template
 
 type_check_with_mypy:
   stage: static_code_analysis
-  extends: .configuration
-  script:
-    - echo -e "${TXT_BLUE}Checking types with mypy...${TXT_CLEAR}" &&
-      mypy ${PACKAGES_TO_CHECK}
+  extends: .type_check_with_mypy_template
 
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| STATIC CODE ANALYSIS |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -60,7 +43,7 @@ type_check_with_mypy:
 
 tests:
   stage: tests
-  extends: .configuration
+  extends: .project_develop_configuration_template
   needs: [ ]  # to start immediately, without waiting for previous stages
   script:
     - pytest tests/
