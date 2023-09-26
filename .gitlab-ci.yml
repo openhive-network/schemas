@@ -14,7 +14,7 @@ variables:
 
 include:
   - project: 'hive/common-ci-configuration'
-    ref: 899a376c9b56d79000372903e75af544c90596ab # develop
+    ref: e619fae3c482fec7394d024f5446367adeed0852
     file: '/templates/python_projects.gitlab-ci.yml'
 
 default:
