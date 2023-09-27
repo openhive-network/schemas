@@ -18,12 +18,12 @@ __all__ = [
     "convert_to_representation",
     "get_hf26_representation",
     "get_legacy_representation",
-    "Hf26OperationRepresentation",
+    "HF26OperationRepresentation",
     "LegacyOperationRepresentation",
 ]
 
 
-class Hf26OperationRepresentation(PreconfiguredBaseModel):
+class HF26OperationRepresentation(PreconfiguredBaseModel):
     type: str  # noqa: A003
     value: Operation
 
@@ -44,11 +44,11 @@ class LegacyOperationRepresentation(PreconfiguredBaseModel):
         return super().__getitem__(key)
 
 
-__hf26_operation_representations: dict[str, type[Hf26OperationRepresentation]] = {}
+__hf26_operation_representations: dict[str, type[HF26OperationRepresentation]] = {}
 __legacy_operation_representations: dict[str, type[LegacyOperationRepresentation]] = {}
 
 
-def get_hf26_representation(type_name: str) -> type[Hf26OperationRepresentation]:
+def get_hf26_representation(type_name: str) -> type[HF26OperationRepresentation]:
     return __get_representation_from_type_dict(type_name, __hf26_operation_representations)
 
 
@@ -59,11 +59,11 @@ def get_legacy_representation(type_name: str) -> type[LegacyOperationRepresentat
 def convert_to_representation(
     operation: Operation | VirtualOperation | Any,
 ) -> Hf26OperationRepresentationType | Hf26VirtualOperationRepresentationType:
-    supported_types = (Operation, Hf26OperationRepresentation, LegacyOperationRepresentation)
+    supported_types = (Operation, HF26OperationRepresentation, LegacyOperationRepresentation)
     assertion_message = f"Type {type(operation)} is not supported. Supported types are: {supported_types}"
     assert isinstance(operation, supported_types), assertion_message
 
-    if isinstance(operation, Hf26OperationRepresentation):
+    if isinstance(operation, HF26OperationRepresentation):
         return operation
 
     if isinstance(operation, LegacyOperationRepresentation):
@@ -71,16 +71,16 @@ def convert_to_representation(
     return get_hf26_representation(operation.get_name())(type=operation.get_name_with_suffix(), value=operation)
 
 
-def _create_hf26_representation(incoming_type: type[Operation]) -> type[Hf26OperationRepresentation]:
+def _create_hf26_representation(incoming_type: type[Operation]) -> type[HF26OperationRepresentation]:
     operation_name_pascal_case = snake_case_to_pascal_case(incoming_type.get_name())
-    new_model_name = f"{operation_name_pascal_case}Hf26OperationRepresentation"
+    new_model_name = f"{operation_name_pascal_case}HF26OperationRepresentation"
     field_definitions = {
         "type": (Literal[incoming_type.get_name_with_suffix()], ...),
         "value": (incoming_type, ...),
     }
 
     Hf26Operation = create_model(  # type: ignore[call-overload]   # noqa: N806
-        new_model_name, __base__=Hf26OperationRepresentation, **field_definitions
+        new_model_name, __base__=HF26OperationRepresentation, **field_definitions
     )
     __hf26_operation_representations[incoming_type.get_name()] = Hf26Operation
     return Hf26Operation  # type: ignore[no-any-return]
