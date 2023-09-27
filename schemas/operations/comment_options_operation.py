@@ -23,7 +23,7 @@ class _CommentOptionsOperation(Operation, GenericModel, Generic[AssetHbdT]):
     percent_hbd: Uint16t = Uint16t(HIVE_100_PERCENT)
     allow_votes: bool = DEFAULT_ALLOW_VOTES
     allow_curation_rewards: bool = DEFAULT_ALLOW_CURATION_REWARDS
-    extensions: list[Any] | None
+    extensions: list[Any]
 
 
 class CommentOptionsOperation(_CommentOptionsOperation[AssetHbdHF26]):

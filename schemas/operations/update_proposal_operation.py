@@ -20,7 +20,7 @@ class _UpdateProposalOperation(Operation, GenericModel, Generic[AssetHbdT]):
     daily_pay: AssetHbdT
     subject: str
     permlink: str
-    extensions: list[Any] | None
+    extensions: list[Any]
 
 
 class UpdateProposalOperation(_UpdateProposalOperation[AssetHbdHF26]):
