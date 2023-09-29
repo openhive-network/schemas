@@ -14,7 +14,7 @@ variables:
 
 include:
   - project: 'hive/common-ci-configuration'
-    ref: e619fae3c482fec7394d024f5446367adeed0852
+    ref: b5202fecccf40845099da351cbc0c38a6205339c
     file: '/templates/python_projects.gitlab-ci.yml'
 
 default:
@@ -62,9 +62,9 @@ build_wheel:
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>| DEPLOY |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-deploy_wheel:
+deploy_wheel_to_gitlab:
   stage: deploy
-  extends: .deploy_wheel_template
+  extends: .deploy_wheel_to_gitlab_template
   needs:
     - job: tests
     - job: build_wheel
