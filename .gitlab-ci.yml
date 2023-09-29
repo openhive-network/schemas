@@ -64,6 +64,7 @@ build_wheel:
 
 .deploy_wheel_needs: &deploy_wheel_needs
   needs:
+    - job: pre_commit_checks
     - job: tests
     - job: build_wheel
       artifacts: true
