@@ -62,12 +62,20 @@ build_wheel:
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>| DEPLOY |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-deploy_wheel_to_gitlab:
-  stage: deploy
-  extends: .deploy_wheel_to_gitlab_template
+.deploy_wheel_needs: &deploy_wheel_needs
   needs:
     - job: tests
     - job: build_wheel
       artifacts: true
+
+deploy_wheel_to_gitlab:
+  stage: deploy
+  extends: .deploy_wheel_to_gitlab_template
+  <<: *deploy_wheel_needs
+
+deploy_wheel_to_pypi:
+  extends: .deploy_wheel_to_pypi_template
+  stage: deploy
+  <<: *deploy_wheel_needs
 
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| DEPLOY |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
