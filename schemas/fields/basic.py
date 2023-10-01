@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 
-from pydantic import ConstrainedStr, PrivateAttr
+from pydantic import ConstrainedStr
 
 __all__ = [
     "AccountName",
@@ -12,12 +12,15 @@ __all__ = [
     "NodeType",
     "Permlink",
     "PublicKey",
+    "PrivateKey",
 ]
+
+account_name_name_segment_regex = r"[a-z][a-z0-9\-]+[a-z0-9]"
+base_58_regex = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 
 
 class AccountName(ConstrainedStr):
-    __name_segment = PrivateAttr(r"[a-z][a-z0-9\-]+[a-z0-9]")
-    regex = rf"^{__name_segment.default}(?:\.{__name_segment.default})*$"
+    regex = rf"^{account_name_name_segment_regex}(?:\.{account_name_name_segment_regex})*$"
     min_length = 3
     max_length = 16
 
@@ -44,4 +47,8 @@ class Permlink(ConstrainedStr):
 
 
 class PublicKey(ConstrainedStr):
-    regex = re.compile(r"^(?:STM|TST)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$")
+    regex = re.compile(r"^(?:STM|TST)[" + base_58_regex + r"]{7,51}$")
+
+
+class PrivateKey(ConstrainedStr):
+    regex = re.compile(r"^[" + base_58_regex + r"]{51}$")
