@@ -96,11 +96,13 @@ class GetCurrentMedianHistoryPrice(Price[AssetHiveHF26, AssetHbdHF26, AssetVests
     """Identical response as Price field, HF26 format of Assets"""
 
 
-class GetDynamicGlobalProperties(database_api.GetDynamicGlobalProperties[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
+class GetDynamicGlobalProperties(
+    database_api.GetDynamicGlobalPropertiesOrig[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
+):
     """Identical as in database_api"""
 
 
-class GetFeedHistory(database_api.GetFeedHistory[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
+class GetFeedHistory(database_api.GetFeedHistoryOrig[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
     """Identical as in database_api"""
 
 
@@ -141,7 +143,7 @@ GetWithdrawRoutes = list[fundaments_database_api.WithdrawVestingRoutesFundament]
 GetWitness = fundaments_database_api.WitnessesFundament[AssetHiveHF26, AssetHbdHF26] | None
 
 
-class GetWitnessSchedule(database_api.GetWitnessSchedule[AssetHiveHF26]):
+class GetWitnessSchedule(database_api.GetWitnessScheduleOrig[AssetHiveHF26]):
     """Identical as in database_api"""
 
 

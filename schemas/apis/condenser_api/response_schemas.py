@@ -132,7 +132,7 @@ GetCollateralizedConversionRequests = HiveList[
 GetCommentDiscussionsByPayout = HiveList[GetCommentDiscussionsByPayoutFundament]
 
 
-class GetConfig(database_api.GetConfig[AssetHiveLegacy, AssetHbdLegacy]):
+class GetConfig(database_api.GetConfigOrig[AssetHiveLegacy, AssetHbdLegacy]):
     """Field like in database_api, with few modifications"""
 
     HBD_SYMBOL: Literal["HBD", "TBD"]  # type: ignore
@@ -216,7 +216,7 @@ class GetDiscussionsByVotes(HiveMindResponses):
 
 
 class GetDynamicGlobalProperties(
-    database_api.GetDynamicGlobalProperties[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
+    database_api.GetDynamicGlobalPropertiesOrig[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
 ):
     """Identical like response from database_api, just Legacy format of Assets and id exlcuded"""
 
@@ -239,7 +239,7 @@ class GetFeedEntries(HiveMindResponses):
     """Supported by HiveMind"""
 
 
-class GetFeedHistory(database_api.GetFeedHistory[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]):
+class GetFeedHistory(database_api.GetFeedHistoryOrig[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]):
     """identical as in database_api just Legacy format of Assets"""
 
 
@@ -393,7 +393,7 @@ class GetWitnessCount(HiveInt):
     """Should return just integer"""
 
 
-class GetWitnessSchedule(database_api.GetWitnessSchedule[AssetHiveLegacy]):
+class GetWitnessSchedule(database_api.GetWitnessScheduleOrig[AssetHiveLegacy]):
     """Identical as in database_api, just Legacy format of Assets"""
 
 
