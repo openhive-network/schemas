@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from pydantic import validator
+from typing_extensions import Self
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets._base import AssetBase
@@ -29,6 +30,27 @@ class AssetSymbolType(PreconfiguredBaseModel, AssetBase):
     @classmethod
     def check_decimals(cls, value: int) -> int:
         return validate_precision(value=value, asset_info=cls.get_asset_information())
+
+    # Part below is because requirements from AssetBase, it's not elegant, but have no solution for now
+
+    @classmethod
+    def from_legacy(cls, other: str) -> Self:
+        raise NotImplementedError
+
+    @classmethod
+    def from_nai(cls, other: dict[str, str | int]) -> Self:
+        raise NotImplementedError
+
+    def _get_amount(self) -> int:
+        raise NotImplementedError
+
+    def _set_amount(self, amount: int) -> None:
+        raise NotImplementedError
+
+    def clone(self, *, amount: Any | int | str | AssetBase | None = None) -> Self:
+        if amount is not None:
+            raise NotImplementedError
+        return self.__class__(decimals=self.decimals, nai=self.nai)
 
 
 class HiveSymbolType(AssetSymbolType):
