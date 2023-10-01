@@ -92,7 +92,7 @@ GetCollateralizedConversionRequests = list[GetCollateralizedConversionRequestsFu
 GetConversionRequests = list[GetConversionRequestsFundament[AssetHbdHF26]]
 
 
-class GetCurrentMedianHistoryPrice(Price[AssetHiveHF26, AssetHbdHF26]):
+class GetCurrentMedianHistoryPrice(Price[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
     """Identical response as Price field, HF26 format of Assets"""
 
 
@@ -100,14 +100,14 @@ class GetDynamicGlobalProperties(database_api.GetDynamicGlobalProperties[AssetHi
     """Identical as in database_api"""
 
 
-class GetFeedHistory(database_api.GetFeedHistory[AssetHiveHF26, AssetHbdHF26]):
+class GetFeedHistory(database_api.GetFeedHistory[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
     """Identical as in database_api"""
 
 
 GetHardforkVersion = HardforkVersion
 
 
-GetOpenOrders = HiveList[fundaments_database_api.LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26]]
+GetOpenOrders = HiveList[fundaments_database_api.LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
 
 
 class GetOpsInBlock(account_history_api.GetOpsInBlock):

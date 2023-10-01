@@ -74,17 +74,17 @@ class Manabar(PreconfiguredBaseModel):
     last_update_time: HiveInt
 
 
-class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     """
     Valid structure for Price field is:
     base: Hive quote: Hbd or base: Hbd quote: Hive
-    You can choose format of Assets, to choose legacy format -> Price[AssetHiveLegacy, AssetHbdLegacy](parameters).
-    For HF26 format -> Price[AssetHiveHF26, AssetHbdHF26].
+    You can choose format of Assets, to choose legacy format -> Price[AssetHiveLegacy, AssetHbdLegacy, AssetVestsHF26](parameters).
+    For HF26 format -> Price[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26].
     Remember that Hive must be first parameter of generic !
     """
 
-    base: AssetHiveT | AssetHbdT
-    quote: AssetHiveT | AssetHbdT
+    base: AssetHiveT | AssetHbdT | AssetVestsT
+    quote: AssetHiveT | AssetHbdT | AssetVestsT
 
 
 class Proposal(PreconfiguredBaseModel, GenericModel, Generic[AssetHbdT]):

@@ -196,7 +196,7 @@ class HbdConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Gener
     conversion_date: HiveDateTime
 
 
-class LimitOrdersFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class LimitOrdersFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     """Fundament class for find_limit_orders and list_limit_orders API responses"""
 
     id_: HiveInt = Field(alias="id")
@@ -205,7 +205,7 @@ class LimitOrdersFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHi
     seller: AccountName | EmptyString
     orderid: HiveInt
     for_sale: HiveInt
-    sell_price: Price[AssetHiveT, AssetHbdT]
+    sell_price: Price[AssetHiveT, AssetHbdT, AssetVestsT]
 
 
 class OwnerHistoriesFundament(PreconfiguredBaseModel):
@@ -329,12 +329,12 @@ class GetCommentPendingPayoutsFundament(PreconfiguredBaseModel, GenericModel, Ge
     cashout_info: CashoutInfoField[AssetHbdT] | None
 
 
-class GetOrderBookFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class GetOrderBookFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     """
     Fundament class for both fields in GetOrderBook
     """
 
-    order_price: Price[AssetHiveT, AssetHbdT]
+    order_price: Price[AssetHiveT, AssetHbdT, AssetVestsT]
     real_price: FloatAsString
     hive: HiveInt
     hbd: HiveInt

@@ -8,6 +8,7 @@ from pydantic.generics import GenericModel
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets.hbd import AssetHbdT
 from schemas.fields.assets.hive import AssetHiveT
+from schemas.fields.assets.vests import AssetVestsT
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 
@@ -46,13 +47,13 @@ class GetTradeHistoryFundament(PreconfiguredBaseModel, GenericModel, Generic[Ass
     open_pays: AssetHiveT | AssetHbdT
 
 
-class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
-    base: AssetHiveT | AssetHbdT
-    quote: AssetHiveT | AssetHbdT
+class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
+    base: AssetHiveT | AssetHbdT | AssetVestsT
+    quote: AssetHiveT | AssetHbdT | AssetVestsT
 
 
-class Order(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
-    order_price: Price[AssetHiveT, AssetHbdT]
+class Order(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
+    order_price: Price[AssetHiveT, AssetHbdT, AssetVestsT]
     real_price: float
     hive: HiveInt
     hbd: HiveInt
