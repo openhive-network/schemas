@@ -14,6 +14,7 @@ from schemas.apis.market_history_api.fundaments_of_responses import (
 )
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdT
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveT
+from schemas.fields.assets.vests import AssetVestsT
 from schemas.fields.hive_list import HiveList
 
 
@@ -51,6 +52,6 @@ class GetVolume(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetH
     hbd_volume: AssetHbdT
 
 
-class GetOrderBook(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
-    bids: list[Order[AssetHiveT, AssetHbdT]]
-    asks: list[Order[AssetHiveT, AssetHbdT]]
+class GetOrderBook(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
+    bids: list[Order[AssetHiveT, AssetHbdT, AssetVestsT]]
+    asks: list[Order[AssetHiveT, AssetHbdT, AssetVestsT]]

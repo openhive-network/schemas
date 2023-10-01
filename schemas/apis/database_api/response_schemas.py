@@ -90,7 +90,7 @@ class FindHbdConversionRequests(PreconfiguredBaseModel):
 
 
 class FindLimitOrders(PreconfiguredBaseModel):
-    orders: HiveList[LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26]]
+    orders: HiveList[LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
 
 
 class FindOwnerHistories(PreconfiguredBaseModel):
@@ -405,7 +405,7 @@ class GetConfigOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, As
 GetConfig = GetConfigOrig
 
 
-class GetCurrentPriceFeed(Price[AssetHiveHF26, AssetHbdHF26]):
+class GetCurrentPriceFeed(Price[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
     """
     This response is identical as Price hive field.
     """
@@ -464,17 +464,17 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[A
     vote_power_reserve_rate: HiveInt
 
 
-class GetFeedHistory(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class GetFeedHistory(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     """
     This class doesn't need fundament class.
     """
 
     id_: HiveInt = Field(alias="id")
-    current_median_history: Price[AssetHiveT, AssetHbdT]
-    market_median_history: Price[AssetHiveT, AssetHbdT]
-    current_min_history: Price[AssetHiveT, AssetHbdT]
-    current_max_history: Price[AssetHiveT, AssetHbdT]
-    price_history: list[Price[AssetHiveT, AssetHbdT]]
+    current_median_history: Price[AssetHiveT, AssetHbdT, AssetVestsT]
+    market_median_history: Price[AssetHiveT, AssetHbdT, AssetVestsT]
+    current_min_history: Price[AssetHiveT, AssetHbdT, AssetVestsT]
+    current_max_history: Price[AssetHiveT, AssetHbdT, AssetVestsT]
+    price_history: list[Price[AssetHiveT, AssetHbdT, AssetVestsT]]
 
 
 class GetHardforkProperties(PreconfiguredBaseModel):
@@ -491,8 +491,8 @@ class GetHardforkProperties(PreconfiguredBaseModel):
 
 
 class GetOrderBook(PreconfiguredBaseModel):
-    asks: list[GetOrderBookFundament[AssetHiveHF26, AssetHbdHF26]] | list[str]
-    bids: list[GetOrderBookFundament[AssetHiveHF26, AssetHbdHF26]] | list[str]
+    asks: list[GetOrderBookFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]] | list[str]
+    bids: list[GetOrderBookFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]] | list[str]
 
 
 class GetPotentialSignatures(PreconfiguredBaseModel):
@@ -583,7 +583,7 @@ class ListHbdConversionRequests(PreconfiguredBaseModel):
 
 
 class ListLimitOrders(PreconfiguredBaseModel):
-    orders: HiveList[LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26]]
+    orders: HiveList[LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
 
 
 class ListOwnerHistories(PreconfiguredBaseModel):

@@ -164,7 +164,7 @@ GetContentReplies = HiveList[GetContent]
 GetConversionRequests = HiveList[fundaments_wallet_bridge_api.GetConversionRequestsFundament[AssetHbdLegacy]]
 
 
-class GetCurrentMedianHistoryPrice(Price[AssetHiveLegacy, AssetHbdLegacy]):
+class GetCurrentMedianHistoryPrice(Price[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]):
     """Identical response as Price field, Legacy format of Assets"""
 
 
@@ -239,7 +239,7 @@ class GetFeedEntries(HiveMindResponses):
     """Supported by HiveMind"""
 
 
-class GetFeedHistory(database_api.GetFeedHistory[AssetHiveLegacy, AssetHbdLegacy]):
+class GetFeedHistory(database_api.GetFeedHistory[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]):
     """identical as in database_api just Legacy format of Assets"""
 
 
@@ -292,8 +292,8 @@ GetOpsInBlock = list[GetOpsInBlockFundament]  # something is wrong with operatio
 class GetOrderBook(PreconfiguredBaseModel):
     """Types of poles are from database_api_fundaments"""
 
-    asks: list[fundaments_database_api.GetOrderBookFundament[AssetHiveLegacy, AssetHbdLegacy]]
-    bids: list[fundaments_database_api.GetOrderBookFundament[AssetHiveLegacy, AssetHbdLegacy]]
+    asks: list[fundaments_database_api.GetOrderBookFundament[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]]
+    bids: list[fundaments_database_api.GetOrderBookFundament[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]]
 
 
 GetOwnerHistory = list[fundaments_database_api.OwnerHistoriesFundament]

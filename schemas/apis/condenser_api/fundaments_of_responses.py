@@ -200,7 +200,9 @@ class GetExpiringVestingDelegationsFundament(PreconfiguredBaseModel):
     expiration: HiveDateTime
 
 
-class GetOpenOrdersFundament(fundaments_database_api.LimitOrdersFundament[AssetHiveLegacy, AssetHbdLegacy]):
+class GetOpenOrdersFundament(
+    fundaments_database_api.LimitOrdersFundament[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
+):
     """Same as in database_api -> list_limit_orders, just Legacy format of Assets and two additional fields"""
 
     real_price: FloatAsString
