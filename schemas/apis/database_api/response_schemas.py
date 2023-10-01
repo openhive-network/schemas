@@ -402,7 +402,7 @@ class GetConfigOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, As
     HIVE_UP_TO_DATE_MARGIN__PENDING_TXS: HiveInt
 
 
-GetConfig = GetConfigOrig
+GetConfig = GetConfigOrig[AssetHiveHF26, AssetHbdHF26]
 
 
 class GetCurrentPriceFeed(Price[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
@@ -411,7 +411,7 @@ class GetCurrentPriceFeed(Price[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
     """
 
 
-class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
+class GetDynamicGlobalPropertiesOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     """
     This class doesn't need fundament class
     You need to choose asset format by generics when you want to use this class
@@ -464,7 +464,10 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel, GenericModel, Generic[A
     vote_power_reserve_rate: HiveInt
 
 
-class GetFeedHistory(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
+GetDynamicGlobalProperties = GetDynamicGlobalPropertiesOrig[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
+
+
+class GetFeedHistoryOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     """
     This class doesn't need fundament class.
     """
@@ -475,6 +478,9 @@ class GetFeedHistory(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, A
     current_min_history: Price[AssetHiveT, AssetHbdT, AssetVestsT]
     current_max_history: Price[AssetHiveT, AssetHbdT, AssetVestsT]
     price_history: list[Price[AssetHiveT, AssetHbdT, AssetVestsT]]
+
+
+GetFeedHistory = GetFeedHistoryOrig[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
 
 
 class GetHardforkProperties(PreconfiguredBaseModel):
@@ -521,7 +527,7 @@ class GetVersion(HiveVersion):
     """Identical response as HiveVersion field"""
 
 
-class GetWitnessSchedule(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
+class GetWitnessScheduleOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
     """When want to use must specify Asset type by Generic"""
 
     id_: HiveInt = Field(alias="id")
@@ -544,6 +550,9 @@ class GetWitnessSchedule(PreconfiguredBaseModel, GenericModel, Generic[AssetHive
     account_subsidy_witness_rd: RdDynamicParams
     min_witness_account_subsidy_decay: HiveInt
     future_changes: GetWitnessScheduleFutureChangesFundament[AssetHiveT] | None = None
+
+
+GetWitnessSchedule = GetWitnessScheduleOrig[AssetHiveHF26]
 
 
 class IsKnownTransaction(PreconfiguredBaseModel):
