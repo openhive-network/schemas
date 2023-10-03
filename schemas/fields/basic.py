@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING, Any
 
-from pydantic import ConstrainedStr, PrivateAttr
+from pydantic import ConstrainedStr, PrivateAttr, errors
 
 __all__ = [
     "AccountName",
@@ -13,6 +14,11 @@ __all__ = [
     "Permlink",
     "PublicKey",
 ]
+
+from pydantic.validators import list_validator
+
+if TYPE_CHECKING:
+    from pydantic.typing import CallableGenerator
 
 
 class AccountName(ConstrainedStr):
@@ -29,6 +35,19 @@ class CustomIdType(ConstrainedStr):
 class EmptyString(ConstrainedStr):
     min_length = 0
     max_length = 0
+
+
+class EmptyList(list):  # type: ignore[type-arg] # See pydantic.ConstrainedList
+    @classmethod
+    def __get_validators__(cls) -> CallableGenerator:
+        yield cls.list_length_validator
+
+    @classmethod
+    def list_length_validator(cls, v: Any) -> list[Any]:
+        v = list_validator(v)
+        if len(v) > 0:
+            raise errors.ListMaxLengthError(limit_value=0)
+        return []
 
 
 class FloatAsString(ConstrainedStr):
