@@ -3,6 +3,7 @@ from __future__ import annotations
 from schemas.fields.basic import AccountName, PublicKey
 from schemas.fields.compound import Authority
 from schemas.operation import Operation
+from schemas.operations.extensions.future_extension import FutureExtensions
 
 
 class CreateClaimedAccountOperation(Operation):
@@ -15,3 +16,4 @@ class CreateClaimedAccountOperation(Operation):
     posting: Authority
     memo_key: PublicKey
     json_metadata: str
+    extensions: FutureExtensions
