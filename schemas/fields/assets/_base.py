@@ -54,7 +54,7 @@ class AssetBase(ABC):
         return {"amount": self._get_amount(), "nai": info.nai, "precision": info.precision}
 
     def as_legacy(self) -> str:
-        return f"{self.pretty_amount()} {self.get_asset_information().symbol[0]}"
+        return f"{self.pretty_amount()} {self.get_asset_information().get_symbol()}"
 
     def pretty_amount(self) -> str:
         info = self.get_asset_information()
@@ -225,7 +225,7 @@ class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
                 f"[{precision=}, {nai=}] is not supported symbol type. Supported are: [{info.precision=}, {info.nai=}]"
             )
         amount = int(other["amount"])
-        return cls.from_legacy(f"{int(amount) / 10**info.precision :.{info.precision}f} {info.symbol[0]}")
+        return cls.from_legacy(f"{int(amount) / 10**info.precision :.{info.precision}f} {info.get_symbol()}")
 
     def _set_amount(self, amount: int) -> None:  # noqa: ARG002
         assert (
@@ -293,9 +293,9 @@ class AssetHF26(PreconfiguredBaseModel, AssetBase, ABC):
     def from_legacy(cls, other: str) -> Self:
         info = cls.get_asset_information()
         amount, precision, symbol = AssetLegacy.parse_raw(other)
-        if precision != info.precision or symbol not in info.symbol:
+        if precision != info.precision or symbol != info.get_symbol():
             raise TypeError(
-                f"[{precision=}, {symbol=}] is not supported symbol type. Supported are: [{info.precision=}, {info.symbol=}]"
+                f"[{precision=}, {symbol=}] is not supported symbol type. Supported are: [{info.precision=}, info.symbol={info.get_symbol()}]"
             )
         return cls(amount=amount, precision=precision, nai=info.nai)
 
