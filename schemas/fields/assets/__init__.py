@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from schemas.fields.assets._base import AssetBase
 from schemas.fields.assets.asset_info import AssetInfo
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
@@ -20,4 +21,5 @@ __all__ = [
     "AssetVestsLegacy",
     # OTHER
     "AssetInfo",
+    "AssetBase",
 ]
