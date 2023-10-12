@@ -33,11 +33,19 @@ def get_legacy_operation_representation(type_name: str) -> type[LegacyRepresenta
 
 
 def convert_to_representation(
-    operation: Operation | VirtualOperation | Any,
+    operation: dict[str, Any] | Operation | VirtualOperation | Any,
 ) -> Hf26OperationRepresentationType | Hf26VirtualOperationRepresentationType:
-    supported_types = (Operation, HF26Representation, LegacyRepresentation)
+    supported_types = (dict, Operation, HF26Representation, LegacyRepresentation)
     assertion_message = f"Type {type(operation)} is not supported. Supported types are: {supported_types}"
     assert isinstance(operation, supported_types), assertion_message
+
+    if isinstance(operation, dict):
+        assert "type" in operation, f"Operation {operation} does not have `type` key"
+        operation_name_with_suffix = operation["type"]
+        operation_name = operation_name_with_suffix.replace("_operation", "")
+        assert "value" in operation, f"Operation {operation} does not have `value` key"
+        value = operation["value"]
+        return get_hf26_operation_representation(operation_name)(type=operation_name_with_suffix, value=value)
 
     if isinstance(operation, HF26Representation):
         return operation
