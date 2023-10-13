@@ -10,6 +10,7 @@ from schemas.fields.basic import (
 )
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.operation import Operation
+from schemas.operations.extensions.future_extension import FutureExtensions
 
 
 class _CreateProposalOperation(Operation, GenericModel, Generic[AssetHbdT]):
@@ -22,6 +23,7 @@ class _CreateProposalOperation(Operation, GenericModel, Generic[AssetHbdT]):
     daily_pay: AssetHbdT
     subject: str
     permlink: str
+    extensions: FutureExtensions
 
 
 class CreateProposalOperation(_CreateProposalOperation[AssetHbdHF26]):
