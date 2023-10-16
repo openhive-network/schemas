@@ -22,7 +22,7 @@ class _LimitOrderCreate2Operation(Operation, GenericModel, Generic[AssetHiveT, A
     __offset__ = 21
 
     owner: AccountName
-    order_id: Uint32t
+    orderid: Uint32t
     amount_to_sell: AssetHiveT | AssetHbdT
     fill_or_kill: bool = DEFAULT_FILL_OR_KILL
     exchange_rate: HbdExchangeRate[AssetHiveT, AssetHbdT]
