@@ -12,7 +12,6 @@ __all__ = [
     "AssetHiveHF26",
     "AssetHiveLegacy",
     "AssetHiveT",
-
     # TESTNET
     "AssetTestHF26",
     "AssetTestLegacy",
