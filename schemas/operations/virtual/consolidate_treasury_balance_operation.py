@@ -12,6 +12,7 @@ from schemas.virtual_operation import VirtualOperation
 
 class _ConsolidateTreasuryBalanceOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     __operation_name__ = "consolidate_treasury_balance"
+    __offset__ = 21
 
     total_moved: list[AssetHiveT | AssetHbdT | AssetVestsT]
 

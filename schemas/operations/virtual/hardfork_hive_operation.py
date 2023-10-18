@@ -15,6 +15,7 @@ from schemas.virtual_operation import VirtualOperation
 
 class _HardforkHiveOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     __operation_name__ = "hardfork_hive"
+    __offset__ = 18
 
     account: AccountName
     treasury: AccountName

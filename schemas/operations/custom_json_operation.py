@@ -10,6 +10,7 @@ from schemas.operation import Operation
 
 class CustomJsonOperation(Operation):
     __operation_name__ = "custom_json"
+    __offset__ = 18
 
     required_auths: list[AccountName]
     required_posting_auths: list[AccountName]

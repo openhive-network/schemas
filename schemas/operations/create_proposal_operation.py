@@ -14,6 +14,7 @@ from schemas.operation import Operation
 
 class _CreateProposalOperation(Operation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "create_proposal"
+    __offset__ = 44
 
     creator: AccountName
     receiver: AccountName

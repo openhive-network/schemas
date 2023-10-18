@@ -15,6 +15,7 @@ DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 class _ConvertOperation(Operation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "convert"
+    __offset__ = 8
 
     from_: AccountName = Field(alias="from")
     request_id: Uint32t = DEFAULT_REQUEST_ID

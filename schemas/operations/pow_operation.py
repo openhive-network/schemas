@@ -35,6 +35,7 @@ class Work(PreconfiguredBaseModel):
 
 class PowOperation(Operation):
     __operation_name__ = "pow"
+    __offset__ = 14
 
     worker_account: AccountName
     block_id: TransactionId

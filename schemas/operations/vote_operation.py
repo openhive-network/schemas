@@ -11,6 +11,7 @@ DEFAULT_WEIGHT: Final[Int16t] = Int16t(0)
 
 class VoteOperation(Operation):
     __operation_name__ = "vote"
+    __offset__ = 0
 
     voter: AccountName
     author: AccountName

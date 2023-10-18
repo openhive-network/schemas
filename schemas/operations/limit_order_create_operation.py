@@ -19,6 +19,7 @@ DEFAULT_FILL_OR_KILL: Final[bool] = False
 
 class _LimitOrderCreateOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "limit_order_create"
+    __offset__ = 5
 
     owner: AccountName
     orderid: Uint32t = DEFAULT_ORDER_ID

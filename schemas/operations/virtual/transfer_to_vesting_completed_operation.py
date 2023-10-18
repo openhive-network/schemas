@@ -14,6 +14,7 @@ from schemas.virtual_operation import VirtualOperation
 
 class _TransferToVestingCompletedOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetVestsT]):
     __operation_name__ = "transfer_to_vesting_completed"
+    __offset__ = 27
 
     from_account: AccountName
     to_account: AccountName

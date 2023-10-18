@@ -17,6 +17,7 @@ DEFAULT_ORDERID: Final[Uint32t] = Uint32t(0)
 
 class _LimitOrderCancelledOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "limit_order_cancelled"
+    __offset__ = 35
 
     seller: AccountName
     orderid: Uint32t = DEFAULT_ORDERID

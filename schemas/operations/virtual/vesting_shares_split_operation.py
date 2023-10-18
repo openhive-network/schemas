@@ -11,6 +11,7 @@ from schemas.virtual_operation import VirtualOperation
 
 class _VestingSharesSplitOperation(VirtualOperation, GenericModel, Generic[AssetVestsT]):
     __operation_name__ = "vesting_shares_split"
+    __offset__ = 29
 
     owner: AccountName
     vesting_shares_before_split: AssetVestsT

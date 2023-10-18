@@ -7,6 +7,7 @@ from schemas.operation import Operation
 
 class AccountUpdateOperation(Operation):
     __operation_name__ = "account_update"
+    __offset__ = 10
 
     account: AccountName
     owner: Authority | None = None

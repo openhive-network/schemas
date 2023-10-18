@@ -10,6 +10,7 @@ DEFAULT_APPROVE: Final[bool] = True
 
 class AccountWitnessVoteOperation(Operation):
     __operation_name__ = "account_witness_vote"
+    __offset__ = 12
 
     account: AccountName
     witness: AccountName

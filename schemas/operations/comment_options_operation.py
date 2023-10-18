@@ -16,6 +16,7 @@ DEFAULT_ALLOW_CURATION_REWARDS: Final[bool] = True
 
 class _CommentOptionsOperation(Operation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "comment_options"
+    __offset__ = 19
 
     author: AccountName
     permlink: str

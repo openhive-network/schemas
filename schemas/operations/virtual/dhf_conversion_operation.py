@@ -14,6 +14,7 @@ from schemas.virtual_operation import VirtualOperation
 
 class _DhfConversionOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "dhf_conversion"
+    __offset__ = 24
 
     treasury: AccountName
     hive_amount_in: AssetHiveT

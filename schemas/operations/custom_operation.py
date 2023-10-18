@@ -9,6 +9,7 @@ from schemas.operation import Operation
 
 class CustomOperation(Operation):
     __operation_name__ = "custom"
+    __offset__ = 15
 
     required_auths: list[AccountName]
     id_: Uint16t = Field(alias="id")

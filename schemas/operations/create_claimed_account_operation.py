@@ -7,6 +7,7 @@ from schemas.operation import Operation
 
 class CreateClaimedAccountOperation(Operation):
     __operation_name__ = "create_claimed_account"
+    __offset__ = 23
 
     creator: AccountName
     new_account_name: AccountName

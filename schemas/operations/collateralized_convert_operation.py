@@ -14,6 +14,7 @@ DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 class _CollateralizedConvertOperation(Operation, GenericModel, Generic[AssetHiveT]):
     __operation_name__ = "collateralized_convert"
+    __offset__ = 48
 
     owner: AccountName
     request_id: Uint32t = DEFAULT_REQUEST_ID

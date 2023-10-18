@@ -11,6 +11,7 @@ from schemas.virtual_operation import VirtualOperation
 
 class _ReturnVestingDelegationOperation(VirtualOperation, GenericModel, Generic[AssetVestsT]):
     __operation_name__ = "return_vesting_delegation"
+    __offset__ = 12
 
     account: AccountName
     vesting_shares: AssetVestsT

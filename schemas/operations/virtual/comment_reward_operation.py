@@ -12,6 +12,7 @@ from schemas.virtual_operation import VirtualOperation
 
 class _CommentRewardOperation(VirtualOperation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "comment_reward"
+    __offset__ = 3
 
     author: AccountName
     permlink: str

@@ -15,6 +15,7 @@ from schemas.operation import Operation
 
 class _TransferToSavingsOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "transfer_to_savings"
+    __offset__ = 32
 
     from_: AccountName = Field(alias="from")
     to: AccountName

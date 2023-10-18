@@ -14,6 +14,7 @@ DEFAULT_APPROVE: Final[bool] = True
 
 class EscrowApproveOperation(Operation):
     __operation_name__ = "escrow_approve"
+    __offset__ = 31
 
     from_: AccountName = Field(alias="from")
     to: AccountName

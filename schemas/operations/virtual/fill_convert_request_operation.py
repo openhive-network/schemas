@@ -17,6 +17,7 @@ DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 class _FillConvertRequestOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "fill_convert_request"
+    __offset__ = 0
 
     owner: AccountName
     request_id: Uint32t = DEFAULT_REQUEST_ID

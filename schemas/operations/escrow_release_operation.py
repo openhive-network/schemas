@@ -18,6 +18,7 @@ DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 
 class _EscrowReleaseOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "escrow_release"
+    __offset__ = 29
 
     from_: AccountName = Field(alias="from")
     to: AccountName

@@ -9,6 +9,7 @@ from schemas.operation import Operation
 
 class CustomBinaryOperation(Operation):
     __operation_name__ = "custom_binary"
+    __offset__ = 35
 
     required_owner_auths: list[AccountName]
     required_active_auths: list[AccountName]

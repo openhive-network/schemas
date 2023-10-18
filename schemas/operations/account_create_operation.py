@@ -15,6 +15,7 @@ from schemas.operation import Operation
 
 class _AccountCreateOperation(Operation, GenericModel, Generic[AssetHiveT]):
     __operation_name__ = "account_create"
+    __offset__ = 9
 
     fee: AssetHiveT
     creator: AccountName

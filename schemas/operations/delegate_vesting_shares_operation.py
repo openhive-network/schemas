@@ -11,6 +11,7 @@ from schemas.operation import Operation
 
 class _DelegateVestingSharesOperation(Operation, GenericModel, Generic[AssetVestsT]):
     __operation_name__ = "delegate_vesting_shares"
+    __offset__ = 40
 
     delegator: AccountName
     delegatee: AccountName

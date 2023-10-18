@@ -12,6 +12,7 @@ DEFAULT_AUTO_VEST: Final[bool] = False
 
 class SetWithdrawVestingRouteOperation(Operation):
     __operation_name__ = "set_withdraw_vesting_route"
+    __offset__ = 20
 
     from_account: AccountName
     to_account: AccountName

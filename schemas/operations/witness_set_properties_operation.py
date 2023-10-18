@@ -8,6 +8,7 @@ from schemas.operation import Operation
 
 class WitnessSetPropertiesOperation(Operation):
     __operation_name__ = "witness_set_properties"
+    __offset__ = 42
 
     witness: AccountName
     props: LegacyChainProperties[AssetHiveHF26]

@@ -15,6 +15,7 @@ from schemas.operation import Operation
 
 class _WitnessUpdateOperation(Operation, GenericModel, Generic[AssetHiveT]):
     __operation_name__ = "witness_update"
+    __offset__ = 11
 
     owner: AccountName
     url: str

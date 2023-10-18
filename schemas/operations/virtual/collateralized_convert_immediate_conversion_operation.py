@@ -16,6 +16,7 @@ DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 class _CollateralizedConvertImmediateConversionOperation(VirtualOperation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "collateralized_convert_immediate_conversion"
+    __offset__ = 38
 
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID

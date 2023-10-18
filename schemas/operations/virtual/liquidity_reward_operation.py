@@ -11,6 +11,7 @@ from schemas.virtual_operation import VirtualOperation
 
 class _LiquidityRewardOperation(VirtualOperation, GenericModel, Generic[AssetHiveT]):
     __operation_name__ = "liquidity_reward"
+    __offset__ = 4
 
     owner: AccountName
     payout: AssetHiveT

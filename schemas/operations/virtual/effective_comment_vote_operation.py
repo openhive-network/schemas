@@ -24,6 +24,7 @@ class Empty(BaseModel):
 
 class _EffectiveCommentVoteOperation(VirtualOperation, GenericModel, Generic[AssetHbdT], ABC):
     __operation_name__ = "effective_comment_vote"
+    __offset__ = 22
 
     voter: AccountName
     author: AccountName
