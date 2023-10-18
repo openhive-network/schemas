@@ -7,13 +7,12 @@ from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.notifications import KnownNotificationT
-from schemas.notifications.abc import SupportedNotificationT
 
 
-class Notification(PreconfiguredBaseModel, GenericModel, Generic[SupportedNotificationT]):
+class Notification(PreconfiguredBaseModel, GenericModel, Generic[KnownNotificationT]):
     name: str
     time: datetime
-    value: SupportedNotificationT
+    value: KnownNotificationT
 
     @staticmethod
     def factory(
