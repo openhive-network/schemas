@@ -8,9 +8,14 @@ from schemas.fields.assets.asset_info import AssetInfo
 from schemas.fields.hive_int import HiveInt
 
 __all__ = [
+    # MAINNET
     "AssetHbdHF26",
     "AssetHbdLegacy",
     "AssetHbdT",
+    # TESTNET
+    "AssetTbdHF26",
+    "AssetTbdLegacy",
+    "AssetTbdT",
 ]
 
 
@@ -23,10 +28,19 @@ class AssetHbdHF26(AssetHF26):
     precision: HiveInt = get_asset_information().precision
 
 
+class AssetTbdHF26(AssetHbdHF26):
+    __testnet__ = True
+
+
 class AssetHbdLegacy(AssetLegacy):
     @classmethod
     def get_asset_information(cls) -> AssetInfo:
         return HbdSymbolType.get_asset_information()
 
 
+class AssetTbdLegacy(AssetHbdLegacy):
+    __testnet__ = True
+
+
 AssetHbdT = TypeVar("AssetHbdT", AssetHbdHF26, AssetHbdLegacy)
+AssetTbdT = TypeVar("AssetTbdT", AssetTbdHF26, AssetTbdLegacy)
