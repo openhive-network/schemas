@@ -22,6 +22,8 @@ if TYPE_CHECKING:
 
 
 class AssetBase(ABC):
+    __testnet__: bool = False
+
     @staticmethod
     @abstractmethod
     def get_asset_information() -> AssetInfo:
@@ -54,7 +56,7 @@ class AssetBase(ABC):
         return {"amount": self._get_amount(), "nai": info.nai, "precision": info.precision}
 
     def as_legacy(self) -> str:
-        return f"{self.pretty_amount()} {self.get_asset_information().get_symbol()}"
+        return f"{self.pretty_amount()} {self.get_asset_information().get_symbol(testnet=self.__testnet__)}"
 
     def pretty_amount(self) -> str:
         info = self.get_asset_information()
@@ -116,7 +118,7 @@ class AssetBase(ABC):
         return self.__add__(other)
 
     def __convert_to_asset(self, other: Any) -> Self:
-        with contextlib.suppress(ValueError):
+        with contextlib.suppress(ValueError, TypeError):
             other = int(other)
 
         if isinstance(other, int):
@@ -225,7 +227,9 @@ class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
                 f"[{precision=}, {nai=}] is not supported symbol type. Supported are: [{info.precision=}, {info.nai=}]"
             )
         amount = int(other["amount"])
-        return cls.from_legacy(f"{int(amount) / 10**info.precision :.{info.precision}f} {info.get_symbol()}")
+        return cls.from_legacy(
+            f"{int(amount) / 10**info.precision :.{info.precision}f} {info.get_symbol(cls.__testnet__)}"
+        )
 
     def _set_amount(self, amount: int) -> None:  # noqa: ARG002
         assert (
@@ -293,9 +297,9 @@ class AssetHF26(PreconfiguredBaseModel, AssetBase, ABC):
     def from_legacy(cls, other: str) -> Self:
         info = cls.get_asset_information()
         amount, precision, symbol = AssetLegacy.parse_raw(other)
-        if precision != info.precision or symbol != info.get_symbol():
+        if precision != info.precision or symbol != info.get_symbol(cls.__testnet__):
             raise TypeError(
-                f"[{precision=}, {symbol=}] is not supported symbol type. Supported are: [{info.precision=}, info.symbol={info.get_symbol()}]"
+                f"[{precision=}, {symbol=}] is not supported symbol type. Supported are: [{info.precision=}, info.symbol={info.get_symbol(cls.__testnet__)}]"
             )
         return cls(amount=amount, precision=precision, nai=info.nai)
 
