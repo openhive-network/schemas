@@ -11,6 +11,7 @@ from schemas.virtual_operation import VirtualOperation
 
 class _DhfFundingOperation(VirtualOperation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "dhf_funding"
+    __offset__ = 17
 
     treasury: AccountName
     additional_funds: AssetHbdT

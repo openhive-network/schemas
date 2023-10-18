@@ -9,6 +9,7 @@ from schemas.operations.extensions.future_extension import FutureExtensions
 
 class WitnessSetPropertiesOperation(Operation):
     __operation_name__ = "witness_set_properties"
+    __offset__ = 42
 
     witness: AccountName
     props: LegacyChainProperties[AssetHiveHF26]

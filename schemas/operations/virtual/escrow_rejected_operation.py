@@ -18,6 +18,7 @@ DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 class _EscrowRejectedOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "escrow_rejected"
+    __offset__ = 40
 
     from_: AccountName = Field(alias="from")
     to: AccountName

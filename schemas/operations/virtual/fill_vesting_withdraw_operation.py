@@ -14,6 +14,7 @@ from schemas.virtual_operation import VirtualOperation
 
 class _FillVestingWithdrawOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetVestsT]):
     __operation_name__ = "fill_vesting_withdraw"
+    __offset__ = 6
 
     from_account: AccountName
     to_account: AccountName

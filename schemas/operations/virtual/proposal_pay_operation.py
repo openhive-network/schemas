@@ -18,6 +18,7 @@ DEFAULT_OP_IN_TRX: Final[Uint16t] = Uint16t(0)
 
 class _ProposalPayOperation(VirtualOperation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "proposal_pay"
+    __offset__ = 16
 
     proposal_id: Uint32t = DEFAULT_PROPOSAL_ID
     receiver: AccountName

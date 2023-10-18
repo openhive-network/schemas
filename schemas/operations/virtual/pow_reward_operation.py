@@ -14,6 +14,7 @@ from schemas.virtual_operation import VirtualOperation
 
 class _PowRewardOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetVestsT]):
     __operation_name__ = "pow_reward"
+    __offset__ = 28
 
     worker: AccountName
     reward: AssetHiveT | AssetVestsT

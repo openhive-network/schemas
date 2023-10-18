@@ -14,6 +14,7 @@ from schemas.virtual_operation import VirtualOperation
 
 class _ProducerRewardOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetVestsT]):
     __operation_name__ = "producer_reward"
+    __offset__ = 14
 
     producer: AccountName
     vesting_shares: AssetHiveT | AssetVestsT

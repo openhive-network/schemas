@@ -18,6 +18,7 @@ DEFAULT_TYPE_ID: Final[Uint32t] = Uint32t(0)
 
 class _TransferFromSavingsOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "transfer_from_savings"
+    __offset__ = 33
 
     from_: AccountName = Field(alias="from")
     to: AccountName

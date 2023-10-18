@@ -13,6 +13,7 @@ from schemas.operation import Operation
 
 class _ClaimRewardBalanceOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     __operation_name__ = "claim_reward_balance"
+    __offset__ = 39
 
     account: AccountName
     reward_hive: AssetHiveT

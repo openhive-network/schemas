@@ -15,6 +15,7 @@ from schemas.operation import Operation
 
 class _TransferOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "transfer"
+    __offset__ = 2
 
     from_: AccountName = Field(alias="from")
     to: AccountName

@@ -15,6 +15,7 @@ from schemas.operations.extensions.future_extension import FutureExtensions
 
 class _CreateProposalOperation(Operation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "create_proposal"
+    __offset__ = 44
 
     creator: AccountName
     receiver: AccountName

@@ -20,6 +20,7 @@ DEFAULT_DELETED: Final[bool] = False
 
 class _FailedRecurrentTransferOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "failed_recurrent_transfer"
+    __offset__ = 34
 
     from_: AccountName = Field(alias="from")
     to: AccountName

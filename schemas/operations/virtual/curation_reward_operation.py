@@ -13,6 +13,7 @@ DEFAULT_PAYOUT_MUST_BE_CLAIMED: Final[bool] = False
 
 class _CurationRewardOperation(VirtualOperation, GenericModel, Generic[AssetVestsT]):
     __operation_name__ = "curation_reward"
+    __offset__ = 2
 
     curator: AccountName
     reward: AssetVestsT

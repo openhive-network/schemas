@@ -15,6 +15,7 @@ DEFAULT_PAYOUT_MUST_BE_CLAIMED: Final[bool] = False
 
 class _AuthorRewardOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     __operation_name__ = "author_reward"
+    __offset__ = 1
 
     author: AccountName
     permlink: str

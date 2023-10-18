@@ -15,6 +15,7 @@ from schemas.operation import Operation
 
 class _TransferToVestingOperation(Operation, GenericModel, Generic[AssetHiveT]):
     __operation_name__ = "transfer_to_vesting"
+    __offset__ = 3
 
     from_: AccountName = Field(alias="from")
     to: AccountName | EmptyString

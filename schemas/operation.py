@@ -11,6 +11,7 @@ class Operation(PreconfiguredBaseModel):
     """Base class for all operations to provide valid json serialization"""
 
     __operation_name__: str
+    __offset__: int
 
     @classmethod
     def get_name(cls) -> str:
@@ -29,3 +30,7 @@ class Operation(PreconfiguredBaseModel):
         e.g. `transfer_operation` for `TransferOperation`
         """
         return f"{cls.get_name()}_operation"
+
+    @classmethod
+    def offset(cls) -> int:
+        return cls.__offset__

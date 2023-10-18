@@ -17,6 +17,7 @@ DEFAULT_PAYOUT_MUST_BE_CLAIMED: Final[bool] = False
 
 class _CommentBenefactorRewardOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     __operation_name__ = "comment_benefactor_reward"
+    __offset__ = 13
 
     benefactor: AccountName
     author: AccountName

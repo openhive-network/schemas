@@ -14,6 +14,7 @@ from schemas.operation import Operation
 
 class _UpdateProposalOperation(Operation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "update_proposal"
+    __offset__ = 47
 
     proposal_id: Int64t
     creator: AccountName

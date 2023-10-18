@@ -18,6 +18,7 @@ DEFAULT_REMAINING_EXECUTIONS: Final[Uint16t] = Uint16t(0)
 
 class _FillRecurrentTransferOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "fill_recurrent_transfer"
+    __offset__ = 33
 
     from_: AccountName = Field(alias="from")
     to: AccountName

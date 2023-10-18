@@ -18,6 +18,7 @@ DEFAULT_OPEN_ORDERID: Final[Uint32t] = Uint32t(0)
 
 class _FillOrderOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "fill_order"
+    __offset__ = 7
 
     current_owner: AccountName
     current_orderid: Uint32t = DEFAULT_CURRENT_ORDERID

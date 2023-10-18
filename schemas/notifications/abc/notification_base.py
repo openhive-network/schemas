@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import TypeVar
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 

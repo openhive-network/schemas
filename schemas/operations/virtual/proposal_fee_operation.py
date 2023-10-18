@@ -14,6 +14,7 @@ DEFAULT_PROPOSAL_ID: Final[Uint32t] = Uint32t(0)
 
 class _ProposalFeeOperation(VirtualOperation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "proposal_fee"
+    __offset__ = 37
 
     creator: AccountName
     treasury: AccountName

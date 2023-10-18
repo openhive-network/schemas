@@ -12,6 +12,7 @@ from schemas.virtual_operation import VirtualOperation
 
 class _ClearNullAccountBalanceOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     __operation_name__ = "clear_null_account_balance"
+    __offset__ = 15
 
     total_cleared: list[AssetHiveT | AssetHbdT | AssetVestsT]
 

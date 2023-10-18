@@ -11,6 +11,7 @@ from schemas.operation import Operation
 
 class _WithdrawVestingOperation(Operation, GenericModel, Generic[AssetVestsT]):
     __operation_name__ = "withdraw_vesting"
+    __offset__ = 4
 
     account: AccountName
     vesting_shares: AssetVestsT

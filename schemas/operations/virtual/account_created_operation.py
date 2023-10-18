@@ -11,6 +11,7 @@ from schemas.virtual_operation import VirtualOperation
 
 class _AccountCreatedOperation(VirtualOperation, GenericModel, Generic[AssetVestsT]):
     __operation_name__ = "account_created"
+    __offset__ = 30
 
     new_account_name: AccountName
     creator: AccountName

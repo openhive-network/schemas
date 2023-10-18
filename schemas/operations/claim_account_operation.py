@@ -16,6 +16,7 @@ If a user wants to pay a fee in RC fee should be equal 0.
 
 class _ClaimAccountOperation(Operation, GenericModel, Generic[AssetHiveT]):
     __operation_name__ = "claim_account"
+    __offset__ = 22
 
     creator: AccountName
     fee: AssetHiveT | Literal[0]

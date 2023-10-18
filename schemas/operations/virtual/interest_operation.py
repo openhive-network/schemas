@@ -13,6 +13,7 @@ DEFAULT_IS_SAVED_INTO_HBD_BALANCE: Final[bool] = False
 
 class _InterestOperation(VirtualOperation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "interest"
+    __offset__ = 5
 
     owner: AccountName
     interest: AssetHbdT

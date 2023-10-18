@@ -19,12 +19,13 @@ DEFAULT_FILL_OR_KILL: Final[bool] = False
 
 class _LimitOrderCreate2Operation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "limit_order_create2"
+    __offset__ = 21
 
     owner: AccountName
     order_id: Uint32t
     amount_to_sell: AssetHiveT | AssetHbdT
     fill_or_kill: bool = DEFAULT_FILL_OR_KILL
-    exchange_rate: HbdExchangeRate[AssetHiveHF26, AssetHbdHF26]
+    exchange_rate: HbdExchangeRate[AssetHiveT, AssetHbdT]
     expiration: HiveDateTime
 
 
