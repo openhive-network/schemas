@@ -19,5 +19,5 @@ class Notification(PreconfiguredBaseModel, GenericModel, Generic[KnownNotificati
         expected_model: type[KnownNotificationT] | None = None, **kwargs: Any
     ) -> Notification[KnownNotificationT]:
         response_cls = Notification[expected_model] if expected_model else Notification[KnownNotificationT]  # type: ignore[valid-type]
-        response_cls.update_forward_refs(**locals())
-        return response_cls(**kwargs)
+        response_cls.update_forward_refs(**locals())  # type: ignore[attr-defined]
+        return response_cls(**kwargs)  # type: ignore[return-value]

@@ -28,4 +28,4 @@ class VirtualOperation(Operation):
 
 
 def build_vop_filter(*vops: type[VirtualOperation]) -> int:
-    return sum([(2**vop.vop_offset()) for vop in vops])
+    return sum([(2 ** vop.vop_offset()) for vop in vops])

@@ -69,8 +69,7 @@ class AssetBase(ABC):
     def __eq__(self, other: Any) -> bool:
         asset = self.__convert_to_asset(other)
         return (
-            asset.get_asset_information() == self.get_asset_information()
-            and self._get_amount() == asset._get_amount()
+            asset.get_asset_information() == self.get_asset_information() and self._get_amount() == asset._get_amount()
         )
 
     def __lt__(self, other: Any) -> bool:
@@ -142,13 +141,9 @@ class AssetBase(ABC):
             return other.clone()  # type: ignore[return-value]
         raise TypeError(f"`{other}` cannot be used as asset.")
 
-    def __combine_with(
-        self, other: AssetBase | int, operator_: Callable[[int, int], int]
-    ) -> Self:
+    def __combine_with(self, other: AssetBase | int, operator_: Callable[[int, int], int]) -> Self:
         converted = self.__convert_to_asset(other)
-        return converted.clone(
-            amount=operator_(self._get_amount(), converted._get_amount())
-        )
+        return converted.clone(amount=operator_(self._get_amount(), converted._get_amount()))
 
 
 class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
@@ -158,9 +153,7 @@ class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
         return int(self.parse_raw(self)[0])
 
     @classmethod
-    def parse_raw(
-        cls, str_to_parse: str, *, use_asset_info: AssetInfo | None = None
-    ) -> tuple[int, int, str]:
+    def parse_raw(cls, str_to_parse: str, *, use_asset_info: AssetInfo | None = None) -> tuple[int, int, str]:
         """Parses given str as if it is legacy asset.
 
         Arguments:
@@ -170,9 +163,7 @@ class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
             Tuple with 3 values in following order: amount, precision, symbol
         """
         cls.__legacy_regex_validator(str_to_parse, use_asset_info=use_asset_info)
-        matched = cls._get_legacy_regex(use_asset_info=use_asset_info).match(
-            str_to_parse
-        )
+        matched = cls._get_legacy_regex(use_asset_info=use_asset_info).match(str_to_parse)
         assert matched is not None
         parsed_amount = int(matched.group(1).replace(".", ""))
         precision = len(matched.group(2))
@@ -194,9 +185,7 @@ class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
         return cls(value)  # type: ignore[abstract]
 
     @classmethod
-    def _get_legacy_regex(
-        cls, *, use_asset_info: AssetInfo | None = None
-    ) -> re.Pattern[str]:
+    def _get_legacy_regex(cls, *, use_asset_info: AssetInfo | None = None) -> re.Pattern[str]:
         """Returns compiled regex, that simplifies extraction of certain asset properties.
 
         Groups:
@@ -211,13 +200,7 @@ class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
         info = cls.get_asset_information()
         if use_asset_info is not None:
             info = use_asset_info
-        return re.compile(
-            r"(^\d+\.(\d{"
-            + str(info.precision)
-            + r"})) ("
-            + "|".join(info.symbol)
-            + r")$"
-        )
+        return re.compile(r"(^\d+\.(\d{" + str(info.precision) + r"})) (" + "|".join(info.symbol) + r")$")
 
     @classmethod
     def __get_validators__(cls) -> CallableGenerator:
@@ -235,9 +218,7 @@ class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
             return self.__class__(amount)  # type: ignore[abstract]
         if isinstance(amount, int):
             info = self.get_asset_information()
-            return self.from_nai(
-                {"amount": int(amount), "nai": info.nai, "precision": info.precision}
-            )
+            return self.from_nai({"amount": int(amount), "nai": info.nai, "precision": info.precision})
         if isinstance(self, AssetBase):
             return self.clone(amount=self._get_amount())
         raise TypeError(f"`{amount}` cannot be used as amount.")
@@ -310,12 +291,10 @@ class AssetHF26(PreconfiguredBaseModel, AssetBase, ABC):
 
     def clone(self, *, amount: Any | int | AssetBase | None = None) -> Self:
         if amount is None:
-            return self.__class__(amount=self.amount)
+            return self.__class__(amount=self.amount, precision=self.precision, nai=self.nai)
         if isinstance(amount, int | AssetBase):
             amount_to_use = amount if isinstance(amount, int) else amount._get_amount()
-            return self.__class__(
-                amount=int(amount_to_use), precision=int(self.precision), nai=self.nai
-            )
+            return self.__class__(amount=int(amount_to_use), precision=int(self.precision), nai=self.nai)
         raise TypeError(f"`{amount}` cannot be used as amount.")
 
     def as_nai(self) -> dict[str, str | int]:
