@@ -22,13 +22,13 @@ class HiveInt(ConstrainedInt):
     def validate(cls, value: Any) -> int:
         error_template = ValueError("The value could only be int or string that can be converted to int!")
 
-        if type(value) is cls:
-            return int(value)
+        if isinstance(value, float | bool):
+            raise error_template
 
-        if type(value) is int:
+        if isinstance(value, int | HiveInt):
             return value
 
-        if type(value) is str:
+        if isinstance(value, str):
             try:
                 return int(value)
             except (ValueError, TypeError) as error:
