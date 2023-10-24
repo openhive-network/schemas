@@ -37,8 +37,8 @@ class GetResourcePool(PreconfiguredBaseModel):
     resource_pool: ResourcePool
 
 
-class ListRcAccounts(FindRcAccounts[AssetVestsT]):
-    pass
+class ListRcAccounts(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
+    rc_accounts: list[RcAccount[AssetVestsT]]
 
 
 class ListRcDirectDelegations(PreconfiguredBaseModel):
