@@ -62,9 +62,13 @@ class AssetBase(ABC):
     def as_legacy(self) -> str:
         return f"{self.pretty_amount()} {self.get_asset_information().get_symbol(testnet=self.__testnet__)}"
 
+    def as_float(self) -> float:
+        info = self.get_asset_information()
+        return float(self._get_amount() / (10 ** int(info.precision)))
+
     def pretty_amount(self) -> str:
         info = self.get_asset_information()
-        return f"{int(self._get_amount()) / 10**info.precision :.{info.precision}f}"
+        return f"{self.as_float() :.{info.precision}f}"
 
     def __eq__(self, other: Any) -> bool:
         asset = self.__convert_to_asset(other)
@@ -143,7 +147,7 @@ class AssetBase(ABC):
 
     def __combine_with(self, other: AssetBase | int, operator_: Callable[[int, int], int]) -> Self:
         converted = self.__convert_to_asset(other)
-        return converted.clone(amount=operator_(self._get_amount(), converted._get_amount()))
+        return converted.clone(amount=int(float(operator_(self._get_amount(), converted._get_amount()))))
 
 
 class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
