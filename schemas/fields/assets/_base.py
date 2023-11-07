@@ -59,6 +59,10 @@ class AssetBase(ABC):
             "precision": info.precision,
         }
 
+    @classmethod
+    def token(cls) -> str:
+        return cls.get_asset_information().get_symbol()
+
     def as_legacy(self) -> str:
         return f"{self.pretty_amount()} {self.get_asset_information().get_symbol(testnet=self.__testnet__)}"
 
