@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pydantic import Field
+
 from schemas.fields.basic import AccountName, PublicKey
 from schemas.fields.compound import Authority
 from schemas.operation import Operation
@@ -15,6 +17,6 @@ class AccountUpdate2Operation(Operation):
     active: Authority | None = None
     posting: Authority | None = None
     memo_key: PublicKey | None = None
-    json_metadata: str
-    posting_json_metadata: str
-    extensions: FutureExtensions
+    json_metadata: str | None = None
+    posting_json_metadata: str | None = None
+    extensions: FutureExtensions = Field(default_factory=FutureExtensions)

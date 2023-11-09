@@ -13,5 +13,5 @@ class AccountUpdateOperation(Operation):
     owner: Authority | None = None
     active: Authority | None = None
     posting: Authority | None = None
-    memo_key: PublicKey
-    json_metadata: str
+    memo_key: PublicKey | None = None
+    json_metadata: str | None = None
