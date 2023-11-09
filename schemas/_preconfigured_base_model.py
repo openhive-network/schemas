@@ -54,7 +54,8 @@ class PreconfiguredBaseModel(BaseModel):
     def shallow_dict(self) -> dict[str, Any]:
         result: dict[str, Any] = {}
         for key, value in self.__dict__.items():
-            result[key.strip("_")] = value
+            if value is not None:
+                result[key.strip("_")] = value
         return result
 
     @classmethod
