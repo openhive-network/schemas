@@ -17,7 +17,7 @@ class _CollateralizedConvertOperation(Operation, GenericModel, Generic[AssetHive
     __offset__ = 48
 
     owner: AccountName
-    request_id: Uint32t = DEFAULT_REQUEST_ID
+    requestid: Uint32t = DEFAULT_REQUEST_ID
     amount: AssetHiveT
 
 
