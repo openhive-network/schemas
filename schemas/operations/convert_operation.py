@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import Final, Generic
 
-from pydantic import Field
 from pydantic.generics import GenericModel
 
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
@@ -17,8 +16,8 @@ class _ConvertOperation(Operation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "convert"
     __offset__ = 8
 
-    from_: AccountName = Field(alias="from")
-    request_id: Uint32t = DEFAULT_REQUEST_ID
+    owner: AccountName
+    requestid: Uint32t = DEFAULT_REQUEST_ID
     amount: AssetHbdT
 
 

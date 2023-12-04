@@ -1,27 +1,22 @@
 from __future__ import annotations
 
-from typing import Any, Final
+from typing import Final, Generic
 
 from pydantic import Field
+from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
     AccountName,
     PublicKey,
 )
+from schemas.fields.compound import LegacyChainProperties
 from schemas.fields.hex import Sha256, Signature, TransactionId
-from schemas.fields.integers import Uint16t, Uint32t, Uint64t
+from schemas.fields.integers import Uint64t
 from schemas.operation import Operation
 
 DEFAULT_FILL_OR_KILL: Final[bool] = False
-
-
-class LegacyChainProperties(PreconfiguredBaseModel):
-    __operation_name__ = "legacy_chain_properties"
-
-    maximum_block_size: Uint32t
-    hbd_interest_rate: Uint16t
-    account_creation_fee: Any
 
 
 class Work(PreconfiguredBaseModel):
@@ -33,12 +28,20 @@ class Work(PreconfiguredBaseModel):
     work: Sha256
 
 
-class PowOperation(Operation):
+class _PowOperation(Operation, GenericModel, Generic[AssetHiveT]):
     __operation_name__ = "pow"
     __offset__ = 14
 
     worker_account: AccountName
     block_id: TransactionId
     nonce: Uint64t
-    props: LegacyChainProperties
+    props: LegacyChainProperties[AssetHiveT]
     work: Work
+
+
+class PowOperation(_PowOperation[AssetHiveHF26]):
+    ...
+
+
+class PowOperationLegacy(_PowOperation[AssetHiveLegacy]):
+    ...

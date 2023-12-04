@@ -20,7 +20,7 @@ class _FillConvertRequestOperation(VirtualOperation, GenericModel, Generic[Asset
     __offset__ = 0
 
     owner: AccountName
-    request_id: Uint32t = DEFAULT_REQUEST_ID
+    requestid: Uint32t = DEFAULT_REQUEST_ID
     amount_in: AssetHbdT
     amount_out: AssetHiveT
 

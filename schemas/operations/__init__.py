@@ -59,7 +59,8 @@ from schemas.operations.limit_order_create_operation import (
     LimitOrderCreateOperation,
     LimitOrderCreateOperationLegacy,
 )
-from schemas.operations.pow_operation import PowOperation
+from schemas.operations.pow2_operation import Pow2Operation, Pow2OperationLegacy
+from schemas.operations.pow_operation import PowOperation, PowOperationLegacy
 from schemas.operations.recover_account_operation import RecoverAccountOperation
 from schemas.operations.recurrent_transfer_operation import (
     RecurrentTransferOperation,
@@ -141,6 +142,7 @@ __all__ = [
     "LimitOrderCreate2Operation",
     "LimitOrderCreateOperation",
     "PowOperation",
+    "Pow2Operation",
     "RecoverAccountOperation",
     "RecurrentTransferOperation",
     "RemoveProposalOperation",
@@ -168,6 +170,8 @@ __all__ = [
     "ConvertOperationLegacy",
     "CreateProposalOperationLegacy",
     "DelegateVestingSharesOperationLegacy",
+    "PowOperationLegacy",
+    "Pow2OperationLegacy",
     "EscrowReleaseOperationLegacy",
     "EscrowTransferOperationLegacy",
     "LimitOrderCreate2OperationLegacy",
@@ -213,6 +217,7 @@ AnyOperation = (
     | LimitOrderCreate2Operation
     | LimitOrderCreateOperation
     | PowOperation
+    | Pow2Operation
     | RecoverAccountOperation
     | RecurrentTransferOperation
     | RemoveProposalOperation
@@ -263,7 +268,8 @@ AnyLegacyOperation = (
     | LimitOrderCancelOperation
     | LimitOrderCreate2OperationLegacy
     | LimitOrderCreateOperationLegacy
-    | PowOperation
+    | PowOperationLegacy
+    | Pow2OperationLegacy
     | RecoverAccountOperation
     | RecurrentTransferOperationLegacy
     | RemoveProposalOperation
