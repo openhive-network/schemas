@@ -14,4 +14,4 @@ class LimitOrderCancelOperation(Operation):
     __offset__ = 6
 
     owner: AccountName
-    order_id: Uint32t = DEFAULT_ORDER_ID
+    orderid: Uint32t = DEFAULT_ORDER_ID
