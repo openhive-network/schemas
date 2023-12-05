@@ -10,6 +10,3 @@ class NotificationBase(PreconfiguredBaseModel, ABC):
     @abstractmethod
     def get_notification_name(cls) -> str:
         """Returns name of notification that following data structure is bind to"""
-
-
-SupportedNotificationT = TypeVar("SupportedNotificationT", bound=NotificationBase)
