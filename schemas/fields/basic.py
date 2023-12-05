@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Final
 
 from pydantic import ConstrainedStr, errors
 
@@ -21,12 +21,12 @@ from pydantic.validators import list_validator
 if TYPE_CHECKING:
     from pydantic.typing import CallableGenerator
 
-account_name_name_segment_regex = r"[a-z][a-z0-9\-]+[a-z0-9]"
-base_58_regex = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+ACCOUNT_NAME_SEGMENT_REGEX: Final[str] = r"[a-z][a-z0-9\-]+[a-z0-9]"
+BASE_58_REGEX: Final[str] = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 
 
 class AccountName(ConstrainedStr):
-    regex = rf"^{account_name_name_segment_regex}(?:\.{account_name_name_segment_regex})*$"
+    regex = rf"^{ACCOUNT_NAME_SEGMENT_REGEX}(?:\.{ACCOUNT_NAME_SEGMENT_REGEX})*$"
     min_length = 3
     max_length = 16
 
@@ -66,8 +66,8 @@ class Permlink(ConstrainedStr):
 
 
 class PublicKey(ConstrainedStr):
-    regex = re.compile(r"^(?:STM|TST)[" + base_58_regex + r"]{7,51}$")
+    regex = re.compile(rf"^(?:STM|TST)[{BASE_58_REGEX}]{{7,51}}$")
 
 
 class PrivateKey(ConstrainedStr):
-    regex = re.compile(r"^[" + base_58_regex + r"]{51}$")
+    regex = re.compile(rf"^[{BASE_58_REGEX}]{{51}}$")
