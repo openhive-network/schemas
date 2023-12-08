@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Generic, Literal
 
+from pydantic import Field
 from pydantic.generics import GenericModel
 
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
@@ -20,7 +21,7 @@ class _ClaimAccountOperation(Operation, GenericModel, Generic[AssetHiveT]):
 
     creator: AccountName
     fee: AssetHiveT | Literal[0]
-    extensions: FutureExtensions
+    extensions: FutureExtensions = Field(default_factory=FutureExtensions)
 
 
 class ClaimAccountOperation(_ClaimAccountOperation[AssetHiveHF26]):

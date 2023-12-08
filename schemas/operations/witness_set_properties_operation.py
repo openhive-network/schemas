@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pydantic import Field
+
 from schemas.fields.assets.hive import AssetHiveHF26
 from schemas.fields.basic import AccountName
 from schemas.fields.compound import LegacyChainProperties
@@ -13,4 +15,4 @@ class WitnessSetPropertiesOperation(Operation):
 
     witness: AccountName
     props: LegacyChainProperties[AssetHiveHF26]
-    extensions: FutureExtensions
+    extensions: FutureExtensions = Field(default_factory=FutureExtensions)

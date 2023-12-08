@@ -27,7 +27,7 @@ class _RecurrentTransferOperation(Operation, GenericModel, Generic[AssetHiveT, A
     memo: str
     recurrence: Uint16t = DEFAULT_RECURRENCE
     executions: Uint16t = DEFAULT_EXECUTIONS
-    extensions: list[Any]
+    extensions: list[Any] = Field(default_factory=list)
 
 
 class RecurrentTransferOperation(_RecurrentTransferOperation[AssetHiveHF26, AssetHbdHF26]):

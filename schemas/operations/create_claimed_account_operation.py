@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pydantic import Field
+
 from schemas.fields.basic import AccountName, PublicKey
 from schemas.fields.compound import Authority
 from schemas.operation import Operation
@@ -17,4 +19,4 @@ class CreateClaimedAccountOperation(Operation):
     posting: Authority
     memo_key: PublicKey
     json_metadata: str
-    extensions: FutureExtensions
+    extensions: FutureExtensions = Field(default_factory=FutureExtensions)

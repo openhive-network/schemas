@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Generic
 
+from pydantic import Field
 from pydantic.generics import GenericModel
 
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
@@ -21,7 +22,7 @@ class _UpdateProposalOperation(Operation, GenericModel, Generic[AssetHbdT]):
     daily_pay: AssetHbdT
     subject: str
     permlink: str
-    extensions: list[Any]
+    extensions: list[Any] = Field(default_factory=list)
 
 
 class UpdateProposalOperation(_UpdateProposalOperation[AssetHbdHF26]):

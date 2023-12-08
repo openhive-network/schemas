@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Generic
 
+from pydantic import Field
 from pydantic.generics import GenericModel
 
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
@@ -24,7 +25,7 @@ class _CreateProposalOperation(Operation, GenericModel, Generic[AssetHbdT]):
     daily_pay: AssetHbdT
     subject: str
     permlink: str
-    extensions: FutureExtensions
+    extensions: FutureExtensions = Field(default_factory=FutureExtensions)
 
 
 class CreateProposalOperation(_CreateProposalOperation[AssetHbdHF26]):
