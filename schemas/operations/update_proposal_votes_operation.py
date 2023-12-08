@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Final
 
+from pydantic import Field
+
 from schemas.fields.basic import AccountName
 from schemas.fields.integers import Int64t
 from schemas.operation import Operation
@@ -17,4 +19,4 @@ class UpdateProposalVotesOperation(Operation):
     voter: AccountName
     proposal_ids: list[Int64t]
     approve: bool = DEFAULT_APPROVE
-    extensions: FutureExtensions
+    extensions: FutureExtensions = Field(default_factory=FutureExtensions)
