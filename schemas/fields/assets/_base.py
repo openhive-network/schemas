@@ -64,7 +64,7 @@ class AssetBase(ABC):
         return cls.get_asset_information().get_symbol()
 
     def as_legacy(self) -> str:
-        return f"{self.pretty_amount()} {self.get_asset_information().get_symbol(testnet=self.__testnet__)}"
+        return f"{self.pretty_amount()} {self.get_asset_information().get_symbol()}"
 
     def as_float(self) -> float:
         info = self.get_asset_information()

@@ -34,4 +34,4 @@ class CommentOptionsOperation(_CommentOptionsOperation[AssetHbdHF26]):
 
 
 class CommentOptionsOperationLegacy(_CommentOptionsOperation[AssetHbdLegacy]):
-    max_accepted_payout: AssetHbdLegacy = AssetHbdLegacy(DEFAULT_MAX_ACCEPTED_PAYOUT.as_legacy())
+    max_accepted_payout: AssetHbdLegacy = Field(default_factory=lambda: AssetHbdLegacy(DEFAULT_MAX_ACCEPTED_PAYOUT.as_legacy()))
