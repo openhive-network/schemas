@@ -157,6 +157,7 @@ class GetConfigOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, As
     IS_TEST_NET: bool
     HIVE_ENABLE_SMT: bool
     HIVE_DEFAULT_HF_9_COMPROMISED_ACCOUNTS_PUBLIC_KEY_STR: PublicKey
+    HIVE_STEEM_PUBLIC_KEY_BODY: str
     HIVE_INIT_PUBLIC_KEY_STR: PublicKey
     HIVE_HF_9_COMPROMISED_ACCOUNTS_PUBLIC_KEY_STR: PublicKey
     HIVE_INIT_PUBLIC_KEY: PublicKey
