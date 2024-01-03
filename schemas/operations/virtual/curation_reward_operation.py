@@ -17,8 +17,8 @@ class _CurationRewardOperation(VirtualOperation, GenericModel, Generic[AssetVest
 
     curator: AccountName
     reward: AssetVestsT
-    comment_author: AccountName
-    comment_permlink: str
+    author: AccountName
+    permlink: str
     payout_must_be_claimed: bool = DEFAULT_PAYOUT_MUST_BE_CLAIMED
 
 
