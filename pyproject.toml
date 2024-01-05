@@ -48,7 +48,7 @@ format-jinja = """
 
 [tool.poetry-dynamic-versioning.substitution]
 files = [
-    "clive/__init__.py",
+    "schemas/__init__.py",
 ]
 
 [tool.black]
