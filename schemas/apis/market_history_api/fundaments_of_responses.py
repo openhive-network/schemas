@@ -9,6 +9,7 @@ from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets.hbd import AssetHbdT
 from schemas.fields.assets.hive import AssetHiveT
 from schemas.fields.assets.vests import AssetVestsT
+from schemas.fields.basic import AccountName
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 
@@ -39,12 +40,16 @@ class GetRecentTradesFundament(PreconfiguredBaseModel, GenericModel, Generic[Ass
     date: HiveDateTime
     current_pays: AssetHiveT | AssetHbdT
     open_pays: AssetHiveT | AssetHbdT
+    taker: AccountName
+    maker: AccountName
 
 
 class GetTradeHistoryFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     date: HiveDateTime
     current_pays: AssetHiveT | AssetHbdT
     open_pays: AssetHiveT | AssetHbdT
+    taker: AccountName
+    maker: AccountName
 
 
 class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
