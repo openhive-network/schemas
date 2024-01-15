@@ -49,7 +49,7 @@ from schemas.operations.escrow_transfer_operation import (
     EscrowTransferOperation,
     EscrowTransferOperationLegacy,
 )
-from schemas.operations.feed_publish_operation import FeedPublishOperation
+from schemas.operations.feed_publish_operation import FeedPublishOperation, FeedPublishOperationLegacy
 from schemas.operations.limit_order_cancel_operation import LimitOrderCancelOperation
 from schemas.operations.limit_order_create2_operation import (
     LimitOrderCreate2Operation,
@@ -174,6 +174,7 @@ __all__ = [
     "Pow2OperationLegacy",
     "EscrowReleaseOperationLegacy",
     "EscrowTransferOperationLegacy",
+    "FeedPublishOperationLegacy",
     "LimitOrderCreate2OperationLegacy",
     "LimitOrderCreateOperationLegacy",
     "RecurrentTransferOperationLegacy",
@@ -264,7 +265,7 @@ AnyLegacyOperation = (
     | EscrowDisputeOperation
     | EscrowReleaseOperationLegacy
     | EscrowTransferOperationLegacy
-    | FeedPublishOperation
+    | FeedPublishOperationLegacy
     | LimitOrderCancelOperation
     | LimitOrderCreate2OperationLegacy
     | LimitOrderCreateOperationLegacy
