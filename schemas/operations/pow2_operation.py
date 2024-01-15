@@ -11,7 +11,7 @@ from schemas.fields.basic import (
     AccountName,
     PublicKey,
 )
-from schemas.fields.compound import LegacyChainProperties
+from schemas.fields.compound import LegacyChainProperties, LegacyChainPropertiesLegacy
 from schemas.fields.hex import Sha256, TransactionId
 from schemas.fields.integers import Uint32t, Uint64t
 from schemas.operation import Operation
@@ -47,13 +47,12 @@ class _Pow2Operation(Operation, GenericModel, Generic[AssetHiveT]):
     __offset__ = 30
 
     work: Pow2Work
-    props: LegacyChainProperties[AssetHiveT]
     new_owner_key: PublicKey | None = None
 
 
 class Pow2Operation(_Pow2Operation[AssetHiveHF26]):
-    ...
+    props: LegacyChainProperties
 
 
 class Pow2OperationLegacy(_Pow2Operation[AssetHiveLegacy]):
-    ...
+    props: LegacyChainPropertiesLegacy

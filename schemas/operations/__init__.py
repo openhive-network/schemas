@@ -99,7 +99,10 @@ from schemas.operations.withdraw_vesting_operation import (
     WithdrawVestingOperationLegacy,
 )
 from schemas.operations.witness_block_approve_operation import WitnessBlockApproveOperation
-from schemas.operations.witness_set_properties_operation import WitnessSetPropertiesOperation
+from schemas.operations.witness_set_properties_operation import (
+    WitnessSetPropertiesOperation,
+    WitnessSetPropertiesOperationLegacy,
+)
 from schemas.operations.witness_update_operation import (
     WitnessUpdateOperation,
     WitnessUpdateOperationLegacy,
@@ -184,6 +187,7 @@ __all__ = [
     "TransferToVestingOperationLegacy",
     "UpdateProposalOperationLegacy",
     "WithdrawVestingOperationLegacy",
+    "WitnessSetPropertiesOperationLegacy",
     "WitnessUpdateOperationLegacy",
 ]
 
@@ -287,7 +291,7 @@ AnyLegacyOperation = (
     | VoteOperation
     | WithdrawVestingOperationLegacy
     | WitnessBlockApproveOperation
-    | WitnessSetPropertiesOperation
+    | WitnessSetPropertiesOperationLegacy
     | WitnessUpdateOperationLegacy
 )
 

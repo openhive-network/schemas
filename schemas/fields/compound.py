@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-from typing import Generic
+from typing import Final, Generic
 
 from pydantic import Field
 from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets.hbd import AssetHbdT
-from schemas.fields.assets.hive import AssetHiveT
+from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.assets.vests import AssetVestsT
 from schemas.fields.basic import (
     AccountName,
@@ -18,11 +18,14 @@ from schemas.fields.hive_int import HiveInt
 from schemas.fields.integers import Uint16t, Uint32t
 from schemas.hive_constants import HIVE_HBD_INTEREST_RATE, HIVE_MAX_BLOCK_SIZE
 
+ONE_HIVE_SATOSHI: Final[AssetHiveHF26] = AssetHiveHF26(amount=1)
+
 __all__ = [
     "Authority",
     "DelayedVotes",
     "HbdExchangeRate",
     "LegacyChainProperties",
+    "LegacyChainPropertiesLegacy",
     "Manabar",
     "Price",
     "Proposal",
@@ -57,16 +60,23 @@ class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, 
     quote: AssetHiveT | AssetHbdT
 
 
-class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
+class _LegacyChainProperties(PreconfiguredBaseModel):
     """
     You can choose of Asset format for this field, to do it:
-    Legacy -> LegacyChainProperties[AssetHiveLegacy](parameters)
-    Nai -> LegacyChainProperties[AssetHiveHF26](parameters)
+    Legacy -> LegacyChainPropertiesLegacy
+    Nai -> LegacyChainProperties
     """
 
-    account_creation_fee: AssetHiveT
     maximum_block_size: Uint32t = Uint32t(HIVE_MAX_BLOCK_SIZE)
     hbd_interest_rate: Uint16t = Uint16t(HIVE_HBD_INTEREST_RATE)
+
+
+class LegacyChainProperties(_LegacyChainProperties):
+    account_creation_fee: AssetHiveHF26 = ONE_HIVE_SATOSHI
+
+
+class LegacyChainPropertiesLegacy(_LegacyChainProperties):
+    account_creation_fee: AssetHiveLegacy = AssetHiveLegacy.from_nai(ONE_HIVE_SATOSHI.as_nai())
 
 
 class Manabar(PreconfiguredBaseModel):

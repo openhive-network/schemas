@@ -9,7 +9,7 @@ from schemas.fields.basic import (
     AccountName,
     PublicKey,
 )
-from schemas.fields.compound import LegacyChainProperties
+from schemas.fields.compound import LegacyChainProperties, LegacyChainPropertiesLegacy
 from schemas.operation import Operation
 
 
@@ -20,13 +20,12 @@ class _WitnessUpdateOperation(Operation, GenericModel, Generic[AssetHiveT]):
     owner: AccountName
     url: str
     block_signing_key: PublicKey
-    props: LegacyChainProperties[AssetHiveHF26]
     fee: AssetHiveT  # currently ignored but validated
 
 
 class WitnessUpdateOperation(_WitnessUpdateOperation[AssetHiveHF26]):
-    ...
+    props: LegacyChainProperties
 
 
 class WitnessUpdateOperationLegacy(_WitnessUpdateOperation[AssetHiveLegacy]):
-    ...
+    props: LegacyChainPropertiesLegacy
