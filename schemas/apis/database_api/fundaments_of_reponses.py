@@ -159,7 +159,6 @@ class FindCommentsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetH
     allow_votes: bool
     allow_curation_rewards: bool
     beneficiaries: list[Any]
-    was_voted_on: bool
 
 
 class FindDeclineVotingRightsRequestsFundament(PreconfiguredBaseModel):
@@ -320,7 +319,6 @@ class CashoutInfoField(PreconfiguredBaseModel, GenericModel, Generic[AssetHbdT])
     allow_replies: bool
     allow_votes: bool
     allow_curation_rewards: bool
-    was_voted_on: bool
 
 
 class GetCommentPendingPayoutsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHbdT]):
