@@ -187,8 +187,7 @@ class GetDiscussionsByChildren(HiveMindResponses):
     """Supported by hivemind"""
 
 
-class GetDiscussionsByComments(GetDiscussionsByAuthorBeforeDate):
-    """The same response as GetDiscussionsByAuthorBeforeDate"""
+GetDiscussionsByComments = GetDiscussionsByAuthorBeforeDate
 
 
 class GetDiscussionsByCreated(GetDiscussionsByAuthorBeforeDate):
