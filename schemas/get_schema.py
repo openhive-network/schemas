@@ -15,6 +15,7 @@ from schemas.apis import (
     account_history_api,
     beekeeper_api,
     block_api,
+    bridge_api,
     condenser_api,
     database_api,
     debug_node_api,
@@ -49,6 +50,7 @@ APIS: Final[dict[str, ModuleType]] = {
     "reputation_api": reputation_api,
     "transaction_status_api": transaction_status_api,
     "wallet_bridge_api": wallet_bridge_api,
+    "bridge": bridge_api,
 }
 
 
