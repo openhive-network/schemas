@@ -32,6 +32,7 @@ from schemas.apis.database_api.fundaments_of_reponses import (
     SavingsWithdrawalsFundament,
     VestingDelegationExpirationsFundament,
     VestingDelegationsFundament,
+    VoteItem,
     WithdrawVestingRoutesFundament,
     WitnessesFundament,
 )
@@ -641,3 +642,11 @@ class VerifyAuthority(PreconfiguredBaseModel):
 
 class VerifySignatures(PreconfiguredBaseModel):
     valid: bool
+
+
+class ListVotes(PreconfiguredBaseModel):
+    votes: list[VoteItem]
+
+
+class FindVotes(ListVotes):
+    pass

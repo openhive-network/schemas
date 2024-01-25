@@ -16,6 +16,7 @@ from schemas.apis.database_api.response_schemas import (
     FindSavingsWithdrawals,
     FindVestingDelegationExpirations,
     FindVestingDelegations,
+    FindVotes,
     FindWithdrawVestingRoutes,
     FindWitnesses,
     GetActiveWitnesses,
@@ -48,6 +49,7 @@ from schemas.apis.database_api.response_schemas import (
     ListSavingsWithdrawals,
     ListVestingDelegationExpirations,
     ListVestingDelegations,
+    ListVotes,
     ListWithdrawVestingRoutes,
     ListWitnesses,
     ListWitnessVotes,
@@ -110,4 +112,6 @@ __all__ = [
     "VerifyAccountAuthority",
     "VerifyAuthority",
     "VerifySignatures",
+    "ListVotes",
+    "FindVotes",
 ]

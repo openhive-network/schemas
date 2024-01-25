@@ -449,3 +449,15 @@ class ListWitnessVotesFundament(PreconfiguredBaseModel):
     id_: HiveInt = Field(alias="id")
     witness: AccountName
     account: AccountName
+
+
+class VoteItem(PreconfiguredBaseModel):
+    id_: HiveInt = Field(alias="id")
+    voter: AccountName
+    author: AccountName
+    permlink: Permlink
+    weight: HiveInt
+    rshares: HiveInt
+    vote_percent: HiveInt
+    last_update: HiveDateTime
+    num_changes: HiveInt
