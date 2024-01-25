@@ -15,7 +15,7 @@ from schemas.fields.hive_int import HiveInt
 GetPost = list[GetPostItem]
 GetAccountPosts = list[GetPostItem]
 GetRankedPosts = list[GetPostItem]
-GetProfile = list[GetProfileItem]
+GetProfile = GetProfileItem
 GetTrendingTopics = list[tuple[AccountName, str]]
 
 
