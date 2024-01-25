@@ -28,7 +28,7 @@ BASE_58_REGEX: Final[str] = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrs
 class AccountName(ConstrainedStr):
     regex = rf"^{ACCOUNT_NAME_SEGMENT_REGEX}(?:\.{ACCOUNT_NAME_SEGMENT_REGEX})*$"
     min_length = 3
-    max_length = 16
+    max_length = 40
 
 
 class CustomIdType(ConstrainedStr):
