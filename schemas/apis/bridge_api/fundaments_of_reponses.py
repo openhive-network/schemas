@@ -32,7 +32,7 @@ class GetPostItem(PreconfiguredBaseModel):
     category: str
     title: str
     body: str
-    json_metadata: dict[str, Any]
+    json_metadata: Any
     created: HiveDateTime
     updated: HiveDateTime
     depth: HiveInt
@@ -46,21 +46,21 @@ class GetPostItem(PreconfiguredBaseModel):
     curator_payout_value: AssetHbdLegacy
     promoted: AssetHbdLegacy
     replies: list[Any]
-    reblogs: HiveInt
+    reblogs: HiveInt | None = None
     author_reputation: float
     stats: GetPostItemStats
     url: str
     beneficiaries: list[Any]
     max_accepted_payout: AssetHbdLegacy
     percent_hbd: HiveInt
-    parent_author: AccountName
-    parent_permlink: str
+    parent_author: AccountName | None = None
+    parent_permlink: str | None = None
     active_votes: list[GetPostItemVote]
     blacklists: list[Any]
-    community: str
-    community_title: str
-    author_role: str
-    author_title: str
+    community: str = ""
+    community_title: str = ""
+    author_role: str = ""
+    author_title: str = ""
 
 
 class GetProfileStats(PreconfiguredBaseModel):

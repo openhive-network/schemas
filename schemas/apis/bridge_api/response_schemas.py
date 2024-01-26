@@ -12,7 +12,7 @@ from schemas.fields.basic import (
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 
-GetPost = list[GetPostItem]
+GetPost = GetPostItem
 GetAccountPosts = list[GetPostItem]
 GetRankedPosts = list[GetPostItem]
 GetProfile = GetProfileItem
@@ -34,7 +34,7 @@ AccountNotifications = list[PostNotification]
 
 
 class UnreadNotifications(PreconfiguredBaseModel):
-    lastread: HiveDateTime
+    lastread: str
     unread: HiveInt
 
 
@@ -50,7 +50,7 @@ class GetCommunity(PreconfiguredBaseModel):
     type_id: HiveInt
     is_nsfw: bool
     subscribers: HiveInt
-    created_at: HiveDateTime
+    created_at: str
     sum_pending: HiveInt
     num_pending: HiveInt
     num_authors: HiveInt
@@ -68,7 +68,7 @@ class GetCommunityContext(PreconfiguredBaseModel):
     title: str
 
 
-class ListCommunities(PreconfiguredBaseModel):
+class ListCommunitiesItem(PreconfiguredBaseModel):
     id_: HiveInt = Field(alias="id")
     name: str
     title: str
@@ -80,12 +80,12 @@ class ListCommunities(PreconfiguredBaseModel):
     sum_pending: HiveInt
     num_pending: HiveInt
     num_authors: HiveInt
-    created_at: HiveDateTime
+    created_at: str
     avatar_url: str
     context: Any
     admins: list[AccountName]
 
-
+ListCommunities = list[ListCommunitiesItem]
 ListPopCommunities = list[tuple[AccountName, str]]
 ListCommunityRoles = list[tuple[AccountName, str, str]]
 ListSubscribers = list[tuple[AccountName, str, str | None, HiveDateTime]]
