@@ -83,7 +83,7 @@ class ListCommunitiesItem(PreconfiguredBaseModel):
     created_at: str
     avatar_url: str
     context: Any
-    admins: list[AccountName]
+    admins: list[AccountName] = Field(default_factory=list)
 
 ListCommunities = list[ListCommunitiesItem]
 ListPopCommunities = list[tuple[AccountName, str]]
