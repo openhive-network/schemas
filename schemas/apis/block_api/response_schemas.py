@@ -9,14 +9,14 @@ class GetBlockBase(PreconfiguredBaseModel):
     block: Hf26Block
 
 
-GetBlock = GetBlockBase | PreconfiguredBaseModel
+GetBlock = GetBlockBase
 
 
 class GetBlockHeaderBase(PreconfiguredBaseModel):
     header: GetBlockHeaderFundament
 
 
-GetBlockHeader = GetBlockHeaderBase | PreconfiguredBaseModel
+GetBlockHeader = GetBlockHeaderBase
 
 
 class GetBlockRange(PreconfiguredBaseModel):
