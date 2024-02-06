@@ -13,6 +13,6 @@ class WitnessSetPropertiesOperation(Operation):
     __operation_name__ = "witness_set_properties"
     __offset__ = 42
 
-    witness: AccountName
+    owner: AccountName
     props: LegacyChainProperties[AssetHiveHF26]
     extensions: FutureExtensions = Field(default_factory=FutureExtensions)
