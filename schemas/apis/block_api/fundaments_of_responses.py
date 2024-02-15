@@ -33,6 +33,13 @@ class SignedBlock(GetBlockHeaderFundament, GenericModel, Generic[TransactionT]):
     transactions: list[TransactionT]
 
 
+class BlockLogUtilSignedBlock(GetBlockHeaderFundament, GenericModel, Generic[TransactionT]):
+    block_id: TransactionId
+    signing_key: PublicKey
+    witness_signature: Signature
+    transactions: list[TransactionT]
+
+
 class Block(SignedBlock[TransactionT], GenericModel, Generic[TransactionT]):
     block_id: TransactionId
     signing_key: PublicKey
