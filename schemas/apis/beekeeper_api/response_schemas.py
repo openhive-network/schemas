@@ -24,12 +24,16 @@ class GetInfo(PreconfiguredBaseModel):
     timeout_time: HiveDateTime
 
 
-class GetPublicKeys(PreconfiguredBaseModel):
-    keys: list[PublicKey]
-
-
-class ImportKey(PreconfiguredBaseModel):
+class PublicKeyItem(PreconfiguredBaseModel):
     public_key: PublicKey
+
+
+class GetPublicKeys(PreconfiguredBaseModel):
+    keys: list[PublicKeyItem]
+
+
+class ImportKey(PublicKeyItem):
+    pass
 
 
 class ListKeys(PreconfiguredBaseModel):

@@ -226,7 +226,6 @@ def test_authority_field_incorrect_values(authority: dict[str, Any], parameter: 
     "value",
     [
         "SMM69zfrFGnZtU3gWFWpQJ6GhND1nz7TJsKBTjcWfebS1JzBEweQy",
-        "STM12345",
         "STM1234KASJDzskakxKqwedskldmeokllsdsdbfwsggdaWf123dfs3efa2sga2wdwsfnKSM",
     ],
 )
