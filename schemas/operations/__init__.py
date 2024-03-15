@@ -4,6 +4,10 @@ from schemas.operations.account_create_operation import (
     AccountCreateOperation,
     AccountCreateOperationLegacy,
 )
+from schemas.operations.account_create_with_delegation_operation import (
+    AccountCreateWithDelegationOperation,
+    AccountCreateWithDelegationOperationLegacy,
+)
 from schemas.operations.account_update2_operation import AccountUpdate2Operation
 from schemas.operations.account_update_operation import AccountUpdateOperation
 from schemas.operations.account_witness_proxy_operation import AccountWitnessProxyOperation
@@ -113,6 +117,7 @@ __all__ = [
     "AnyLegacyEveryOperation",
     # OPERATIONS
     "AccountCreateOperation",
+    "AccountCreateWithDelegationOperation",
     "AccountUpdate2Operation",
     "AccountUpdateOperation",
     "AccountWitnessProxyOperation",
@@ -163,6 +168,7 @@ __all__ = [
     "WitnessUpdateOperation",
     # LEGACY OPERATIONS
     "AccountCreateOperationLegacy",
+    "AccountCreateWithDelegationOperationLegacy",
     "ClaimAccountOperationLegacy",
     "ClaimRewardBalanceOperationLegacy",
     "CollateralizedConvertOperationLegacy",
@@ -188,6 +194,7 @@ __all__ = [
 
 AnyOperation = (
     AccountCreateOperation
+    | AccountCreateWithDelegationOperation
     | AccountUpdate2Operation
     | AccountUpdateOperation
     | AccountWitnessProxyOperation
