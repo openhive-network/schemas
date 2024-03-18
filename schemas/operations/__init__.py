@@ -194,7 +194,7 @@ __all__ = [
 
 AnyOperation = (
     AccountCreateOperation
-    | AccountCreateWithDelegationOperation,
+    | AccountCreateWithDelegationOperation
     | AccountUpdate2Operation
     | AccountUpdateOperation
     | AccountWitnessProxyOperation
