@@ -12,6 +12,7 @@ from schemas.fields.assets.vests import AssetVestsT
 from schemas.fields.basic import (
     AccountName,
     PublicKey,
+    Url,
 )
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
@@ -107,6 +108,12 @@ class Props(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
     hbd_interest_rate: HiveInt | None = None
     account_subsidy_budget: HiveInt | None = None
     account_subsidy_decay: HiveInt | None = None
+
+
+class PropsWitnessSetProperties(Props[AssetHiveT], Generic[AssetHiveT, AssetHbdT]):
+    hbd_exchange_rate: HbdExchangeRate[AssetHiveT, AssetHbdT] | None = None
+    new_signing_key: PublicKey | None = None
+    url: Url | None = None
 
 
 class RcAccountObject(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
