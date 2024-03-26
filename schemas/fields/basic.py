@@ -71,3 +71,7 @@ class PublicKey(ConstrainedStr):
 
 class PrivateKey(ConstrainedStr):
     regex = re.compile(rf"^[{BASE_58_REGEX}]{{51}}$")
+
+
+class Url(ConstrainedStr):
+    max_length = 2048
