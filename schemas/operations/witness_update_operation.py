@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Generic
 
+from pydantic import validator
 from pydantic.generics import GenericModel
 
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
@@ -21,12 +22,26 @@ class _WitnessUpdateOperation(Operation, GenericModel, Generic[AssetHiveT]):
     url: str
     block_signing_key: PublicKey
     props: LegacyChainProperties[AssetHiveHF26]
-    fee: AssetHiveT  # currently ignored but validated
+    fee: AssetHiveT | None
 
 
 class WitnessUpdateOperation(_WitnessUpdateOperation[AssetHiveHF26]):
-    ...
+    fee: AssetHiveHF26 | None = None
+
+    @validator("fee", always=True)
+    @classmethod
+    def validate_fee(cls, v: AssetHiveHF26 | None) -> AssetHiveHF26:
+        if v is None:
+            return AssetHiveHF26(amount=0)
+        return v
 
 
 class WitnessUpdateOperationLegacy(_WitnessUpdateOperation[AssetHiveLegacy]):
-    ...
+    fee: AssetHiveLegacy | None = None
+
+    @validator("fee", always=True)
+    @classmethod
+    def validate_fee(cls, v: AssetHiveLegacy | None) -> AssetHiveLegacy:
+        if v is None:
+            return AssetHiveLegacy("0.000 HIVE")
+        return v
