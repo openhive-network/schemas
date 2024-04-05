@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Generic
+from typing import Generic, Literal
 
 from pydantic import Field
 from pydantic.generics import GenericModel
@@ -13,6 +13,7 @@ from schemas.fields.basic import (
     AccountName,
     PublicKey,
 )
+from schemas.fields.hex import Hex
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.integers import Uint16t, Uint32t
@@ -30,6 +31,7 @@ __all__ = [
     "RcAccountObject",
     "RdDecayParams",
     "RdDynamicParams",
+    "WitnessPropsSerialized",
 ]
 
 
@@ -130,3 +132,18 @@ class RdDynamicParams(PreconfiguredBaseModel):
     max_pool_size: HiveInt
     decay_params: RdDecayParams
     min_decay: HiveInt
+
+
+WitnessPropsSerializedKey = Literal[
+    "account_creation_fee",
+    "account_subsidy_budget",
+    "account_subsidy_decay",
+    "key",
+    "maximum_block_size",
+    "new_signing_key",
+    "sbd_exchange_rate",
+    "sbd_interest_rate",
+    "url",
+]
+
+WitnessPropsSerialized = list[tuple[WitnessPropsSerializedKey, Hex]]

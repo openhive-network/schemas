@@ -2,9 +2,8 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from schemas.fields.assets.hive import AssetHiveHF26
 from schemas.fields.basic import AccountName
-from schemas.fields.compound import Props
+from schemas.fields.compound import WitnessPropsSerialized
 from schemas.operation import Operation
 from schemas.operations.extensions.future_extension import FutureExtensions
 
@@ -14,5 +13,5 @@ class WitnessSetPropertiesOperation(Operation):
     __offset__ = 42
 
     owner: AccountName
-    props: Props[AssetHiveHF26]
+    props: WitnessPropsSerialized
     extensions: FutureExtensions = Field(default_factory=FutureExtensions)
