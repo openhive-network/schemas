@@ -14,9 +14,12 @@ __all__ = [
     "Permlink",
     "PublicKey",
     "PrivateKey",
+    "WitnessUrl",
 ]
 
 from pydantic.validators import list_validator
+
+from schemas.hive_constants import HIVE_MAX_WITNESS_URL_LENGTH
 
 if TYPE_CHECKING:
     from pydantic.typing import CallableGenerator
@@ -71,3 +74,7 @@ class PublicKey(ConstrainedStr):
 
 class PrivateKey(ConstrainedStr):
     regex = re.compile(rf"^[{BASE_58_REGEX}]{{51}}$")
+
+
+class WitnessUrl(ConstrainedStr):
+    max_length = HIVE_MAX_WITNESS_URL_LENGTH

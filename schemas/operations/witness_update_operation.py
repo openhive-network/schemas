@@ -9,6 +9,7 @@ from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHive
 from schemas.fields.basic import (
     AccountName,
     PublicKey,
+    WitnessUrl,
 )
 from schemas.fields.compound import LegacyChainProperties
 from schemas.operation import Operation
@@ -19,7 +20,7 @@ class _WitnessUpdateOperation(Operation, GenericModel, Generic[AssetHiveT]):
     __offset__ = 11
 
     owner: AccountName
-    url: str
+    url: WitnessUrl
     block_signing_key: PublicKey
     props: LegacyChainProperties[AssetHiveHF26]
     fee: AssetHiveT | None

@@ -15,6 +15,7 @@ from schemas.fields.basic import (
     FloatAsString,
     Permlink,
     PublicKey,
+    WitnessUrl,
 )
 from schemas.fields.compound import (
     Authority,
@@ -277,7 +278,7 @@ class WitnessesFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHive
     id_: HiveInt = Field(alias="id")
     owner: AccountName
     created: HiveDateTime
-    url: str
+    url: WitnessUrl
     votes: HiveInt
     virtual_last_update: str
     virtual_position: str
