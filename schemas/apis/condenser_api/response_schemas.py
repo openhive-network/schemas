@@ -49,6 +49,7 @@ from schemas.fields.basic import (
     AccountName,
     EmptyString,
     PublicKey,
+    Url,
 )
 from schemas.fields.compound import (
     Price,
@@ -144,7 +145,7 @@ class GetConfig(database_api.GetConfigOrig[AssetHiveLegacy, AssetHbdLegacy]):
 class GetContent(fundaments_database_api.FindCommentsFundament[AssetHbdLegacy]):
     """Base from database_api, some additional fields"""
 
-    url: str
+    url: Url
     root_title: str
     pending_payout_value: AssetHiveLegacy | AssetHbdLegacy
     total_pending_payout_value: AssetHiveLegacy | AssetHbdLegacy

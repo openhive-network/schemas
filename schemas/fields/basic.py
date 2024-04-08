@@ -15,11 +15,12 @@ __all__ = [
     "PublicKey",
     "PrivateKey",
     "WitnessUrl",
+    "Url",
 ]
 
 from pydantic.validators import list_validator
 
-from schemas.hive_constants import HIVE_MAX_WITNESS_URL_LENGTH
+from schemas.hive_constants import HIVE_MAX_URL_LENGTH, HIVE_MAX_WITNESS_URL_LENGTH
 
 if TYPE_CHECKING:
     from pydantic.typing import CallableGenerator
@@ -78,3 +79,7 @@ class PrivateKey(ConstrainedStr):
 
 class WitnessUrl(ConstrainedStr):
     max_length = HIVE_MAX_WITNESS_URL_LENGTH
+
+
+class Url(ConstrainedStr):
+    max_length = HIVE_MAX_URL_LENGTH

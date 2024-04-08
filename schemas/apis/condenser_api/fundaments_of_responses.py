@@ -15,6 +15,7 @@ from schemas.fields.basic import (
     EmptyString,
     FloatAsString,
     Permlink,
+    Url,
 )
 from schemas.fields.compound import Proposal
 from schemas.fields.hive_datetime import HiveDateTime
@@ -115,7 +116,7 @@ class GetCommentDiscussionsByPayoutFundament(fundaments_database_api.FindComment
     replies: list[str]
     body_length: HiveInt
     author_reputation: HiveInt
-    url: str
+    url: Url
     root_title: str
     post_id: HiveInt
     active_votes: list[ActiveVotes]
