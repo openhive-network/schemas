@@ -324,4 +324,4 @@ class AssetHF26(PreconfiguredBaseModel, AssetBase, ABC):
         return cls(amount=amount, precision=precision, nai=info.nai)
 
     def _set_amount(self, amount: int) -> None:
-        self.amount = AssetNaiAmount(amount)
+        self.amount = str(AssetNaiAmount(amount))  # type: ignore
