@@ -70,7 +70,7 @@ class Permlink(ConstrainedStr):
 
 
 class PublicKey(ConstrainedStr):
-    regex = re.compile(rf"^(?:STM|TST)[{BASE_58_REGEX}]{{7,51}}$")
+    regex = rf"^(?:STM)[{BASE_58_REGEX}]{{7,51}}$"
 
 
 class PrivateKey(ConstrainedStr):
