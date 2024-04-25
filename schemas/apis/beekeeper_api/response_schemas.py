@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.apis.beekeeper_api.fundaments_of_responses import WalletDetails
-from schemas.fields.basic import PublicKey
+from schemas.apis.beekeeper_api.fundaments_of_responses import PublicKeyItem, WalletDetails
 from schemas.fields.hex import Signature
 from schemas.fields.hive_datetime import HiveDateTime
 
@@ -25,11 +24,11 @@ class GetInfo(PreconfiguredBaseModel):
 
 
 class GetPublicKeys(PreconfiguredBaseModel):
-    keys: list[PublicKey]
+    keys: list[PublicKeyItem]
 
 
-class ImportKey(PreconfiguredBaseModel):
-    public_key: PublicKey
+class ImportKey(PublicKeyItem):
+    pass
 
 
 class ListKeys(PreconfiguredBaseModel):
@@ -46,3 +45,7 @@ class SignDigest(PreconfiguredBaseModel):
 
 class SignTransaction(SignDigest):
     pass
+
+
+class HasMatchingPrivateKey(PreconfiguredBaseModel):
+    exists: bool

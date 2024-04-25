@@ -6,6 +6,7 @@ from schemas.apis.beekeeper_api.response_schemas import (
     EmptyResponse,
     GetInfo,
     GetPublicKeys,
+    HasMatchingPrivateKey,
     ImportKey,
     ListKeys,
     ListWallets,
@@ -24,4 +25,5 @@ __all__ = [
     "ListWallets",
     "SignDigest",
     "SignTransaction",
+    "HasMatchingPrivateKey",
 ]
