@@ -19,7 +19,7 @@ from schemas.hive_constants import HIVE_TIME_FORMAT
 if typing.TYPE_CHECKING:
     from collections.abc import Callable
 
-    from pydantic.typing import AbstractSetIntStr, MappingIntStrAny
+    from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
 
 
 class PreconfiguredBaseModel(BaseModel):
@@ -91,6 +91,27 @@ class PreconfiguredBaseModel(BaseModel):
             if value is not None:
                 result[key.strip("_")] = value
         return result
+
+    def dict(  # noqa: PLR0913, A003
+        self,
+        *,
+        include: AbstractSetIntStr | MappingIntStrAny | None = None,
+        exclude: AbstractSetIntStr | MappingIntStrAny | None = None,
+        by_alias: bool = True,  # modified, most of the time we want to dump by alias
+        skip_defaults: bool | None = None,
+        exclude_unset: bool = False,
+        exclude_defaults: bool = False,
+        exclude_none: bool = False,
+    ) -> DictStrAny:
+        return super().dict(
+            include=include,
+            exclude=exclude,
+            by_alias=by_alias,
+            skip_defaults=skip_defaults,
+            exclude_unset=exclude_unset,
+            exclude_defaults=exclude_defaults,
+            exclude_none=exclude_none,
+        )
 
     @classmethod
     def as_strict_model(cls, recursively: bool = True) -> type[Self]:  # noqa: C901
