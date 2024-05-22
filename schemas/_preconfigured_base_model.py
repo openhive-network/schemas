@@ -29,33 +29,6 @@ class PreconfiguredBaseModel(BaseModel):
         smart_union = True
         json_encoders = {datetime: lambda x: x.strftime(HIVE_TIME_FORMAT)}  # noqa: RUF012
 
-    @classmethod
-    def __is_aliased_field_name(cls, field_name: str) -> bool:
-        return field_name in {
-            "id",
-            "from",
-            "json",
-            "schema",
-            "open",
-            "field",
-            "input",
-            "hex",
-        }
-
-    def __getitem__(self, key: str) -> Any:
-        """
-        This allows using any schema from this repo as dictionary
-        """
-        key = self.__get_field_name(key)
-        return getattr(self, key)
-
-    def __setitem__(self, key: str, value: Any) -> None:
-        """
-        This allows using any schema from this repo as dictionary
-        """
-        key = self.__get_field_name(key)
-        setattr(self, key, value)
-
     def json(  # noqa: PLR0913
         self,
         *,
@@ -84,6 +57,33 @@ class PreconfiguredBaseModel(BaseModel):
             ensure_ascii=ensure_ascii,
             **dumps_kwargs,
         )
+
+    @classmethod
+    def __is_aliased_field_name(cls, field_name: str) -> bool:
+        return field_name in {
+            "id",
+            "from",
+            "json",
+            "schema",
+            "open",
+            "field",
+            "input",
+            "hex",
+        }
+
+    def __getitem__(self, key: str) -> Any:
+        """
+        This allows using any schema from this repo as dictionary
+        """
+        key = self.__get_field_name(key)
+        return getattr(self, key)
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        """
+        This allows using any schema from this repo as dictionary
+        """
+        key = self.__get_field_name(key)
+        setattr(self, key, value)
 
     def shallow_dict(self) -> dict[str, Any]:
         result: dict[str, Any] = {}
