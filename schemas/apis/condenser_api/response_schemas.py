@@ -82,7 +82,9 @@ FindRcAccounts = HiveList[RcAccountObject[AssetVestsLegacy]]  # identical as in 
 
 
 """List of FindRecurrentTransfersFundaments from database_api in Legacy Assets format"""
-FindRecurrentTransfers = HiveList[fundaments_database_api.FindRecurrentTransfersFundament[AssetHiveLegacy]]
+FindRecurrentTransfers = HiveList[
+    fundaments_database_api.FindRecurrentTransfersFundament[AssetHiveLegacy, AssetHbdLegacy]
+]
 
 
 class GetAccountCount(HiveInt):

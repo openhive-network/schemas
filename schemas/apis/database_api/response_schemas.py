@@ -107,7 +107,7 @@ class FindProposals(PreconfiguredBaseModel):
 
 
 class FindRecurrentTransfers(PreconfiguredBaseModel):
-    recurrent_transfers: HiveList[FindRecurrentTransfersFundament[AssetHiveHF26]]
+    recurrent_transfers: HiveList[FindRecurrentTransfersFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 class FindSavingsWithdrawals(PreconfiguredBaseModel):

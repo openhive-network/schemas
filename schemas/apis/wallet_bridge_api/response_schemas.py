@@ -55,7 +55,7 @@ class FindProposals(PreconfiguredBaseModel):
 FindRcAccounts = HiveList[RcAccountObject[AssetVestsHF26]]
 
 
-FindRecurrentTransfers = HiveList[FindRecurrentTransfersFundament[AssetHiveHF26]]
+FindRecurrentTransfers = HiveList[FindRecurrentTransfersFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
 GetAccount = Account[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26] | None

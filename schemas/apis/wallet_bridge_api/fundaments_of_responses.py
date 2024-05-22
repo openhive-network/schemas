@@ -103,12 +103,12 @@ class GetConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Gener
     conversion_date: HiveDateTime
 
 
-class FindRecurrentTransfersFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
+class FindRecurrentTransfersFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     id_: HiveInt = Field(alias="id")
     trigger_date: HiveDateTime
     from_: AccountName = Field(alias="from")
     to: AccountName
-    amount: AssetHiveT
+    amount: AssetHiveT | AssetHbdT
     memo: str
     recurrence: HiveInt
     consecutive_failures: HiveInt
