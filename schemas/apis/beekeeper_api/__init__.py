@@ -3,7 +3,9 @@ from __future__ import annotations
 from schemas.apis.beekeeper_api.response_schemas import (
     Create,
     CreateSession,
+    DecryptData,
     EmptyResponse,
+    EncryptData,
     GetInfo,
     GetPublicKeys,
     HasMatchingPrivateKey,
@@ -26,4 +28,6 @@ __all__ = [
     "SignDigest",
     "SignTransaction",
     "HasMatchingPrivateKey",
+    "EncryptData",
+    "DecryptData",
 ]
