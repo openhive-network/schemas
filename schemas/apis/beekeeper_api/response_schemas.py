@@ -49,3 +49,11 @@ class SignTransaction(SignDigest):
 
 class HasMatchingPrivateKey(PreconfiguredBaseModel):
     exists: bool
+
+
+class EncryptData(PreconfiguredBaseModel):
+    encrypted_content: str
+
+
+class DecryptData(PreconfiguredBaseModel):
+    decrypted_content: str
