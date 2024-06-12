@@ -48,7 +48,7 @@ tests:
   extends: .project_develop_configuration_template
   needs: [ ]  # to start immediately, without waiting for previous stages
   script:
-    - pytest tests/
+    - pytest tests/ --count=10
 
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| TESTS |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
