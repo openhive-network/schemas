@@ -74,6 +74,10 @@ def get_response_model(
     Returns:
         The response model.
     """
-    response_cls = JSONRPCResult[expected_model] if "result" in kwargs else JSONRPCError  # type: ignore[valid-type]
+
+    class JSONRPCResultImpl(JSONRPCResult[expected_model]):  # type: ignore[valid-type]
+        result: expected_model  # type: ignore[valid-type]
+
+    response_cls = JSONRPCResultImpl if "result" in kwargs else JSONRPCError
     response_cls.update_forward_refs(**locals())
     return response_cls(**kwargs)  # type: ignore[return-value]
