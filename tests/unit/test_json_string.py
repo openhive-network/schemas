@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from typing import Final
 
+from schemas.fields.json_string import JsonString
 from schemas.operations.custom_json_operation import CustomJsonOperation
 
 JSON_STRING_LEVEL3: Final[str] = '"c"'
@@ -15,7 +16,9 @@ CUSTOM_JSON_ID: Final[str] = "my_id"
 
 def test_json_getter_outer() -> None:
     # ARRANGE
-    op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1)
+    op = CustomJsonOperation[JsonString](
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1
+    )
 
     # ACT
     json_root = op.json_.value
@@ -26,7 +29,9 @@ def test_json_getter_outer() -> None:
 
 def test_json_getter() -> None:
     # ARRANGE
-    op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1)
+    op = CustomJsonOperation[JsonString](
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1
+    )
 
     # ACT
     assert isinstance(op.json_.value, dict)
@@ -38,7 +43,9 @@ def test_json_getter() -> None:
 
 def test_json_getter_inner() -> None:
     # ARRANGE
-    op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1)
+    op = CustomJsonOperation[JsonString](
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1
+    )
 
     # ACT
     assert isinstance(op.json_.value, dict)
@@ -51,7 +58,9 @@ def test_json_getter_inner() -> None:
 
 def test_json_setter_outer() -> None:
     # ARRANGE
-    op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1)
+    op = CustomJsonOperation[JsonString](
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1
+    )
     new_value: Final[str] = "d"
 
     # ACT
@@ -63,7 +72,9 @@ def test_json_setter_outer() -> None:
 
 def test_json_setter() -> None:
     # ARRANGE
-    op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1)
+    op = CustomJsonOperation[JsonString](
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1
+    )
     new_value: Final[str] = "e"
 
     # ACT
@@ -76,7 +87,9 @@ def test_json_setter() -> None:
 
 def test_json_setter_inner() -> None:
     # ARRANGE
-    op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1)
+    op = CustomJsonOperation[JsonString](
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1
+    )
     new_value: Final[str] = "f"
 
     # ACT
@@ -90,7 +103,9 @@ def test_json_setter_inner() -> None:
 
 def test_json_update() -> None:
     # ARRANGE
-    op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=NUMBER_STRING)
+    op = CustomJsonOperation[JsonString](
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=NUMBER_STRING
+    )
     update_with: Final[dict[str, str]] = {"x": "y", "z": "t"}
 
     # ACT
@@ -103,7 +118,9 @@ def test_json_update() -> None:
 
 def test_json_extend() -> None:
     # ARRANGE
-    op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=NUMBER_STRING)
+    op = CustomJsonOperation[JsonString](
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=NUMBER_STRING
+    )
     extend_with: Final[list[str]] = ["m", "n", "p"]
 
     # ACT
@@ -116,7 +133,7 @@ def test_json_extend() -> None:
 
 def test_dumps() -> None:
     # ARRANGE
-    op = CustomJsonOperation(
+    op = CustomJsonOperation[JsonString](
         required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=FOLLOW_OPERATION_JSON_STRING
     )
 
