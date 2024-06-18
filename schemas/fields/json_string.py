@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING, Any, TypeAlias
 
+from pydantic import BaseModel
+
 if TYPE_CHECKING:
     from pydantic.typing import CallableGenerator
 
@@ -23,21 +25,20 @@ class JsonString:
         yield cls.validate
 
     @classmethod
-    def validate(cls, json_string: str | JsonString) -> JsonString:
-        error_template = ValueError("The value could only be JsonString or string with valid json!")
+    def validate(cls, json_: AnyJson | str | BaseModel | JsonString) -> JsonString:
+        if isinstance(json_, JsonString):
+            return json_
 
-        if isinstance(json_string, JsonString):
-            return json_string
+        if isinstance(json_, BaseModel):
+            return cls(json_.dict())
 
-        if not isinstance(json_string, str):
-            raise error_template
+        if isinstance(json_, str):
+            try:
+                return cls(json.loads(json_))
+            except (ValueError, TypeError) as error:
+                raise ValueError(f"Value is string and is not valid json! Received `{json_}`") from error
 
-        try:
-            parsed = json.loads(json_string)
-        except (ValueError, TypeError) as error:
-            raise error_template from error
-
-        return cls(parsed)
+        return cls(json_)
 
     @property
     def value(self) -> AnyJson:
