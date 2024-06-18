@@ -194,3 +194,17 @@ def test_set_by_subscript() -> None:
 
     # ASSERT
     assert actual_value == expected_value
+
+
+def test_construct_from_int() -> None:
+    # ARRANGE
+    some_int: Final[int] = 125
+    op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=some_int)
+    update_with: Final[dict[str, str]] = {"x": "y", "z": "t"}
+
+    # ACT
+    op.json_.value = {}
+    op.json_.update(update_with)
+
+    # ASSERT
+    assert op.json_.value == update_with
