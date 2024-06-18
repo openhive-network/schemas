@@ -9,13 +9,13 @@ if TYPE_CHECKING:
     from pydantic.typing import CallableGenerator
 
 
+AnyJson: TypeAlias = dict[str, "AnyJson"] | list["AnyJson"] | str | int | float | bool | None
+
 class JsonString:
     """
     It must be possible to get and set json content, load JsonString value form string and dump JsonString to string.
     JsonString has property value which allows to get and set json content as dict, list, str, int, float, bool or None.
     """
-
-    AnyJson: TypeAlias = dict[str, "AnyJson"] | list["AnyJson"] | str | int | float | bool | None
 
     def __init__(self, value: AnyJson) -> None:
         self._value = value
