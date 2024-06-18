@@ -51,3 +51,9 @@ class JsonString:
     def as_string(self) -> str:
         """Dumps JsonString with no spaces between keys and values"""
         return json.dumps(self._value, separators=(",", ":"))
+
+    def __getitem__(self, key: str) -> AnyJson:
+        return self._value[key]
+
+    def __setitem__(self, key: str, value: AnyJson) -> None:
+        self._value[key] = value

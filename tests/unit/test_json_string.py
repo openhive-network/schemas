@@ -127,3 +127,48 @@ def test_dumps() -> None:
 
     # ASSERT
     assert dumps == minimal_json_string
+
+
+def test_set_value() -> None:
+    # ARRANGE
+    int_value: Final[int] = 123
+    op = CustomJsonOperation(
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=FOLLOW_OPERATION_JSON_STRING
+    )
+
+    # ACT
+    op.json_.value = int_value
+    serialized = json.dumps(int_value)
+
+    # ASSERT
+    assert op.json_.as_string == serialized
+
+
+def test_get_by_subscript() -> None:
+    # ARRANGE
+    op = CustomJsonOperation(
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1
+    )
+
+    # ACT
+    actual_value = op.json_["a"]
+    expected_value = json.loads(JSON_STRING_LEVEL2)
+
+    # ASSERT
+    assert actual_value == expected_value
+
+
+def test_set_by_subscript() -> None:
+    # ARRANGE
+    int_value: Final[int] = 124
+    op = CustomJsonOperation(
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1
+    )
+
+    # ACT
+    op.json_["a"] = int_value
+    actual_value = op.json_["a"]
+    expected_value = int_value
+
+    # ASSERT
+    assert actual_value == expected_value
