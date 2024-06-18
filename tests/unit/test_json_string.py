@@ -147,7 +147,7 @@ def test_dumps() -> None:
     )
 
     # ACT
-    dumps = op.json_.as_string
+    dumps = op.json_.serialize()
     json_value = json.loads(FOLLOW_OPERATION_JSON_STRING)
     minimal_json_string = json.dumps(json_value, separators=(",", ":"))
 
@@ -167,7 +167,7 @@ def test_set_value() -> None:
     serialized = json.dumps(int_value)
 
     # ASSERT
-    assert op.json_.as_string == serialized
+    assert op.json_.serialize() == serialized
 
 
 def test_get_by_subscript() -> None:

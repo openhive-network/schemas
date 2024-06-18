@@ -30,7 +30,7 @@ class PreconfiguredBaseModel(BaseModel):
         smart_union = True
         json_encoders = {  # noqa: RUF012
             datetime: lambda x: x.strftime(HIVE_TIME_FORMAT),
-            JsonString: lambda json_string: json_string.as_string,
+            JsonString: lambda json_string: json_string.serialize(),
         }
 
     @classmethod

@@ -48,8 +48,7 @@ class JsonString:
     def value(self, new_value: AnyJson) -> None:
         self._value = new_value
 
-    @property
-    def as_string(self) -> str:
+    def serialize(self) -> str:
         """Dumps JsonString with no spaces between keys and values"""
         return json.dumps(self._value, separators=(",", ":"))
 
