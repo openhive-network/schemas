@@ -15,8 +15,8 @@ class JsonString:
 
     AnyJson: TypeAlias = dict[str, "AnyJson"] | list["AnyJson"] | str | int | float | bool | None
 
-    def __init__(self, _value: AnyJson) -> None:
-        self._value = _value
+    def __init__(self, value: AnyJson) -> None:
+        self._value = value
 
     @classmethod
     def __get_validators__(cls) -> CallableGenerator:
