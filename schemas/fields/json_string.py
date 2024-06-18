@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING, TypeAlias
+from typing import TYPE_CHECKING, Any, TypeAlias
 
 if TYPE_CHECKING:
     from pydantic.typing import CallableGenerator
@@ -53,7 +53,14 @@ class JsonString:
         return json.dumps(self._value, separators=(",", ":"))
 
     def __getitem__(self, key: str) -> AnyJson:
+        if not isinstance(self._value, dict):
+            raise TypeError(f"The value in JsonString must be dict to use subscript, got: `{type(self._value)}`")
         return self._value[key]
 
     def __setitem__(self, key: str, value: AnyJson) -> None:
+        if not isinstance(self._value, dict):
+            raise TypeError(f"The value in JsonString must be dict to use subscript, got: `{type(self._value)}`")
         self._value[key] = value
+
+    def __getattr__(self, key: str) -> Any:
+        return getattr(self._value, key)

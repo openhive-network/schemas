@@ -101,6 +101,19 @@ def test_json_update() -> None:
     assert op.json_.value == update_with
 
 
+def test_json_update_by_getattr() -> None:
+    # ARRANGE
+    op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=NUMBER_STRING)
+    update_with: Final[dict[str, str]] = {"x": "y", "z": "t"}
+
+    # ACT
+    op.json_.value = {}
+    op.json_.update(update_with)
+
+    # ASSERT
+    assert op.json_.value == update_with
+
+
 def test_json_extend() -> None:
     # ARRANGE
     op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=NUMBER_STRING)
@@ -109,6 +122,19 @@ def test_json_extend() -> None:
     # ACT
     op.json_.value = []
     op.json_.value.extend(extend_with)
+
+    # ASSERT
+    assert op.json_.value == extend_with
+
+
+def test_json_extend_by_getattr() -> None:
+    # ARRANGE
+    op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=NUMBER_STRING)
+    extend_with: Final[list[str]] = ["m", "n", "p"]
+
+    # ACT
+    op.json_.value = []
+    op.json_.extend(extend_with)
 
     # ASSERT
     assert op.json_.value == extend_with
@@ -146,9 +172,7 @@ def test_set_value() -> None:
 
 def test_get_by_subscript() -> None:
     # ARRANGE
-    op = CustomJsonOperation(
-        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1
-    )
+    op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1)
 
     # ACT
     actual_value = op.json_["a"]
@@ -161,9 +185,7 @@ def test_get_by_subscript() -> None:
 def test_set_by_subscript() -> None:
     # ARRANGE
     int_value: Final[int] = 124
-    op = CustomJsonOperation(
-        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1
-    )
+    op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1)
 
     # ACT
     op.json_["a"] = int_value
