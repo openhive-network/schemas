@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from pydantic.typing import CallableGenerator
 
 
-AnyJson: TypeAlias = dict[str, "AnyJson"] | list["AnyJson"] | tuple["AnyJson"] | str | int | float | bool | None
+AnyJson: TypeAlias = dict[str, "AnyJson"] | list["AnyJson"] | tuple["AnyJson", ...] | str | int | float | bool | None
 
 
 class JsonString:
