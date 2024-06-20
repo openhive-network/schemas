@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING, Any, Generic, TypeAlias, TypeVar
 
+from schemas.custom_operations.follow_operation import CustomOperation
+
 if TYPE_CHECKING:
     from pydantic.typing import CallableGenerator
 
@@ -47,6 +49,8 @@ class JsonString(Generic[T]):
 
     def serialize(self) -> str:
         """Dumps JsonString with no spaces between keys and values"""
+        if isinstance(self._value, CustomOperation):
+            return self._value.serialize()
         return json.dumps(self._value, separators=(",", ":"))
 
     def __getitem__(self, key: str) -> Any:
