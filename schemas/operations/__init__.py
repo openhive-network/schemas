@@ -35,7 +35,7 @@ from schemas.operations.create_proposal_operation import (
     CreateProposalOperationLegacy,
 )
 from schemas.operations.custom_binary_operation import CustomBinaryOperation
-from schemas.operations.custom_json_operation import CustomJsonOperation
+from schemas.operations.custom_json_operation import CustomJsonOperation, CustomJsonOperationGeneric
 from schemas.operations.custom_operation import CustomOperation
 from schemas.operations.decline_voting_rights_operation import DeclineVotingRightsOperation
 from schemas.operations.delegate_vesting_shares_operation import (
@@ -134,6 +134,7 @@ __all__ = [
     "CreateProposalOperation",
     "CustomBinaryOperation",
     "CustomJsonOperation",
+    "CustomJsonOperationGeneric",
     "CustomOperation",
     "DeclineVotingRightsOperation",
     "DelegateVestingSharesOperation",

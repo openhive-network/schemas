@@ -14,6 +14,7 @@ import pydantic
 from pydantic import BaseModel, Extra, Field, create_model  # pyright: ignore
 from typing_extensions import Self
 
+from schemas.fields.serializable import Serializable
 from schemas.hive_constants import HIVE_TIME_FORMAT
 
 if typing.TYPE_CHECKING:
@@ -27,7 +28,10 @@ class PreconfiguredBaseModel(BaseModel):
         extra = Extra.forbid
         allow_population_by_field_name = True
         smart_union = True
-        json_encoders = {datetime: lambda x: x.strftime(HIVE_TIME_FORMAT)}  # noqa: RUF012
+        json_encoders = {  # noqa: RUF012
+            datetime: lambda x: x.strftime(HIVE_TIME_FORMAT),
+            Serializable: lambda x: x.serialize(),
+        }
 
     @classmethod
     def __is_aliased_field_name(cls, field_name: str) -> bool:

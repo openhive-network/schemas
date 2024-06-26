@@ -1,18 +1,23 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Generic, TypeAlias
 
-from pydantic import Field, Json
+from pydantic import Field
+from pydantic.generics import GenericModel
 
-from schemas.fields.basic import AccountName, CustomIdType, EmptyString
+from schemas.fields.basic import AccountName, CustomIdType
+from schemas.fields.json_string import AnyJson, JsonFieldType, JsonString
 from schemas.operation import Operation
 
 
-class CustomJsonOperation(Operation):
+class CustomJsonOperationGeneric(Operation, GenericModel, Generic[JsonFieldType]):
     __operation_name__ = "custom_json"
     __offset__ = 18
 
     required_auths: list[AccountName]
     required_posting_auths: list[AccountName]
     id_: CustomIdType = Field(alias="id")
-    json_: Json[Any] | EmptyString = Field(alias="json")
+    json_: JsonString[JsonFieldType] = Field(alias="json")
+
+
+CustomJsonOperation: TypeAlias = CustomJsonOperationGeneric[AnyJson]
