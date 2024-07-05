@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.beekeeper_api.fundaments_of_responses import PublicKeyItem, WalletDetails
+from schemas.fields.basic import PublicKey
 from schemas.fields.hex import Signature
 from schemas.fields.hive_datetime import HiveDateTime
 
@@ -29,6 +30,10 @@ class GetPublicKeys(PreconfiguredBaseModel):
 
 class ImportKey(PublicKeyItem):
     pass
+
+
+class ImportKeys(PreconfiguredBaseModel):
+    public_keys: list[PublicKey]
 
 
 class ListKeys(PreconfiguredBaseModel):
