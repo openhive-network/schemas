@@ -81,3 +81,8 @@ class JsonString(Serializable, Generic[JsonFieldType]):
             raise TypeError(
                 f"The value in JsonString must be dict, list or tuple use subscript, got: `{type(self._value)}`"
             )
+
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, JsonString):
+            return bool(self.value == other.value)
+        return bool(self.value == other)
