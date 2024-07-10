@@ -313,3 +313,29 @@ def test_negative_custom_json_operation_with_invalid_json_string() -> None:
         CustomJsonOperationGeneric[ApplicationTestOperation](
             required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JsonString(InvalidCustomType())
         )
+
+
+def test_comparison_same_object() -> None:
+    # ARRANGE
+    op1 = CustomJsonOperation(
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1
+    )
+
+    # ACT
+    # ASSERT
+    op2 = CustomJsonOperation.validate(op1)
+    assert op1 == op2
+
+
+def test_comparison_new_object() -> None:
+    # ARRANGE
+    op1 = CustomJsonOperation(
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1
+    )
+
+    # ACT
+    # ASSERT
+    op2 = CustomJsonOperation(
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1
+    )
+    assert op1 == op2
