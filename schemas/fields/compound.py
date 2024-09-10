@@ -152,6 +152,8 @@ WitnessPropsSerializedKey = Literal[
     "sbd_exchange_rate",
     "sbd_interest_rate",
     "url",
+    "hbd_exchange_rate",
+    "hbd_interest_rate",
 ]
 
 WitnessPropsSerialized = list[tuple[WitnessPropsSerializedKey, Hex]]
