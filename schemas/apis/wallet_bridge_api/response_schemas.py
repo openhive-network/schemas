@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Generic
 
-from pydantic import Field, conlist
+from pydantic import ConstrainedList, Field
 from pydantic.generics import GenericModel
 
 import schemas.apis.account_history_api.response_schemas as account_history_api
@@ -67,9 +67,15 @@ GetAccountHistory = HiveList[tuple[HiveInt, Hf26ApiAllOperationObject]]
 GetAccounts = HiveList[Account[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
 
 
+class _GetActiveWitnessesConlist(ConstrainedList):
+    min_items = 1
+    max_items = 21
+    item_type = AccountName
+
+
 class GetActiveWitnesses(PreconfiguredBaseModel):
-    witnesses: conlist(AccountName, min_items=1, max_items=21)  # type: ignore
-    future_witnesses: conlist(AccountName, min_items=1, max_items=21) | None = None  # type: ignore
+    witnesses: _GetActiveWitnessesConlist[AccountName]  # type: ignore
+    future_witnesses: _GetActiveWitnessesConlist[AccountName] | None = None  # type: ignore
 
 
 class GetBlock(PreconfiguredBaseModel):
