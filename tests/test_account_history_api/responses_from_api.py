@@ -166,6 +166,32 @@ GET_ACCOUNT_HISTORY = {
                     "operation_id": 0,
                 },
             ],
+            [
+                6336766,
+                {
+                    "block": 89495881,
+                    "op": {
+                        "type": "witness_set_properties_operation",
+                        "value": {
+                            "extensions": [],
+                            "owner": "themarkymark",
+                            "props": [
+                                [
+                                    "hbd_exchange_rate",
+                                    "bd000000000000000353424400000000e80300000000000003535445454d0000",
+                                ],
+                                ["key", "02bdefeebdf31124edf84147580ddaf5ee71a1ec0d7b07e4a7ad20637ab3e95632"],
+                            ],
+                        },
+                    },
+                    "op_in_trx": 0,
+                    "operation_id": 0,
+                    "timestamp": "2024-10-04T09:10:57",
+                    "trx_id": "694b75daa744322f7baa3e4caa4e491e60544588",
+                    "trx_in_block": 0,
+                    "virtual_op": False,
+                },
+            ],
         ]
     },
     "id": 1,
