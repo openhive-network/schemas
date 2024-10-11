@@ -53,14 +53,21 @@ class RegularRcPayerStats(PreconfiguredBaseModel):
     T = trillions = 1'000B;
     Q = quadrillions = 1'000T;
 
-    rank 0: AMR <= 10B\n
-    rank 1: 10B  < AMR <= 100B\n
-    rank 2: 100B < AMR <= 1T\n
-    rank 3: 1T   < AMR <= 10T\n
-    rank 4: 10T  < AMR <= 100T\n
-    rank 5: 100T < AMR <= 1Q\n
-    rank 6: 1Q   < AMR <= 10Q\n
-    rank 7: 10Q  < AMR
+
+```
+┌──────┬───────────┬─────────┬───────────┐
+│ rank │ more than │ maximum │   alias   │
+├──────┼───────────┼─────────┼───────────┤
+│  0   │     -     │   10B   │   free    │
+│  1   │    10B    │  100B   │ plankton  │
+│  2   │   100B    │   1T    │  redfish  │
+│  3   │    1T     │   10T   │  minnow   │
+│  4   │    10T    │  100T   │  dolphin  │
+│  5   │   100T    │   1Q    │   orca    │
+│  6   │    1Q     │   10Q   │   whale   │
+│  7   │    10Q    │    -    │ leviathan │
+└──────┴───────────┴─────────┴───────────┘
+```
     """
     count: HiveInt
     """number of transactions paid by users"""
@@ -109,7 +116,7 @@ class RegularRcStats(RcStatsBase):
 
 class FullRcStats(RcStatsBase):
     stamp: Hex
-    """???"""
+    """hash of state for rc status of the day"""
     ops: dict[KnownOperationNames | str, FullRcOperationStats]  # type: ignore[valid-type]
     """stats for each type of operation that was executed during reported day"""
     payers: list[FullRcPayerStats]
