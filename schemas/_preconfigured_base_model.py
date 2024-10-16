@@ -26,6 +26,7 @@ if typing.TYPE_CHECKING:
 class PreconfiguredBaseModel(BaseModel):
     class Config:
         extra = Extra.forbid
+        arbitrary_types_allowed = True
         allow_population_by_field_name = True
         smart_union = True
         json_encoders = {  # noqa: RUF012
