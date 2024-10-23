@@ -86,6 +86,7 @@ class PreconfiguredBaseModel(BaseModel):
             encoder=encoder,
             models_as_dict=models_as_dict,
             ensure_ascii=ensure_ascii,
+            sort_keys=True,
             **dumps_kwargs,
         )
 
