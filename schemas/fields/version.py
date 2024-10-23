@@ -26,5 +26,5 @@ class HiveVersion(PreconfiguredBaseModel):
     blockchain_version: HardforkVersion
     hive_revision: TransactionId
     fc_revision: TransactionId
-    chain_id: Sha256
     node_type: NodeType
+    chain_id: Sha256 | None = None

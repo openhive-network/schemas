@@ -20,7 +20,6 @@ KnownStatuses = Literal[
     "replaying",
     "finished replaying",
     "exiting with open database error",
-    "finished syncing",
     "P2P stopped",
     "P2P started",
     "loading snapshot",
@@ -41,15 +40,20 @@ class BaseStatusItem(PreconfiguredBaseModel):
 class StatusItem(BaseStatusItem):
     status: KnownStatuses | str
 
+    def __eq__(self, value: object) -> bool:
+        if isinstance(value, str):
+            return value == self.status
+        return super().__eq__(value)
+
 
 class WebserverItem(BaseStatusItem):
     address: str
     port: int
 
 
-class SwitchingForkItem(PreconfiguredBaseModel):
-    id_: TransactionId = Field(alias="id")
-    num: int
+class ForkItem(PreconfiguredBaseModel):
+    new_head_block_num: int
+    new_head_block_id: TransactionId
 
 
 class HivedBenchmark(PreconfiguredBaseModel):
@@ -79,7 +83,6 @@ class HivedBenchmarkItem(PreconfiguredBaseModel):
 
 class KnownRecords(PreconfiguredBaseModel):
     rc_stats: RcStatsItem | None = None
-    switching_forks: SwitchingForkItem | None = None
     hived_benchmark: HivedBenchmarkItem | None = None
     block_stats: BlockStatsItem | None = None
 
