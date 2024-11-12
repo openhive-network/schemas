@@ -105,7 +105,6 @@ __all__ = [
     "GetAccounts",
     "GetActiveVotes",
     "GetActiveWitnesses",
-    "GetActiveWitnesses",
     "GetBlock",
     "GetBlockHeader",
     "GetBlog",

@@ -14,7 +14,7 @@ from schemas.apis.market_history_api.fundaments_of_responses import (
 )
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdT
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveT
-from schemas.fields.assets.vests import AssetVestsT
+from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsT
 from schemas.fields.hive_list import HiveList
 
 
@@ -30,7 +30,7 @@ class GetRecentTrades(PreconfiguredBaseModel):
     trades: HiveList[GetRecentTradesFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
-class GetTicker(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class GetTickerFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     """Must specify type of Assets by generic when using"""
 
     latest: str
@@ -41,17 +41,26 @@ class GetTicker(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetH
     hbd_volume: AssetHbdT
 
 
+GetTicker = GetTickerFundament[AssetHiveHF26, AssetHbdHF26]
+
+
 class GetTradeHistory(PreconfiguredBaseModel):
     trades: HiveList[GetTradeHistoryFundament[AssetHiveHF26, AssetHbdHF26]]
 
 
-class GetVolume(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class GetVolumeFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
     """Must specify type of Assets by generic when using"""
 
     hive_volume: AssetHiveT
     hbd_volume: AssetHbdT
 
 
-class GetOrderBook(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
+GetVolume = GetVolumeFundament[AssetHiveHF26, AssetHbdHF26]
+
+
+class GetOrderBookFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     bids: list[Order[AssetHiveT, AssetHbdT, AssetVestsT]]
     asks: list[Order[AssetHiveT, AssetHbdT, AssetVestsT]]
+
+
+GetOrderBook = GetOrderBookFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]

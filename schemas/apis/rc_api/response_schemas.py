@@ -12,11 +12,14 @@ from schemas.apis.rc_api.fundaments_of_responses import (
     ResourcePool,
     SizeInfo,
 )
-from schemas.fields.assets.vests import AssetVestsT
+from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsT
 
 
-class FindRcAccounts(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
+class FindRcAccountsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
     rc_accounts: list[RcAccount[AssetVestsT]]
+
+
+FindRcAccounts = FindRcAccountsFundament[AssetVestsHF26]
 
 
 class GetResourceParams(PreconfiguredBaseModel):
@@ -37,8 +40,11 @@ class GetResourcePool(PreconfiguredBaseModel):
     resource_pool: ResourcePool
 
 
-class ListRcAccounts(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
+class ListRcAccountsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
     rc_accounts: list[RcAccount[AssetVestsT]]
+
+
+ListRcAccounts = ListRcAccountsFundament[AssetVestsHF26]
 
 
 class ListRcDirectDelegations(PreconfiguredBaseModel):

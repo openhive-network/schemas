@@ -11,7 +11,8 @@ from schemas.apis.account_history_api.response_schemas import (
     GetOpsInBlock,
     GetTransaction,
 )
-from schemas.jsonrpc import JSONRPCError, JSONRPCResult, get_response_model
+from schemas.jsonrpc import get_response_model
+from schemas.jsonrpc_constants import JSONRPCBase, JSONRPCError
 
 from .responses_from_api import (
     ENUM_VIRTUAL_OPS,
@@ -35,7 +36,7 @@ def test_account_history_api_correct_values(parameters: dict[str, Any], schema: 
     pattern = json.dumps(parameters, sort_keys=True)
 
     # ACT
-    parsed: JSONRPCResult[schema] | JSONRPCError = get_response_model(schema, **parameters)
+    parsed: JSONRPCBase | JSONRPCError = get_response_model(schema, **parameters)
     reserialized = parsed.json(by_alias=True, sort_keys=True)
 
     # ASSERT

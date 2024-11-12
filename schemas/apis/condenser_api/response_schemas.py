@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import Field, conlist, root_validator
+from pydantic import Field, root_validator
 
 import schemas.apis.account_history_api.response_schemas as account_history_api
 import schemas.apis.block_api.fundaments_of_responses as fundaments_block_api
@@ -58,7 +58,7 @@ from schemas.fields.compound import (
 from schemas.fields.hex import Hex
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
-from schemas.fields.hive_list import HiveList
+from schemas.fields.hive_list import EmptyList, HiveList
 from schemas.fields.version import HardforkVersion, HiveVersion
 from schemas.operations.representation_types import (
     LegacyOperationRepresentationType,
@@ -124,7 +124,9 @@ GetBlog = HiveList[GetBlogFundament]
 GetBlogEntries = HiveList[GetBlogEntriesFundament]
 
 
-GetChainProperties = wallet_bridge_api.GetChainProperties[AssetHiveLegacy]  # like in wallet_bridge_api, just legacy
+GetChainProperties = wallet_bridge_api.GetChainPropertiesFundament[
+    AssetHiveLegacy
+]  # like in wallet_bridge_api, just legacy
 
 
 GetCollateralizedConversionRequests = HiveList[
@@ -207,7 +209,7 @@ class GetDiscussionsByHot(GetDiscussionsByAuthorBeforeDate):
 
 
 "could be an empty list"
-GetDiscussionsByPromoted = list[GetDiscussionsByAuthorBeforeDate] | conlist(str, max_items=0)
+GetDiscussionsByPromoted = list[GetDiscussionsByAuthorBeforeDate] | EmptyList
 
 
 class GetDiscussionsByTrending(GetDiscussionsByAuthorBeforeDate):
@@ -231,7 +233,7 @@ GetEscrow = GetEscrowFundament | None
 
 
 """Could be list of defined in fundaments or empty list"""
-GetExpiringVestingDelegation = list[GetExpiringVestingDelegationFundament] | conlist(str, max_items=0)
+GetExpiringVestingDelegation = list[GetExpiringVestingDelegationFundament] | EmptyList
 
 
 class GetFeed(HiveMindResponses):
@@ -259,7 +261,7 @@ GetFollowers = list[FollowFundament]
 
 
 """List of fundaments from fundaments_of_responses or empty list"""
-GetFollowing = list[FollowFundament] | conlist(str, max_items=0)
+GetFollowing = list[FollowFundament] | EmptyList
 
 
 """This response return just string, which is defined in custom fields ="""
@@ -345,7 +347,7 @@ class GetTagsUsedByAuthor(HiveMindResponses):
     """Supported by HiveMind"""
 
 
-class GetTicker(market_history_api.GetTicker[AssetHiveLegacy, AssetHbdLegacy]):
+class GetTicker(market_history_api.GetTickerFundament[AssetHiveLegacy, AssetHbdLegacy]):
     """The same response as in market_history_api"""
 
 
@@ -380,7 +382,7 @@ class ListVestingDelegations(fundaments_database_api.VestingDelegationsFundament
     """Identical as in database_api, just legacy format of Assets"""
 
 
-class GetVolume(market_history_api.GetVolume[AssetHiveLegacy, AssetHbdLegacy]):
+class GetVolume(market_history_api.GetVolumeFundament[AssetHiveLegacy, AssetHbdLegacy]):
     """Everything the same as in market_history_api"""
 
 

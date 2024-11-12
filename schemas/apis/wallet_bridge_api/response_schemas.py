@@ -84,12 +84,15 @@ class GetBlock(PreconfiguredBaseModel):
     block: fundaments_block_api.Hf26Block | None = None
 
 
-class GetChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
+class GetChainPropertiesFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
     account_creation_fee: AssetHiveT
     maximum_block_size: HiveInt
     hbd_interest_rate: HiveInt
     account_subsidy_budget: HiveInt
     account_subsidy_decay: HiveInt
+
+
+GetChainProperties = GetChainPropertiesFundament[AssetHiveHF26]
 
 
 GetCollateralizedConversionRequests = list[GetCollateralizedConversionRequestsFundament[AssetHiveHF26, AssetHbdHF26]]

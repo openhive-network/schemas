@@ -86,3 +86,6 @@ class JsonString(Serializable, Generic[JsonFieldType]):
         if isinstance(other, JsonString):
             return bool(self.value == other.value)
         return bool(self.value == other)
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}[{self.value.__class__.__name__}]({self.value=})"
