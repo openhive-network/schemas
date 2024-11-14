@@ -11,8 +11,13 @@ from .resonse_schemas import GET_BLOCK, GET_BLOCK_HEADER, GET_BLOCK_RANGE
 
 
 @pytest.mark.parametrize(
-    "schema, parameters", [(GetBlock, GET_BLOCK), (GetBlockHeader, GET_BLOCK_HEADER), (GetBlockRange, GET_BLOCK_RANGE)]
+    "schema, parameters, endpoint",
+    [
+        (GetBlock, GET_BLOCK, "block_api.get_block"),
+        (GetBlockHeader, GET_BLOCK_HEADER, "block_api.get_block_header"),
+        (GetBlockRange, GET_BLOCK_RANGE, "block_api.get_block_range"),
+    ],
 )
-def test_block_api_schemas_correct_values(schema: Any, parameters: dict[str, Any]) -> None:
+def test_block_api_schemas_correct_values(schema: Any, parameters: dict[str, Any], endpoint: Any) -> None:
     # ACT & ASSERT
-    get_response_model(schema, **parameters)
+    get_response_model(schema, endpoint, **parameters)

@@ -25,16 +25,16 @@ from .response_schemas import (
 
 
 @pytest.mark.parametrize(
-    "schema, parameters",
+    "schema, parameters, endpoint",
     [
-        (GetMarketHistory, GET_MARKET_HISTORY),
-        (GetVolume, GET_VOLUME),
-        (GetTicker, GET_TICKER),
-        (GetMarketHistoryBuckets, GET_MARKET_HISTORY_BUCKETS),
-        (GetTradeHistory, GET_TRADE_HISTORY),
-        (GetRecentTrades, GET_RECENT_TRADES),
+        (GetMarketHistory, GET_MARKET_HISTORY, "market_history_api.get_market_history"),
+        (GetVolume, GET_VOLUME, "market_history_api.get_volume"),
+        (GetTicker, GET_TICKER, "market_history_api.get_ticker"),
+        (GetMarketHistoryBuckets, GET_MARKET_HISTORY_BUCKETS, "market_history_api.get_market_history_buckets"),
+        (GetTradeHistory, GET_TRADE_HISTORY, "market_history_api.get_trade_history"),
+        (GetRecentTrades, GET_RECENT_TRADES, "market_history_api.get_recent_trades"),
     ],
 )
-def test_market_history_api_responses_correct_values(schema: Any, parameters: dict[str, Any]) -> None:
+def test_market_history_api_responses_correct_values(schema: Any, parameters: dict[str, Any], endpoint: Any) -> None:
     # ACT & ASSERT
-    get_response_model(schema, **parameters)
+    get_response_model(schema, endpoint, **parameters)

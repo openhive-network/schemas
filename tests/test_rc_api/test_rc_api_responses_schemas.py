@@ -23,15 +23,15 @@ from .reponses_from_api import (
 
 
 @pytest.mark.parametrize(
-    "parameters, schema",
+    "parameters, schema, endpoint",
     [
-        (FIND_RC_ACCOUNTS, FindRcAccounts),
-        (GET_RESOURCE_PARAMS, GetResourceParams),
-        (GET_RESOURCE_POOL, GetResourcePool),
-        (LIST_RC_ACCOUNTS, ListRcAccounts),
-        (LIST_RC_DIRECT_DELEGATIONS, ListRcDirectDelegations),
+        (FIND_RC_ACCOUNTS, FindRcAccounts, "rc_api.find_rc_accounts"),
+        (GET_RESOURCE_PARAMS, GetResourceParams, "rc_api.get_resource_params"),
+        (GET_RESOURCE_POOL, GetResourcePool, "rc_api.get_resource_pool"),
+        (LIST_RC_ACCOUNTS, ListRcAccounts, "rc_api.list_rc_accounts"),
+        (LIST_RC_DIRECT_DELEGATIONS, ListRcDirectDelegations, "rc_api.list_rc_direct_delegations"),
     ],
 )
-def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: Any) -> None:
+def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: Any, endpoint: Any) -> None:
     # ACT & ASSERT
-    get_response_model(schema, **parameters)
+    get_response_model(schema, endpoint, **parameters)

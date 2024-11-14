@@ -10,7 +10,9 @@ from schemas.jsonrpc import get_response_model
 from .response_schemas import FIND_TRANSACTION
 
 
-@pytest.mark.parametrize("schema, parameters", [(FindTransaction, FIND_TRANSACTION)])
-def test_transaction_status_api_correct_values(schema: Any, parameters: dict[str, Any]) -> None:
+@pytest.mark.parametrize(
+    "schema, parameters, endpoint", [(FindTransaction, FIND_TRANSACTION, "transaction_status_api.find_transaction")]
+)
+def test_transaction_status_api_correct_values(schema: Any, parameters: dict[str, Any], endpoint: Any) -> None:
     # ACT & ASSERT
-    get_response_model(schema, **parameters)
+    get_response_model(schema, endpoint, **parameters)
