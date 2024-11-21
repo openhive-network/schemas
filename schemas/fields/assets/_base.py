@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 from copy import deepcopy
 from typing import TYPE_CHECKING, Any
 
-from pydantic import ConstrainedStr, StrRegexError, validator
+from pydantic import field_validator, ConfigDict, ConstrainedStr, StrRegexError
 from typing_extensions import Self
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
@@ -211,6 +211,8 @@ class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
         return re.compile(r"(^\d+\.(\d{" + str(info.precision) + r"})) (" + "|".join(info.symbol) + r")$")
 
     @classmethod
+    # TODO[pydantic]: We couldn't refactor `__get_validators__`, please create the `__get_pydantic_core_schema__` manually.
+    # Check https://docs.pydantic.dev/latest/migration/#defining-custom-types for more information.
     def __get_validators__(cls) -> CallableGenerator:
         yield from super().__get_validators__()
         yield lambda x: cls.__legacy_regex_validator(x)
@@ -265,6 +267,8 @@ class AssetNaiAmount(HiveInt):
     ge = 0
 
     @classmethod
+    # TODO[pydantic]: We couldn't refactor `__get_validators__`, please create the `__get_pydantic_core_schema__` manually.
+    # Check https://docs.pydantic.dev/latest/migration/#defining-custom-types for more information.
     def __get_validators__(cls) -> CallableGenerator:
         yield from super().__get_validators__()
         yield cls.__stringify
@@ -280,16 +284,16 @@ class AssetHF26(PreconfiguredBaseModel, AssetBase, ABC):
     amount: AssetNaiAmount
     precision: HiveInt
     nai: str
+    model_config = ConfigDict(allow_reuse=True)
 
-    class Config:
-        allow_reuse = True
-
-    @validator("nai", allow_reuse=True)
+    @field_validator("nai")
+    @classmethod
     @classmethod
     def check_nai(cls, value: Any) -> Any:
         return validate_nai(value=value, asset_info=cls.get_asset_information())
 
-    @validator("precision", allow_reuse=True)
+    @field_validator("precision")
+    @classmethod
     @classmethod
     def check_precision(cls, value: int) -> int:
         return validate_precision(value=value, asset_info=cls.get_asset_information())

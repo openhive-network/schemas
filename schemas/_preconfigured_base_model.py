@@ -11,7 +11,7 @@ from datetime import datetime
 from typing import Any, TypeVar, get_args, get_origin
 
 import pydantic
-from pydantic import BaseModel, Extra, Field, create_model  # pyright: ignore
+from pydantic import ConfigDict, BaseModel, Field, create_model  # pyright: ignore
 from typing_extensions import Self
 
 from schemas.fields.serializable import Serializable
@@ -24,14 +24,12 @@ if typing.TYPE_CHECKING:
 
 
 class PreconfiguredBaseModel(BaseModel):
-    class Config:
-        extra = Extra.forbid
-        allow_population_by_field_name = True
-        smart_union = True
-        json_encoders = {  # noqa: RUF012
-            datetime: lambda x: x.strftime(HIVE_TIME_FORMAT),
-            Serializable: lambda x: x.serialize(),
-        }
+    # TODO[pydantic]: The following keys were removed: `smart_union`, `json_encoders`.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
+    model_config = ConfigDict(extra="forbid", populate_by_name=True, smart_union=True, json_encoders={  # noqa: RUF012
+        datetime: lambda x: x.strftime(HIVE_TIME_FORMAT),
+        Serializable: lambda x: x.serialize(),
+    })
 
     @classmethod
     def __is_aliased_field_name(cls, field_name: str) -> bool:

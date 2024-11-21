@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from pydantic import root_validator
+from pydantic import model_validator
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.hex import TransactionId
@@ -38,7 +38,8 @@ class Hf26ApiOperationObject(ApiOperationObjectCommons):
 class LegacyApiOperationObject(ApiOperationObjectCommons):
     op: LegacyOperationRepresentationType  # type: ignore
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
+    @classmethod
     @classmethod
     def check_operation(cls, values: dict[str, Any]) -> dict[str, Any]:
         type_of_operation = values["op"][0]

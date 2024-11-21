@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from pydantic import validator
+from pydantic import field_validator, ConfigDict
 from typing_extensions import Self
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
@@ -17,16 +17,16 @@ class AssetSymbolType(PreconfiguredBaseModel, AssetBase):
 
     decimals: HiveInt
     nai: str
+    model_config = ConfigDict(allow_reuse=True)
 
-    class Config:
-        allow_reuse = True
-
-    @validator("nai", allow_reuse=True)
+    @field_validator("nai")
+    @classmethod
     @classmethod
     def check_nai(cls, value: Any) -> Any:
         return validate_nai(value=value, asset_info=cls.get_asset_information())
 
-    @validator("decimals", allow_reuse=True)
+    @field_validator("decimals")
+    @classmethod
     @classmethod
     def check_decimals(cls, value: int) -> int:
         return validate_precision(value=value, asset_info=cls.get_asset_information())

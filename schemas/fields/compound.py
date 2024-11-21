@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Generic, Literal
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, Field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets.hbd import AssetHbdT
@@ -48,7 +47,7 @@ class DelayedVotes(PreconfiguredBaseModel):
     val: HiveInt
 
 
-class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class HbdExchangeRate(PreconfiguredBaseModel, BaseModel, Generic[AssetHiveT, AssetHbdT]):
     """
     Field similar to price, but just base can be Hive or Hbd. Quote must be Hive.
     To choose format of Assets you can do it like in Price field:
@@ -61,7 +60,7 @@ class HbdExchangeRate(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, 
     quote: AssetHiveT | AssetHbdT
 
 
-class LegacyChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
+class LegacyChainProperties(PreconfiguredBaseModel, BaseModel, Generic[AssetHiveT]):
     """
     You can choose of Asset format for this field, to do it:
     Legacy -> LegacyChainProperties[AssetHiveLegacy](parameters)
@@ -78,7 +77,7 @@ class Manabar(PreconfiguredBaseModel):
     last_update_time: HiveInt
 
 
-class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
+class Price(PreconfiguredBaseModel, BaseModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     """
     Valid structure for Price field is:
     base: Hive quote: Hbd or base: Hbd quote: Hive
@@ -91,7 +90,7 @@ class Price(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT,
     quote: AssetHiveT | AssetHbdT | AssetVestsT
 
 
-class Proposal(PreconfiguredBaseModel, GenericModel, Generic[AssetHbdT]):
+class Proposal(PreconfiguredBaseModel, BaseModel, Generic[AssetHbdT]):
     id_: HiveInt = Field(alias="id")
     proposal_id: HiveInt
     creator: AccountName
@@ -105,7 +104,7 @@ class Proposal(PreconfiguredBaseModel, GenericModel, Generic[AssetHbdT]):
     status: str
 
 
-class Props(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
+class Props(PreconfiguredBaseModel, BaseModel, Generic[AssetHiveT]):
     account_creation_fee: AssetHiveT | None = None
     maximum_block_size: HiveInt | None = None
     hbd_interest_rate: HiveInt | None = None
@@ -119,7 +118,7 @@ class WitnessProps(Props[AssetHiveT], Generic[AssetHiveT, AssetHbdT]):
     new_signing_key: PublicKey | None = None
 
 
-class RcAccountObject(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
+class RcAccountObject(PreconfiguredBaseModel, BaseModel, Generic[AssetVestsT]):
     account: AccountName
     rc_manabar: Manabar
     max_rc_creation_adjustment: AssetVestsT

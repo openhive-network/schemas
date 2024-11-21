@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Final, Generic
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, Field
 
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
@@ -16,7 +15,7 @@ from schemas.operation import Operation
 DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 
 
-class _EscrowReleaseOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class _EscrowReleaseOperation(Operation, BaseModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "escrow_release"
     __offset__ = 29
 

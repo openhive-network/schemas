@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from typing import Any, Generic
 
-from pydantic.generics import GenericModel
-
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import (
     AccountName,
@@ -16,6 +14,7 @@ from schemas.transaction import (
     TransactionLegacy,
     TransactionT,
 )
+from pydantic import BaseModel
 
 
 class GetBlockHeaderFundament(PreconfiguredBaseModel):
@@ -28,19 +27,19 @@ class GetBlockHeaderFundament(PreconfiguredBaseModel):
     witness: AccountName
 
 
-class SignedBlock(GetBlockHeaderFundament, GenericModel, Generic[TransactionT]):
+class SignedBlock(GetBlockHeaderFundament, BaseModel, Generic[TransactionT]):
     witness_signature: Signature
     transactions: list[TransactionT]
 
 
-class BlockLogUtilSignedBlock(GetBlockHeaderFundament, GenericModel, Generic[TransactionT]):
+class BlockLogUtilSignedBlock(GetBlockHeaderFundament, BaseModel, Generic[TransactionT]):
     block_id: TransactionId
     signing_key: PublicKey
     witness_signature: Signature
     transactions: list[TransactionT]
 
 
-class Block(SignedBlock[TransactionT], GenericModel, Generic[TransactionT]):
+class Block(SignedBlock[TransactionT], BaseModel, Generic[TransactionT]):
     block_id: TransactionId
     signing_key: PublicKey
     transaction_ids: list[TransactionId]

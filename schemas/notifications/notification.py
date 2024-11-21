@@ -3,13 +3,12 @@ from __future__ import annotations
 from datetime import datetime  # noqa: TCH003
 from typing import Any, Generic
 
-from pydantic.generics import GenericModel
-
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.notifications import KnownNotificationT
+from pydantic import BaseModel
 
 
-class Notification(PreconfiguredBaseModel, GenericModel, Generic[KnownNotificationT]):
+class Notification(PreconfiguredBaseModel, BaseModel, Generic[KnownNotificationT]):
     name: str
     time: datetime
     value: KnownNotificationT

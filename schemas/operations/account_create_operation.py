@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from typing import Generic
 
-from pydantic.generics import GenericModel
-
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
     AccountName,
@@ -11,9 +9,10 @@ from schemas.fields.basic import (
 )
 from schemas.fields.compound import Authority
 from schemas.operation import Operation
+from pydantic import BaseModel
 
 
-class _AccountCreateOperation(Operation, GenericModel, Generic[AssetHiveT]):
+class _AccountCreateOperation(Operation, BaseModel, Generic[AssetHiveT]):
     __operation_name__ = "account_create"
     __offset__ = 9
 

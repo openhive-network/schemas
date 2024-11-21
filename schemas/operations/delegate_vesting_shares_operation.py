@@ -2,14 +2,13 @@ from __future__ import annotations
 
 from typing import Generic
 
-from pydantic.generics import GenericModel
-
 from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsLegacy, AssetVestsT
 from schemas.fields.basic import AccountName
 from schemas.operation import Operation
+from pydantic import BaseModel
 
 
-class _DelegateVestingSharesOperation(Operation, GenericModel, Generic[AssetVestsT]):
+class _DelegateVestingSharesOperation(Operation, BaseModel, Generic[AssetVestsT]):
     __operation_name__ = "delegate_vesting_shares"
     __offset__ = 40
 

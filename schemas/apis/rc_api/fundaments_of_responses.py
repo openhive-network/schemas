@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Generic
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, Field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets.vests import AssetVestsT
@@ -14,7 +13,7 @@ from schemas.fields.compound import Manabar
 from schemas.fields.hive_int import HiveInt
 
 
-class RcAccount(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
+class RcAccount(PreconfiguredBaseModel, BaseModel, Generic[AssetVestsT]):
     account: AccountName
     rc_manabar: Manabar
     max_rc_creation_adjustment: AssetVestsT

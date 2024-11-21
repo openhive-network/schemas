@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Final, Generic
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, Field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
@@ -28,7 +27,7 @@ class Work(PreconfiguredBaseModel):
     work: Sha256
 
 
-class _PowOperation(Operation, GenericModel, Generic[AssetHiveT]):
+class _PowOperation(Operation, BaseModel, Generic[AssetHiveT]):
     __operation_name__ = "pow"
     __offset__ = 14
 

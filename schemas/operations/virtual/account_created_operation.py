@@ -2,14 +2,13 @@ from __future__ import annotations
 
 from typing import Generic
 
-from pydantic.generics import GenericModel
-
 from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsLegacy, AssetVestsT
 from schemas.fields.basic import AccountName
 from schemas.virtual_operation import VirtualOperation
+from pydantic import BaseModel
 
 
-class _AccountCreatedOperation(VirtualOperation, GenericModel, Generic[AssetVestsT]):
+class _AccountCreatedOperation(VirtualOperation, BaseModel, Generic[AssetVestsT]):
     __operation_name__ = "account_created"
     __offset__ = 30
 

@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Generic
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, Field
 
 from schemas.fields.assets import AssetHbdLegacy, AssetHbdT, AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import AccountName
@@ -26,7 +25,7 @@ class WitnessSetPropertiesOperation(WitnessSetPropertiesCommon):
     props: WitnessPropsSerialized
 
 
-class _WitnessSetPropertiesOperationFactory(WitnessSetPropertiesCommon, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class _WitnessSetPropertiesOperationFactory(WitnessSetPropertiesCommon, BaseModel, Generic[AssetHiveT, AssetHbdT]):
     """Model used to create a model of the operation before serializing props"""
 
     props: WitnessProps[AssetHiveT, AssetHbdT]

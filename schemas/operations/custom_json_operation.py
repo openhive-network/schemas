@@ -2,15 +2,14 @@ from __future__ import annotations
 
 from typing import Generic, TypeAlias
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, Field
 
 from schemas.fields.basic import AccountName, CustomIdType
 from schemas.fields.json_string import AnyJson, JsonFieldType, JsonString
 from schemas.operation import Operation
 
 
-class CustomJsonOperationGeneric(Operation, GenericModel, Generic[JsonFieldType]):
+class CustomJsonOperationGeneric(Operation, BaseModel, Generic[JsonFieldType]):
     __operation_name__ = "custom_json"
     __offset__ = 18
 

@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from typing import Final, Generic
 
-from pydantic.generics import GenericModel
-
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
@@ -11,11 +9,12 @@ from schemas.fields.basic import (
 )
 from schemas.fields.integers import Uint32t
 from schemas.virtual_operation import VirtualOperation
+from pydantic import BaseModel
 
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _FillConvertRequestOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class _FillConvertRequestOperation(VirtualOperation, BaseModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "fill_convert_request"
     __offset__ = 0
 

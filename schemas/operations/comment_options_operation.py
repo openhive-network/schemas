@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Final, Generic
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, Field
 
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.basic import AccountName
@@ -16,7 +15,7 @@ DEFAULT_ALLOW_CURATION_REWARDS: Final[bool] = True
 DEFAULT_MAX_ACCEPTED_PAYOUT: Final[AssetHbdHF26] = AssetHbdHF26(amount=1000000000)
 
 
-class _CommentOptionsOperation(Operation, GenericModel, Generic[AssetHbdT]):
+class _CommentOptionsOperation(Operation, BaseModel, Generic[AssetHbdT]):
     __operation_name__ = "comment_options"
     __offset__ = 19
 

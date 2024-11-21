@@ -4,7 +4,6 @@ from abc import ABC
 from typing import Final, Generic
 
 from pydantic import BaseModel
-from pydantic.generics import GenericModel
 
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.basic import (
@@ -22,7 +21,7 @@ class Empty(BaseModel):
     pass
 
 
-class _EffectiveCommentVoteOperation(VirtualOperation, GenericModel, Generic[AssetHbdT], ABC):
+class _EffectiveCommentVoteOperation(VirtualOperation, BaseModel, Generic[AssetHbdT], ABC):
     __operation_name__ = "effective_comment_vote"
     __offset__ = 22
 

@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Generic, Literal
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, Field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.database_api.fundaments_of_reponses import (
@@ -144,7 +143,7 @@ class GetCommentPendingPayouts(PreconfiguredBaseModel):
     cashout_infos: HiveList[GetCommentPendingPayoutsFundament[AssetHbdHF26]]
 
 
-class GetConfigOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class GetConfigOrig(PreconfiguredBaseModel, BaseModel, Generic[AssetHiveT, AssetHbdT]):
     """
     This response includes just one dict, so also doesn't need fundament class
     To use this class choose type of Assets so:
@@ -412,7 +411,7 @@ class GetCurrentPriceFeed(Price[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
     """
 
 
-class GetDynamicGlobalPropertiesOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
+class GetDynamicGlobalPropertiesOrig(PreconfiguredBaseModel, BaseModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     """
     This class doesn't need fundament class
     You need to choose asset format by generics when you want to use this class
@@ -468,7 +467,7 @@ class GetDynamicGlobalPropertiesOrig(PreconfiguredBaseModel, GenericModel, Gener
 GetDynamicGlobalProperties = GetDynamicGlobalPropertiesOrig[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
 
 
-class GetFeedHistoryOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
+class GetFeedHistoryOrig(PreconfiguredBaseModel, BaseModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     """
     This class doesn't need fundament class.
     """
@@ -528,7 +527,7 @@ class GetVersion(HiveVersion):
     """Identical response as HiveVersion field"""
 
 
-class GetWitnessScheduleOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
+class GetWitnessScheduleOrig(PreconfiguredBaseModel, BaseModel, Generic[AssetHiveT]):
     """When want to use must specify Asset type by Generic"""
 
     id_: HiveInt = Field(alias="id")

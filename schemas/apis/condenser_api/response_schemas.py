@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import Field, root_validator
+from pydantic import model_validator, Field
 
 import schemas.apis.account_history_api.response_schemas as account_history_api
 import schemas.apis.block_api.fundaments_of_responses as fundaments_block_api
@@ -356,7 +356,8 @@ GetTradeHistory = HiveList[fundaments_market_history_api.GetTradeHistoryFundamen
 
 
 class GetTransaction(account_history_api.GetTransactionModel[LegacyOperationRepresentationType]):
-    @root_validator(pre=True)
+    @model_validator(mode="before")
+    @classmethod
     @classmethod
     def check_operation(cls, values: dict[str, Any]) -> dict[str, Any]:
         values["operations"] = [

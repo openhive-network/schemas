@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Final, Generic
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, Field
 
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
@@ -16,7 +15,7 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _EscrowApprovedOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class _EscrowApprovedOperation(VirtualOperation, BaseModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "escrow_approved"
     __offset__ = 39
 

@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Generic
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, Field
 
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
@@ -13,7 +12,7 @@ from schemas.fields.basic import (
 from schemas.operation import Operation
 
 
-class _TransferToVestingOperation(Operation, GenericModel, Generic[AssetHiveT]):
+class _TransferToVestingOperation(Operation, BaseModel, Generic[AssetHiveT]):
     __operation_name__ = "transfer_to_vesting"
     __offset__ = 3
 

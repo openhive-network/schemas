@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Generic
+from typing import List, TYPE_CHECKING, Generic
 
-from pydantic import ConstrainedList, conlist
+from pydantic import Field, ConstrainedList
 
 from schemas._preconfigured_base_model import BaseModelT
+from typing_extensions import Annotated
 
 __all__ = ["HiveList", "EmptyList"]
 
@@ -22,4 +23,4 @@ else:
 
         min_items = 0
 
-    EmptyList = conlist(item_type=str, max_items=0)
+    EmptyList = Annotated[List[str], Field(max_items=0)]

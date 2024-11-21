@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Generic
 
-from pydantic import validator
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, validator
 
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
@@ -15,7 +14,7 @@ from schemas.fields.compound import LegacyChainProperties
 from schemas.operation import Operation
 
 
-class _WitnessUpdateOperation(Operation, GenericModel, Generic[AssetHiveT]):
+class _WitnessUpdateOperation(Operation, BaseModel, Generic[AssetHiveT]):
     __operation_name__ = "witness_update"
     __offset__ = 11
 
@@ -29,6 +28,8 @@ class _WitnessUpdateOperation(Operation, GenericModel, Generic[AssetHiveT]):
 class WitnessUpdateOperation(_WitnessUpdateOperation[AssetHiveHF26]):
     fee: AssetHiveHF26 | None = None
 
+    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
     @validator("fee", always=True)
     @classmethod
     def validate_fee(cls, v: AssetHiveHF26 | None) -> AssetHiveHF26:
@@ -40,6 +41,8 @@ class WitnessUpdateOperation(_WitnessUpdateOperation[AssetHiveHF26]):
 class WitnessUpdateOperationLegacy(_WitnessUpdateOperation[AssetHiveLegacy]):
     fee: AssetHiveLegacy | None = None
 
+    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
     @validator("fee", always=True)
     @classmethod
     def validate_fee(cls, v: AssetHiveLegacy | None) -> AssetHiveLegacy:

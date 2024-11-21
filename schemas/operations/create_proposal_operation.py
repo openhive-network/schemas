@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Generic
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, Field
 
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.basic import (
@@ -14,7 +13,7 @@ from schemas.operation import Operation
 from schemas.operations.extensions.future_extension import FutureExtensions
 
 
-class _CreateProposalOperation(Operation, GenericModel, Generic[AssetHbdT]):
+class _CreateProposalOperation(Operation, BaseModel, Generic[AssetHbdT]):
     __operation_name__ = "create_proposal"
     __offset__ = 44
 

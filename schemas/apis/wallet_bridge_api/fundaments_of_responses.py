@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Generic
 
-from pydantic import Field, Json
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, Field, Json
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets.hbd import AssetHbdT
@@ -19,7 +18,7 @@ from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 
 
-class Account(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
+class Account(PreconfiguredBaseModel, BaseModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
     id_: HiveInt = Field(alias="id")
     name: AccountName
     owner: Authority
@@ -85,7 +84,7 @@ class Account(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbd
 
 
 class GetCollateralizedConversionRequestsFundament(
-    PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]
+    PreconfiguredBaseModel, BaseModel, Generic[AssetHiveT, AssetHbdT]
 ):
     id_: HiveInt = Field(alias="id")
     owner: AccountName
@@ -95,7 +94,7 @@ class GetCollateralizedConversionRequestsFundament(
     conversion_date: HiveDateTime
 
 
-class GetConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHbdT]):
+class GetConversionRequestsFundament(PreconfiguredBaseModel, BaseModel, Generic[AssetHbdT]):
     id_: HiveInt = Field(alias="id")
     owner: AccountName
     requestid: HiveInt
@@ -103,7 +102,7 @@ class GetConversionRequestsFundament(PreconfiguredBaseModel, GenericModel, Gener
     conversion_date: HiveDateTime
 
 
-class FindRecurrentTransfersFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class FindRecurrentTransfersFundament(PreconfiguredBaseModel, BaseModel, Generic[AssetHiveT, AssetHbdT]):
     id_: HiveInt = Field(alias="id")
     trigger_date: HiveDateTime
     from_: AccountName = Field(alias="from")

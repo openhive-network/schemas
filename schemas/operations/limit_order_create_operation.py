@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from typing import Final, Generic
 
-from pydantic.generics import GenericModel
-
 from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
@@ -12,12 +10,13 @@ from schemas.fields.basic import (
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.integers import Uint32t
 from schemas.operation import Operation
+from pydantic import BaseModel
 
 DEFAULT_ORDER_ID: Final[Uint32t] = Uint32t(0)
 DEFAULT_FILL_OR_KILL: Final[bool] = False
 
 
-class _LimitOrderCreateOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class _LimitOrderCreateOperation(Operation, BaseModel, Generic[AssetHiveT, AssetHbdT]):
     __operation_name__ = "limit_order_create"
     __offset__ = 5
 

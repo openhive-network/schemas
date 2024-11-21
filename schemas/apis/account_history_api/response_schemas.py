@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from typing import Any, Generic, TypeVar
 
-from pydantic.generics import GenericModel
-
 from schemas._operation_objects import (
     Hf26ApiOperationObject,
     Hf26ApiVirtualOperationObject,
@@ -19,6 +17,7 @@ from schemas.operations.representation_types import (
     Hf26OperationRepresentationType,
     LegacyOperationRepresentationType,
 )
+from pydantic import BaseModel
 
 OperationT = TypeVar("OperationT", bound=Hf26OperationRepresentationType | LegacyOperationRepresentationType)
 ApiOperationObjectT = TypeVar("ApiOperationObjectT", bound=Hf26ApiOperationObject | LegacyApiOperationObject)
@@ -27,7 +26,7 @@ ApiVirtualOperationObjectT = TypeVar(
 )
 
 
-class EnumVirtualOpsModel(PreconfiguredBaseModel, GenericModel, Generic[ApiVirtualOperationObjectT]):
+class EnumVirtualOpsModel(PreconfiguredBaseModel, BaseModel, Generic[ApiVirtualOperationObjectT]):
     ops: list[ApiVirtualOperationObjectT]
     ops_by_block: list[EnumVirtualOpsFieldFundament]
     next_block_range_begin: HiveInt
@@ -35,18 +34,18 @@ class EnumVirtualOpsModel(PreconfiguredBaseModel, GenericModel, Generic[ApiVirtu
 
 
 class GetAccountHistoryModel(
-    PreconfiguredBaseModel, GenericModel, Generic[ApiOperationObjectT, ApiVirtualOperationObjectT]
+    PreconfiguredBaseModel, BaseModel, Generic[ApiOperationObjectT, ApiVirtualOperationObjectT]
 ):
     history: list[tuple[HiveInt, ApiOperationObjectT | ApiVirtualOperationObjectT]]
 
 
 class GetOpsInBlockModel(
-    PreconfiguredBaseModel, GenericModel, Generic[ApiOperationObjectT, ApiVirtualOperationObjectT]
+    PreconfiguredBaseModel, BaseModel, Generic[ApiOperationObjectT, ApiVirtualOperationObjectT]
 ):
     ops: list[ApiOperationObjectT | ApiVirtualOperationObjectT]
 
 
-class GetTransactionModel(PreconfiguredBaseModel, GenericModel, Generic[OperationT]):
+class GetTransactionModel(PreconfiguredBaseModel, BaseModel, Generic[OperationT]):
     block_num: HiveInt
     expiration: HiveDateTime
     extensions: list[Any]
