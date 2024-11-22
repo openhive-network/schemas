@@ -5,7 +5,7 @@ import operator
 import re
 from abc import ABC, abstractmethod
 from copy import deepcopy
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Annotated, Any
 
 from pydantic import field_validator, ConfigDict, StringConstraints
 from pydantic_core import PydanticCustomError
@@ -14,7 +14,7 @@ from typing_extensions import Self
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets._validators import validate_nai, validate_precision
 from schemas.fields.assets.asset_info import AssetInfo
-from schemas.fields.hive_int import HiveInt
+from schemas.fields.hive_int import HiveInt, validate_hive_int
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -265,19 +265,11 @@ class AssetLegacy(StringConstraints, AssetBase, ABC):  # type: ignore[misc]
         ), "strings are immutable in Python; Use: `some_object.field = some_object.field.clone(amount=new_amount)` instead"
 
 
-class AssetNaiAmount(HiveInt):
-    """
-    Amount in HF26 have to be serialized as str, to be properly recognized by c++
-    """
+def stringify_hive_int(value: Any) -> str:
+    validated_value = validate_hive_int(value)
+    return str(validated_value)
 
-    ge = 0
-
-    @classmethod
-    # TODO[pydantic]: We couldn't refactor `__get_validators__`, please create the `__get_pydantic_core_schema__` manually.
-    # Check https://docs.pydantic.dev/latest/migration/#defining-custom-types for more information.
-    def __get_validators__(cls) -> CallableGenerator:
-        yield from super().__get_validators__()
-        yield cls.__stringify
+AssetNaiAmount = Annotated[str, stringify_hive_int]
 
 
 class AssetHF26(PreconfiguredBaseModel, AssetBase, ABC):
