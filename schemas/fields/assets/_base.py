@@ -7,7 +7,8 @@ from abc import ABC, abstractmethod
 from copy import deepcopy
 from typing import TYPE_CHECKING, Any
 
-from pydantic import field_validator, ConfigDict, ConstrainedStr, StrRegexError
+from pydantic import field_validator, ConfigDict, StringConstraints
+from pydantic_core import PydanticCustomError, core_schema
 from typing_extensions import Self
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
@@ -19,6 +20,11 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
     from pydantic.typing import CallableGenerator
+
+class RegexValidationError(PydanticCustomError):
+    def __init__(self, pattern: str):
+        super().__init__("string_regex_error", f"String does not match the required pattern: {pattern}")
+        self.pattern = pattern
 
 
 class AssetBase(ABC):
@@ -154,7 +160,7 @@ class AssetBase(ABC):
         return converted.clone(amount=int(float(operator_(self._get_amount(), converted._get_amount()))))
 
 
-class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
+class AssetLegacy(StringConstraints, AssetBase, ABC):  # type: ignore[misc]
     """Base class for all legacy assets"""
 
     def _get_amount(self) -> int:
@@ -184,7 +190,7 @@ class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
             raise ValueError("Asset could not be negative value!")
         regex = cls._get_legacy_regex(use_asset_info=use_asset_info)
         if regex.match(value) is None:
-            raise StrRegexError(pattern=cls._get_pattern(regex))
+            raise RegexValidationError(pattern=regex)
         return value
 
     @classmethod
@@ -259,23 +265,22 @@ class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
         ), "strings are immutable in Python; Use: `some_object.field = some_object.field.clone(amount=new_amount)` instead"
 
 
-class AssetNaiAmount(HiveInt):
+class AssetNaiAmount:
     """
-    Amount in HF26 have to be serialized as str, to be properly recognized by c++
+    Amount in HF26 has to be serialized as str, to be properly recognized by C++.
     """
-
     ge = 0
-
-    @classmethod
-    # TODO[pydantic]: We couldn't refactor `__get_validators__`, please create the `__get_pydantic_core_schema__` manually.
-    # Check https://docs.pydantic.dev/latest/migration/#defining-custom-types for more information.
-    def __get_validators__(cls) -> CallableGenerator:
-        yield from super().__get_validators__()
-        yield cls.__stringify
 
     @classmethod
     def __stringify(cls, value: int | str) -> str:
         return str(value)
+
+    @classmethod
+    def __get_pydantic_core_schema__(cls) -> core_schema.CoreSchema:
+        return core_schema.chain_schema(
+            core_schema.int_schema(ge=cls.ge),
+            core_schema.no_info_plain_validator_function(cls.__stringify),
+        )
 
 
 class AssetHF26(PreconfiguredBaseModel, AssetBase, ABC):

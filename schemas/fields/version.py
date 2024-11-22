@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 
-from pydantic import ConstrainedStr
+from pydantic import StringConstraints
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import NodeType
@@ -15,7 +15,7 @@ __all__ = [
 ]
 
 
-class Version(ConstrainedStr):
+class Version(StringConstraints):
     regex = re.compile(r"^\d+\.\d+\.\d+$")
 
 

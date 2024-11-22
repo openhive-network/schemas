@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 
-from pydantic import ConstrainedStr
+from pydantic import StringConstraints
 
 __all__ = [
     "Hex",
@@ -12,7 +12,7 @@ __all__ = [
 ]
 
 
-class Hex(ConstrainedStr):
+class Hex(StringConstraints):
     regex = re.compile(r"^[0-9a-fA-F]*$")
 
 
