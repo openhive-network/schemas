@@ -1,14 +1,10 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from typing import Any, Type
-
-from pydantic_core.core_schema import CoreSchema, FunctionWrapHandler
-from pydantic import GetCoreSchemaHandler
-from typing_extensions import Self
-
+from typing import Any
+from pydantic import GetCoreSchemaHandler, ValidationError
+from pydantic_core.core_schema import CoreSchema, ValidationFunction
 from schemas.hive_constants import HIVE_TIME_FORMAT
-
 
 __all__ = [
     "HiveDateTime",
@@ -17,29 +13,43 @@ __all__ = [
 
 class HiveDateTime(datetime):
     @classmethod
-    def __get_pydantic_core_schema__(
-        cls, source_type: Type[Any], handler: GetCoreSchemaHandler
-    ) -> CoreSchema:
+    def __get_pydantic_core_schema__(cls, _source_type: Any, handler: GetCoreSchemaHandler) -> CoreSchema:
+        """
+        Define the schema for this custom type.
+        """
+        return CoreSchema(
+            source_type=cls,
+            validation=ValidationFunction(cls.validate),
+            metadata={"description": "HiveDateTime type for custom datetime handling"}
+        )
 
-        def validate(value: Any, handler: FunctionWrapHandler) -> datetime:
-            if isinstance(value, datetime):
-                return cls.__normalize(value)
+    @classmethod
+    def validate(cls, value: Any) -> HiveDateTime:
+        """
+        Validation logic for HiveDateTime.
+        """
+        if isinstance(value, datetime):
+            return cls.__normalize(value)
 
+        if isinstance(value, str):
             try:
-                return cls.__normalize(datetime.strptime(value, HIVE_TIME_FORMAT))
+                parsed_date = datetime.strptime(value, HIVE_TIME_FORMAT)
+                return cls.__normalize(parsed_date)
             except ValueError as error:
-                raise ValueError(f"date must be in format {HIVE_TIME_FORMAT}") from error
+                raise ValidationError(f"date must be in format {HIVE_TIME_FORMAT}") from error
 
-        return {
-            'type': 'function-wrap',
-            'function': validate,
-            'schema': handler(object),
-        }
+        raise ValidationError(f"Invalid type for HiveDateTime: {type(value)}")
 
     @classmethod
-    def __normalize(cls, value: datetime) -> datetime:
-        return value.replace(tzinfo=timezone.utc)
+    def __normalize(cls, value: datetime) -> HiveDateTime:
+        """
+        Normalize datetime to use UTC timezone.
+        """
+        return cls(value.replace(tzinfo=timezone.utc))
 
     @classmethod
-    def now(cls) -> Self:  # type: ignore[override]
+    def now(cls) -> HiveDateTime:
+        """
+        Override `now` to return a UTC-aware datetime instance.
+        """
         return cls.utcnow()
