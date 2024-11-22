@@ -1,10 +1,14 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING, Any, Generic, TypeAlias, TypeVar, get_args
+from typing import TYPE_CHECKING, Any, Generic, Type, TypeAlias, TypeVar, get_args
 
 from schemas.application_operation import ApplicationOperation
 from schemas.fields.serializable import Serializable
+
+from pydantic_core.core_schema import CoreSchema, ValidatorFunctionWrapHandler
+from pydantic import GetCoreSchemaHandler
+
 
 if TYPE_CHECKING:
     from pydantic.typing import CallableGenerator
@@ -29,32 +33,37 @@ class JsonString(Serializable, Generic[JsonFieldType]):
     def __init__(self, value: JsonFieldType) -> None:
         self._value: JsonFieldType = value
 
-    @classmethod
-    # TODO[pydantic]: We couldn't refactor `__get_validators__`, please create the `__get_pydantic_core_schema__` manually.
-    # Check https://docs.pydantic.dev/latest/migration/#defining-custom-types for more information.
-    def __get_validators__(cls) -> CallableGenerator:
-        yield cls.validate
 
     @classmethod
-    def validate(cls, value: Any) -> JsonString[JsonFieldType]:
-        if isinstance(value, JsonString):
-            value = value.value
+    def __get_pydantic_core_schema__(
+        cls, source_type: Type[Any], handler: GetCoreSchemaHandler
+    ) -> CoreSchema:
+
+        def validate(value: Any, handler: ValidatorFunctionWrapHandler) -> JsonString[JsonFieldType]:
+            if isinstance(value, JsonString):
+                value = value.value
+                if isinstance(value, str):
+                    return cls.validate(f'"{value}"')
+                return cls.validate(value)
+
             if isinstance(value, str):
-                return cls.validate(f'"{value}"')
-            return cls.validate(value)
+                try:
+                    parsed = json.loads(value)
+                    return cls(parsed)
+                except (ValueError, TypeError) as error:
+                    raise ValueError(f"Value is not a valid json string! Received `{value}`") from error
+            if isinstance(value, get_args(AnyJson)):
+                return cls(value)
+            if isinstance(value, ApplicationOperation):
+                return cls(value)  # type: ignore[arg-type]
 
-        if isinstance(value, str):
-            try:
-                parsed = json.loads(value)
-                return cls(parsed)
-            except (ValueError, TypeError) as error:
-                raise ValueError(f"Value is not a valid json string! Received `{value}`") from error
-        if isinstance(value, get_args(AnyJson)):
-            return cls(value)
-        if isinstance(value, ApplicationOperation):
-            return cls(value)  # type: ignore[arg-type]
+            raise ValueError(f"Value is not a valid type! Received `{value}` with type `{type(value)}`")
 
-        raise ValueError(f"Value is not a valid type! Received `{value}` with type `{type(value)}`")
+        return {
+            'type': 'function-wrap',
+            'function': validate,
+            'schema': handler(object),
+        }
 
     @property
     def value(self) -> JsonFieldType:

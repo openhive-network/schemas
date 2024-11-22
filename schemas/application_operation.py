@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Type
 
+from pydantic_core.core_schema import CoreSchema, ValidatorFunctionWrapHandler
 from typing_extensions import Self
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
+
+from pydantic import GetCoreSchemaHandler
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -21,24 +24,28 @@ class ApplicationOperation(PreconfiguredBaseModel):
         return cls.__operation_name__
 
     @classmethod
-    # TODO[pydantic]: We couldn't refactor `__get_validators__`, please create the `__get_pydantic_core_schema__` manually.
-    # Check https://docs.pydantic.dev/latest/migration/#defining-custom-types for more information.
-    def __get_validators__(cls) -> CallableGenerator:
-        yield cls.validate
+    def __get_pydantic_core_schema__(
+        cls, source_type: Type[Any], handler: GetCoreSchemaHandler
+    ) -> CoreSchema:
 
-    @classmethod
-    def validate(cls, value: Any) -> Self:
-        if isinstance(value, cls):
-            return value
+        def validate(value: Any, handler: ValidatorFunctionWrapHandler) -> 'ApplicationOperation':
+            if isinstance(value, cls):
+                return value
 
-        if isinstance(value, str):
-            try:
-                parsed = json.loads(str(value))
-                return cls(**parsed)
-            except (ValueError, TypeError) as error:
-                raise ValueError(f"Value is not a valid application operation string! Received `{value}`") from error
+            if isinstance(value, str):
+                try:
+                    parsed = json.loads(str(value)) 
+                    return cls(**parsed)
+                except (ValueError, TypeError) as error:
+                    raise ValueError(f"Value is not a valid application operation string! Received `{value}`") from error
 
-        raise ValueError(f"Value is not a valid type! Received `{value}` with type `{type(value)}`")
+            raise ValueError(f"Value is not a valid type! Received `{value}` with type `{type(value)}`")
+
+        return {
+            'type': 'function-wrap',
+            'function': validate,
+            'schema': handler(object),
+        }
 
     def json(  # noqa: PLR0913
         self,
