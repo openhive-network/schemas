@@ -8,7 +8,7 @@ from copy import deepcopy
 from typing import TYPE_CHECKING, Any
 
 from pydantic import field_validator, ConfigDict, StringConstraints
-from pydantic_core import PydanticCustomError, core_schema
+from pydantic_core import PydanticCustomError
 from typing_extensions import Self
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
@@ -265,22 +265,19 @@ class AssetLegacy(StringConstraints, AssetBase, ABC):  # type: ignore[misc]
         ), "strings are immutable in Python; Use: `some_object.field = some_object.field.clone(amount=new_amount)` instead"
 
 
-class AssetNaiAmount:
+class AssetNaiAmount(HiveInt):
     """
-    Amount in HF26 has to be serialized as str, to be properly recognized by C++.
+    Amount in HF26 have to be serialized as str, to be properly recognized by c++
     """
+
     ge = 0
 
     @classmethod
-    def __stringify(cls, value: int | str) -> str:
-        return str(value)
-
-    @classmethod
-    def __get_pydantic_core_schema__(cls) -> core_schema.CoreSchema:
-        return core_schema.chain_schema(
-            core_schema.int_schema(ge=cls.ge),
-            core_schema.no_info_plain_validator_function(cls.__stringify),
-        )
+    # TODO[pydantic]: We couldn't refactor `__get_validators__`, please create the `__get_pydantic_core_schema__` manually.
+    # Check https://docs.pydantic.dev/latest/migration/#defining-custom-types for more information.
+    def __get_validators__(cls) -> CallableGenerator:
+        yield from super().__get_validators__()
+        yield cls.__stringify
 
 
 class AssetHF26(PreconfiguredBaseModel, AssetBase, ABC):

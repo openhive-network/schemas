@@ -9,9 +9,6 @@ __all__ = [
     "HiveInt",
 ]
 
-HiveInt = Annotated[int, Field(description="The value could only be int or a string that can be converted to int!")]
-
-
 def validate_hive_int(value: Any) -> int:
     error_template = ValueError("The value could only be int or string that can be converted to int!")
 
@@ -28,3 +25,5 @@ def validate_hive_int(value: Any) -> int:
             raise error_template from error
 
     raise error_template
+
+HiveInt = Annotated[int, validate_hive_int]
