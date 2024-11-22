@@ -5,7 +5,7 @@ import operator
 import re
 from abc import ABC, abstractmethod
 from copy import deepcopy
-from typing import TYPE_CHECKING, Annotated, Any
+from typing import TYPE_CHECKING, Annotated, Any, Type
 
 from pydantic import field_validator, ConfigDict, StringConstraints
 from pydantic_core import PydanticCustomError
@@ -16,10 +16,12 @@ from schemas.fields.assets._validators import validate_nai, validate_precision
 from schemas.fields.assets.asset_info import AssetInfo
 from schemas.fields.hive_int import HiveInt, validate_hive_int
 
+from pydantic_core.core_schema import CoreSchema, ValidatorFunctionWrapHandler
+from pydantic import GetCoreSchemaHandler
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from pydantic.typing import CallableGenerator
 
 class RegexValidationError(PydanticCustomError):
     def __init__(self, pattern: str):
@@ -219,7 +221,11 @@ class AssetLegacy(StringConstraints, AssetBase, ABC):  # type: ignore[misc]
     @classmethod
     # TODO[pydantic]: We couldn't refactor `__get_validators__`, please create the `__get_pydantic_core_schema__` manually.
     # Check https://docs.pydantic.dev/latest/migration/#defining-custom-types for more information.
-    def __get_validators__(cls) -> CallableGenerator:
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, source_type: Type[Any], handler: GetCoreSchemaHandler
+    ) -> CoreSchema:
+
         yield from super().__get_validators__()
         yield lambda x: cls.__legacy_regex_validator(x)
         yield cls.__assure_assetlegacy_type

@@ -26,10 +26,7 @@ if typing.TYPE_CHECKING:
 class PreconfiguredBaseModel(BaseModel):
     # TODO[pydantic]: The following keys were removed: `smart_union`, `json_encoders`.
     # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
-    model_config = ConfigDict(extra="forbid", populate_by_name=True, smart_union=True, json_encoders={  # noqa: RUF012
-        datetime: lambda x: x.strftime(HIVE_TIME_FORMAT),
-        Serializable: lambda x: x.serialize(),
-    })
+    model_config = ConfigDict(extra="forbid", populate_by_name=True)
 
     @classmethod
     def __is_aliased_field_name(cls, field_name: str) -> bool:

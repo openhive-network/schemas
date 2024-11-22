@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Any, Type
 
-from pydantic_core.core_schema import CoreSchema, ValidatorFunctionWrapHandler
+from pydantic_core.core_schema import CoreSchema, FunctionWrapHandler
 from pydantic import GetCoreSchemaHandler
 from typing_extensions import Self
 
@@ -21,7 +21,7 @@ class HiveDateTime(datetime):
         cls, source_type: Type[Any], handler: GetCoreSchemaHandler
     ) -> CoreSchema:
 
-        def validate(value: Any, handler: ValidatorFunctionWrapHandler) -> datetime:
+        def validate(value: Any, handler: FunctionWrapHandler) -> datetime:
             if isinstance(value, datetime):
                 return cls.__normalize(value)
 

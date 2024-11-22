@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Generic
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 
 from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
@@ -30,7 +30,7 @@ class WitnessUpdateOperation(_WitnessUpdateOperation[AssetHiveHF26]):
 
     # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
     # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
-    @validator("fee", always=True)
+    @field_validator("fee", always=True)
     @classmethod
     def validate_fee(cls, v: AssetHiveHF26 | None) -> AssetHiveHF26:
         if v is None:
@@ -43,7 +43,7 @@ class WitnessUpdateOperationLegacy(_WitnessUpdateOperation[AssetHiveLegacy]):
 
     # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
     # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
-    @validator("fee", always=True)
+    @field_validator("fee", always=True)
     @classmethod
     def validate_fee(cls, v: AssetHiveLegacy | None) -> AssetHiveLegacy:
         if v is None:

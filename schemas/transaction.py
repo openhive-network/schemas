@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, TypeVar
 
-from pydantic import validator
+from pydantic import field_validator
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.hex import Signature, TransactionId
@@ -41,7 +41,7 @@ class TransactionLegacy(TransactionCommon):
 
     # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
     # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
-    @validator("operations", pre=True, always=True)
+    @field_validator("operations", pre=True, always=True)
     @classmethod
     def operations_converter(cls, value: Any) -> list[LegacyOperationRepresentationType]:
         assert isinstance(value, list)
