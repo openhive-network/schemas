@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Annotated, Any
 
-from pydantic import Field
+from pydantic import Field, AfterValidator
 
 
 __all__ = [
@@ -15,7 +15,7 @@ def validate_hive_int(value: Any) -> int:
     if isinstance(value, (float, bool)):
         raise error_template
 
-    if isinstance(value, (int, HiveInt)):
+    if isinstance(value, (int)):
         return value
 
     if isinstance(value, str):
@@ -26,4 +26,4 @@ def validate_hive_int(value: Any) -> int:
 
     raise error_template
 
-HiveInt = Annotated[int, validate_hive_int]
+HiveInt = Annotated[int, AfterValidator(validate_hive_int)]
