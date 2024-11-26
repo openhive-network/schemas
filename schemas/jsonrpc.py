@@ -5,7 +5,9 @@ Yoy must use it like this -> HiveResult.factory(type_of_response, **response_fro
 """
 from __future__ import annotations
 
+import os
 from collections.abc import Sequence
+from threading import Event, Lock, Semaphore
 from typing import Any, Generic, TypeVar
 
 from pydantic import Field
@@ -25,9 +27,8 @@ __all__ = [
 """
 Following union in TypeVar can be extended when new endpoints appear
 """
-ExpectResultT = TypeVar(
-    "ExpectResultT",
-    bound=PreconfiguredBaseModel
+ExpectResult = (
+    PreconfiguredBaseModel
     | Sequence[PreconfiguredBaseModel]
     | Sequence[PreconfiguredBaseModel | None]
     | str
@@ -36,8 +37,19 @@ ExpectResultT = TypeVar(
     | Sequence[str]
     | Sequence[int]
     | Sequence[Sequence[str]]
-    | Sequence[tuple[int, PreconfiguredBaseModel]],
+    | Sequence[tuple[int, PreconfiguredBaseModel]]
 )
+
+ExpectResultT = TypeVar(
+    "ExpectResultT",
+    bound=ExpectResult,
+)
+
+CACHED_MODELS: dict[type[Any], JSONRPCResult[Any]] = {}
+WRITE_LOCK = Lock()
+WRITE_LOCK_EVENT = Event()
+MAX_THREADS = os.cpu_count() or 10000
+READ_SEMAPHORE = Semaphore(value=MAX_THREADS)
 
 
 class JSONRPCBase(PreconfiguredBaseModel):
@@ -58,6 +70,40 @@ class JSONRPCResult(JSONRPCBase, GenericModel, Generic[ExpectResultT]):
     result: ExpectResultT
 
 
+def acquire(n: int) -> None:
+    acquired = 0
+    while acquired != n:
+        acquired += int(READ_SEMAPHORE.acquire())
+
+
+def acquire_model(expected_model: type[ExpectResultT]) -> type[JSONRPCResult[ExpectResultT]]:
+    if WRITE_LOCK.locked():
+        WRITE_LOCK_EVENT.wait()
+
+    READ_SEMAPHORE.acquire()
+    try:
+        if expected_model in CACHED_MODELS:
+            return CACHED_MODELS[expected_model]  # type: ignore[return-value]
+
+        WRITE_LOCK_EVENT.clear()
+        try:
+            with WRITE_LOCK:
+                acquire(MAX_THREADS - 1)
+                try:
+
+                    class JSONRPCResultImpl(JSONRPCResult[expected_model]):  # type: ignore[valid-type]
+                        result: expected_model  # type: ignore[valid-type]
+
+                    CACHED_MODELS[expected_model] = JSONRPCResultImpl  # type: ignore[assignment]
+                    return JSONRPCResultImpl
+                finally:
+                    READ_SEMAPHORE.release(n=MAX_THREADS - 1)
+        finally:
+            WRITE_LOCK_EVENT.set()
+    finally:
+        READ_SEMAPHORE.release()
+
+
 def get_response_model(
     expected_model: type[ExpectResultT], **kwargs: Any
 ) -> JSONRPCResult[ExpectResultT] | JSONRPCError:
@@ -74,10 +120,8 @@ def get_response_model(
     Returns:
         The response model.
     """
+    response_cls: type[JSONRPCResult[ExpectResultT] | JSONRPCError]
+    response_cls = acquire_model(expected_model) if "result" in kwargs else JSONRPCError
 
-    class JSONRPCResultImpl(JSONRPCResult[expected_model]):  # type: ignore[valid-type]
-        result: expected_model  # type: ignore[valid-type]
-
-    response_cls = JSONRPCResultImpl if "result" in kwargs else JSONRPCError
     response_cls.update_forward_refs(**locals())
-    return response_cls(**kwargs)  # type: ignore[return-value]
+    return response_cls(**kwargs)
