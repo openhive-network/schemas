@@ -28,3 +28,4 @@ class HiveVersion(PreconfiguredBaseModel):
     fc_revision: TransactionId
     chain_id: Sha256
     node_type: NodeType
+    haf_revision: TransactionId | None = None
