@@ -14,9 +14,9 @@ class VirtualOperation(Operation):
     def __get_first_vop_offset(cls) -> int:
         from typing import get_args
 
-        from schemas.operations import AnyOperation
+        from schemas.operations import AnyHf26Operation
 
-        return len(get_args(AnyOperation))
+        return len(get_args(AnyHf26Operation))
 
     @classmethod
     def offset(cls) -> int:

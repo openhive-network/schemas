@@ -5,34 +5,18 @@
 
 from __future__ import annotations
 
-import types
-import typing
-from datetime import datetime
-from typing import Any, TypeVar, get_args, get_origin
+import json
+from typing import TYPE_CHECKING, Any, Literal, TypeVar
 
-import pydantic
-from pydantic import BaseModel, Extra, Field, create_model  # pyright: ignore
-from typing_extensions import Self
+import msgspec
 
-from schemas.fields.serializable import Serializable
-from schemas.hive_constants import HIVE_TIME_FORMAT
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
-if typing.TYPE_CHECKING:
-    from collections.abc import Callable
-
-    from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
+DictStrAny = dict[str, Any]
 
 
-class PreconfiguredBaseModel(BaseModel):
-    class Config:
-        extra = Extra.forbid
-        allow_population_by_field_name = True
-        smart_union = True
-        json_encoders = {  # noqa: RUF012
-            datetime: lambda x: x.strftime(HIVE_TIME_FORMAT),
-            Serializable: lambda x: x.serialize(),
-        }
-
+class PreconfiguredBaseModel(msgspec.Struct):
     @classmethod
     def __is_aliased_field_name(cls, field_name: str) -> bool:
         return field_name in {
@@ -60,33 +44,19 @@ class PreconfiguredBaseModel(BaseModel):
         key = self.__get_field_name(key)
         setattr(self, key, value)
 
-    def json(  # noqa: PLR0913
+    def json(
         self,
         *,
-        include: AbstractSetIntStr | MappingIntStrAny | None = None,
-        exclude: AbstractSetIntStr | MappingIntStrAny | None = None,
-        by_alias: bool = True,  # modified, most of the time we want to dump by alias
-        skip_defaults: bool | None = None,
-        exclude_unset: bool = False,
-        exclude_defaults: bool = False,
-        exclude_none: bool = False,
-        encoder: Callable[[Any], Any] | None = None,
-        models_as_dict: bool = True,
-        ensure_ascii: bool = False,  # modified, so unicode characters are not escaped, will properly dump e.g. polish characters
-        **dumps_kwargs: Any,
+        str_keys: bool = False,
+        builtin_types: Iterable[type] | None = None,
+        order: Literal[None, "deterministic", "sorted"] = None,
     ) -> str:
-        return super().json(
-            include=include,
-            exclude=exclude,
-            by_alias=by_alias,
-            skip_defaults=skip_defaults,
-            exclude_unset=exclude_unset,
-            exclude_defaults=exclude_defaults,
-            exclude_none=exclude_none,
-            encoder=encoder,
-            models_as_dict=models_as_dict,
-            ensure_ascii=ensure_ascii,
-            **dumps_kwargs,
+        from schemas.encoders import enc_hook_hf26
+
+        return json.dumps(
+            msgspec.to_builtins(
+                obj=self, enc_hook=enc_hook_hf26, str_keys=str_keys, builtin_types=builtin_types, order=order
+            )
         )
 
     def shallow_dict(self) -> dict[str, Any]:
@@ -96,74 +66,22 @@ class PreconfiguredBaseModel(BaseModel):
                 result[key.strip("_")] = value
         return result
 
-    def dict(  # noqa: PLR0913, A003
+    def dict(  # noqa: A003
         self,
         *,
-        include: AbstractSetIntStr | MappingIntStrAny | None = None,
-        exclude: AbstractSetIntStr | MappingIntStrAny | None = None,
-        by_alias: bool = True,  # modified, most of the time we want to dump by alias
-        skip_defaults: bool | None = None,
-        exclude_unset: bool = False,
-        exclude_defaults: bool = False,
         exclude_none: bool = False,
+        exclude_defaults: bool = False,
     ) -> DictStrAny:
-        return super().dict(
-            include=include,
-            exclude=exclude,
-            by_alias=by_alias,
-            skip_defaults=skip_defaults,
-            exclude_unset=exclude_unset,
-            exclude_defaults=exclude_defaults,
-            exclude_none=exclude_none,
-        )
+        data = msgspec.structs.asdict(self)
 
-    @classmethod
-    def as_strict_model(cls, recursively: bool = True) -> type[Self]:  # noqa: C901
-        """
-        Generate a BaseModel class with all the same fields like the class on which the method was called but with
-        required fields only (no defaults allowed).
+        if exclude_none:
+            data = {key: value for key, value in data.items() if value is not None}
 
-        Returns:
-            Strict version of the class
-        """
+        if exclude_defaults and hasattr(self, "__struct_defaults__"):
+            defaults = dict(zip(self.__struct_fields__, self.__struct_defaults__, strict=False))
+            data = {key: value for key, value in data.items() if key in defaults and value != defaults[key]}
 
-        # ellipsis is used to indicate that the field is required
-        field_definitions = {field.name: (field.type_, Field(alias=field.alias)) for field in cls.__fields__.values()}
-
-        def process_type(type_: Any) -> Any:  # noqa: PLR0911
-            def resolve_for_all_args(outer_type: Any) -> Any:
-                return outer_type[tuple(process_type(arg) for arg in get_args(type_))]
-
-            type_origin = get_origin(type_)
-            if (
-                type_ in {type(None), typing.Any}
-                or type(type_) in {typing.TypeVar, pydantic.fields.FieldInfo}
-                or type_origin in {typing.Literal}
-            ):
-                return type_
-
-            if type_origin is not None:
-                if type_origin in {types.UnionType, typing.Union}:
-                    return resolve_for_all_args(typing.Union)
-
-                if type_origin in {tuple, typing.Tuple}:  # noqa: UP006
-                    return resolve_for_all_args(typing.Tuple)  # noqa: UP006
-
-                if type_origin in {list, typing.List}:  # noqa: UP006
-                    return resolve_for_all_args(typing.List)  # noqa: UP006
-
-                if type_origin in {typing.Annotated}:
-                    return resolve_for_all_args(typing.Annotated)
-
-            if issubclass(type_, PreconfiguredBaseModel):
-                return type_.as_strict_model()
-            return type_
-
-        if recursively:
-            for field_name, pack in field_definitions.items():
-                field_definitions[field_name] = (process_type(pack[0]), ...)
-
-        return create_model(f"{cls.__name__}Strict", **field_definitions, __base__=PreconfiguredBaseModel)  # type: ignore
+        return data
 
     def __get_field_name(self, name: str) -> str:
         if not hasattr(self, name) and self.__is_aliased_field_name(name):

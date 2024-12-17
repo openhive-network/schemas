@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import abstractmethod
 from typing import Any
 
 from pydantic import validator
@@ -12,7 +13,7 @@ from schemas.fields.assets.asset_info import AssetInfo
 from schemas.fields.hive_int import HiveInt
 
 
-class AssetSymbolType(PreconfiguredBaseModel, AssetBase):
+class AssetSymbolType(PreconfiguredBaseModel, kw_only=True):
     """Represents just asset characteristics"""
 
     decimals: HiveInt
@@ -51,6 +52,11 @@ class AssetSymbolType(PreconfiguredBaseModel, AssetBase):
         if amount is not None:
             raise NotImplementedError
         return self.__class__(decimals=self.decimals, nai=self.nai)
+
+    @staticmethod
+    @abstractmethod
+    def get_asset_information() -> AssetInfo:
+        ...
 
 
 class HiveSymbolType(AssetSymbolType):

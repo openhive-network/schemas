@@ -5,15 +5,17 @@ Yoy must use it like this -> HiveResult.factory(type_of_response, **response_fro
 """
 from __future__ import annotations
 
+import json
 import os
-from collections.abc import Sequence
+from collections.abc import Iterable, Sequence
 from threading import Event, Lock, Semaphore
-from typing import Any, Generic, TypeVar
+from typing import Any, Generic, Literal, TypeVar, cast
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+import msgspec
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.decoders import get_hf26_decoder, get_legacy_decoder
+from schemas.encoders import enc_hook_hf26
 
 __all__ = [
     "get_response_model",
@@ -52,21 +54,34 @@ MAX_THREADS = os.cpu_count() or 10000
 READ_SEMAPHORE = Semaphore(value=MAX_THREADS)
 
 
-class JSONRPCBase(PreconfiguredBaseModel):
-    id_: int = Field(alias="id", default=0)
+class JSONRPCBase(msgspec.Struct, kw_only=True):
+    id_: int = msgspec.field(name="id", default=0)
     jsonrpc: str = "2.0"
+
+    def json(
+        self,
+        *,
+        str_keys: bool = False,
+        builtin_types: Iterable[type] | None = None,
+        order: Literal[None, "deterministic", "sorted"] = None,
+    ) -> str:
+        return json.dumps(
+            msgspec.to_builtins(
+                obj=self, enc_hook=enc_hook_hf26, str_keys=str_keys, builtin_types=builtin_types, order=order
+            )
+        )
 
 
 class JSONRPCRequest(JSONRPCBase):
     method: str
-    params: dict[str, Any] = Field(default_factory=dict)
+    params: dict[str, Any] = msgspec.field(default_factory=dict)
 
 
 class JSONRPCError(JSONRPCBase):
     error: dict[str, Any]
 
 
-class JSONRPCResult(JSONRPCBase, GenericModel, Generic[ExpectResultT]):
+class JSONRPCResult(JSONRPCBase, Generic[ExpectResultT]):
     result: ExpectResultT
 
 
@@ -90,12 +105,13 @@ def acquire_model(expected_model: type[ExpectResultT]) -> type[JSONRPCResult[Exp
             with WRITE_LOCK:
                 acquire(MAX_THREADS - 1)
                 try:
-
-                    class JSONRPCResultImpl(JSONRPCResult[expected_model]):  # type: ignore[valid-type]
-                        result: expected_model  # type: ignore[valid-type]
+                    JSONRPCResultImpl = msgspec.defstruct(  # ruff: noqa: N806
+                        "JSONRPCResultImpl", [("result", expected_model)], bases=(JSONRPCResult,)
+                    )
 
                     CACHED_MODELS[expected_model] = JSONRPCResultImpl  # type: ignore[assignment]
-                    return JSONRPCResultImpl
+
+                    return cast(type[JSONRPCResult[Any]], JSONRPCResultImpl)
                 finally:
                     READ_SEMAPHORE.release(n=MAX_THREADS - 1)
         finally:
@@ -105,7 +121,7 @@ def acquire_model(expected_model: type[ExpectResultT]) -> type[JSONRPCResult[Exp
 
 
 def get_response_model(
-    expected_model: type[ExpectResultT], **kwargs: Any
+    expected_model: type[ExpectResultT], json: str, serialization: Literal["hf26", "legacy"]
 ) -> JSONRPCResult[ExpectResultT] | JSONRPCError:
     """
     Use this method to create response model from the given parameters (as kwargs).
@@ -120,8 +136,14 @@ def get_response_model(
     Returns:
         The response model.
     """
+    assert serialization in ("hf26", "legacy")
     response_cls: type[JSONRPCResult[ExpectResultT] | JSONRPCError]
-    response_cls = acquire_model(expected_model) if "result" in kwargs else JSONRPCError
+    response_cls = acquire_model(expected_model)  # if "result" in kwargs else JSONRPCError
 
-    response_cls.update_forward_refs(**locals())
-    return response_cls(**kwargs)
+    decoder: msgspec.json.Decoder[JSONRPCResult[Any]] = (
+        get_hf26_decoder(response_cls) if serialization == "hf26" else get_legacy_decoder(response_cls)
+    )
+    try:
+        return decoder.decode(json)
+    except msgspec.ValidationError:
+        return msgspec.json.decode(json, type=JSONRPCError)
