@@ -15,7 +15,7 @@ from schemas.apis.rc_api.fundaments_of_responses import (
 from schemas.fields.assets.vests import AssetVestsT
 
 
-class FindRcAccounts(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
+class FindRcAccounts(PreconfiguredBaseModel, Generic[AssetVestsT]):
     rc_accounts: list[RcAccount[AssetVestsT]]
 
 
@@ -37,7 +37,7 @@ class GetResourcePool(PreconfiguredBaseModel):
     resource_pool: ResourcePool
 
 
-class ListRcAccounts(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
+class ListRcAccounts(PreconfiguredBaseModel, Generic[AssetVestsT]):
     rc_accounts: list[RcAccount[AssetVestsT]]
 
 

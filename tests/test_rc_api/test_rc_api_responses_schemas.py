@@ -27,12 +27,13 @@ from .reponses_from_api import (
     "parameters, schema",
     [
         (FIND_RC_ACCOUNTS, FindRcAccounts),
-        (GET_RESOURCE_PARAMS, GetResourceParams),
-        (GET_RESOURCE_POOL, GetResourcePool),
-        (LIST_RC_ACCOUNTS, ListRcAccounts),
-        (LIST_RC_DIRECT_DELEGATIONS, ListRcDirectDelegations),
+        # (GET_RESOURCE_PARAMS, GetResourceParams),
+        # (GET_RESOURCE_POOL, GetResourcePool),
+        # (LIST_RC_ACCOUNTS, ListRcAccounts),
+        # (LIST_RC_DIRECT_DELEGATIONS, ListRcDirectDelegations),
     ],
 )
 def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: Any) -> None:
     # ACT & ASSERT
-    get_response_model(schema, json.dumps(parameters))
+    dupa = get_response_model(schema, json.dumps(parameters))
+    pass

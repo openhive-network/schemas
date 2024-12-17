@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TypeVar
 
-from schemas.fields.assets._base import AssetHF26, AssetLegacy
+from schemas.fields.assets._base import AssetBase, AssetHF26, AssetLegacy
 from schemas.fields.assets._symbol import VestsSymbolType
 from schemas.fields.assets.asset_info import AssetInfo
 from schemas.fields.hive_int import HiveInt
@@ -29,4 +29,4 @@ class AssetVestsLegacy(AssetLegacy):
         return VestsSymbolType.get_asset_information()
 
 
-AssetVestsT = TypeVar("AssetVestsT", AssetVestsHF26, AssetVestsLegacy)
+AssetVestsT = TypeVar("AssetVestsT", bound = AssetVestsHF26 | AssetVestsLegacy)

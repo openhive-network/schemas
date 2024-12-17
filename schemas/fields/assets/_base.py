@@ -7,6 +7,7 @@ from abc import ABC, abstractmethod
 from copy import deepcopy
 from typing import TYPE_CHECKING, Any
 
+import msgspec
 from pydantic import ConstrainedStr, StrRegexError, validator
 from typing_extensions import Self
 
@@ -21,7 +22,7 @@ if TYPE_CHECKING:
     from pydantic.typing import CallableGenerator
 
 
-class AssetBase(ABC):
+class AssetBase():
     __testnet__: bool = False
 
     @staticmethod
@@ -154,7 +155,7 @@ class AssetBase(ABC):
         return converted.clone(amount=int(float(operator_(self._get_amount(), converted._get_amount()))))
 
 
-class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
+class AssetLegacy(str, AssetBase): #  ConstrainedStr): type: ignore[misc]
     """Base class for all legacy assets"""
 
     def _get_amount(self) -> int:
@@ -274,7 +275,7 @@ class AssetNaiAmount(HiveInt):
         return str(value)
 
 
-class AssetHF26(PreconfiguredBaseModel, AssetBase, ABC):
+class AssetHF26(PreconfiguredBaseModel, AssetBase, kw_only=True):
     """Base class for all nai asset fields"""
 
     amount: AssetNaiAmount

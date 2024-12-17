@@ -14,7 +14,7 @@ from schemas.fields.compound import Manabar
 from schemas.fields.hive_int import HiveInt
 
 
-class RcAccount(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
+class RcAccount(PreconfiguredBaseModel, Generic[AssetVestsT]):
     account: AccountName
     rc_manabar: Manabar
     max_rc_creation_adjustment: AssetVestsT
@@ -165,7 +165,7 @@ class ResourcePool(PreconfiguredBaseModel):
     resource_execution_time: Pool
 
 
-class RcDirectDelegations(PreconfiguredBaseModel):
+class RcDirectDelegations(PreconfiguredBaseModel, kw_only=True):
     from_: AccountName = Field(alias="from")
     to: AccountName
     delegated_rc: HiveInt
