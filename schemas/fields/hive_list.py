@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Generic
+from typing import TYPE_CHECKING, Annotated, Any, Generic, List
 
-from pydantic import ConstrainedList
+import msgspec
+from pydantic import BaseModel, ConstrainedList
 
 from schemas._preconfigured_base_model import BaseModelT
 
@@ -16,7 +17,11 @@ if TYPE_CHECKING:
 
 else:
 
-    class HiveList(ConstrainedList, Generic[BaseModelT]):
-        """Some responses could return empty list, it should not raise any error. This type makes it possible"""
+    # class HiveList(ConstrainedList, Generic[BaseModelT]):
+    #     """Some responses could return empty list, it should not raise any error. This type makes it possible"""
 
-        min_items = 0
+    #     min_items = 0
+    
+    # HiveList = Annotated[list[Any], msgspec.Meta(min_length=0)]
+
+    HiveList = list

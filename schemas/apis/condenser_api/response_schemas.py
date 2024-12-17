@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
+import msgspec
 from pydantic import Field, conlist, root_validator
 
 import schemas.apis.account_history_api.response_schemas as account_history_api
@@ -42,9 +43,6 @@ from schemas.apis.condenser_api.fundaments_of_responses import (
     ListRcDirectDelegationsFundament,
     LookupAccountNamesFundament,
 )
-from schemas.fields.assets.hbd import AssetHbdLegacy
-from schemas.fields.assets.hive import AssetHiveLegacy
-from schemas.fields.assets.vests import AssetVestsLegacy
 from schemas.fields.basic import (
     AccountName,
     EmptyString,
@@ -78,17 +76,16 @@ class BroadcastTransactionSynchronous(wallet_bridge_api.BroadcastTransactionSync
 FindProposals = HiveList[FindProposalsFundament]
 
 
-FindRcAccounts = HiveList[RcAccountObject[AssetVestsLegacy]]  # identical as in wallet_bridge_api, but legacy
+FindRcAccounts = HiveList[RcAccountObject]  # identical as in wallet_bridge_api, but legacy
 
 
 """List of FindRecurrentTransfersFundaments from database_api in Legacy Assets format"""
 FindRecurrentTransfers = HiveList[
-    fundaments_database_api.FindRecurrentTransfersFundament[AssetHiveLegacy, AssetHbdLegacy]
+    fundaments_database_api.FindRecurrentTransfersFundament
 ]
 
 
-class GetAccountCount(HiveInt):
-    """Should return just integer"""
+GetAccountCount = HiveInt
 
 
 GetAccountHistory = list[tuple[HiveInt, GetAccountHistoryFundament]]
@@ -124,18 +121,18 @@ GetBlog = HiveList[GetBlogFundament]
 GetBlogEntries = HiveList[GetBlogEntriesFundament]
 
 
-GetChainProperties = wallet_bridge_api.GetChainProperties[AssetHiveLegacy]  # like in wallet_bridge_api, just legacy
+GetChainProperties = wallet_bridge_api.GetChainProperties  # like in wallet_bridge_api, just legacy
 
 
 GetCollateralizedConversionRequests = HiveList[
-    fundaments_wallet_bridge_api.GetCollateralizedConversionRequestsFundament[AssetHiveLegacy, AssetHbdLegacy]
+    fundaments_wallet_bridge_api.GetCollateralizedConversionRequestsFundament
 ]
 
 
 GetCommentDiscussionsByPayout = HiveList[GetCommentDiscussionsByPayoutFundament]
 
 
-class GetConfig(database_api.GetConfigOrig[AssetHiveLegacy, AssetHbdLegacy]):
+class GetConfig(database_api.GetConfigOrig):
     """Field like in database_api, with few modifications"""
 
     HBD_SYMBOL: Literal["HBD", "TBD"]  # type: ignore
@@ -144,17 +141,17 @@ class GetConfig(database_api.GetConfigOrig[AssetHiveLegacy, AssetHbdLegacy]):
     NEW_HIVE_TREASURY_ACCOUNT: AccountName
 
 
-class GetContent(fundaments_database_api.FindCommentsFundament[AssetHbdLegacy]):
+class GetContent(fundaments_database_api.FindCommentsFundament):
     """Base from database_api, some additional fields"""
 
     url: Url
     root_title: str
-    pending_payout_value: AssetHiveLegacy | AssetHbdLegacy
-    total_pending_payout_value: AssetHiveLegacy | AssetHbdLegacy
+    pending_payout_value: AssetHive | AssetHbd
+    total_pending_payout_value: AssetHive| AssetHbd
     active_votes: HiveList[GetActiveVotesFundament]
     replies: list[str]
     author_reputation: HiveInt
-    promoted: AssetHiveLegacy | AssetHbdLegacy
+    promoted: AssetHive | AssetHbd
     body_length: HiveInt
     reblogged_by: list[str]
 
@@ -164,10 +161,10 @@ GetContentReplies = HiveList[GetContent]
 
 
 """Identical as in wallet_bridge_api, just Legacy Asset format"""
-GetConversionRequests = HiveList[fundaments_wallet_bridge_api.GetConversionRequestsFundament[AssetHbdLegacy]]
+GetConversionRequests = HiveList[fundaments_wallet_bridge_api.GetConversionRequestsFundament]
 
 
-class GetCurrentMedianHistoryPrice(Price[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]):
+class GetCurrentMedianHistoryPrice(Price):
     """Identical response as Price field, Legacy format of Assets"""
 
 
@@ -178,8 +175,7 @@ class GetDiscussionsByActive(HiveMindResponses):
 GetDiscussionsByAuthorBeforeDate = list[GetDiscussionsByAuthorBeforeDateFundament]
 
 
-class GetDiscussionsByBlog(GetDiscussionsByAuthorBeforeDate):
-    """The same response as GetDiscussionsByAuthorBeforeDate"""
+GetDiscussionsByBlog = GetDiscussionsByAuthorBeforeDate
 
 
 class GetDiscussionsByCashout(HiveMindResponses):
@@ -190,28 +186,23 @@ class GetDiscussionsByChildren(HiveMindResponses):
     """Supported by hivemind"""
 
 
-class GetDiscussionsByComments(GetDiscussionsByAuthorBeforeDate):
-    """The same response as GetDiscussionsByAuthorBeforeDate"""
+GetDiscussionsByComments = GetDiscussionsByAuthorBeforeDate
 
 
-class GetDiscussionsByCreated(GetDiscussionsByAuthorBeforeDate):
-    """The same response as GetDiscussionsByAuthorBeforeDate"""
+GetDiscussionsByCreated = GetDiscussionsByAuthorBeforeDate
 
 
-class GetDiscussionsByFeed(GetDiscussionsByAuthorBeforeDate):
-    """The same response as GetDiscussionsByAuthorBeforeDate"""
+GetDiscussionsByFeed = GetDiscussionsByAuthorBeforeDate
 
 
-class GetDiscussionsByHot(GetDiscussionsByAuthorBeforeDate):
-    """The same response as GetDiscussionsByAuthorBeforeDate"""
+GetDiscussionsByHot  = GetDiscussionsByAuthorBeforeDate
 
 
 "could be an empty list"
 GetDiscussionsByPromoted = list[GetDiscussionsByAuthorBeforeDate] | conlist(str, max_items=0)
 
 
-class GetDiscussionsByTrending(GetDiscussionsByAuthorBeforeDate):
-    """The same response as GetDiscussionsByAuthorBeforeDate"""
+GetDiscussionsByTrending = GetDiscussionsByAuthorBeforeDate
 
 
 class GetDiscussionsByVotes(HiveMindResponses):
@@ -219,7 +210,7 @@ class GetDiscussionsByVotes(HiveMindResponses):
 
 
 class GetDynamicGlobalProperties(
-    database_api.GetDynamicGlobalPropertiesOrig[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
+    database_api.GetDynamicGlobalPropertiesOrig
 ):
     """Identical like response from database_api, just Legacy format of Assets and id exlcuded"""
 
@@ -242,7 +233,7 @@ class GetFeedEntries(HiveMindResponses):
     """Supported by HiveMind"""
 
 
-class GetFeedHistory(database_api.GetFeedHistoryOrig[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]):
+class GetFeedHistory(database_api.GetFeedHistoryOrig):
     """identical as in database_api just Legacy format of Assets"""
 
 
@@ -295,15 +286,14 @@ GetOpsInBlock = list[GetOpsInBlockFundament]  # something is wrong with operatio
 class GetOrderBook(PreconfiguredBaseModel):
     """Types of poles are from database_api_fundaments"""
 
-    asks: list[fundaments_database_api.GetOrderBookFundament[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]]
-    bids: list[fundaments_database_api.GetOrderBookFundament[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]]
+    asks: list[fundaments_database_api.GetOrderBookFundament]
+    bids: list[fundaments_database_api.GetOrderBookFundament]
 
 
 GetOwnerHistory = list[fundaments_database_api.OwnerHistoriesFundament]
 
 
-class GetPostDiscussionsByPayout(GetDiscussionsByAuthorBeforeDate):
-    """The same response as GetDiscussionsByAuthorBeforeDate"""
+GetPostDiscussionsByPayout = GetDiscussionsByAuthorBeforeDate
 
 
 """List of public keys or empty list"""
@@ -315,26 +305,25 @@ GetRebloggedBy = list[AccountName]
 
 
 """List of fundament from database_api"""
-GetRecentTrades = HiveList[fundaments_market_history_api.GetRecentTradesFundament[AssetHiveLegacy, AssetHbdLegacy]]
+GetRecentTrades = HiveList[fundaments_market_history_api.GetRecentTradesFundament]
 
 
 """Null or fundament from database_api"""
 GetRecoveryRequest = fundaments_database_api.FindAccountRecoveryRequestsFundament | None
 
 
-class GetRepliesByLastUpdate(GetDiscussionsByAuthorBeforeDate):
-    """The same response as GetDiscussionsByAuthorBeforeDate"""
+GetRepliesByLastUpdate = GetDiscussionsByAuthorBeforeDate
 
 
 """List of PublicKeys or empty list"""
 GetRequiredSignatures = list[PublicKey]
 
 
-class GetRewardFund(fundaments_database_api.GetRewardFundsFundament[AssetHiveLegacy]):
+class GetRewardFund(fundaments_database_api.GetRewardFundsFundament):
     """Identical as get_reward_funds funds field, just different Assets format"""
 
 
-GetSavingsWithdrawFrom = list[fundaments_database_api.SavingsWithdrawalsFundament[AssetHiveLegacy, AssetHbdLegacy]]
+GetSavingsWithdrawFrom = list[fundaments_database_api.SavingsWithdrawalsFundament]
 
 
 class GetSavingsWithdrawTo(GetSavingsWithdrawFrom):
@@ -345,15 +334,15 @@ class GetTagsUsedByAuthor(HiveMindResponses):
     """Supported by HiveMind"""
 
 
-class GetTicker(market_history_api.GetTicker[AssetHiveLegacy, AssetHbdLegacy]):
+class GetTicker(market_history_api.GetTicker):
     """The same response as in market_history_api"""
 
 
 """List of fundament from database_api"""
-GetTradeHistory = HiveList[fundaments_market_history_api.GetTradeHistoryFundament[AssetHiveLegacy, AssetHbdLegacy]]
+GetTradeHistory = HiveList[fundaments_market_history_api.GetTradeHistoryFundament]
 
 
-class GetTransaction(account_history_api.GetTransactionModel[LegacyOperationRepresentationType]):
+class GetTransaction(account_history_api.GetTransactionModel):
     @root_validator(pre=True)
     @classmethod
     def check_operation(cls, values: dict[str, Any]) -> dict[str, Any]:
@@ -376,11 +365,11 @@ class GetVersion(HiveVersion):
     """Identical as field HiveVersion"""
 
 
-class ListVestingDelegations(fundaments_database_api.VestingDelegationsFundament[AssetVestsLegacy]):
+class ListVestingDelegations(fundaments_database_api.VestingDelegationsFundament):
     """Identical as in database_api, just legacy format of Assets"""
 
 
-class GetVolume(market_history_api.GetVolume[AssetHiveLegacy, AssetHbdLegacy]):
+class GetVolume(market_history_api.GetVolume):
     """Everything the same as in market_history_api"""
 
 
@@ -388,7 +377,7 @@ class GetVolume(market_history_api.GetVolume[AssetHiveLegacy, AssetHbdLegacy]):
 GetWithdrawRoutes = list[fundaments_database_api.WithdrawVestingRoutesFundament]
 
 
-class GetWitnessByAccount(fundaments_database_api.WitnessesFundament[AssetHiveLegacy, AssetHbdLegacy]):
+class GetWitnessByAccount(fundaments_database_api.WitnessesFundament):
     """Identical as in database_api, just Legacy format of Assets"""
 
 
@@ -396,12 +385,12 @@ class GetWitnessCount(HiveInt):
     """Should return just integer"""
 
 
-class GetWitnessSchedule(database_api.GetWitnessScheduleOrig[AssetHiveLegacy]):
+class GetWitnessSchedule(database_api.GetWitnessScheduleOrig):
     """Identical as in database_api, just Legacy format of Assets"""
 
 
 """List of fundaments from database_api in Legacy Asset format"""
-GetWitnesses = list[fundaments_database_api.WitnessesFundament[AssetHiveLegacy, AssetHbdLegacy] | None]
+GetWitnesses = list[fundaments_database_api.WitnessesFundament| None]
 
 
 class GetWitnessesByVote(GetWitnesses):
@@ -413,7 +402,7 @@ IsKnownTransaction = bool
 
 
 """List of fundaments from database_api in Legacy format"""
-ListProposalVotes = HiveList[fundaments_database_api.ListProposalVotesFundament[AssetHbdLegacy]]
+ListProposalVotes = HiveList[fundaments_database_api.ListProposalVotesFundament]
 
 
 """Fundament is from fields -> Proposal, status pole excluded  and Asset converted to Legacy"""
@@ -421,7 +410,7 @@ ListProposals = HiveList[ListProposalsFundament]
 
 
 """List of field from custom_fields in Legacy Asset format """
-ListRcAccounts = HiveList[RcAccountObject[AssetVestsLegacy]]
+ListRcAccounts = HiveList[RcAccountObject]
 
 
 ListRcDirectDelegations = HiveList[ListRcDirectDelegationsFundament]

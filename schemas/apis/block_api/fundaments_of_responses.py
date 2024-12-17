@@ -28,26 +28,26 @@ class GetBlockHeaderFundament(PreconfiguredBaseModel):
     witness: AccountName
 
 
-class SignedBlock(GetBlockHeaderFundament, GenericModel, Generic[TransactionT]):
+class SignedBlock(GetBlockHeaderFundament):
     witness_signature: Signature
-    transactions: list[TransactionT]
+    transactions: list[Transaction | TransactionLegacy]
 
 
-class BlockLogUtilSignedBlock(GetBlockHeaderFundament, GenericModel, Generic[TransactionT]):
+class BlockLogUtilSignedBlock(GetBlockHeaderFundament):
     block_id: TransactionId
     signing_key: PublicKey
     witness_signature: Signature
-    transactions: list[TransactionT]
+    transactions: list[Transaction | TransactionLegacy]
 
 
-class Block(SignedBlock[TransactionT], GenericModel, Generic[TransactionT]):
+class Block(SignedBlock):
     block_id: TransactionId
     signing_key: PublicKey
     transaction_ids: list[TransactionId]
 
 
-Hf26Block = Block[Transaction]
-LegacyBlock = Block[TransactionLegacy]
+Hf26Block = Block
+LegacyBlock = Block
 
 
 class EmptyModel(PreconfiguredBaseModel):

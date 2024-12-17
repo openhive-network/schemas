@@ -1,12 +1,14 @@
 from __future__ import annotations
 
+from abc import abstractmethod
 import contextlib
 import operator
 import re
-from abc import ABC, abstractmethod
+# from abc import ABC, abstractmethod
 from copy import deepcopy
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Annotated, Any
 
+import msgspec
 from pydantic import ConstrainedStr, StrRegexError, validator
 from typing_extensions import Self
 
@@ -20,36 +22,92 @@ if TYPE_CHECKING:
 
     from pydantic.typing import CallableGenerator
 
+class AssetNaiAmount(HiveInt):
+    def _validate(self):
+        assert int(self) >= 0
 
-class AssetBase(ABC):
-    __testnet__: bool = False
+class AssetBase(msgspec.Struct):
+    amount: AssetNaiAmount
+    # precision: HiveInt
+    # nai: str
+
+    # __testnet__: bool = False
 
     @staticmethod
-    @abstractmethod
     def get_asset_information() -> AssetInfo:
         """This method returns asset details, which we use to perform checks"""
 
-    @abstractmethod
     def _get_amount(self) -> int:
-        """Returns raw amount as it is stored on hived side."""
+        return int(self.amount)
 
-    @abstractmethod
-    def clone(self, *, amount: Any | int | str | AssetBase | None = None) -> Self:
-        """Returns new instance of self, alternatively with other amount."""
+    def clone(self, *, amount: Any | int | AssetBase | None = None) -> Self:
+        if amount is None:
+            return self.__class__(amount=self.amount, precision=self.precision, nai=self.nai)
+        if isinstance(amount, int | AssetBase):
+            amount_to_use = amount if isinstance(amount, int) else amount._get_amount()
+            return self.__class__(amount=int(amount_to_use), precision=int(self.precision), nai=self.nai)
+        raise TypeError(f"`{amount}` cannot be used as amount.")
 
-    @abstractmethod
     def _set_amount(self, amount: int) -> None:
-        """Sets amount of self to given amount."""
+        self.amount = str(AssetNaiAmount(amount))  # type: ignore
+
+    # @classmethod
+    # def _get_legacy_regex(cls) -> re.Pattern[str]: # use_asset_info: AssetInfo | None = None) -> re.Pattern[str]:
+    #     """Returns compiled regex, that simplifies extraction of certain asset properties.
+
+    #     Groups:
+    #         0 - whole asset
+    #         1 - numeric part of asset (ex.: `1.000`, `12.050`, `0.000001`)
+    #         2 - decimal part of asset (ex.: `000`, `050`, `000001`)
+    #         3 - symbol part of asst (ex. `HIVE`, `TBD`, `VESTS`)
+
+    #     Returns:
+    #         compiled regex
+    #     """
+    #     # info = cls.get_asset_information()
+    #     # if use_asset_info is not None:
+    #     #     info = use_asset_info
+    #     return re.compile(r"(^\d+\.(\d{" + str(cls.precision) + r"})) (" + "|".join(cls.symbol) + r")$")
+
+    # @classmethod
+    # def __legacy_regex_validator(cls, value: str) -> str: # *, use_asset_info: AssetInfo | None = None) -> str:
+    #     if "-" in value:
+    #         raise ValueError("Asset could not be negative value!")
+    #     regex = cls._get_legacy_regex()
+    #     if regex.match(value) is None:
+    #         raise Exception("Tutaj daj porządną assercje")
+    #     return value
+
+    # @classmethod
+    # def parse_raw(cls, str_to_parse: str) -> tuple[int, int, str]: # *, use_asset_info: AssetInfo | None = None) -> tuple[int, int, str]:
+    #     """Parses given str as if it is legacy asset.
+
+    #     Arguments:
+    #         str_to_parse -- string to be parsed
+
+    #     Returns:
+    #         Tuple with 3 values in following order: amount, precision, symbol
+    #     """
+    #     cls.__legacy_regex_validator()
+    #     matched = cls._get_legacy_regex().match(str_to_parse)
+    #     assert matched is not None
+    #     parsed_amount = int(matched.group(1).replace(".", ""))
+    #     precision = len(matched.group(2))
+    #     symbol = matched.group(3)
+    #     return parsed_amount, precision, symbol
+
+    # @classmethod
+    # def from_legacy(cls, other: str) -> Self:
+    #     amount, precision, symbol = cls.parse_raw(other)
+    #     if precision != cls.precision or symbol != cls.symbol(cls.__testnet__):
+    #         raise TypeError(
+    #             f"[{precision=}, {symbol=}] is not supported symbol type. Supported are: [{cls.precision=}, info.symbol={cls.get_symbol(cls.__testnet__)}]"
+    #         )
+    #     return cls(amount=amount, precision=precision, nai=cls.nai)
 
     @classmethod
-    @abstractmethod
-    def from_legacy(cls, other: str) -> Self:
-        """Returns self converted from legacy format."""
-
-    @classmethod
-    @abstractmethod
     def from_nai(cls, other: dict[str, str | int]) -> Self:
-        """Returns self converted from nai format."""
+        return cls(**other)
 
     def as_nai(self) -> dict[str, str | int]:
         info = self.get_asset_information()
@@ -59,12 +117,11 @@ class AssetBase(ABC):
             "precision": info.precision,
         }
 
-    @classmethod
-    def token(cls) -> str:
-        return cls.get_asset_information().get_symbol()
+    def token(self) -> str:
+        return self.get_asset_information().get_symbol()
 
-    def as_legacy(self) -> str:
-        return f"{self.pretty_amount()} {self.get_asset_information().get_symbol(testnet=self.__testnet__)}"
+    # def as_legacy(self) -> str:
+    #     return f"{self.pretty_amount()} {self.get_asset_information().get_symbol(testnet=self.__testnet__)}"
 
     def as_float(self) -> float:
         info = self.get_asset_information()
@@ -73,6 +130,16 @@ class AssetBase(ABC):
     def pretty_amount(self) -> str:
         info = self.get_asset_information()
         return f"{self.as_float() :.{info.precision}f}"
+
+    @validator("nai", allow_reuse=True)
+    @classmethod
+    def check_nai(cls, value: Any) -> Any:
+        return validate_nai(value=value, asset_info=cls.get_asset_information())
+
+    @validator("precision", allow_reuse=True)
+    @classmethod
+    def check_precision(cls, value: int) -> int:
+        return validate_precision(value=value, asset_info=cls.get_asset_information())
 
     def __eq__(self, other: Any) -> bool:
         asset = self.__convert_to_asset(other)
@@ -143,8 +210,8 @@ class AssetBase(ABC):
             return self.clone(amount=other)
         if isinstance(other, dict):
             return self.from_nai(other)
-        if isinstance(other, str):
-            return self.from_legacy(other)
+        # if isinstance(other, str):
+        #     return self.from_legacy(other)
         if isinstance(other, AssetBase):
             return other.clone()  # type: ignore[return-value]
         raise TypeError(f"`{other}` cannot be used as asset.")
@@ -153,175 +220,213 @@ class AssetBase(ABC):
         converted = self.__convert_to_asset(other)
         return converted.clone(amount=int(float(operator_(self._get_amount(), converted._get_amount()))))
 
-
-class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
-    """Base class for all legacy assets"""
-
-    def _get_amount(self) -> int:
-        return int(self.parse_raw(self)[0])
-
-    @classmethod
-    def parse_raw(cls, str_to_parse: str, *, use_asset_info: AssetInfo | None = None) -> tuple[int, int, str]:
-        """Parses given str as if it is legacy asset.
-
-        Arguments:
-            str_to_parse -- string to be parsed
-
-        Returns:
-            Tuple with 3 values in following order: amount, precision, symbol
-        """
-        cls.__legacy_regex_validator(str_to_parse, use_asset_info=use_asset_info)
-        matched = cls._get_legacy_regex(use_asset_info=use_asset_info).match(str_to_parse)
-        assert matched is not None
-        parsed_amount = int(matched.group(1).replace(".", ""))
-        precision = len(matched.group(2))
-        symbol = matched.group(3)
-        return parsed_amount, precision, symbol
-
-    @classmethod
-    def __legacy_regex_validator(cls, value: str, *, use_asset_info: AssetInfo | None = None) -> str:
-        if "-" in value:
-            raise ValueError("Asset could not be negative value!")
-        regex = cls._get_legacy_regex(use_asset_info=use_asset_info)
-        if regex.match(value) is None:
-            raise StrRegexError(pattern=cls._get_pattern(regex))
-        return value
-
-    @classmethod
-    def __assure_assetlegacy_type(cls, value: str) -> Self:
-        """Without this method pydantic will replace AssetLegacy type with str without all helpful methods."""
-        return cls(value)  # type: ignore[abstract]
-
-    @classmethod
-    def _get_legacy_regex(cls, *, use_asset_info: AssetInfo | None = None) -> re.Pattern[str]:
-        """Returns compiled regex, that simplifies extraction of certain asset properties.
-
-        Groups:
-            0 - whole asset
-            1 - numeric part of asset (ex.: `1.000`, `12.050`, `0.000001`)
-            2 - decimal part of asset (ex.: `000`, `050`, `000001`)
-            3 - symbol part of asst (ex. `HIVE`, `TBD`, `VESTS`)
-
-        Returns:
-            compiled regex
-        """
-        info = cls.get_asset_information()
-        if use_asset_info is not None:
-            info = use_asset_info
-        return re.compile(r"(^\d+\.(\d{" + str(info.precision) + r"})) (" + "|".join(info.symbol) + r")$")
-
-    @classmethod
-    def __get_validators__(cls) -> CallableGenerator:
-        yield from super().__get_validators__()
-        yield lambda x: cls.__legacy_regex_validator(x)
-        yield cls.__assure_assetlegacy_type
-
-    def clone(self, *, amount: Any | int | str | AssetBase | None = None) -> Self:
-        with contextlib.suppress(ValueError):
-            amount = int(amount)  # type: ignore  # in case of AssetNaiAmount
-
-        if amount is None:
-            return deepcopy(self)
-        if isinstance(amount, str):
-            return self.__class__(amount)  # type: ignore[abstract]
-        if isinstance(amount, int):
-            info = self.get_asset_information()
-            return self.from_nai({"amount": int(amount), "nai": info.nai, "precision": info.precision})
-        if isinstance(self, AssetBase):
-            return self.clone(amount=self._get_amount())
-        raise TypeError(f"`{amount}` cannot be used as amount.")
-
-    @classmethod
-    def from_legacy(cls, other: str) -> Self:
-        return cls(other)  # type: ignore[abstract]
-
-    @classmethod
-    def from_nai(cls, other: dict[str, str | int]) -> Self:
-        if "nai" not in other or "amount" not in other or "precision" not in other:
-            raise ValueError("invalid dict", other)
-        info = cls.get_asset_information()
-        precision = int(other["precision"])
-        nai = other["nai"]
-        if nai != info.nai or precision != info.precision:
-            raise TypeError(
-                f"[{precision=}, {nai=}] is not supported symbol type. Supported are: [{info.precision=}, {info.nai=}]"
-            )
-        amount = int(other["amount"])
-        return cls.from_legacy(
-            f"{int(amount) / 10**info.precision :.{info.precision}f} {info.get_symbol(cls.__testnet__)}"
-        )
-
-    def _set_amount(self, amount: int) -> None:  # noqa: ARG002
-        assert (
-            False  # noqa: B011
-        ), "strings are immutable in Python; Use: `some_object.field = some_object.field.clone(amount=new_amount)` instead"
+class AssetHiveOrHbd(AssetBase):
+    pass
 
 
-class AssetNaiAmount(HiveInt):
-    """
-    Amount in HF26 have to be serialized as str, to be properly recognized by c++
-    """
+class AssetHive(AssetBase, tag="@@000000021", tag_field="nai"):
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return AssetInfo(precision=HiveInt(3), nai="@@000000021", symbol=("HIVE", "TESTS"))
 
-    ge = 0
-
-    @classmethod
-    def __get_validators__(cls) -> CallableGenerator:
-        yield from super().__get_validators__()
-        yield cls.__stringify
-
-    @classmethod
-    def __stringify(cls, value: int | str) -> str:
-        return str(value)
+    # def __init__(self, amount: AssetNaiAmount, precision: HiveInt = None, nai: str = None):
+    #     asset_info = self.get_asset_information()
+    #     precision = precision if precision is not None else asset_info.precision
+    #     nai = nai if nai is not None else asset_info.nai
+    #     super().__init__(amount=amount, precision=precision, nai=nai)
 
 
-class AssetHF26(PreconfiguredBaseModel, AssetBase, ABC):
-    """Base class for all nai asset fields"""
+class AssetHbd(AssetBase, tag="@@000000013", tag_field="nai"):
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return AssetInfo(precision=HiveInt(3), nai="@@000000013", symbol=("HBD", "TBD"))
 
-    amount: AssetNaiAmount
-    precision: HiveInt
-    nai: str
+    # def __init__(self, amount: AssetNaiAmount, precision: HiveInt = None, nai: str = None):
+    #     asset_info = self.get_asset_information()
+    #     precision = precision if precision is not None else asset_info.precision
+    #     nai = nai if nai is not None else asset_info.nai
+    #     super().__init__(amount=amount, precision=precision, nai=nai)
 
-    class Config:
-        allow_reuse = True
 
-    @validator("nai", allow_reuse=True)
-    @classmethod
-    def check_nai(cls, value: Any) -> Any:
-        return validate_nai(value=value, asset_info=cls.get_asset_information())
+class AssetVest(AssetBase, tag="@@000000037", tag_field="nai"):
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return AssetInfo(precision=HiveInt(6), nai="@@000000037", symbol=("VESTS", "VESTS"))
 
-    @validator("precision", allow_reuse=True)
-    @classmethod
-    def check_precision(cls, value: int) -> int:
-        return validate_precision(value=value, asset_info=cls.get_asset_information())
+    # def __init__(self, amount: AssetNaiAmount, precision: HiveInt = None, nai: str = None):
+    #     asset_info = self.get_asset_information()
+    #     precision = precision if precision is not None else asset_info.precision
+    #     nai = nai if nai is not None else asset_info.nai
+    #     super().__init__(amount=amount, precision=precision, nai=nai)
 
-    def _get_amount(self) -> int:
-        return int(self.amount)
+# class AssetLegacy(str, AssetBase): #  ConstrainedStr): type: ignore[misc]
+#     """Base class for all legacy assets"""
 
-    def clone(self, *, amount: Any | int | AssetBase | None = None) -> Self:
-        if amount is None:
-            return self.__class__(amount=self.amount, precision=self.precision, nai=self.nai)
-        if isinstance(amount, int | AssetBase):
-            amount_to_use = amount if isinstance(amount, int) else amount._get_amount()
-            return self.__class__(amount=int(amount_to_use), precision=int(self.precision), nai=self.nai)
-        raise TypeError(f"`{amount}` cannot be used as amount.")
+#     # def _get_amount(self) -> int:
+#     #     return int(self.parse_raw(self)[0])
 
-    def as_nai(self) -> dict[str, str | int]:
-        """Faster implementation."""
-        return super().dict(by_alias=True)
+#     @classmethod
+#     def parse_raw(cls, str_to_parse: str, *, use_asset_info: AssetInfo | None = None) -> tuple[int, int, str]:
+#         """Parses given str as if it is legacy asset.
 
-    @classmethod
-    def from_nai(cls, other: dict[str, str | int]) -> Self:
-        return cls(**other)
+#         Arguments:
+#             str_to_parse -- string to be parsed
 
-    @classmethod
-    def from_legacy(cls, other: str) -> Self:
-        info = cls.get_asset_information()
-        amount, precision, symbol = AssetLegacy.parse_raw(other, use_asset_info=info)
-        if precision != info.precision or symbol != info.get_symbol(cls.__testnet__):
-            raise TypeError(
-                f"[{precision=}, {symbol=}] is not supported symbol type. Supported are: [{info.precision=}, info.symbol={info.get_symbol(cls.__testnet__)}]"
-            )
-        return cls(amount=amount, precision=precision, nai=info.nai)
+#         Returns:
+#             Tuple with 3 values in following order: amount, precision, symbol
+#         """
+#         cls.__legacy_regex_validator(str_to_parse, use_asset_info=use_asset_info)
+#         matched = cls._get_legacy_regex(use_asset_info=use_asset_info).match(str_to_parse)
+#         assert matched is not None
+#         parsed_amount = int(matched.group(1).replace(".", ""))
+#         precision = len(matched.group(2))
+#         symbol = matched.group(3)
+#         return parsed_amount, precision, symbol
 
-    def _set_amount(self, amount: int) -> None:
-        self.amount = str(AssetNaiAmount(amount))  # type: ignore
+#     @classmethod
+#     def __legacy_regex_validator(cls, value: str, *, use_asset_info: AssetInfo | None = None) -> str:
+#         if "-" in value:
+#             raise ValueError("Asset could not be negative value!")
+#         regex = cls._get_legacy_regex(use_asset_info=use_asset_info)
+#         if regex.match(value) is None:
+#             raise StrRegexError(pattern=cls._get_pattern(regex))
+#         return value
+
+#     @classmethod
+#     def __assure_assetlegacy_type(cls, value: str) -> Self:
+#         """Without this method pydantic will replace AssetLegacy type with str without all helpful methods."""
+#         return cls(value)  # type: ignore[abstract]
+
+#     @classmethod
+#     def _get_legacy_regex(cls, *, use_asset_info: AssetInfo | None = None) -> re.Pattern[str]:
+#         """Returns compiled regex, that simplifies extraction of certain asset properties.
+
+#         Groups:
+#             0 - whole asset
+#             1 - numeric part of asset (ex.: `1.000`, `12.050`, `0.000001`)
+#             2 - decimal part of asset (ex.: `000`, `050`, `000001`)
+#             3 - symbol part of asst (ex. `HIVE`, `TBD`, `VESTS`)
+
+#         Returns:
+#             compiled regex
+#         """
+#         info = cls.get_asset_information()
+#         if use_asset_info is not None:
+#             info = use_asset_info
+#         return re.compile(r"(^\d+\.(\d{" + str(info.precision) + r"})) (" + "|".join(info.symbol) + r")$")
+
+#     @classmethod
+#     def __get_validators__(cls) -> CallableGenerator:
+#         yield from super().__get_validators__()
+#         yield lambda x: cls.__legacy_regex_validator(x)
+#         yield cls.__assure_assetlegacy_type
+
+#     def clone(self, *, amount: Any | int | str | AssetBase | None = None) -> Self:
+#         with contextlib.suppress(ValueError):
+#             amount = int(amount)  # type: ignore  # in case of AssetNaiAmount
+
+#         if amount is None:
+#             return deepcopy(self)
+#         if isinstance(amount, str):
+#             return self.__class__(amount)  # type: ignore[abstract]
+#         if isinstance(amount, int):
+#             info = self.get_asset_information()
+#             return self.from_nai({"amount": int(amount), "nai": info.nai, "precision": info.precision})
+#         if isinstance(self, AssetBase):
+#             return self.clone(amount=self._get_amount())
+#         raise TypeError(f"`{amount}` cannot be used as amount.")
+
+#     @classmethod
+#     def from_legacy(cls, other: str) -> Self:
+#         return cls(other)  # type: ignore[abstract]
+
+#     @classmethod
+#     def from_nai(cls, other: dict[str, str | int]) -> Self:
+#         if "nai" not in other or "amount" not in other or "precision" not in other:
+#             raise ValueError("invalid dict", other)
+#         info = cls.get_asset_information()
+#         precision = int(other["precision"])
+#         nai = other["nai"]
+#         if nai != info.nai or precision != info.precision:
+#             raise TypeError(
+#                 f"[{precision=}, {nai=}] is not supported symbol type. Supported are: [{info.precision=}, {info.nai=}]"
+#             )
+#         amount = int(other["amount"])
+#         return cls.from_legacy(
+#             f"{int(amount) / 10**info.precision :.{info.precision}f} {info.get_symbol(cls.__testnet__)}"
+#         )
+
+#     def _set_amount(self, amount: int) -> None:  # noqa: ARG002
+#         assert (
+#             False  # noqa: B011
+#         ), "strings are immutable in Python; Use: `some_object.field = some_object.field.clone(amount=new_amount)` instead"
+
+
+# class AssetNaiAmount(HiveInt):
+#     """
+#     Amount in HF26 have to be serialized as str, to be properly recognized by c++
+#     """
+
+#     ge = 0
+
+#     @classmethod
+#     def __get_validators__(cls) -> CallableGenerator:
+#         yield from super().__get_validators__()
+#         yield cls.__stringify
+
+#     @classmethod
+#     def __stringify(cls, value: int | str) -> str:
+#         return str(value)
+
+
+# class AssetHF26(PreconfiguredBaseModel, AssetBase, kw_only=True):
+#     """Base class for all nai asset fields"""
+
+#     amount: AssetNaiAmount
+#     precision: HiveInt
+#     nai: str
+
+#     class Config:
+#         allow_reuse = True
+
+#     @validator("nai", allow_reuse=True)
+#     @classmethod
+#     def check_nai(cls, value: Any) -> Any:
+#         return validate_nai(value=value, asset_info=cls.get_asset_information())
+
+#     @validator("precision", allow_reuse=True)
+#     @classmethod
+#     def check_precision(cls, value: int) -> int:
+#         return validate_precision(value=value, asset_info=cls.get_asset_information())
+
+#     def _get_amount(self) -> int:
+#         return int(self.amount)
+
+#     def clone(self, *, amount: Any | int | AssetBase | None = None) -> Self:
+#         if amount is None:
+#             return self.__class__(amount=self.amount, precision=self.precision, nai=self.nai)
+#         if isinstance(amount, int | AssetBase):
+#             amount_to_use = amount if isinstance(amount, int) else amount._get_amount()
+#             return self.__class__(amount=int(amount_to_use), precision=int(self.precision), nai=self.nai)
+#         raise TypeError(f"`{amount}` cannot be used as amount.")
+
+#     def as_nai(self) -> dict[str, str | int]:
+#         """Faster implementation."""
+#         return super().dict(by_alias=True)
+
+#     @classmethod
+#     def from_nai(cls, other: dict[str, str | int]) -> Self:
+#         return cls(**other)
+
+#     @classmethod
+#     def from_legacy(cls, other: str) -> Self:
+#         info = cls.get_asset_information()
+#         amount, precision, symbol = AssetLegacy.parse_raw(other, use_asset_info=info)
+#         if precision != info.precision or symbol != info.get_symbol(cls.__testnet__):
+#             raise TypeError(
+#                 f"[{precision=}, {symbol=}] is not supported symbol type. Supported are: [{info.precision=}, info.symbol={info.get_symbol(cls.__testnet__)}]"
+#             )
+#         return cls(amount=amount, precision=precision, nai=info.nai)
+
+#     def _set_amount(self, amount: int) -> None:
+#         self.amount = str(AssetNaiAmount(amount))  # type: ignore

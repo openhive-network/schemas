@@ -6,9 +6,9 @@ from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.hive_int import HiveInt
 
 
-class FindTransaction(PreconfiguredBaseModel):
-    block_num: HiveInt | None
-    rc_cost: HiveInt | None
+class FindTransaction(PreconfiguredBaseModel, kw_only=True):
+    block_num: HiveInt | None = None
+    rc_cost: HiveInt | None = None
     status: Literal[
         "unknown",
         "within_mempool",

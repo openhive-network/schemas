@@ -12,7 +12,7 @@ from schemas.fields.assets.asset_info import AssetInfo
 from schemas.fields.hive_int import HiveInt
 
 
-class AssetSymbolType(PreconfiguredBaseModel, AssetBase):
+class AssetSymbolType(PreconfiguredBaseModel, kw_only=True):
     """Represents just asset characteristics"""
 
     decimals: HiveInt
