@@ -1,13 +1,13 @@
 from __future__ import annotations
 
+import json
 from typing import Any
 
 import pytest
-from pydantic import ValidationError
 
 from schemas.apis import database_api
 from schemas.jsonrpc import get_response_model
-from schemas.policies import MissingFieldsInGetConfig
+from schemas.policies.missing_fields_in_get_config import MissingFieldsInGetConfig
 
 from . import responses_from_api
 
@@ -70,7 +70,7 @@ from . import responses_from_api
 )
 def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: Any) -> None:
     # ACT & ASSERT
-    get_response_model(schema, **parameters)
+    get_response_model(schema, json.dumps(parameters), "hf26")
 
 
 def test_get_config_policy() -> None:
@@ -82,5 +82,5 @@ def test_get_config_policy() -> None:
     finally:
         MissingFieldsInGetConfig(allow=False).apply()  # this is in finally so it won't interfere other tests
 
-    with pytest.raises(ValidationError):
+    with pytest.raises(TypeError):
         database_api.GetConfig()  # type: ignore[call-arg]

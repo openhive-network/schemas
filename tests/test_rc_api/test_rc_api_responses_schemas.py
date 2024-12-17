@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from typing import Any
 
 import pytest
@@ -34,4 +35,4 @@ from .reponses_from_api import (
 )
 def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: Any) -> None:
     # ACT & ASSERT
-    get_response_model(schema, **parameters)
+    get_response_model(schema, json.dumps(parameters), "hf26")

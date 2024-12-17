@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from typing import Any
 
 import pytest
@@ -76,4 +77,4 @@ from . import responses_from_api
 )
 def test_responses_from_api_correct_values(schema: Any, parameters: Any) -> None:
     # ACT & ASSERT
-    get_response_model(schema, **parameters)
+    get_response_model(schema, json.dumps(parameters), "legacy")

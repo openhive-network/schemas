@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from typing import Any
 
 import pytest
@@ -37,4 +38,4 @@ from .response_schemas import (
 )
 def test_market_history_api_responses_correct_values(schema: Any, parameters: dict[str, Any]) -> None:
     # ACT & ASSERT
-    get_response_model(schema, **parameters)
+    get_response_model(schema, json.dumps(parameters), "hf26")
