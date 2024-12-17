@@ -23,6 +23,7 @@ class RcAccount(PreconfiguredBaseModel, Generic[AssetVestsT]):
     received_delegated_rc: HiveInt
 
 
+
 class DecayParams(PreconfiguredBaseModel):
     decay_per_time_unit: HiveInt
     decay_per_time_unit_denom_shift: HiveInt
