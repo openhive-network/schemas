@@ -206,11 +206,25 @@ class AssetBase():
         return converted.clone(amount=int(float(operator_(self._get_amount(), converted._get_amount()))))
 
 
-    class AssetHive():
-        amount: AssetNaiAmount
-        precision: HiveInt
-        nai: str
-        symbol: tuple[str, str]
+class AssetHive():
+    amount: AssetNaiAmount
+    precision: HiveInt = HiveInt(3)
+    nai: str = "@@000000021"
+    symbol: tuple[str, str] = ("HIVE", "TESTS")
+
+
+class AssetHbd():
+    amount: AssetNaiAmount
+    precision: HiveInt
+    nai: str = "@@000000013"
+    symbol: tuple[str, str] = ("HBD", "TBD")
+
+
+class AssetVest():
+    amount: AssetNaiAmount
+    precision: HiveInt = HiveInt(6)
+    nai: str = "@@000000037"
+    symbol: tuple[str, str] = ("VESTS", "VESTS")
 
 
 # class AssetLegacy(str, AssetBase): #  ConstrainedStr): type: ignore[misc]

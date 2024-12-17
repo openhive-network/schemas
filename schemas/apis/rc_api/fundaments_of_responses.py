@@ -6,7 +6,7 @@ from pydantic import Field
 from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.fields.assets.vests import AssetVestsT
+# from schemas.fields.assets.vests import AssetVestsT
 from schemas.fields.basic import (
     AccountName,
 )

@@ -5,9 +5,9 @@ from typing import Generic, Literal
 from pydantic import Field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.fields.assets.hbd import AssetHbdT
-from schemas.fields.assets.hive import AssetHiveT
-from schemas.fields.assets.vests import AssetVestsT
+# from schemas.fields.assets.hbd import AssetHbdT
+# from schemas.fields.assets.hive import AssetHiveT
+# from schemas.fields.assets.vests import AssetVestsT
 from schemas.fields.basic import (
     AccountName,
     PublicKey,
