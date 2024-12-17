@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Any, Final
+from typing import TYPE_CHECKING, Annotated, Any, Final
 
+import msgspec
 from pydantic import ConstrainedStr, errors
 
 __all__ = [
@@ -29,10 +30,12 @@ ACCOUNT_NAME_SEGMENT_REGEX: Final[str] = r"[a-z][a-z0-9\-]+[a-z0-9]"
 BASE_58_REGEX: Final[str] = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 
 
-class AccountName(ConstrainedStr):
-    regex = rf"^{ACCOUNT_NAME_SEGMENT_REGEX}(?:\.{ACCOUNT_NAME_SEGMENT_REGEX})*$"
-    min_length = 3
-    max_length = 16
+AccountName = Annotated[str, msgspec.Meta(max_length=16, min_length=3, pattern=rf"^{ACCOUNT_NAME_SEGMENT_REGEX}(?:\.{ACCOUNT_NAME_SEGMENT_REGEX})*$")]
+
+# class AccountName(ConstrainedStr):
+#     regex = rf"^{ACCOUNT_NAME_SEGMENT_REGEX}(?:\.{ACCOUNT_NAME_SEGMENT_REGEX})*$"
+#     min_length = 3
+#     max_length = 16
 
 
 class CustomIdType(ConstrainedStr):
@@ -44,17 +47,18 @@ class EmptyString(ConstrainedStr):
     max_length = 0
 
 
-class EmptyList(list):  # type: ignore[type-arg] # See pydantic.ConstrainedList
-    @classmethod
-    def __get_validators__(cls) -> CallableGenerator:
-        yield cls.list_length_validator
+EmptyList = Annotated[list, msgspec.Meta(max_length=0)]
+# class EmptyList(list):  # type: ignore[type-arg] # See pydantic.ConstrainedList
+#     @classmethod
+#     def __get_validators__(cls) -> CallableGenerator:
+#         yield cls.list_length_validator
 
-    @classmethod
-    def list_length_validator(cls, v: Any) -> list[Any]:
-        v = list_validator(v)
-        if len(v) > 0:
-            raise errors.ListMaxLengthError(limit_value=0)
-        return []
+#     @classmethod
+#     def list_length_validator(cls, v: Any) -> list[Any]:
+#         v = list_validator(v)
+#         if len(v) > 0:
+#             raise errors.ListMaxLengthError(limit_value=0)
+#         return []
 
 
 class FloatAsString(ConstrainedStr):

@@ -10,8 +10,8 @@ from collections.abc import Sequence
 from threading import Event, Lock, Semaphore
 from typing import Any, Generic, TypeVar
 
+import msgspec
 from pydantic import Field
-from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
@@ -52,8 +52,8 @@ MAX_THREADS = os.cpu_count() or 10000
 READ_SEMAPHORE = Semaphore(value=MAX_THREADS)
 
 
-class JSONRPCBase(PreconfiguredBaseModel):
-    id_: int = Field(alias="id", default=0)
+class JSONRPCBase(msgspec.Struct, kw_only=True):
+    id: int = 0
     jsonrpc: str = "2.0"
 
 
@@ -66,7 +66,7 @@ class JSONRPCError(JSONRPCBase):
     error: dict[str, Any]
 
 
-class JSONRPCResult(JSONRPCBase, GenericModel, Generic[ExpectResultT]):
+class JSONRPCResult(JSONRPCBase, Generic[ExpectResultT]):
     result: ExpectResultT
 
 
@@ -91,10 +91,12 @@ def acquire_model(expected_model: type[ExpectResultT]) -> type[JSONRPCResult[Exp
                 acquire(MAX_THREADS - 1)
                 try:
 
-                    class JSONRPCResultImpl(JSONRPCResult[expected_model]):  # type: ignore[valid-type]
-                        result: expected_model  # type: ignore[valid-type]
+                    # class JSONRPCResultImpl(JSONRPCResult[expected_model]):  # type: ignore[valid-type]
+                    #     result: expected_model  # type: ignore[valid-type]
+                    JSONRPCResultImpl = msgspec.defstruct("JSONRPCResultImpl", [("result", expected_model)], bases=(JSONRPCResult,))
 
                     CACHED_MODELS[expected_model] = JSONRPCResultImpl  # type: ignore[assignment]
+
                     return JSONRPCResultImpl
                 finally:
                     READ_SEMAPHORE.release(n=MAX_THREADS - 1)
@@ -105,7 +107,7 @@ def acquire_model(expected_model: type[ExpectResultT]) -> type[JSONRPCResult[Exp
 
 
 def get_response_model(
-    expected_model: type[ExpectResultT], **kwargs: Any
+    expected_model: type[ExpectResultT], json: str
 ) -> JSONRPCResult[ExpectResultT] | JSONRPCError:
     """
     Use this method to create response model from the given parameters (as kwargs).
@@ -121,7 +123,10 @@ def get_response_model(
         The response model.
     """
     response_cls: type[JSONRPCResult[ExpectResultT] | JSONRPCError]
-    response_cls = acquire_model(expected_model) if "result" in kwargs else JSONRPCError
+    response_cls = acquire_model(expected_model) # if "result" in kwargs else JSONRPCError
 
-    response_cls.update_forward_refs(**locals())
-    return response_cls(**kwargs)
+    # response_cls.update_forward_refs(**locals())
+    try:
+        return msgspec.json.decode(json, type=response_cls)
+    except msgspec.ValidationError:
+        return msgspec.json.decode(json, type=JSONRPCError)

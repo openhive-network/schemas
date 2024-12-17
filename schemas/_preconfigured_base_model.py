@@ -8,30 +8,32 @@ from __future__ import annotations
 import types
 import typing
 from datetime import datetime
-from typing import Any, TypeVar, get_args, get_origin
+from typing import AbstractSet, Any, Dict, Mapping, TypeVar, Union, get_args, get_origin
 
-import pydantic
-from pydantic import BaseModel, Extra, Field, create_model  # pyright: ignore
 from typing_extensions import Self
 
-from schemas.fields.serializable import Serializable
 from schemas.hive_constants import HIVE_TIME_FORMAT
+
+import msgspec
 
 if typing.TYPE_CHECKING:
     from collections.abc import Callable
 
-    from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
 
+IntStr = Union[int, str]
+AbstractSetIntStr = AbstractSet[IntStr]
+DictStrAny = Dict[str, Any]
+MappingIntStrAny = Mapping[IntStr, Any]
 
-class PreconfiguredBaseModel(BaseModel):
-    class Config:
-        extra = Extra.forbid
-        allow_population_by_field_name = True
-        smart_union = True
-        json_encoders = {  # noqa: RUF012
-            datetime: lambda x: x.strftime(HIVE_TIME_FORMAT),
-            Serializable: lambda x: x.serialize(),
-        }
+class PreconfiguredBaseModel(msgspec.Struct):
+    # class Config:
+    #     extra = Extra.forbid
+    #     allow_population_by_field_name = True
+    #     smart_union = True
+    #     json_encoders = {  # noqa: RUF012
+    #         datetime: lambda x: x.strftime(HIVE_TIME_FORMAT),
+    #         Serializable: lambda x: x.serialize(),
+    #     }
 
     @classmethod
     def __is_aliased_field_name(cls, field_name: str) -> bool:
@@ -117,53 +119,53 @@ class PreconfiguredBaseModel(BaseModel):
             exclude_none=exclude_none,
         )
 
-    @classmethod
-    def as_strict_model(cls, recursively: bool = True) -> type[Self]:  # noqa: C901
-        """
-        Generate a BaseModel class with all the same fields like the class on which the method was called but with
-        required fields only (no defaults allowed).
+    # @classmethod
+    # def as_strict_model(cls, recursively: bool = True) -> type[Self]:  # noqa: C901
+    #     """
+    #     Generate a BaseModel class with all the same fields like the class on which the method was called but with
+    #     required fields only (no defaults allowed).
 
-        Returns:
-            Strict version of the class
-        """
+    #     Returns:
+    #         Strict version of the class
+    #     """
 
-        # ellipsis is used to indicate that the field is required
-        field_definitions = {field.name: (field.type_, Field(alias=field.alias)) for field in cls.__fields__.values()}
+    #     # ellipsis is used to indicate that the field is required
+    #     field_definitions = {field.name: (field.type_, Field(alias=field.alias)) for field in cls.__fields__.values()}
 
-        def process_type(type_: Any) -> Any:  # noqa: PLR0911
-            def resolve_for_all_args(outer_type: Any) -> Any:
-                return outer_type[tuple(process_type(arg) for arg in get_args(type_))]
+    #     def process_type(type_: Any) -> Any:  # noqa: PLR0911
+    #         def resolve_for_all_args(outer_type: Any) -> Any:
+    #             return outer_type[tuple(process_type(arg) for arg in get_args(type_))]
 
-            type_origin = get_origin(type_)
-            if (
-                type_ in {type(None), typing.Any}
-                or type(type_) in {typing.TypeVar, pydantic.fields.FieldInfo}
-                or type_origin in {typing.Literal}
-            ):
-                return type_
+    #         type_origin = get_origin(type_)
+    #         if (
+    #             type_ in {type(None), typing.Any}
+    #             or type(type_) in {typing.TypeVar, pydantic.fields.FieldInfo}
+    #             or type_origin in {typing.Literal}
+    #         ):
+    #             return type_
 
-            if type_origin is not None:
-                if type_origin in {types.UnionType, typing.Union}:
-                    return resolve_for_all_args(typing.Union)
+    #         if type_origin is not None:
+    #             if type_origin in {types.UnionType, typing.Union}:
+    #                 return resolve_for_all_args(typing.Union)
 
-                if type_origin in {tuple, typing.Tuple}:  # noqa: UP006
-                    return resolve_for_all_args(typing.Tuple)  # noqa: UP006
+    #             if type_origin in {tuple, typing.Tuple}:  # noqa: UP006
+    #                 return resolve_for_all_args(typing.Tuple)  # noqa: UP006
 
-                if type_origin in {list, typing.List}:  # noqa: UP006
-                    return resolve_for_all_args(typing.List)  # noqa: UP006
+    #             if type_origin in {list, typing.List}:  # noqa: UP006
+    #                 return resolve_for_all_args(typing.List)  # noqa: UP006
 
-                if type_origin in {typing.Annotated}:
-                    return resolve_for_all_args(typing.Annotated)
+    #             if type_origin in {typing.Annotated}:
+    #                 return resolve_for_all_args(typing.Annotated)
 
-            if issubclass(type_, PreconfiguredBaseModel):
-                return type_.as_strict_model()
-            return type_
+    #         if issubclass(type_, PreconfiguredBaseModel):
+    #             return type_.as_strict_model()
+    #         return type_
 
-        if recursively:
-            for field_name, pack in field_definitions.items():
-                field_definitions[field_name] = (process_type(pack[0]), ...)
+    #     if recursively:
+    #         for field_name, pack in field_definitions.items():
+    #             field_definitions[field_name] = (process_type(pack[0]), ...)
 
-        return create_model(f"{cls.__name__}Strict", **field_definitions, __base__=PreconfiguredBaseModel)  # type: ignore
+    #     return create_model(f"{cls.__name__}Strict", **field_definitions, __base__=PreconfiguredBaseModel)  # type: ignore
 
     def __get_field_name(self, name: str) -> str:
         if not hasattr(self, name) and self.__is_aliased_field_name(name):
