@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import abstractmethod
 import contextlib
 import operator
 import re
@@ -24,10 +25,10 @@ if TYPE_CHECKING:
 AssetNaiAmount = Annotated[HiveInt, msgspec.Meta(ge=0)]
 
 class AssetBase():
-    amount: AssetNaiAmount
-    precision: HiveInt
-    nai: str
-    symbol: tuple[str, str]
+    def __init__(self, amount: AssetNaiAmount, precision: HiveInt, nai: str):
+        self.amount = amount
+        self.precision = precision
+        self.nai = nai
     # __testnet__: bool = False
 
     # @staticmethod
@@ -187,6 +188,11 @@ class AssetBase():
             return self
         return self.__add__(other)
 
+    @property
+    @abstractmethod
+    def symbol(self) -> tuple[str, str]:
+        ...
+
     def __convert_to_asset(self, other: Any) -> Self:
         with contextlib.suppress(ValueError, TypeError):
             other = int(other)
@@ -206,25 +212,34 @@ class AssetBase():
         return converted.clone(amount=int(float(operator_(self._get_amount(), converted._get_amount()))))
 
 
-class AssetHive():
-    amount: AssetNaiAmount
-    precision: HiveInt = HiveInt(3)
-    nai: str = "@@000000021"
-    symbol: tuple[str, str] = ("HIVE", "TESTS")
+class AssetHive(AssetBase):
+    # amount: AssetNaiAmount
+    # precision: HiveInt = HiveInt(3)
+    # nai: str = "@@000000021"
+
+    @property
+    def symbol(self) -> tuple[str, str]:
+        return ("HIVE", "TESTS")
 
 
-class AssetHbd():
-    amount: AssetNaiAmount
-    precision: HiveInt
-    nai: str = "@@000000013"
-    symbol: tuple[str, str] = ("HBD", "TBD")
+class AssetHbd(AssetBase):
+    # amount: AssetNaiAmount
+    # precision: HiveInt
+    # nai: str = "@@000000013"
+
+    @property
+    def symbol(self) -> tuple[str, str]:
+        return ("HBD", "TBD")
 
 
-class AssetVest():
-    amount: AssetNaiAmount
-    precision: HiveInt = HiveInt(6)
-    nai: str = "@@000000037"
-    symbol: tuple[str, str] = ("VESTS", "VESTS")
+class AssetVest(AssetBase):
+    # amount: AssetNaiAmount
+    # precision: HiveInt = HiveInt(6)
+    # nai: str = "@@000000037"
+
+    @property
+    def symbol(self) -> tuple[str, str]:
+        return ("VESTS", "VESTS")
 
 
 # class AssetLegacy(str, AssetBase): #  ConstrainedStr): type: ignore[misc]

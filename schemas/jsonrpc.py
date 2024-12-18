@@ -8,12 +8,14 @@ from __future__ import annotations
 import os
 from collections.abc import Sequence
 from threading import Event, Lock, Semaphore
-from typing import Any, Generic, TypeVar
+from typing import Any, Generic, Type, TypeVar
 
 import msgspec
 from pydantic import Field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.assets._base import AssetVest
+from schemas.fields.hive_int import HiveInt
 
 __all__ = [
     "get_response_model",
@@ -105,6 +107,12 @@ def acquire_model(expected_model: type[ExpectResultT]) -> type[JSONRPCResult[Exp
     finally:
         READ_SEMAPHORE.release()
 
+def testnet_hf26_dec_hook(type: Type, obj: Any) -> Any:
+    if type is HiveInt:
+        return HiveInt(obj)
+    if type is AssetVest:
+        return AssetVest.from_nai(obj)
+    
 
 def get_response_model(
     expected_model: type[ExpectResultT], json: str
@@ -126,7 +134,10 @@ def get_response_model(
     response_cls = acquire_model(expected_model) # if "result" in kwargs else JSONRPCError
 
     # response_cls.update_forward_refs(**locals())
+    testnet_hf26_decoder = msgspec.json.Decoder(response_cls, dec_hook=testnet_hf26_dec_hook)
+    msg = testnet_hf26_decoder.decode(json)
+
     try:
-        return msgspec.json.decode(json, type=response_cls)
+        return testnet_hf26_decoder.decode(json)
     except msgspec.ValidationError:
         return msgspec.json.decode(json, type=JSONRPCError)

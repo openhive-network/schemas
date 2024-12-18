@@ -1,6 +1,6 @@
 # from __future__ import annotations
 
-# from schemas.fields.assets._base import AssetBase, AssetHive, AssetHbd, AssetVest
+from schemas.fields.assets._base import AssetBase, AssetHive, AssetHbd, AssetVest
 # from schemas.fields.assets.asset_info import AssetInfo
 # from schemas.fields.assets.hbd import (
 #     AssetHbdHF26,

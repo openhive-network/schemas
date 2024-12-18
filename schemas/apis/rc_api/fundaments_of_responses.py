@@ -7,6 +7,7 @@ from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 # from schemas.fields.assets.vests import AssetVestsT
+from schemas.fields.assets._base import AssetVest
 from schemas.fields.basic import (
     AccountName,
 )
@@ -14,10 +15,10 @@ from schemas.fields.compound import Manabar
 from schemas.fields.hive_int import HiveInt
 
 
-class RcAccount(PreconfiguredBaseModel, Generic[AssetVestsT]):
+class RcAccount(PreconfiguredBaseModel):
     account: AccountName
     rc_manabar: Manabar
-    max_rc_creation_adjustment: AssetVestsT
+    max_rc_creation_adjustment: AssetVest
     max_rc: HiveInt
     delegated_rc: HiveInt
     received_delegated_rc: HiveInt
