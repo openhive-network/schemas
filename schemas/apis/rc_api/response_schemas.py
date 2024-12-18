@@ -39,7 +39,7 @@ class GetResourcePool(PreconfiguredBaseModel):
 
 
 class ListRcAccounts(PreconfiguredBaseModel):
-    rc_accounts: list[RcAccount[AssetVest]]
+    rc_accounts: list[RcAccount]
 
 
 class ListRcDirectDelegations(PreconfiguredBaseModel):

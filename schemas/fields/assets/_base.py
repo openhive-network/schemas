@@ -25,15 +25,17 @@ if TYPE_CHECKING:
 AssetNaiAmount = Annotated[HiveInt, msgspec.Meta(ge=0)]
 
 class AssetBase():
-    def __init__(self, amount: AssetNaiAmount, precision: HiveInt, nai: str):
+
+    def __init__(self, amount: AssetNaiAmount, precision: HiveInt | None = None, nai: str | None = None):
         self.amount = amount
         self.precision = precision
         self.nai = nai
+
     # __testnet__: bool = False
 
-    # @staticmethod
-    # def get_asset_information() -> AssetInfo:
-    #     """This method returns asset details, which we use to perform checks"""
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        """This method returns asset details, which we use to perform checks"""
 
     def _get_amount(self) -> int:
         return int(self.amount)
@@ -94,7 +96,6 @@ class AssetBase():
     #     symbol = matched.group(3)
     #     return parsed_amount, precision, symbol
 
-
     # @classmethod
     # def from_legacy(cls, other: str) -> Self:
     #     amount, precision, symbol = cls.parse_raw(other)
@@ -109,28 +110,41 @@ class AssetBase():
         return cls(**other)
 
     def as_nai(self) -> dict[str, str | int]:
+        info = self.get_asset_information()
         return {
             "amount": self._get_amount(),
-            "nai": self.nai,
-            "precision": self.precision,
+            "nai": info.nai,
+            "precision": info.precision,
         }
 
     def token(self) -> str:
-        return self.symbol
+        return self.get_asset_information().get_symbol()
 
     # def as_legacy(self) -> str:
     #     return f"{self.pretty_amount()} {self.get_asset_information().get_symbol(testnet=self.__testnet__)}"
 
     def as_float(self) -> float:
-        return float(self._get_amount() / (10 ** int(self.precision)))
+        info = self.get_asset_information()
+        return float(self._get_amount() / (10 ** int(info.precision)))
 
     def pretty_amount(self) -> str:
-        return f"{self.as_float() :.{self.precision}f}"
+        info = self.get_asset_information()
+        return f"{self.as_float() :.{info.precision}f}"
+
+    @validator("nai", allow_reuse=True)
+    @classmethod
+    def check_nai(cls, value: Any) -> Any:
+        return validate_nai(value=value, asset_info=cls.get_asset_information())
+
+    @validator("precision", allow_reuse=True)
+    @classmethod
+    def check_precision(cls, value: int) -> int:
+        return validate_precision(value=value, asset_info=cls.get_asset_information())
 
     def __eq__(self, other: Any) -> bool:
         asset = self.__convert_to_asset(other)
         return (
-            asset == self and self._get_amount() == asset._get_amount()
+            asset.get_asset_information() == self.get_asset_information() and self._get_amount() == asset._get_amount()
         )
 
     def __lt__(self, other: Any) -> bool:
@@ -188,11 +202,6 @@ class AssetBase():
             return self
         return self.__add__(other)
 
-    @property
-    @abstractmethod
-    def symbol(self) -> tuple[str, str]:
-        ...
-
     def __convert_to_asset(self, other: Any) -> Self:
         with contextlib.suppress(ValueError, TypeError):
             other = int(other)
@@ -213,34 +222,39 @@ class AssetBase():
 
 
 class AssetHive(AssetBase):
-    # amount: AssetNaiAmount
-    # precision: HiveInt = HiveInt(3)
-    # nai: str = "@@000000021"
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return AssetInfo(precision=HiveInt(3), nai="@@000000021", symbol=("HIVE", "TESTS"))
 
-    @property
-    def symbol(self) -> tuple[str, str]:
-        return ("HIVE", "TESTS")
+    def __init__(self, amount: AssetNaiAmount, precision: HiveInt = None, nai: str = None):
+        asset_info = self.get_asset_information()
+        precision = precision if precision is not None else asset_info.precision
+        nai = nai if nai is not None else asset_info.nai
+        super().__init__(amount=amount, precision=precision, nai=nai)
 
 
 class AssetHbd(AssetBase):
-    # amount: AssetNaiAmount
-    # precision: HiveInt
-    # nai: str = "@@000000013"
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return AssetInfo(precision=HiveInt(3), nai="@@000000013", symbol=("HBD", "TBD"))
 
-    @property
-    def symbol(self) -> tuple[str, str]:
-        return ("HBD", "TBD")
+    def __init__(self, amount: AssetNaiAmount, precision: HiveInt = None, nai: str = None):
+        asset_info = self.get_asset_information()
+        precision = precision if precision is not None else asset_info.precision
+        nai = nai if nai is not None else asset_info.nai
+        super().__init__(amount=amount, precision=precision, nai=nai)
 
 
 class AssetVest(AssetBase):
-    # amount: AssetNaiAmount
-    # precision: HiveInt = HiveInt(6)
-    # nai: str = "@@000000037"
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return AssetInfo(precision=HiveInt(6), nai="@@000000037", symbol=("VESTS", "VESTS"))
 
-    @property
-    def symbol(self) -> tuple[str, str]:
-        return ("VESTS", "VESTS")
-
+    def __init__(self, amount: AssetNaiAmount, precision: HiveInt = None, nai: str = None):
+        asset_info = self.get_asset_information()
+        precision = precision if precision is not None else asset_info.precision
+        nai = nai if nai is not None else asset_info.nai
+        super().__init__(amount=amount, precision=precision, nai=nai)
 
 # class AssetLegacy(str, AssetBase): #  ConstrainedStr): type: ignore[misc]
 #     """Base class for all legacy assets"""
