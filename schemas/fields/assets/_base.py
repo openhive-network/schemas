@@ -22,14 +22,14 @@ if TYPE_CHECKING:
 
     from pydantic.typing import CallableGenerator
 
-AssetNaiAmount = Annotated[HiveInt, msgspec.Meta(ge=0)]
+class AssetNaiAmount(HiveInt):
+    def _validate(self):
+        assert int(self) >= 0
 
-class AssetBase():
-
-    def __init__(self, amount: AssetNaiAmount, precision: HiveInt | None = None, nai: str | None = None):
-        self.amount = amount
-        self.precision = precision
-        self.nai = nai
+class AssetBase(msgspec.Struct):
+    amount: AssetNaiAmount
+    precision: HiveInt
+    # nai: str
 
     # __testnet__: bool = False
 
@@ -220,41 +220,44 @@ class AssetBase():
         converted = self.__convert_to_asset(other)
         return converted.clone(amount=int(float(operator_(self._get_amount(), converted._get_amount()))))
 
+class AssetHiveOrHbd(AssetBase):
+    pass
 
-class AssetHive(AssetBase):
+
+class AssetHive(AssetBase, tag="@@000000021", tag_field="nai"):
     @staticmethod
     def get_asset_information() -> AssetInfo:
         return AssetInfo(precision=HiveInt(3), nai="@@000000021", symbol=("HIVE", "TESTS"))
 
-    def __init__(self, amount: AssetNaiAmount, precision: HiveInt = None, nai: str = None):
-        asset_info = self.get_asset_information()
-        precision = precision if precision is not None else asset_info.precision
-        nai = nai if nai is not None else asset_info.nai
-        super().__init__(amount=amount, precision=precision, nai=nai)
+    # def __init__(self, amount: AssetNaiAmount, precision: HiveInt = None, nai: str = None):
+    #     asset_info = self.get_asset_information()
+    #     precision = precision if precision is not None else asset_info.precision
+    #     nai = nai if nai is not None else asset_info.nai
+    #     super().__init__(amount=amount, precision=precision, nai=nai)
 
 
-class AssetHbd(AssetBase):
+class AssetHbd(AssetBase, tag="@@000000013", tag_field="nai"):
     @staticmethod
     def get_asset_information() -> AssetInfo:
         return AssetInfo(precision=HiveInt(3), nai="@@000000013", symbol=("HBD", "TBD"))
 
-    def __init__(self, amount: AssetNaiAmount, precision: HiveInt = None, nai: str = None):
-        asset_info = self.get_asset_information()
-        precision = precision if precision is not None else asset_info.precision
-        nai = nai if nai is not None else asset_info.nai
-        super().__init__(amount=amount, precision=precision, nai=nai)
+    # def __init__(self, amount: AssetNaiAmount, precision: HiveInt = None, nai: str = None):
+    #     asset_info = self.get_asset_information()
+    #     precision = precision if precision is not None else asset_info.precision
+    #     nai = nai if nai is not None else asset_info.nai
+    #     super().__init__(amount=amount, precision=precision, nai=nai)
 
 
-class AssetVest(AssetBase):
+class AssetVest(AssetBase, tag="@@000000037", tag_field="nai"):
     @staticmethod
     def get_asset_information() -> AssetInfo:
         return AssetInfo(precision=HiveInt(6), nai="@@000000037", symbol=("VESTS", "VESTS"))
 
-    def __init__(self, amount: AssetNaiAmount, precision: HiveInt = None, nai: str = None):
-        asset_info = self.get_asset_information()
-        precision = precision if precision is not None else asset_info.precision
-        nai = nai if nai is not None else asset_info.nai
-        super().__init__(amount=amount, precision=precision, nai=nai)
+    # def __init__(self, amount: AssetNaiAmount, precision: HiveInt = None, nai: str = None):
+    #     asset_info = self.get_asset_information()
+    #     precision = precision if precision is not None else asset_info.precision
+    #     nai = nai if nai is not None else asset_info.nai
+    #     super().__init__(amount=amount, precision=precision, nai=nai)
 
 # class AssetLegacy(str, AssetBase): #  ConstrainedStr): type: ignore[misc]
 #     """Base class for all legacy assets"""

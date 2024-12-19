@@ -14,7 +14,8 @@ import msgspec
 from pydantic import Field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.fields.assets._base import AssetVest
+from schemas.apis.market_history_api.fundaments_of_responses import BucketSizes
+from schemas.fields.assets._base import AssetHbd, AssetHive, AssetNaiAmount, AssetVest
 from schemas.fields.hive_int import HiveInt
 
 __all__ = [
@@ -110,9 +111,18 @@ def acquire_model(expected_model: type[ExpectResultT]) -> type[JSONRPCResult[Exp
 def testnet_hf26_dec_hook(type: Type, obj: Any) -> Any:
     if type is HiveInt:
         return HiveInt(obj)
-    if type is AssetVest:
-        return AssetVest.from_nai(obj)
-    
+    if type is BucketSizes:
+        return BucketSizes(obj)
+    # if type is AssetVest:
+    #     return AssetVest.from_nai(obj)
+    # if type is AssetHive:
+    #     return AssetHive.from_nai(obj)
+    # if type is AssetHbd:
+    #     return AssetHbd.from_nai(obj)
+    if type is AssetNaiAmount:
+        return AssetNaiAmount(obj)
+    else:
+        raise NotImplementedError(f"Objects of type {type} are not supported")
 
 def get_response_model(
     expected_model: type[ExpectResultT], json: str

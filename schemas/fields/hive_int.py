@@ -16,6 +16,7 @@ __all__ = [
 class HiveInt():
     def __init__(self, value: int | str):
         self.value = str(value)
+        self._validate()
 
     def __int__(self):
         return int(self.value)
@@ -25,6 +26,10 @@ class HiveInt():
 
     def __repr__(self):
         return str(self)
+
+    def _validate(self):
+        pass
+
     # @classmethod
     # def __get_validators__(cls) -> CallableGenerator:
     #     yield cls.validate
