@@ -5,9 +5,10 @@ from typing import Generic, Literal
 from pydantic import Field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-# from schemas.fields.assets.hbd import AssetHbdT
-# from schemas.fields.assets.hive import AssetHiveT
-# from schemas.fields.assets.vests import AssetVestsT
+# from schemas.fields.assets.hbd import AssetHbd
+# from schemas.fields.assets.hive import AssetHive
+# from schemas.fields.assets.vests import AssetVest
+from schemas.fields.assets._base import AssetHbd, AssetHive, AssetVest
 from schemas.fields.basic import (
     AccountName,
     PublicKey,
@@ -47,29 +48,29 @@ class DelayedVotes(PreconfiguredBaseModel):
     val: HiveInt
 
 
-# class HbdExchangeRate(PreconfiguredBaseModel, Generic[AssetHiveT, AssetHbdT]):
-#     """
-#     Field similar to price, but just base can be Hive or Hbd. Quote must be Hive.
-#     To choose format of Assets you can do it like in Price field:
-#     Legacy -> HbdExchangeRate[AssetHiveLegacy, AssetHbdLegacy](parameters)
-#     HF26 -> HbdExchangeRate[AssetHiveHF26, AssetHbdHF26](parameters)
-#     Here Hive also must be first parameter of generic
-#     """
+class HbdExchangeRate(PreconfiguredBaseModel):
+    """
+    Field similar to price, but just base can be Hive or Hbd. Quote must be Hive.
+    To choose format of Assets you can do it like in Price field:
+    Legacy -> HbdExchangeRate[AssetHiveLegacy, AssetHbdLegacy](parameters)
+    HF26 -> HbdExchangeRate[AssetHiveHF26, AssetHbdHF26](parameters)
+    Here Hive also must be first parameter of generic
+    """
 
-#     base: AssetHiveT | AssetHbdT
-#     quote: AssetHiveT | AssetHbdT
+    base: AssetHive | AssetHbd
+    quote: AssetHive | AssetHbd
 
 
-# class LegacyChainProperties(PreconfiguredBaseModel, Generic[AssetHiveT]):
-#     """
-#     You can choose of Asset format for this field, to do it:
-#     Legacy -> LegacyChainProperties[AssetHiveLegacy](parameters)
-#     Nai -> LegacyChainProperties[AssetHiveHF26](parameters)
-#     """
+class LegacyChainProperties(PreconfiguredBaseModel):
+    """
+    You can choose of Asset format for this field, to do it:
+    Legacy -> LegacyChainProperties[AssetHiveLegacy](parameters)
+    Nai -> LegacyChainProperties[AssetHiveHF26](parameters)
+    """
 
-#     account_creation_fee: AssetHiveT
-#     maximum_block_size: Uint32t = Uint32t(HIVE_MAX_BLOCK_SIZE)
-#     hbd_interest_rate: Uint16t = Uint16t(HIVE_HBD_INTEREST_RATE)
+    account_creation_fee: AssetHive
+    maximum_block_size: Uint32t = Uint32t(HIVE_MAX_BLOCK_SIZE)
+    hbd_interest_rate: Uint16t = Uint16t(HIVE_HBD_INTEREST_RATE)
 
 
 class Manabar(PreconfiguredBaseModel):
@@ -77,54 +78,54 @@ class Manabar(PreconfiguredBaseModel):
     last_update_time: HiveInt
 
 
-# class Price(PreconfiguredBaseModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
-#     """
-#     Valid structure for Price field is:
-#     base: Hive quote: Hbd or base: Hbd quote: Hive
-#     You can choose format of Assets, to choose legacy format -> Price[AssetHiveLegacy, AssetHbdLegacy, AssetVestsHF26](parameters).
-#     For HF26 format -> Price[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26].
-#     Remember that Hive must be first parameter of generic !
-#     """
+class Price(PreconfiguredBaseModel):
+    """
+    Valid structure for Price field is:
+    base: Hive quote: Hbd or base: Hbd quote: Hive
+    You can choose format of Assets, to choose legacy format -> Price[AssetHiveLegacy, AssetHbdLegacy, AssetVestsHF26](parameters).
+    For HF26 format -> Price[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26].
+    Remember that Hive must be first parameter of generic !
+    """
 
-#     base: AssetHiveT | AssetHbdT | AssetVestsT
-#     quote: AssetHiveT | AssetHbdT | AssetVestsT
-
-
-# class Proposal(PreconfiguredBaseModel, Generic[AssetHbdT], kw_only=True):
-#     id_: HiveInt = Field(alias="id")
-#     proposal_id: HiveInt
-#     creator: AccountName
-#     receiver: AccountName
-#     start_date: HiveDateTime
-#     end_date: HiveDateTime
-#     daily_pay: AssetHbdT
-#     subject: str
-#     permlink: str
-#     total_votes: HiveInt
-#     status: str
+    base: AssetHive | AssetHbd | AssetVest
+    quote: AssetHive | AssetHbd | AssetVest
 
 
-# class Props(PreconfiguredBaseModel, Generic[AssetHiveT]):
-#     account_creation_fee: AssetHiveT | None = None
-#     maximum_block_size: HiveInt | None = None
-#     hbd_interest_rate: HiveInt | None = None
-#     account_subsidy_budget: HiveInt | None = None
-#     account_subsidy_decay: HiveInt | None = None
+class Proposal(PreconfiguredBaseModel, kw_only=True):
+    id_: HiveInt = Field(alias="id")
+    proposal_id: HiveInt
+    creator: AccountName
+    receiver: AccountName
+    start_date: HiveDateTime
+    end_date: HiveDateTime
+    daily_pay: AssetHbd
+    subject: str
+    permlink: str
+    total_votes: HiveInt
+    status: str
 
 
-# class WitnessProps(Props[AssetHiveT], Generic[AssetHiveT, AssetHbdT]):
-#     hbd_exchange_rate: HbdExchangeRate[AssetHiveT, AssetHbdT] | None = None
-#     url: WitnessUrl | None = None
-#     new_signing_key: PublicKey | None = None
+class Props(PreconfiguredBaseModel):
+    account_creation_fee: AssetHive | None = None
+    maximum_block_size: HiveInt | None = None
+    hbd_interest_rate: HiveInt | None = None
+    account_subsidy_budget: HiveInt | None = None
+    account_subsidy_decay: HiveInt | None = None
 
 
-# class RcAccountObject(PreconfiguredBaseModel, Generic[AssetVestsT]):
-#     account: AccountName
-#     rc_manabar: Manabar
-#     max_rc_creation_adjustment: AssetVestsT
-#     max_rc: HiveInt
-#     delegated_rc: HiveInt
-#     received_delegated_rc: HiveInt
+class WitnessProps(PreconfiguredBaseModel):
+    hbd_exchange_rate: HbdExchangeRate | None = None
+    url: WitnessUrl | None = None
+    new_signing_key: PublicKey | None = None
+
+
+class RcAccountObject(PreconfiguredBaseModel):
+    account: AccountName
+    rc_manabar: Manabar
+    max_rc_creation_adjustment: AssetVest
+    max_rc: HiveInt
+    delegated_rc: HiveInt
+    received_delegated_rc: HiveInt
 
 
 class RdDecayParams(PreconfiguredBaseModel):

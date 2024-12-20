@@ -16,7 +16,10 @@ from pydantic import Field
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.market_history_api.fundaments_of_responses import BucketSizes
 from schemas.fields.assets._base import AssetHbd, AssetHive, AssetNaiAmount, AssetVest
+from schemas.fields.basic import Permlink, PublicKey
+from schemas.fields.hex import Hex, Sha256, TransactionId
 from schemas.fields.hive_int import HiveInt
+from schemas.fields.version import Version
 
 __all__ = [
     "get_response_model",
@@ -121,6 +124,18 @@ def testnet_hf26_dec_hook(type: Type, obj: Any) -> Any:
     #     return AssetHbd.from_nai(obj)
     if type is AssetNaiAmount:
         return AssetNaiAmount(obj)
+    if type is Permlink:
+        return Permlink(obj)
+    if type is PublicKey:
+        return PublicKey(obj)
+    if type is Sha256:
+        return Sha256(obj)
+    if type is Version:
+        return Version(obj)
+    if type is TransactionId:
+        return TransactionId(obj)
+    if type is Hex:
+        return Hex(obj)
     else:
         raise NotImplementedError(f"Objects of type {type} are not supported")
 

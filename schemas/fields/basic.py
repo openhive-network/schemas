@@ -42,9 +42,11 @@ class CustomIdType(ConstrainedStr):
     max_length = 32
 
 
-class EmptyString(ConstrainedStr):
-    min_length = 0
-    max_length = 0
+EmptyString = Annotated[str, msgspec.Meta(max_length=0, min_length=0)]
+
+# class EmptyString(ConstrainedStr):
+#     min_length = 0
+#     max_length = 0
 
 
 EmptyList = Annotated[list, msgspec.Meta(max_length=0)]
@@ -61,29 +63,47 @@ EmptyList = Annotated[list, msgspec.Meta(max_length=0)]
 #         return []
 
 
-class FloatAsString(ConstrainedStr):
-    regex = re.compile(r"^(?:(?:[1-9][0-9]*)|0)\.[0-9]+$")
+FloatAsString = Annotated[str, msgspec.Meta(pattern=r"^(?:(?:[1-9][0-9]*)|0)\.[0-9]+$")]
 
 
-class NodeType(ConstrainedStr):
-    regex = re.compile(r"^(mainnet|testnet|mirrornet)$")
+# class FloatAsString(ConstrainedStr):
+#     regex = re.compile(r"^(?:(?:[1-9][0-9]*)|0)\.[0-9]+$")
 
 
-class Permlink(ConstrainedStr):
-    max_length = 256
+NodeType = Annotated[str, msgspec.Meta(pattern=r"^(mainnet|testnet|mirrornet)$")]
 
 
-class PublicKey(ConstrainedStr):
-    regex = rf"^(?:STM)[{BASE_58_REGEX}]{{7,51}}$"
+# class NodeType(ConstrainedStr):
+#     regex = re.compile(r"^(mainnet|testnet|mirrornet)$")
 
+
+Permlink = Annotated[str, msgspec.Meta(max_length=256)]
+
+
+# class Permlink(ConstrainedStr):
+#     max_length = 256
+
+
+PublicKey = Annotated[str, msgspec.Meta(pattern=rf"^(?:STM)[{BASE_58_REGEX}]{{7,51}}$")]
+
+
+# class PublicKey(ConstrainedStr):
+#     regex = rf"^(?:STM)[{BASE_58_REGEX}]{{7,51}}$"
+
+
+PrivateKey = Annotated[str, msgspec.Meta(pattern=rf"^[{BASE_58_REGEX}]{{51}}$")]
 
 class PrivateKey(ConstrainedStr):
     regex = re.compile(rf"^[{BASE_58_REGEX}]{{51}}$")
 
 
-class WitnessUrl(ConstrainedStr):
-    max_length = HIVE_MAX_WITNESS_URL_LENGTH
+WitnessUrl = Annotated[str, msgspec.Meta(max_length=HIVE_MAX_WITNESS_URL_LENGTH)]
 
+
+# class WitnessUrl(ConstrainedStr):
+#     max_length = HIVE_MAX_WITNESS_URL_LENGTH
+
+Url = Annotated[str, msgspec.Meta(max_length=HIVE_MAX_URL_LENGTH)]
 
 class Url(ConstrainedStr):
     max_length = HIVE_MAX_URL_LENGTH
