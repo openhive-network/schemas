@@ -8,7 +8,7 @@ from __future__ import annotations
 import os
 from collections.abc import Sequence
 from threading import Event, Lock, Semaphore
-from typing import Any, Generic, Type, TypeVar
+from typing import Any, Generic, Type, TypeVar, get_origin, get_args
 
 import msgspec
 from pydantic import Field
@@ -17,7 +17,7 @@ from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.condenser_api.response_schemas import GetDiscussionsByBlog
 from schemas.apis.market_history_api.fundaments_of_responses import BucketSizes
 from schemas.fields.assets._base import AssetHbd, AssetHive, AssetNaiAmount, AssetVest
-from schemas.fields.basic import Permlink, PublicKey
+from schemas.fields.basic import Permlink, PublicKey, OptionallyEmpty, AccountName
 from schemas.fields.hex import Hex, Sha256, TransactionId
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.version import Version
@@ -137,6 +137,9 @@ def testnet_hf26_dec_hook(type: Type, obj: Any) -> Any:
         return TransactionId(obj)
     if type is Hex:
         return Hex(obj)
+    orig_type = get_origin(type)
+    if orig_type is not None and orig_type is OptionallyEmpty:
+        return OptionallyEmpty.resolve(type, obj)
     else:
         raise NotImplementedError(f"Objects of type {type} are not supported")
 

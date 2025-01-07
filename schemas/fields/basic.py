@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import re
-from typing import TYPE_CHECKING, Annotated, Any, Final
+from typing import TYPE_CHECKING, Annotated, Any, Final, Generic, TypeVar, get_args
 
 import msgspec
 from pydantic import ConstrainedStr, errors
@@ -36,6 +36,16 @@ def is_valid_json(string: str) -> bool:
         return True
     except json.JSONDecodeError:
         return False
+
+T = TypeVar("T")
+
+class OptionallyEmpty(str, Generic[T]):
+    @staticmethod
+    def resolve(cls: type, value: str) -> str:
+        if len(value) == 0:
+            return ""
+        non_empty_str_t = get_args(cls)[0]
+        return msgspec.json.decode(f'"{value}"', type=non_empty_str_t)
 
 AccountName = Annotated[str, msgspec.Meta(max_length=16, min_length=3, pattern=rf"^{ACCOUNT_NAME_SEGMENT_REGEX}(?:\.{ACCOUNT_NAME_SEGMENT_REGEX})*$")]
 

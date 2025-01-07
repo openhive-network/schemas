@@ -11,7 +11,7 @@ from schemas._preconfigured_base_model import PreconfiguredBaseModel
 # from schemas.fields.assets.vests import AssetVest
 from schemas.fields.assets._base import AssetHbd, AssetHive, AssetVest
 from schemas.fields.basic import (
-    AccountName,
+    AccountName, OptionallyEmpty,
     EmptyString,
     FloatAsString,
     Permlink,
@@ -424,7 +424,7 @@ class ListCommentsFundament(PreconfiguredBaseModel, kw_only=True):
     allow_replies: bool
     allow_votes: bool
     allow_curation_rewards: bool
-    parent_author: EmptyString | AccountName
+    parent_author: OptionallyEmpty[AccountName]
     parent_permlink: Permlink
     beneficiaries: list[str]
     max_accepted_payout: AssetHbd
