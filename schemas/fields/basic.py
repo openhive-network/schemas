@@ -41,11 +41,11 @@ T = TypeVar("T")
 
 class OptionallyEmpty(str, Generic[T]):
     @staticmethod
-    def resolve(cls: type, value: str) -> str:
+    def resolve(cls: type, value: str) -> OptionallyEmpty[Any]:
         if len(value) == 0:
-            return ""
+            return OptionallyEmpty("")
         non_empty_str_t = get_args(cls)[0]
-        return msgspec.json.decode(f'"{value}"', type=non_empty_str_t)
+        return OptionallyEmpty(msgspec.json.decode(f'"{value}"', type=non_empty_str_t))
 
 AccountName = Annotated[str, msgspec.Meta(max_length=16, min_length=3, pattern=rf"^{ACCOUNT_NAME_SEGMENT_REGEX}(?:\.{ACCOUNT_NAME_SEGMENT_REGEX})*$")]
 
