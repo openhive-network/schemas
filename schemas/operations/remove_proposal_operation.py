@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pydantic import Field
+from msgspec import field
 
 from schemas.fields.basic import AccountName
 from schemas.fields.integers import Int64t
@@ -9,9 +9,14 @@ from schemas.operations.extensions.future_extension import FutureExtensions
 
 
 class RemoveProposalOperation(Operation):
-    __operation_name__ = "remove_proposal"
-    __offset__ = 46
-
     proposal_owner: AccountName
     proposal_ids: list[Int64t]
-    extensions: FutureExtensions = Field(default_factory=FutureExtensions)
+    extensions: FutureExtensions = field(default_factory=FutureExtensions)  # type: ignore[type-arg]
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "remove_proposal"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 46

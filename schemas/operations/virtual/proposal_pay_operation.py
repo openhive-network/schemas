@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-from typing import Final, Generic
+from typing import Final
 
-from pydantic.generics import GenericModel
-
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
+from schemas.fields.assets._base import AssetHbd
 from schemas.fields.basic import (
     AccountName,
 )
@@ -14,19 +12,24 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_PROPOSAL_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _ProposalPayOperation(VirtualOperation, GenericModel, Generic[AssetHbdT]):
-    __operation_name__ = "proposal_pay"
-    __offset__ = 16
-
+class _ProposalPayOperation(VirtualOperation, kw_only=True):
     proposal_id: Uint32t = DEFAULT_PROPOSAL_ID
     receiver: AccountName
     payer: AccountName
-    payment: AssetHbdT
+    payment: AssetHbd
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "proposal_pay"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 16
 
 
-class ProposalPayOperation(_ProposalPayOperation[AssetHbdHF26]):
+class ProposalPayOperation(_ProposalPayOperation):
     ...
 
 
-class ProposalPayOperationLegacy(_ProposalPayOperation[AssetHbdLegacy]):
+class ProposalPayOperationLegacy(_ProposalPayOperation):
     ...

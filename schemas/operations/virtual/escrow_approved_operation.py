@@ -1,35 +1,39 @@
 from __future__ import annotations
 
-from typing import Final, Generic
+from typing import Final
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from msgspec import field
 
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
+from schemas.fields.assets._base import AssetHbd, AssetHive
 from schemas.fields.basic import (
     AccountName,
 )
 from schemas.fields.integers import Uint32t
+from schemas.fields.resolvables import AssetUnion
 from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _EscrowApprovedOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
-    __operation_name__ = "escrow_approved"
-    __offset__ = 39
-
-    from_: AccountName = Field(alias="from")
+class _EscrowApprovedOperation(VirtualOperation, kw_only=True):
+    from_: AccountName = field(name="from")
     to: AccountName
     agent: AccountName
     escrow_id: Uint32t = DEFAULT_REQUEST_ID
-    fee: AssetHiveT | AssetHbdT
+    fee: AssetUnion[AssetHive, AssetHbd]
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "escrow_approved"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 39
 
 
-class EscrowApprovedOperation(_EscrowApprovedOperation[AssetHiveHF26, AssetHbdHF26]):
+class EscrowApprovedOperation(_EscrowApprovedOperation):
     ...
 
 
-class EscrowApprovedOperationLegacy(_EscrowApprovedOperation[AssetHiveLegacy, AssetHbdLegacy]):
+class EscrowApprovedOperationLegacy(_EscrowApprovedOperation):
     ...

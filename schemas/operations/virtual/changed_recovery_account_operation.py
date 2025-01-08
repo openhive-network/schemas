@@ -5,9 +5,14 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class ChangedRecoveryAccountOperation(VirtualOperation):
-    __operation_name__ = "changed_recovery_account"
-    __offset__ = 26
-
     account: AccountName
     old_recovery_account: AccountName
     new_recovery_account: AccountName
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "changed_recovery_account"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 26

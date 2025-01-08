@@ -1,12 +1,18 @@
 from __future__ import annotations
 
-from schemas.fields.basic import AccountName, EmptyString
+from schemas.fields.basic import AccountName
+from schemas.fields.resolvables import OptionallyEmpty
 from schemas.operation import Operation
 
 
 class AccountWitnessProxyOperation(Operation):
-    __operation_name__ = "account_witness_proxy"
-    __offset__ = 13
-
     account: AccountName
-    proxy: AccountName | EmptyString
+    proxy: OptionallyEmpty[AccountName]
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "account_witness_proxy"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 13

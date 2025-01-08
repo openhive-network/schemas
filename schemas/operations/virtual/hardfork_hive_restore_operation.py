@@ -1,30 +1,30 @@
 from __future__ import annotations
 
-from typing import Generic
-
-from pydantic.generics import GenericModel
-
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
+from schemas.fields.assets._base import AssetHbd, AssetHive
 from schemas.fields.basic import (
     AccountName,
 )
 from schemas.virtual_operation import VirtualOperation
 
 
-class _HardforkHiveRestoreOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
-    __operation_name__ = "hardfork_hive_restore"
-    __offset__ = 19
-
+class _HardforkHiveRestoreOperation(VirtualOperation, kw_only=True):
     account: AccountName
     treasury: AccountName
-    hbd_transferred: AssetHbdT
-    hive_transferred: AssetHiveT
+    hbd_transferred: AssetHbd
+    hive_transferred: AssetHive
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "hardfork_hive_restore"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 19
 
 
-class HardforkHiveRestoreOperation(_HardforkHiveRestoreOperation[AssetHiveHF26, AssetHbdHF26]):
+class HardforkHiveRestoreOperation(_HardforkHiveRestoreOperation):
     ...
 
 
-class HardforkHiveRestoreOperationLegacy(_HardforkHiveRestoreOperation[AssetHiveLegacy, AssetHbdLegacy]):
+class HardforkHiveRestoreOperationLegacy(_HardforkHiveRestoreOperation):
     ...

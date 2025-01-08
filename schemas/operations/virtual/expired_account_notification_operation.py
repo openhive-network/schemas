@@ -5,7 +5,12 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class ExpiredAccountNotificationOperation(VirtualOperation):
-    __operation_name__ = "expired_account_notification"
-    __offset__ = 25
-
     account: AccountName
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "expired_account_notification"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 25

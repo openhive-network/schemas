@@ -1,31 +1,33 @@
 from __future__ import annotations
 
-from typing import Generic
+from msgspec import field
 
-from pydantic import Field
-from pydantic.generics import GenericModel
-
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
+from schemas.fields.assets._base import AssetHbd, AssetHive
 from schemas.fields.basic import (
     AccountName,
 )
+from schemas.fields.resolvables import AssetUnion
 from schemas.operation import Operation
 
 
-class _TransferOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
-    __operation_name__ = "transfer"
-    __offset__ = 2
-
-    from_: AccountName = Field(alias="from")
+class _TransferOperation(Operation, kw_only=True):
+    from_: AccountName = field(name="from")
     to: AccountName
-    amount: AssetHiveT | AssetHbdT
+    amount: AssetUnion[AssetHive, AssetHbd]
     memo: str
 
+    @classmethod
+    def get_name(cls) -> str:
+        return "transfer"
 
-class TransferOperation(_TransferOperation[AssetHiveHF26, AssetHbdHF26]):
+    @classmethod
+    def offset(cls) -> int:
+        return 2
+
+
+class TransferOperation(_TransferOperation):
     ...
 
 
-class TransferOperationLegacy(_TransferOperation[AssetHiveLegacy, AssetHbdLegacy]):
+class TransferOperationLegacy(_TransferOperation):
     ...

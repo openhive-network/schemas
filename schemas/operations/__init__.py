@@ -71,6 +71,110 @@ from schemas.operations.recurrent_transfer_operation import (
     RecurrentTransferOperationLegacy,
 )
 from schemas.operations.remove_proposal_operation import RemoveProposalOperation
+
+# Importy dla HF26Representation
+# Importy dla LegacyRepresentation
+from schemas.operations.representation_types import (
+    HF26RepresentationAccountCreateOperation,
+    HF26RepresentationAccountCreateWithDelegationOperation,
+    HF26RepresentationAccountUpdate2Operation,
+    HF26RepresentationAccountUpdateOperation,
+    HF26RepresentationAccountWitnessProxyOperation,
+    HF26RepresentationAccountWitnessVoteOperation,
+    HF26RepresentationCancelTransferFromSavingsOperation,
+    HF26RepresentationChangeRecoveryAccountOperation,
+    HF26RepresentationClaimAccountOperation,
+    HF26RepresentationClaimRewardBalanceOperation,
+    HF26RepresentationCollateralizedConvertOperation,
+    HF26RepresentationCommentOperation,
+    HF26RepresentationCommentOptionsOperation,
+    HF26RepresentationConvertOperation,
+    HF26RepresentationCreateClaimedAccountOperation,
+    HF26RepresentationCreateProposalOperation,
+    HF26RepresentationCustomBinaryOperation,
+    HF26RepresentationCustomJsonOperation,
+    HF26RepresentationCustomOperation,
+    HF26RepresentationDeclineVotingRightsOperation,
+    HF26RepresentationDelegateVestingSharesOperation,
+    HF26RepresentationDeleteCommentOperation,
+    HF26RepresentationEscrowApproveOperation,
+    HF26RepresentationEscrowDisputeOperation,
+    HF26RepresentationEscrowReleaseOperation,
+    HF26RepresentationEscrowTransferOperation,
+    HF26RepresentationFeedPublishOperation,
+    HF26RepresentationLimitOrderCancelOperation,
+    HF26RepresentationLimitOrderCreate2Operation,
+    HF26RepresentationLimitOrderCreateOperation,
+    HF26RepresentationPow2Operation,
+    HF26RepresentationPowOperation,
+    HF26RepresentationRecoverAccountOperation,
+    HF26RepresentationRecurrentTransferOperation,
+    HF26RepresentationRemoveProposalOperation,
+    HF26RepresentationRequestAccountRecoveryOperation,
+    HF26RepresentationResetAccountOperation,
+    HF26RepresentationSetResetAccountOperation,
+    HF26RepresentationSetWithdrawVestingRouteOperation,
+    HF26RepresentationTransferFromSavingsOperation,
+    HF26RepresentationTransferOperation,
+    HF26RepresentationTransferToSavingsOperation,
+    HF26RepresentationTransferToVestingOperation,
+    HF26RepresentationUpdateProposalOperation,
+    HF26RepresentationUpdateProposalVotesOperation,
+    HF26RepresentationVoteOperation,
+    HF26RepresentationWithdrawVestingOperation,
+    HF26RepresentationWitnessBlockApproveOperation,
+    HF26RepresentationWitnessSetPropertiesOperation,
+    HF26RepresentationWitnessUpdateOperation,
+    LegacyRepresentationAccountCreateOperation,
+    LegacyRepresentationAccountUpdate2Operation,
+    LegacyRepresentationAccountUpdateOperation,
+    LegacyRepresentationAccountWitnessProxyOperation,
+    LegacyRepresentationAccountWitnessVoteOperation,
+    LegacyRepresentationCancelTransferFromSavingsOperation,
+    LegacyRepresentationChangeRecoveryAccountOperation,
+    LegacyRepresentationClaimAccountOperation,
+    LegacyRepresentationClaimRewardBalanceOperation,
+    LegacyRepresentationCollateralizedConvertOperation,
+    LegacyRepresentationCommentOperation,
+    LegacyRepresentationCommentOptionsOperation,
+    LegacyRepresentationConvertOperation,
+    LegacyRepresentationCreateClaimedAccountOperation,
+    LegacyRepresentationCreateProposalOperation,
+    LegacyRepresentationCustomBinaryOperation,
+    LegacyRepresentationCustomJsonOperation,
+    LegacyRepresentationCustomOperation,
+    LegacyRepresentationDeclineVotingRightsOperation,
+    LegacyRepresentationDelegateVestingSharesOperation,
+    LegacyRepresentationDeleteCommentOperation,
+    LegacyRepresentationEscrowApproveOperation,
+    LegacyRepresentationEscrowDisputeOperation,
+    LegacyRepresentationEscrowReleaseOperation,
+    LegacyRepresentationEscrowTransferOperation,
+    LegacyRepresentationFeedPublishOperation,
+    LegacyRepresentationLimitOrderCancelOperation,
+    LegacyRepresentationLimitOrderCreate2Operation,
+    LegacyRepresentationLimitOrderCreateOperation,
+    LegacyRepresentationPow2Operation,
+    LegacyRepresentationPowOperation,
+    LegacyRepresentationRecoverAccountOperation,
+    LegacyRepresentationRecurrentTransferOperation,
+    LegacyRepresentationRemoveProposalOperation,
+    LegacyRepresentationRequestAccountRecoveryOperation,
+    LegacyRepresentationResetAccountOperation,
+    LegacyRepresentationSetResetAccountOperation,
+    LegacyRepresentationSetWithdrawVestingRouteOperation,
+    LegacyRepresentationTransferFromSavingsOperation,
+    LegacyRepresentationTransferOperation,
+    LegacyRepresentationTransferToSavingsOperation,
+    LegacyRepresentationTransferToVestingOperation,
+    LegacyRepresentationUpdateProposalOperation,
+    LegacyRepresentationUpdateProposalVotesOperation,
+    LegacyRepresentationVoteOperation,
+    LegacyRepresentationWithdrawVestingOperation,
+    LegacyRepresentationWitnessBlockApproveOperation,
+    LegacyRepresentationWitnessSetPropertiesOperation,
+    LegacyRepresentationWitnessUpdateOperation,
+)
 from schemas.operations.request_account_recovery_operation import RequestAccountRecoveryOperation
 from schemas.operations.reset_account_operation import ResetAccountOperation
 from schemas.operations.set_reset_account_operation import SetResetAccountOperation
@@ -93,10 +197,7 @@ from schemas.operations.update_proposal_operation import (
     UpdateProposalOperationLegacy,
 )
 from schemas.operations.update_proposal_votes_operation import UpdateProposalVotesOperation
-from schemas.operations.virtual import (
-    AnyLegacyVirtualOperation,
-    AnyVirtualOperation,
-)
+from schemas.operations.virtual import Hf26VirtualOperationRepresentation, LegacyVirtualOperationRepresentation
 from schemas.operations.vote_operation import VoteOperation
 from schemas.operations.withdraw_vesting_operation import (
     WithdrawVestingOperation,
@@ -110,11 +211,16 @@ from schemas.operations.witness_update_operation import (
 )
 
 __all__ = [
-    # ANY OPERATION
-    "AnyOperation",
+    # ANY OPERATION BY TYPE
+    "AnyHf26Operation",
     "AnyLegacyOperation",
-    "AnyEveryOperation",
-    "AnyLegacyEveryOperation",
+    # ANY OPERATION BY VIRTUAL
+    # NON-VIRTUAL
+    "Hf26OperationRepresentation",
+    "LegacyOperationRepresentation",
+    # VIRTUAL
+    "Hf26VirtualOperationRepresentation",
+    "LegacyVirtualOperationRepresentation",
     # OPERATIONS
     "AccountCreateOperation",
     "AccountCreateWithDelegationOperation",
@@ -193,111 +299,111 @@ __all__ = [
     "WitnessUpdateOperationLegacy",
 ]
 
-AnyOperation = (
-    AccountCreateOperation
-    | AccountCreateWithDelegationOperation
-    | AccountUpdate2Operation
-    | AccountUpdateOperation
-    | AccountWitnessProxyOperation
-    | AccountWitnessVoteOperation
-    | CancelTransferFromSavingsOperation
-    | ChangeRecoveryAccountOperation
-    | ClaimAccountOperation
-    | ClaimRewardBalanceOperation
-    | CollateralizedConvertOperation
-    | CommentOperation
-    | CommentOptionsOperation
-    | ConvertOperation
-    | CreateClaimedAccountOperation
-    | CreateProposalOperation
-    | CustomBinaryOperation
-    | CustomJsonOperation
-    | CustomOperation
-    | DeclineVotingRightsOperation
-    | DelegateVestingSharesOperation
-    | DeleteCommentOperation
-    | EscrowApproveOperation
-    | EscrowDisputeOperation
-    | EscrowReleaseOperation
-    | EscrowTransferOperation
-    | FeedPublishOperation
-    | LimitOrderCancelOperation
-    | LimitOrderCreate2Operation
-    | LimitOrderCreateOperation
-    | PowOperation
-    | Pow2Operation
-    | RecoverAccountOperation
-    | RecurrentTransferOperation
-    | RemoveProposalOperation
-    | RequestAccountRecoveryOperation
-    | ResetAccountOperation
-    | SetResetAccountOperation
-    | SetWithdrawVestingRouteOperation
-    | TransferFromSavingsOperation
-    | TransferOperation
-    | TransferToSavingsOperation
-    | TransferToVestingOperation
-    | UpdateProposalOperation
-    | UpdateProposalVotesOperation
-    | VoteOperation
-    | WithdrawVestingOperation
-    | WitnessBlockApproveOperation
-    | WitnessSetPropertiesOperation
-    | WitnessUpdateOperation
+Hf26OperationRepresentation = (
+    HF26RepresentationAccountCreateOperation
+    | HF26RepresentationAccountCreateWithDelegationOperation
+    | HF26RepresentationAccountUpdate2Operation
+    | HF26RepresentationAccountUpdateOperation
+    | HF26RepresentationAccountWitnessProxyOperation
+    | HF26RepresentationAccountWitnessVoteOperation
+    | HF26RepresentationCancelTransferFromSavingsOperation
+    | HF26RepresentationChangeRecoveryAccountOperation
+    | HF26RepresentationClaimAccountOperation
+    | HF26RepresentationClaimRewardBalanceOperation
+    | HF26RepresentationCollateralizedConvertOperation
+    | HF26RepresentationCommentOperation
+    | HF26RepresentationCommentOptionsOperation
+    | HF26RepresentationConvertOperation
+    | HF26RepresentationCreateClaimedAccountOperation
+    | HF26RepresentationCreateProposalOperation
+    | HF26RepresentationCustomBinaryOperation
+    | HF26RepresentationCustomJsonOperation
+    | HF26RepresentationCustomOperation
+    | HF26RepresentationDeclineVotingRightsOperation
+    | HF26RepresentationDelegateVestingSharesOperation
+    | HF26RepresentationDeleteCommentOperation
+    | HF26RepresentationEscrowApproveOperation
+    | HF26RepresentationEscrowDisputeOperation
+    | HF26RepresentationEscrowReleaseOperation
+    | HF26RepresentationEscrowTransferOperation
+    | HF26RepresentationFeedPublishOperation
+    | HF26RepresentationLimitOrderCancelOperation
+    | HF26RepresentationLimitOrderCreate2Operation
+    | HF26RepresentationLimitOrderCreateOperation
+    | HF26RepresentationPowOperation
+    | HF26RepresentationPow2Operation
+    | HF26RepresentationRecoverAccountOperation
+    | HF26RepresentationRecurrentTransferOperation
+    | HF26RepresentationRemoveProposalOperation
+    | HF26RepresentationRequestAccountRecoveryOperation
+    | HF26RepresentationResetAccountOperation
+    | HF26RepresentationSetResetAccountOperation
+    | HF26RepresentationSetWithdrawVestingRouteOperation
+    | HF26RepresentationTransferFromSavingsOperation
+    | HF26RepresentationTransferOperation
+    | HF26RepresentationTransferToSavingsOperation
+    | HF26RepresentationTransferToVestingOperation
+    | HF26RepresentationUpdateProposalOperation
+    | HF26RepresentationUpdateProposalVotesOperation
+    | HF26RepresentationVoteOperation
+    | HF26RepresentationWithdrawVestingOperation
+    | HF26RepresentationWitnessBlockApproveOperation
+    | HF26RepresentationWitnessSetPropertiesOperation
+    | HF26RepresentationWitnessUpdateOperation
 )
 
-AnyLegacyOperation = (
-    AccountCreateOperationLegacy
-    | AccountUpdate2Operation
-    | AccountUpdateOperation
-    | AccountWitnessProxyOperation
-    | AccountWitnessVoteOperation
-    | CancelTransferFromSavingsOperation
-    | ChangeRecoveryAccountOperation
-    | ClaimAccountOperationLegacy
-    | ClaimRewardBalanceOperationLegacy
-    | CollateralizedConvertOperationLegacy
-    | CommentOperation
-    | CommentOptionsOperationLegacy
-    | ConvertOperationLegacy
-    | CreateClaimedAccountOperation
-    | CreateProposalOperationLegacy
-    | CustomBinaryOperation
-    | CustomJsonOperation
-    | CustomOperation
-    | DeclineVotingRightsOperation
-    | DelegateVestingSharesOperationLegacy
-    | DeleteCommentOperation
-    | EscrowApproveOperation
-    | EscrowDisputeOperation
-    | EscrowReleaseOperationLegacy
-    | EscrowTransferOperationLegacy
-    | FeedPublishOperation
-    | LimitOrderCancelOperation
-    | LimitOrderCreate2OperationLegacy
-    | LimitOrderCreateOperationLegacy
-    | PowOperationLegacy
-    | Pow2OperationLegacy
-    | RecoverAccountOperation
-    | RecurrentTransferOperationLegacy
-    | RemoveProposalOperation
-    | RequestAccountRecoveryOperation
-    | ResetAccountOperation
-    | SetResetAccountOperation
-    | SetWithdrawVestingRouteOperation
-    | TransferFromSavingsOperationLegacy
-    | TransferOperationLegacy
-    | TransferToSavingsOperationLegacy
-    | TransferToVestingOperationLegacy
-    | UpdateProposalOperationLegacy
-    | UpdateProposalVotesOperation
-    | VoteOperation
-    | WithdrawVestingOperationLegacy
-    | WitnessBlockApproveOperation
-    | WitnessSetPropertiesOperation
-    | WitnessUpdateOperationLegacy
+LegacyOperationRepresentation = (
+    LegacyRepresentationAccountCreateOperation
+    | LegacyRepresentationAccountUpdate2Operation
+    | LegacyRepresentationAccountUpdateOperation
+    | LegacyRepresentationAccountWitnessProxyOperation
+    | LegacyRepresentationAccountWitnessVoteOperation
+    | LegacyRepresentationCancelTransferFromSavingsOperation
+    | LegacyRepresentationChangeRecoveryAccountOperation
+    | LegacyRepresentationClaimAccountOperation
+    | LegacyRepresentationClaimRewardBalanceOperation
+    | LegacyRepresentationCollateralizedConvertOperation
+    | LegacyRepresentationCommentOperation
+    | LegacyRepresentationCommentOptionsOperation
+    | LegacyRepresentationConvertOperation
+    | LegacyRepresentationCreateClaimedAccountOperation
+    | LegacyRepresentationCreateProposalOperation
+    | LegacyRepresentationCustomBinaryOperation
+    | LegacyRepresentationCustomJsonOperation
+    | LegacyRepresentationCustomOperation
+    | LegacyRepresentationDeclineVotingRightsOperation
+    | LegacyRepresentationDelegateVestingSharesOperation
+    | LegacyRepresentationDeleteCommentOperation
+    | LegacyRepresentationEscrowApproveOperation
+    | LegacyRepresentationEscrowDisputeOperation
+    | LegacyRepresentationEscrowReleaseOperation
+    | LegacyRepresentationEscrowTransferOperation
+    | LegacyRepresentationFeedPublishOperation
+    | LegacyRepresentationLimitOrderCancelOperation
+    | LegacyRepresentationLimitOrderCreate2Operation
+    | LegacyRepresentationLimitOrderCreateOperation
+    | LegacyRepresentationPowOperation
+    | LegacyRepresentationPow2Operation
+    | LegacyRepresentationRecoverAccountOperation
+    | LegacyRepresentationRecurrentTransferOperation
+    | LegacyRepresentationRemoveProposalOperation
+    | LegacyRepresentationRequestAccountRecoveryOperation
+    | LegacyRepresentationResetAccountOperation
+    | LegacyRepresentationSetResetAccountOperation
+    | LegacyRepresentationSetWithdrawVestingRouteOperation
+    | LegacyRepresentationTransferFromSavingsOperation
+    | LegacyRepresentationTransferOperation
+    | LegacyRepresentationTransferToSavingsOperation
+    | LegacyRepresentationTransferToVestingOperation
+    | LegacyRepresentationUpdateProposalOperation
+    | LegacyRepresentationUpdateProposalVotesOperation
+    | LegacyRepresentationVoteOperation
+    | LegacyRepresentationWithdrawVestingOperation
+    | LegacyRepresentationWitnessBlockApproveOperation
+    | LegacyRepresentationWitnessSetPropertiesOperation
+    | LegacyRepresentationWitnessUpdateOperation
 )
 
 
-AnyEveryOperation = AnyOperation | AnyVirtualOperation
-AnyLegacyEveryOperation = AnyLegacyOperation | AnyLegacyVirtualOperation
+AnyHf26Operation = Hf26OperationRepresentation | Hf26VirtualOperationRepresentation
+AnyLegacyOperation = LegacyOperationRepresentation | LegacyVirtualOperationRepresentation
