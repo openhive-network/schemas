@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import re
 from typing import TYPE_CHECKING, Annotated, Any, Final, Generic, TypeVar, get_args
 
@@ -29,26 +28,6 @@ if TYPE_CHECKING:
 
 ACCOUNT_NAME_SEGMENT_REGEX: Final[str] = r"[a-z][a-z0-9\-]+[a-z0-9]"
 BASE_58_REGEX: Final[str] = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
-
-def is_valid_json(string: str) -> bool:
-    try:
-        json.loads(string)
-        return True
-    except json.JSONDecodeError:
-        return False
-
-T = TypeVar("T")
-
-class OptionallyEmpty(str, Generic[T]):
-    @staticmethod
-    def resolve(cls: type, value: str) -> OptionallyEmpty[Any]:
-        if len(value) == 0:
-            return OptionallyEmpty("")
-        non_empty_str_t = get_args(cls)[0]
-        if is_valid_json(value):
-            return OptionallyEmpty(msgspec.json.decode(f'"{value}"', type=non_empty_str_t))
-        else:
-            return OptionallyEmpty(value)
 
 AccountName = Annotated[str, msgspec.Meta(max_length=16, min_length=3, pattern=rf"^{ACCOUNT_NAME_SEGMENT_REGEX}(?:\.{ACCOUNT_NAME_SEGMENT_REGEX})*$")]
 

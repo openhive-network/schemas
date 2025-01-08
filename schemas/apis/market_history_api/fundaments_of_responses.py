@@ -6,7 +6,7 @@ from pydantic import Field
 from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.fields.assets._base import AssetBase, AssetHbd, AssetHive, AssetHiveOrHbd, AssetVest
+from schemas.fields.assets._base import AssetBase, AssetHbd, AssetHive
 from schemas.fields.basic import AccountName
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt

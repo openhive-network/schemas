@@ -4,6 +4,7 @@ from typing import Any, Generic, Union
 
 from pydantic import Field, Json
 from pydantic.generics import GenericModel
+from schemas.fields.resolvables import AssetUnion
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 # from schemas.fields.assets.hbd import AssetHbd
@@ -11,13 +12,14 @@ from schemas._preconfigured_base_model import PreconfiguredBaseModel
 # from schemas.fields.assets.vests import AssetVest
 from schemas.fields.assets._base import AssetHbd, AssetHive, AssetVest
 from schemas.fields.basic import (
-    AccountName, OptionallyEmpty,
+    AccountName,
     EmptyString,
     FloatAsString,
     Permlink,
     PublicKey,
     WitnessUrl,
 )
+from schemas.fields.resolvables import OptionallyEmpty
 from schemas.fields.compound import (
     Authority,
     DelayedVotes,
@@ -224,7 +226,7 @@ class FindRecurrentTransfersFundament(PreconfiguredBaseModel, kw_only=True):
     trigger_date: HiveDateTime
     from_: AccountName = Field(alias="from")
     to: AccountName
-    amount: AssetHive | AssetHbd
+    amount: AssetUnion[AssetHive, AssetHbd]
     memo: str
     recurrence: HiveInt
     consecutive_failures: HiveInt

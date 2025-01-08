@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Annotated, Any
+from typing_extensions import Self
 
 import msgspec
 from pydantic import ConstrainedInt
@@ -14,13 +15,13 @@ __all__ = [
 
 # HiveInt = Annotated[str, msgspec.Meta(pattern=r"^[0-9]+$")]
 class HiveInt():
-    def __init__(self, value: int | str):
+    def __init__(self, value: int | str | Self):
         self.value = str(value)
         self._validate()
 
     def __int__(self):
         return int(self.value)
-    
+
     def __str__(self):
         return self.value
 
@@ -30,24 +31,9 @@ class HiveInt():
     def _validate(self):
         pass
 
-    # @classmethod
-    # def __get_validators__(cls) -> CallableGenerator:
-    #     yield cls.validate
-    #     yield from super().__get_validators__()
-
-    # @classmethod
-    # def validate(cls, value: Any) -> int:
-    #     error_template = ValueError("The value could only be int or string that can be converted to int!")
-
-    #     if isinstance(value, float | bool):
-    #         raise error_template
-
-    #     if isinstance(value, int | HiveInt):
-    #         return value
-
-    #     if isinstance(value, str):
-    #         try:
-    #             return int(value)
-    #         except (ValueError, TypeError) as error:
-    #             raise error_template from error
-    #     raise error_template
+    def __eq__(self, value: object) -> bool:
+        if isinstance(value, int | float):
+            return int(self.value) == value
+        elif isinstance(value, str | HiveInt):
+            return self.value == value
+        return False

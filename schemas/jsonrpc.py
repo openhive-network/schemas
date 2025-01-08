@@ -17,10 +17,11 @@ from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.condenser_api.response_schemas import GetDiscussionsByBlog
 from schemas.apis.market_history_api.fundaments_of_responses import BucketSizes
 from schemas.fields.assets._base import AssetHbd, AssetHive, AssetNaiAmount, AssetVest
-from schemas.fields.basic import Permlink, PublicKey, OptionallyEmpty, AccountName
+from schemas.fields.basic import Permlink, PublicKey
 from schemas.fields.hex import Hex, Sha256, TransactionId
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.version import Version
+from schemas.fields.resolvables import Resolvable
 
 __all__ = [
     "get_response_model",
@@ -117,12 +118,15 @@ def testnet_hf26_dec_hook(type: Type, obj: Any) -> Any:
         return HiveInt(obj)
     if type is BucketSizes:
         return BucketSizes(obj)
-    # if type is AssetVest:
-    #     return AssetVest.from_nai(obj)
-    # if type is AssetHive:
-    #     return AssetHive.from_nai(obj)
-    # if type is AssetHbd:
-    #     return AssetHbd.from_nai(obj)
+    if type is AssetVest:
+        return AssetVest.from_nai(obj)
+    if type is AssetHive:
+        return AssetHive.from_nai(obj)
+    if type is AssetHbd:
+        try:
+            return AssetHbd.from_nai(obj)
+        except Exception as e:
+            raise
     if type is AssetNaiAmount:
         return AssetNaiAmount(obj)
     if type is Permlink:
@@ -138,8 +142,8 @@ def testnet_hf26_dec_hook(type: Type, obj: Any) -> Any:
     if type is Hex:
         return Hex(obj)
     orig_type = get_origin(type)
-    if orig_type is not None and orig_type is OptionallyEmpty:
-        return OptionallyEmpty.resolve(type, obj)
+    if orig_type is not None and issubclass(orig_type, Resolvable):
+        return type.resolve(type, obj)
     else:
         raise NotImplementedError(f"Objects of type {type} are not supported")
 
