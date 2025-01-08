@@ -184,7 +184,7 @@ class EscrowsFundament(PreconfiguredBaseModel, kw_only=True):
     escrow_expiration: HiveDateTime
     hbd_balance: AssetHbd
     hive_balance: AssetHive
-    pending_fee: AssetHbd | AssetHive
+    pending_fee: AssetUnion[AssetHbd, AssetHive]
     to_approved: bool
     agent_approved: bool
     disputed: bool
@@ -242,7 +242,7 @@ class SavingsWithdrawalsFundament(PreconfiguredBaseModel, kw_only=True):
     to: AccountName
     memo: str
     request_id: HiveInt
-    amount: AssetHive | AssetHbd
+    amount: AssetUnion[AssetHive, AssetHbd]
     complete: HiveDateTime
 
 

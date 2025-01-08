@@ -21,7 +21,7 @@ from schemas.fields.basic import Permlink, PublicKey
 from schemas.fields.hex import Hex, Sha256, TransactionId
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.version import Version
-from schemas.fields.resolvables import Resolvable
+from schemas.fields.resolvables import AnyAsset, Resolvable
 
 __all__ = [
     "get_response_model",
@@ -141,6 +141,8 @@ def testnet_hf26_dec_hook(type: Type, obj: Any) -> Any:
         return TransactionId(obj)
     if type is Hex:
         return Hex(obj)
+    if type is AnyAsset:
+        return AnyAsset.resolve(type, obj)
     orig_type = get_origin(type)
     if orig_type is not None and issubclass(orig_type, Resolvable):
         return type.resolve(type, obj)

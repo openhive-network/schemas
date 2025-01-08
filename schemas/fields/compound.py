@@ -18,6 +18,7 @@ from schemas.fields.hex import Hex
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.integers import Uint16t, Uint32t
+from schemas.fields.resolvables import AnyAsset, AssetUnion
 from schemas.hive_constants import HIVE_HBD_INTEREST_RATE, HIVE_MAX_BLOCK_SIZE
 
 __all__ = [
@@ -57,8 +58,8 @@ class HbdExchangeRate(PreconfiguredBaseModel):
     Here Hive also must be first parameter of generic
     """
 
-    base: AssetHive | AssetHbd
-    quote: AssetHive | AssetHbd
+    base: AssetUnion[AssetHive, AssetHbd]
+    quote: AssetUnion[AssetHive, AssetHbd]
 
 
 class LegacyChainProperties(PreconfiguredBaseModel):
@@ -87,8 +88,8 @@ class Price(PreconfiguredBaseModel):
     Remember that Hive must be first parameter of generic !
     """
 
-    base: AssetHive | AssetHbd | AssetVest
-    quote: AssetHive | AssetHbd | AssetVest
+    base: AnyAsset
+    quote: AnyAsset
 
 
 class Proposal(PreconfiguredBaseModel, kw_only=True):

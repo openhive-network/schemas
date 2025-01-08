@@ -28,11 +28,11 @@ from .response_schemas import (
 @pytest.mark.parametrize(
     "schema, parameters",
     [
-        # (GetMarketHistory, GET_MARKET_HISTORY),
-        # (GetVolume, GET_VOLUME),
-        # (GetTicker, GET_TICKER),
-        # (GetMarketHistoryBuckets, GET_MARKET_HISTORY_BUCKETS),
-        # (GetTradeHistory, GET_TRADE_HISTORY),
+        (GetMarketHistory, GET_MARKET_HISTORY),
+        (GetVolume, GET_VOLUME),
+        (GetTicker, GET_TICKER),
+        (GetMarketHistoryBuckets, GET_MARKET_HISTORY_BUCKETS),
+        (GetTradeHistory, GET_TRADE_HISTORY),
         (GetRecentTrades, GET_RECENT_TRADES),
     ],
 )

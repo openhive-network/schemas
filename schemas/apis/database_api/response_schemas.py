@@ -43,7 +43,6 @@ from schemas.fields.assets._symbol import HbdSymbolType, HiveSymbolType, VestsSy
 from schemas.fields.basic import (
     AccountName,
     EmptyString,
-    OptionallyEmpty,
     PublicKey,
 )
 from schemas.fields.compound import (
@@ -56,6 +55,7 @@ from schemas.fields.hex import Hex, TransactionId
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.hive_list import HiveList
+from schemas.fields.resolvables import OptionallyEmpty
 from schemas.fields.version import HardforkVersion, HiveVersion
 
 
