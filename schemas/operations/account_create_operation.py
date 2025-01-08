@@ -4,7 +4,8 @@ from typing import Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
+from schemas.fields.assets._base import AssetHive
+# from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
     AccountName,
     PublicKey,
@@ -13,11 +14,11 @@ from schemas.fields.compound import Authority
 from schemas.operation import Operation
 
 
-class _AccountCreateOperation(Operation, GenericModel, Generic[AssetHiveT]):
+class _AccountCreateOperation(Operation):
     __operation_name__ = "account_create"
     __offset__ = 9
 
-    fee: AssetHiveT
+    fee: AssetHive
     creator: AccountName
     new_account_name: AccountName
     owner: Authority
@@ -27,9 +28,9 @@ class _AccountCreateOperation(Operation, GenericModel, Generic[AssetHiveT]):
     json_metadata: str
 
 
-class AccountCreateOperation(_AccountCreateOperation[AssetHiveHF26]):
+class AccountCreateOperation(_AccountCreateOperation):
     ...
 
 
-class AccountCreateOperationLegacy(_AccountCreateOperation[AssetHiveLegacy]):
+class AccountCreateOperationLegacy(_AccountCreateOperation):
     ...

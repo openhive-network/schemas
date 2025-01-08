@@ -6,7 +6,7 @@ from typing import Final, Generic
 from pydantic import BaseModel
 from pydantic.generics import GenericModel
 
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
+from schemas.fields.assets._base import AssetHbd
 from schemas.fields.basic import (
     AccountName,
 )
@@ -22,7 +22,7 @@ class Empty(BaseModel):
     pass
 
 
-class _EffectiveCommentVoteOperation(VirtualOperation, GenericModel, Generic[AssetHbdT], ABC):
+class _EffectiveCommentVoteOperation(VirtualOperation, kw_only=True):
     __operation_name__ = "effective_comment_vote"
     __offset__ = 22
 
@@ -32,12 +32,12 @@ class _EffectiveCommentVoteOperation(VirtualOperation, GenericModel, Generic[Ass
     weight: Uint64t = DEFAULT_WEIGHT
     rshares: Int64t = DEFAULT_RSHARES
     total_vote_weight: Uint64t = DEFAULT_TOTAL_VOTE_WEIGHT
-    pending_payout: AssetHbdT
+    pending_payout: AssetHbd
 
 
-class EffectiveCommentVoteOperation(_EffectiveCommentVoteOperation[AssetHbdHF26]):
+class EffectiveCommentVoteOperation(_EffectiveCommentVoteOperation):
     ...
 
 
-class EffectiveCommentVoteOperationLegacy(_EffectiveCommentVoteOperation[AssetHbdLegacy]):
+class EffectiveCommentVoteOperationLegacy(_EffectiveCommentVoteOperation):
     ...

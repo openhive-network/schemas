@@ -12,7 +12,7 @@ DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 DEFAULT_APPROVE: Final[bool] = True
 
 
-class EscrowApproveOperation(Operation):
+class EscrowApproveOperation(Operation, kw_only=True):
     __operation_name__ = "escrow_approve"
     __offset__ = 31
 

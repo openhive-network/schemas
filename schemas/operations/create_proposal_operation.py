@@ -5,7 +5,7 @@ from typing import Generic
 from pydantic import Field
 from pydantic.generics import GenericModel
 
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
+from schemas.fields.assets._base import AssetHbd
 from schemas.fields.basic import (
     AccountName,
 )
@@ -14,7 +14,7 @@ from schemas.operation import Operation
 from schemas.operations.extensions.future_extension import FutureExtensions
 
 
-class _CreateProposalOperation(Operation, GenericModel, Generic[AssetHbdT]):
+class _CreateProposalOperation(Operation):
     __operation_name__ = "create_proposal"
     __offset__ = 44
 
@@ -22,15 +22,15 @@ class _CreateProposalOperation(Operation, GenericModel, Generic[AssetHbdT]):
     receiver: AccountName
     start_date: HiveDateTime
     end_date: HiveDateTime
-    daily_pay: AssetHbdT
+    daily_pay: AssetHbd
     subject: str
     permlink: str
     extensions: FutureExtensions = Field(default_factory=FutureExtensions)
 
 
-class CreateProposalOperation(_CreateProposalOperation[AssetHbdHF26]):
+class CreateProposalOperation(_CreateProposalOperation):
     ...
 
 
-class CreateProposalOperationLegacy(_CreateProposalOperation[AssetHbdLegacy]):
+class CreateProposalOperationLegacy(_CreateProposalOperation):
     ...

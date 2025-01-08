@@ -10,7 +10,7 @@ from schemas.fields.json_string import AnyJson, JsonFieldType, JsonString
 from schemas.operation import Operation
 
 
-class CustomJsonOperationGeneric(Operation, GenericModel, Generic[JsonFieldType]):
+class CustomJsonOperationGeneric(Operation):
     __operation_name__ = "custom_json"
     __offset__ = 18
 
@@ -20,4 +20,4 @@ class CustomJsonOperationGeneric(Operation, GenericModel, Generic[JsonFieldType]
     json_: JsonString[JsonFieldType] = Field(alias="json")
 
 
-CustomJsonOperation: TypeAlias = CustomJsonOperationGeneric[AnyJson]
+CustomJsonOperation: TypeAlias = CustomJsonOperationGeneric

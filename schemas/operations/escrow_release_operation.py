@@ -5,8 +5,8 @@ from typing import Final, Generic
 from pydantic import Field
 from pydantic.generics import GenericModel
 
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
+
+from schemas.fields.assets._base import AssetHbd, AssetHive
 from schemas.fields.basic import (
     AccountName,
 )
@@ -16,7 +16,7 @@ from schemas.operation import Operation
 DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 
 
-class _EscrowReleaseOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class _EscrowReleaseOperation(Operation, kw_only=True):
     __operation_name__ = "escrow_release"
     __offset__ = 29
 
@@ -26,13 +26,13 @@ class _EscrowReleaseOperation(Operation, GenericModel, Generic[AssetHiveT, Asset
     who: AccountName
     receiver: AccountName
     escrow_id: Uint32t = DEFAULT_ESCROW_ID
-    hbd_amount: AssetHbdT  # here add  default
-    hive_amount: AssetHiveT  # here add default
+    hbd_amount: AssetHbd  # here add  default
+    hive_amount: AssetHive  # here add default
 
 
-class EscrowReleaseOperation(_EscrowReleaseOperation[AssetHiveHF26, AssetHbdHF26]):
+class EscrowReleaseOperation(_EscrowReleaseOperation):
     ...
 
 
-class EscrowReleaseOperationLegacy(_EscrowReleaseOperation[AssetHiveLegacy, AssetHbdLegacy]):
+class EscrowReleaseOperationLegacy(_EscrowReleaseOperation):
     ...

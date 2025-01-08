@@ -11,7 +11,7 @@ from schemas.operation import Operation
 DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 
 
-class EscrowDisputeOperation(Operation):
+class EscrowDisputeOperation(Operation, kw_only=True):
     __operation_name__ = "escrow_dispute"
     __offset__ = 28
 

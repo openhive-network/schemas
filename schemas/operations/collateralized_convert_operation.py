@@ -4,7 +4,7 @@ from typing import Final, Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
+from schemas.fields.assets._base import AssetHive
 from schemas.fields.basic import AccountName
 from schemas.fields.integers import Uint32t
 from schemas.operation import Operation
@@ -12,18 +12,18 @@ from schemas.operation import Operation
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _CollateralizedConvertOperation(Operation, GenericModel, Generic[AssetHiveT]):
+class _CollateralizedConvertOperation(Operation, kw_only=True):
     __operation_name__ = "collateralized_convert"
     __offset__ = 48
 
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
-    amount: AssetHiveT
+    amount: AssetHive
 
 
-class CollateralizedConvertOperation(_CollateralizedConvertOperation[AssetHiveHF26]):
+class CollateralizedConvertOperation(_CollateralizedConvertOperation):
     ...
 
 
-class CollateralizedConvertOperationLegacy(_CollateralizedConvertOperation[AssetHiveLegacy]):
+class CollateralizedConvertOperationLegacy(_CollateralizedConvertOperation):
     ...

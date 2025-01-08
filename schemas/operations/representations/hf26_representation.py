@@ -5,12 +5,14 @@ from typing import Any, Generic
 from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.operation import Operation
+from schemas.operations.extensions.extension import OperationExtension
 from schemas.operations.representations.representation_value_typevar import RepresentationValueT
 
 
-class HF26Representation(PreconfiguredBaseModel, GenericModel, Generic[RepresentationValueT]):
+class HF26Representation(PreconfiguredBaseModel):
     type: str  # noqa: A003
-    value: RepresentationValueT
+    value: Operation | OperationExtension
 
     def __getitem__(self, key: str | int) -> Any:
         """This method has been added to reduce changes in tests in cli_wallet, where we change legacy to HF26 protocool"""

@@ -7,7 +7,7 @@ from schemas.fields.compound import Authority
 from schemas.operation import Operation
 
 
-class CustomBinaryOperation(Operation):
+class CustomBinaryOperation(Operation, kw_only=True):
     __operation_name__ = "custom_binary"
     __offset__ = 35
 

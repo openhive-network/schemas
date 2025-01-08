@@ -4,24 +4,23 @@ from typing import Generic
 
 from pydantic.generics import GenericModel
 
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
-from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsLegacy, AssetVestsT
+
+from schemas.fields.assets._base import AssetHbd, AssetHive, AssetVest
 from schemas.virtual_operation import VirtualOperation
 
 
-class _ClearNullAccountBalanceOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
+class _ClearNullAccountBalanceOperation(VirtualOperation, kw_only=True):
     __operation_name__ = "clear_null_account_balance"
     __offset__ = 15
 
-    total_cleared: list[AssetHiveT | AssetHbdT | AssetVestsT]
+    total_cleared: list[AssetHive | AssetHbd | AssetVest]
 
 
-class ClearNullAccountBalanceOperation(_ClearNullAccountBalanceOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
+class ClearNullAccountBalanceOperation(_ClearNullAccountBalanceOperation):
     ...
 
 
 class ClearNullAccountBalanceOperationLegacy(
-    _ClearNullAccountBalanceOperation[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
+    _ClearNullAccountBalanceOperation
 ):
     ...

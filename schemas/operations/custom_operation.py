@@ -8,7 +8,7 @@ from schemas.fields.integers import Uint16t
 from schemas.operation import Operation
 
 
-class CustomOperation(Operation):
+class CustomOperation(Operation, kw_only=True):
     __operation_name__ = "custom"
     __offset__ = 15
 

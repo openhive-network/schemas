@@ -5,27 +5,26 @@ from typing import Generic
 from pydantic import Field
 from pydantic.generics import GenericModel
 
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
+from schemas.fields.assets._base import AssetHbd, AssetHive
 from schemas.fields.basic import (
     AccountName,
 )
 from schemas.operation import Operation
 
 
-class _TransferToSavingsOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class _TransferToSavingsOperation(Operation, kw_only=True):
     __operation_name__ = "transfer_to_savings"
     __offset__ = 32
 
     from_: AccountName = Field(alias="from")
     to: AccountName
-    amount: AssetHiveT | AssetHbdT
+    amount: AssetHive | AssetHbd
     memo: str
 
 
-class TransferToSavingsOperation(_TransferToSavingsOperation[AssetHiveHF26, AssetHbdHF26]):
+class TransferToSavingsOperation(_TransferToSavingsOperation):
     ...
 
 
-class TransferToSavingsOperationLegacy(_TransferToSavingsOperation[AssetHiveLegacy, AssetHbdLegacy]):
+class TransferToSavingsOperationLegacy(_TransferToSavingsOperation):
     ...

@@ -6,7 +6,6 @@ from pydantic import Field
 from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
     AccountName,
     PublicKey,
@@ -30,30 +29,30 @@ class Pow2(PreconfiguredBaseModel):
     pow_summary: Uint32t = Field(default_factory=lambda: Uint32t(0))
 
 
-class EquihashPow(PreconfiguredBaseModel):
+class EquihashPow(PreconfiguredBaseModel, kw_only=True):
     input_: Sha256 = Field(alias="input")
     proof: Any
     prev_block: TransactionId
     pow_summary: Uint32t
 
 
-class Pow2Work(PreconfiguredBaseModel):
+class Pow2Work(PreconfiguredBaseModel, kw_only=True):
     type_: str = Field(alias="type")
     value: Pow2 | EquihashPow
 
 
-class _Pow2Operation(Operation, GenericModel, Generic[AssetHiveT]):
+class _Pow2Operation(Operation):
     __operation_name__ = "pow2"
     __offset__ = 30
 
     work: Pow2Work
-    props: LegacyChainProperties[AssetHiveT]
+    props: LegacyChainProperties
     new_owner_key: PublicKey | None = None
 
 
-class Pow2Operation(_Pow2Operation[AssetHiveHF26]):
+class Pow2Operation(_Pow2Operation):
     ...
 
 
-class Pow2OperationLegacy(_Pow2Operation[AssetHiveLegacy]):
+class Pow2OperationLegacy(_Pow2Operation):
     ...
