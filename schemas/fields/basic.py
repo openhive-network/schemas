@@ -45,7 +45,10 @@ class OptionallyEmpty(str, Generic[T]):
         if len(value) == 0:
             return OptionallyEmpty("")
         non_empty_str_t = get_args(cls)[0]
-        return OptionallyEmpty(msgspec.json.decode(f'"{value}"', type=non_empty_str_t))
+        if is_valid_json(value):
+            return OptionallyEmpty(msgspec.json.decode(f'"{value}"', type=non_empty_str_t))
+        else:
+            return OptionallyEmpty(value)
 
 AccountName = Annotated[str, msgspec.Meta(max_length=16, min_length=3, pattern=rf"^{ACCOUNT_NAME_SEGMENT_REGEX}(?:\.{ACCOUNT_NAME_SEGMENT_REGEX})*$")]
 
