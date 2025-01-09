@@ -36,15 +36,15 @@ class AssetBase(ABC):
     def get_asset_information() -> AssetInfo:
         """This method returns asset details, which we use to perform checks"""
 
-    @property
-    def symbol(self) -> tuple[str, str]:
-        return self.get_asset_information().symbol
+    @classmethod
+    def symbol(cls) -> tuple[str, str]:
+        return cls.get_asset_information().symbol
 
-    @property
+    @classmethod
     def precision(self) -> HiveInt:
         return self.get_asset_information().precision
 
-    @property
+    @classmethod
     def nai(self) -> str:
         return self.get_asset_information().nai
 
@@ -66,10 +66,10 @@ class AssetBase(ABC):
 
     def clone(self, *, amount: Any | int | AssetBase | None = None) -> Self:
         if amount is None:
-            return self.__class__(amount=self.amount, precision=self.precision, nai=self.nai)
+            return self.__class__(amount=self.amount, precision=self.precision(), nai=self.nai())
         if isinstance(amount, int | AssetBase):
             amount_to_use = amount if isinstance(amount, int) else amount.amount
-            return self.__class__(amount=AssetNaiAmount(amount_to_use), precision=self.precision, nai=self.nai)
+            return self.__class__(amount=AssetNaiAmount(amount_to_use), precision=self.precision(), nai=self.nai())
         raise TypeError(f"`{amount}` cannot be used as amount.")
 
     @classmethod
@@ -85,7 +85,7 @@ class AssetBase(ABC):
         Returns:
             compiled regex
         """
-        return re.compile(r"(^\d+\.(\d{" + str(cls.precision) + r"})) (" + "|".join(cls.symbol) + r")$")
+        return re.compile(r"(^\d+\.(\d{" + str(cls.precision()) + r"})) (" + "|".join(cls.symbol()) + r")$")
 
     @classmethod
     def __legacy_regex_validator(cls, value: str) -> str: # *, use_asset_info: AssetInfo | None = None) -> str:
@@ -93,7 +93,7 @@ class AssetBase(ABC):
             raise ValueError("Asset could not be negative value!")
         regex = cls._get_legacy_regex()
         if regex.match(value) is None:
-            raise Exception("Given legacy asset does not match regex")
+            raise ValueError("Given legacy asset does not match regex")
         return value
 
     @classmethod

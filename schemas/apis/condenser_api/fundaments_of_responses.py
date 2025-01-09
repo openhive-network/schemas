@@ -167,8 +167,8 @@ class GetTrendingTagsFundament(PreconfiguredBaseModel, kw_only=True):
     total_payouts: AssetHbd
     top_posts: HiveInt
     comments: HiveInt
-    net_votes: HiveInt | None
-    trending: str | None
+    net_votes: HiveInt | None = None
+    trending: str | None = None
 
 
 class ListProposalsFundament(Proposal, kw_only=True):

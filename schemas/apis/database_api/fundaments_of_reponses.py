@@ -163,7 +163,7 @@ class FindCommentsFundament(PreconfiguredBaseModel, kw_only=True):
     allow_votes: bool
     allow_curation_rewards: bool
     beneficiaries: list[Any]
-    was_voted_on: bool
+    was_voted_on: bool | None = None
 
 
 class FindDeclineVotingRightsRequestsFundament(PreconfiguredBaseModel, kw_only=True):

@@ -43,6 +43,7 @@ from schemas.apis.condenser_api.fundaments_of_responses import (
     ListRcDirectDelegationsFundament,
     LookupAccountNamesFundament,
 )
+from schemas.fields.assets._base import AssetHbd, AssetHive
 from schemas.fields.basic import (
     AccountName,
     EmptyString,
@@ -57,6 +58,7 @@ from schemas.fields.hex import Hex
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.hive_list import HiveList
+from schemas.fields.resolvables import AssetUnion, OptionallyEmpty
 from schemas.fields.version import HardforkVersion, HiveVersion
 from schemas.operations.representation_types import (
     LegacyOperationRepresentationType,
@@ -100,7 +102,7 @@ GetAccounts = HiveList[GetAccountsFundament]
 GetActiveVotes = HiveList[GetActiveVotesFundament]
 
 
-GetActiveWitnesses = list[AccountName | EmptyString]
+GetActiveWitnesses = list[OptionallyEmpty[AccountName]]
 
 
 class GetBlock(fundaments_block_api.LegacyBlock):
@@ -146,12 +148,12 @@ class GetContent(fundaments_database_api.FindCommentsFundament):
 
     url: Url
     root_title: str
-    pending_payout_value: AssetHive | AssetHbd
-    total_pending_payout_value: AssetHive| AssetHbd
+    pending_payout_value: AssetUnion[AssetHive, AssetHbd]
+    total_pending_payout_value: AssetUnion[AssetHive, AssetHbd]
     active_votes: HiveList[GetActiveVotesFundament]
     replies: list[str]
     author_reputation: HiveInt
-    promoted: AssetHive | AssetHbd
+    promoted: AssetUnion[AssetHive, AssetHbd]
     body_length: HiveInt
     reblogged_by: list[str]
 
@@ -381,8 +383,7 @@ class GetWitnessByAccount(fundaments_database_api.WitnessesFundament):
     """Identical as in database_api, just Legacy format of Assets"""
 
 
-class GetWitnessCount(HiveInt):
-    """Should return just integer"""
+GetWitnessCount = HiveInt
 
 
 class GetWitnessSchedule(database_api.GetWitnessScheduleOrig):
@@ -393,8 +394,7 @@ class GetWitnessSchedule(database_api.GetWitnessScheduleOrig):
 GetWitnesses = list[fundaments_database_api.WitnessesFundament| None]
 
 
-class GetWitnessesByVote(GetWitnesses):
-    """Identical response as GetWitnesses from condenser_api"""
+GetWitnessesByVote = GetWitnesses
 
 
 """Should return just bool value"""
@@ -419,8 +419,7 @@ ListRcDirectDelegations = HiveList[ListRcDirectDelegationsFundament]
 LookupAccountNames = HiveList[LookupAccountNamesFundament]
 
 
-class LookupAccounts(wallet_bridge_api.ListAccounts):
-    """Identical as in wallet_bridge_api"""
+LookupAccounts = wallet_bridge_api.ListAccounts
 
 
 LookupWitnessAccounts = list[AccountName]

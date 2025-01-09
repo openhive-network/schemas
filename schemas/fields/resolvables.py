@@ -64,7 +64,7 @@ def create_hidden_asset(base: type[T], source_asset: AssetBase) -> T:
         @staticmethod
         def get_asset_information() -> AssetInfo:
             return source_asset.get_asset_information()
-    return HiddenAssetType(amount=source_asset.amount, precision=source_asset.precision, nai=source_asset.nai)
+    return HiddenAssetType(amount=source_asset.amount, precision=source_asset.precision(), nai=source_asset.nai())
 
 class AssetUnion(AssetBase, Resolvable["AssetUnion[AssetResolved1T, AssetResolved2T]", dict[str, Any] | str], Generic[AssetResolved1T, AssetResolved2T]):
     @staticmethod

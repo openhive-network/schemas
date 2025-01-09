@@ -14,7 +14,7 @@ from . import responses_from_api
 @pytest.mark.parametrize(
     "schema, parameters",
     [
-        (condenser_api.GetDiscussionsByAuthorBeforeDate, responses_from_api.GET_DISCUSSIONS_BY_AUTHOR_BEFORE_DATE),
+        # (condenser_api.GetDiscussionsByAuthorBeforeDate, responses_from_api.GET_DISCUSSIONS_BY_AUTHOR_BEFORE_DATE),
         # (condenser_api.GetDiscussionsByBlog, responses_from_api.GET_DISCUSSIONS_BY_BLOG),
         # (condenser_api.GetDiscussionsByComments, responses_from_api.GET_DISCUSSIONS_BY_COMMENTS),
         # (condenser_api.GetDiscussionsByCreated, responses_from_api.GET_DISCUSSIONS_BY_CREATED), 
@@ -32,7 +32,7 @@ from . import responses_from_api
         # (condenser_api.GetAccounts, responses_from_api.GET_ACCOUNTS),
         # (condenser_api.GetActiveVotes, responses_from_api.GET_ACTIVE_VOTES),
         # (condenser_api.GetActiveWitnesses, responses_from_api.GET_ACTIVE_WITNESSES),
-        # (condenser_api.GetBlock, responses_from_api.GET_BLOCK),
+        # # (condenser_api.GetBlock, responses_from_api.GET_BLOCK), # Czekam na poprawkę Krzyśka w block_api
         # (condenser_api.GetBlockHeader, responses_from_api.GET_BLOCK_HEADER),
         # (condenser_api.GetBlog, responses_from_api.GET_BLOG),
         # (condenser_api.GetBlogEntries, responses_from_api.GET_BLOG_ENTRIES),
@@ -69,9 +69,9 @@ from . import responses_from_api
         # (condenser_api.ListProposals, responses_from_api.LIST_PROPOSALS),
         # (condenser_api.LookupAccountNames, responses_from_api.LOOKUP_ACCOUNT_NAMES),
         # (condenser_api.LookupAccounts, responses_from_api.LOOKUP_ACCOUNTS),
-        # (condenser_api.GetAccountHistory, responses_from_api.GET_ACCOUNT_HISTORY),
-        # (condenser_api.GetOpsInBlock, responses_from_api.GET_OPS_IN_BLOCK),
-        # (condenser_api.GetTransaction, responses_from_api.GET_TRANSACTION),
+        (condenser_api.GetAccountHistory, responses_from_api.GET_ACCOUNT_HISTORY), # bug
+        (condenser_api.GetOpsInBlock, responses_from_api.GET_OPS_IN_BLOCK), # bug
+        (condenser_api.GetTransaction, responses_from_api.GET_TRANSACTION), # bug
         # (condenser_api.GetFeed, responses_from_api.GET_FEED),
     ],
 )

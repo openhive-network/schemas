@@ -17,7 +17,7 @@ from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.condenser_api.response_schemas import GetDiscussionsByBlog
 from schemas.apis.market_history_api.fundaments_of_responses import BucketSizes
 from schemas.fields.assets._base import AssetHbd, AssetHive, AssetNaiAmount, AssetVest
-from schemas.fields.basic import Permlink, PublicKey
+from schemas.fields.basic import Permlink, PublicKey, Url
 from schemas.fields.hex import Hex, Sha256, TransactionId
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.version import Version
@@ -119,14 +119,20 @@ def testnet_hf26_dec_hook(type: Type, obj: Any) -> Any:
     if type is BucketSizes:
         return BucketSizes(obj)
     if type is AssetVest:
-        return AssetVest.from_nai(obj)
+        try:
+            return AssetVest.from_nai(obj)
+        except Exception as e:
+            return AssetVest.from_legacy(obj)
     if type is AssetHive:
-        return AssetHive.from_nai(obj)
+        try:
+            return AssetHive.from_nai(obj)
+        except Exception as e:
+            return AssetHive.from_legacy(obj)
     if type is AssetHbd:
         try:
             return AssetHbd.from_nai(obj)
         except Exception as e:
-            raise
+            return AssetHbd.from_legacy(obj)
     if type is AssetNaiAmount:
         return AssetNaiAmount(obj)
     if type is Permlink:
@@ -141,6 +147,8 @@ def testnet_hf26_dec_hook(type: Type, obj: Any) -> Any:
         return TransactionId(obj)
     if type is Hex:
         return Hex(obj)
+    if type is Url:
+        return Url(obj)
     if type is AnyAsset:
         return AnyAsset.resolve(type, obj)
     orig_type = get_origin(type)
@@ -170,7 +178,7 @@ def get_response_model(
 
     # response_cls.update_forward_refs(**locals())
     testnet_hf26_decoder = msgspec.json.Decoder(response_cls, dec_hook=testnet_hf26_dec_hook)
-    msg = testnet_hf26_decoder.decode(json)
+    # msg = testnet_hf26_decoder.decode(json)
 
     try:
         return testnet_hf26_decoder.decode(json)
