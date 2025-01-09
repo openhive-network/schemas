@@ -193,111 +193,111 @@ __all__ = [
     "WitnessUpdateOperationLegacy",
 ]
 
-AnyOperation = (
-    AccountCreateOperation
-    | AccountCreateWithDelegationOperation
-    | AccountUpdate2Operation
-    | AccountUpdateOperation
-    | AccountWitnessProxyOperation
-    | AccountWitnessVoteOperation
-    | CancelTransferFromSavingsOperation
-    | ChangeRecoveryAccountOperation
-    | ClaimAccountOperation
-    | ClaimRewardBalanceOperation
-    | CollateralizedConvertOperation
-    | CommentOperation
-    | CommentOptionsOperation
-    | ConvertOperation
-    | CreateClaimedAccountOperation
-    | CreateProposalOperation
-    | CustomBinaryOperation
-    | CustomJsonOperation
-    | CustomOperation
-    | DeclineVotingRightsOperation
-    | DelegateVestingSharesOperation
-    | DeleteCommentOperation
-    | EscrowApproveOperation
-    | EscrowDisputeOperation
-    | EscrowReleaseOperation
-    | EscrowTransferOperation
-    | FeedPublishOperation
-    | LimitOrderCancelOperation
-    | LimitOrderCreate2Operation
-    | LimitOrderCreateOperation
-    | PowOperation
-    | Pow2Operation
-    | RecoverAccountOperation
-    | RecurrentTransferOperation
-    | RemoveProposalOperation
-    | RequestAccountRecoveryOperation
-    | ResetAccountOperation
-    | SetResetAccountOperation
-    | SetWithdrawVestingRouteOperation
-    | TransferFromSavingsOperation
-    | TransferOperation
-    | TransferToSavingsOperation
-    | TransferToVestingOperation
-    | UpdateProposalOperation
-    | UpdateProposalVotesOperation
-    | VoteOperation
-    | WithdrawVestingOperation
-    | WitnessBlockApproveOperation
-    | WitnessSetPropertiesOperation
-    | WitnessUpdateOperation
-)
+# AnyOperation = (
+#     AccountCreateOperation
+#     | AccountCreateWithDelegationOperation
+#     | AccountUpdate2Operation
+#     | AccountUpdateOperation
+#     | AccountWitnessProxyOperation
+#     | AccountWitnessVoteOperation
+#     | CancelTransferFromSavingsOperation
+#     | ChangeRecoveryAccountOperation
+#     | ClaimAccountOperation
+#     | ClaimRewardBalanceOperation
+#     | CollateralizedConvertOperation
+#     | CommentOperation
+#     | CommentOptionsOperation
+#     | ConvertOperation
+#     | CreateClaimedAccountOperation
+#     | CreateProposalOperation
+#     | CustomBinaryOperation
+#     | CustomJsonOperation
+#     | CustomOperation
+#     | DeclineVotingRightsOperation
+#     | DelegateVestingSharesOperation
+#     | DeleteCommentOperation
+#     | EscrowApproveOperation
+#     | EscrowDisputeOperation
+#     | EscrowReleaseOperation
+#     | EscrowTransferOperation
+#     | FeedPublishOperation
+#     | LimitOrderCancelOperation
+#     | LimitOrderCreate2Operation
+#     | LimitOrderCreateOperation
+#     | PowOperation
+#     | Pow2Operation
+#     | RecoverAccountOperation
+#     | RecurrentTransferOperation
+#     | RemoveProposalOperation
+#     | RequestAccountRecoveryOperation
+#     | ResetAccountOperation
+#     | SetResetAccountOperation
+#     | SetWithdrawVestingRouteOperation
+#     | TransferFromSavingsOperation
+#     | TransferOperation
+#     | TransferToSavingsOperation
+#     | TransferToVestingOperation
+#     | UpdateProposalOperation
+#     | UpdateProposalVotesOperation
+#     | VoteOperation
+#     | WithdrawVestingOperation
+#     | WitnessBlockApproveOperation
+#     | WitnessSetPropertiesOperation
+#     | WitnessUpdateOperation
+# )
 
-AnyLegacyOperation = (
-    AccountCreateOperationLegacy
-    | AccountUpdate2Operation
-    | AccountUpdateOperation
-    | AccountWitnessProxyOperation
-    | AccountWitnessVoteOperation
-    | CancelTransferFromSavingsOperation
-    | ChangeRecoveryAccountOperation
-    | ClaimAccountOperationLegacy
-    | ClaimRewardBalanceOperationLegacy
-    | CollateralizedConvertOperationLegacy
-    | CommentOperation
-    | CommentOptionsOperationLegacy
-    | ConvertOperationLegacy
-    | CreateClaimedAccountOperation
-    | CreateProposalOperationLegacy
-    | CustomBinaryOperation
-    | CustomJsonOperation
-    | CustomOperation
-    | DeclineVotingRightsOperation
-    | DelegateVestingSharesOperationLegacy
-    | DeleteCommentOperation
-    | EscrowApproveOperation
-    | EscrowDisputeOperation
-    | EscrowReleaseOperationLegacy
-    | EscrowTransferOperationLegacy
-    | FeedPublishOperation
-    | LimitOrderCancelOperation
-    | LimitOrderCreate2OperationLegacy
-    | LimitOrderCreateOperationLegacy
-    | PowOperationLegacy
-    | Pow2OperationLegacy
-    | RecoverAccountOperation
-    | RecurrentTransferOperationLegacy
-    | RemoveProposalOperation
-    | RequestAccountRecoveryOperation
-    | ResetAccountOperation
-    | SetResetAccountOperation
-    | SetWithdrawVestingRouteOperation
-    | TransferFromSavingsOperationLegacy
-    | TransferOperationLegacy
-    | TransferToSavingsOperationLegacy
-    | TransferToVestingOperationLegacy
-    | UpdateProposalOperationLegacy
-    | UpdateProposalVotesOperation
-    | VoteOperation
-    | WithdrawVestingOperationLegacy
-    | WitnessBlockApproveOperation
-    | WitnessSetPropertiesOperation
-    | WitnessUpdateOperationLegacy
-)
+# AnyLegacyOperation = (
+#     AccountCreateOperationLegacy
+#     | AccountUpdate2Operation
+#     | AccountUpdateOperation
+#     | AccountWitnessProxyOperation
+#     | AccountWitnessVoteOperation
+#     | CancelTransferFromSavingsOperation
+#     | ChangeRecoveryAccountOperation
+#     | ClaimAccountOperationLegacy
+#     | ClaimRewardBalanceOperationLegacy
+#     | CollateralizedConvertOperationLegacy
+#     | CommentOperation
+#     | CommentOptionsOperationLegacy
+#     | ConvertOperationLegacy
+#     | CreateClaimedAccountOperation
+#     | CreateProposalOperationLegacy
+#     | CustomBinaryOperation
+#     | CustomJsonOperation
+#     | CustomOperation
+#     | DeclineVotingRightsOperation
+#     | DelegateVestingSharesOperationLegacy
+#     | DeleteCommentOperation
+#     | EscrowApproveOperation
+#     | EscrowDisputeOperation
+#     | EscrowReleaseOperationLegacy
+#     | EscrowTransferOperationLegacy
+#     | FeedPublishOperation
+#     | LimitOrderCancelOperation
+#     | LimitOrderCreate2OperationLegacy
+#     | LimitOrderCreateOperationLegacy
+#     | PowOperationLegacy
+#     | Pow2OperationLegacy
+#     | RecoverAccountOperation
+#     | RecurrentTransferOperationLegacy
+#     | RemoveProposalOperation
+#     | RequestAccountRecoveryOperation
+#     | ResetAccountOperation
+#     | SetResetAccountOperation
+#     | SetWithdrawVestingRouteOperation
+#     | TransferFromSavingsOperationLegacy
+#     | TransferOperationLegacy
+#     | TransferToSavingsOperationLegacy
+#     | TransferToVestingOperationLegacy
+#     | UpdateProposalOperationLegacy
+#     | UpdateProposalVotesOperation
+#     | VoteOperation
+#     | WithdrawVestingOperationLegacy
+#     | WitnessBlockApproveOperation
+#     | WitnessSetPropertiesOperation
+#     | WitnessUpdateOperationLegacy
+# )
 
 
-AnyEveryOperation = AnyOperation | AnyVirtualOperation
-AnyLegacyEveryOperation = AnyLegacyOperation | AnyLegacyVirtualOperation
+# AnyEveryOperation = AnyOperation | AnyVirtualOperation
+# AnyLegacyEveryOperation = AnyLegacyOperation | AnyLegacyVirtualOperation

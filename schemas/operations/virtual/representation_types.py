@@ -5,7 +5,7 @@ from typing import Annotated, Union, get_args
 from pydantic import Field
 
 from schemas.operations.representations.util import _create_hf26_representation, _create_legacy_representation
-from schemas.operations.virtual import AnyLegacyVirtualOperation, AnyVirtualOperation
+# from schemas.operations.virtual import AnyLegacyVirtualOperation, AnyVirtualOperation
 
 # VIRTUAL
 __Hf26VirtualOperationRepresentationUnionType = Union[  # type: ignore[valid-type]  # noqa: UP007
