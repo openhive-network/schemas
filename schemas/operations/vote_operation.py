@@ -10,10 +10,15 @@ DEFAULT_WEIGHT: Final[Int16t] = Int16t(0)
 
 
 class VoteOperation(Operation):
-    __operation_name__ = "vote"
-    __offset__ = 0
-
     voter: AccountName
     author: AccountName
     permlink: str
     weight: Int16t = DEFAULT_WEIGHT
+
+    @classmethod
+    def get_name(cls):
+        return "vote"
+    
+    @classmethod
+    def offset(cls):
+        return 0

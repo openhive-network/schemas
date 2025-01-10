@@ -71,6 +71,7 @@ from schemas.operations.recurrent_transfer_operation import (
     RecurrentTransferOperationLegacy,
 )
 from schemas.operations.remove_proposal_operation import RemoveProposalOperation
+from schemas.operations.representation_types import HF26RepresentationClaimRewardBalanceOperation, HF26RepresentationVoteOperation, LegacyRepresentationClaimRewardBalanceOperation, LegacyRepresentationVoteOperation
 from schemas.operations.request_account_recovery_operation import RequestAccountRecoveryOperation
 from schemas.operations.reset_account_operation import ResetAccountOperation
 from schemas.operations.set_reset_account_operation import SetResetAccountOperation
@@ -94,8 +95,8 @@ from schemas.operations.update_proposal_operation import (
 )
 from schemas.operations.update_proposal_votes_operation import UpdateProposalVotesOperation
 from schemas.operations.virtual import (
-    AnyLegacyVirtualOperation,
-    AnyVirtualOperation,
+    AnyLegacyVirtualOperationRepresentation,
+    AnyVirtualOperationRepresentation,
 )
 from schemas.operations.vote_operation import VoteOperation
 from schemas.operations.withdraw_vesting_operation import (
@@ -193,7 +194,7 @@ __all__ = [
     "WitnessUpdateOperationLegacy",
 ]
 
-# AnyOperation = (
+AnyOperationRepresentation = (
 #     AccountCreateOperation
 #     | AccountCreateWithDelegationOperation
 #     | AccountUpdate2Operation
@@ -203,7 +204,7 @@ __all__ = [
 #     | CancelTransferFromSavingsOperation
 #     | ChangeRecoveryAccountOperation
 #     | ClaimAccountOperation
-#     | ClaimRewardBalanceOperation
+    HF26RepresentationClaimRewardBalanceOperation
 #     | CollateralizedConvertOperation
 #     | CommentOperation
 #     | CommentOptionsOperation
@@ -239,14 +240,14 @@ __all__ = [
 #     | TransferToVestingOperation
 #     | UpdateProposalOperation
 #     | UpdateProposalVotesOperation
-#     | VoteOperation
+    | HF26RepresentationVoteOperation
 #     | WithdrawVestingOperation
 #     | WitnessBlockApproveOperation
 #     | WitnessSetPropertiesOperation
 #     | WitnessUpdateOperation
-# )
+)
 
-# AnyLegacyOperation = (
+AnyLegacyOperationRepresentation = (
 #     AccountCreateOperationLegacy
 #     | AccountUpdate2Operation
 #     | AccountUpdateOperation
@@ -255,7 +256,7 @@ __all__ = [
 #     | CancelTransferFromSavingsOperation
 #     | ChangeRecoveryAccountOperation
 #     | ClaimAccountOperationLegacy
-#     | ClaimRewardBalanceOperationLegacy
+       LegacyRepresentationClaimRewardBalanceOperation |
 #     | CollateralizedConvertOperationLegacy
 #     | CommentOperation
 #     | CommentOptionsOperationLegacy
@@ -291,13 +292,13 @@ __all__ = [
 #     | TransferToVestingOperationLegacy
 #     | UpdateProposalOperationLegacy
 #     | UpdateProposalVotesOperation
-#     | VoteOperation
+        LegacyRepresentationVoteOperation
 #     | WithdrawVestingOperationLegacy
 #     | WitnessBlockApproveOperation
 #     | WitnessSetPropertiesOperation
 #     | WitnessUpdateOperationLegacy
-# )
+)
 
 
-# AnyEveryOperation = AnyOperation | AnyVirtualOperation
-# AnyLegacyEveryOperation = AnyLegacyOperation | AnyLegacyVirtualOperation
+AnyEveryOperation = AnyOperationRepresentation | AnyVirtualOperationRepresentation
+AnyLegacyEveryOperation = AnyLegacyOperationRepresentation | AnyLegacyVirtualOperationRepresentation

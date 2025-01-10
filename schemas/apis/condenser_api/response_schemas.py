@@ -60,9 +60,9 @@ from schemas.fields.hive_int import HiveInt
 from schemas.fields.hive_list import HiveList
 from schemas.fields.resolvables import AssetUnion, OptionallyEmpty
 from schemas.fields.version import HardforkVersion, HiveVersion
-from schemas.operations.representation_types import (
-    LegacyOperationRepresentationType,
-)
+# from schemas.operations.representation_types import (
+#     LegacyOperationRepresentationType,
+# )
 from schemas.operations.representations import get_legacy_operation_representation
 
 

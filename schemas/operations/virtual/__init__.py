@@ -118,6 +118,7 @@ from schemas.operations.virtual.proposal_pay_operation import (
     ProposalPayOperationLegacy,
 )
 from schemas.operations.virtual.proxy_cleared_operation import ProxyClearedOperation
+from schemas.operations.virtual.representation_types import HF26RepresentationAuthorRewardOperation, LegacyRepresentationAuthorRewardOperationLegacy
 from schemas.operations.virtual.return_vesting_delegation_operation import (
     ReturnVestingDelegationOperation,
     ReturnVestingDelegationOperationLegacy,
@@ -216,8 +217,8 @@ __all__ = [
     "VestingSharesSplitOperationLegacy",
 ]
 
-# AnyVirtualOperation = (
-#     AuthorRewardOperation
+AnyVirtualOperationRepresentation = (
+    HF26RepresentationAuthorRewardOperation
 #     | AccountCreatedOperation
 #     | ChangedRecoveryAccountOperation
 #     | ClearNullAccountBalanceOperation
@@ -260,10 +261,10 @@ __all__ = [
 #     | SystemWarningOperation
 #     | TransferToVestingCompletedOperation
 #     | VestingSharesSplitOperation
-# )
+)
 
-# AnyLegacyVirtualOperation = (
-#     AuthorRewardOperationLegacy
+AnyLegacyVirtualOperationRepresentation = (
+    LegacyRepresentationAuthorRewardOperationLegacy
 #     | AccountCreatedOperationLegacy
 #     | ChangedRecoveryAccountOperation
 #     | ClearNullAccountBalanceOperationLegacy
@@ -306,4 +307,4 @@ __all__ = [
 #     | SystemWarningOperation
 #     | TransferToVestingCompletedOperationLegacy
 #     | VestingSharesSplitOperationLegacy
-# )
+)

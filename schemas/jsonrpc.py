@@ -178,7 +178,7 @@ def get_response_model(
 
     # response_cls.update_forward_refs(**locals())
     testnet_hf26_decoder = msgspec.json.Decoder(response_cls, dec_hook=testnet_hf26_dec_hook)
-    # msg = testnet_hf26_decoder.decode(json)
+    msg = testnet_hf26_decoder.decode(json)
 
     try:
         return testnet_hf26_decoder.decode(json)

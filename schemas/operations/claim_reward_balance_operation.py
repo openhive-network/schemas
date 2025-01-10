@@ -10,14 +10,18 @@ from schemas.operation import Operation
 
 
 class _ClaimRewardBalanceOperation(Operation):
-    __operation_name__ = "claim_reward_balance"
-    __offset__ = 39
-
     account: AccountName
     reward_hive: AssetHive
     reward_hbd: AssetHbd
     reward_vests: AssetVest
 
+    @classmethod
+    def get_name(cls):
+        return "claim_reward_balance"
+    
+    @classmethod
+    def offset(cls):
+        return 39
 
 class ClaimRewardBalanceOperation(_ClaimRewardBalanceOperation):
     ...
