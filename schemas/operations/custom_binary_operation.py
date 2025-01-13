@@ -8,12 +8,17 @@ from schemas.operation import Operation
 
 
 class CustomBinaryOperation(Operation, kw_only=True):
-    __operation_name__ = "custom_binary"
-    __offset__ = 35
-
     required_owner_auths: list[AccountName]
     required_active_auths: list[AccountName]
     required_posting_auths: list[AccountName]
     required_auths: list[Authority]
     id_: CustomIdType = Field(alias="id")
     data: list[str]
+
+    @classmethod
+    def get_name(cls):
+        return "custom_binary"
+    
+    @classmethod
+    def offset(cls):
+        return 35

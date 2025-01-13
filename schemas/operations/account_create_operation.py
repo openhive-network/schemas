@@ -15,9 +15,6 @@ from schemas.operation import Operation
 
 
 class _AccountCreateOperation(Operation):
-    __operation_name__ = "account_create"
-    __offset__ = 9
-
     fee: AssetHive
     creator: AccountName
     new_account_name: AccountName
@@ -26,6 +23,14 @@ class _AccountCreateOperation(Operation):
     posting: Authority
     memo_key: PublicKey
     json_metadata: str
+
+    @classmethod
+    def get_name(cls):
+        return "account_create"
+    
+    @classmethod
+    def offset(cls):
+        return 9
 
 
 class AccountCreateOperation(_AccountCreateOperation):

@@ -18,9 +18,6 @@ DEFAULT_FILL_OR_KILL: Final[bool] = False
 
 
 class _LimitOrderCreateOperation(Operation, kw_only=True):
-    __operation_name__ = "limit_order_create"
-    __offset__ = 5
-
     owner: AccountName
     orderid: Uint32t = DEFAULT_ORDER_ID
     amount_to_sell: AssetUnion[AssetHive, AssetHbd]
@@ -28,6 +25,14 @@ class _LimitOrderCreateOperation(Operation, kw_only=True):
     fill_or_kill: bool = DEFAULT_FILL_OR_KILL
     expiration: HiveDateTime
 
+
+    @classmethod
+    def get_name(cls):
+        return "limit_order_create"
+    
+    @classmethod
+    def offset(cls):
+        return 5
 
 class LimitOrderCreateOperation(_LimitOrderCreateOperation):
     ...

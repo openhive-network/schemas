@@ -14,9 +14,6 @@ from schemas.operation import Operation
 
 
 class _AccountCreateWithDelegationOperation(Operation):
-    __operation_name__ = "account_create_with_delegation"
-    __offset__ = 41
-
     fee: AssetHive
     delegation: AssetVest
     creator: AccountName
@@ -26,6 +23,14 @@ class _AccountCreateWithDelegationOperation(Operation):
     posting: Authority
     memo_key: PublicKey
     json_metadata: str
+
+    @classmethod
+    def get_name(cls):
+        return "account_create_with_delegation"
+    
+    @classmethod
+    def offset(cls):
+        return 41
 
 
 class AccountCreateWithDelegationOperation(_AccountCreateWithDelegationOperation):

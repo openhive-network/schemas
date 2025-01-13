@@ -29,15 +29,19 @@ class Work(PreconfiguredBaseModel, kw_only=True):
 
 
 class _PowOperation(Operation):
-    __operation_name__ = "pow"
-    __offset__ = 14
-
     worker_account: AccountName
     block_id: TransactionId
     nonce: Uint64t
     props: LegacyChainProperties
     work: Work
 
+    @classmethod
+    def get_name(cls):
+        return "pow"
+    
+    @classmethod
+    def offset(cls):
+        return 14
 
 class PowOperation(_PowOperation):
     ...

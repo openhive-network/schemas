@@ -17,9 +17,6 @@ DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 
 
 class _EscrowReleaseOperation(Operation, kw_only=True):
-    __operation_name__ = "escrow_release"
-    __offset__ = 29
-
     from_: AccountName = Field(alias="from")
     to: AccountName
     agent: AccountName
@@ -29,6 +26,14 @@ class _EscrowReleaseOperation(Operation, kw_only=True):
     hbd_amount: AssetHbd  # here add  default
     hive_amount: AssetHive  # here add default
 
+
+    @classmethod
+    def get_name(cls):
+        return "escrow_release"
+    
+    @classmethod
+    def offset(cls):
+        return 29
 
 class EscrowReleaseOperation(_EscrowReleaseOperation):
     ...

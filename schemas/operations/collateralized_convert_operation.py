@@ -13,13 +13,17 @@ DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
 class _CollateralizedConvertOperation(Operation, kw_only=True):
-    __operation_name__ = "collateralized_convert"
-    __offset__ = 48
-
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
     amount: AssetHive
 
+    @classmethod
+    def get_name(cls):
+        return "collateralized_convert"
+    
+    @classmethod
+    def offset(cls):
+        return 48
 
 class CollateralizedConvertOperation(_CollateralizedConvertOperation):
     ...

@@ -13,12 +13,17 @@ DEFAULT_APPROVE: Final[bool] = True
 
 
 class EscrowApproveOperation(Operation, kw_only=True):
-    __operation_name__ = "escrow_approve"
-    __offset__ = 31
-
     from_: AccountName = Field(alias="from")
     to: AccountName
     agent: AccountName
     who: AccountName
     escrow_id: Uint32t = DEFAULT_ESCROW_ID
     approve: bool = DEFAULT_APPROVE
+
+    @classmethod
+    def get_name(cls):
+        return "escrow_approve"
+    
+    @classmethod
+    def offset(cls):
+        return 31

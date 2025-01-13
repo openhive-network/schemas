@@ -9,9 +9,14 @@ from schemas.operation import Operation
 
 
 class CustomOperation(Operation, kw_only=True):
-    __operation_name__ = "custom"
-    __offset__ = 15
-
     required_auths: list[AccountName]
     id_: Uint16t = Field(alias="id")
     data: Hex
+
+    @classmethod
+    def get_name(cls):
+        return "custom"
+    
+    @classmethod
+    def offset(cls):
+        return 15

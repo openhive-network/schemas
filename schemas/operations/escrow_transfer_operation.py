@@ -19,9 +19,6 @@ DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 
 
 class _EscrowTransferOperation(Operation, kw_only=True):
-    __operation_name__ = "escrow_transfer"
-    __offset__ = 27
-
     from_: AccountName = Field(alias="from")
     to: AccountName
     agent: AccountName
@@ -33,6 +30,14 @@ class _EscrowTransferOperation(Operation, kw_only=True):
     escrow_expiration: HiveDateTime
     json_meta: str
 
+
+    @classmethod
+    def get_name(cls):
+        return "escrow_transfer"
+    
+    @classmethod
+    def offset(cls):
+        return 27
 
 class EscrowTransferOperation(_EscrowTransferOperation):
     ...

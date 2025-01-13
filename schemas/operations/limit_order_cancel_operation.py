@@ -10,8 +10,13 @@ DEFAULT_ORDER_ID: Final[Uint32t] = Uint32t(0)
 
 
 class LimitOrderCancelOperation(Operation):
-    __operation_name__ = "limit_order_cancel"
-    __offset__ = 6
-
     owner: AccountName
     orderid: Uint32t = DEFAULT_ORDER_ID
+
+    @classmethod
+    def get_name(cls):
+        return "limit_order_cancel"
+    
+    @classmethod
+    def offset(cls):
+        return 6

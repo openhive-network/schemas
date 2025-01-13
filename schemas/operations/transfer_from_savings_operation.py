@@ -17,15 +17,20 @@ DEFAULT_TYPE_ID: Final[Uint32t] = Uint32t(0)
 
 
 class _TransferFromSavingsOperation(Operation, kw_only=True):
-    __operation_name__ = "transfer_from_savings"
-    __offset__ = 33
-
     from_: AccountName = Field(alias="from")
     to: AccountName
     request_id: Uint32t = DEFAULT_TYPE_ID
     amount: AssetUnion[AssetHive, AssetHbd]
     memo: str
 
+
+    @classmethod
+    def get_name(cls):
+        return "transfer_from_savings"
+    
+    @classmethod
+    def offset(cls):
+        return 33
 
 class TransferFromSavingsOperation(_TransferFromSavingsOperation):
     ...

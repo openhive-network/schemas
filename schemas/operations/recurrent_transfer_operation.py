@@ -18,9 +18,6 @@ DEFAULT_EXECUTIONS: Final[Uint16t] = Uint16t(0)
 
 
 class _RecurrentTransferOperation(Operation, kw_only=True):
-    __operation_name__ = "recurrent_transfer"
-    __offset__ = 49
-
     from_: AccountName = Field(alias="from")
     to: AccountName
     amount: AssetUnion[AssetHive, AssetHbd]
@@ -29,6 +26,14 @@ class _RecurrentTransferOperation(Operation, kw_only=True):
     executions: Uint16t = DEFAULT_EXECUTIONS
     extensions: list[Any] = Field(default_factory=list)
 
+
+    @classmethod
+    def get_name(cls):
+        return "recurrent_transfer"
+    
+    @classmethod
+    def offset(cls):
+        return 49
 
 class RecurrentTransferOperation(_RecurrentTransferOperation):
     ...

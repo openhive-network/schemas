@@ -10,13 +10,18 @@ from schemas.operation import Operation
 
 
 class _DelegateVestingSharesOperation(Operation):
-    __operation_name__ = "delegate_vesting_shares"
-    __offset__ = 40
-
     delegator: AccountName
     delegatee: AccountName
     vesting_shares: AssetVest
 
+
+    @classmethod
+    def get_name(cls):
+        return "delegate_vesting_shares"
+    
+    @classmethod
+    def offset(cls):
+        return 40
 
 class DelegateVestingSharesOperation(_DelegateVestingSharesOperation):
     ...

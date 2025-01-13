@@ -18,9 +18,6 @@ DEFAULT_FILL_OR_KILL: Final[bool] = False
 
 
 class _LimitOrderCreate2Operation(Operation, kw_only=True):
-    __operation_name__ = "limit_order_create2"
-    __offset__ = 21
-
     owner: AccountName
     orderid: Uint32t
     amount_to_sell: AssetUnion[AssetHive, AssetHbd]
@@ -28,6 +25,14 @@ class _LimitOrderCreate2Operation(Operation, kw_only=True):
     exchange_rate: HbdExchangeRate
     expiration: HiveDateTime
 
+
+    @classmethod
+    def get_name(cls):
+        return "limit_order_create2"
+    
+    @classmethod
+    def offset(cls):
+        return 21
 
 class LimitOrderCreate2Operation(_LimitOrderCreate2Operation):
     ...

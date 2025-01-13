@@ -6,12 +6,17 @@ from schemas.operation import Operation
 
 
 class AccountUpdateOperation(Operation):
-    __operation_name__ = "account_update"
-    __offset__ = 10
-
     account: AccountName
     owner: Authority | None = None
     active: Authority | None = None
     posting: Authority | None = None
     memo_key: PublicKey | None = None
     json_metadata: str | None = None
+
+    @classmethod
+    def get_name(cls):
+        return "account_update"
+    
+    @classmethod
+    def offset(cls):
+        return 10

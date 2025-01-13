@@ -14,14 +14,19 @@ from schemas.operation import Operation
 
 
 class _TransferToSavingsOperation(Operation, kw_only=True):
-    __operation_name__ = "transfer_to_savings"
-    __offset__ = 32
-
     from_: AccountName = Field(alias="from")
     to: AccountName
     amount: AssetUnion[AssetHive, AssetHbd]
     memo: str
 
+
+    @classmethod
+    def get_name(cls):
+        return "transfer_to_savings"
+    
+    @classmethod
+    def offset(cls):
+        return 32
 
 class TransferToSavingsOperation(_TransferToSavingsOperation):
     ...

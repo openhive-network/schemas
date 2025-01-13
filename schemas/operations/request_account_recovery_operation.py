@@ -9,10 +9,15 @@ from schemas.operations.extensions.future_extension import FutureExtensions
 
 
 class RequestAccountRecoveryOperation(Operation):
-    __operation_name__ = "request_account_recovery"
-    __offset__ = 24
-
     recovery_account: AccountName
     account_to_recover: AccountName
     new_owner_authority: Authority
     extensions: FutureExtensions = Field(default_factory=FutureExtensions)
+
+    @classmethod
+    def get_name(cls):
+        return "request_account_recovery"
+    
+    @classmethod
+    def offset(cls):
+        return 24

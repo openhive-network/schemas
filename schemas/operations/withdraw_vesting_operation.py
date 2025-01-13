@@ -10,12 +10,17 @@ from schemas.operation import Operation
 
 
 class _WithdrawVestingOperation(Operation):
-    __operation_name__ = "withdraw_vesting"
-    __offset__ = 4
-
     account: AccountName
     vesting_shares: AssetVest
 
+
+    @classmethod
+    def get_name(cls):
+        return "withdraw_vesting"
+    
+    @classmethod
+    def offset(cls):
+        return 4
 
 class WithdrawVestingOperation(_WithdrawVestingOperation):
     ...

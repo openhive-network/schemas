@@ -13,13 +13,17 @@ DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
 class _ConvertOperation(Operation, kw_only=True):
-    __operation_name__ = "convert"
-    __offset__ = 8
-
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
     amount: AssetHbd
 
+    @classmethod
+    def get_name(cls):
+        return "convert"
+    
+    @classmethod
+    def offset(cls):
+        return 8
 
 class ConvertOperation(_ConvertOperation):
     ...

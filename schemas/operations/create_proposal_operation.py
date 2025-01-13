@@ -15,9 +15,6 @@ from schemas.operations.extensions.future_extension import FutureExtensions
 
 
 class _CreateProposalOperation(Operation):
-    __operation_name__ = "create_proposal"
-    __offset__ = 44
-
     creator: AccountName
     receiver: AccountName
     start_date: HiveDateTime
@@ -27,6 +24,14 @@ class _CreateProposalOperation(Operation):
     permlink: str
     extensions: FutureExtensions = Field(default_factory=FutureExtensions)
 
+
+    @classmethod
+    def get_name(cls):
+        return "create_proposal"
+    
+    @classmethod
+    def offset(cls):
+        return 44
 
 class CreateProposalOperation(_CreateProposalOperation):
     ...

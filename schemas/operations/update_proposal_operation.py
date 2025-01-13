@@ -14,9 +14,6 @@ from schemas.operation import Operation
 
 
 class _UpdateProposalOperation(Operation):
-    __operation_name__ = "update_proposal"
-    __offset__ = 47
-
     proposal_id: Int64t
     creator: AccountName
     daily_pay: AssetHbd
@@ -24,6 +21,14 @@ class _UpdateProposalOperation(Operation):
     permlink: str
     extensions: list[Any] = Field(default_factory=list)
 
+
+    @classmethod
+    def get_name(cls):
+        return "update_proposal"
+    
+    @classmethod
+    def offset(cls):
+        return 47
 
 class UpdateProposalOperation(_UpdateProposalOperation):
     ...

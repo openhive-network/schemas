@@ -17,9 +17,6 @@ DEFAULT_MAX_ACCEPTED_PAYOUT: Final[AssetHbd] = AssetHbd(amount=1000000000)
 
 
 class _CommentOptionsOperation(Operation):
-    __operation_name__ = "comment_options"
-    __offset__ = 19
-
     author: AccountName
     permlink: str
     max_accepted_payout: AssetHbd
@@ -28,6 +25,14 @@ class _CommentOptionsOperation(Operation):
     allow_curation_rewards: bool = DEFAULT_ALLOW_CURATION_REWARDS
     extensions: list[Any] = Field(default_factory=list)
 
+
+    @classmethod
+    def get_name(cls):
+        return "comment_options"
+    
+    @classmethod
+    def offset(cls):
+        return 19
 
 class CommentOptionsOperation(_CommentOptionsOperation):
     max_accepted_payout: AssetHbd = Field(default_factory=DEFAULT_MAX_ACCEPTED_PAYOUT)

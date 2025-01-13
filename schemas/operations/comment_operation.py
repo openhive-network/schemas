@@ -9,9 +9,6 @@ If operation creates comment -> parent_author field empty string
 
 
 class CommentOperation(Operation):
-    __operation_name__ = "comment"
-    __offset__ = 1
-
     parent_author: AccountName | EmptyString
     parent_permlink: str
     author: AccountName
@@ -19,3 +16,11 @@ class CommentOperation(Operation):
     title: str
     body: str
     json_metadata: str
+
+    @classmethod
+    def get_name(cls):
+        return "comment"
+    
+    @classmethod
+    def offset(cls):
+        return 1

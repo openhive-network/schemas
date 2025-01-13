@@ -12,11 +12,17 @@ from schemas.operations.extensions.future_extension import FutureExtensions
 
 
 class WitnessSetPropertiesCommon(Operation):
-    __operation_name__ = "witness_set_properties"
-    __offset__ = 42
-
     owner: AccountName
     extensions: FutureExtensions = Field(default_factory=FutureExtensions)
+
+
+    @classmethod
+    def get_name(cls):
+        return "witness_set_properties"
+    
+    @classmethod
+    def offset(cls):
+        return 42
 
 
 class WitnessSetPropertiesOperation(WitnessSetPropertiesCommon, kw_only=True):

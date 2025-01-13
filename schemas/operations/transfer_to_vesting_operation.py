@@ -14,13 +14,18 @@ from schemas.operation import Operation
 
 
 class _TransferToVestingOperation(Operation, kw_only=True):
-    __operation_name__ = "transfer_to_vesting"
-    __offset__ = 3
-
     from_: AccountName = Field(alias="from")
     to: AccountName | EmptyString
     amount: AssetHive
 
+
+    @classmethod
+    def get_name(cls):
+        return "transfer_to_vesting"
+    
+    @classmethod
+    def offset(cls):
+        return 3
 
 class TransferToVestingOperation(_TransferToVestingOperation):
     ...

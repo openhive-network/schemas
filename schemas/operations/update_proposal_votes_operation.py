@@ -13,10 +13,15 @@ DEFAULT_APPROVE: Final[bool] = False
 
 
 class UpdateProposalVotesOperation(Operation):
-    __operation_name__ = "update_proposal_votes"
-    __offset__ = 45
-
     voter: AccountName
     proposal_ids: list[Int64t]
     approve: bool = DEFAULT_APPROVE
     extensions: FutureExtensions = Field(default_factory=FutureExtensions)
+
+    @classmethod
+    def get_name(cls):
+        return "update_proposal_votes"
+    
+    @classmethod
+    def offset(cls):
+        return 45

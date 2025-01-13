@@ -9,9 +9,6 @@ from schemas.operations.extensions.future_extension import FutureExtensions
 
 
 class CreateClaimedAccountOperation(Operation):
-    __operation_name__ = "create_claimed_account"
-    __offset__ = 23
-
     creator: AccountName
     new_account_name: AccountName
     owner: Authority
@@ -20,3 +17,11 @@ class CreateClaimedAccountOperation(Operation):
     memo_key: PublicKey
     json_metadata: str
     extensions: FutureExtensions = Field(default_factory=FutureExtensions)
+
+    @classmethod
+    def get_name(cls):
+        return "create_claimed_account"
+    
+    @classmethod
+    def offset(cls):
+        return 23

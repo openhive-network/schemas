@@ -42,13 +42,17 @@ class Pow2Work(PreconfiguredBaseModel, kw_only=True):
 
 
 class _Pow2Operation(Operation):
-    __operation_name__ = "pow2"
-    __offset__ = 30
-
     work: Pow2Work
     props: LegacyChainProperties
     new_owner_key: PublicKey | None = None
 
+    @classmethod
+    def get_name(cls):
+        return "pow2"
+    
+    @classmethod
+    def offset(cls):
+        return 30
 
 class Pow2Operation(_Pow2Operation):
     ...

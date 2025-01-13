@@ -9,9 +9,6 @@ from schemas.operations.extensions.future_extension import FutureExtensions
 
 
 class AccountUpdate2Operation(Operation):
-    __operation_name__ = "account_update2"
-    __offset__ = 43
-
     account: AccountName
     owner: Authority | None = None
     active: Authority | None = None
@@ -20,3 +17,11 @@ class AccountUpdate2Operation(Operation):
     json_metadata: str | None = None
     posting_json_metadata: str | None = None
     extensions: FutureExtensions = Field(default_factory=FutureExtensions)
+
+    @classmethod
+    def get_name(cls):
+        return "account_update2"
+    
+    @classmethod
+    def offset(cls):
+        return 43

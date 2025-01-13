@@ -12,8 +12,13 @@ DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
 class CancelTransferFromSavingsOperation(Operation):
-    __operation_name__ = "cancel_transfer_from_savings"
-    __offset__ = 34
-
     from_: AccountName = Field(alias="from")
     request_id: Uint32t = DEFAULT_REQUEST_ID
+
+    @classmethod
+    def get_name(cls):
+        return "cancel_transfer_from_savings"
+    
+    @classmethod
+    def offset(cls):
+        return 34

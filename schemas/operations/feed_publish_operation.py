@@ -7,8 +7,13 @@ from schemas.operation import Operation
 
 
 class FeedPublishOperation(Operation):
-    __operation_name__ = "feed_publish"
-    __offset__ = 7
-
     publisher: AccountName
     exchange_rate: HbdExchangeRate
+
+    @classmethod
+    def get_name(cls):
+        return "feed_publish"
+    
+    @classmethod
+    def offset(cls):
+        return 7

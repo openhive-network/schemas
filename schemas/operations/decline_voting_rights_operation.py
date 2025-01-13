@@ -9,8 +9,13 @@ DEFAULT_DECLINE: Final[bool] = True
 
 
 class DeclineVotingRightsOperation(Operation):
-    __operation_name__ = "decline_voting_rights"
-    __offset__ = 36
-
     account: AccountName
     decline: bool = DEFAULT_DECLINE
+
+    @classmethod
+    def get_name(cls):
+        return "decline_voting_rights"
+    
+    @classmethod
+    def offset(cls):
+        return 36

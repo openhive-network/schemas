@@ -16,15 +16,20 @@ from schemas.operation import Operation
 
 
 class _WitnessUpdateOperation(Operation):
-    __operation_name__ = "witness_update"
-    __offset__ = 11
-
     owner: AccountName
     url: WitnessUrl
     block_signing_key: PublicKey
     props: LegacyChainProperties
     fee: AssetHive | None
 
+
+    @classmethod
+    def get_name(cls):
+        return "witness_update"
+    
+    @classmethod
+    def offset(cls):
+        return 11
 
 class WitnessUpdateOperation(_WitnessUpdateOperation):
     fee: AssetHive | None = None

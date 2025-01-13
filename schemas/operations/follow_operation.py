@@ -10,3 +10,7 @@ class FollowOperation(CustomBaseOperation):
     follower: AccountName
     following: AccountName
     what: list[str]
+
+    @classmethod
+    def get_name(cls):
+        return "follow"

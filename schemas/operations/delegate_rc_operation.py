@@ -12,3 +12,7 @@ class DelegateRcOperation(CustomBaseOperation):
     from_: AccountName = Field(alias="from")
     delegatees: list[AccountName]
     max_rc: int
+
+    @classmethod
+    def get_name(cls):
+        return "delegate_rc"
