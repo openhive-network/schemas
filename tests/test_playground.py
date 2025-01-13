@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import schemas.fields.integers
 from typing import Any
 
 import msgspec
@@ -93,7 +94,6 @@ GET_TRANSACTION_LEGACY = {
 }
 x = LegacyRepresentationClaimRewardBalanceOperation(value=ClaimRewardBalanceOperation(account="bob", reward_hive=AssetHive(amount=0), reward_hbd=AssetHbd(amount=0), reward_vests=AssetVest(amount=1)))
 encoder = msgspec.json.Encoder(enc_hook=enc_hook)
-
 
 def test_account_history_api_correct_values() -> None:
     dupa = encoder.encode(x)

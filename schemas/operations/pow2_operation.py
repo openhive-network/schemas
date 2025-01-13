@@ -24,12 +24,12 @@ class Pow2Input(PreconfiguredBaseModel):
     nonce: Uint64t = Field(default_factory=lambda: Uint64t(0))
 
 
-class Pow2(PreconfiguredBaseModel):
+class Pow2(PreconfiguredBaseModel, tag="pow2"):
     input_: Pow2Input = Field(alias="input")
     pow_summary: Uint32t = Field(default_factory=lambda: Uint32t(0))
 
 
-class EquihashPow(PreconfiguredBaseModel, kw_only=True):
+class EquihashPow(PreconfiguredBaseModel, kw_only=True, tag="equihaszpow"):
     input_: Sha256 = Field(alias="input")
     proof: Any
     prev_block: TransactionId

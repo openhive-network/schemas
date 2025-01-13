@@ -32,8 +32,8 @@ from schemas.operations.representation_types import (
     HF26RepresentationLimitOrderCancelOperation,
     HF26RepresentationLimitOrderCreate2Operation,
     HF26RepresentationLimitOrderCreateOperation,
-    # HF26RepresentationPowOperation,
-    # HF26RepresentationPow2Operation,
+    HF26RepresentationPowOperation,
+    HF26RepresentationPow2Operation,
     HF26RepresentationRecoverAccountOperation,
     HF26RepresentationRecurrentTransferOperation,
     HF26RepresentationRemoveProposalOperation,
@@ -85,8 +85,8 @@ from schemas.operations.representation_types import (
     LegacyRepresentationLimitOrderCancelOperation,
     LegacyRepresentationLimitOrderCreate2Operation,
     LegacyRepresentationLimitOrderCreateOperation,
-    # LegacyRepresentationPowOperation,
-    # LegacyRepresentationPow2Operation,
+    LegacyRepresentationPowOperation,
+    LegacyRepresentationPow2Operation,
     LegacyRepresentationRecoverAccountOperation,
     LegacyRepresentationRecurrentTransferOperation,
     LegacyRepresentationRemoveProposalOperation,
@@ -222,8 +222,8 @@ AnyOperationRepresentation = (
     | HF26RepresentationLimitOrderCancelOperation
     | HF26RepresentationLimitOrderCreate2Operation
     | HF26RepresentationLimitOrderCreateOperation
-    # | HF26RepresentationPowOperation
-    # | HF26RepresentationPow2Operation
+    | HF26RepresentationPowOperation
+    | HF26RepresentationPow2Operation
     | HF26RepresentationRecoverAccountOperation
     | HF26RepresentationRecurrentTransferOperation
     | HF26RepresentationRemoveProposalOperation
@@ -274,8 +274,8 @@ AnyLegacyOperationRepresentation = (
     | LegacyRepresentationLimitOrderCancelOperation
     | LegacyRepresentationLimitOrderCreate2Operation
     | LegacyRepresentationLimitOrderCreateOperation
-    # | LegacyRepresentationPowOperation
-    # | LegacyRepresentationPow2Operation
+    | LegacyRepresentationPowOperation
+    | LegacyRepresentationPow2Operation
     | LegacyRepresentationRecoverAccountOperation
     | LegacyRepresentationRecurrentTransferOperation
     | LegacyRepresentationRemoveProposalOperation

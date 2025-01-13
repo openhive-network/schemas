@@ -12,6 +12,7 @@ from schemas.fields.basic import (
 )
 from schemas.fields.compound import LegacyChainProperties
 from schemas.fields.hex import Sha256, Signature, TransactionId
+from schemas.fields.hive_int import HiveInt
 from schemas.fields.integers import Uint64t
 from schemas.operation import Operation
 
