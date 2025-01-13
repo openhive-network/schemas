@@ -9,6 +9,7 @@ from schemas.fields.assets._base import AssetHbd, AssetHive
 from schemas.fields.basic import (
     AccountName,
 )
+from schemas.fields.resolvables import AssetUnion
 from schemas.operation import Operation
 
 
@@ -18,7 +19,7 @@ class _TransferToSavingsOperation(Operation, kw_only=True):
 
     from_: AccountName = Field(alias="from")
     to: AccountName
-    amount: AssetHive | AssetHbd
+    amount: AssetUnion[AssetHive, AssetHbd]
     memo: str
 
 

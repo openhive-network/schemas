@@ -9,6 +9,7 @@ from schemas.fields.assets._base import AssetHive, AssetVest
 from schemas.fields.basic import (
     AccountName,
 )
+from schemas.fields.resolvables import AssetUnion
 from schemas.virtual_operation import VirtualOperation
 
 
@@ -17,7 +18,7 @@ class _ProducerRewardOperation(VirtualOperation, kw_only=True):
     __offset__ = 14
 
     producer: AccountName
-    vesting_shares: AssetHive | AssetVest
+    vesting_shares: AssetUnion[AssetHive, AssetVest]
 
 
 class ProducerRewardOperation(_ProducerRewardOperation):

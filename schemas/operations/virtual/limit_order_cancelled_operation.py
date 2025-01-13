@@ -10,6 +10,7 @@ from schemas.fields.basic import (
     AccountName,
 )
 from schemas.fields.integers import Uint32t
+from schemas.fields.resolvables import AssetUnion
 from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_ORDERID: Final[Uint32t] = Uint32t(0)
@@ -21,7 +22,7 @@ class _LimitOrderCancelledOperation(VirtualOperation, kw_only=True):
 
     seller: AccountName
     orderid: Uint32t = DEFAULT_ORDERID
-    amount_back: AssetHive | AssetHbd
+    amount_back: AssetUnion[AssetHive, AssetHbd]
 
 
 class LimitOrderCancelledOperation(_LimitOrderCancelledOperation):

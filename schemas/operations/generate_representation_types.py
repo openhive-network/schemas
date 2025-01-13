@@ -64,14 +64,13 @@ class LegacyRepresentation(msgspec.Struct):
     return code
 
 def write_representations_classes(code: str) -> str:
-    for operation_name in all_operations[4:]:
-        if "Legacy" not in operation_name and "Generic" not in operation_name:
+    for operation_name in all_operations[4:-23]:
+        if "Generic" not in operation_name:
             code += f"""class HF26Representation{operation_name}(HF26Representation, tag="{pascal_to_snake(operation_name)}"):
             value: {operation_name}\n\n\n"""
 
-        elif "Legacy" in operation_name and "Generic" not in operation_name:
             code += f"""class LegacyRepresentation{operation_name}(LegacyRepresentation, tag="{pascal_to_snake(operation_name)[:-10]}", array_like=True):
-            value: {operation_name[:-6]}\n\n\n"""
+            value: {operation_name[:-6] if "Legacy" in operation_name else operation_name}\n\n\n"""
     return code
 
 # def extract_exported_models_from_api(api_name: str) -> list[str]:

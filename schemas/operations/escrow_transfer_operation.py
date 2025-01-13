@@ -12,6 +12,7 @@ from schemas.fields.basic import (
 )
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.integers import Uint32t
+from schemas.fields.resolvables import AssetUnion
 from schemas.operation import Operation
 
 DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
@@ -27,7 +28,7 @@ class _EscrowTransferOperation(Operation, kw_only=True):
     escrow_id: Uint32t = DEFAULT_ESCROW_ID
     hbd_amount: AssetHbd
     hive_amount: AssetHive
-    fee: AssetHive | AssetHbd
+    fee: AssetUnion[AssetHive, AssetHbd]
     ratification_deadline: HiveDateTime
     escrow_expiration: HiveDateTime
     json_meta: str

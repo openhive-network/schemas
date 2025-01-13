@@ -32,8 +32,8 @@ from schemas.operations.representation_types import (
     HF26RepresentationLimitOrderCancelOperation,
     HF26RepresentationLimitOrderCreate2Operation,
     HF26RepresentationLimitOrderCreateOperation,
-    HF26RepresentationPowOperation,
-    HF26RepresentationPow2Operation,
+    # HF26RepresentationPowOperation,
+    # HF26RepresentationPow2Operation,
     HF26RepresentationRecoverAccountOperation,
     HF26RepresentationRecurrentTransferOperation,
     HF26RepresentationRemoveProposalOperation,
@@ -56,55 +56,55 @@ from schemas.operations.representation_types import (
 
 # Importy dla LegacyRepresentation
 from schemas.operations.representation_types import (
-    LegacyRepresentationAccountCreateOperationLegacy,
+    LegacyRepresentationAccountCreateOperation,
     LegacyRepresentationAccountUpdate2Operation,
     LegacyRepresentationAccountUpdateOperation,
     LegacyRepresentationAccountWitnessProxyOperation,
     LegacyRepresentationAccountWitnessVoteOperation,
     LegacyRepresentationCancelTransferFromSavingsOperation,
     LegacyRepresentationChangeRecoveryAccountOperation,
-    LegacyRepresentationClaimAccountOperationLegacy,
+    LegacyRepresentationClaimAccountOperation,
     LegacyRepresentationClaimRewardBalanceOperation,
-    LegacyRepresentationCollateralizedConvertOperationLegacy,
+    LegacyRepresentationCollateralizedConvertOperation,
     LegacyRepresentationCommentOperation,
-    LegacyRepresentationCommentOptionsOperationLegacy,
-    LegacyRepresentationConvertOperationLegacy,
+    LegacyRepresentationCommentOptionsOperation,
+    LegacyRepresentationConvertOperation,
     LegacyRepresentationCreateClaimedAccountOperation,
-    LegacyRepresentationCreateProposalOperationLegacy,
+    LegacyRepresentationCreateProposalOperation,
     LegacyRepresentationCustomBinaryOperation,
     LegacyRepresentationCustomJsonOperation,
     LegacyRepresentationCustomOperation,
     LegacyRepresentationDeclineVotingRightsOperation,
-    LegacyRepresentationDelegateVestingSharesOperationLegacy,
+    LegacyRepresentationDelegateVestingSharesOperation,
     LegacyRepresentationDeleteCommentOperation,
     LegacyRepresentationEscrowApproveOperation,
     LegacyRepresentationEscrowDisputeOperation,
-    LegacyRepresentationEscrowReleaseOperationLegacy,
-    LegacyRepresentationEscrowTransferOperationLegacy,
+    LegacyRepresentationEscrowReleaseOperation,
+    LegacyRepresentationEscrowTransferOperation,
     LegacyRepresentationFeedPublishOperation,
     LegacyRepresentationLimitOrderCancelOperation,
-    LegacyRepresentationLimitOrderCreate2OperationLegacy,
-    LegacyRepresentationLimitOrderCreateOperationLegacy,
-    LegacyRepresentationPowOperationLegacy,
-    LegacyRepresentationPow2OperationLegacy,
+    LegacyRepresentationLimitOrderCreate2Operation,
+    LegacyRepresentationLimitOrderCreateOperation,
+    # LegacyRepresentationPowOperation,
+    # LegacyRepresentationPow2Operation,
     LegacyRepresentationRecoverAccountOperation,
-    LegacyRepresentationRecurrentTransferOperationLegacy,
+    LegacyRepresentationRecurrentTransferOperation,
     LegacyRepresentationRemoveProposalOperation,
     LegacyRepresentationRequestAccountRecoveryOperation,
     LegacyRepresentationResetAccountOperation,
     LegacyRepresentationSetResetAccountOperation,
     LegacyRepresentationSetWithdrawVestingRouteOperation,
-    LegacyRepresentationTransferFromSavingsOperationLegacy,
-    LegacyRepresentationTransferOperationLegacy,
-    LegacyRepresentationTransferToSavingsOperationLegacy,
-    LegacyRepresentationTransferToVestingOperationLegacy,
-    LegacyRepresentationUpdateProposalOperationLegacy,
+    LegacyRepresentationTransferFromSavingsOperation,
+    LegacyRepresentationTransferOperation,
+    LegacyRepresentationTransferToSavingsOperation,
+    LegacyRepresentationTransferToVestingOperation,
+    LegacyRepresentationUpdateProposalOperation,
     LegacyRepresentationUpdateProposalVotesOperation,
     LegacyRepresentationVoteOperation,
-    LegacyRepresentationWithdrawVestingOperationLegacy,
+    LegacyRepresentationWithdrawVestingOperation,
     LegacyRepresentationWitnessBlockApproveOperation,
     LegacyRepresentationWitnessSetPropertiesOperation,
-    LegacyRepresentationWitnessUpdateOperationLegacy,
+    LegacyRepresentationWitnessUpdateOperation,
 )
 
 __all__ = [
@@ -222,8 +222,8 @@ AnyOperationRepresentation = (
     | HF26RepresentationLimitOrderCancelOperation
     | HF26RepresentationLimitOrderCreate2Operation
     | HF26RepresentationLimitOrderCreateOperation
-    | HF26RepresentationPowOperation
-    | HF26RepresentationPow2Operation
+    # | HF26RepresentationPowOperation
+    # | HF26RepresentationPow2Operation
     | HF26RepresentationRecoverAccountOperation
     | HF26RepresentationRecurrentTransferOperation
     | HF26RepresentationRemoveProposalOperation
@@ -245,57 +245,57 @@ AnyOperationRepresentation = (
 )
 
 AnyLegacyOperationRepresentation = (
-    LegacyRepresentationAccountCreateOperationLegacy
+    LegacyRepresentationAccountCreateOperation
     | LegacyRepresentationAccountUpdate2Operation
     | LegacyRepresentationAccountUpdateOperation
     | LegacyRepresentationAccountWitnessProxyOperation
     | LegacyRepresentationAccountWitnessVoteOperation
     | LegacyRepresentationCancelTransferFromSavingsOperation
     | LegacyRepresentationChangeRecoveryAccountOperation
-    | LegacyRepresentationClaimAccountOperationLegacy
+    | LegacyRepresentationClaimAccountOperation
     | LegacyRepresentationClaimRewardBalanceOperation
-    | LegacyRepresentationCollateralizedConvertOperationLegacy
+    | LegacyRepresentationCollateralizedConvertOperation
     | LegacyRepresentationCommentOperation
-    | LegacyRepresentationCommentOptionsOperationLegacy
-    | LegacyRepresentationConvertOperationLegacy
+    | LegacyRepresentationCommentOptionsOperation
+    | LegacyRepresentationConvertOperation
     | LegacyRepresentationCreateClaimedAccountOperation
-    | LegacyRepresentationCreateProposalOperationLegacy
+    | LegacyRepresentationCreateProposalOperation
     | LegacyRepresentationCustomBinaryOperation
     | LegacyRepresentationCustomJsonOperation
     | LegacyRepresentationCustomOperation
     | LegacyRepresentationDeclineVotingRightsOperation
-    | LegacyRepresentationDelegateVestingSharesOperationLegacy
+    | LegacyRepresentationDelegateVestingSharesOperation
     | LegacyRepresentationDeleteCommentOperation
     | LegacyRepresentationEscrowApproveOperation
     | LegacyRepresentationEscrowDisputeOperation
-    | LegacyRepresentationEscrowReleaseOperationLegacy
-    | LegacyRepresentationEscrowTransferOperationLegacy
+    | LegacyRepresentationEscrowReleaseOperation
+    | LegacyRepresentationEscrowTransferOperation
     | LegacyRepresentationFeedPublishOperation
     | LegacyRepresentationLimitOrderCancelOperation
-    | LegacyRepresentationLimitOrderCreate2OperationLegacy
-    | LegacyRepresentationLimitOrderCreateOperationLegacy
-    | LegacyRepresentationPowOperationLegacy
-    | LegacyRepresentationPow2OperationLegacy
+    | LegacyRepresentationLimitOrderCreate2Operation
+    | LegacyRepresentationLimitOrderCreateOperation
+    # | LegacyRepresentationPowOperation
+    # | LegacyRepresentationPow2Operation
     | LegacyRepresentationRecoverAccountOperation
-    | LegacyRepresentationRecurrentTransferOperationLegacy
+    | LegacyRepresentationRecurrentTransferOperation
     | LegacyRepresentationRemoveProposalOperation
     | LegacyRepresentationRequestAccountRecoveryOperation
     | LegacyRepresentationResetAccountOperation
     | LegacyRepresentationSetResetAccountOperation
     | LegacyRepresentationSetWithdrawVestingRouteOperation
-    | LegacyRepresentationTransferFromSavingsOperationLegacy
-    | LegacyRepresentationTransferOperationLegacy
-    | LegacyRepresentationTransferToSavingsOperationLegacy
-    | LegacyRepresentationTransferToVestingOperationLegacy
-    | LegacyRepresentationUpdateProposalOperationLegacy
+    | LegacyRepresentationTransferFromSavingsOperation
+    | LegacyRepresentationTransferOperation
+    | LegacyRepresentationTransferToSavingsOperation
+    | LegacyRepresentationTransferToVestingOperation
+    | LegacyRepresentationUpdateProposalOperation
     | LegacyRepresentationUpdateProposalVotesOperation
     | LegacyRepresentationVoteOperation
-    | LegacyRepresentationWithdrawVestingOperationLegacy
+    | LegacyRepresentationWithdrawVestingOperation
     | LegacyRepresentationWitnessBlockApproveOperation
     | LegacyRepresentationWitnessSetPropertiesOperation
-    | LegacyRepresentationWitnessUpdateOperationLegacy
+    | LegacyRepresentationWitnessUpdateOperation
 )
 
 
-AnyEveryOperation = AnyOperationRepresentation | AnyVirtualOperationRepresentation
-AnyLegacyEveryOperation = AnyLegacyOperationRepresentation | AnyLegacyVirtualOperationRepresentation
+AnyEveryOperation = AnyOperationRepresentation# | AnyVirtualOperationRepresentation
+AnyLegacyEveryOperation = AnyLegacyOperationRepresentation# | AnyLegacyVirtualOperationRepresentation

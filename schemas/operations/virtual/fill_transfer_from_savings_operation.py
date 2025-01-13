@@ -10,6 +10,7 @@ from schemas.fields.basic import (
     AccountName,
 )
 from schemas.fields.integers import Uint32t
+from schemas.fields.resolvables import AssetUnion
 from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
@@ -21,7 +22,7 @@ class _FillTransferFromSavingsOperation(VirtualOperation, kw_only=True):
 
     from_: AccountName = Field(alias="from")
     to: AccountName
-    amount: AssetHive | AssetHbd
+    amount: AssetUnion[AssetHive, AssetHbd]
     request_id: Uint32t = DEFAULT_REQUEST_ID
     memo: str
 

@@ -94,7 +94,15 @@ class HF26RepresentationAccountCreateOperation(HF26Representation, tag="account_
             value: AccountCreateOperation
 
 
+class LegacyRepresentationAccountCreateOperation(LegacyRepresentation, tag="account_create", array_like=True):
+            value: AccountCreateOperation
+
+
 class HF26RepresentationAccountCreateWithDelegationOperation(HF26Representation, tag="account_create_with_delegation_operation"):
+            value: AccountCreateWithDelegationOperation
+
+
+class LegacyRepresentationAccountCreateWithDelegationOperation(LegacyRepresentation, tag="account_create_with_delegation", array_like=True):
             value: AccountCreateWithDelegationOperation
 
 
@@ -102,7 +110,15 @@ class HF26RepresentationAccountUpdate2Operation(HF26Representation, tag="account
             value: AccountUpdate2Operation
 
 
+class LegacyRepresentationAccountUpdate2Operation(LegacyRepresentation, tag="account_update2", array_like=True):
+            value: AccountUpdate2Operation
+
+
 class HF26RepresentationAccountUpdateOperation(HF26Representation, tag="account_update_operation"):
+            value: AccountUpdateOperation
+
+
+class LegacyRepresentationAccountUpdateOperation(LegacyRepresentation, tag="account_update", array_like=True):
             value: AccountUpdateOperation
 
 
@@ -110,7 +126,15 @@ class HF26RepresentationAccountWitnessProxyOperation(HF26Representation, tag="ac
             value: AccountWitnessProxyOperation
 
 
+class LegacyRepresentationAccountWitnessProxyOperation(LegacyRepresentation, tag="account_witness_proxy", array_like=True):
+            value: AccountWitnessProxyOperation
+
+
 class HF26RepresentationAccountWitnessVoteOperation(HF26Representation, tag="account_witness_vote_operation"):
+            value: AccountWitnessVoteOperation
+
+
+class LegacyRepresentationAccountWitnessVoteOperation(LegacyRepresentation, tag="account_witness_vote", array_like=True):
             value: AccountWitnessVoteOperation
 
 
@@ -118,7 +142,15 @@ class HF26RepresentationCancelTransferFromSavingsOperation(HF26Representation, t
             value: CancelTransferFromSavingsOperation
 
 
+class LegacyRepresentationCancelTransferFromSavingsOperation(LegacyRepresentation, tag="cancel_transfer_from_savings", array_like=True):
+            value: CancelTransferFromSavingsOperation
+
+
 class HF26RepresentationChangeRecoveryAccountOperation(HF26Representation, tag="change_recovery_account_operation"):
+            value: ChangeRecoveryAccountOperation
+
+
+class LegacyRepresentationChangeRecoveryAccountOperation(LegacyRepresentation, tag="change_recovery_account", array_like=True):
             value: ChangeRecoveryAccountOperation
 
 
@@ -126,7 +158,15 @@ class HF26RepresentationClaimAccountOperation(HF26Representation, tag="claim_acc
             value: ClaimAccountOperation
 
 
+class LegacyRepresentationClaimAccountOperation(LegacyRepresentation, tag="claim_account", array_like=True):
+            value: ClaimAccountOperation
+
+
 class HF26RepresentationClaimRewardBalanceOperation(HF26Representation, tag="claim_reward_balance_operation"):
+            value: ClaimRewardBalanceOperation
+
+
+class LegacyRepresentationClaimRewardBalanceOperation(LegacyRepresentation, tag="claim_reward_balance", array_like=True):
             value: ClaimRewardBalanceOperation
 
 
@@ -134,7 +174,15 @@ class HF26RepresentationCollateralizedConvertOperation(HF26Representation, tag="
             value: CollateralizedConvertOperation
 
 
+class LegacyRepresentationCollateralizedConvertOperation(LegacyRepresentation, tag="collateralized_convert", array_like=True):
+            value: CollateralizedConvertOperation
+
+
 class HF26RepresentationCommentOperation(HF26Representation, tag="comment_operation"):
+            value: CommentOperation
+
+
+class LegacyRepresentationCommentOperation(LegacyRepresentation, tag="comment", array_like=True):
             value: CommentOperation
 
 
@@ -142,7 +190,15 @@ class HF26RepresentationCommentOptionsOperation(HF26Representation, tag="comment
             value: CommentOptionsOperation
 
 
+class LegacyRepresentationCommentOptionsOperation(LegacyRepresentation, tag="comment_options", array_like=True):
+            value: CommentOptionsOperation
+
+
 class HF26RepresentationConvertOperation(HF26Representation, tag="convert_operation"):
+            value: ConvertOperation
+
+
+class LegacyRepresentationConvertOperation(LegacyRepresentation, tag="convert", array_like=True):
             value: ConvertOperation
 
 
@@ -150,7 +206,15 @@ class HF26RepresentationCreateClaimedAccountOperation(HF26Representation, tag="c
             value: CreateClaimedAccountOperation
 
 
+class LegacyRepresentationCreateClaimedAccountOperation(LegacyRepresentation, tag="create_claimed_account", array_like=True):
+            value: CreateClaimedAccountOperation
+
+
 class HF26RepresentationCreateProposalOperation(HF26Representation, tag="create_proposal_operation"):
+            value: CreateProposalOperation
+
+
+class LegacyRepresentationCreateProposalOperation(LegacyRepresentation, tag="create_proposal", array_like=True):
             value: CreateProposalOperation
 
 
@@ -158,7 +222,15 @@ class HF26RepresentationCustomBinaryOperation(HF26Representation, tag="custom_bi
             value: CustomBinaryOperation
 
 
+class LegacyRepresentationCustomBinaryOperation(LegacyRepresentation, tag="custom_binary", array_like=True):
+            value: CustomBinaryOperation
+
+
 class HF26RepresentationCustomJsonOperation(HF26Representation, tag="custom_json_operation"):
+            value: CustomJsonOperation
+
+
+class LegacyRepresentationCustomJsonOperation(LegacyRepresentation, tag="custom_json", array_like=True):
             value: CustomJsonOperation
 
 
@@ -166,7 +238,15 @@ class HF26RepresentationCustomOperation(HF26Representation, tag="custom_operatio
             value: CustomOperation
 
 
+class LegacyRepresentationCustomOperation(LegacyRepresentation, tag="custom", array_like=True):
+            value: CustomOperation
+
+
 class HF26RepresentationDeclineVotingRightsOperation(HF26Representation, tag="decline_voting_rights_operation"):
+            value: DeclineVotingRightsOperation
+
+
+class LegacyRepresentationDeclineVotingRightsOperation(LegacyRepresentation, tag="decline_voting_rights", array_like=True):
             value: DeclineVotingRightsOperation
 
 
@@ -174,7 +254,15 @@ class HF26RepresentationDelegateVestingSharesOperation(HF26Representation, tag="
             value: DelegateVestingSharesOperation
 
 
+class LegacyRepresentationDelegateVestingSharesOperation(LegacyRepresentation, tag="delegate_vesting_shares", array_like=True):
+            value: DelegateVestingSharesOperation
+
+
 class HF26RepresentationDeleteCommentOperation(HF26Representation, tag="delete_comment_operation"):
+            value: DeleteCommentOperation
+
+
+class LegacyRepresentationDeleteCommentOperation(LegacyRepresentation, tag="delete_comment", array_like=True):
             value: DeleteCommentOperation
 
 
@@ -182,7 +270,15 @@ class HF26RepresentationEscrowApproveOperation(HF26Representation, tag="escrow_a
             value: EscrowApproveOperation
 
 
+class LegacyRepresentationEscrowApproveOperation(LegacyRepresentation, tag="escrow_approve", array_like=True):
+            value: EscrowApproveOperation
+
+
 class HF26RepresentationEscrowDisputeOperation(HF26Representation, tag="escrow_dispute_operation"):
+            value: EscrowDisputeOperation
+
+
+class LegacyRepresentationEscrowDisputeOperation(LegacyRepresentation, tag="escrow_dispute", array_like=True):
             value: EscrowDisputeOperation
 
 
@@ -190,7 +286,15 @@ class HF26RepresentationEscrowReleaseOperation(HF26Representation, tag="escrow_r
             value: EscrowReleaseOperation
 
 
+class LegacyRepresentationEscrowReleaseOperation(LegacyRepresentation, tag="escrow_release", array_like=True):
+            value: EscrowReleaseOperation
+
+
 class HF26RepresentationEscrowTransferOperation(HF26Representation, tag="escrow_transfer_operation"):
+            value: EscrowTransferOperation
+
+
+class LegacyRepresentationEscrowTransferOperation(LegacyRepresentation, tag="escrow_transfer", array_like=True):
             value: EscrowTransferOperation
 
 
@@ -198,7 +302,15 @@ class HF26RepresentationFeedPublishOperation(HF26Representation, tag="feed_publi
             value: FeedPublishOperation
 
 
+class LegacyRepresentationFeedPublishOperation(LegacyRepresentation, tag="feed_publish", array_like=True):
+            value: FeedPublishOperation
+
+
 class HF26RepresentationLimitOrderCancelOperation(HF26Representation, tag="limit_order_cancel_operation"):
+            value: LimitOrderCancelOperation
+
+
+class LegacyRepresentationLimitOrderCancelOperation(LegacyRepresentation, tag="limit_order_cancel", array_like=True):
             value: LimitOrderCancelOperation
 
 
@@ -206,7 +318,15 @@ class HF26RepresentationLimitOrderCreate2Operation(HF26Representation, tag="limi
             value: LimitOrderCreate2Operation
 
 
+class LegacyRepresentationLimitOrderCreate2Operation(LegacyRepresentation, tag="limit_order_create2", array_like=True):
+            value: LimitOrderCreate2Operation
+
+
 class HF26RepresentationLimitOrderCreateOperation(HF26Representation, tag="limit_order_create_operation"):
+            value: LimitOrderCreateOperation
+
+
+class LegacyRepresentationLimitOrderCreateOperation(LegacyRepresentation, tag="limit_order_create", array_like=True):
             value: LimitOrderCreateOperation
 
 
@@ -214,7 +334,15 @@ class HF26RepresentationPowOperation(HF26Representation, tag="pow_operation"):
             value: PowOperation
 
 
+class LegacyRepresentationPowOperation(LegacyRepresentation, tag="pow", array_like=True):
+            value: PowOperation
+
+
 class HF26RepresentationPow2Operation(HF26Representation, tag="pow2_operation"):
+            value: Pow2Operation
+
+
+class LegacyRepresentationPow2Operation(LegacyRepresentation, tag="pow2", array_like=True):
             value: Pow2Operation
 
 
@@ -222,7 +350,15 @@ class HF26RepresentationRecoverAccountOperation(HF26Representation, tag="recover
             value: RecoverAccountOperation
 
 
+class LegacyRepresentationRecoverAccountOperation(LegacyRepresentation, tag="recover_account", array_like=True):
+            value: RecoverAccountOperation
+
+
 class HF26RepresentationRecurrentTransferOperation(HF26Representation, tag="recurrent_transfer_operation"):
+            value: RecurrentTransferOperation
+
+
+class LegacyRepresentationRecurrentTransferOperation(LegacyRepresentation, tag="recurrent_transfer", array_like=True):
             value: RecurrentTransferOperation
 
 
@@ -230,7 +366,15 @@ class HF26RepresentationRemoveProposalOperation(HF26Representation, tag="remove_
             value: RemoveProposalOperation
 
 
+class LegacyRepresentationRemoveProposalOperation(LegacyRepresentation, tag="remove_proposal", array_like=True):
+            value: RemoveProposalOperation
+
+
 class HF26RepresentationRequestAccountRecoveryOperation(HF26Representation, tag="request_account_recovery_operation"):
+            value: RequestAccountRecoveryOperation
+
+
+class LegacyRepresentationRequestAccountRecoveryOperation(LegacyRepresentation, tag="request_account_recovery", array_like=True):
             value: RequestAccountRecoveryOperation
 
 
@@ -238,7 +382,15 @@ class HF26RepresentationResetAccountOperation(HF26Representation, tag="reset_acc
             value: ResetAccountOperation
 
 
+class LegacyRepresentationResetAccountOperation(LegacyRepresentation, tag="reset_account", array_like=True):
+            value: ResetAccountOperation
+
+
 class HF26RepresentationSetResetAccountOperation(HF26Representation, tag="set_reset_account_operation"):
+            value: SetResetAccountOperation
+
+
+class LegacyRepresentationSetResetAccountOperation(LegacyRepresentation, tag="set_reset_account", array_like=True):
             value: SetResetAccountOperation
 
 
@@ -246,7 +398,15 @@ class HF26RepresentationSetWithdrawVestingRouteOperation(HF26Representation, tag
             value: SetWithdrawVestingRouteOperation
 
 
+class LegacyRepresentationSetWithdrawVestingRouteOperation(LegacyRepresentation, tag="set_withdraw_vesting_route", array_like=True):
+            value: SetWithdrawVestingRouteOperation
+
+
 class HF26RepresentationTransferFromSavingsOperation(HF26Representation, tag="transfer_from_savings_operation"):
+            value: TransferFromSavingsOperation
+
+
+class LegacyRepresentationTransferFromSavingsOperation(LegacyRepresentation, tag="transfer_from_savings", array_like=True):
             value: TransferFromSavingsOperation
 
 
@@ -254,7 +414,15 @@ class HF26RepresentationTransferOperation(HF26Representation, tag="transfer_oper
             value: TransferOperation
 
 
+class LegacyRepresentationTransferOperation(LegacyRepresentation, tag="transfer", array_like=True):
+            value: TransferOperation
+
+
 class HF26RepresentationTransferToSavingsOperation(HF26Representation, tag="transfer_to_savings_operation"):
+            value: TransferToSavingsOperation
+
+
+class LegacyRepresentationTransferToSavingsOperation(LegacyRepresentation, tag="transfer_to_savings", array_like=True):
             value: TransferToSavingsOperation
 
 
@@ -262,7 +430,15 @@ class HF26RepresentationTransferToVestingOperation(HF26Representation, tag="tran
             value: TransferToVestingOperation
 
 
+class LegacyRepresentationTransferToVestingOperation(LegacyRepresentation, tag="transfer_to_vesting", array_like=True):
+            value: TransferToVestingOperation
+
+
 class HF26RepresentationUpdateProposalOperation(HF26Representation, tag="update_proposal_operation"):
+            value: UpdateProposalOperation
+
+
+class LegacyRepresentationUpdateProposalOperation(LegacyRepresentation, tag="update_proposal", array_like=True):
             value: UpdateProposalOperation
 
 
@@ -270,7 +446,15 @@ class HF26RepresentationUpdateProposalVotesOperation(HF26Representation, tag="up
             value: UpdateProposalVotesOperation
 
 
+class LegacyRepresentationUpdateProposalVotesOperation(LegacyRepresentation, tag="update_proposal_votes", array_like=True):
+            value: UpdateProposalVotesOperation
+
+
 class HF26RepresentationVoteOperation(HF26Representation, tag="vote_operation"):
+            value: VoteOperation
+
+
+class LegacyRepresentationVoteOperation(LegacyRepresentation, tag="vote", array_like=True):
             value: VoteOperation
 
 
@@ -278,7 +462,15 @@ class HF26RepresentationWithdrawVestingOperation(HF26Representation, tag="withdr
             value: WithdrawVestingOperation
 
 
+class LegacyRepresentationWithdrawVestingOperation(LegacyRepresentation, tag="withdraw_vesting", array_like=True):
+            value: WithdrawVestingOperation
+
+
 class HF26RepresentationWitnessBlockApproveOperation(HF26Representation, tag="witness_block_approve_operation"):
+            value: WitnessBlockApproveOperation
+
+
+class LegacyRepresentationWitnessBlockApproveOperation(LegacyRepresentation, tag="witness_block_approve", array_like=True):
             value: WitnessBlockApproveOperation
 
 
@@ -286,99 +478,15 @@ class HF26RepresentationWitnessSetPropertiesOperation(HF26Representation, tag="w
             value: WitnessSetPropertiesOperation
 
 
+class LegacyRepresentationWitnessSetPropertiesOperation(LegacyRepresentation, tag="witness_set_properties", array_like=True):
+            value: WitnessSetPropertiesOperation
+
+
 class HF26RepresentationWitnessUpdateOperation(HF26Representation, tag="witness_update_operation"):
             value: WitnessUpdateOperation
 
 
-class LegacyRepresentationAccountCreateOperationLegacy(LegacyRepresentation, tag="account_create_operat", array_like=True):
-            value: AccountCreateOperation
-
-
-class LegacyRepresentationAccountCreateWithDelegationOperationLegacy(LegacyRepresentation, tag="account_create_with_delegation_operat", array_like=True):
-            value: AccountCreateWithDelegationOperation
-
-
-class LegacyRepresentationClaimAccountOperationLegacy(LegacyRepresentation, tag="claim_account_operat", array_like=True):
-            value: ClaimAccountOperation
-
-
-class LegacyRepresentationClaimRewardBalanceOperationLegacy(LegacyRepresentation, tag="claim_reward_balance_operat", array_like=True):
-            value: ClaimRewardBalanceOperation
-
-
-class LegacyRepresentationCollateralizedConvertOperationLegacy(LegacyRepresentation, tag="collateralized_convert_operat", array_like=True):
-            value: CollateralizedConvertOperation
-
-
-class LegacyRepresentationCommentOptionsOperationLegacy(LegacyRepresentation, tag="comment_options_operat", array_like=True):
-            value: CommentOptionsOperation
-
-
-class LegacyRepresentationConvertOperationLegacy(LegacyRepresentation, tag="convert_operat", array_like=True):
-            value: ConvertOperation
-
-
-class LegacyRepresentationCreateProposalOperationLegacy(LegacyRepresentation, tag="create_proposal_operat", array_like=True):
-            value: CreateProposalOperation
-
-
-class LegacyRepresentationDelegateVestingSharesOperationLegacy(LegacyRepresentation, tag="delegate_vesting_shares_operat", array_like=True):
-            value: DelegateVestingSharesOperation
-
-
-class LegacyRepresentationPowOperationLegacy(LegacyRepresentation, tag="pow_operat", array_like=True):
-            value: PowOperation
-
-
-class LegacyRepresentationPow2OperationLegacy(LegacyRepresentation, tag="pow2_operat", array_like=True):
-            value: Pow2Operation
-
-
-class LegacyRepresentationEscrowReleaseOperationLegacy(LegacyRepresentation, tag="escrow_release_operat", array_like=True):
-            value: EscrowReleaseOperation
-
-
-class LegacyRepresentationEscrowTransferOperationLegacy(LegacyRepresentation, tag="escrow_transfer_operat", array_like=True):
-            value: EscrowTransferOperation
-
-
-class LegacyRepresentationLimitOrderCreate2OperationLegacy(LegacyRepresentation, tag="limit_order_create2_operat", array_like=True):
-            value: LimitOrderCreate2Operation
-
-
-class LegacyRepresentationLimitOrderCreateOperationLegacy(LegacyRepresentation, tag="limit_order_create_operat", array_like=True):
-            value: LimitOrderCreateOperation
-
-
-class LegacyRepresentationRecurrentTransferOperationLegacy(LegacyRepresentation, tag="recurrent_transfer_operat", array_like=True):
-            value: RecurrentTransferOperation
-
-
-class LegacyRepresentationTransferFromSavingsOperationLegacy(LegacyRepresentation, tag="transfer_from_savings_operat", array_like=True):
-            value: TransferFromSavingsOperation
-
-
-class LegacyRepresentationTransferOperationLegacy(LegacyRepresentation, tag="transfer_operat", array_like=True):
-            value: TransferOperation
-
-
-class LegacyRepresentationTransferToSavingsOperationLegacy(LegacyRepresentation, tag="transfer_to_savings_operat", array_like=True):
-            value: TransferToSavingsOperation
-
-
-class LegacyRepresentationTransferToVestingOperationLegacy(LegacyRepresentation, tag="transfer_to_vesting_operat", array_like=True):
-            value: TransferToVestingOperation
-
-
-class LegacyRepresentationUpdateProposalOperationLegacy(LegacyRepresentation, tag="update_proposal_operat", array_like=True):
-            value: UpdateProposalOperation
-
-
-class LegacyRepresentationWithdrawVestingOperationLegacy(LegacyRepresentation, tag="withdraw_vesting_operat", array_like=True):
-            value: WithdrawVestingOperation
-
-
-class LegacyRepresentationWitnessUpdateOperationLegacy(LegacyRepresentation, tag="witness_update_operat", array_like=True):
+class LegacyRepresentationWitnessUpdateOperation(LegacyRepresentation, tag="witness_update", array_like=True):
             value: WitnessUpdateOperation
 
 

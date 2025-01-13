@@ -9,6 +9,7 @@ from schemas.fields.assets._base import AssetHive, AssetVest
 from schemas.fields.basic import (
     AccountName,
 )
+from schemas.fields.resolvables import AssetUnion
 from schemas.virtual_operation import VirtualOperation
 
 
@@ -19,7 +20,7 @@ class _FillVestingWithdrawOperation(VirtualOperation, kw_only=True):
     from_account: AccountName
     to_account: AccountName
     withdrawn: AssetVest
-    deposited: AssetHive | AssetVest
+    deposited: AssetUnion[AssetHive, AssetVest]
 
 
 class FillVestingWithdrawOperation(_FillVestingWithdrawOperation):

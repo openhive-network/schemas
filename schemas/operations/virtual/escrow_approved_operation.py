@@ -10,6 +10,7 @@ from schemas.fields.basic import (
     AccountName,
 )
 from schemas.fields.integers import Uint32t
+from schemas.fields.resolvables import AssetUnion
 from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
@@ -23,8 +24,7 @@ class _EscrowApprovedOperation(VirtualOperation, kw_only=True):
     to: AccountName
     agent: AccountName
     escrow_id: Uint32t = DEFAULT_REQUEST_ID
-    fee: AssetHive | AssetHbd
-
+    fee: AssetUnion[AssetHive, AssetHbd]
 
 class EscrowApprovedOperation(_EscrowApprovedOperation):
     ...

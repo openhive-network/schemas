@@ -10,6 +10,7 @@ from schemas.fields.basic import (
     AccountName,
 )
 from schemas.fields.integers import Uint32t
+from schemas.fields.resolvables import AssetUnion
 from schemas.operation import Operation
 
 DEFAULT_TYPE_ID: Final[Uint32t] = Uint32t(0)
@@ -22,7 +23,7 @@ class _TransferFromSavingsOperation(Operation, kw_only=True):
     from_: AccountName = Field(alias="from")
     to: AccountName
     request_id: Uint32t = DEFAULT_TYPE_ID
-    amount: AssetHive | AssetHbd
+    amount: AssetUnion[AssetHive, AssetHbd]
     memo: str
 
 

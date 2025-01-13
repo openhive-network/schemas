@@ -15,6 +15,7 @@ from schemas.fields.basic import (
 from schemas.fields.compound import Authority, DelayedVotes, Manabar
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
+from schemas.fields.resolvables import AssetUnion
 
 
 class Account(PreconfiguredBaseModel, kw_only=True):
@@ -106,7 +107,7 @@ class FindRecurrentTransfersFundament(PreconfiguredBaseModel, kw_only=True):
     trigger_date: HiveDateTime
     from_: AccountName = Field(alias="from")
     to: AccountName
-    amount: AssetHive | AssetHbd
+    amount: AssetUnion[AssetHive, AssetHbd]
     memo: str
     recurrence: HiveInt
     consecutive_failures: HiveInt

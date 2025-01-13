@@ -20,7 +20,7 @@ class _ClaimAccountOperation(Operation):
     __offset__ = 22
 
     creator: AccountName
-    fee: AssetHive | Literal[0]
+    fee: AssetHive# | Literal[0]
     extensions: FutureExtensions = Field(default_factory=FutureExtensions)
 
 

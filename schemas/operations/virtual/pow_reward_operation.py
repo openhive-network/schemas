@@ -17,7 +17,7 @@ class _PowRewardOperation(VirtualOperation, kw_only=True):
     __offset__ = 28
 
     worker: AccountName
-    reward: AssetHive | AssetVest
+    reward: AssetUnion[AssetHive, AssetVest]
 
 
 class PowRewardOperation(_PowRewardOperation):
