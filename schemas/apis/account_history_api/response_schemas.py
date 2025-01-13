@@ -52,11 +52,11 @@ class GetTransactionModel(PreconfiguredBaseModel):
     block_num: HiveInt
     expiration: HiveDateTime
     extensions: list[Any]
-    operations: list[AnyLegacyOperationRepresentation]
+    operations: list[AnyOperationRepresentation] #     operations: list[AnyLegacyOperationRepresentation]
     ref_block_num: HiveInt
     ref_block_prefix: HiveInt
-    signatures: list[str]
-    transaction_id: str
+    signatures: list[Signature]
+    transaction_id: TransactionId
     transaction_num: HiveInt
 
 
