@@ -64,6 +64,7 @@ from schemas.fields.version import HardforkVersion, HiveVersion
 #     LegacyOperationRepresentationType,
 # )
 from schemas.operations.representations import get_legacy_operation_representation
+from schemas.operations import AnyLegacyOperationRepresentation
 
 
 class BroadcastTransaction(broadcast_api.BroadcastTransaction):
@@ -345,6 +346,7 @@ GetTradeHistory = HiveList[fundaments_market_history_api.GetTradeHistoryFundamen
 
 
 class GetTransaction(account_history_api.GetTransactionModel):
+    operations: list[AnyLegacyOperationRepresentation]
     @root_validator(pre=True)
     @classmethod
     def check_operation(cls, values: dict[str, Any]) -> dict[str, Any]:

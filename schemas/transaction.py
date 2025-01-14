@@ -13,7 +13,7 @@ from schemas.fields.hive_int import HiveInt
 #     LegacyOperationRepresentationType,
 # )
 from schemas.operations.representations import get_legacy_operation_representation
-
+from schemas.operations import AnyOperationRepresentation, AnyLegacyOperationRepresentation
 __all__ = [
     "Transaction",
     "TransactionLegacy",
@@ -30,18 +30,18 @@ class TransactionCommon(PreconfiguredBaseModel):
 
 
 class Transaction(TransactionCommon):
-    operations: list[Hf26OperationRepresentationType]
+    operations: list[AnyOperationRepresentation]
 
 
 class TransactionLegacy(TransactionCommon):
-    operations: list[LegacyOperationRepresentationType]
+    operations: list[AnyLegacyOperationRepresentation]
     block_num: HiveInt
     transaction_id: TransactionId
     transaction_num: HiveInt
 
     @validator("operations", pre=True, always=True)
     @classmethod
-    def operations_converter(cls, value: Any) -> list[LegacyOperationRepresentationType]:
+    def operations_converter(cls, value: Any) -> list[AnyLegacyOperationRepresentation]:
         assert isinstance(value, list)
         return [
             get_legacy_operation_representation(op_name)(type=op_name, value=op_value) for op_name, op_value in value

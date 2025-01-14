@@ -59,8 +59,8 @@ class LegacyApiVirtualOperationObject(LegacyApiOperationObject):
 
 
 class Hf26ApiAllOperationObject(Hf26ApiOperationObject):
-    op: AnyOperationRepresentation  # type: ignore
+    op: AnyEveryOperation # type: ignore
 
 
 class LegacyApiAllOperationObject(LegacyApiOperationObject):
-    op: AnyLegacyOperationRepresentation  # type: ignore
+    op: AnyLegacyEveryOperation  # type: ignore

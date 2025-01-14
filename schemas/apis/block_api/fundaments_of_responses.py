@@ -13,6 +13,7 @@ from schemas.fields.hex import Signature, TransactionId
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.transaction import (
     Transaction,
+    TransactionCommon,
     TransactionLegacy,
     TransactionT,
 )
@@ -28,26 +29,40 @@ class GetBlockHeaderFundament(PreconfiguredBaseModel):
     witness: AccountName
 
 
-class SignedBlock(GetBlockHeaderFundament):
+class SignedBlockBase(GetBlockHeaderFundament):
     witness_signature: Signature
-    transactions: list[Transaction | TransactionLegacy]
+    transactions: list[TransactionCommon]
 
 
-class BlockLogUtilSignedBlock(GetBlockHeaderFundament):
+class SignedBlockHF26(GetBlockHeaderFundament):
+    transactions: list[Transaction]
+
+
+class SignedBlockLegacy(GetBlockHeaderFundament):
+    transactions: list[TransactionLegacy]
+
+
+class BlockLogUtilSignedBlockBase(GetBlockHeaderFundament):
     block_id: TransactionId
     signing_key: PublicKey
     witness_signature: Signature
     transactions: list[Transaction | TransactionLegacy]
 
 
-class Block(SignedBlock):
+class BlockHF26(SignedBlockHF26):
     block_id: TransactionId
     signing_key: PublicKey
     transaction_ids: list[TransactionId]
 
 
-Hf26Block = Block
-LegacyBlock = Block
+class BlockLegacy(SignedBlockLegacy):
+    block_id: TransactionId
+    signing_key: PublicKey
+    transaction_ids: list[TransactionId]
+
+
+Hf26Block = BlockHF26
+LegacyBlock = BlockLegacy
 
 
 class EmptyModel(PreconfiguredBaseModel):
