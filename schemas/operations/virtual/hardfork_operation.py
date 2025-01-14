@@ -9,7 +9,12 @@ DEFAULT_HARDFORK_ID: Final[Uint32t] = Uint32t(0)
 
 
 class HardforkOperation(VirtualOperation):
-    __operation_name__ = "hardfork"
-    __offset__ = 10
-
     hardfork_id: Uint32t = DEFAULT_HARDFORK_ID
+
+    @classmethod
+    def get_name(cls):
+        return "hardfork"
+    
+    @classmethod
+    def offset(cls):
+        return 10

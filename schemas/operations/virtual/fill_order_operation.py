@@ -18,9 +18,6 @@ DEFAULT_OPEN_ORDERID: Final[Uint32t] = Uint32t(0)
 
 
 class _FillOrderOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "fill_order"
-    __offset__ = 7
-
     current_owner: AccountName
     current_orderid: Uint32t = DEFAULT_CURRENT_ORDERID
     current_pays: AssetUnion[AssetHive, AssetHbd]
@@ -28,6 +25,14 @@ class _FillOrderOperation(VirtualOperation, kw_only=True):
     open_orderid: Uint32t = DEFAULT_OPEN_ORDERID
     open_pays: AssetUnion[AssetHive, AssetHbd]
 
+
+    @classmethod
+    def get_name(cls):
+        return "fill_order"
+    
+    @classmethod
+    def offset(cls):
+        return 7
 
 class FillOrderOperation(_FillOrderOperation):
     ...

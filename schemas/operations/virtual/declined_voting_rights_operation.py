@@ -5,7 +5,12 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class DeclinedVotingRightsOperation(VirtualOperation):
-    __operation_name__ = "declined_voting_rights"
-    __offset__ = 42
-
     account: AccountName
+
+    @classmethod
+    def get_name(cls):
+        return "declined_voting_rights"
+    
+    @classmethod
+    def offset(cls):
+        return 42

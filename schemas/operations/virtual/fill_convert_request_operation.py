@@ -15,13 +15,18 @@ DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
 class _FillConvertRequestOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "fill_convert_request"
-    __offset__ = 0
-
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
     amount_in: AssetHbd
     amount_out: AssetHive
+
+    @classmethod
+    def get_name(cls):
+        return "fill_convert_request"
+    
+    @classmethod
+    def offset(cls):
+        return 0
 
 
 class FillConvertRequestOperation(_FillConvertRequestOperation):

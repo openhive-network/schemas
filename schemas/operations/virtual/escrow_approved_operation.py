@@ -17,14 +17,19 @@ DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
 class _EscrowApprovedOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "escrow_approved"
-    __offset__ = 39
-
     from_: AccountName = Field(alias="from")
     to: AccountName
     agent: AccountName
     escrow_id: Uint32t = DEFAULT_REQUEST_ID
     fee: AssetUnion[AssetHive, AssetHbd]
+
+    @classmethod
+    def get_name(cls):
+        return "escrow_approved"
+    
+    @classmethod
+    def offset(cls):
+        return 39
 
 class EscrowApprovedOperation(_EscrowApprovedOperation):
     ...

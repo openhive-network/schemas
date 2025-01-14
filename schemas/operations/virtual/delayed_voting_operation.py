@@ -10,8 +10,13 @@ DEFAULT_VOTES: Final[UShareType] = UShareType(0)
 
 
 class DelayedVotingOperation(VirtualOperation):
-    __operation_name__ = "delayed_voting"
-    __offset__ = 20
-
     voter: AccountName
     votes: UShareType = DEFAULT_VOTES
+
+    @classmethod
+    def get_name(cls):
+        return "delayed_voting"
+    
+    @classmethod
+    def offset(cls):
+        return 20

@@ -12,9 +12,6 @@ DEFAULT_PAYOUT_MUST_BE_CLAIMED: Final[bool] = False
 
 
 class _AuthorRewardOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "author_reward"
-    __offset__ = 1
-
     author: AccountName
     permlink: str
     hbd_payout: AssetHbd
@@ -23,6 +20,14 @@ class _AuthorRewardOperation(VirtualOperation, kw_only=True):
     curators_vesting_payout: AssetVest
     payout_must_be_claimed: bool = DEFAULT_PAYOUT_MUST_BE_CLAIMED
 
+
+    @classmethod
+    def get_name(cls):
+        return "author_reward"
+    
+    @classmethod
+    def offset(cls):
+        return 1
 
 class AuthorRewardOperation(_AuthorRewardOperation):
     ...

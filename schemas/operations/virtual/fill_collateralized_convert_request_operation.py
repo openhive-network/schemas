@@ -16,14 +16,19 @@ DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
 class _FillCollateralizedConvertRequestOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "fill_collateralized_convert_request"
-    __offset__ = 31
-
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
     amount_in: AssetHive
     amount_out: AssetHbd
     excess_collateral: AssetHive
+
+    @classmethod
+    def get_name(cls):
+        return "fill_collateralized_convert_request"
+    
+    @classmethod
+    def offset(cls):
+        return 31
 
 
 class FillCollateralizedConvertRequestOperation(

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from schemas.operations.virtual import AnyVirtualOperationRepresentation, AnyLegacyVirtualOperationRepresentation
 # Importy dla HF26Representation
 from schemas.operations.representation_types import (
     HF26RepresentationAccountCreateOperation,
@@ -297,5 +298,5 @@ AnyLegacyOperationRepresentation = (
 )
 
 
-AnyEveryOperation = AnyOperationRepresentation# | AnyVirtualOperationRepresentation
-AnyLegacyEveryOperation = AnyLegacyOperationRepresentation# | AnyLegacyVirtualOperationRepresentation
+AnyEveryOperation = AnyOperationRepresentation | AnyVirtualOperationRepresentation
+AnyLegacyEveryOperation = AnyLegacyOperationRepresentation | AnyLegacyVirtualOperationRepresentation

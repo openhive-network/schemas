@@ -5,7 +5,12 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class ShutDownWitnessOperation(VirtualOperation):
-    __operation_name__ = "shutdown_witness"
-    __offset__ = 8
-
     owner: AccountName
+
+    @classmethod
+    def get_name(cls):
+        return "shutdown_witness"
+    
+    @classmethod
+    def offset(cls):
+        return 8

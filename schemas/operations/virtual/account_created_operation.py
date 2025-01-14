@@ -10,14 +10,19 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class _AccountCreatedOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "account_created"
-    __offset__ = 30
-
     new_account_name: AccountName
     creator: AccountName
     initial_vesting_shares: AssetVest
     initial_delegation: AssetVest
 
+
+    @classmethod
+    def get_name(cls):
+        return "account_created"
+    
+    @classmethod
+    def offset(cls):
+        return 30
 
 class AccountCreatedOperation(_AccountCreatedOperation):
     ...

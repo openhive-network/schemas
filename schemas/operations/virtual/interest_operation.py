@@ -12,13 +12,18 @@ DEFAULT_IS_SAVED_INTO_HBD_BALANCE: Final[bool] = False
 
 
 class _InterestOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "interest"
-    __offset__ = 5
-
     owner: AccountName
     interest: AssetHbd
     is_saved_into_hbd_balance: bool = DEFAULT_IS_SAVED_INTO_HBD_BALANCE
 
+
+    @classmethod
+    def get_name(cls):
+        return "interest"
+    
+    @classmethod
+    def offset(cls):
+        return 5
 
 class InterestOperation(_InterestOperation):
     ...

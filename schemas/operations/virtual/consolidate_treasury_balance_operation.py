@@ -10,11 +10,16 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class _ConsolidateTreasuryBalanceOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "consolidate_treasury_balance"
-    __offset__ = 21
-
     total_moved: list[AnyAsset]
 
+
+    @classmethod
+    def get_name(cls):
+        return "consolidate_treasury_balance"
+    
+    @classmethod
+    def offset(cls):
+        return 21
 
 class ConsolidateTreasuryBalanceOperation(
     _ConsolidateTreasuryBalanceOperation

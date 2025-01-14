@@ -20,9 +20,6 @@ DEFAULT_DELETED: Final[bool] = False
 
 
 class _FailedRecurrentTransferOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "failed_recurrent_transfer"
-    __offset__ = 34
-
     from_: AccountName = Field(alias="from")
     to: AccountName
     amount: AssetUnion[AssetHive, AssetHbd]
@@ -31,6 +28,14 @@ class _FailedRecurrentTransferOperation(VirtualOperation, kw_only=True):
     remaining_executions: Uint16t = DEFAULT_REMAINING_EXECUTIONS
     deleted: bool = DEFAULT_DELETED
 
+
+    @classmethod
+    def get_name(cls):
+        return "failed_recurrent_transfer"
+    
+    @classmethod
+    def offset(cls):
+        return 34
 
 class FailedRecurrentTransferOperation(_FailedRecurrentTransferOperation):
     ...

@@ -10,12 +10,17 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class _DhfFundingOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "dhf_funding"
-    __offset__ = 17
-
     treasury: AccountName
     additional_funds: AssetHbd
 
+
+    @classmethod
+    def get_name(cls):
+        return "dhf_funding"
+    
+    @classmethod
+    def offset(cls):
+        return 17
 
 class DhfFundingOperation(_DhfFundingOperation):
     pass

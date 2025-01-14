@@ -14,12 +14,17 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class _PowRewardOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "pow_reward"
-    __offset__ = 28
-
     worker: AccountName
     reward: AssetUnion[AssetHive, AssetVest]
 
+
+    @classmethod
+    def get_name(cls):
+        return "pow_reward"
+    
+    @classmethod
+    def offset(cls):
+        return 28
 
 class PowRewardOperation(_PowRewardOperation):
     ...

@@ -13,14 +13,19 @@ DEFAULT_PROPOSAL_ID: Final[Uint32t] = Uint32t(0)
 
 
 class _ProposalFeeOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "proposal_fee"
-    __offset__ = 37
-
     creator: AccountName
     treasury: AccountName
     proposal_id: Uint32t = DEFAULT_PROPOSAL_ID
     fee: AssetHbd
 
+
+    @classmethod
+    def get_name(cls):
+        return "proposal_fee"
+    
+    @classmethod
+    def offset(cls):
+        return 37
 
 class ProposalFeeOperation(_ProposalFeeOperation):
     ...

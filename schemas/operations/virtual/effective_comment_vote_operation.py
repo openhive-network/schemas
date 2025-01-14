@@ -23,9 +23,6 @@ class Empty(BaseModel):
 
 
 class _EffectiveCommentVoteOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "effective_comment_vote"
-    __offset__ = 22
-
     voter: AccountName
     author: AccountName
     permlink: str
@@ -34,6 +31,14 @@ class _EffectiveCommentVoteOperation(VirtualOperation, kw_only=True):
     total_vote_weight: Uint64t = DEFAULT_TOTAL_VOTE_WEIGHT
     pending_payout: AssetHbd
 
+
+    @classmethod
+    def get_name(cls):
+        return "effective_comment_vote"
+    
+    @classmethod
+    def offset(cls):
+        return 22
 
 class EffectiveCommentVoteOperation(_EffectiveCommentVoteOperation):
     ...

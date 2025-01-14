@@ -11,11 +11,16 @@ from schemas.fields.resolvables import AnyAsset
 
 
 class _ClearNullAccountBalanceOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "clear_null_account_balance"
-    __offset__ = 15
-
     total_cleared: list[AnyAsset]
 
+
+    @classmethod
+    def get_name(cls):
+        return "clear_null_account_balance"
+    
+    @classmethod
+    def offset(cls):
+        return 15
 
 class ClearNullAccountBalanceOperation(_ClearNullAccountBalanceOperation):
     ...

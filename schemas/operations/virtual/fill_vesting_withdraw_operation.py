@@ -14,14 +14,19 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class _FillVestingWithdrawOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "fill_vesting_withdraw"
-    __offset__ = 6
-
     from_account: AccountName
     to_account: AccountName
     withdrawn: AssetVest
     deposited: AssetUnion[AssetHive, AssetVest]
 
+
+    @classmethod
+    def get_name(cls):
+        return "fill_vesting_withdraw"
+    
+    @classmethod
+    def offset(cls):
+        return 6
 
 class FillVestingWithdrawOperation(_FillVestingWithdrawOperation):
     ...

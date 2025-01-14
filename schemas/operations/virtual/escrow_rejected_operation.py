@@ -17,9 +17,6 @@ DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
 class _EscrowRejectedOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "escrow_rejected"
-    __offset__ = 40
-
     from_: AccountName = Field(alias="from")
     to: AccountName
     agent: AccountName
@@ -28,6 +25,14 @@ class _EscrowRejectedOperation(VirtualOperation, kw_only=True):
     hive_amount: AssetHive
     fee: AssetUnion[AssetHive, AssetHbd]
 
+
+    @classmethod
+    def get_name(cls):
+        return "escrow_rejected"
+    
+    @classmethod
+    def offset(cls):
+        return 40
 
 class EscrowRejectedOperation(_EscrowRejectedOperation):
     ...

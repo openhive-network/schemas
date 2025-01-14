@@ -5,7 +5,12 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class ProducerMissedOperation(VirtualOperation):
-    __operation_name__ = "producer_missed"
-    __offset__ = 36
-
     producer: AccountName
+
+    @classmethod
+    def get_name(cls):
+        return "producer_missed"
+    
+    @classmethod
+    def offset(cls):
+        return 36

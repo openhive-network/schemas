@@ -14,9 +14,6 @@ DEFAULT_PAYOUT_MUST_BE_CLAIMED: Final[bool] = False
 
 
 class _CommentBenefactorRewardOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "comment_benefactor_reward"
-    __offset__ = 13
-
     benefactor: AccountName
     author: AccountName
     permlink: str
@@ -24,6 +21,14 @@ class _CommentBenefactorRewardOperation(VirtualOperation, kw_only=True):
     hive_payout: AssetHive
     vesting_payout: AssetVest
     payout_must_be_claimed: bool = DEFAULT_PAYOUT_MUST_BE_CLAIMED
+
+    @classmethod
+    def get_name(cls):
+        return "comment_benefactor_reward"
+    
+    @classmethod
+    def offset(cls):
+        return 13
 
 
 class CommentBenefactorRewardOperation(_CommentBenefactorRewardOperation):

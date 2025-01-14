@@ -5,8 +5,13 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class ProxyClearedOperation(VirtualOperation):
-    __operation_name__ = "proxy_cleared"
-    __offset__ = 41
-
     account: AccountName
     proxy: AccountName
+
+    @classmethod
+    def get_name(cls):
+        return "proxy_cleared"
+    
+    @classmethod
+    def offset(cls):
+        return 41

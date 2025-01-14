@@ -15,14 +15,19 @@ DEFAULT_PROPOSAL_ID: Final[Uint32t] = Uint32t(0)
 
 
 class _ProposalPayOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "proposal_pay"
-    __offset__ = 16
-
     proposal_id: Uint32t = DEFAULT_PROPOSAL_ID
     receiver: AccountName
     payer: AccountName
     payment: AssetHbd
 
+
+    @classmethod
+    def get_name(cls):
+        return "proposal_pay"
+    
+    @classmethod
+    def offset(cls):
+        return 16
 
 class ProposalPayOperation(_ProposalPayOperation):
     ...

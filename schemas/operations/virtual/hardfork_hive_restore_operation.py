@@ -13,14 +13,19 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class _HardforkHiveRestoreOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "hardfork_hive_restore"
-    __offset__ = 19
-
     account: AccountName
     treasury: AccountName
     hbd_transferred: AssetHbd
     hive_transferred: AssetHive
 
+
+    @classmethod
+    def get_name(cls):
+        return "hardfork_hive_restore"
+    
+    @classmethod
+    def offset(cls):
+        return 19
 
 class HardforkHiveRestoreOperation(_HardforkHiveRestoreOperation):
     ...

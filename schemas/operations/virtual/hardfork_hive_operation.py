@@ -13,9 +13,6 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class _HardforkHiveOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "hardfork_hive"
-    __offset__ = 18
-
     account: AccountName
     treasury: AccountName
     other_affected_accounts: list[AccountName]
@@ -24,6 +21,14 @@ class _HardforkHiveOperation(VirtualOperation, kw_only=True):
     vests_converted: AssetVest
     total_hive_from_vests: AssetHive
 
+
+    @classmethod
+    def get_name(cls):
+        return "hardfork_hive"
+    
+    @classmethod
+    def offset(cls):
+        return 18
 
 class HardforkHiveOperation(_HardforkHiveOperation):
     ...

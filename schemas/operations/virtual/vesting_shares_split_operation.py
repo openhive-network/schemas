@@ -10,13 +10,18 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class _VestingSharesSplitOperation(VirtualOperation):
-    __operation_name__ = "vesting_shares_split"
-    __offset__ = 29
-
     owner: AccountName
     vesting_shares_before_split: AssetVest
     vesting_shares_after_split: AssetVest
 
+
+    @classmethod
+    def get_name(cls):
+        return "vesting_shares_split"
+    
+    @classmethod
+    def offset(cls):
+        return 29
 
 class VestingSharesSplitOperation(_VestingSharesSplitOperation):
     ...

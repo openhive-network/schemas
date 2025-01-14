@@ -11,9 +11,6 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class _CommentRewardOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "comment_reward"
-    __offset__ = 3
-
     author: AccountName
     permlink: str
     payout: AssetHbd
@@ -22,6 +19,14 @@ class _CommentRewardOperation(VirtualOperation, kw_only=True):
     curator_payout_value: AssetHbd
     beneficiary_payout_value: AssetHbd
 
+
+    @classmethod
+    def get_name(cls):
+        return "comment_reward"
+    
+    @classmethod
+    def offset(cls):
+        return 3
 
 class CommentRewardOperation(_CommentRewardOperation):
     ...

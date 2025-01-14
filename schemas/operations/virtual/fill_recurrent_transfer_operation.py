@@ -18,15 +18,20 @@ DEFAULT_REMAINING_EXECUTIONS: Final[Uint16t] = Uint16t(0)
 
 
 class _FillRecurrentTransferOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "fill_recurrent_transfer"
-    __offset__ = 33
-
     from_: AccountName = Field(alias="from")
     to: AccountName
     amount: AssetUnion[AssetHive, AssetHbd]
     memo: str
     remaining_executions: Uint16t = DEFAULT_REMAINING_EXECUTIONS
 
+
+    @classmethod
+    def get_name(cls):
+        return "fill_recurrent_transfer"
+    
+    @classmethod
+    def offset(cls):
+        return 33
 
 class FillRecurrentTransferOperation(_FillRecurrentTransferOperation):
     ...

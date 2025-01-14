@@ -17,13 +17,18 @@ DEFAULT_ORDERID: Final[Uint32t] = Uint32t(0)
 
 
 class _LimitOrderCancelledOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "limit_order_cancelled"
-    __offset__ = 35
-
     seller: AccountName
     orderid: Uint32t = DEFAULT_ORDERID
     amount_back: AssetUnion[AssetHive, AssetHbd]
 
+
+    @classmethod
+    def get_name(cls):
+        return "limit_order_cancelled"
+    
+    @classmethod
+    def offset(cls):
+        return 35
 
 class LimitOrderCancelledOperation(_LimitOrderCancelledOperation):
     ...

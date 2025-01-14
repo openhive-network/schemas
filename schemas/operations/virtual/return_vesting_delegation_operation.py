@@ -10,12 +10,17 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class _ReturnVestingDelegationOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "return_vesting_delegation"
-    __offset__ = 12
-
     account: AccountName
     vesting_shares: AssetVest
 
+
+    @classmethod
+    def get_name(cls):
+        return "return_vesting_delegation"
+    
+    @classmethod
+    def offset(cls):
+        return 12
 
 class ReturnVestingDelegationOperation(_ReturnVestingDelegationOperation):
     ...

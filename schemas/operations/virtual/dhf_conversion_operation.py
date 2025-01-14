@@ -13,13 +13,18 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class _DhfConversionOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "dhf_conversion"
-    __offset__ = 24
-
     treasury: AccountName
     hive_amount_in: AssetHive
     hbd_amount_out: AssetHbd
 
+
+    @classmethod
+    def get_name(cls):
+        return "dhf_conversion"
+    
+    @classmethod
+    def offset(cls):
+        return 924
 
 class DhfConversionOperation(_DhfConversionOperation):
     ...

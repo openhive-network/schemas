@@ -5,8 +5,13 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class IneffectiveDeleteCommentOperation(VirtualOperation):
-    __operation_name__ = "ineffective_delete_comment"
-    __offset__ = 23
-
     author: AccountName
     permlink: str
+
+    @classmethod
+    def get_name(cls):
+        return "ineffective_delete_comment"
+    
+    @classmethod
+    def offset(cls):
+        return 23

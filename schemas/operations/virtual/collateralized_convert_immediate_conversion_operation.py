@@ -15,13 +15,18 @@ DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
 class _CollateralizedConvertImmediateConversionOperation(VirtualOperation, kw_only=True):
-    __operation_name__ = "collateralized_convert_immediate_conversion"
-    __offset__ = 38
-
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
     hbd_out: AssetHbd
 
+
+    @classmethod
+    def get_name(cls):
+        return "collateralized_convert_immediate_conversion"
+    
+    @classmethod
+    def offset(cls):
+        return 38
 
 class CollateralizedConvertImmediateConversionOperation(
     _CollateralizedConvertImmediateConversionOperation

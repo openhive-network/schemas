@@ -19,7 +19,8 @@ from schemas.operations.representations import get_legacy_operation_representati
 #     Hf26VirtualOperationRepresentationType,
 #     LegacyVirtualOperationRepresentationType,
 # )
-
+from schemas.operations import AnyEveryOperation, AnyLegacyEveryOperation, AnyLegacyOperationRepresentation, AnyOperationRepresentation
+from schemas.operations.virtual import AnyLegacyVirtualOperationRepresentation, AnyVirtualOperationRepresentation
 
 class ApiOperationObjectCommons(PreconfiguredBaseModel):
     trx_id: TransactionId
@@ -32,11 +33,11 @@ class ApiOperationObjectCommons(PreconfiguredBaseModel):
 
 
 class Hf26ApiOperationObject(ApiOperationObjectCommons):
-    op: Hf26OperationRepresentationType  # type: ignore
+    op: AnyEveryOperation  # type: ignore
 
 
 class LegacyApiOperationObject(ApiOperationObjectCommons):
-    op: LegacyOperationRepresentationType  # type: ignore
+    op: AnyLegacyEveryOperation  # type: ignore
 
     @root_validator(pre=True)
     @classmethod
@@ -49,17 +50,17 @@ class LegacyApiOperationObject(ApiOperationObjectCommons):
         return values
 
 
-class Hf26ApiVirtualOperationObject(ApiOperationObjectCommons):
-    op: Hf26VirtualOperationRepresentationType  # type: ignore
+class Hf26ApiVirtualOperationObject(Hf26ApiOperationObject):
+    op: AnyVirtualOperationRepresentation  # type: ignore
 
 
 class LegacyApiVirtualOperationObject(LegacyApiOperationObject):
-    op: LegacyVirtualOperationRepresentationType  # type: ignore
+    op: AnyLegacyVirtualOperationRepresentation  # type: ignore
 
 
-class Hf26ApiAllOperationObject(ApiOperationObjectCommons):
-    op: Hf26AllOperationRepresentationType  # type: ignore
+class Hf26ApiAllOperationObject(Hf26ApiOperationObject):
+    op: AnyOperationRepresentation  # type: ignore
 
 
 class LegacyApiAllOperationObject(LegacyApiOperationObject):
-    op: LegacyAllOperationRepresentationType  # type: ignore
+    op: AnyLegacyOperationRepresentation  # type: ignore
