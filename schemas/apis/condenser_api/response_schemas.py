@@ -345,7 +345,7 @@ class GetTicker(market_history_api.GetTicker):
 GetTradeHistory = HiveList[fundaments_market_history_api.GetTradeHistoryFundament]
 
 
-class GetTransaction(account_history_api.GetTransactionModel):
+class GetTransaction(account_history_api.GetTransaction):
     operations: list[AnyLegacyOperationRepresentation]
     @root_validator(pre=True)
     @classmethod

@@ -9,6 +9,7 @@ from schemas.fields.basic import AccountName, EmptyString
 from schemas.fields.compound import Props, RdDynamicParams
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
+from schemas.fields.resolvables import OptionallyEmpty
 from schemas.fields.version import HardforkVersion
 from schemas.transaction import Transaction
 
@@ -42,7 +43,7 @@ class DebugGetWitnessSchedule(PreconfiguredBaseModel):
     id_: HiveInt = Field(alias="id")
     current_virtual_time: HiveInt
     next_shuffle_block_num: HiveInt
-    current_shuffled_witnesses: list[AccountName | EmptyString]
+    current_shuffled_witnesses: list[OptionallyEmpty[AccountName]]
     num_scheduled_witnesses: HiveInt
     elected_weight: HiveInt
     timeshare_weight: HiveInt

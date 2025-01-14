@@ -10,12 +10,13 @@ from schemas.fields.basic import (
     AccountName,
     EmptyString,
 )
+from schemas.fields.resolvables import OptionallyEmpty
 from schemas.operation import Operation
 
 
 class _TransferToVestingOperation(Operation, kw_only=True):
     from_: AccountName = Field(alias="from")
-    to: AccountName | EmptyString
+    to: OptionallyEmpty[AccountName]
     amount: AssetHive
 
 

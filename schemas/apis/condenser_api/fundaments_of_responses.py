@@ -18,6 +18,7 @@ from schemas.fields.basic import (
 from schemas.fields.compound import Proposal
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
+from schemas.fields.resolvables import OptionallyEmpty
 
 if TYPE_CHECKING:
     from schemas.operations.representation_types import __LegacyAllOperationUnionType  # noqa: F401 # mypy bug
@@ -103,8 +104,8 @@ class GetCommentDiscussionsByPayoutFundament(fundaments_database_api.FindComment
     reward_weight: HiveInt | None = Field(None, exclude=True)  # type: ignore
     author_rewards: HiveInt | None = Field(None, exclude=True)  # type: ignore
     net_votes: HiveInt | None = Field(None, exclude=True)  # type: ignore
-    root_author: AccountName | EmptyString | None = Field(None, exclude=True)  # type: ignore
-    root_permlink: Permlink | EmptyString | None = Field(None, exclude=True)  # type: ignore
+    root_author: OptionallyEmpty[AccountName] | None = Field(None, exclude=True)  # type: ignore
+    root_permlink: OptionallyEmpty[Permlink] | None = Field(None, exclude=True)  # type: ignore
     allow_replies: bool | None = Field(None, exclude=True)  # type: ignore
     allow_votes: bool | None = Field(None, exclude=True)  # type: ignore
     allow_curation_rewards: bool | None = Field(None, exclude=True)  # type: ignore

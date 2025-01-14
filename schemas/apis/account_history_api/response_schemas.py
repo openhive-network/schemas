@@ -10,7 +10,7 @@ from schemas._operation_objects import (
     LegacyApiOperationObject,
     LegacyApiVirtualOperationObject,
 )
-from schemas.operations import AnyOperationRepresentation, AnyLegacyOperationRepresentation
+from schemas.operations import AnyOperationRepresentation, AnyLegacyOperationRepresentation, AnyEveryOperation
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament
@@ -29,26 +29,22 @@ from schemas.fields.hive_int import HiveInt
 # )
 
 
-class EnumVirtualOpsModel(PreconfiguredBaseModel):
-    ops: Hf26ApiVirtualOperationObject | LegacyApiVirtualOperationObject
+class EnumVirtualOps(PreconfiguredBaseModel):
+    ops: list[Hf26ApiVirtualOperationObject]
     ops_by_block: list[EnumVirtualOpsFieldFundament]
     next_block_range_begin: HiveInt
     next_operation_begin: HiveInt
 
 
-# class GetAccountHistoryModel(
-#     PreconfiguredBaseModel, GenericModel, Generic[ApiOperationObjectT, ApiVirtualOperationObjectT]
-# ):
-#     history: list[tuple[HiveInt, ApiOperationObjectT | ApiVirtualOperationObjectT]]
+class GetAccountHistory(PreconfiguredBaseModel):
+    history: list[tuple[HiveInt, Hf26ApiOperationObject]]
 
 
-# class GetOpsInBlockModel(
-#     PreconfiguredBaseModel, GenericModel, Generic[ApiOperationObjectT, ApiVirtualOperationObjectT]
-# ):
-#     ops: list[ApiOperationObjectT | ApiVirtualOperationObjectT]
+class GetOpsInBlock(PreconfiguredBaseModel):
+    ops: list[Hf26ApiOperationObject]
 
 
-class GetTransactionModel(PreconfiguredBaseModel):
+class GetTransaction(PreconfiguredBaseModel):
     block_num: HiveInt
     expiration: HiveDateTime
     extensions: list[Any]
@@ -58,9 +54,3 @@ class GetTransactionModel(PreconfiguredBaseModel):
     signatures: list[Signature]
     transaction_id: TransactionId
     transaction_num: HiveInt
-
-
-EnumVirtualOps = EnumVirtualOpsModel
-# GetAccountHistory = GetAccountHistoryModel[Hf26ApiOperationObject, Hf26ApiVirtualOperationObject]
-# GetOpsInBlock = GetOpsInBlockModel[Hf26ApiOperationObject, Hf26ApiVirtualOperationObject]
-GetTransaction = GetTransactionModel

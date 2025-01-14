@@ -12,4 +12,4 @@ class EnumVirtualOpsFieldFundament(PreconfiguredBaseModel):
     block: HiveInt
     timestamp: HiveDateTime
     irreversible: bool
-    ops: list[Hf26ApiAllOperationObject | LegacyApiAllOperationObject]
+    ops: list[Hf26ApiAllOperationObject]
