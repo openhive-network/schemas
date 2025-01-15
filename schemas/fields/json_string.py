@@ -48,8 +48,8 @@ class JsonString(PreconfiguredBaseModel, Generic[JsonFieldType]):
                 raise ValueError(f"Value is not a valid json string! Received `{value}`") from error
         if isinstance(value, get_args(AnyJson)):
             return cls(value)
-        if isinstance(value, PreconfiguredBaseModel):
-            return cls(value)  # type: ignore[arg-type]
+        # if isinstance(value, PreconfiguredBaseModel):
+        #     return cls(value)  # type: ignore[arg-type]
 
         raise ValueError(f"Value is not a valid type! Received `{value}` with type `{type(value)}`")
 

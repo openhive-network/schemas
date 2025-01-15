@@ -8,6 +8,7 @@ import msgspec
 from typing_extensions import Self
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.coders import get_hf26_decoder
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -37,8 +38,9 @@ class ApplicationOperation(PreconfiguredBaseModel):
 
         if isinstance(value, str):
             try:
-                return msgspec.json.decode()
-            except (ValueError, TypeError) as error:
+                decoder = get_hf26_decoder(cls)
+                return decoder.decode(value)
+            except Exception as error:
                 raise ValueError(f"Value is not a valid application operation string! Received `{value}`") from error
 
         raise ValueError(f"Value is not a valid type! Received `{value}` with type `{type(value)}`")

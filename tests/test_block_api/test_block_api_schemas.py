@@ -16,4 +16,4 @@ from .resonse_schemas import GET_BLOCK, GET_BLOCK_HEADER, GET_BLOCK_RANGE
 )
 def test_block_api_schemas_correct_values(schema: Any, parameters: dict[str, Any]) -> None:
     # ACT & ASSERT
-    get_response_model(schema, json.dumps(parameters))
+    get_response_model(schema, json.dumps(parameters), "hf26")

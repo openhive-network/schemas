@@ -71,7 +71,7 @@ from . import responses_from_api
 )
 def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: Any) -> None:
     # ACT & ASSERT
-    get_response_model(schema, json.dumps(parameters))
+    get_response_model(schema, json.dumps(parameters), "hf26")
 
 def test_get_config_policy() -> None:
     try:

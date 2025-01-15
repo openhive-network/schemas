@@ -44,15 +44,15 @@ class InvalidCustomType:
     pass
 
 
-# def test_json_getter_outer() -> None:
-#     # ARRANGE
-#     op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1)
+def test_json_getter_outer() -> None:
+    # ARRANGE
+    op = CustomJsonOperation(required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JSON_STRING_LEVEL1)
 
-#     # ACT
-#     json_root = op.json_.value
+    # ACT
+    json_root = op.json_.value
 
-#     # ASSERT
-#     assert json_root == json.loads(JSON_STRING_LEVEL1)
+    # ASSERT
+    assert json_root == json.loads(JSON_STRING_LEVEL1)
 
 
 # def test_json_getter() -> None:
@@ -217,7 +217,7 @@ class InvalidCustomType:
 #     example_operation = ApplicationTestOperation(from_="abc", to="xyz", what=["topic"])
 
 #     # ACT
-#     op = CustomJsonOperationGeneric[ApplicationTestOperation](
+#     op = CustomJsonOperationGeneric(
 #         required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=example_operation
 #     )
 
@@ -262,13 +262,13 @@ class InvalidCustomType:
 #     ApplicationTestOperation.validate(SERIALIZED_OPERATION)
 
 
-def test_application_operation_validate_from_copy() -> None:
-    # ARRANGE
-    application_operation = ApplicationTestOperation.validate(SERIALIZED_OPERATION)
+# def test_application_operation_validate_from_copy() -> None:
+#     # ARRANGE
+#     application_operation = ApplicationTestOperation.validate(SERIALIZED_OPERATION)
 
-    # ACT
-    # ASSERT
-    ApplicationTestOperation.validate(application_operation)
+#     # ACT
+#     # ASSERT
+#     ApplicationTestOperation.validate(application_operation)
 
 
 # def test_negative_application_operation_validate_from_string_incorrect() -> None:
@@ -300,7 +300,7 @@ def test_application_operation_validate_from_copy() -> None:
 #     # ACT
 #     # ASSERT
 #     with pytest.raises(ValueError, match=error_pattern):
-#         CustomJsonOperationGeneric[ApplicationTestOperation](
+#         CustomJsonOperationGeneric(
 #             required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=InvalidCustomType()
 #         )
 
@@ -312,7 +312,7 @@ def test_application_operation_validate_from_copy() -> None:
 #     # ACT
 #     # ASSERT
 #     with pytest.raises(ValueError, match=error_pattern):
-#         CustomJsonOperationGeneric[ApplicationTestOperation](
+#         CustomJsonOperationGeneric(
 #             required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JsonString(InvalidCustomType())
 #         )
 

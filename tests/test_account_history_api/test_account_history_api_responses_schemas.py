@@ -35,7 +35,7 @@ def test_account_history_api_correct_values(parameters: dict[str, Any], schema: 
     pattern = json.dumps(parameters, sort_keys=True)
 
     # ACT
-    parsed: JSONRPCResult[schema] | JSONRPCError = get_response_model(schema, json.dumps(parameters))
+    parsed: JSONRPCResult[schema] | JSONRPCError = get_response_model(schema, json.dumps(parameters), "hf26")
     # reserialized = parsed.json(by_alias=True, sort_keys=True)
 
     # # ASSERT

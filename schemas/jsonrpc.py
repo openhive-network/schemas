@@ -8,7 +8,7 @@ from __future__ import annotations
 import os
 from collections.abc import Sequence
 from threading import Event, Lock, Semaphore
-from typing import Any, Generic, Type, TypeVar, get_origin, get_args
+from typing import Any, Generic, Type, TypeVar, get_origin, get_args, Literal
 
 import msgspec
 from pydantic import Field
@@ -16,6 +16,7 @@ from pydantic import Field
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.condenser_api.response_schemas import GetDiscussionsByBlog
 from schemas.apis.market_history_api.fundaments_of_responses import BucketSizes
+from schemas.coders import get_hf26_decoder, get_legacy_decoder
 from schemas.fields.assets._base import AssetHbd, AssetHive, AssetNaiAmount, AssetVest
 from schemas.fields.basic import Permlink, PublicKey, Url
 from schemas.fields.hex import Hex, Sha256, TransactionId
@@ -113,52 +114,9 @@ def acquire_model(expected_model: type[ExpectResultT]) -> type[JSONRPCResult[Exp
     finally:
         READ_SEMAPHORE.release()
 
-def testnet_hf26_dec_hook(type: Type, obj: Any) -> Any:
-    if type is HiveInt:
-        return HiveInt(obj)
-    if type is BucketSizes:
-        return BucketSizes(obj)
-    if type is AssetVest:
-        try:
-            return AssetVest.from_nai(obj)
-        except Exception as e:
-            return AssetVest.from_legacy(obj)
-    if type is AssetHive:
-        try:
-            return AssetHive.from_nai(obj)
-        except Exception as e:
-            return AssetHive.from_legacy(obj)
-    if type is AssetHbd:
-        try:
-            return AssetHbd.from_nai(obj)
-        except Exception as e:
-            return AssetHbd.from_legacy(obj)
-    if type is AssetNaiAmount:
-        return AssetNaiAmount(obj)
-    if type is Permlink:
-        return Permlink(obj)
-    if type is PublicKey:
-        return PublicKey(obj)
-    if type is Sha256:
-        return Sha256(obj)
-    if type is Version:
-        return Version(obj)
-    if type is TransactionId:
-        return TransactionId(obj)
-    if type is Hex:
-        return Hex(obj)
-    if type is Url:
-        return Url(obj)
-    if type is AnyAsset:
-        return AnyAsset.resolve(type, obj)
-    orig_type = get_origin(type)
-    if orig_type is not None and issubclass(orig_type, Resolvable):
-        return type.resolve(type, obj)
-    else:
-        raise NotImplementedError(f"Objects of type {type} are not supported")
 
 def get_response_model(
-    expected_model: type[ExpectResultT], json: str
+    expected_model: type[ExpectResultT], json: str, serialization: Literal["hf26", "legacy"]
 ) -> JSONRPCResult[ExpectResultT] | JSONRPCError:
     """
     Use this method to create response model from the given parameters (as kwargs).
@@ -173,14 +131,15 @@ def get_response_model(
     Returns:
         The response model.
     """
+    assert serialization in ("hf26", "legacy")
     response_cls: type[JSONRPCResult[ExpectResultT] | JSONRPCError]
     response_cls = acquire_model(expected_model) # if "result" in kwargs else JSONRPCError
 
-    # response_cls.update_forward_refs(**locals())
-    testnet_hf26_decoder = msgspec.json.Decoder(response_cls, dec_hook=testnet_hf26_dec_hook)
-    msg = testnet_hf26_decoder.decode(json)
+
+    decoder = get_hf26_decoder(response_cls) if serialization == "hf26" else get_legacy_decoder(response_cls)
+    msg = decoder.decode(json)
 
     try:
-        return testnet_hf26_decoder.decode(json)
+        return decoder.decode(json)
     except msgspec.ValidationError:
         return msgspec.json.decode(json, type=JSONRPCError)

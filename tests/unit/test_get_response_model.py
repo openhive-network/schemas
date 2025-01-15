@@ -42,8 +42,8 @@ def test_get_response_model() -> None:
         },
     }
     assert len(CACHED_MODELS) == 0, "Invalid CACHED_MODELS, should be empty"
-    model_1 = get_response_model(schema, json.dumps(get_block))
+    model_1 = get_response_model(schema, json.dumps(get_block), "hf26")
     assert len(CACHED_MODELS) == 1, "Invalid CACHED_MODELS, should have one GetBlock model"
-    model_2 = get_response_model(schema, json.dumps(get_block))
+    model_2 = get_response_model(schema, json.dumps(get_block), "hf26")
     assert len(CACHED_MODELS) == 1, "Invalid CACHED_MODELS, should have one GetBlock model"
     assert model_1 == model_2, "Models have differnces. Every getted model of same schama should be identical."

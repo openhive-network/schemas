@@ -77,4 +77,6 @@ from . import responses_from_api
 )
 def test_responses_from_api_correct_values(schema: Any, parameters: Any) -> None:
     # ACT & ASSERT
-    get_response_model(schema, json.dumps(parameters))
+    dupa = get_response_model(schema, json.dumps(parameters), "legacy")
+
+    pass
