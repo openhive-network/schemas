@@ -3,9 +3,9 @@ from __future__ import annotations
 from pydantic import Field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.apis.block_api.fundaments_of_responses import SignedBlock
-from schemas.fields.assets.hive import AssetHiveHF26
-from schemas.fields.basic import AccountName, EmptyString
+from schemas.apis.block_api.fundaments_of_responses import SignedBlockBase
+from schemas.fields.assets._base import AssetHive
+from schemas.fields.basic import AccountName
 from schemas.fields.compound import Props, RdDynamicParams
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
@@ -22,7 +22,7 @@ class DebugGenerateBlocksUntil(DebugGenerateBlocks):
     """Identical like debug_generate_blocks"""
 
 
-class DebugGetHardforkPropertyObject(PreconfiguredBaseModel):
+class DebugGetHardforkPropertyObject(PreconfiguredBaseModel, kw_only=True):
     id_: HiveInt = Field(alias="id")
     processed_hardforks: list[HiveDateTime]
     last_hardfork: HiveInt
@@ -32,14 +32,14 @@ class DebugGetHardforkPropertyObject(PreconfiguredBaseModel):
 
 
 class DebugGetHeadBlock(PreconfiguredBaseModel):
-    block: SignedBlock[Transaction] | None = None
+    block: SignedBlockBase[Transaction] | None = None
 
 
 class DebugGetJsonSchema(PreconfiguredBaseModel):
     schema_: str = Field(alias="schema")
 
 
-class DebugGetWitnessSchedule(PreconfiguredBaseModel):
+class DebugGetWitnessSchedule(PreconfiguredBaseModel, kw_only=True):
     id_: HiveInt = Field(alias="id")
     current_virtual_time: HiveInt
     next_shuffle_block_num: HiveInt
@@ -49,7 +49,7 @@ class DebugGetWitnessSchedule(PreconfiguredBaseModel):
     timeshare_weight: HiveInt
     miner_weight: HiveInt
     witness_pay_normalization_factor: HiveInt
-    median_props: Props[AssetHiveHF26]
+    median_props: Props[AssetHive]
     majority_version: HardforkVersion
     max_voted_witnesses: HiveInt
     max_miner_witnesses: HiveInt

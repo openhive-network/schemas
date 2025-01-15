@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from abc import abstractmethod
 import json
 from typing import TYPE_CHECKING, Any
 
+import msgspec
 from typing_extensions import Self
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
@@ -14,11 +16,15 @@ if TYPE_CHECKING:
 
 
 class ApplicationOperation(PreconfiguredBaseModel):
-    __operation_name__: str
-
+    
     @classmethod
+    @abstractmethod
     def get_name(cls) -> str:
-        return cls.__operation_name__
+        """
+        Get the name of the operation.
+
+        e.g. `transfer` for `TransferOperation`
+        """
 
     @classmethod
     def __get_validators__(cls) -> CallableGenerator:
@@ -31,8 +37,7 @@ class ApplicationOperation(PreconfiguredBaseModel):
 
         if isinstance(value, str):
             try:
-                parsed = json.loads(str(value))
-                return cls(**parsed)
+                return msgspec.json.decode()
             except (ValueError, TypeError) as error:
                 raise ValueError(f"Value is not a valid application operation string! Received `{value}`") from error
 

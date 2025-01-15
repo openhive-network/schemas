@@ -71,17 +71,16 @@ from . import responses_from_api
 )
 def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: Any) -> None:
     # ACT & ASSERT
-    dupa = get_response_model(schema, json.dumps(parameters))
-    pass
+    get_response_model(schema, json.dumps(parameters))
 
-# def test_get_config_policy() -> None:
-#     try:
-#         MissingFieldsInGetConfig(allow=True).apply()
-#         from schemas.apis import database_api
+def test_get_config_policy() -> None:
+    try:
+        MissingFieldsInGetConfig(allow=True).apply()
+        from schemas.apis import database_api
 
-#         database_api.GetConfig()  # type: ignore[call-arg]
-#     finally:
-#         MissingFieldsInGetConfig(allow=False).apply()  # this is in finally so it won't interfere other tests
+        database_api.GetConfig()  # type: ignore[call-arg]
+    finally:
+        MissingFieldsInGetConfig(allow=False).apply()  # this is in finally so it won't interfere other tests
 
-#     with pytest.raises(ValidationError):
-#         database_api.GetConfig()  # type: ignore[call-arg]
+    with pytest.raises(ValidationError):
+        database_api.GetConfig()  # type: ignore[call-arg]

@@ -17,8 +17,8 @@ class MissingFieldsInGetConfig(Policy):
         from schemas._preconfigured_base_model import PreconfiguredBaseModel
         from schemas.apis import database_api
         from schemas.apis.database_api.response_schemas import GetConfigOrig
-        from schemas.fields.assets.hbd import AssetHbdT
-        from schemas.fields.assets.hive import AssetHiveT
+        from schemas.fields.assets import AssetHbd
+        from schemas.fields.assets import AssetHive
 
         if self.allow:
             field_definitions = {
@@ -27,7 +27,7 @@ class MissingFieldsInGetConfig(Policy):
             }
             database_api.GetConfig = create_model(  # type: ignore[call-overload]
                 "GetConfigWithDefaults",
-                __base__=(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]),
+                __base__=(PreconfiguredBaseModel, GenericModel, Generic[AssetHive, AssetHbd]),
                 **field_definitions,
             )
         else:
