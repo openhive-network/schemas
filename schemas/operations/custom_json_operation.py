@@ -8,13 +8,14 @@ from pydantic.generics import GenericModel
 from schemas.fields.basic import AccountName, CustomIdType
 from schemas.fields.json_string import AnyJson, JsonFieldType, JsonString
 from schemas.operation import Operation
+from msgspec import field
 
 
 class CustomJsonOperationGeneric(Operation):
     required_auths: list[AccountName]
     required_posting_auths: list[AccountName]
-    id_: CustomIdType = Field(alias="id")
-    json_: JsonString[JsonFieldType] = Field(alias="json")
+    id_: CustomIdType = field(name="id")
+    json_: JsonString[JsonFieldType] = field(name="json")
 
 
     @classmethod

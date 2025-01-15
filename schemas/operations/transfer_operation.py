@@ -12,9 +12,10 @@ from schemas.fields.basic import (
 from schemas.fields.resolvables import AssetUnion
 from schemas.operation import Operation
 
+from msgspec import field
 
 class _TransferOperation(Operation, kw_only=True):
-    from_: AccountName = Field(alias="from")
+    from_: AccountName = field(name="from")
     to: AccountName
     amount: AssetUnion[AssetHive, AssetHbd]
     memo: str

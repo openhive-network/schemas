@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Final
 
+from msgspec import field
 from pydantic import Field
 
 from schemas.fields.basic import AccountName
@@ -16,7 +17,7 @@ class UpdateProposalVotesOperation(Operation):
     voter: AccountName
     proposal_ids: list[Int64t]
     approve: bool = DEFAULT_APPROVE
-    extensions: FutureExtensions = Field(default_factory=FutureExtensions)
+    extensions: FutureExtensions = field(default_factory=FutureExtensions)
 
     @classmethod
     def get_name(cls):

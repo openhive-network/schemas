@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Literal
 
+from msgspec import field
 from pydantic import Field
 
 import schemas.apis.database_api.fundaments_of_reponses as fundaments_database_api
@@ -141,7 +142,7 @@ class GetEscrowFundament(fundaments_database_api.EscrowsFundament, kw_only=True)
 
 
 class GetExpiringVestingDelegationFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     delegator: AccountName
     vesting_shares: AssetVest
     expiration: HiveDateTime
@@ -179,7 +180,7 @@ class ListProposalsFundament(Proposal, kw_only=True):
 
 
 class ListRcDirectDelegationsFundament(PreconfiguredBaseModel, kw_only=True):
-    from_: AccountName = Field(alias="from")
+    from_: AccountName = field(name="from")
     to: AccountName
     delegated_rc: HiveInt
 
@@ -194,7 +195,7 @@ class LookupAccountNamesFundament(
 
 
 class GetExpiringVestingDelegationsFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     delegator: AccountName
     vesting_shares: AssetVest
     expiration: HiveDateTime
@@ -210,7 +211,7 @@ class GetOpenOrdersFundament(
 
 
 class GetVestingDelegationsFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     delegator: AccountName
     delegatee: AccountName
     vesting_shares: AssetVest

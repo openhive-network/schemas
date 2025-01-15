@@ -125,7 +125,7 @@ class PreconfiguredBaseModel(msgspec.Struct):
     #     """
 
     #     # ellipsis is used to indicate that the field is required
-    #     field_definitions = {field.name: (field.type_, Field(alias=field.alias)) for field in cls.__fields__.values()}
+    #     field_definitions = {field.name: (field.type_, field(name=field.alias)) for field in cls.__fields__.values()}
 
     #     def process_type(type_: Any) -> Any:  # noqa: PLR0911
     #         def resolve_for_all_args(outer_type: Any) -> Any:

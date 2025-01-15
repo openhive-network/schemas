@@ -5,10 +5,11 @@ from typing import Literal
 from pydantic import Field
 
 from schemas.notifications.abc.notification_base import NotificationBase
+from msgspec import field
 
 
 class P2PListening(NotificationBase):
-    type_: Literal["p2p"] = Field(alias="type")
+    type_: Literal["p2p"] = field(name="type")
     address: str
     port: int
 

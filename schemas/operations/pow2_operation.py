@@ -16,28 +16,29 @@ from schemas.fields.integers import Uint32t, Uint64t
 from schemas.operation import Operation
 
 DEFAULT_FILL_OR_KILL: Final[bool] = False
+from msgspec import field
 
 
 class Pow2Input(PreconfiguredBaseModel):
     worker_account: AccountName
     prev_block: TransactionId
-    nonce: Uint64t = Field(default_factory=lambda: Uint64t(0))
+    nonce: Uint64t = field(default_factory=lambda: Uint64t(0))
 
 
 class Pow2(PreconfiguredBaseModel, tag="pow2"):
-    input_: Pow2Input = Field(alias="input")
-    pow_summary: Uint32t = Field(default_factory=lambda: Uint32t(0))
+    input_: Pow2Input = field(name="input")
+    pow_summary: Uint32t = field(default_factory=lambda: Uint32t(0))
 
 
 class EquihashPow(PreconfiguredBaseModel, kw_only=True, tag="equihaszpow"):
-    input_: Sha256 = Field(alias="input")
+    input_: Sha256 = field(name="input")
     proof: Any
     prev_block: TransactionId
     pow_summary: Uint32t
 
 
 class Pow2Work(PreconfiguredBaseModel, kw_only=True):
-    type_: str = Field(alias="type")
+    type_: str = field(name="type")
     value: Pow2 | EquihashPow
 
 

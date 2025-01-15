@@ -13,9 +13,10 @@ from schemas.fields.basic import (
 from schemas.fields.resolvables import OptionallyEmpty
 from schemas.operation import Operation
 
+from msgspec import field
 
 class _TransferToVestingOperation(Operation, kw_only=True):
-    from_: AccountName = Field(alias="from")
+    from_: AccountName = field(name="from")
     to: OptionallyEmpty[AccountName]
     amount: AssetHive
 

@@ -38,7 +38,7 @@ from schemas.fields.version import HardforkVersion, Version
 from schemas.fields.json_string import JsonString
 
 class FindAccountRecoveryRequestsFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     account_to_recover: AccountName
     new_owner_authority: Authority
     expires: HiveDateTime
@@ -47,7 +47,7 @@ class FindAccountRecoveryRequestsFundament(PreconfiguredBaseModel, kw_only=True)
 class AccountItemFundament(PreconfiguredBaseModel, kw_only=True):
     """Base class for FindAccount and ListAccounts"""
 
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     name: AccountName
     owner: Authority
     active: Authority
@@ -108,11 +108,11 @@ class AccountItemFundament(PreconfiguredBaseModel, kw_only=True):
     open_recurrent_transfers: HiveInt
     is_smt: bool
     governance_vote_expiration_ts: HiveDateTime
-    delayed_votes: list[DelayedVotes] = Field(default_factory=list)
+    delayed_votes: list[DelayedVotes] = field(default_factory=list)
 
 
 class FindChangeRecoveryAccountRequestsFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     account_to_recover: OptionallyEmpty[AccountName]
     recovery_account: OptionallyEmpty[AccountName]
     effective_on: HiveDateTime
@@ -121,7 +121,7 @@ class FindChangeRecoveryAccountRequestsFundament(PreconfiguredBaseModel, kw_only
 class FindCollateralizedConversionRequestsFundament(
     PreconfiguredBaseModel, kw_only=True
 ):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     owner: AccountName
     requestid: HiveInt
     collateral_amount: AssetHive
@@ -130,7 +130,7 @@ class FindCollateralizedConversionRequestsFundament(
 
 
 class FindCommentsFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     author: OptionallyEmpty[AccountName]
     permlink: OptionallyEmpty[Permlink]
     category: OptionallyEmpty[str]
@@ -168,7 +168,7 @@ class FindCommentsFundament(PreconfiguredBaseModel, kw_only=True):
 
 
 class FindDeclineVotingRightsRequestsFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     account: AccountName
     effective_date: HiveDateTime
 
@@ -176,9 +176,9 @@ class FindDeclineVotingRightsRequestsFundament(PreconfiguredBaseModel, kw_only=T
 class EscrowsFundament(PreconfiguredBaseModel, kw_only=True):
     """Fundament class for list_escrows and find_escrows API responses"""
 
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     escrow_id: HiveInt
-    from_: AccountName = Field(alias="from")
+    from_: AccountName = field(name="from")
     to: AccountName
     agent: AccountName
     ratification_deadline: HiveDateTime
@@ -194,7 +194,7 @@ class EscrowsFundament(PreconfiguredBaseModel, kw_only=True):
 class HbdConversionRequestsFundament(PreconfiguredBaseModel, kw_only=True):
     """Fundament class for find_hbd_convertion_requests and list_hbd_conversion_requests"""
 
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     owner: AccountName
     requestid: HiveInt
     amount: AssetHbd
@@ -204,7 +204,7 @@ class HbdConversionRequestsFundament(PreconfiguredBaseModel, kw_only=True):
 class LimitOrdersFundament(PreconfiguredBaseModel, kw_only=True):
     """Fundament class for find_limit_orders and list_limit_orders API responses"""
 
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     created: HiveDateTime
     expiration: HiveDateTime
     seller: OptionallyEmpty[AccountName]
@@ -216,16 +216,16 @@ class LimitOrdersFundament(PreconfiguredBaseModel, kw_only=True):
 class OwnerHistoriesFundament(PreconfiguredBaseModel, kw_only=True):
     """Fundament class for find_owner_histories and list_owner_histories API response"""
 
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     account: AccountName
     previous_owner_authority: Authority
     last_valid_time: HiveDateTime
 
 
 class FindRecurrentTransfersFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     trigger_date: HiveDateTime
-    from_: AccountName = Field(alias="from")
+    from_: AccountName = field(name="from")
     to: AccountName
     amount: AssetUnion[AssetHive, AssetHbd]
     memo: str
@@ -238,8 +238,8 @@ class FindRecurrentTransfersFundament(PreconfiguredBaseModel, kw_only=True):
 class SavingsWithdrawalsFundament(PreconfiguredBaseModel, kw_only=True):
     """Fundament class for find_savings_withdrawals and list_savings_withdrawals"""
 
-    id_: HiveInt = Field(alias="id")
-    from_: AccountName = Field(alias="from")
+    id_: HiveInt = field(name="id")
+    from_: AccountName = field(name="from")
     to: AccountName
     memo: str
     request_id: HiveInt
@@ -250,7 +250,7 @@ class SavingsWithdrawalsFundament(PreconfiguredBaseModel, kw_only=True):
 class VestingDelegationExpirationsFundament(PreconfiguredBaseModel, kw_only=True):
     """Fundament class for find_vesting_delegation_expirations and list_vesting_delegation_expirations"""
 
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     delegator: AccountName
     vesting_shares: AssetVest
     expiration: HiveDateTime
@@ -259,7 +259,7 @@ class VestingDelegationExpirationsFundament(PreconfiguredBaseModel, kw_only=True
 class VestingDelegationsFundament(PreconfiguredBaseModel, kw_only=True):
     """Fundament class for find_vesting_delegation and list_vesting_delegation"""
 
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     delegator: AccountName
     delegatee: AccountName
     vesting_shares: AssetVest
@@ -269,7 +269,7 @@ class VestingDelegationsFundament(PreconfiguredBaseModel, kw_only=True):
 class WithdrawVestingRoutesFundament(PreconfiguredBaseModel, kw_only=True):
     """Fundament class for find_withdraw_vesting_routes and list_withdraw_vesting_routes"""
 
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     from_account: AccountName
     to_account: AccountName
     percent: HiveInt
@@ -279,7 +279,7 @@ class WithdrawVestingRoutesFundament(PreconfiguredBaseModel, kw_only=True):
 class WitnessesFundament(PreconfiguredBaseModel, kw_only=True):
     """Fundament class for find_witnesses and list_witnesses API responses"""
 
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     owner: AccountName
     created: HiveDateTime
     url: WitnessUrl
@@ -379,14 +379,14 @@ class GetWitnessScheduleFutureChangesFundament(PreconfiguredBaseModel):
 
 
 class ListAccountRecoveryRequestsFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     account_to_recover: AccountName
     new_owner_authority: Authority
     expires: HiveDateTime
 
 
 class ListChangeRecoveryAccountRequestsFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     account_to_recover: AccountName
     recovery_account: OptionallyEmpty[AccountName]
     effective_on: HiveDateTime
@@ -395,7 +395,7 @@ class ListChangeRecoveryAccountRequestsFundament(PreconfiguredBaseModel, kw_only
 class ListCollateralizedConversionRequestsFundament(
     PreconfiguredBaseModel, kw_only=True
 ):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     owner: AccountName
     requestid: HiveInt
     collateral_amount: AssetHive
@@ -405,7 +405,7 @@ class ListCollateralizedConversionRequestsFundament(
 
 class ListCommentsFundament(PreconfiguredBaseModel, kw_only=True):
     author_rewards: HiveInt
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     author: AccountName
     permlink: Permlink
     category: str
@@ -441,18 +441,18 @@ class ListCommentsFundament(PreconfiguredBaseModel, kw_only=True):
 
 
 class ListDeclineVotingRightsRequestsFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     account: AccountName
     effective_date: HiveDateTime
 
 
 class ListProposalVotesFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     voter: AccountName
     proposal: Proposal
 
 
 class ListWitnessVotesFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     witness: AccountName
     account: AccountName

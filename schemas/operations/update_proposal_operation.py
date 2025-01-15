@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Generic
 
+from msgspec import field
 from pydantic import Field
 from pydantic.generics import GenericModel
 
@@ -19,7 +20,7 @@ class _UpdateProposalOperation(Operation):
     daily_pay: AssetHbd
     subject: str
     permlink: str
-    extensions: list[Any] = Field(default_factory=list)
+    extensions: list[Any] = field(default_factory=list)
 
 
     @classmethod

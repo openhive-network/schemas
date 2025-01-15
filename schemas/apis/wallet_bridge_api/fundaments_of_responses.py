@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Generic
 
+from msgspec import field
 from pydantic import Field, Json
 from pydantic.generics import GenericModel
 
@@ -19,7 +20,7 @@ from schemas.fields.resolvables import AssetUnion, OptionallyEmpty
 
 
 class Account(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     name: AccountName
     owner: Authority
     active: Authority
@@ -80,13 +81,13 @@ class Account(PreconfiguredBaseModel, kw_only=True):
     open_recurrent_transfers: HiveInt
     is_smt: bool
     governance_vote_expiration_ts: HiveDateTime
-    delayed_votes: list[DelayedVotes] = Field(default_factory=list)
+    delayed_votes: list[DelayedVotes] = field(default_factory=list)
 
 
 class GetCollateralizedConversionRequestsFundament(
     PreconfiguredBaseModel, kw_only=True
 ):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     owner: AccountName
     requestid: HiveInt
     collateral_amount: AssetHive
@@ -95,7 +96,7 @@ class GetCollateralizedConversionRequestsFundament(
 
 
 class GetConversionRequestsFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     owner: AccountName
     requestid: HiveInt
     amount: AssetHbd
@@ -103,9 +104,9 @@ class GetConversionRequestsFundament(PreconfiguredBaseModel, kw_only=True):
 
 
 class FindRecurrentTransfersFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     trigger_date: HiveDateTime
-    from_: AccountName = Field(alias="from")
+    from_: AccountName = field(name="from")
     to: AccountName
     amount: AssetUnion[AssetHive, AssetHbd]
     memo: str
@@ -116,6 +117,6 @@ class FindRecurrentTransfersFundament(PreconfiguredBaseModel, kw_only=True):
 
 
 class ListRcDirectDelegationsFundament(PreconfiguredBaseModel, kw_only=True):
-    from_: AccountName = Field(alias="from")
+    from_: AccountName = field(name="from")
     to: AccountName
     delegated_rc: HiveInt

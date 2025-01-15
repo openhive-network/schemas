@@ -68,7 +68,7 @@ class JSONRPCBase(msgspec.Struct, kw_only=True):
 
 class JSONRPCRequest(JSONRPCBase):
     method: str
-    params: dict[str, Any] = Field(default_factory=dict)
+    params: dict[str, Any] = msgspec.field(default_factory=dict)
 
 
 class JSONRPCError(JSONRPCBase):

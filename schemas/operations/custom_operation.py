@@ -6,11 +6,12 @@ from schemas.fields.basic import AccountName
 from schemas.fields.hex import Hex
 from schemas.fields.integers import Uint16t
 from schemas.operation import Operation
+from msgspec import field
 
 
 class CustomOperation(Operation, kw_only=True):
     required_auths: list[AccountName]
-    id_: Uint16t = Field(alias="id")
+    id_: Uint16t = field(name="id")
     data: Hex
 
     @classmethod

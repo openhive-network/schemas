@@ -9,10 +9,11 @@ from schemas.fields.integers import Uint32t
 from schemas.operation import Operation
 
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
+from msgspec import field
 
 
 class CancelTransferFromSavingsOperation(Operation):
-    from_: AccountName = Field(alias="from")
+    from_: AccountName = field(name="from")
     request_id: Uint32t = DEFAULT_REQUEST_ID
 
     @classmethod

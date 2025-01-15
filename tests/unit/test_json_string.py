@@ -26,10 +26,11 @@ SERIALIZED_JSON_STRING: Final[str] = (
 )
 
 JSON_STRING_INVALID_TYPE_PATTERN: Final[str] = "is not a valid type"
+from msgspec import field
 
 
 class ApplicationTestOperation(ApplicationOperation, kw_only=True):
-    from_: AccountName = Field(alias="from")
+    from_: AccountName = field(name="from")
     to: AccountName
     what: list[str]
     @classmethod

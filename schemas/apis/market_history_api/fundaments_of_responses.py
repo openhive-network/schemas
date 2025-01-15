@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Generic
 
+from msgspec import field
 from pydantic import Field
 from pydantic.generics import GenericModel
 
@@ -18,14 +19,14 @@ class GetMarketHistoryField(PreconfiguredBaseModel, kw_only=True):
 
     high: HiveInt
     low: HiveInt
-    open_: HiveInt = Field(alias="open")
+    open_: HiveInt = field(name="open")
     close: HiveInt
     volume: HiveInt
 
 
 class GetMarketHistoryFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
-    open_: HiveDateTime = Field(alias="open")
+    id_: HiveInt = field(name="id")
+    open_: HiveDateTime = field(name="open")
     seconds: HiveInt
     hive: GetMarketHistoryField
     non_hive: GetMarketHistoryField

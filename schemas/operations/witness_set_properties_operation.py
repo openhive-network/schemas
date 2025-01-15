@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Generic
 
+from msgspec import field
 from pydantic import Field
 from pydantic.generics import GenericModel
 
@@ -13,7 +14,7 @@ from schemas.operations.extensions.future_extension import FutureExtensions
 
 class WitnessSetPropertiesCommon(Operation):
     owner: AccountName
-    extensions: FutureExtensions = Field(default_factory=FutureExtensions)
+    extensions: FutureExtensions = field(default_factory=FutureExtensions)
 
 
     @classmethod

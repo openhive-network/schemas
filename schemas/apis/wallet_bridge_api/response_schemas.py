@@ -32,7 +32,7 @@ from schemas.fields.hex import TransactionId
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.hive_list import HiveList
 from schemas.fields.version import HardforkVersion
-
+from msgspec import field
 
 class BroadcastTransaction(network_broadcast_api.BroadcastTransaction):
     """This response is also empty json"""
@@ -41,7 +41,7 @@ class BroadcastTransaction(network_broadcast_api.BroadcastTransaction):
 class BroadcastTransactionSynchronous(PreconfiguredBaseModel, kw_only=True):
     block_num: HiveInt
     expired: bool
-    id_: TransactionId = Field(alias="id")
+    id_: TransactionId = field(name="id")
     rc_cost: HiveInt | None
     trx_num: HiveInt
 

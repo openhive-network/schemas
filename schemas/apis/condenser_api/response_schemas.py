@@ -217,7 +217,7 @@ class GetDynamicGlobalProperties(
 ):
     """Identical like response from database_api, just Legacy format of Assets and id exlcuded"""
 
-    id_: HiveInt | None = Field(None, alias="id", exclude=True)  # type: ignore
+    id_: HiveInt | None = msgspec.field(default=None, name="id")  # type: ignore
 
 
 """GetEscrowFundament -> the same as in database_api, GetEscrow could also be null"""

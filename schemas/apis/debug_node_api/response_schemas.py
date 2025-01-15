@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from msgspec import field
 from pydantic import Field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
@@ -23,7 +24,7 @@ class DebugGenerateBlocksUntil(DebugGenerateBlocks):
 
 
 class DebugGetHardforkPropertyObject(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     processed_hardforks: list[HiveDateTime]
     last_hardfork: HiveInt
     current_hardfork_version: HardforkVersion
@@ -36,11 +37,11 @@ class DebugGetHeadBlock(PreconfiguredBaseModel):
 
 
 class DebugGetJsonSchema(PreconfiguredBaseModel):
-    schema_: str = Field(alias="schema")
+    schema_: str = field(name="schema")
 
 
 class DebugGetWitnessSchedule(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     current_virtual_time: HiveInt
     next_shuffle_block_num: HiveInt
     current_shuffled_witnesses: list[OptionallyEmpty[AccountName]]

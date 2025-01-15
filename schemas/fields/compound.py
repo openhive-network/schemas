@@ -20,6 +20,7 @@ from schemas.fields.hive_int import HiveInt
 from schemas.fields.integers import Uint16t, Uint32t
 from schemas.fields.resolvables import AnyAsset, AssetUnion
 from schemas.hive_constants import HIVE_HBD_INTEREST_RATE, HIVE_MAX_BLOCK_SIZE
+from msgspec import field
 
 __all__ = [
     "Authority",
@@ -93,7 +94,7 @@ class Price(PreconfiguredBaseModel):
 
 
 class Proposal(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     proposal_id: HiveInt
     creator: AccountName
     receiver: AccountName

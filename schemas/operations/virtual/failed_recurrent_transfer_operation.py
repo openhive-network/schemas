@@ -18,9 +18,10 @@ DEFAULT_CONSECUTIVE_FAILURES: Final[Uint8t] = Uint8t(0)
 DEFAULT_REMAINING_EXECUTIONS: Final[Uint16t] = Uint16t(0)
 DEFAULT_DELETED: Final[bool] = False
 
+from msgspec import field
 
 class _FailedRecurrentTransferOperation(VirtualOperation, kw_only=True):
-    from_: AccountName = Field(alias="from")
+    from_: AccountName = field(name="from")
     to: AccountName
     amount: AssetUnion[AssetHive, AssetHbd]
     memo: str

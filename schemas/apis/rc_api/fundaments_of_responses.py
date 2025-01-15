@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Generic
 
+from msgspec import field
 from pydantic import Field
 from pydantic.generics import GenericModel
 
@@ -168,6 +169,6 @@ class ResourcePool(PreconfiguredBaseModel):
 
 
 class RcDirectDelegations(PreconfiguredBaseModel, kw_only=True):
-    from_: AccountName = Field(alias="from")
+    from_: AccountName = field(name="from")
     to: AccountName
     delegated_rc: HiveInt

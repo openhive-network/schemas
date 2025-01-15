@@ -18,12 +18,13 @@ from schemas.operation import Operation
 
 DEFAULT_FILL_OR_KILL: Final[bool] = False
 
+from msgspec import field
 
 class Work(PreconfiguredBaseModel, kw_only=True):
     __operation_name__ = "work"
 
     worker: PublicKey
-    input_: Sha256 = Field(alias="input")
+    input_: Sha256 = field(name="input")
     signature: Signature
     work: Sha256
 

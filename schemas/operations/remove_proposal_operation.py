@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from msgspec import field
 from pydantic import Field
 
 from schemas.fields.basic import AccountName
@@ -11,7 +12,7 @@ from schemas.operations.extensions.future_extension import FutureExtensions
 class RemoveProposalOperation(Operation):
     proposal_owner: AccountName
     proposal_ids: list[Int64t]
-    extensions: FutureExtensions = Field(default_factory=FutureExtensions)
+    extensions: FutureExtensions = field(default_factory=FutureExtensions)
 
     @classmethod
     def get_name(cls):

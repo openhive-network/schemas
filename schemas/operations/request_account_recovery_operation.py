@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from msgspec import field
 from pydantic import Field
 
 from schemas.fields.basic import AccountName
@@ -12,7 +13,7 @@ class RequestAccountRecoveryOperation(Operation):
     recovery_account: AccountName
     account_to_recover: AccountName
     new_owner_authority: Authority
-    extensions: FutureExtensions = Field(default_factory=FutureExtensions)
+    extensions: FutureExtensions = field(default_factory=FutureExtensions)
 
     @classmethod
     def get_name(cls):

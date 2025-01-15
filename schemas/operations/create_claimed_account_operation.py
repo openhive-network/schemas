@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from msgspec import field
 from pydantic import Field
 
 from schemas.fields.basic import AccountName, PublicKey
@@ -16,7 +17,7 @@ class CreateClaimedAccountOperation(Operation):
     posting: Authority
     memo_key: PublicKey
     json_metadata: str
-    extensions: FutureExtensions = Field(default_factory=FutureExtensions)
+    extensions: FutureExtensions = field(default_factory=FutureExtensions)
 
     @classmethod
     def get_name(cls):

@@ -15,16 +15,17 @@ from schemas.operation import Operation
 
 DEFAULT_RECURRENCE: Final[Uint16t] = Uint16t(0)
 DEFAULT_EXECUTIONS: Final[Uint16t] = Uint16t(0)
+from msgspec import field
 
 
 class _RecurrentTransferOperation(Operation, kw_only=True):
-    from_: AccountName = Field(alias="from")
+    from_: AccountName = field(name="from")
     to: AccountName
     amount: AssetUnion[AssetHive, AssetHbd]
     memo: str
     recurrence: Uint16t = DEFAULT_RECURRENCE
     executions: Uint16t = DEFAULT_EXECUTIONS
-    extensions: list[Any] = Field(default_factory=list)
+    extensions: list[Any] = field(default_factory=list)
 
 
     @classmethod

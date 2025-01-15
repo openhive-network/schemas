@@ -11,9 +11,10 @@ from schemas.operation import Operation
 DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 DEFAULT_APPROVE: Final[bool] = True
 
+from msgspec import field
 
 class EscrowApproveOperation(Operation, kw_only=True):
-    from_: AccountName = Field(alias="from")
+    from_: AccountName = field(name="from")
     to: AccountName
     agent: AccountName
     who: AccountName

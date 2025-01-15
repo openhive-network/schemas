@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Final, Generic
 
+from msgspec import field
 from pydantic import Field
 from pydantic.generics import GenericModel
 
@@ -23,7 +24,7 @@ class _CommentOptionsOperation(Operation):
     percent_hbd: Uint16t = Uint16t(HIVE_100_PERCENT)
     allow_votes: bool = DEFAULT_ALLOW_VOTES
     allow_curation_rewards: bool = DEFAULT_ALLOW_CURATION_REWARDS
-    extensions: list[Any] = Field(default_factory=list)
+    extensions: list[Any] = field(default_factory=list)
 
 
     @classmethod
@@ -35,8 +36,8 @@ class _CommentOptionsOperation(Operation):
         return 19
 
 class CommentOptionsOperation(_CommentOptionsOperation):
-    max_accepted_payout: AssetHbd = Field(default_factory=DEFAULT_MAX_ACCEPTED_PAYOUT)
+    max_accepted_payout: AssetHbd = field(default=DEFAULT_MAX_ACCEPTED_PAYOUT)
 
 
 class CommentOptionsOperationLegacy(_CommentOptionsOperation):
-    max_accepted_payout: AssetHbd = Field(default_factory=DEFAULT_MAX_ACCEPTED_PAYOUT)
+    max_accepted_payout: AssetHbd = field(default=DEFAULT_MAX_ACCEPTED_PAYOUT)

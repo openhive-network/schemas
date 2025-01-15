@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Generic, Literal
 
+from msgspec import field
 from pydantic import Field
 from pydantic.generics import GenericModel
 
@@ -436,7 +437,7 @@ class GetDynamicGlobalPropertiesOrig(PreconfiguredBaseModel, kw_only=True):
     hbd_stop_percent: HiveInt
     head_block_id: TransactionId
     head_block_number: HiveInt
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     init_hbd_supply: AssetHbd
     last_budget_time: HiveDateTime
     last_irreversible_block_num: HiveInt
@@ -475,7 +476,7 @@ class GetFeedHistoryOrig(PreconfiguredBaseModel, kw_only=True):
     This class doesn't need fundament class.
     """
 
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     current_median_history: Price
     market_median_history: Price
     current_min_history: Price
@@ -491,7 +492,7 @@ class GetHardforkProperties(PreconfiguredBaseModel, kw_only=True):
     This class doesn't need fundament class.
     """
 
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     processed_hardforks: list[HiveDateTime]
     last_hardfork: HiveInt
     current_hardfork_version: HardforkVersion
@@ -523,7 +524,7 @@ class GetRewardFunds(PreconfiguredBaseModel, kw_only=True):
 
 
 class GetTransactionHex(PreconfiguredBaseModel, kw_only=True):
-    hex_: Hex = Field(alias="hex")
+    hex_: Hex = field(name="hex")
 
 
 class GetVersion(HiveVersion):
@@ -533,7 +534,7 @@ class GetVersion(HiveVersion):
 class GetWitnessScheduleOrig(PreconfiguredBaseModel, kw_only=True):
     """When want to use must specify Asset type by Generic"""
 
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     current_virtual_time: HiveInt
     next_shuffle_block_num: HiveInt
     current_shuffled_witnesses: list[OptionallyEmpty[AccountName]]
