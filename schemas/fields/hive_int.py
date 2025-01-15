@@ -31,9 +31,11 @@ class HiveInt():
     def _validate(self):
         pass
 
-    def __eq__(self, value: object) -> bool:
-        if isinstance(value, int | float):
-            return int(self.value) == value
-        elif isinstance(value, str | HiveInt):
-            return self.value == value
-        return False
+def __eq__(self, value: object) -> bool:
+    if isinstance(value, (int, float)):
+        return int(self.value) == value
+    elif isinstance(value, str):
+        return self.value == value
+    elif isinstance(value, HiveInt):
+        return self.value == value.value  # Porównanie atrybutu value
+    return False

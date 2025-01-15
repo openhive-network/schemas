@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Generic, Union
 
+from msgspec import field
 from pydantic import Field, Json
 from pydantic.generics import GenericModel
 from schemas.fields.resolvables import AssetUnion
@@ -346,7 +347,7 @@ class GetOrderBookFundament(PreconfiguredBaseModel, kw_only=True):
 
 
 class GetRewardFundsFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     name: AccountName
     reward_balance: AssetHive
     recent_claims: HiveInt

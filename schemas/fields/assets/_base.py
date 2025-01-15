@@ -12,7 +12,6 @@ import msgspec
 from pydantic import ConstrainedStr, StrRegexError, validator
 from typing_extensions import Self
 
-from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets._validators import validate_nai, validate_precision
 from schemas.fields.assets.asset_info import AssetInfo
 from schemas.fields.hive_int import HiveInt

@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import re
+from typing import Annotated
 
-from pydantic import ConstrainedStr
+import msgspec
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import NodeType
@@ -15,9 +16,7 @@ __all__ = [
 ]
 
 
-class Version(ConstrainedStr):
-    regex = re.compile(r"^\d+\.\d+\.\d+$")
-
+Version = Annotated[str, msgspec.Meta(pattern=r"^\d+\.\d+\.\d+$")]
 
 HardforkVersion = Version
 

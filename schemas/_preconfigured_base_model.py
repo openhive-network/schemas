@@ -12,6 +12,9 @@ from typing import AbstractSet, Any, Dict, Mapping, TypeVar, Union, get_args, ge
 
 from typing_extensions import Self
 
+# from schemas.coders import enc_hook_base
+from schemas.encoders import enc_hook_base
+from schemas.fields.hive_int import HiveInt
 from schemas.hive_constants import HIVE_TIME_FORMAT
 
 import msgspec
@@ -109,7 +112,7 @@ class PreconfiguredBaseModel(msgspec.Struct):
         exclude_defaults: bool = False,
         exclude_none: bool = False,
     ) -> DictStrAny:
-        return msgspec.to_builtins(obj=self)
+        return msgspec.to_builtins(obj=self, enc_hook=enc_hook_base)
 
     # @classmethod
     # def as_strict_model(cls, recursively: bool = True) -> type[Self]:  # noqa: C901
