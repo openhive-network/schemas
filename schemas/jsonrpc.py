@@ -8,21 +8,12 @@ from __future__ import annotations
 import os
 from collections.abc import Sequence
 from threading import Event, Lock, Semaphore
-from typing import Any, Generic, Type, TypeVar, get_origin, get_args, Literal
+from typing import Any, Generic, TypeVar, Literal
 
 import msgspec
-from pydantic import Field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.apis.condenser_api.response_schemas import GetDiscussionsByBlog
-from schemas.apis.market_history_api.fundaments_of_responses import BucketSizes
 from schemas.coders import get_hf26_decoder, get_legacy_decoder
-from schemas.fields.assets._base import AssetHbd, AssetHive, AssetNaiAmount, AssetVest
-from schemas.fields.basic import Permlink, PublicKey, Url
-from schemas.fields.hex import Hex, Sha256, TransactionId
-from schemas.fields.hive_int import HiveInt
-from schemas.fields.version import Version
-from schemas.fields.resolvables import AnyAsset, Resolvable
 
 __all__ = [
     "get_response_model",

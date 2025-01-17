@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-import re
 from typing import Annotated
 
 import msgspec
-from pydantic import ConstrainedStr
 
 __all__ = [
     "Hex",

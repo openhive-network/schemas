@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Annotated, Any, Final, Generic, TypeVar, get_args
+from typing import TYPE_CHECKING, Annotated, Final
 
 import msgspec
-from pydantic import ConstrainedStr, errors
+from pydantic import ConstrainedStr
 
 __all__ = [
     "AccountName",
@@ -19,12 +19,11 @@ __all__ = [
     "Url",
 ]
 
-from pydantic.validators import list_validator
 
 from schemas.hive_constants import HIVE_MAX_URL_LENGTH, HIVE_MAX_WITNESS_URL_LENGTH
 
 if TYPE_CHECKING:
-    from pydantic.typing import CallableGenerator
+    pass
 
 ACCOUNT_NAME_SEGMENT_REGEX: Final[str] = r"[a-z][a-z0-9\-]+[a-z0-9]"
 BASE_58_REGEX: Final[str] = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"

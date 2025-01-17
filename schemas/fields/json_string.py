@@ -3,14 +3,12 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING, Any, Generic, TypeAlias, TypeVar, get_args
 
-import msgspec
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.application_operation import ApplicationOperation
-from schemas.fields.serializable import Serializable
 
 if TYPE_CHECKING:
-    from pydantic.typing import CallableGenerator
+    pass
 
 
 if TYPE_CHECKING:

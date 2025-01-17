@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-from abc import ABC
-from typing import Final, Generic
+from typing import Final
 
 from pydantic import BaseModel
-from pydantic.generics import GenericModel
 
 from schemas.fields.assets._base import AssetHbd
 from schemas.fields.basic import (

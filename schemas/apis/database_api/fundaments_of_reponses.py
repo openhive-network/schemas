@@ -1,41 +1,24 @@
 from __future__ import annotations
 
-from typing import Any, Generic, Union
+from typing import Any
 
 from msgspec import field
-from pydantic import Field, Json
-from pydantic.generics import GenericModel
-from schemas.fields.resolvables import AssetUnion
-
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 # from schemas.fields.assets.hbd import AssetHbd
 # from schemas.fields.assets.hive import AssetHive
 # from schemas.fields.assets.vests import AssetVest
 from schemas.fields.assets._base import AssetHbd, AssetHive, AssetVest
-from schemas.fields.basic import (
-    AccountName,
-    EmptyString,
-    FloatAsString,
-    Permlink,
-    PublicKey,
-    WitnessUrl,
-)
-from schemas.fields.resolvables import OptionallyEmpty
-from schemas.fields.compound import (
-    Authority,
-    DelayedVotes,
-    HbdExchangeRate,
-    Manabar,
-    Price,
-    Proposal,
-    Props,
-    RdDynamicParams,
-)
+from schemas.fields.basic import (AccountName, FloatAsString, Permlink,
+                                  PublicKey, WitnessUrl)
+from schemas.fields.compound import (Authority, DelayedVotes, HbdExchangeRate,
+                                     Manabar, Price, Proposal, Props,
+                                     RdDynamicParams)
 from schemas.fields.hex import Sha256
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
+from schemas.fields.resolvables import AssetUnion, OptionallyEmpty
 from schemas.fields.version import HardforkVersion, Version
-from schemas.fields.json_string import JsonString
+
 
 class FindAccountRecoveryRequestsFundament(PreconfiguredBaseModel, kw_only=True):
     id_: HiveInt = field(name="id")

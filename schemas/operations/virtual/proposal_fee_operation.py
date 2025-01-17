@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from typing import Final, Generic
+from typing import Final
 
-from pydantic.generics import GenericModel
 
 from schemas.fields.assets._base import AssetHbd
 from schemas.fields.basic import AccountName

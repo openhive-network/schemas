@@ -1,11 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Annotated, Any, Generic, List
+from typing import TYPE_CHECKING
 
-import msgspec
-from pydantic import BaseModel, ConstrainedList
 
-from schemas._preconfigured_base_model import BaseModelT
 
 __all__ = [
     "HiveList",

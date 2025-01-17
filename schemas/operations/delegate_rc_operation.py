@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from pydantic import Field
 
 from schemas.fields.basic import AccountName
 from schemas.operations.custom.custom_base_operation import CustomBaseOperation

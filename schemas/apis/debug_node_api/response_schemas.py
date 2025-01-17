@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from msgspec import field
-from pydantic import Field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.block_api.fundaments_of_responses import SignedBlockBase

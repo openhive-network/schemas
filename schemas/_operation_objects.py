@@ -19,7 +19,7 @@ from schemas.operations.representations import get_legacy_operation_representati
 #     Hf26VirtualOperationRepresentationType,
 #     LegacyVirtualOperationRepresentationType,
 # )
-from schemas.operations import AnyEveryOperation, AnyLegacyEveryOperation, AnyLegacyOperationRepresentation, AnyOperationRepresentation
+from schemas.operations import AnyEveryOperation, AnyLegacyEveryOperation
 from schemas.operations.virtual import AnyLegacyVirtualOperationRepresentation, AnyVirtualOperationRepresentation
 
 class ApiOperationObjectCommons(PreconfiguredBaseModel):

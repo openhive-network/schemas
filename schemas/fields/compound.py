@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from typing import Generic, Literal
+from typing import Literal
 
-from pydantic import Field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 # from schemas.fields.assets.hbd import AssetHbd

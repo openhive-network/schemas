@@ -1,13 +1,11 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Annotated, Any
+from typing import TYPE_CHECKING
 from typing_extensions import Self
 
-import msgspec
-from pydantic import ConstrainedInt
 
 if TYPE_CHECKING:
-    from pydantic.typing import CallableGenerator
+    pass
 
 __all__ = [
     "HiveInt",

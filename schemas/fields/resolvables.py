@@ -3,15 +3,13 @@ from __future__ import annotations
 from abc import ABC
 import json
 from schemas.fields.assets import AssetBase, AssetHbd, AssetHive, AssetVest
-from typing import Any, Generic, TypeVar, cast
+from typing import Any, Generic, TypeVar
 from typing_extensions import get_args
 import contextlib
 
 import msgspec
 
-from schemas.fields.assets._base import AssetNaiAmount
 from schemas.fields.assets.asset_info import AssetInfo
-from schemas.fields.hive_int import HiveInt
 
 ResolvedFromT = TypeVar("ResolvedFromT")
 ResolvedT = TypeVar("ResolvedT")

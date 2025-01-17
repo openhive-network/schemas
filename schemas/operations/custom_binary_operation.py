@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from pydantic import Field
 
 from schemas.fields.basic import AccountName, CustomIdType
 from schemas.fields.compound import Authority

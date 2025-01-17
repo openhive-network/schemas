@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from msgspec import field
-from pydantic import Field
 
 from schemas.fields.basic import AccountName
 from schemas.operation import Operation

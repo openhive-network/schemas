@@ -11,7 +11,6 @@ from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets._base import AssetHbd, AssetHive, AssetVest
 from schemas.fields.basic import (
     AccountName,
-    EmptyString,
     FloatAsString,
     Permlink,
     Url,

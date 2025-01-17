@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-from typing import Generic, Literal
+from typing import Literal
 
 from msgspec import field
-from pydantic import Field
-from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.database_api.fundaments_of_reponses import (
@@ -43,7 +41,6 @@ from schemas.fields.assets._symbol import HbdSymbolType, HiveSymbolType, VestsSy
 # from schemas.fields.assets.vests import AssetVest, AssetVestsT
 from schemas.fields.basic import (
     AccountName,
-    EmptyString,
     PublicKey,
 )
 from schemas.fields.compound import (

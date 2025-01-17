@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-from typing import Generic
 
 from pydantic import validator
-from pydantic.generics import GenericModel
 
 from schemas.fields.assets._base import AssetHive
 from schemas.fields.basic import (

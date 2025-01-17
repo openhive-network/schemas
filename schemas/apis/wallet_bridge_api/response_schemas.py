@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-from typing import Generic
 
-from pydantic import ConstrainedList, Field
-from pydantic.generics import GenericModel
+from pydantic import ConstrainedList
 
 import schemas.apis.account_history_api.response_schemas as account_history_api
 import schemas.apis.block_api.fundaments_of_responses as fundaments_block_api

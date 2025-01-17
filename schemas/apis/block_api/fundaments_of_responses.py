@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Generic
+from typing import Any
 
-from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import (
@@ -15,7 +14,6 @@ from schemas.transaction import (
     Transaction,
     TransactionCommon,
     TransactionLegacy,
-    TransactionT,
 )
 
 

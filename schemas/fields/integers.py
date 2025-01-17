@@ -2,7 +2,6 @@ from __future__ import annotations
 from typing import Annotated
 
 import msgspec
-from pydantic import ConstrainedInt
 
 from schemas.fields.hive_int import HiveInt
 

@@ -8,7 +8,7 @@ from __future__ import annotations
 from typing import Any, Literal
 
 import msgspec
-from pydantic import Field, conlist, root_validator
+from pydantic import conlist, root_validator
 
 import schemas.apis.account_history_api.response_schemas as account_history_api
 import schemas.apis.block_api.fundaments_of_responses as fundaments_block_api
@@ -46,7 +46,6 @@ from schemas.apis.condenser_api.fundaments_of_responses import (
 from schemas.fields.assets._base import AssetHbd, AssetHive
 from schemas.fields.basic import (
     AccountName,
-    EmptyString,
     PublicKey,
     Url,
 )

@@ -1,10 +1,8 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-import json
 from typing import TYPE_CHECKING, Any
 
-import msgspec
 from typing_extensions import Self
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel

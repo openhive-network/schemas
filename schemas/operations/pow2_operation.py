@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Final, Generic
+from typing import Any, Final
 
-from pydantic import Field
-from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import (

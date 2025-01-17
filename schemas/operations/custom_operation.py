@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from pydantic import Field
 
 from schemas.fields.basic import AccountName
 from schemas.fields.hex import Hex

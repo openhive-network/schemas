@@ -1,10 +1,7 @@
 from __future__ import annotations
 
-from typing import Generic
 
 from msgspec import field
-from pydantic import Field
-from pydantic.generics import GenericModel
 
 from schemas.fields.assets._base import AssetHbd
 from schemas.fields.basic import (

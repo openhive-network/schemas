@@ -1,10 +1,7 @@
 from __future__ import annotations
 
-from typing import Generic
 
-from pydantic.generics import GenericModel
 
-from schemas.fields.assets._base import AssetHbd, AssetHive, AssetVest
 from schemas.fields.resolvables import AnyAsset
 from schemas.virtual_operation import VirtualOperation
 

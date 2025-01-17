@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-from typing import Final, Generic
+from typing import Final
 
-from pydantic import Field
-from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import (
@@ -12,7 +10,6 @@ from schemas.fields.basic import (
 )
 from schemas.fields.compound import LegacyChainProperties
 from schemas.fields.hex import Sha256, Signature, TransactionId
-from schemas.fields.hive_int import HiveInt
 from schemas.fields.integers import Uint64t
 from schemas.operation import Operation
 

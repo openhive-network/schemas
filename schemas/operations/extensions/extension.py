@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from abc import ABC
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 

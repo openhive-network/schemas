@@ -1,11 +1,8 @@
 from __future__ import annotations
 
-from typing import Annotated, Union, get_args
 
 import msgspec
-from pydantic import Field
 
-from schemas.operations.representations.util import _create_hf26_representation, _create_legacy_representation
 from schemas.operations.virtual.author_reward_operation import AuthorRewardOperation, AuthorRewardOperationLegacy
 # from schemas.operations.virtual import AnyLegacyVirtualOperation, AnyVirtualOperation
 

@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-from typing import Generic, TypeAlias
+from typing import TypeAlias
 
-from pydantic import Field
-from pydantic.generics import GenericModel
 
 from schemas.fields.basic import AccountName, CustomIdType
-from schemas.fields.json_string import AnyJson, JsonFieldType, JsonString
+from schemas.fields.json_string import JsonFieldType, JsonString
 from schemas.operation import Operation
 from msgspec import field
 

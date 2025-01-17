@@ -1,14 +1,10 @@
 from __future__ import annotations
 
-from typing import Generic
 
-from pydantic import Field
-from pydantic.generics import GenericModel
 
 from schemas.fields.assets._base import AssetHive
 from schemas.fields.basic import (
     AccountName,
-    EmptyString,
 )
 from schemas.fields.resolvables import OptionallyEmpty
 from schemas.operation import Operation

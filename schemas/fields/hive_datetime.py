@@ -1,15 +1,13 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from typing import TYPE_CHECKING, Annotated, Any
+from datetime import datetime
+from typing import TYPE_CHECKING, Annotated
 
 import msgspec
-from typing_extensions import Self
 
-from schemas.hive_constants import HIVE_TIME_FORMAT
 
 if TYPE_CHECKING:
-    from pydantic.typing import CallableGenerator
+    pass
 
 __all__ = [
     "HiveDateTime",

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import Final
 
-from pydantic import Field
 
 from schemas.fields.basic import AccountName
 from schemas.fields.integers import Uint32t

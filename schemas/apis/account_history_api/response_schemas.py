@@ -1,16 +1,13 @@
 from __future__ import annotations
 
-from typing import Any, Generic, TypeVar
+from typing import Any
 
-from pydantic.generics import GenericModel
 
 from schemas._operation_objects import (
     Hf26ApiOperationObject,
     Hf26ApiVirtualOperationObject,
-    LegacyApiOperationObject,
-    LegacyApiVirtualOperationObject,
 )
-from schemas.operations import AnyOperationRepresentation, AnyLegacyOperationRepresentation, AnyEveryOperation
+from schemas.operations import AnyOperationRepresentation
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.account_history_api.fundaments_of_responses import EnumVirtualOpsFieldFundament

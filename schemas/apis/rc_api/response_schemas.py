@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from typing import Generic, Literal
+from typing import Literal
 
-from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.rc_api.fundaments_of_responses import (
@@ -13,7 +12,6 @@ from schemas.apis.rc_api.fundaments_of_responses import (
     SizeInfo,
 )
 
-from schemas.fields.assets import AssetVest
 
 
 class FindRcAccounts(PreconfiguredBaseModel):

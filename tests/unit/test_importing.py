@@ -1,6 +1,11 @@
 from __future__ import annotations
 
+import json
 from typing import Any, Final
+
+import msgspec
+
+from schemas.coders import dec_hook_hf26
 
 TRANSFER_OPERATION_VALID_DATA: Final[dict[str, Any]] = {
     "from": "alice",
@@ -13,12 +18,9 @@ TRANSFER_OPERATION_VALID_DATA: Final[dict[str, Any]] = {
 def test_from_schemas_import() -> None:
     # ACT & ASSERT
     from schemas.operations import TransferOperation
-
-    TransferOperation(**TRANSFER_OPERATION_VALID_DATA)
-
+    msgspec.convert(obj=TRANSFER_OPERATION_VALID_DATA,  type=TransferOperation, dec_hook=dec_hook_hf26)
 
 def test_import_schemas() -> None:
     # ACT & ASSERT
     import schemas
-
-    schemas.operations.TransferOperation(**TRANSFER_OPERATION_VALID_DATA)
+    msgspec.convert(obj=TRANSFER_OPERATION_VALID_DATA, type=schemas.operations.TransferOperation, dec_hook=dec_hook_hf26)

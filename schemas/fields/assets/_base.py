@@ -5,11 +5,8 @@ import contextlib
 import operator
 import re
 # from abc import ABC, abstractmethod
-from copy import deepcopy
-from typing import TYPE_CHECKING, Annotated, Any
+from typing import TYPE_CHECKING, Any
 
-import msgspec
-from pydantic import ConstrainedStr, StrRegexError, validator
 from typing_extensions import Self
 
 from schemas.fields.assets._validators import validate_nai, validate_precision
@@ -19,7 +16,6 @@ from schemas.fields.hive_int import HiveInt
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from pydantic.typing import CallableGenerator
 
 class AssetNaiAmount(HiveInt):
     def _validate(self):

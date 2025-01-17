@@ -1,16 +1,14 @@
 from __future__ import annotations
 
-from typing import Any, Generic
+from typing import Any
 
 from msgspec import field
-from pydantic import Field, Json
-from pydantic.generics import GenericModel
+from pydantic import Json
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets._base import AssetHbd, AssetHive, AssetVest
 from schemas.fields.basic import (
     AccountName,
-    EmptyString,
     PublicKey,
 )
 from schemas.fields.compound import Authority, DelayedVotes, Manabar

@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from typing import Generic
 
-from pydantic.generics import GenericModel
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.market_history_api.fundaments_of_responses import (
@@ -12,7 +10,7 @@ from schemas.apis.market_history_api.fundaments_of_responses import (
     GetTradeHistoryFundament,
     Order,
 )
-from schemas.fields.assets._base import AssetHbd, AssetHive, AssetVest
+from schemas.fields.assets._base import AssetHbd, AssetHive
 from schemas.fields.hive_list import HiveList
 
 
