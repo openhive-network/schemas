@@ -4,7 +4,8 @@ from typing import TypeAlias
 
 
 from schemas.fields.basic import AccountName, CustomIdType
-from schemas.fields.json_string import JsonFieldType, JsonString
+# from schemas.fields.json_string import JsonFieldType, JsonString
+from schemas.fields.resolvables import JsonString, AnyResolvedT
 from schemas.operation import Operation
 from msgspec import field
 
@@ -13,7 +14,7 @@ class CustomJsonOperationGeneric(Operation):
     required_auths: list[AccountName]
     required_posting_auths: list[AccountName]
     id_: CustomIdType = field(name="id")
-    json_: JsonString[JsonFieldType] = field(name="json")
+    json_: JsonString[AnyResolvedT] = field(name="json")
 
 
     @classmethod

@@ -36,9 +36,10 @@ AccountName = Annotated[str, msgspec.Meta(max_length=16, min_length=3, pattern=r
 #     max_length = 16
 
 
-class CustomIdType(ConstrainedStr):
-    max_length = 32
+# class CustomIdType(ConstrainedStr):
+#     max_length = 32
 
+CustomIdType = Annotated[str, msgspec.Meta(max_length=32)]
 
 EmptyString = Annotated[str, msgspec.Meta(max_length=0, min_length=0)]
 

@@ -6,7 +6,7 @@ import msgspec
 from msgspec.json import Decoder
 from schemas.apis.market_history_api.fundaments_of_responses import BucketSizes
 from schemas.fields.assets._base import AssetHbd, AssetHive, AssetNaiAmount, AssetVest
-from schemas.fields.basic import Permlink, PublicKey, Url
+from schemas.fields.basic import CustomIdType, Permlink, PublicKey, Url
 from schemas.fields.hex import Hex, Sha256, TransactionId
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.resolvables import AnyAsset, Resolvable
@@ -34,6 +34,8 @@ def dec_hook_base(type: Type, obj: Any) -> Any:
         return Hex(obj)
     if type is Url:
         return Url(obj)
+    if type is CustomIdType:
+        return CustomIdType(obj)
     if type is AnyAsset:
         return AnyAsset.resolve(type, obj)
     # if isinstance(obj, JsonString):
