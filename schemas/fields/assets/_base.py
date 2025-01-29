@@ -14,6 +14,7 @@ from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets._validators import validate_nai, validate_precision
 from schemas.fields.assets.asset_info import AssetInfo
 from schemas.fields.hive_int import HiveInt
+from schemas.fields.hive_string_int import HiveStringInt
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -257,21 +258,12 @@ class AssetLegacy(ConstrainedStr, AssetBase, ABC):  # type: ignore[misc]
         ), "strings are immutable in Python; Use: `some_object.field = some_object.field.clone(amount=new_amount)` instead"
 
 
-class AssetNaiAmount(HiveInt):
+class AssetNaiAmount(HiveStringInt):
     """
     Amount in HF26 have to be serialized as str, to be properly recognized by c++
     """
 
     ge = 0
-
-    @classmethod
-    def __get_validators__(cls) -> CallableGenerator:
-        yield from super().__get_validators__()
-        yield cls.__stringify
-
-    @classmethod
-    def __stringify(cls, value: int | str) -> str:
-        return str(value)
 
 
 class AssetHF26(PreconfiguredBaseModel, AssetBase, ABC):
