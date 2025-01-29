@@ -13,7 +13,7 @@ from schemas.fields.basic import (
 )
 from schemas.fields.compound import LegacyChainProperties
 from schemas.fields.hex import Sha256, Signature, TransactionId
-from schemas.fields.integers import Uint64t
+from schemas.fields.hive_string_uint import HiveStringUint
 from schemas.operation import Operation
 
 DEFAULT_FILL_OR_KILL: Final[bool] = False
@@ -34,7 +34,7 @@ class _PowOperation(Operation, GenericModel, Generic[AssetHiveT]):
 
     worker_account: AccountName
     block_id: TransactionId
-    nonce: Uint64t
+    nonce: HiveStringUint
     props: LegacyChainProperties[AssetHiveT]
     work: Work
 

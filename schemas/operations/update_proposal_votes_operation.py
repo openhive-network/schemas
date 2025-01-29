@@ -5,7 +5,7 @@ from typing import Final
 from pydantic import Field
 
 from schemas.fields.basic import AccountName
-from schemas.fields.integers import Int64t
+from schemas.fields.hive_string_int import HiveStringInt
 from schemas.operation import Operation
 from schemas.operations.extensions.future_extension import FutureExtensions
 
@@ -17,6 +17,6 @@ class UpdateProposalVotesOperation(Operation):
     __offset__ = 45
 
     voter: AccountName
-    proposal_ids: list[Int64t]
+    proposal_ids: list[HiveStringInt]
     approve: bool = DEFAULT_APPROVE
     extensions: FutureExtensions = Field(default_factory=FutureExtensions)

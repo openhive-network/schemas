@@ -13,7 +13,8 @@ from schemas.fields.basic import (
 )
 from schemas.fields.compound import LegacyChainProperties
 from schemas.fields.hex import Sha256, TransactionId
-from schemas.fields.integers import Uint32t, Uint64t
+from schemas.fields.hive_string_uint import HiveStringUint
+from schemas.fields.integers import Uint32t
 from schemas.operation import Operation
 
 DEFAULT_FILL_OR_KILL: Final[bool] = False
@@ -22,7 +23,7 @@ DEFAULT_FILL_OR_KILL: Final[bool] = False
 class Pow2Input(PreconfiguredBaseModel):
     worker_account: AccountName
     prev_block: TransactionId
-    nonce: Uint64t = Field(default_factory=lambda: Uint64t(0))
+    nonce: HiveStringUint = Field(default_factory=lambda: HiveStringUint(0))
 
 
 class Pow2(PreconfiguredBaseModel):

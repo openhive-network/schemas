@@ -9,7 +9,7 @@ from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.basic import (
     AccountName,
 )
-from schemas.fields.integers import Int64t
+from schemas.fields.hive_string_int import HiveStringInt
 from schemas.operation import Operation
 
 
@@ -17,7 +17,7 @@ class _UpdateProposalOperation(Operation, GenericModel, Generic[AssetHbdT]):
     __operation_name__ = "update_proposal"
     __offset__ = 47
 
-    proposal_id: Int64t
+    proposal_id: HiveStringInt
     creator: AccountName
     daily_pay: AssetHbdT
     subject: str

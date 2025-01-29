@@ -10,12 +10,13 @@ from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
 from schemas.fields.basic import (
     AccountName,
 )
-from schemas.fields.integers import Int64t, Uint64t
+from schemas.fields.hive_string_int import HiveStringInt
+from schemas.fields.hive_string_uint import HiveStringUint
 from schemas.virtual_operation import VirtualOperation
 
-DEFAULT_WEIGHT: Final[Uint64t] = Uint64t(0)
-DEFAULT_RSHARES: Final[Int64t] = Int64t(0)
-DEFAULT_TOTAL_VOTE_WEIGHT: Final[Uint64t] = Uint64t(0)
+DEFAULT_WEIGHT: Final[HiveStringUint] = HiveStringUint(0)
+DEFAULT_RSHARES: Final[HiveStringInt] = HiveStringInt(0)
+DEFAULT_TOTAL_VOTE_WEIGHT: Final[HiveStringUint] = HiveStringUint(0)
 
 
 class Empty(BaseModel):
@@ -29,9 +30,9 @@ class _EffectiveCommentVoteOperation(VirtualOperation, GenericModel, Generic[Ass
     voter: AccountName
     author: AccountName
     permlink: str
-    weight: Uint64t = DEFAULT_WEIGHT
-    rshares: Int64t = DEFAULT_RSHARES
-    total_vote_weight: Uint64t = DEFAULT_TOTAL_VOTE_WEIGHT
+    weight: HiveStringUint = DEFAULT_WEIGHT
+    rshares: HiveStringInt = DEFAULT_RSHARES
+    total_vote_weight: HiveStringUint = DEFAULT_TOTAL_VOTE_WEIGHT
     pending_payout: AssetHbdT
 
 
