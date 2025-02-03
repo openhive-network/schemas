@@ -37,7 +37,6 @@ GET_RESOURCE_PARAMS = {
                     "resource_unit": 1,
                     "budget_per_time_unit": 43403,
                     "pool_eq": "27050539251",
-                    "max_pool_size": "54101078501",
                     "decay_params": {
                         "decay_per_time_unit": 3613026481,
                         "decay_per_time_unit_denom_shift": 51,
@@ -55,7 +54,6 @@ GET_RESOURCE_PARAMS = {
                     "resource_unit": 10000,
                     "budget_per_time_unit": 797,
                     "pool_eq": 157691079,
-                    "max_pool_size": 157691079,
                     "decay_params": {
                         "decay_per_time_unit": 347321,
                         "decay_per_time_unit_denom_shift": 36,
@@ -73,7 +71,6 @@ GET_RESOURCE_PARAMS = {
                     "resource_unit": 10,
                     "budget_per_time_unit": 72338,
                     "pool_eq": 2003755169,
-                    "max_pool_size": 4007510337,
                     "decay_params": {
                         "decay_per_time_unit": 2540365427,
                         "decay_per_time_unit_denom_shift": 46,
@@ -91,7 +88,6 @@ GET_RESOURCE_PARAMS = {
                     "resource_unit": 1,
                     "budget_per_time_unit": 43546196,
                     "pool_eq": "27139923979692",
-                    "max_pool_size": "54279847959383",
                     "decay_params": {
                         "decay_per_time_unit": 3613026481,
                         "decay_per_time_unit_denom_shift": 51,
@@ -109,7 +105,6 @@ GET_RESOURCE_PARAMS = {
                     "resource_unit": 1,
                     "budget_per_time_unit": 40000000,
                     "pool_eq": "69256028844",
-                    "max_pool_size": "138512057687",
                     "decay_params": {
                         "decay_per_time_unit": 2539677724,
                         "decay_per_time_unit_denom_shift": 42,

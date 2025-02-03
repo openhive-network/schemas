@@ -137,7 +137,6 @@ class RdDynamicParams(PreconfiguredBaseModel):
     resource_unit: HiveInt
     budget_per_time_unit: HiveInt
     pool_eq: HiveInt
-    max_pool_size: HiveInt
     decay_params: RdDecayParams
     min_decay: HiveInt
 
