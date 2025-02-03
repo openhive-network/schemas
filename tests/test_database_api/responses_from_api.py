@@ -324,6 +324,7 @@ FIND_WITNESSES = {
                 "props": {
                     "account_creation_fee": {"amount": "1", "precision": 3, "nai": "@@000000021"},
                     "maximum_block_size": 131072,
+                    "rc_scale": 0,
                     "hbd_interest_rate": 1000,
                     "account_subsidy_budget": 797,
                     "account_subsidy_decay": 347321,
@@ -1377,6 +1378,7 @@ GET_WITNESS_SCHEDULE = {
         "median_props": {
             "account_creation_fee": {"amount": "3000", "precision": 3, "nai": "@@000000021"},
             "maximum_block_size": 65536,
+            "rc_scale": 1,
             "hbd_interest_rate": 2000,
             "account_subsidy_budget": 797,
             "account_subsidy_decay": 347321,
@@ -2407,6 +2409,7 @@ LIST_WITNESSES = {
                 "props": {
                     "account_creation_fee": {"amount": "1", "precision": 3, "nai": "@@000000021"},
                     "maximum_block_size": 131072,
+                    "rc_scale": 0,
                     "hbd_interest_rate": 1000,
                     "account_subsidy_budget": 797,
                     "account_subsidy_decay": 347321,

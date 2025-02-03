@@ -87,6 +87,7 @@ class GetBlock(PreconfiguredBaseModel):
 class GetChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
     account_creation_fee: AssetHiveT
     maximum_block_size: HiveInt
+    rc_scale: HiveInt
     hbd_interest_rate: HiveInt
     account_subsidy_budget: HiveInt
     account_subsidy_decay: HiveInt

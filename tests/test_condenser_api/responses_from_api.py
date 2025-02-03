@@ -2402,6 +2402,7 @@ GET_CHAIN_PROPERTIES: Final[dict[str, Any]] = {
     "result": {
         "account_creation_fee": "3.000 HIVE",
         "maximum_block_size": 65536,
+        "rc_scale": 1,
         "hbd_interest_rate": 2000,
         "account_subsidy_budget": 797,
         "account_subsidy_decay": 347321,
@@ -4102,6 +4103,7 @@ GET_WITNESS_BY_ACCOUNT: Final[dict[str, Any]] = {
         "props": {
             "account_creation_fee": "3.000 HIVE",
             "maximum_block_size": 65536,
+            "rc_scale": 0,
             "hbd_interest_rate": 2000,
             "account_subsidy_budget": 797,
             "account_subsidy_decay": 347321,
@@ -4154,6 +4156,7 @@ GET_WITNESS_SCHEDULE: Final[dict[str, Any]] = {
         "median_props": {
             "account_creation_fee": "3.000 HIVE",
             "maximum_block_size": 65536,
+            "rc_scale": 1,
             "hbd_interest_rate": 2000,
             "account_subsidy_budget": 797,
             "account_subsidy_decay": 347321,
@@ -4201,6 +4204,7 @@ GET_WITNESSES: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "100.000 HIVE",
                 "maximum_block_size": 131072,
+                "rc_scale": 0,
                 "hbd_interest_rate": 1000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4236,6 +4240,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 1200,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4265,6 +4270,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4294,6 +4300,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4323,6 +4330,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4352,6 +4360,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "1.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4381,6 +4390,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4410,6 +4420,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4439,6 +4450,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4468,6 +4480,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4497,6 +4510,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "1.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4526,6 +4540,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 1500,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4555,6 +4570,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4584,6 +4600,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "1.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 1500,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4613,6 +4630,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "1.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4642,6 +4660,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4671,6 +4690,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4700,6 +4720,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 700,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4729,6 +4750,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4758,6 +4780,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4787,6 +4810,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "3.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 1200,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,
@@ -4816,6 +4840,7 @@ GET_WITNESSES_BY_VOTE: Final[dict[str, Any]] = {
             "props": {
                 "account_creation_fee": "1.000 HIVE",
                 "maximum_block_size": 65536,
+                "rc_scale": 0,
                 "hbd_interest_rate": 2000,
                 "account_subsidy_budget": 797,
                 "account_subsidy_decay": 347321,

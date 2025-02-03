@@ -108,6 +108,7 @@ class Proposal(PreconfiguredBaseModel, GenericModel, Generic[AssetHbdT]):
 class Props(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
     account_creation_fee: AssetHiveT | None = None
     maximum_block_size: HiveInt | None = None
+    rc_scale: HiveInt | None = None
     hbd_interest_rate: HiveInt | None = None
     account_subsidy_budget: HiveInt | None = None
     account_subsidy_decay: HiveInt | None = None
@@ -148,6 +149,7 @@ WitnessPropsSerializedKey = Literal[
     "key",
     "maximum_block_size",
     "new_signing_key",
+    "rc_scale",
     "sbd_exchange_rate",
     "sbd_interest_rate",
     "url",
