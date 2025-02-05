@@ -40,6 +40,7 @@ class PriceCurveParams(PreconfiguredBaseModel):
     coeff_a: HiveInt
     coeff_b: HiveInt
     shift: HiveInt
+    scale: HiveInt
 
 
 class BaseParams(PreconfiguredBaseModel):

@@ -47,6 +47,7 @@ GET_RESOURCE_PARAMS = {
                     "coeff_a": "10525659774662010880",
                     "coeff_b": 211332338,
                     "shift": 50,
+                    "scale": 10000,
                 },
                 "base_params": {
                     "budget_scale_factor": 10000,
@@ -70,6 +71,7 @@ GET_RESOURCE_PARAMS = {
                     "coeff_a": "16484671763857882971",
                     "coeff_b": 1231961,
                     "shift": 51,
+                    "scale": 10000,
                 },
                 "base_params": {
                     "budget_scale_factor": 0,
@@ -93,6 +95,7 @@ GET_RESOURCE_PARAMS = {
                     "coeff_a": "14969827235074865152",
                     "coeff_b": 15654337,
                     "shift": 55,
+                    "scale": 10000,
                 },
                 "base_params": {
                     "budget_scale_factor": 10000,
@@ -116,6 +119,7 @@ GET_RESOURCE_PARAMS = {
                     "coeff_a": "10525659774662010880",
                     "coeff_b": "212030656091",
                     "shift": 50,
+                    "scale": 10000,
                 },
                 "base_params": {
                     "budget_scale_factor": 967,
@@ -139,6 +143,7 @@ GET_RESOURCE_PARAMS = {
                     "coeff_a": "14969827235074865152",
                     "coeff_b": 541062725,
                     "shift": 59,
+                    "scale": 10000,
                 },
                 "base_params": {
                     "budget_scale_factor": 10000,
