@@ -42,9 +42,17 @@ class PriceCurveParams(PreconfiguredBaseModel):
     shift: HiveInt
 
 
+class BaseParams(PreconfiguredBaseModel):
+    budget_scale_factor: HiveInt
+    price_scale_factor: HiveInt
+    budget_per_time_unit: HiveInt
+    coeff_b: HiveInt
+
+
 class ResourceParam(PreconfiguredBaseModel):
     resource_dynamics_params: ResourceDynamicParams
     price_curve_params: PriceCurveParams
+    base_params: BaseParams
 
 
 class ResourceParams(PreconfiguredBaseModel):

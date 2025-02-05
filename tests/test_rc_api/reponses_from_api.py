@@ -48,6 +48,12 @@ GET_RESOURCE_PARAMS = {
                     "coeff_b": 211332338,
                     "shift": 50,
                 },
+                "base_params": {
+                    "budget_scale_factor": 10000,
+                    "price_scale_factor": 0,
+                    "budget_per_time_unit": 43403,
+                    "coeff_b": 211332338,
+                },
             },
             "resource_new_accounts": {
                 "resource_dynamics_params": {
@@ -64,6 +70,12 @@ GET_RESOURCE_PARAMS = {
                     "coeff_a": "16484671763857882971",
                     "coeff_b": 1231961,
                     "shift": 51,
+                },
+                "base_params": {
+                    "budget_scale_factor": 0,
+                    "price_scale_factor": 0,
+                    "budget_per_time_unit": 797,
+                    "coeff_b": 1293557,
                 },
             },
             "resource_market_bytes": {
@@ -82,6 +94,12 @@ GET_RESOURCE_PARAMS = {
                     "coeff_b": 15654337,
                     "shift": 55,
                 },
+                "base_params": {
+                    "budget_scale_factor": 10000,
+                    "price_scale_factor": 0,
+                    "budget_per_time_unit": 72338,
+                    "coeff_b": 15654337,
+                },
             },
             "resource_state_bytes": {
                 "resource_dynamics_params": {
@@ -99,6 +117,12 @@ GET_RESOURCE_PARAMS = {
                     "coeff_b": "212030656091",
                     "shift": 50,
                 },
+                "base_params": {
+                    "budget_scale_factor": 967,
+                    "price_scale_factor": 161,
+                    "budget_per_time_unit": 43546196,
+                    "coeff_b": "212030656091",
+                },
             },
             "resource_execution_time": {
                 "resource_dynamics_params": {
@@ -115,6 +139,12 @@ GET_RESOURCE_PARAMS = {
                     "coeff_a": "14969827235074865152",
                     "coeff_b": 541062725,
                     "shift": 59,
+                },
+                "base_params": {
+                    "budget_scale_factor": 10000,
+                    "price_scale_factor": 3548,
+                    "budget_per_time_unit": 40000000,
+                    "coeff_b": 541062725,
                 },
             },
         },
