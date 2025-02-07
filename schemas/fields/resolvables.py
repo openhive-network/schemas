@@ -33,6 +33,11 @@ def is_valid_json(string: str) -> bool:
 
 
 class OptionallyEmpty(str, Resolvable["OptionallyEmpty[StringResolvedT]", str], Generic[StringResolvedT]):
+    value: Any
+
+    def __init__(self, value: Any) -> None:
+        self.value = value
+
     @staticmethod
     def resolve(incoming_cls: type, value: str) -> OptionallyEmpty[StringResolvedT]:
         if len(value) == 0:

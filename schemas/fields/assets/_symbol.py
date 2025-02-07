@@ -3,55 +3,29 @@ from __future__ import annotations
 from abc import abstractmethod
 from typing import Any
 
-from pydantic import validator
-from typing_extensions import Self
-
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.fields.assets._base import AssetBase
 from schemas.fields.assets._validators import validate_nai, validate_precision
 from schemas.fields.assets.asset_info import AssetInfo
 from schemas.fields.hive_int import HiveInt
 
 
-class AssetSymbolType(PreconfiguredBaseModel, kw_only=True):
+class AssetSymbolType(PreconfiguredBaseModel):
     """Represents just asset characteristics"""
 
     decimals: HiveInt
     nai: str
 
-    class Config:
-        allow_reuse = True
+    def __post_init__(self) -> None:
+        self.check_nai(self.nai)
+        self.check_decimals(self.decimals)
 
-    @validator("nai", allow_reuse=True)
     @classmethod
     def check_nai(cls, value: Any) -> Any:
         return validate_nai(value=value, asset_info=cls.get_asset_information())
 
-    @validator("decimals", allow_reuse=True)
     @classmethod
-    def check_decimals(cls, value: int) -> int:
-        return validate_precision(value=value, asset_info=cls.get_asset_information())
-
-    # Part below is because requirements from AssetBase, it's not elegant, but have no solution for now
-
-    @classmethod
-    def from_legacy(cls, other: str) -> Self:
-        raise NotImplementedError
-
-    @classmethod
-    def from_nai(cls, other: dict[str, str | int]) -> Self:
-        raise NotImplementedError
-
-    def _get_amount(self) -> int:
-        raise NotImplementedError
-
-    def _set_amount(self, amount: int) -> None:
-        raise NotImplementedError
-
-    def clone(self, *, amount: Any | int | str | AssetBase | None = None) -> Self:
-        if amount is not None:
-            raise NotImplementedError
-        return self.__class__(decimals=self.decimals, nai=self.nai)
+    def check_decimals(cls, value: HiveInt) -> int:
+        return validate_precision(value=value.value, asset_info=cls.get_asset_information())
 
     @staticmethod
     @abstractmethod

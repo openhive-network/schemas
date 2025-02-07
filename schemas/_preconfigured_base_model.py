@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 DictStrAny = dict[str, Any]
 
 
-class PreconfiguredBaseModel(msgspec.Struct):
+class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
     @classmethod
     def __is_aliased_field_name(cls, field_name: str) -> bool:
         return field_name in {

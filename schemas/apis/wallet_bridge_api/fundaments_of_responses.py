@@ -76,7 +76,7 @@ class Account(PreconfiguredBaseModel, kw_only=True):
     open_recurrent_transfers: HiveInt
     is_smt: bool
     governance_vote_expiration_ts: HiveDateTime
-    delayed_votes: list[DelayedVotes] = field(default_factory=list)
+    delayed_votes: list[DelayedVotes] | None = None
 
 
 class GetCollateralizedConversionRequestsFundament(PreconfiguredBaseModel, kw_only=True):

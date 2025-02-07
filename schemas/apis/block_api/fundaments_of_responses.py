@@ -52,8 +52,12 @@ class BlockLegacy(SignedBlockLegacy):
     transaction_ids: list[TransactionId]
 
 
-Hf26Block = BlockHF26
-LegacyBlock = BlockLegacy
+class Hf26Block(BlockHF26):
+    witness_signature: Signature
+
+
+class LegacyBlock(BlockLegacy):
+    witness_signature: Signature
 
 
 class EmptyModel(PreconfiguredBaseModel):

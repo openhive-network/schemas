@@ -12,13 +12,25 @@ __all__ = [
 
 class HiveInt:
     def __init__(self, value: int | str | Self):
-        self.value = self._validate(value)
+        self._value = self._validate(value)
+
+    @property
+    def value(self) -> int:
+        return self._value
+
+    @property
+    def safe_int_value(self) -> int | str:
+        max_safe_int = (2**53) - 1
+        min_safe_int = -(2**53) + 1
+        if self.value >= min_safe_int and self.value <= max_safe_int:
+            return self._value
+        return str(self._value)
 
     def __int__(self) -> int:
-        return self.value
+        return self._value
 
     def __str__(self) -> str:
-        return str(self.value)
+        return str(self._value)
 
     def __repr__(self) -> str:
         return str(self)
@@ -40,11 +52,11 @@ class HiveInt:
 
     def __eq__(self, value: object) -> bool:
         if isinstance(value, int):
-            return self.value == value
+            return self._value == value
         if isinstance(value, str):
-            return self.value == self._validate(value)
+            return self._value == self._validate(value)
         if isinstance(value, HiveInt):
-            return self.value == value.value
+            return self._value == value.value
         return False
 
     def __ne__(self, value: object) -> bool:
@@ -52,58 +64,58 @@ class HiveInt:
 
     def __lt__(self, value: object) -> bool:
         if isinstance(value, int):
-            return self.value < value
+            return self._value < value
         if isinstance(value, str):
-            return self.value < self._validate(value)
+            return self._value < self._validate(value)
         if isinstance(value, HiveInt):
-            return self.value < value.value
+            return self._value < value.value
         return NotImplemented
 
     def __le__(self, value: object) -> bool:
         if isinstance(value, int):
-            return self.value <= value
+            return self._value <= value
         if isinstance(value, str):
-            return self.value <= self._validate(value)
+            return self._value <= self._validate(value)
         if isinstance(value, HiveInt):
-            return self.value <= value.value
+            return self._value <= value.value
         return NotImplemented
 
     def __gt__(self, value: object) -> bool:
         if isinstance(value, int):
-            return self.value > value
+            return self._value > value
         if isinstance(value, str):
-            return self.value > self._validate(value)
+            return self._value > self._validate(value)
         if isinstance(value, HiveInt):
-            return self.value > value.value
+            return self._value > value.value
         return NotImplemented
 
     def __ge__(self, value: object) -> bool:
         if isinstance(value, int):
-            return self.value >= value
+            return self._value >= value
         if isinstance(value, str):
-            return self.value >= self._validate(value)
+            return self._value >= self._validate(value)
         if isinstance(value, HiveInt):
-            return self.value >= value.value
+            return self._value >= value.value
         return NotImplemented
 
     def __mul__(self, value: object) -> object:
         if isinstance(value, int):
-            return HiveInt(self.value * value)
+            return HiveInt(self._value * value)
         if isinstance(value, str):
-            return self.value * self._validate(value)
+            return self._value * self._validate(value)
         if isinstance(value, HiveInt):
-            return HiveInt(self.value * value.value)
+            return HiveInt(self._value * value.value)
         return NotImplemented
 
     def __truediv__(self, value: object) -> object:
         if isinstance(value, int):
             if value == 0:
                 raise ZeroDivisionError("division by zero")
-            return HiveInt(int(self.value / value))
+            return HiveInt(int(self._value / value))
         if isinstance(value, HiveInt):
             if value.value == 0:
                 raise ZeroDivisionError("division by zero")
-            return HiveInt(int(self.value / value.value))
+            return HiveInt(int(self._value / value.value))
         return NotImplemented
 
     def __rmul__(self, value: object) -> object:
@@ -111,11 +123,11 @@ class HiveInt:
 
     def __pow__(self, value: Any, modulo: Any | None = None) -> HiveInt | Decimal:
         if isinstance(value, int):
-            result = pow(self.value, value, modulo) if modulo else pow(self.value, value)
+            result = pow(self._value, value, modulo) if modulo else pow(self._value, value)
             return HiveInt(result)
         if isinstance(value, HiveInt):
-            result = pow(self.value, value.value, modulo) if modulo else pow(self.value, value.value)
+            result = pow(self._value, value.value, modulo) if modulo else pow(self._value, value.value)
             return HiveInt(result)
         if isinstance(value, Decimal):
-            return Decimal(self.value) ** value
+            return Decimal(self._value) ** value
         raise TypeError(f"Unsupported type: {type(value)}")

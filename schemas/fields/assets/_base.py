@@ -4,10 +4,12 @@ import contextlib
 import operator
 import re
 from abc import ABC, abstractmethod
+from decimal import Decimal
 from typing import TYPE_CHECKING, Any
 
 from typing_extensions import Self
 
+from schemas.fields.assets._symbol import HbdSymbolType, HiveSymbolType, VestsSymbolType
 from schemas.fields.assets._validators import validate_nai, validate_precision
 from schemas.fields.assets.asset_info import AssetInfo
 from schemas.fields.hive_int import HiveInt
@@ -139,13 +141,13 @@ class AssetBase(ABC):
     def as_legacy(self, *, testnet: bool = False) -> str:
         return f"{self.pretty_amount()} {self.get_asset_information().get_symbol(testnet=testnet)}"
 
-    def as_float(self) -> float:
+    def as_decimal(self) -> Decimal:
         info = self.get_asset_information()
-        return float(self.iamount / (10 ** int(info.precision)))
+        return Decimal(self.iamount) / (Decimal(10) ** int(info.precision))
 
     def pretty_amount(self) -> str:
         info = self.get_asset_information()
-        return f"{self.as_float() :.{info.precision}f}"
+        return f"{self.as_decimal() :.{info.precision}f}"
 
     @classmethod
     def validate(cls, precision: HiveInt | None, nai: str | None) -> None:
@@ -238,16 +240,16 @@ class AssetBase(ABC):
 class AssetHive(AssetBase):
     @staticmethod
     def get_asset_information() -> AssetInfo:
-        return AssetInfo(precision=HiveInt(3), nai="@@000000021", symbol=("HIVE", "TESTS"))
+        return HiveSymbolType.get_asset_information()
 
 
 class AssetHbd(AssetBase):
     @staticmethod
     def get_asset_information() -> AssetInfo:
-        return AssetInfo(precision=HiveInt(3), nai="@@000000013", symbol=("HBD", "TBD"))
+        return HbdSymbolType.get_asset_information()
 
 
 class AssetVests(AssetBase):
     @staticmethod
     def get_asset_information() -> AssetInfo:
-        return AssetInfo(precision=HiveInt(6), nai="@@000000037", symbol=("VESTS", "VESTS"))
+        return VestsSymbolType.get_asset_information()
