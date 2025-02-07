@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pydantic import validator
+import msgspec
 
 from schemas.fields.assets._base import AssetHive, AssetNaiAmount
 from schemas.fields.basic import (
@@ -29,22 +29,8 @@ class _WitnessUpdateOperation(Operation):
 
 
 class WitnessUpdateOperation(_WitnessUpdateOperation):
-    fee: AssetHive | None = None
-
-    @validator("fee", always=True)
-    @classmethod
-    def validate_fee(cls, v: AssetHive | None) -> AssetHive:
-        if v is None:
-            return AssetHive(amount=AssetNaiAmount(0))
-        return v
+    fee: AssetHive = msgspec.field(default_factory=lambda: AssetHive(amount=AssetNaiAmount(0)))
 
 
-class WitnessUpdateOperationLegacy(_WitnessUpdateOperation):
-    fee: AssetHive | None = None
-
-    @validator("fee", always=True)
-    @classmethod
-    def validate_fee(cls, v: AssetHive | None) -> AssetHive:
-        if v is None:
-            return AssetHive(AssetNaiAmount("0.000 HIVE"))
-        return v
+class WitnessUpdateOperationLegacy(WitnessUpdateOperation):
+    pass
