@@ -6,7 +6,7 @@ from __future__ import annotations
 import pytest
 
 from schemas.decoders import get_hf26_decoder
-from schemas.fields.assets._base import AssetHbd
+from schemas.fields.assets._base import AssetHbd, AssetVests
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.operations.representation_types import HF26RepresentationTransferOperation
 from schemas.operations.transfer_operation import TransferOperation
@@ -83,7 +83,12 @@ LIST_PROPOSALS = {
 }
 
 
-@pytest.mark.skip(reason="no way of currently testing this")
+# @pytest.mark.skip(reason="no way of currently testing this")
 def test_responses_from_api_correct_values() -> None:
-    dupa = get_response_model(wallet_bridge_api.GetActiveWitnesses, json.dumps(GET_ACTIVE_WITNESSES), "hf26")
+    amount = 296909911037211111
+
+    dupa = AssetVests(amount)
+
+    xd = dupa.as_legacy()
+
     pass

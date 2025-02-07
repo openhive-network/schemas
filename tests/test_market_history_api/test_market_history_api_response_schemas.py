@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 from typing import Any
 
 import pytest
@@ -13,7 +12,7 @@ from schemas.apis.market_history_api.response_schemas import (
     GetTradeHistory,
     GetVolume,
 )
-from schemas.jsonrpc import get_response_model
+from tests.conftest import verify_serialization_and_deserialization
 
 from .response_schemas import (
     GET_MARKET_HISTORY,
@@ -37,5 +36,4 @@ from .response_schemas import (
     ],
 )
 def test_market_history_api_responses_correct_values(schema: Any, parameters: dict[str, Any]) -> None:
-    # ACT & ASSERT
-    get_response_model(schema, json.dumps(parameters), "hf26")
+    verify_serialization_and_deserialization(schema, parameters, "hf26")

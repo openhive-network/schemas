@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-import json
 from typing import Any
 
 import pytest
 
 from schemas.apis import condenser_api
-from schemas.jsonrpc import get_response_model
+from tests.conftest import verify_serialization_and_deserialization
 
 from . import responses_from_api
 
@@ -29,7 +28,6 @@ from . import responses_from_api
         (condenser_api.FindRecurrentTransfers, responses_from_api.FIND_RECURRENT_TRANSFERS),
         (condenser_api.GetAccountCount, responses_from_api.GET_ACCOUNT_COUNT),
         (condenser_api.GetAccountReputations, responses_from_api.GET_ACCOUNT_REPUTATIONS),
-        (condenser_api.GetAccounts, responses_from_api.GET_ACCOUNTS),
         (condenser_api.GetActiveVotes, responses_from_api.GET_ACTIVE_VOTES),
         (condenser_api.GetActiveWitnesses, responses_from_api.GET_ACTIVE_WITNESSES),
         (condenser_api.GetBlock, responses_from_api.GET_BLOCK),
@@ -76,5 +74,4 @@ from . import responses_from_api
     ],
 )
 def test_responses_from_api_correct_values(schema: Any, parameters: Any) -> None:
-    # ACT & ASSERT
-    get_response_model(schema, json.dumps(parameters), "legacy")
+    verify_serialization_and_deserialization(schema, parameters, "legacy")

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 from typing import Any
 
 import pytest
@@ -12,7 +11,7 @@ from schemas.apis.rc_api import (
     ListRcAccounts,
     ListRcDirectDelegations,
 )
-from schemas.jsonrpc import get_response_model
+from tests.conftest import verify_serialization_and_deserialization
 
 from .reponses_from_api import (
     FIND_RC_ACCOUNTS,
@@ -34,5 +33,4 @@ from .reponses_from_api import (
     ],
 )
 def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: Any) -> None:
-    # ACT & ASSERT
-    get_response_model(schema, json.dumps(parameters), "hf26")
+    verify_serialization_and_deserialization(schema, parameters, "hf26")
