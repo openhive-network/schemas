@@ -26,7 +26,7 @@ def collect_and_write_api_imports(code: str) -> str:
     code += "import msgspec\n\n"
     code += "from schemas.operation import Operation\n\n"
 
-    for operation_name in all_operations[4:]:
+    for operation_name in all_operations[6:]:
         if "Legacy" not in operation_name and "Generic" not in operation_name:
             code += f"from schemas.operations.{pascal_to_snake(operation_name)} import {operation_name}\n"
     code += "\n"
@@ -57,7 +57,7 @@ class LegacyRepresentation(msgspec.Struct):
     def __getitem__(self, idx: Literal[0, 1]) -> str | Operation:
         if idx == 0:
             return self.type_
-        elif idx == 1:
+        if idx == 1:
             return self.value
         raise ValueError("Index out of bound <0; 1>")\n\n"""
 
@@ -65,12 +65,12 @@ class LegacyRepresentation(msgspec.Struct):
 
 
 def write_representations_classes(code: str) -> str:
-    for operation_name in all_operations[4:-23]:
+    for operation_name in all_operations[6:-23]:
         if "Generic" not in operation_name:
-            code += f"""class HF26Representation{operation_name}(HF26Representation, tag="{pascal_to_snake(operation_name)}"):
+            code += f"""class HF26Representation{operation_name}(HF26Representation, tag={operation_name}.get_name_with_suffix()):
             value: {operation_name}\n\n\n"""
 
-            code += f"""class LegacyRepresentation{operation_name}(LegacyRepresentation, tag="{pascal_to_snake(operation_name)[:-10]}", array_like=True):
+            code += f"""class LegacyRepresentation{operation_name}(LegacyRepresentation, tag={operation_name}.get_name(), array_like=True):
             value: {operation_name[:-6] if "Legacy" in operation_name else operation_name}\n\n\n"""
     return code
 
