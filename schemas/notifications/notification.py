@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import abstractmethod
 from datetime import datetime  # noqa: TCH003
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
@@ -18,6 +19,11 @@ TAG_FIELD = "name"
 
 class NotificationBase(PreconfiguredBaseModel):
     time: datetime
+
+    @classmethod
+    @abstractmethod
+    def get_notification_name(cls) -> str:
+        """Returns name of notification that following data structure is bind to"""
 
 
 class AttemptClosingWalletsNotification(

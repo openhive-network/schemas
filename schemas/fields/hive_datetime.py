@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from schemas.hive_constants import HIVE_TIME_FORMAT
@@ -36,6 +36,47 @@ class HiveDateTime:
         if isinstance(other, str):
             return self.value == self._validate(other)
         return False
+
+    def __lt__(self, other: Any) -> bool:
+        if isinstance(other, HiveDateTime):
+            return self.value < other.value
+        if isinstance(other, datetime):
+            return self.value < other
+        if isinstance(other, str):
+            return self.value < self._validate(other)
+        return NotImplemented
+
+    def __le__(self, other: Any) -> bool:
+        return self == other or self < other  # type: ignore[no-any-return]
+
+    def __gt__(self, other: Any) -> bool:
+        if isinstance(other, HiveDateTime):
+            return self.value > other.value
+        if isinstance(other, datetime):
+            return self.value > other
+        if isinstance(other, str):
+            return self.value > self._validate(other)
+        return NotImplemented
+
+    def __ge__(self, other: Any) -> bool:
+        return self == other or self > other  # type: ignore[no-any-return]
+
+    def __ne__(self, other: Any) -> bool:
+        return not self == other
+
+    def __add__(self, other: timedelta) -> HiveDateTime:
+        if isinstance(other, timedelta):
+            return HiveDateTime(self.value + other)
+        raise TypeError("Can only add timedelta to HiveDateTime.")
+
+    def __sub__(self, other: Any) -> Any:
+        if isinstance(other, timedelta):
+            return HiveDateTime(self.value - other)
+        if isinstance(other, HiveDateTime):
+            return self.value - other.value
+        if isinstance(other, datetime):
+            return self.value - other
+        raise TypeError("Subtraction only supports timedelta, datetime, or HiveDateTime.")
 
     def __str__(self) -> str:
         return self.value.strftime(HIVE_TIME_FORMAT)
