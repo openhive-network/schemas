@@ -28,6 +28,10 @@ class HiveDateTime:
     def __normalize(value: datetime) -> datetime:
         return value.replace(tzinfo=timezone.utc)
 
+    @staticmethod
+    def now() -> HiveDateTime:
+        return HiveDateTime(value=datetime.now())
+
     def __eq__(self, other: Any) -> bool:
         if isinstance(other, HiveDateTime):
             return self.value == other.value

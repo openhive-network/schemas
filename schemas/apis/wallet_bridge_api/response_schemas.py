@@ -130,8 +130,8 @@ GetHardforkVersion = HardforkVersion
 GetOpenOrders = HiveList[fundaments_database_api.LimitOrdersFundament]
 
 
-# class GetOpsInBlock(account_history_api.GetOpsInBlock, kw_only=True):
-#     """identical as in account_history_api"""
+class GetOpsInBlock(account_history_api.GetOpsInBlock, kw_only=True):
+    """identical as in account_history_api"""
 
 
 class GetOrderBook(database_api.GetOrderBook):

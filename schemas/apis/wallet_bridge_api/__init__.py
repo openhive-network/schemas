@@ -19,7 +19,7 @@ from schemas.apis.wallet_bridge_api.response_schemas import (
     GetFeedHistory,
     GetHardforkVersion,
     GetOpenOrders,
-    # GetOpsInBlock,
+    GetOpsInBlock,
     GetOrderBook,
     GetOwnerHistory,
     GetRewardFund,

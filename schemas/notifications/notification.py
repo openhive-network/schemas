@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from abc import abstractmethod
-from datetime import datetime  # noqa: TCH003
+from typing import TYPE_CHECKING, cast
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.notifications._notifications import (
@@ -13,17 +12,22 @@ from schemas.notifications._notifications import (
     SwitchingForks,
     WebserverListening,
 )
+from schemas.notifications.abc import NotificationBase as NotificationValueBase
+
+if TYPE_CHECKING:
+    from datetime import datetime
 
 TAG_FIELD = "name"
 
 
 class NotificationBase(PreconfiguredBaseModel):
     time: datetime
+    value: NotificationValueBase
 
     @classmethod
-    @abstractmethod
     def get_notification_name(cls) -> str:
         """Returns name of notification that following data structure is bind to"""
+        return cast(NotificationBase, eval(cls.__annotations__["value"])).get_notification_name()
 
 
 class AttemptClosingWalletsNotification(
