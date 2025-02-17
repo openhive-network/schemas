@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, cast
+from datetime import datetime  # ruff: noqa
+from typing import cast
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.notifications._notifications import (
@@ -13,9 +14,6 @@ from schemas.notifications._notifications import (
     WebserverListening,
 )
 from schemas.notifications.abc import NotificationBase as NotificationValueBase
-
-if TYPE_CHECKING:
-    from datetime import datetime
 
 TAG_FIELD = "name"
 
