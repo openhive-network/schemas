@@ -86,8 +86,15 @@ class JsonString(Resolvable["JsonString[AnyResolvedT]", Any], Generic[AnyResolve
 
     def serialize(self) -> str:
         """Dumps JsonString with no spaces between keys and values"""
-        # if isinstance(self.value, ApplicationOperation):
-        return msgspec.json.encode(self.value).decode()
+        from schemas.application_operation import ApplicationOperation
+
+        if isinstance(self.value, ApplicationOperation):
+            return self.value.json(remove_whitespaces=True)
+        if isinstance(self.value, dict):
+            return json.dumps(json.dumps(self.value))
+        if isinstance(self.value, str):
+            return self.value
+        raise TypeError(f"Incorrect type to serialize: {type(self)}")
 
     def __getitem__(self, key: str | int) -> Any:
         self.__check_is_value_index_accessible()

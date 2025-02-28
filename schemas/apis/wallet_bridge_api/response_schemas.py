@@ -42,7 +42,7 @@ class BroadcastTransactionSynchronous(PreconfiguredBaseModel, kw_only=True):
     block_num: HiveInt
     expired: bool
     id_: TransactionId = field(name="id")
-    rc_cost: HiveInt | None
+    rc_cost: HiveInt | None = None
     trx_num: HiveInt
 
 

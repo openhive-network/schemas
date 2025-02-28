@@ -135,6 +135,10 @@ class AssetBase(ABC):
             "precision": info.precision,
         }
 
+    def as_float(self) -> float:
+        info = self.get_asset_information()
+        return float(self.amount.value / (10**info.precision.value))
+
     def token(self) -> str:
         return self.get_asset_information().get_symbol()
 
@@ -160,7 +164,10 @@ class AssetBase(ABC):
             validate_nai(nai, info)
 
     def __eq__(self, other: Any) -> bool:
-        asset = self.__convert_to_asset(other)
+        try:
+            asset = self.__convert_to_asset(other)
+        except (ValueError, TypeError):
+            return False
         return asset.get_asset_information() == self.get_asset_information() and self.iamount == asset.iamount
 
     def __lt__(self, other: Any) -> bool:

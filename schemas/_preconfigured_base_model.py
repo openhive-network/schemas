@@ -6,12 +6,15 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal, TypeVar
 
 import msgspec
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+
+    from schemas.decoders import DecoderFactory
 
 DictStrAny = dict[str, Any]
 
@@ -44,24 +47,30 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
         key = self.__get_field_name(key)
         setattr(self, key, value)
 
-    def json(
+    def json(  # noqa: PLR0913
         self,
         *,
         str_keys: bool = False,
         builtin_types: Iterable[type] | None = None,
         order: Literal[None, "deterministic", "sorted"] = None,
+        exclude_none: bool = False,
+        remove_whitespaces: bool = False,
     ) -> str:
         from schemas.encoders import enc_hook_hf26
 
-        return json.dumps(
-            msgspec.to_builtins(
-                obj=self, enc_hook=enc_hook_hf26, str_keys=str_keys, builtin_types=builtin_types, order=order
-            )
+        data = msgspec.to_builtins(
+            obj=self, enc_hook=enc_hook_hf26, str_keys=str_keys, builtin_types=builtin_types, order=order
         )
+
+        if exclude_none:
+            data = {key: value for key, value in data.items() if value is not None}
+        if remove_whitespaces:
+            return json.dumps(data, separators=(",", ":"))
+        return json.dumps(data)
 
     def shallow_dict(self) -> dict[str, Any]:
         result: dict[str, Any] = {}
-        for key, value in self.__dict__.items():
+        for key, value in self.dict().items():
             if value is not None:
                 result[key.strip("_")] = value
         return result
@@ -91,6 +100,17 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
             self, name
         ), f"`{name}` does not exists in `{self.__class__.__name__}`, available are: {list(self.dict().keys())}"
         return name
+
+    @classmethod
+    def parse_file(cls, path: Path, decoder_factory: DecoderFactory) -> type[PreconfiguredBaseModel]:
+        with Path.open(path, encoding="utf-8") as file:
+            raw = file.read()
+            return cls.parse_raw(raw, decoder_factory)
+
+    @classmethod
+    def parse_raw(cls, raw: str, decoder_factory: DecoderFactory) -> type[PreconfiguredBaseModel]:
+        decoder = decoder_factory(cls)
+        return decoder.decode(raw)
 
 
 BaseModelT = TypeVar("BaseModelT", bound=PreconfiguredBaseModel)

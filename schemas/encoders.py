@@ -17,7 +17,7 @@ def enc_hook_base(obj: Any) -> Any:
     if isinstance(obj, HiveInt):
         return obj.safe_int_value
     if isinstance(obj, JsonString):
-        return obj.value
+        return obj.serialize()
     if isinstance(obj, HiveDateTime):
         return obj.__str__()
     if isinstance(obj, OptionallyEmpty):
