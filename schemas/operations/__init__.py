@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from typing import Any
+
+from schemas.operation import Operation
 from schemas.operations.account_create_operation import (
     AccountCreateOperation,
     AccountCreateOperationLegacy,
@@ -466,57 +469,6 @@ LegacyRepresentationAndValuePairsNonVirtual = {
     WitnessUpdateOperation: LegacyRepresentationWitnessUpdateOperation,
 }
 
-LegacyRepresentationAndValuePairsNonVirtual = {
-    AccountCreateOperation: LegacyRepresentationAccountCreateOperation,
-    AccountUpdate2Operation: LegacyRepresentationAccountUpdate2Operation,
-    AccountUpdateOperation: LegacyRepresentationAccountUpdateOperation,
-    AccountWitnessProxyOperation: LegacyRepresentationAccountWitnessProxyOperation,
-    AccountWitnessVoteOperation: LegacyRepresentationAccountWitnessVoteOperation,
-    CancelTransferFromSavingsOperation: LegacyRepresentationCancelTransferFromSavingsOperation,
-    ChangeRecoveryAccountOperation: LegacyRepresentationChangeRecoveryAccountOperation,
-    ClaimAccountOperation: LegacyRepresentationClaimAccountOperation,
-    ClaimRewardBalanceOperation: LegacyRepresentationClaimRewardBalanceOperation,
-    CollateralizedConvertOperation: LegacyRepresentationCollateralizedConvertOperation,
-    CommentOperation: LegacyRepresentationCommentOperation,
-    CommentOptionsOperation: LegacyRepresentationCommentOptionsOperation,
-    ConvertOperation: LegacyRepresentationConvertOperation,
-    CreateClaimedAccountOperation: LegacyRepresentationCreateClaimedAccountOperation,
-    CreateProposalOperation: LegacyRepresentationCreateProposalOperation,
-    CustomBinaryOperation: LegacyRepresentationCustomBinaryOperation,
-    CustomJsonOperation: LegacyRepresentationCustomJsonOperation,
-    CustomOperation: LegacyRepresentationCustomOperation,
-    DeclineVotingRightsOperation: LegacyRepresentationDeclineVotingRightsOperation,
-    DelegateVestingSharesOperation: LegacyRepresentationDelegateVestingSharesOperation,
-    DeleteCommentOperation: LegacyRepresentationDeleteCommentOperation,
-    EscrowApproveOperation: LegacyRepresentationEscrowApproveOperation,
-    EscrowDisputeOperation: LegacyRepresentationEscrowDisputeOperation,
-    EscrowReleaseOperation: LegacyRepresentationEscrowReleaseOperation,
-    EscrowTransferOperation: LegacyRepresentationEscrowTransferOperation,
-    FeedPublishOperation: LegacyRepresentationFeedPublishOperation,
-    LimitOrderCancelOperation: LegacyRepresentationLimitOrderCancelOperation,
-    LimitOrderCreate2Operation: LegacyRepresentationLimitOrderCreate2Operation,
-    LimitOrderCreateOperation: LegacyRepresentationLimitOrderCreateOperation,
-    PowOperation: LegacyRepresentationPowOperation,
-    Pow2Operation: LegacyRepresentationPow2Operation,
-    RecoverAccountOperation: LegacyRepresentationRecoverAccountOperation,
-    RecurrentTransferOperation: LegacyRepresentationRecurrentTransferOperation,
-    RemoveProposalOperation: LegacyRepresentationRemoveProposalOperation,
-    RequestAccountRecoveryOperation: LegacyRepresentationRequestAccountRecoveryOperation,
-    ResetAccountOperation: LegacyRepresentationResetAccountOperation,
-    SetResetAccountOperation: LegacyRepresentationSetResetAccountOperation,
-    SetWithdrawVestingRouteOperation: LegacyRepresentationSetWithdrawVestingRouteOperation,
-    TransferFromSavingsOperation: LegacyRepresentationTransferFromSavingsOperation,
-    TransferOperation: LegacyRepresentationTransferOperation,
-    TransferToSavingsOperation: LegacyRepresentationTransferToSavingsOperation,
-    TransferToVestingOperation: LegacyRepresentationTransferToVestingOperation,
-    UpdateProposalOperation: LegacyRepresentationUpdateProposalOperation,
-    UpdateProposalVotesOperation: LegacyRepresentationUpdateProposalVotesOperation,
-    VoteOperation: LegacyRepresentationVoteOperation,
-    WithdrawVestingOperation: LegacyRepresentationWithdrawVestingOperation,
-    WitnessBlockApproveOperation: LegacyRepresentationWitnessBlockApproveOperation,
-    WitnessSetPropertiesOperation: LegacyRepresentationWitnessSetPropertiesOperation,
-    WitnessUpdateOperation: LegacyRepresentationWitnessUpdateOperation,
-}
 
 HF26RepresentationAndValuePairsNonVirtual = {
     AccountCreateOperation: HF26RepresentationAccountCreateOperation,
@@ -574,3 +526,7 @@ LegacyRepresentationAndValuePairs = (
     LegacyRepresentationAndValuePairsNonVirtual | LegacyRepresentationAndValuePairsVirtual
 )
 HF26RepresentationAndValuePairs = HF26RepresentationAndValuePairsNonVirtual | HF26RepresentationAndValuePairsVirtual
+
+
+def convert_to_representation(operation: Operation) -> Any:
+    return HF26RepresentationAndValuePairs[type(operation)](value=operation)

@@ -22,9 +22,7 @@ def ignore_liners_and_add_automation_generation_information(code: str) -> str:
 
 def collect_and_write_api_imports(code: str) -> str:
     code += "from __future__ import annotations\n\n"
-    code += "from typing import Literal, overload\n\n"
-    code += "import msgspec\n\n"
-    code += "from schemas.operation import Operation\n\n"
+    code += "from schemas.operations.representation_types import LegacyRepresentation, HF26Representation\n\n"
 
     for operation_name in all_operations[2:]:
         if "Legacy" not in operation_name and "Generic" not in operation_name:
@@ -33,37 +31,6 @@ def collect_and_write_api_imports(code: str) -> str:
             else:
                 code += "from schemas.operations.virtual.shutdown_witness_operation import ShutDownWitnessOperation\n"
     code += "\n"
-    return code
-
-
-def write_hf26representation_and_legacy_representation(code: str) -> str:
-    code += """class HF26Representation(msgspec.Struct):
-    value: Operation
-
-    @property
-    def type_(self) -> str:
-        return self.value.get_name_with_suffix()
-
-
-class LegacyRepresentation(msgspec.Struct):
-    value: Operation
-
-    @property
-    def type_(self) -> str:
-        return self.value.get_name()
-
-    @overload
-    def __getitem__(self, idx: Literal[0]) -> str: ...
-    @overload
-    def __getitem__(self, idx: Literal[1]) -> Operation: ...
-
-    def __getitem__(self, idx: Literal[0, 1]) -> str | Operation:
-        if idx == 0:
-            return self.type_
-        if idx == 1:
-            return self.value
-        raise ValueError("Index out of bound <0; 1>")\n\n"""
-
     return code
 
 
@@ -78,57 +45,15 @@ def write_representations_classes(code: str) -> str:
     return code
 
 
-# def extract_exported_models_from_api(api_name: str) -> list[str]:
-
-#     if not init_file_path.exists():
-
-#     with init_file_path.open("r") as file:
-
-
-#     for node in tree.body:
-#         if isinstance(node, ast.Assign):
-#             for target in node.targets:
-#                 if isinstance(target, ast.Name) and target.id == "__all__" and isinstance(node.value, ast.List):
-
-
-# def convert_to_pascal_case(name: str) -> str:
-
-
 def pascal_to_snake(text: str) -> str:
-    # Znajduje miejsca, gdzie są wielkie litery poprzedzone małymi lub liczbami i wstawia podkreślnik
     snake = re.sub(r"(?<!^)(?=[A-Z])", "_", text)
-    # Zamienia wszystkie litery na małe
     return snake.lower()
-
-
-# def generate_and_write_jsonrpc_models(code: str, api_names: list[str]) -> str:
-
-#     for i, api in enumerate(api_names):
-#         for j, model in enumerate(extract_exported_models_from_api(api)):
-
-#     code += """
-
-
-# class JSONRPCResult(JSONRPCBase, Generic[ExpectResultT]):
-
-
-# """
-
-
-# def generate_get_jsonrpc_response_types_name_function(code: str) -> str:
-#     function = """def get_jsonrpc_response_types_name(expected_model: type[ExpectResultT], endpoint: str) -> type:
-#     def convert_to_pascal_case(name: str) -> str:
-
-#     if "EmptyResponse" in str(expected_model):
-
-#     return cast(type, jsonrpc_model)\n"""
 
 
 def generate_json_rpc_models_content() -> str:
     code = ""
     code = ignore_liners_and_add_automation_generation_information(code)
     code = collect_and_write_api_imports(code)
-    code = write_hf26representation_and_legacy_representation(code)
     return write_representations_classes(code)
 
 

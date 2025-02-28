@@ -6,17 +6,13 @@
 
 from __future__ import annotations
 
-from typing import Literal, overload
-
-import msgspec
-
-from schemas.operation import Operation
+from schemas.operations.representation_types import HF26Representation, LegacyRepresentation
 from schemas.operations.virtual.account_created_operation import AccountCreatedOperation
 from schemas.operations.virtual.author_reward_operation import AuthorRewardOperation
 from schemas.operations.virtual.changed_recovery_account_operation import ChangedRecoveryAccountOperation
 from schemas.operations.virtual.clear_null_account_balance_operation import ClearNullAccountBalanceOperation
 from schemas.operations.virtual.collateralized_convert_immediate_conversion_operation import (
-    CollateralizedConvertImmediateConversionOperation,
+            CollateralizedConvertImmediateConversionOperation,
 )
 from schemas.operations.virtual.comment_benefactor_reward_operation import CommentBenefactorRewardOperation
 from schemas.operations.virtual.comment_payout_update_operation import CommentPayoutUpdateOperation
@@ -33,7 +29,7 @@ from schemas.operations.virtual.escrow_rejected_operation import EscrowRejectedO
 from schemas.operations.virtual.expired_account_notification_operation import ExpiredAccountNotificationOperation
 from schemas.operations.virtual.failed_recurrent_transfer_operation import FailedRecurrentTransferOperation
 from schemas.operations.virtual.fill_collateralized_convert_request_operation import (
-    FillCollateralizedConvertRequestOperation,
+            FillCollateralizedConvertRequestOperation,
 )
 from schemas.operations.virtual.fill_convert_request_operation import FillConvertRequestOperation
 from schemas.operations.virtual.fill_order_operation import FillOrderOperation
@@ -59,33 +55,6 @@ from schemas.operations.virtual.system_warning_operation import SystemWarningOpe
 from schemas.operations.virtual.transfer_to_vesting_completed_operation import TransferToVestingCompletedOperation
 from schemas.operations.virtual.vesting_shares_split_operation import VestingSharesSplitOperation
 
-
-class HF26Representation(msgspec.Struct):
-    value: Operation
-
-    @property
-    def type_(self) -> str:
-        return self.value.get_name_with_suffix()
-
-
-class LegacyRepresentation(msgspec.Struct):
-    value: Operation
-
-    @property
-    def type_(self) -> str:
-        return self.value.get_name()
-
-    @overload
-    def __getitem__(self, idx: Literal[0]) -> str: ...
-    @overload
-    def __getitem__(self, idx: Literal[1]) -> Operation: ...
-
-    def __getitem__(self, idx: Literal[0, 1]) -> str | Operation:
-        if idx == 0:
-            return self.type_
-        if idx == 1:
-            return self.value
-        raise ValueError("Index out of bound <0; 1>")
 
 class HF26RepresentationAccountCreatedOperation(HF26Representation, tag=AccountCreatedOperation.get_name_with_suffix()):
             value: AccountCreatedOperation

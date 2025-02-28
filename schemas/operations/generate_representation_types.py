@@ -75,50 +75,9 @@ def write_representations_classes(code: str) -> str:
     return code
 
 
-# def extract_exported_models_from_api(api_name: str) -> list[str]:
-
-#     if not init_file_path.exists():
-
-#     with init_file_path.open("r") as file:
-
-
-#     for node in tree.body:
-#         if isinstance(node, ast.Assign):
-#             for target in node.targets:
-#                 if isinstance(target, ast.Name) and target.id == "__all__" and isinstance(node.value, ast.List):
-
-
-# def convert_to_pascal_case(name: str) -> str:
-
-
 def pascal_to_snake(text: str) -> str:
-    # Znajduje miejsca, gdzie są wielkie litery poprzedzone małymi lub liczbami i wstawia podkreślnik
     snake = re.sub(r"(?<!^)(?=[A-Z])", "_", text)
-    # Zamienia wszystkie litery na małe
     return snake.lower()
-
-
-# def generate_and_write_jsonrpc_models(code: str, api_names: list[str]) -> str:
-
-#     for i, api in enumerate(api_names):
-#         for j, model in enumerate(extract_exported_models_from_api(api)):
-
-#     code += """
-
-
-# class JSONRPCResult(JSONRPCBase, Generic[ExpectResultT]):
-
-
-# """
-
-
-# def generate_get_jsonrpc_response_types_name_function(code: str) -> str:
-#     function = """def get_jsonrpc_response_types_name(expected_model: type[ExpectResultT], endpoint: str) -> type:
-#     def convert_to_pascal_case(name: str) -> str:
-
-#     if "EmptyResponse" in str(expected_model):
-
-#     return cast(type, jsonrpc_model)\n"""
 
 
 def generate_json_rpc_models_content() -> str:
