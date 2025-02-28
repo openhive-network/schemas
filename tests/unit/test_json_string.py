@@ -191,7 +191,7 @@ def test_serialization() -> None:
         required_auths=["bob"],
         required_posting_auths=[],
         id_=CUSTOM_JSON_ID,
-        json_=JsonString.resolve(type, FOLLOW_OPERATION_JSON_STRING),
+        json_=JsonString(FOLLOW_OPERATION_JSON_STRING),
     )
 
     # ACT
@@ -271,8 +271,9 @@ def test_json_string_with_application_operation_serialize() -> None:
 
     # ACT
     op = CustomJsonOperationGeneric(
-        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JsonString(example_operation.json())
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JsonString(example_operation)
     )
+
     # ASSERT
     assert op.json() == SERIALIZED_JSON_STRING
 
@@ -280,7 +281,7 @@ def test_json_string_with_application_operation_serialize() -> None:
 def test_application_operation_parse() -> None:
     # ARRANGE
     # ACT
-    json_string = JsonString[ApplicationTestOperation].resolve(type, SERIALIZED_OPERATION)
+    json_string = JsonString(SERIALIZED_OPERATION)  # type: ignore[var-annotated]
 
     # ASSERT
     assert json_string.serialize() == SERIALIZED_OPERATION

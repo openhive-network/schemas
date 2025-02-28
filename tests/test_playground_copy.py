@@ -83,12 +83,6 @@ LIST_PROPOSALS = {
 }
 
 
-# @pytest.mark.skip(reason="no way of currently testing this")
+@pytest.mark.skip(reason="no way of currently testing this")
 def test_responses_from_api_correct_values() -> None:
-    amount = 296909911037211111
-
-    dupa = AssetVests(amount)
-
-    xd = dupa.as_legacy()
-
-    pass
+    dupa = HiveInt(100)
