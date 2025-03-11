@@ -93,7 +93,11 @@ class JsonString(Resolvable["JsonString[AnyResolvedT]", Any], Generic[AnyResolve
         if isinstance(self.value, dict):
             return json.dumps(json.dumps(self.value))
         if isinstance(self.value, str):
-            return self.value
+            return json.dumps(json.dumps(self.value))
+        if isinstance(self.value, list):
+            return json.dumps(self.value, separators=(",", ":"))
+        if isinstance(self.value, float):
+            return json.dumps(json.dumps(self.value))
         raise TypeError(f"Incorrect type to serialize: {type(self)}")
 
     def __getitem__(self, key: str | int) -> Any:
