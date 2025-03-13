@@ -16,8 +16,6 @@ def enc_hook_base(obj: Any) -> Any:
         return str(obj.value)
     if isinstance(obj, HiveInt):
         return obj.safe_int_value
-    if isinstance(obj, JsonString):
-        return obj.serialize()
     if isinstance(obj, HiveDateTime):
         return obj.__str__()
     if isinstance(obj, OptionallyEmpty):
@@ -26,12 +24,24 @@ def enc_hook_base(obj: Any) -> Any:
 
 
 def enc_hook_legacy(obj: Any) -> Any:
+    if isinstance(obj, JsonString):
+        return obj.encode()
     if isinstance(obj, AssetBase):
         return obj.as_legacy()
     return enc_hook_base(obj)
 
 
 def enc_hook_hf26(obj: Any) -> Any:
+    if isinstance(obj, JsonString):
+        return obj.encode()
+    if isinstance(obj, AssetBase):
+        return obj.as_nai()
+    return enc_hook_base(obj)
+
+
+def enc_hook_hf26_json(obj: Any) -> Any:
+    if isinstance(obj, JsonString):
+        return obj.encode_json()
     if isinstance(obj, AssetBase):
         return obj.as_nai()
     return enc_hook_base(obj)
@@ -43,3 +53,7 @@ def get_legacy_encoder() -> Encoder:
 
 def get_hf26_encoder() -> Encoder:
     return msgspec.json.Encoder(enc_hook=enc_hook_hf26)
+
+
+def get_hf26_json_encoder() -> Encoder:
+    return msgspec.json.Encoder(enc_hook=enc_hook_hf26_json)

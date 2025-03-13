@@ -91,6 +91,36 @@ class JsonString(Resolvable["JsonString[AnyResolvedT]", Any], Generic[AnyResolve
         if isinstance(self.value, ApplicationOperation):
             return self.value.json(remove_whitespaces=True)
         if isinstance(self.value, dict):
+            return json.dumps(self.value, separators=(",", ":"))
+        if isinstance(self.value, list):
+            return json.dumps(self.value, separators=(",", ":"))
+        if isinstance(self.value, str):
+            return self.value
+        raise TypeError(f"Incorrect type to serialize: {type(self)}")
+
+    def encode_json(self) -> str:
+        """Dumps JsonString with no spaces between keys and values"""
+        from schemas.application_operation import ApplicationOperation
+
+        if isinstance(self.value, ApplicationOperation):
+            return self.value.json(remove_whitespaces=True)
+        if isinstance(self.value, dict):
+            return json.dumps(self.value, separators=(",", ":"))
+        if isinstance(self.value, str):
+            return json.dumps(json.dumps(self.value))
+        if isinstance(self.value, list):
+            return json.dumps(self.value, separators=(",", ":"))
+        if isinstance(self.value, float):
+            return json.dumps(json.dumps(self.value))
+        raise TypeError(f"Incorrect type to encode: {type(self)}")
+
+    def encode(self) -> str:
+        """Dumps JsonString with no spaces between keys and values"""
+        from schemas.application_operation import ApplicationOperation
+
+        if isinstance(self.value, ApplicationOperation):
+            return self.value.json(remove_whitespaces=True)
+        if isinstance(self.value, dict):
             return json.dumps(json.dumps(self.value))
         if isinstance(self.value, str):
             return json.dumps(json.dumps(self.value))
@@ -98,7 +128,7 @@ class JsonString(Resolvable["JsonString[AnyResolvedT]", Any], Generic[AnyResolve
             return json.dumps(self.value, separators=(",", ":"))
         if isinstance(self.value, float):
             return json.dumps(json.dumps(self.value))
-        raise TypeError(f"Incorrect type to serialize: {type(self)}")
+        raise TypeError(f"Incorrect type to encode: {type(self)}")
 
     def __getitem__(self, key: str | int) -> Any:
         self.__check_is_value_index_accessible()

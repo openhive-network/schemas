@@ -56,12 +56,11 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
         exclude_none: bool = False,
         remove_whitespaces: bool = False,
     ) -> str:
-        from schemas.encoders import enc_hook_hf26
+        from schemas.encoders import enc_hook_hf26_json
 
         data = msgspec.to_builtins(
-            obj=self, enc_hook=enc_hook_hf26, str_keys=str_keys, builtin_types=builtin_types, order=order
+            obj=self, enc_hook=enc_hook_hf26_json, str_keys=str_keys, builtin_types=builtin_types, order=order
         )
-
         if exclude_none:
             data = {key: value for key, value in data.items() if value is not None}
         if remove_whitespaces:
