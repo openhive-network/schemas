@@ -135,6 +135,14 @@ class AssetBase(ABC):
             "precision": info.precision,
         }
 
+    def as_serialized_nai(self) -> dict[str, Any]:
+        info = self.get_asset_information()
+        return {
+            "amount": str(self.amount),
+            "nai": info.nai,
+            "precision": info.precision,
+        }
+
     def as_float(self) -> float:
         info = self.get_asset_information()
         return float(self.amount.value / (10**info.precision.value))
