@@ -23,7 +23,7 @@ def ignore_liners_and_add_automation_generation_information(code: str) -> str:
 def collect_and_write_api_imports(code: str) -> str:
     code += "from __future__ import annotations\n\n"
     code += "from typing import Literal, overload\n\n"
-    code += "import msgspec\n\n"
+    code += "from schemas._preconfigured_base_model import DictStrAny, PreconfiguredBaseModel\n\n"
     code += "from schemas.operation import Operation\n\n"
 
     for operation_name in all_operations[6:]:
@@ -34,8 +34,13 @@ def collect_and_write_api_imports(code: str) -> str:
 
 
 def write_hf26representation_and_legacy_representation(code: str) -> str:
-    code += """class HF26Representation(msgspec.Struct):
+    code += """class HF26Representation(PreconfiguredBaseModel):
     value: Operation
+
+    def dict(self, *, exclude_none: bool = False, exclude_defaults: bool = False) -> DictStrAny:  # noqa: A003
+            result = super().dict(exclude_none=exclude_none, exclude_defaults=exclude_defaults)
+            result["type"] = self.type_
+            return result
 
     @property
     def type_(self) -> str:
@@ -52,7 +57,7 @@ class LegacyRepresentation(msgspec.Struct):
     @overload
     def __getitem__(self, idx: Literal[0]) -> str: ...
     @overload
-    def __getitem__(self, idx: Literal[1]) -> Operation: ...
+    def __getitem__(self, idx: Literal[1]) -> Operation: ... # type: ignore [override]
 
     def __getitem__(self, idx: Literal[0, 1]) -> str | Operation:
         if idx == 0:

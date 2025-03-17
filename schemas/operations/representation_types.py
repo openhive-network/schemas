@@ -8,8 +8,7 @@ from __future__ import annotations
 
 from typing import Literal, overload
 
-import msgspec
-
+from schemas._preconfigured_base_model import DictStrAny, PreconfiguredBaseModel
 from schemas.operation import Operation
 from schemas.operations.account_create_operation import AccountCreateOperation
 from schemas.operations.account_create_with_delegation_operation import AccountCreateWithDelegationOperation
@@ -63,22 +62,27 @@ from schemas.operations.witness_set_properties_operation import WitnessSetProper
 from schemas.operations.witness_update_operation import WitnessUpdateOperation
 
 
-class HF26Representation(msgspec.Struct):
+class HF26Representation(PreconfiguredBaseModel):
     value: Operation
+
+    def dict(self, *, exclude_none: bool = False, exclude_defaults: bool = False) -> DictStrAny:  # noqa: A003
+            result = super().dict(exclude_none=exclude_none, exclude_defaults=exclude_defaults)
+            result["type"] = self.type_
+            return result
 
     @property
     def type_(self) -> str:
         return self.value.get_name_with_suffix()
 
 
-class LegacyRepresentation(msgspec.Struct):
+class LegacyRepresentation(PreconfiguredBaseModel):
     value: Operation
 
     @property
     def type_(self) -> str:
         return self.value.get_name()
 
-    @overload
+    @overload  # type: ignore [override]
     def __getitem__(self, idx: Literal[0]) -> str: ...
     @overload
     def __getitem__(self, idx: Literal[1]) -> Operation: ...
