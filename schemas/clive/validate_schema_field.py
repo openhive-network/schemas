@@ -15,17 +15,13 @@ def validate_schema_field(schema_field: type[Any], value: Any) -> None:
     ------
     pydantic.ValidationError: if the given value is invalid.
     """
-
-    class Model(msgspec.Struct):
-        value: schema_field  # type: ignore[valid-type]
-
-    Model(value=value)
+    msgspec.convert(value, schema_field)
 
 
 def is_schema_field_valid(schema_field: type[Any], value: Any) -> bool:
     try:
         validate_schema_field(schema_field, value)
-    except Exception:
+    except msgspec.ValidationError:
         return False
     else:
         return True

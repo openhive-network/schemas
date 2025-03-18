@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime
+from pathlib import Path
 from typing import TYPE_CHECKING, Final, Literal
 
 import msgspec
@@ -13,7 +14,6 @@ from schemas.fields.serializable import Serializable
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
-    from pathlib import Path
 
 TIME_FORMAT_WITH_SECONDS: Final[str] = "%Y-%m-%dT%H:%M:%S"
 
@@ -21,7 +21,7 @@ TIME_FORMAT_WITH_SECONDS: Final[str] = "%Y-%m-%dT%H:%M:%S"
 class CliveBaseModel(msgspec.Struct):
     class Config:
         allow_population_by_field_name = True
-        json_encoders = {
+        json_encoders = {  # noqa: RUF012;
             datetime: lambda d: d.strftime(TIME_FORMAT_WITH_SECONDS),
             Serializable: lambda x: x.serialize(),
         }
@@ -39,7 +39,7 @@ class CliveBaseModel(msgspec.Struct):
             )
         )
 
-    def dict(
+    def dict(  # noqa: A003
         self,
         *,
         str_keys: bool = False,
@@ -52,7 +52,7 @@ class CliveBaseModel(msgspec.Struct):
 
     @classmethod
     def parse_file(cls, path: Path, decoder_factory: DecoderFactory) -> str:
-        with open(path, encoding="utf-8") as file:
+        with Path.open(path, encoding="utf-8") as file:
             raw = file.read()
             return cls.parse_raw(raw, decoder_factory)
 
