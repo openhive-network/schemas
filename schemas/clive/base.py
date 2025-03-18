@@ -2,17 +2,21 @@ from __future__ import annotations
 
 import json
 from datetime import datetime
-from pathlib import Path
-from typing import Any, Final, Iterable, Literal
+from typing import TYPE_CHECKING, Final, Literal
 
 import msgspec
 
-from schemas.fields.serializable import Serializable
+from schemas._preconfigured_base_model import DictStrAny
 from schemas.decoders import DecoderFactory
 from schemas.encoders import enc_hook_base
-from schemas._preconfigured_base_model import DictStrAny
+from schemas.fields.serializable import Serializable
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+    from pathlib import Path
 
 TIME_FORMAT_WITH_SECONDS: Final[str] = "%Y-%m-%dT%H:%M:%S"
+
 
 class CliveBaseModel(msgspec.Struct):
     class Config:

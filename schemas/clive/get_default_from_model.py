@@ -6,8 +6,10 @@ import msgspec
 
 ExpectT = TypeVar("ExpectT")
 
+
 class CliveError(Exception):
     """Base class for all clive exceptions."""
+
 
 class WrongTypeError(CliveError):
     """Raised when the type of the value is not the expected one."""
@@ -18,13 +20,15 @@ class NoMatchesError(CliveError):
 
 
 @overload
-def get_default_from_model(model: type[msgspec.Struct] | msgspec.Struct, field_name: str) -> Any: ...  # noqa: ANN401
+def get_default_from_model(model: type[msgspec.Struct] | msgspec.Struct, field_name: str) -> Any:
+    ...
 
 
 @overload
 def get_default_from_model(
     model: type[msgspec.Struct] | msgspec.Struct, field_name: str, expect_type: type[ExpectT]
-) -> ExpectT: ...
+) -> ExpectT:
+    ...
 
 
 def get_default_from_model(
