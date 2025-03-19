@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Protocol, TypeVar, get_origin
+from typing import TYPE_CHECKING, Annotated, Any, Protocol, TypeVar, get_origin
 
 import msgspec
 from msgspec.json import Decoder
@@ -87,3 +87,11 @@ def get_legacy_decoder(type_: type[T]) -> Decoder[T]:
 
 def get_hf26_decoder(type_: type[T]) -> Decoder[T]:
     return msgspec.json.Decoder(type_, dec_hook=dec_hook_hf26)
+
+
+def is_matching_model(data: Any, annotated_model: Annotated[Any, ...]) -> bool:
+    try:
+        msgspec.convert(data, type=annotated_model)
+    except msgspec.ValidationError:
+        return False
+    return True

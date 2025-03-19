@@ -3,12 +3,12 @@ from __future__ import annotations
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Final, Literal
+from typing import TYPE_CHECKING, Final, Literal, Protocol
 
 import msgspec
+from msgspec.json import Decoder
 
 from schemas._preconfigured_base_model import DictStrAny
-from schemas.decoders import DecoderFactory
 from schemas.encoders import enc_hook_base
 from schemas.fields.serializable import Serializable
 
@@ -32,7 +32,7 @@ class CliveBaseModel(msgspec.Struct):
         str_keys: bool = False,
         builtin_types: Iterable[type] | None = None,
         order: Literal[None, "deterministic", "sorted"] = None,
-    ) -> DictStrAny:
+    ) -> str:
         return json.dumps(
             msgspec.to_builtins(
                 obj=self, enc_hook=enc_hook_base, str_keys=str_keys, builtin_types=builtin_types, order=order
@@ -46,17 +46,24 @@ class CliveBaseModel(msgspec.Struct):
         builtin_types: Iterable[type] | None = None,
         order: Literal[None, "deterministic", "sorted"] = None,
     ) -> DictStrAny:
-        return msgspec.to_builtins(
+        output = msgspec.to_builtins(
             obj=self, enc_hook=enc_hook_base, str_keys=str_keys, builtin_types=builtin_types, order=order
         )
+        assert isinstance(output, dict), f"Invalid format: {type(output)}, required dict"
+        return output
 
     @classmethod
-    def parse_file(cls, path: Path, decoder_factory: DecoderFactory) -> str:
+    def parse_file(cls, path: Path, decoder_factory: DecoderFactory) -> type[CliveBaseModel]:
         with Path.open(path, encoding="utf-8") as file:
             raw = file.read()
             return cls.parse_raw(raw, decoder_factory)
 
     @classmethod
-    def parse_raw(cls, raw: str, decoder_factory: DecoderFactory) -> str:
+    def parse_raw(cls, raw: str, decoder_factory: DecoderFactory) -> type[CliveBaseModel]:
         decoder = decoder_factory(cls)
         return decoder.decode(raw)
+
+
+class DecoderFactory(Protocol):
+    def __call__(self, cls: type[CliveBaseModel]) -> Decoder[type[CliveBaseModel]]:
+        ...
