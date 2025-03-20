@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Any, Final
+from typing import TYPE_CHECKING, Any, Final, Literal, TypeAlias, get_args
 
 from pydantic import ConstrainedStr, errors
 
@@ -61,8 +61,23 @@ class FloatAsString(ConstrainedStr):
     regex = re.compile(r"^(?:(?:[1-9][0-9]*)|0)\.[0-9]+$")
 
 
-class NodeType(ConstrainedStr):
-    regex = re.compile(r"^(mainnet|testnet|mirrornet)$")
+class _NodeTypeHolder:
+    TestnetNodeType: TypeAlias = Literal["testnet"]
+    MirrorNodeType: TypeAlias = Literal["mirrornet"]
+    MainnetNodeType: TypeAlias = Literal["mainnet"]
+    NodeTypesLiteral: TypeAlias = Literal[
+        TestnetNodeType,
+        MirrorNodeType,
+        MainnetNodeType,
+    ]
+
+    @classmethod
+    def get_node_types(cls) -> tuple[TestnetNodeType, MirrorNodeType, MainnetNodeType]:
+        return get_args(cls.NodeTypesLiteral)
+
+
+class NodeType(ConstrainedStr, _NodeTypeHolder):
+    regex = re.compile(r"^(" + "|".join(_NodeTypeHolder.get_node_types()) + r")$")
 
 
 class Permlink(ConstrainedStr):
