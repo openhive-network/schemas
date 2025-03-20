@@ -174,5 +174,8 @@ class PreconfiguredBaseModel(BaseModel):
         ), f"`{name}` does not exists in `{self.__class__.__name__}`, available are: {list(self.dict().keys())}"
         return name
 
+    def __contains__(self, key: str) -> bool:
+        return key in self.shallow_dict()
+
 
 BaseModelT = TypeVar("BaseModelT", bound=PreconfiguredBaseModel)
