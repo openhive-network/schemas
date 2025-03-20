@@ -19,11 +19,12 @@ NUMBER_STRING: Final[str] = "123"
 CUSTOM_JSON_ID: Final[str] = "my_id"
 
 SERIALIZED_OPERATION: Final[str] = r'{"from":"abc","to":"xyz","what":["topic"]}'
-SERIALIZED_JSON_STRING: Final[str] = (
+SERIALIZED_JSON_STRING_PRE: Final[str] = (
     r'{"required_auths": [], "required_posting_auths": [], "id": "my_id", "json": "'
     + SERIALIZED_OPERATION.replace('"', r"\"")
     + r'"}'
 )
+SERIALIZED_JSON_STRING: Final[str] = json.dumps(json.loads(SERIALIZED_JSON_STRING_PRE), sort_keys=True)
 
 JSON_STRING_INVALID_TYPE_PATTERN: Final[str] = "is not a valid type"
 
