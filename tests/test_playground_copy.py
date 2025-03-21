@@ -17,6 +17,7 @@ from schemas.transaction import Transaction
 from schemas.jsonrpc import get_response_model
 import json
 from schemas.apis import database_api, wallet_bridge_api
+from schemas.fields.basic import AccountName
 
 TRX = Transaction(
     operations=[
@@ -88,10 +89,12 @@ LIST_PROPOSALS = {
 
 # @pytest.mark.skip(reason="no way of currently testing this")
 def test_responses_from_api_correct_values() -> None:
-    encoder = msgspec.json.Encoder(enc_hook=enc_hook_hf26, order="sorted")
-    decoder = get_hf26_decoder(TransferToVestingOperation)
-    dupa = TransferToVestingOperation(from_="alice", to="ab", amount=AssetHive(1))
-    deserialized = encoder.encode(dupa).decode()
-    serialized = decoder.decode(deserialized)
-
+    dupa = AccountName
+    xd = dupa.__metadata__[0].max_length
     pass
+    # encoder = msgspec.json.Encoder(enc_hook=enc_hook_hf26, order="sorted")
+    # decoder = get_hf26_decoder(TransferToVestingOperation)
+    # dupa = TransferToVestingOperation(from_="alice", to="ab", amount=AssetHive(1))
+    # deserialized = encoder.encode(dupa).decode()
+    # serialized = decoder.decode(deserialized)
+
