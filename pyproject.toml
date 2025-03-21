@@ -63,6 +63,8 @@ plugins = "pydantic.mypy"
 
 [tool.ruff]
 line-length = 120
+
+[tool.ruff.lint]
 select = [  # https://beta.ruff.rs/docs/rules/
     "F",
     "E",
@@ -95,6 +97,6 @@ ignore = [
     "TRY003", # too restrictive
 ]
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["schemas"]
 required-imports = ["from __future__ import annotations"]
