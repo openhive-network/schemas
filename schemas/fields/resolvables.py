@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 import contextlib
 import json
 from abc import ABC
@@ -10,6 +11,7 @@ import msgspec
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets import AssetBase, AssetHbd, AssetHive, AssetVests
 from schemas.fields.assets.asset_info import AssetInfo
+from schemas.fields.basic import AccountName
 
 ResolvedFromT = TypeVar("ResolvedFromT")
 ResolvedT = TypeVar("ResolvedT")
@@ -33,10 +35,10 @@ def is_valid_json(string: str) -> bool:
 
 
 class OptionallyEmpty(str, Resolvable["OptionallyEmpty[StringResolvedT]", str], Generic[StringResolvedT]):
-    value: Any
+    # value: Any
 
-    def __init__(self, value: Any) -> None:
-        self.value = value
+    # def __init__(self, value: Any) -> None:
+    #     self.value = value
 
     @staticmethod
     def resolve(incoming_cls: type, value: str) -> OptionallyEmpty[StringResolvedT]:
@@ -47,6 +49,10 @@ class OptionallyEmpty(str, Resolvable["OptionallyEmpty[StringResolvedT]", str], 
             return OptionallyEmpty(msgspec.json.decode(f'"{value}"', type=non_empty_str_t))
         return OptionallyEmpty(value)
 
+if TYPE_CHECKING:
+    OptionallyEmptyAccountName = str
+else:
+    OptionallyEmptyAccountName = OptionallyEmpty[AccountName]
 
 AnyResolvedT = TypeVar("AnyResolvedT", bound=Any)
 

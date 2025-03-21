@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal, TypeVar
 
 import msgspec
+from schemas.fields.basic import AccountName
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -20,6 +21,16 @@ DictStrAny = dict[str, Any]
 
 
 class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
+
+    def __post_init__(self):
+        # from schemas.operations.transfer_to_vesting_operation import TransferToVestingOperation
+        from schemas.fields.resolvables import OptionallyEmpty, OptionallyEmptyAccountName
+
+        # if type(self) is TransferToVestingOperation:
+        #     self.to = msgspec.convert(self.to, AccountName)
+        pass
+
+
     @classmethod
     def __is_aliased_field_name(cls, field_name: str) -> bool:
         return field_name in {

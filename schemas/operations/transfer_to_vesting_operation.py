@@ -6,13 +6,13 @@ from schemas.fields.assets._base import AssetHive
 from schemas.fields.basic import (
     AccountName,
 )
-from schemas.fields.resolvables import OptionallyEmpty
+from schemas.fields.resolvables import OptionallyEmptyAccountName
 from schemas.operation import Operation
 
 
 class _TransferToVestingOperation(Operation, kw_only=True):
     from_: AccountName = field(name="from")
-    to: OptionallyEmpty[AccountName]
+    to: OptionallyEmptyAccountName
     amount: AssetHive
 
     @classmethod

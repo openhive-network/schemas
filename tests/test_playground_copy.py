@@ -4,12 +4,15 @@
 from __future__ import annotations
 
 import pytest
-
-from schemas.decoders import get_hf26_decoder
-from schemas.fields.assets._base import AssetHbd, AssetVests
+import msgspec
+from schemas.decoders import get_hf26_decoder, is_matching_model
+from schemas.encoders import enc_hook_hf26
+from schemas.fields.assets._base import AssetHbd, AssetVests, AssetHive
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.operations.representation_types import HF26RepresentationTransferOperation
 from schemas.operations.transfer_operation import TransferOperation
+from schemas.operations.transfer_to_vesting_operation import TransferToVestingOperation
+
 from schemas.transaction import Transaction
 from schemas.jsonrpc import get_response_model
 import json
@@ -83,6 +86,12 @@ LIST_PROPOSALS = {
 }
 
 
-@pytest.mark.skip(reason="no way of currently testing this")
+# @pytest.mark.skip(reason="no way of currently testing this")
 def test_responses_from_api_correct_values() -> None:
-    dupa = HiveInt(100)
+    encoder = msgspec.json.Encoder(enc_hook=enc_hook_hf26, order="sorted")
+    decoder = get_hf26_decoder(TransferToVestingOperation)
+    dupa = TransferToVestingOperation(from_="alice", to="ab", amount=AssetHive(1))
+    deserialized = encoder.encode(dupa).decode()
+    serialized = decoder.decode(deserialized)
+
+    pass
