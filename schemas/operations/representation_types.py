@@ -15,11 +15,11 @@ __all__ = [
 ]
 
 # NON-VIRTUAL
-__Hf26OperationRepresentationUnionType = Union[  # type: ignore[valid-type]  # noqa: UP007
+__Hf26OperationRepresentationUnionType = Union[  # type: ignore[valid-type]
     tuple(_create_hf26_representation(arg) for arg in get_args(AnyOperation))
 ]
 
-__LegacyOperationRepresentationUnionType = Union[  # type: ignore[valid-type]  # noqa: UP007
+__LegacyOperationRepresentationUnionType = Union[  # type: ignore[valid-type]
     tuple(_create_legacy_representation(arg) for arg in get_args(AnyLegacyOperation))
 ]
 
@@ -32,11 +32,11 @@ LegacyOperationRepresentationType = Annotated[
 ]
 
 # ALL
-__Hf26AllOperationUnionType = Union[  # type: ignore[valid-type]  # noqa: UP007
+__Hf26AllOperationUnionType = Union[  # type: ignore[valid-type]
     tuple(_create_hf26_representation(arg) for arg in get_args(AnyEveryOperation))
 ]
 
-__LegacyAllOperationUnionType = Union[  # type: ignore[valid-type]  # noqa: UP007
+__LegacyAllOperationUnionType = Union[  # type: ignore[valid-type]
     tuple(_create_legacy_representation(arg) for arg in get_args(AnyLegacyEveryOperation))
 ]
 

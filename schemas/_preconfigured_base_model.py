@@ -96,7 +96,7 @@ class PreconfiguredBaseModel(BaseModel):
                 result[key.strip("_")] = value
         return result
 
-    def dict(  # noqa: PLR0913, A003
+    def dict(  # noqa: PLR0913
         self,
         *,
         include: AbstractSetIntStr | MappingIntStrAny | None = None,
@@ -146,11 +146,11 @@ class PreconfiguredBaseModel(BaseModel):
                 if type_origin in {types.UnionType, typing.Union}:
                     return resolve_for_all_args(typing.Union)
 
-                if type_origin in {tuple, typing.Tuple}:  # noqa: UP006
-                    return resolve_for_all_args(typing.Tuple)  # noqa: UP006
+                if type_origin in {tuple, typing.Tuple}:
+                    return resolve_for_all_args(typing.Tuple)
 
-                if type_origin in {list, typing.List}:  # noqa: UP006
-                    return resolve_for_all_args(typing.List)  # noqa: UP006
+                if type_origin in {list, typing.List}:
+                    return resolve_for_all_args(typing.List)
 
                 if type_origin in {typing.Annotated}:
                     return resolve_for_all_args(typing.Annotated)

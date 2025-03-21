@@ -9,7 +9,7 @@ from schemas.operations.representations.representation_value_typevar import Repr
 
 
 class LegacyRepresentation(PreconfiguredBaseModel, GenericModel, Generic[RepresentationValueT]):
-    type: str  # noqa: A003
+    type: str
     value: RepresentationValueT
 
     def __getitem__(self, key: str | int) -> Any:

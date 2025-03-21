@@ -8,11 +8,11 @@ from schemas.operations.representations.util import _create_hf26_representation,
 from schemas.operations.virtual import AnyLegacyVirtualOperation, AnyVirtualOperation
 
 # VIRTUAL
-__Hf26VirtualOperationRepresentationUnionType = Union[  # type: ignore[valid-type]  # noqa: UP007
+__Hf26VirtualOperationRepresentationUnionType = Union[  # type: ignore[valid-type]
     tuple(_create_hf26_representation(arg) for arg in get_args(AnyVirtualOperation))
 ]
 
-__LegacyVirtualOperationRepresentationUnionType = Union[  # type: ignore[valid-type]  # noqa: UP007
+__LegacyVirtualOperationRepresentationUnionType = Union[  # type: ignore[valid-type]
     tuple(_create_legacy_representation(arg) for arg in get_args(AnyLegacyVirtualOperation))
 ]
 Hf26VirtualOperationRepresentationType = Annotated[
