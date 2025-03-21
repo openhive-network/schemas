@@ -1,5 +1,3 @@
-image: "$CI_REGISTRY_IMAGE/ci-base-image@sha256:b04abc8e4520e1969bcd22e8e2b830d89a12eb05fcdcda5b77864d231f0d61dd"
-
 stages:
   - static_code_analysis
   - tests
@@ -14,8 +12,11 @@ variables:
 
 include:
   - project: 'hive/common-ci-configuration'
-    ref: 44d0cec8cfa8fb87d0daf5cef1485fb57b9e26fd
+    # This should be the same version of Common CI defined in /hive/scripts/ci-helpers/prepare_data_image_job.yml
+    ref: fccc10fc5c8b847d82ca7446c957caa49a7440f6
     file: '/templates/python_projects.gitlab-ci.yml'
+
+image: ${PYTHON_IMAGE}
 
 default:
   tags:
