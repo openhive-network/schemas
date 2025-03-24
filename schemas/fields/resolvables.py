@@ -1,17 +1,16 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 import contextlib
 import json
 from abc import ABC
-from typing import Any, Generic, TypeVar, cast, get_args
+from typing import TYPE_CHECKING, Any, Generic, TypeVar, cast, get_args
 
 import msgspec
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets import AssetBase, AssetHbd, AssetHive, AssetVests
 from schemas.fields.assets.asset_info import AssetInfo
-from schemas.fields.basic import AccountName
+from schemas.fields.basic import AccountName, Permlink
 
 ResolvedFromT = TypeVar("ResolvedFromT")
 ResolvedT = TypeVar("ResolvedT")
@@ -26,33 +25,22 @@ class Resolvable(ABC, Generic[ResolvedT, ResolvedFromT]):
 StringResolvedT = TypeVar("StringResolvedT", bound=str)
 
 
-def is_valid_json(string: str) -> bool:
-    try:
-        json.loads(string)
-    except json.JSONDecodeError:
-        return False
-    return True
-
-
 class OptionallyEmpty(str, Resolvable["OptionallyEmpty[StringResolvedT]", str], Generic[StringResolvedT]):
-    # value: Any
-
-    # def __init__(self, value: Any) -> None:
-    #     self.value = value
-
     @staticmethod
     def resolve(incoming_cls: type, value: str) -> OptionallyEmpty[StringResolvedT]:
         if len(value) == 0:
             return OptionallyEmpty("")
         non_empty_str_t = get_args(incoming_cls)[0]
-        if is_valid_json(value):
-            return OptionallyEmpty(msgspec.json.decode(f'"{value}"', type=non_empty_str_t))
-        return OptionallyEmpty(value)
+        return OptionallyEmpty(msgspec.convert(value, type=non_empty_str_t))
 
 if TYPE_CHECKING:
     OptionallyEmptyAccountName = str
+    OptionallyEmptyString = str
+    OptionallyEmptyPermlink = str
 else:
     OptionallyEmptyAccountName = OptionallyEmpty[AccountName]
+    OptionallyEmptyString = OptionallyEmpty[str]
+    OptionallyEmptyPermlink = OptionallyEmpty[Permlink]
 
 AnyResolvedT = TypeVar("AnyResolvedT", bound=Any)
 
