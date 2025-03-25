@@ -7,7 +7,7 @@ from schemas.fields.assets._base import AssetBase, AssetHbd, AssetHive
 from schemas.fields.basic import AccountName
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
-from schemas.fields.resolvables import AssetUnion
+from schemas.fields.resolvables import AssetUnion, AssetUnionAssetHiveAssetHbd
 
 
 class GetMarketHistoryField(PreconfiguredBaseModel, kw_only=True):
@@ -34,16 +34,16 @@ class BucketSizes(HiveInt):
 
 class GetRecentTradesFundament(PreconfiguredBaseModel, kw_only=True):
     date: HiveDateTime
-    current_pays: AssetUnion[AssetHive, AssetHbd]
-    open_pays: AssetUnion[AssetHive, AssetHbd]
+    current_pays: AssetUnionAssetHiveAssetHbd
+    open_pays: AssetUnionAssetHiveAssetHbd
     taker: AccountName
     maker: AccountName
 
 
 class GetTradeHistoryFundament(PreconfiguredBaseModel, kw_only=True):
     date: HiveDateTime
-    current_pays: AssetUnion[AssetHive, AssetHbd]
-    open_pays: AssetUnion[AssetHive, AssetHbd]
+    current_pays: AssetUnionAssetHiveAssetHbd
+    open_pays: AssetUnionAssetHiveAssetHbd
     taker: AccountName
     maker: AccountName
 

@@ -8,7 +8,7 @@ from schemas.fields.basic import (
 )
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.integers import Uint32t
-from schemas.fields.resolvables import AssetUnion
+from schemas.fields.resolvables import AssetUnionAssetHiveAssetHbd
 from schemas.operation import Operation
 
 DEFAULT_ORDER_ID: Final[Uint32t] = Uint32t(0)
@@ -18,8 +18,8 @@ DEFAULT_FILL_OR_KILL: Final[bool] = False
 class _LimitOrderCreateOperation(Operation, kw_only=True):
     owner: AccountName
     orderid: Uint32t = DEFAULT_ORDER_ID
-    amount_to_sell: AssetUnion[AssetHive, AssetHbd]
-    min_to_receive: AssetUnion[AssetHive, AssetHbd]
+    amount_to_sell: AssetUnionAssetHiveAssetHbd
+    min_to_receive: AssetUnionAssetHiveAssetHbd
     fill_or_kill: bool = DEFAULT_FILL_OR_KILL
     expiration: HiveDateTime
 

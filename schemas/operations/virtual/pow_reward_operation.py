@@ -4,13 +4,13 @@ from schemas.fields.assets._base import AssetHive, AssetVests
 from schemas.fields.basic import (
     AccountName,
 )
-from schemas.fields.resolvables import AssetUnion
+from schemas.fields.resolvables import AssetUnion, AssetUnionAssetHiveAssetVests
 from schemas.virtual_operation import VirtualOperation
 
 
 class _PowRewardOperation(VirtualOperation, kw_only=True):
     worker: AccountName
-    reward: AssetUnion[AssetHive, AssetVests]
+    reward: AssetUnionAssetHiveAssetVests
 
     @classmethod
     def get_name(cls) -> str:

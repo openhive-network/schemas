@@ -111,8 +111,9 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
         registered_types = self._registered_swap_types()
         for member_name, member_type_name in cast(dict[str, str], self.__annotations__).items():
             member_type_name_without_brackets = member_type_name.split("[")[0]
-            if (type_to_convert_to := registered_types.get(member_type_name, registered_types.get(member_type_name_without_brackets))) is not None:
-                current_member_value = getattr(self, member_name)
+            current_member_value = getattr(self, member_name)
+            is_buildins = any(current_member_value is builtin_type for builtin_type in [int, str, bool, float, list, dict, set, tuple])
+            if is_buildins and (type_to_convert_to := registered_types.get(member_type_name, registered_types.get(member_type_name_without_brackets))) is not None:
                 new_member_value = msgspec.convert(current_member_value, type=type_to_convert_to, dec_hook=dec_hook_hf26)
                 setattr(self, member_name, new_member_value)
 
@@ -138,14 +139,17 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
             OptionallyEmptyAccountName,
             OptionallyEmptyPermlink,
             OptionallyEmptyString,
+            AssetUnionAssetHiveAssetHbd,
+            AssetUnionAssetHiveAssetVests
         )
 
         return {
             "OptionallyEmptyAccountName": OptionallyEmptyAccountName,
             "OptionallyEmptyPermlink": OptionallyEmptyPermlink,
-            "OptionallyEmptyString": OptionallyEmptyString
+            "OptionallyEmptyString": OptionallyEmptyString,
+            "AssetUnionAssetHiveAssetHbd": AssetUnionAssetHiveAssetHbd,
+            "AssetUnionAssetHiveAssetVests": AssetUnionAssetHiveAssetVests
         }
-
 
 
 BaseModelT = TypeVar("BaseModelT", bound=PreconfiguredBaseModel)

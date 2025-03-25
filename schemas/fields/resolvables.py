@@ -182,6 +182,12 @@ class AssetUnion(
             create_hidden_asset(AssetUnion, deduce_asset(value, list(assets))),
         )
 
+if TYPE_CHECKING:
+    AssetUnionAssetHiveAssetHbd = AssetHive | AssetHbd
+    AssetUnionAssetHiveAssetVests = AssetHive | AssetVests
+else:
+    AssetUnionAssetHiveAssetHbd = AssetUnion[AssetHive, AssetHbd]
+    AssetUnionAssetHiveAssetVests = AssetUnion[AssetHive, AssetVests]
 
 class AnyAsset(AssetBase, Resolvable["AnyAsset", dict[str, Any] | str]):
     @staticmethod

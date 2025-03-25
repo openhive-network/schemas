@@ -20,7 +20,7 @@ from schemas.fields.compound import (
 from schemas.fields.hex import Sha256
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
-from schemas.fields.resolvables import AssetUnion, OptionallyEmptyAccountName, OptionallyEmptyPermlink, OptionallyEmptyString
+from schemas.fields.resolvables import AssetUnion, OptionallyEmptyAccountName, OptionallyEmptyPermlink, OptionallyEmptyString, AssetUnionAssetHiveAssetHbd
 from schemas.fields.version import HardforkVersion, Version
 
 
@@ -212,7 +212,7 @@ class FindRecurrentTransfersFundament(PreconfiguredBaseModel, kw_only=True):
     trigger_date: HiveDateTime
     from_: AccountName = field(name="from")
     to: AccountName
-    amount: AssetUnion[AssetHive, AssetHbd]
+    amount: AssetUnionAssetHiveAssetHbd
     memo: str
     recurrence: HiveInt
     consecutive_failures: HiveInt
@@ -228,7 +228,7 @@ class SavingsWithdrawalsFundament(PreconfiguredBaseModel, kw_only=True):
     to: AccountName
     memo: str
     request_id: HiveInt
-    amount: AssetUnion[AssetHive, AssetHbd]
+    amount: AssetUnionAssetHiveAssetHbd
     complete: HiveDateTime
 
 

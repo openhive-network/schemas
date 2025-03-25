@@ -57,7 +57,7 @@ from schemas.fields.hex import Hex
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.hive_list import HiveList
-from schemas.fields.resolvables import AssetUnion, OptionallyEmpty, OptionallyEmptyAccountName
+from schemas.fields.resolvables import AssetUnion, AssetUnionAssetHiveAssetHbd, OptionallyEmpty, OptionallyEmptyAccountName
 from schemas.fields.version import HardforkVersion, HiveVersion
 from schemas.operations import LegacyOperationRepresentation
 
@@ -142,12 +142,12 @@ class GetContent(fundaments_database_api.FindCommentsFundament):
 
     url: Url
     root_title: str
-    pending_payout_value: AssetUnion[AssetHive, AssetHbd]
-    total_pending_payout_value: AssetUnion[AssetHive, AssetHbd]
+    pending_payout_value: AssetUnionAssetHiveAssetHbd
+    total_pending_payout_value: AssetUnionAssetHiveAssetHbd
     active_votes: HiveList[GetActiveVotesFundament]
     replies: list[str]
     author_reputation: HiveInt
-    promoted: AssetUnion[AssetHive, AssetHbd]
+    promoted: AssetUnionAssetHiveAssetHbd
     body_length: HiveInt
     reblogged_by: list[str]
 

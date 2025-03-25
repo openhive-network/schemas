@@ -9,7 +9,7 @@ from schemas.fields.basic import (
 from schemas.fields.compound import HbdExchangeRate
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.integers import Uint32t
-from schemas.fields.resolvables import AssetUnion
+from schemas.fields.resolvables import AssetUnion, AssetUnionAssetHiveAssetHbd
 from schemas.operation import Operation
 
 DEFAULT_FILL_OR_KILL: Final[bool] = False
@@ -18,7 +18,7 @@ DEFAULT_FILL_OR_KILL: Final[bool] = False
 class _LimitOrderCreate2Operation(Operation, kw_only=True):
     owner: AccountName
     orderid: Uint32t
-    amount_to_sell: AssetUnion[AssetHive, AssetHbd]
+    amount_to_sell: AssetUnionAssetHiveAssetHbd
     fill_or_kill: bool = DEFAULT_FILL_OR_KILL
     exchange_rate: HbdExchangeRate
     expiration: HiveDateTime
