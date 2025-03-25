@@ -1,11 +1,16 @@
 from __future__ import annotations
+from abc import abstractmethod
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 
 class OperationExtension(PreconfiguredBaseModel):
-    __extension_name__: str
 
     @classmethod
+    @abstractmethod
     def get_name(cls) -> str:
-        return cls.__extension_name__
+        """
+        Get the name of the operation.
+
+        e.g. `transfer` for `TransferOperation`
+        """

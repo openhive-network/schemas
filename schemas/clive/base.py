@@ -3,10 +3,10 @@ from __future__ import annotations
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Final, Literal, Protocol
+from typing import TYPE_CHECKING, Callable, Final, Literal, Protocol
 
 import msgspec
-from msgspec.json import Decoder
+from msgspec.json import Decoder, T
 
 from schemas._preconfigured_base_model import DictStrAny
 from schemas.encoders import enc_hook_base
@@ -53,13 +53,13 @@ class CliveBaseModel(msgspec.Struct):
         return output
 
     @classmethod
-    def parse_file(cls, path: Path, decoder_factory: DecoderFactory) -> type[CliveBaseModel]:
+    def parse_file(cls, path: Path, decoder_factory: Callable[[type[T]], msgspec.json.Decoder[T]]) -> type[CliveBaseModel]:
         with Path.open(path, encoding="utf-8") as file:
             raw = file.read()
             return cls.parse_raw(raw, decoder_factory)
 
     @classmethod
-    def parse_raw(cls, raw: str, decoder_factory: DecoderFactory) -> type[CliveBaseModel]:
+    def parse_raw(cls, raw: str, decoder_factory: Callable[[type[T]], msgspec.json.Decoder[T]]) -> type[CliveBaseModel]:
         decoder = decoder_factory(cls)
         return decoder.decode(raw)
 

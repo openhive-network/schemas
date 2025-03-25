@@ -7,6 +7,8 @@ DEFAULT_PAIR_ID: Uint8t = Uint8t(0)
 
 
 class RecurrentTransferPairId(OperationExtension):
-    __extension_name__ = "recurrent_transfer_pair_id"
+    @classmethod
+    def get_name(cls) -> str:
+        return "recurrent_transfer_pair_id"
 
     pair_id: Uint8t = DEFAULT_PAIR_ID

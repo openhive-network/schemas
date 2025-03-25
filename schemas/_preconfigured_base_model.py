@@ -5,9 +5,10 @@
 
 from __future__ import annotations
 
+import copy
 import json
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Literal, TypeVar
+from typing import TYPE_CHECKING, Any, Literal, TypeVar, Callable
 
 import msgspec
 from schemas.fields.basic import AccountName
@@ -15,7 +16,7 @@ from schemas.fields.basic import AccountName
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    from schemas.decoders import DecoderFactory
+    from schemas.decoders import T
 
 DictStrAny = dict[str, Any]
 
@@ -112,13 +113,13 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
         return name
 
     @classmethod
-    def parse_file(cls, path: Path, decoder_factory: DecoderFactory) -> type[PreconfiguredBaseModel]:
+    def parse_file(cls, path: Path, decoder_factory: Callable[[type[T]], msgspec.json.Decoder[T]]) -> type[PreconfiguredBaseModel]:
         with Path.open(path, encoding="utf-8") as file:
             raw = file.read()
             return cls.parse_raw(raw, decoder_factory)
 
     @classmethod
-    def parse_raw(cls, raw: str, decoder_factory: DecoderFactory) -> type[PreconfiguredBaseModel]:
+    def parse_raw(cls, raw: str, decoder_factory: Callable[[type[T]], msgspec.json.Decoder[T]]) -> type[PreconfiguredBaseModel]:
         decoder = decoder_factory(cls)
         return decoder.decode(raw)
 
