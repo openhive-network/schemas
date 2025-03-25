@@ -57,7 +57,7 @@ from schemas.fields.hex import Hex
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.hive_list import HiveList
-from schemas.fields.resolvables import AssetUnion, OptionallyEmpty
+from schemas.fields.resolvables import AssetUnion, OptionallyEmpty, OptionallyEmptyAccountName
 from schemas.fields.version import HardforkVersion, HiveVersion
 from schemas.operations import LegacyOperationRepresentation
 
@@ -96,7 +96,7 @@ GetAccounts = HiveList[GetAccountsFundament]
 GetActiveVotes = HiveList[GetActiveVotesFundament]
 
 
-GetActiveWitnesses = list[OptionallyEmpty[AccountName]]
+GetActiveWitnesses = list[OptionallyEmptyAccountName]
 
 
 class GetBlock(fundaments_block_api.LegacyBlock):

@@ -11,7 +11,7 @@ from schemas.fields.basic import (
 from schemas.fields.compound import Authority, DelayedVotes, Manabar
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
-from schemas.fields.resolvables import AssetUnion, OptionallyEmpty
+from schemas.fields.resolvables import AssetUnion, OptionallyEmpty, OptionallyEmptyAccountName, OptionallyEmptyString
 
 
 class Account(PreconfiguredBaseModel, kw_only=True):
@@ -22,14 +22,14 @@ class Account(PreconfiguredBaseModel, kw_only=True):
     posting: Authority
     memo_key: PublicKey
     json_metadata: str
-    posting_json_metadata: OptionallyEmpty[str]
-    proxy: OptionallyEmpty[AccountName]
+    posting_json_metadata: OptionallyEmptyString
+    proxy: OptionallyEmptyAccountName
     previous_owner_update: HiveDateTime
     last_owner_update: HiveDateTime
     last_account_update: HiveDateTime
     created: HiveDateTime
     mined: bool
-    recovery_account: OptionallyEmpty[AccountName]
+    recovery_account: OptionallyEmptyAccountName
     last_account_recovery: HiveDateTime
     reset_account: AccountName
     comment_count: HiveInt

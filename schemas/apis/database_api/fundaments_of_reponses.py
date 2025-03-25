@@ -20,7 +20,7 @@ from schemas.fields.compound import (
 from schemas.fields.hex import Sha256
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
-from schemas.fields.resolvables import AssetUnion, OptionallyEmpty
+from schemas.fields.resolvables import AssetUnion, OptionallyEmptyAccountName, OptionallyEmptyPermlink, OptionallyEmptyString
 from schemas.fields.version import HardforkVersion, Version
 
 
@@ -42,13 +42,13 @@ class AccountItemFundament(PreconfiguredBaseModel, kw_only=True):
     memo_key: PublicKey
     json_metadata: str
     posting_json_metadata: str
-    proxy: OptionallyEmpty[AccountName]
+    proxy: OptionallyEmptyAccountName
     previous_owner_update: HiveDateTime
     last_owner_update: HiveDateTime
     last_account_update: HiveDateTime
     created: HiveDateTime
     mined: bool
-    recovery_account: OptionallyEmpty[AccountName]
+    recovery_account: OptionallyEmptyAccountName
     last_account_recovery: HiveDateTime
     reset_account: AccountName
     comment_count: HiveInt
@@ -100,8 +100,8 @@ class AccountItemFundament(PreconfiguredBaseModel, kw_only=True):
 
 class FindChangeRecoveryAccountRequestsFundament(PreconfiguredBaseModel, kw_only=True):
     id_: HiveInt = field(name="id")
-    account_to_recover: OptionallyEmpty[AccountName]
-    recovery_account: OptionallyEmpty[AccountName]
+    account_to_recover: OptionallyEmptyAccountName
+    recovery_account: OptionallyEmptyAccountName
     effective_on: HiveDateTime
 
 
@@ -116,13 +116,13 @@ class FindCollateralizedConversionRequestsFundament(PreconfiguredBaseModel, kw_o
 
 class FindCommentsFundament(PreconfiguredBaseModel, kw_only=True):
     id_: HiveInt = field(name="id")
-    author: OptionallyEmpty[AccountName]
-    permlink: OptionallyEmpty[Permlink]
-    category: OptionallyEmpty[str]
-    parent_author: OptionallyEmpty[AccountName]
-    parent_permlink: OptionallyEmpty[Permlink]
-    title: OptionallyEmpty[str]
-    body: OptionallyEmpty[str]
+    author: OptionallyEmptyAccountName
+    permlink: OptionallyEmptyPermlink
+    category: OptionallyEmptyString
+    parent_author: OptionallyEmptyAccountName
+    parent_permlink: OptionallyEmptyPermlink
+    title: OptionallyEmptyString
+    body: OptionallyEmptyString
     json_metadata: str
     last_update: HiveDateTime
     created: HiveDateTime
@@ -141,8 +141,8 @@ class FindCommentsFundament(PreconfiguredBaseModel, kw_only=True):
     curator_payout_value: AssetHbd
     author_rewards: HiveInt
     net_votes: HiveInt
-    root_author: OptionallyEmpty[AccountName]
-    root_permlink: OptionallyEmpty[Permlink]
+    root_author: OptionallyEmptyAccountName
+    root_permlink: OptionallyEmptyPermlink
     max_accepted_payout: AssetHbd
     percent_hbd: HiveInt
     allow_replies: bool
@@ -192,7 +192,7 @@ class LimitOrdersFundament(PreconfiguredBaseModel, kw_only=True):
     id_: HiveInt = field(name="id")
     created: HiveDateTime
     expiration: HiveDateTime
-    seller: OptionallyEmpty[AccountName]
+    seller: OptionallyEmptyAccountName
     orderid: HiveInt
     for_sale: HiveInt
     sell_price: Price
@@ -373,7 +373,7 @@ class ListAccountRecoveryRequestsFundament(PreconfiguredBaseModel, kw_only=True)
 class ListChangeRecoveryAccountRequestsFundament(PreconfiguredBaseModel, kw_only=True):
     id_: HiveInt = field(name="id")
     account_to_recover: AccountName
-    recovery_account: OptionallyEmpty[AccountName]
+    recovery_account: OptionallyEmptyAccountName
     effective_on: HiveDateTime
 
 
@@ -410,7 +410,7 @@ class ListCommentsFundament(PreconfiguredBaseModel, kw_only=True):
     allow_replies: bool
     allow_votes: bool
     allow_curation_rewards: bool
-    parent_author: OptionallyEmpty[AccountName]
+    parent_author: OptionallyEmptyAccountName
     parent_permlink: Permlink
     beneficiaries: list[str]
     max_accepted_payout: AssetHbd

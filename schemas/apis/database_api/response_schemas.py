@@ -50,7 +50,7 @@ from schemas.fields.hex import Hex, TransactionId
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.hive_list import HiveList
-from schemas.fields.resolvables import OptionallyEmpty
+from schemas.fields.resolvables import OptionallyEmpty, OptionallyEmptyAccountName
 from schemas.fields.version import HardforkVersion, HiveVersion
 
 
@@ -133,8 +133,8 @@ class GetActiveWitnesses(PreconfiguredBaseModel, kw_only=True):
     This response doesn't need fundament class
     """
 
-    witnesses: list[OptionallyEmpty[AccountName]]
-    future_witnesses: list[OptionallyEmpty[AccountName]] | None = None
+    witnesses: list[OptionallyEmptyAccountName]
+    future_witnesses: list[OptionallyEmptyAccountName] | None = None
 
 
 class GetCommentPendingPayouts(PreconfiguredBaseModel, kw_only=True):
@@ -543,8 +543,8 @@ class GetWitnessScheduleOrig(PreconfiguredBaseModel, kw_only=True):
     id_: HiveInt = field(name="id")
     current_virtual_time: HiveInt
     next_shuffle_block_num: HiveInt
-    current_shuffled_witnesses: list[OptionallyEmpty[AccountName]]
-    future_shuffled_witnesses: list[OptionallyEmpty[AccountName]] | None = None
+    current_shuffled_witnesses: list[OptionallyEmptyAccountName]
+    future_shuffled_witnesses: list[OptionallyEmptyAccountName] | None = None
     num_scheduled_witnesses: HiveInt
     elected_weight: HiveInt
     timeshare_weight: HiveInt

@@ -19,7 +19,7 @@ def enc_hook_base(obj: Any) -> Any:
     if isinstance(obj, HiveDateTime):
         return obj.__str__()
     if isinstance(obj, OptionallyEmpty):
-        return obj.value
+        return str(obj)
     return None
 
 
