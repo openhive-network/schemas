@@ -219,6 +219,11 @@ __all__ = [
     "VestingSharesSplitOperationLegacy",
 ]
 
+Dupa = FillRecurrentTransferOperation | FillTransferFromSavingsOperation | FillVestingWithdrawOperation
+import msgspec
+class Dupa2(msgspec.Struct):
+    ops: list[Dupa]
+
 Hf26VirtualOperationRepresentation = (
     HF26RepresentationAuthorRewardOperation
     | HF26RepresentationAccountCreatedOperation

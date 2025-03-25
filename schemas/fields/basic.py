@@ -22,17 +22,24 @@ from schemas.hive_constants import HIVE_MAX_URL_LENGTH, HIVE_MAX_WITNESS_URL_LEN
 
 ACCOUNT_NAME_SEGMENT_REGEX: Final[str] = r"[a-z]{1}[a-z0-9\-]+[a-z0-9]{1}"
 BASE_58_REGEX: Final[str] = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
-
+ACCOUNT_NAME_REGEX = "^" + ACCOUNT_NAME_SEGMENT_REGEX + r"(:?\.{1}" + ACCOUNT_NAME_SEGMENT_REGEX + ")*$"
 
 AccountName = Annotated[
     str,
     msgspec.Meta(
         max_length=16,
         min_length=3,
-        pattern="^" + ACCOUNT_NAME_SEGMENT_REGEX + r"(:?\.{1}" + ACCOUNT_NAME_SEGMENT_REGEX + ")*$",
+        pattern=ACCOUNT_NAME_REGEX,
     ),
 ]
 
+EmptyAccountName = Annotated[
+    str,
+    msgspec.Meta(
+        max_length=16,
+        pattern=f"{ACCOUNT_NAME_REGEX}|^()$",
+    ),
+]
 
 CustomIdType = Annotated[str, msgspec.Meta(max_length=32)]
 
