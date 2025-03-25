@@ -528,5 +528,5 @@ LegacyRepresentationAndValuePairs = (
 HF26RepresentationAndValuePairs = HF26RepresentationAndValuePairsNonVirtual | HF26RepresentationAndValuePairsVirtual
 
 
-def convert_to_representation(operation: Operation) -> Any:
+def convert_to_representation(operation: Operation) -> AnyHf26Operation:
     return HF26RepresentationAndValuePairs[type(operation)](value=operation)
