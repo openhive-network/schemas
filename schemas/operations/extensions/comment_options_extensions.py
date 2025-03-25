@@ -12,6 +12,8 @@ class BeneficiaryRoute(PreconfiguredBaseModel):
 
 
 class CommentPayoutBeneficiaries(OperationExtension):
-    __extension_name__ = "comment_payout_beneficiaries"
+    @classmethod
+    def get_name(cls) -> str:
+        return "comment_payout_beneficiaries"
 
     beneficiaries: list[BeneficiaryRoute]

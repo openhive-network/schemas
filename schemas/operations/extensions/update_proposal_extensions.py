@@ -5,6 +5,8 @@ from schemas.operations.extensions.extension import OperationExtension
 
 
 class UpdateProposalEndDate(OperationExtension):
-    __extension_name__ = "update_proposal_end_date"
+    @classmethod
+    def get_name(cls) -> str:
+        return "update_proposal_end_date"
 
     end_date: HiveDateTime
