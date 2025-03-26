@@ -1,28 +1,23 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Literal
+from typing import Any, Literal
 
-from pydantic import Field
+from msgspec import field
 
 import schemas.apis.database_api.fundaments_of_reponses as fundaments_database_api
 from schemas._operation_objects import LegacyApiAllOperationObject
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.fields.assets.hbd import AssetHbdLegacy
-from schemas.fields.assets.hive import AssetHiveLegacy
-from schemas.fields.assets.vests import AssetVestsLegacy
+from schemas.fields.assets._base import AssetHbd, AssetHive, AssetVests
 from schemas.fields.basic import (
     AccountName,
-    EmptyString,
     FloatAsString,
+    OptionallyEmptyAccountName,
     Permlink,
     Url,
 )
 from schemas.fields.compound import Proposal
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
-
-if TYPE_CHECKING:
-    from schemas.operations.representation_types import __LegacyAllOperationUnionType  # noqa: F401 # mypy bug
 
 
 class HiveMindResponses(PreconfiguredBaseModel):
@@ -33,10 +28,10 @@ class HiveMindResponses(PreconfiguredBaseModel):
     data: dict[str, Any]
 
 
-class FindProposalsFundament(Proposal[AssetHbdLegacy]):
+class FindProposalsFundament(Proposal):
     """Change format of Assets to Legacy, excluded status field"""
 
-    status: str | None = Field(None, exclude=True)  # type: ignore
+    status: str | None = field(default=None)  # type: ignore
 
 
 class GetAccountReputationsFundament(PreconfiguredBaseModel):
@@ -44,18 +39,16 @@ class GetAccountReputationsFundament(PreconfiguredBaseModel):
     reputation: HiveInt
 
 
-class GetAccountsFundament(
-    fundaments_database_api.AccountItemFundament[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
-):
+class GetAccountsFundament(fundaments_database_api.AccountItemFundament, kw_only=True):
     """Base for this response is list_accounts from database api. Some additional fields are here and two excluded"""
 
-    last_post_edit: HiveDateTime | None = Field(None, exclude=True)  # type: ignore
-    is_smt: bool | None = Field(None, exclude=True)  # type: ignore
+    last_post_edit: HiveDateTime | None = field(default=None)  # type: ignore
+    is_smt: bool | None = field(default=None)  # type: ignore
 
     post_history: list[str]
     vote_history: list[str]
     witness_votes: list[str]
-    vesting_balance: AssetHiveLegacy
+    vesting_balance: AssetHive
     transfer_history: list[str]
     voting_power: HiveInt
     market_history: list[str]
@@ -65,11 +58,11 @@ class GetAccountsFundament(
     other_history: list[str]
 
 
-class GetAccountHistoryFundament(LegacyApiAllOperationObject):
-    operation_id: HiveInt = Field(None, exclude=True)  # type: ignore
+class GetAccountHistoryFundament(LegacyApiAllOperationObject, kw_only=True):
+    operation_id: HiveInt = field(default=None)  # type: ignore
 
 
-class GetActiveVotesFundament(PreconfiguredBaseModel):
+class GetActiveVotesFundament(PreconfiguredBaseModel, kw_only=True):
     percent: HiveInt
     reputation: HiveInt
     rshares: HiveInt
@@ -78,7 +71,7 @@ class GetActiveVotesFundament(PreconfiguredBaseModel):
     weight: HiveInt
 
 
-class GetBlogEntriesFundament(PreconfiguredBaseModel):
+class GetBlogEntriesFundament(PreconfiguredBaseModel, kw_only=True):
     author: AccountName
     permlink: str
     blog: AccountName
@@ -86,7 +79,7 @@ class GetBlogEntriesFundament(PreconfiguredBaseModel):
     entry_id: HiveInt
 
 
-class ActiveVotes(PreconfiguredBaseModel):
+class ActiveVotes(PreconfiguredBaseModel, kw_only=True):
     """This is field which is used in GetCommentDiscussionsByPayout model"""
 
     percent: HiveInt
@@ -95,24 +88,24 @@ class ActiveVotes(PreconfiguredBaseModel):
     voter: AccountName
 
 
-class GetCommentDiscussionsByPayoutFundament(fundaments_database_api.FindCommentsFundament[AssetHbdLegacy]):
-    id_: HiveInt | None = Field(None, exclude=True)  # type: ignore
-    abs_rshares: HiveInt | None = Field(None, exclude=True)  # type: ignore
-    vote_rshares: HiveInt | None = Field(None, exclude=True)  # type: ignore
-    children_abs_rshares: HiveInt | None = Field(None, exclude=True)  # type: ignore
-    max_cashout_time: HiveDateTime | None = Field(None, exclude=True)  # type: ignore
-    total_vote_weight: HiveInt | None = Field(None, exclude=True)  # type: ignore
-    reward_weight: HiveInt | None = Field(None, exclude=True)  # type: ignore
-    author_rewards: HiveInt | None = Field(None, exclude=True)  # type: ignore
-    net_votes: HiveInt | None = Field(None, exclude=True)  # type: ignore
-    root_author: AccountName | EmptyString | None = Field(None, exclude=True)  # type: ignore
-    root_permlink: Permlink | EmptyString | None = Field(None, exclude=True)  # type: ignore
-    allow_replies: bool | None = Field(None, exclude=True)  # type: ignore
-    allow_votes: bool | None = Field(None, exclude=True)  # type: ignore
-    allow_curation_rewards: bool | None = Field(None, exclude=True)  # type: ignore
+class GetCommentDiscussionsByPayoutFundament(fundaments_database_api.FindCommentsFundament, kw_only=True):
+    id_: HiveInt | None = field(default=None)  # type: ignore
+    abs_rshares: HiveInt | None = field(default=None)  # type: ignore
+    vote_rshares: HiveInt | None = field(default=None)  # type: ignore
+    children_abs_rshares: HiveInt | None = field(default=None)  # type: ignore
+    max_cashout_time: HiveDateTime | None = field(default=None)  # type: ignore
+    total_vote_weight: HiveInt | None = field(default=None)  # type: ignore
+    reward_weight: HiveInt | None = field(default=None)  # type: ignore
+    author_rewards: HiveInt | None = field(default=None)  # type: ignore
+    net_votes: HiveInt | None = field(default=None)  # type: ignore
+    root_author: OptionallyEmptyAccountName | None = field(default=None)  # type: ignore
+    root_permlink: Permlink | None = field(default=None)  # type: ignore
+    allow_replies: bool | None = field(default=None)  # type: ignore
+    allow_votes: bool | None = field(default=None)  # type: ignore
+    allow_curation_rewards: bool | None = field(default=None)  # type: ignore
 
-    pending_payout_value: AssetHbdLegacy
-    promoted: AssetHbdLegacy
+    pending_payout_value: AssetHbd
+    promoted: AssetHbd
     replies: list[str]
     body_length: HiveInt
     author_reputation: HiveInt
@@ -122,7 +115,7 @@ class GetCommentDiscussionsByPayoutFundament(fundaments_database_api.FindComment
     active_votes: list[ActiveVotes]
 
 
-class GetBlogFundament(PreconfiguredBaseModel):
+class GetBlogFundament(PreconfiguredBaseModel, kw_only=True):
     """Identical as find_comments in database_api, just four more fields"""
 
     blog: AccountName
@@ -131,24 +124,24 @@ class GetBlogFundament(PreconfiguredBaseModel):
     reblogged_on: HiveDateTime
 
 
-class GetDiscussionsByAuthorBeforeDateFundament(GetCommentDiscussionsByPayoutFundament):
+class GetDiscussionsByAuthorBeforeDateFundament(GetCommentDiscussionsByPayoutFundament, kw_only=True):
     """The same structure as response above ->  GetCommentDiscussionsByPayoutFundament"""
 
 
-class GetEscrowFundament(fundaments_database_api.EscrowsFundament[AssetHiveLegacy, AssetHbdLegacy]):
+class GetEscrowFundament(fundaments_database_api.EscrowsFundament, kw_only=True):
     """Identical like response from database_api, just one additional field and Legacy format of Assets
     This response could also be null, the reason why split into Fundament and main response
     """
 
 
-class GetExpiringVestingDelegationFundament(PreconfiguredBaseModel):
-    id_: HiveInt = Field(alias="id")
+class GetExpiringVestingDelegationFundament(PreconfiguredBaseModel, kw_only=True):
+    id_: HiveInt = field(name="id")
     delegator: AccountName
-    vesting_shares: AssetVestsLegacy
+    vesting_shares: AssetVests
     expiration: HiveDateTime
 
 
-class FollowFundament(PreconfiguredBaseModel):
+class FollowFundament(PreconfiguredBaseModel, kw_only=True):
     """response without base in any other api
     fundament for get_followers and get_following
     """
@@ -158,61 +151,57 @@ class FollowFundament(PreconfiguredBaseModel):
     what: list[str]
 
 
-class GetOpsInBlockFundament(LegacyApiAllOperationObject):
+class GetOpsInBlockFundament(LegacyApiAllOperationObject, kw_only=True):
     """just operation_id from base excluded, rest the same"""
 
-    operation_id: HiveInt | None = Field(None, exclude=True)  # type: ignore
+    operation_id: HiveInt | None = field(default=None)  # type: ignore
 
 
-class GetTrendingTagsFundament(PreconfiguredBaseModel):
+class GetTrendingTagsFundament(PreconfiguredBaseModel, kw_only=True):
     name: AccountName
-    total_payouts: AssetHbdLegacy
+    total_payouts: AssetHbd
     top_posts: HiveInt
     comments: HiveInt
-    net_votes: HiveInt | None
-    trending: str | None
+    net_votes: HiveInt | None = None
+    trending: str | None = None
 
 
-class ListProposalsFundament(Proposal[AssetHbdLegacy]):
+class ListProposalsFundament(Proposal, kw_only=True):
     """Proposal field converted to Legacy format of Assets"""
 
-    status: str | None = Field(None, exclude=True)  # type: ignore
+    status: str | None = field(default=None)  # type: ignore
 
 
-class ListRcDirectDelegationsFundament(PreconfiguredBaseModel):
-    from_: AccountName = Field(alias="from")
+class ListRcDirectDelegationsFundament(PreconfiguredBaseModel, kw_only=True):
+    from_: AccountName = field(name="from")
     to: AccountName
     delegated_rc: HiveInt
 
 
-class LookupAccountNamesFundament(
-    fundaments_database_api.AccountItemFundament[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
-):
-    last_post_edit: HiveDateTime | None = Field(None, exclude=True)  # type: ignore
-    is_smt: bool | None = Field(None, exclude=True)  # type: ignore
+class LookupAccountNamesFundament(fundaments_database_api.AccountItemFundament, kw_only=True):
+    last_post_edit: HiveDateTime | None = field(default=None)  # type: ignore
+    is_smt: bool | None = field(default=None)  # type: ignore
 
     voting_power: HiveInt
 
 
-class GetExpiringVestingDelegationsFundament(PreconfiguredBaseModel):
-    id_: HiveInt = Field(alias="id")
+class GetExpiringVestingDelegationsFundament(PreconfiguredBaseModel, kw_only=True):
+    id_: HiveInt = field(name="id")
     delegator: AccountName
-    vesting_shares: AssetVestsLegacy
+    vesting_shares: AssetVests
     expiration: HiveDateTime
 
 
-class GetOpenOrdersFundament(
-    fundaments_database_api.LimitOrdersFundament[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
-):
+class GetOpenOrdersFundament(fundaments_database_api.LimitOrdersFundament, kw_only=True):
     """Same as in database_api -> list_limit_orders, just Legacy format of Assets and two additional fields"""
 
     real_price: FloatAsString
     rewarded: bool
 
 
-class GetVestingDelegationsFundament(PreconfiguredBaseModel):
-    id_: HiveInt = Field(alias="id")
+class GetVestingDelegationsFundament(PreconfiguredBaseModel, kw_only=True):
+    id_: HiveInt = field(name="id")
     delegator: AccountName
     delegatee: AccountName
-    vesting_shares: AssetVestsLegacy
+    vesting_shares: AssetVests
     min_delegation_time: HiveDateTime

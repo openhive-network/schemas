@@ -1,12 +1,9 @@
 from __future__ import annotations
 
-from typing import Generic
-
-from pydantic import Field
-from pydantic.generics import GenericModel
+from msgspec import field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.fields.assets.vests import AssetVestsT
+from schemas.fields.assets._base import AssetVests
 from schemas.fields.basic import (
     AccountName,
 )
@@ -14,10 +11,10 @@ from schemas.fields.compound import Manabar
 from schemas.fields.hive_int import HiveInt
 
 
-class RcAccount(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
+class RcAccount(PreconfiguredBaseModel):
     account: AccountName
     rc_manabar: Manabar
-    max_rc_creation_adjustment: AssetVestsT
+    max_rc_creation_adjustment: AssetVests
     max_rc: HiveInt
     delegated_rc: HiveInt
     received_delegated_rc: HiveInt
@@ -165,7 +162,7 @@ class ResourcePool(PreconfiguredBaseModel):
     resource_execution_time: Pool
 
 
-class RcDirectDelegations(PreconfiguredBaseModel):
-    from_: AccountName = Field(alias="from")
+class RcDirectDelegations(PreconfiguredBaseModel, kw_only=True):
+    from_: AccountName = field(name="from")
     to: AccountName
     delegated_rc: HiveInt
