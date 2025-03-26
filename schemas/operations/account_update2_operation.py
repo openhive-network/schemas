@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pydantic import Field
+from msgspec import field
 
 from schemas.fields.basic import AccountName, PublicKey
 from schemas.fields.compound import Authority
@@ -9,9 +9,6 @@ from schemas.operations.extensions.future_extension import FutureExtensions
 
 
 class AccountUpdate2Operation(Operation):
-    __operation_name__ = "account_update2"
-    __offset__ = 43
-
     account: AccountName
     owner: Authority | None = None
     active: Authority | None = None
@@ -19,4 +16,12 @@ class AccountUpdate2Operation(Operation):
     memo_key: PublicKey | None = None
     json_metadata: str | None = None
     posting_json_metadata: str | None = None
-    extensions: FutureExtensions = Field(default_factory=FutureExtensions)
+    extensions: FutureExtensions = field(default_factory=FutureExtensions)
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "account_update2"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 43

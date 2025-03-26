@@ -1,25 +1,26 @@
 from __future__ import annotations
 
-from typing import Generic
-
-from pydantic.generics import GenericModel
-
-from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsLegacy, AssetVestsT
+from schemas.fields.assets._base import AssetVests
 from schemas.fields.basic import AccountName
 from schemas.operation import Operation
 
 
-class _WithdrawVestingOperation(Operation, GenericModel, Generic[AssetVestsT]):
-    __operation_name__ = "withdraw_vesting"
-    __offset__ = 4
-
+class _WithdrawVestingOperation(Operation):
     account: AccountName
-    vesting_shares: AssetVestsT
+    vesting_shares: AssetVests
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "withdraw_vesting"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 4
 
 
-class WithdrawVestingOperation(_WithdrawVestingOperation[AssetVestsHF26]):
+class WithdrawVestingOperation(_WithdrawVestingOperation):
     ...
 
 
-class WithdrawVestingOperationLegacy(_WithdrawVestingOperation[AssetVestsLegacy]):
+class WithdrawVestingOperationLegacy(_WithdrawVestingOperation):
     ...
