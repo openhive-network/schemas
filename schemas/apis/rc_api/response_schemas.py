@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from typing import Generic, Literal
-
-from pydantic.generics import GenericModel
+from typing import Literal
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.rc_api.fundaments_of_responses import (
@@ -12,11 +10,10 @@ from schemas.apis.rc_api.fundaments_of_responses import (
     ResourcePool,
     SizeInfo,
 )
-from schemas.fields.assets.vests import AssetVestsT
 
 
-class FindRcAccounts(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
-    rc_accounts: list[RcAccount[AssetVestsT]]
+class FindRcAccounts(PreconfiguredBaseModel):
+    rc_accounts: list[RcAccount]
 
 
 class GetResourceParams(PreconfiguredBaseModel):
@@ -37,8 +34,8 @@ class GetResourcePool(PreconfiguredBaseModel):
     resource_pool: ResourcePool
 
 
-class ListRcAccounts(PreconfiguredBaseModel, GenericModel, Generic[AssetVestsT]):
-    rc_accounts: list[RcAccount[AssetVestsT]]
+class ListRcAccounts(PreconfiguredBaseModel):
+    rc_accounts: list[RcAccount]
 
 
 class ListRcDirectDelegations(PreconfiguredBaseModel):

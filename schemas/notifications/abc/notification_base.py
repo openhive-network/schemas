@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 
-class NotificationBase(PreconfiguredBaseModel, ABC):
+class NotificationBase(PreconfiguredBaseModel):
     @classmethod
     @abstractmethod
     def get_notification_name(cls) -> str:

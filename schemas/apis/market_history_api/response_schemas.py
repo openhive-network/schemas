@@ -1,9 +1,5 @@
 from __future__ import annotations
 
-from typing import Generic
-
-from pydantic.generics import GenericModel
-
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.market_history_api.fundaments_of_responses import (
     BucketSizes,
@@ -12,9 +8,7 @@ from schemas.apis.market_history_api.fundaments_of_responses import (
     GetTradeHistoryFundament,
     Order,
 )
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdT
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveT
-from schemas.fields.assets.vests import AssetVestsT
+from schemas.fields.assets._base import AssetHbd, AssetHive
 from schemas.fields.hive_list import HiveList
 
 
@@ -27,31 +21,31 @@ class GetMarketHistoryBuckets(PreconfiguredBaseModel):
 
 
 class GetRecentTrades(PreconfiguredBaseModel):
-    trades: HiveList[GetRecentTradesFundament[AssetHiveHF26, AssetHbdHF26]]
+    trades: HiveList[GetRecentTradesFundament]
 
 
-class GetTicker(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class GetTicker(PreconfiguredBaseModel):
     """Must specify type of Assets by generic when using"""
 
     latest: str
     lowest_ask: str
     highest_bid: str
     percent_change: str
-    hive_volume: AssetHiveT
-    hbd_volume: AssetHbdT
+    hive_volume: AssetHive
+    hbd_volume: AssetHbd
 
 
 class GetTradeHistory(PreconfiguredBaseModel):
-    trades: HiveList[GetTradeHistoryFundament[AssetHiveHF26, AssetHbdHF26]]
+    trades: HiveList[GetTradeHistoryFundament]
 
 
-class GetVolume(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class GetVolume(PreconfiguredBaseModel):
     """Must specify type of Assets by generic when using"""
 
-    hive_volume: AssetHiveT
-    hbd_volume: AssetHbdT
+    hive_volume: AssetHive
+    hbd_volume: AssetHbd
 
 
-class GetOrderBook(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
-    bids: list[Order[AssetHiveT, AssetHbdT, AssetVestsT]]
-    asks: list[Order[AssetHiveT, AssetHbdT, AssetVestsT]]
+class GetOrderBook(PreconfiguredBaseModel):
+    bids: list[Order]
+    asks: list[Order]

@@ -1,9 +1,8 @@
 from __future__ import annotations
 
-from typing import Generic, Literal
+from typing import Literal
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from msgspec import Struct, defstruct, field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.database_api.fundaments_of_reponses import (
@@ -35,13 +34,11 @@ from schemas.apis.database_api.fundaments_of_reponses import (
     WithdrawVestingRoutesFundament,
     WitnessesFundament,
 )
+from schemas.fields.assets._base import AssetHbd, AssetHive, AssetVests
 from schemas.fields.assets._symbol import HbdSymbolType, HiveSymbolType, VestsSymbolType
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdT
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveT
-from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsT
 from schemas.fields.basic import (
     AccountName,
-    EmptyString,
+    OptionallyEmptyAccountName,
     PublicKey,
 )
 from schemas.fields.compound import (
@@ -57,94 +54,94 @@ from schemas.fields.hive_list import HiveList
 from schemas.fields.version import HardforkVersion, HiveVersion
 
 
-class FindAccountRecoveryRequests(PreconfiguredBaseModel):
+class FindAccountRecoveryRequests(PreconfiguredBaseModel, kw_only=True):
     requests: HiveList[FindAccountRecoveryRequestsFundament]
 
 
-class FindAccounts(PreconfiguredBaseModel):
-    accounts: HiveList[AccountItemFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
+class FindAccounts(PreconfiguredBaseModel, kw_only=True):
+    accounts: HiveList[AccountItemFundament]
 
 
-class FindChangeRecoveryAccountRequests(PreconfiguredBaseModel):
+class FindChangeRecoveryAccountRequests(PreconfiguredBaseModel, kw_only=True):
     requests: HiveList[FindChangeRecoveryAccountRequestsFundament]
 
 
-class FindCollateralizedConversionRequests(PreconfiguredBaseModel):
-    requests: HiveList[FindCollateralizedConversionRequestsFundament[AssetHiveHF26, AssetHbdHF26]]
+class FindCollateralizedConversionRequests(PreconfiguredBaseModel, kw_only=True):
+    requests: HiveList[FindCollateralizedConversionRequestsFundament]
 
 
-class FindComments(PreconfiguredBaseModel):
-    comments: HiveList[FindCommentsFundament[AssetHbdHF26]]
+class FindComments(PreconfiguredBaseModel, kw_only=True):
+    comments: HiveList[FindCommentsFundament]
 
 
-class FindDeclineVotingRightsRequests(PreconfiguredBaseModel):
+class FindDeclineVotingRightsRequests(PreconfiguredBaseModel, kw_only=True):
     requests: HiveList[FindDeclineVotingRightsRequestsFundament]
 
 
-class FindEscrows(PreconfiguredBaseModel):
-    escrows: HiveList[EscrowsFundament[AssetHiveHF26, AssetHbdHF26]]
+class FindEscrows(PreconfiguredBaseModel, kw_only=True):
+    escrows: HiveList[EscrowsFundament]
 
 
-class FindHbdConversionRequests(PreconfiguredBaseModel):
-    requests: HiveList[HbdConversionRequestsFundament[AssetHbdHF26]]
+class FindHbdConversionRequests(PreconfiguredBaseModel, kw_only=True):
+    requests: HiveList[HbdConversionRequestsFundament]
 
 
-class FindLimitOrders(PreconfiguredBaseModel):
-    orders: HiveList[LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
+class FindLimitOrders(PreconfiguredBaseModel, kw_only=True):
+    orders: HiveList[LimitOrdersFundament]
 
 
-class FindOwnerHistories(PreconfiguredBaseModel):
+class FindOwnerHistories(PreconfiguredBaseModel, kw_only=True):
     owner_auths: HiveList[OwnerHistoriesFundament]
 
 
-class FindProposals(PreconfiguredBaseModel):
+class FindProposals(PreconfiguredBaseModel, kw_only=True):
     """
     This class does not have fundament in fundaments_of_responses.py.
     Fundament of this response is field Proposal
     """
 
-    proposals: HiveList[Proposal[AssetHbdHF26]]
+    proposals: HiveList[Proposal]
 
 
-class FindRecurrentTransfers(PreconfiguredBaseModel):
-    recurrent_transfers: HiveList[FindRecurrentTransfersFundament[AssetHiveHF26, AssetHbdHF26]]
+class FindRecurrentTransfers(PreconfiguredBaseModel, kw_only=True):
+    recurrent_transfers: HiveList[FindRecurrentTransfersFundament]
 
 
-class FindSavingsWithdrawals(PreconfiguredBaseModel):
-    withdrawals: HiveList[SavingsWithdrawalsFundament[AssetHiveHF26, AssetHbdHF26]]
+class FindSavingsWithdrawals(PreconfiguredBaseModel, kw_only=True):
+    withdrawals: HiveList[SavingsWithdrawalsFundament]
 
 
-class FindVestingDelegationExpirations(PreconfiguredBaseModel):
-    delegations: HiveList[VestingDelegationExpirationsFundament[AssetVestsHF26]]
+class FindVestingDelegationExpirations(PreconfiguredBaseModel, kw_only=True):
+    delegations: HiveList[VestingDelegationExpirationsFundament]
 
 
-class FindVestingDelegations(PreconfiguredBaseModel):
-    delegations: HiveList[VestingDelegationsFundament[AssetVestsHF26]]
+class FindVestingDelegations(PreconfiguredBaseModel, kw_only=True):
+    delegations: HiveList[VestingDelegationsFundament]
 
 
-class FindWithdrawVestingRoutes(PreconfiguredBaseModel):
+class FindWithdrawVestingRoutes(PreconfiguredBaseModel, kw_only=True):
     routes: HiveList[WithdrawVestingRoutesFundament]
 
 
-class FindWitnesses(PreconfiguredBaseModel):
-    witnesses: HiveList[WitnessesFundament[AssetHiveHF26, AssetHbdHF26]]
+class FindWitnesses(PreconfiguredBaseModel, kw_only=True):
+    witnesses: HiveList[WitnessesFundament]
 
 
-class GetActiveWitnesses(PreconfiguredBaseModel):
+class GetActiveWitnesses(PreconfiguredBaseModel, kw_only=True):
     """
     When witnesses are not elected they are displayed as empty string. The situation does not exist in mainnet.
     This response doesn't need fundament class
     """
 
-    witnesses: list[AccountName | EmptyString]
-    future_witnesses: list[AccountName | EmptyString] | None
+    witnesses: list[OptionallyEmptyAccountName]
+    future_witnesses: list[OptionallyEmptyAccountName] | None = None
 
 
-class GetCommentPendingPayouts(PreconfiguredBaseModel):
-    cashout_infos: HiveList[GetCommentPendingPayoutsFundament[AssetHbdHF26]]
+class GetCommentPendingPayouts(PreconfiguredBaseModel, kw_only=True):
+    cashout_infos: HiveList[GetCommentPendingPayoutsFundament]
 
 
-class GetConfigOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT]):
+class GetConfigOrig(PreconfiguredBaseModel, kw_only=True):
     """
     This response includes just one dict, so also doesn't need fundament class
     To use this class choose type of Assets so:
@@ -269,20 +266,20 @@ class GetConfigOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, As
     HIVE_CREATE_ACCOUNT_WITH_HIVE_MODIFIER: HiveInt
     HIVE_CREATE_ACCOUNT_DELEGATION_RATIO: HiveInt
     HIVE_CREATE_ACCOUNT_DELEGATION_TIME: HiveInt
-    HIVE_MINING_REWARD: AssetHiveT
+    HIVE_MINING_REWARD: AssetHive
     HIVE_EQUIHASH_N: HiveInt
     HIVE_EQUIHASH_K: HiveInt
     HIVE_LIQUIDITY_TIMEOUT_SEC: HiveInt
     HIVE_MIN_LIQUIDITY_REWARD_PERIOD_SEC: HiveInt
     HIVE_LIQUIDITY_REWARD_PERIOD_SEC: HiveInt
     HIVE_LIQUIDITY_REWARD_BLOCKS: HiveInt
-    HIVE_MIN_LIQUIDITY_REWARD: AssetHiveT
-    HIVE_MIN_CONTENT_REWARD: AssetHiveT
-    HIVE_MIN_CURATE_REWARD: AssetHiveT
-    HIVE_MIN_PRODUCER_REWARD: AssetHiveT
-    HIVE_MIN_POW_REWARD: AssetHiveT
-    HIVE_ACTIVE_CHALLENGE_FEE: AssetHiveT
-    HIVE_OWNER_CHALLENGE_FEE: AssetHiveT
+    HIVE_MIN_LIQUIDITY_REWARD: AssetHive
+    HIVE_MIN_CONTENT_REWARD: AssetHive
+    HIVE_MIN_CURATE_REWARD: AssetHive
+    HIVE_MIN_PRODUCER_REWARD: AssetHive
+    HIVE_MIN_POW_REWARD: AssetHive
+    HIVE_ACTIVE_CHALLENGE_FEE: AssetHive
+    HIVE_OWNER_CHALLENGE_FEE: AssetHive
     HIVE_ACTIVE_CHALLENGE_COOLDOWN: HiveInt
     HIVE_OWNER_CHALLENGE_COOLDOWN: HiveInt
     HIVE_POST_REWARD_FUND_NAME: str
@@ -301,7 +298,7 @@ class GetConfigOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, As
     HIVE_LIQUIDITY_APR_PERCENT: HiveInt
     HIVE_PRODUCER_APR_PERCENT: HiveInt
     HIVE_POW_APR_PERCENT: HiveInt
-    HIVE_MIN_PAYOUT_HBD: AssetHbdT
+    HIVE_MIN_PAYOUT_HBD: AssetHbd
     HIVE_HBD_START_PERCENT_HF14: HiveInt
     HIVE_HBD_STOP_PERCENT_HF14: HiveInt
     HIVE_HBD_START_PERCENT_HF20: HiveInt
@@ -402,17 +399,29 @@ class GetConfigOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, As
     HIVE_UP_TO_DATE_MARGIN__FAST_CONFIRM: HiveInt
     HIVE_UP_TO_DATE_MARGIN__PENDING_TXS: HiveInt
 
+    @classmethod
+    def _optional_config(cls) -> type[Struct]:
+        field_definitions = [
+            (member, eval(GetConfigOrig.__annotations__[member] + " | None"), None)
+            for member in GetConfigOrig.__annotations__
+        ]
+        return defstruct(
+            "GetConfigWithDefaults",
+            fields=field_definitions,
+            bases=(PreconfiguredBaseModel,),
+        )
 
-GetConfig = GetConfigOrig[AssetHiveHF26, AssetHbdHF26]
+
+GetConfig = GetConfigOrig
 
 
-class GetCurrentPriceFeed(Price[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
+class GetCurrentPriceFeed(Price):
     """
     This response is identical as Price hive field.
     """
 
 
-class GetDynamicGlobalPropertiesOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
+class GetDynamicGlobalPropertiesOrig(PreconfiguredBaseModel, kw_only=True):
     """
     This class doesn't need fundament class
     You need to choose asset format by generics when you want to use this class
@@ -421,9 +430,9 @@ class GetDynamicGlobalPropertiesOrig(PreconfiguredBaseModel, GenericModel, Gener
     available_account_subsidies: HiveInt
     content_reward_percent: HiveInt
     current_aslot: HiveInt
-    current_hbd_supply: AssetHbdT
+    current_hbd_supply: AssetHbd
     current_remove_threshold: HiveInt
-    current_supply: AssetHiveT
+    current_supply: AssetHive
     current_witness: AccountName
     delegation_return_period: HiveInt
     downvote_pool_percent: HiveInt
@@ -434,8 +443,8 @@ class GetDynamicGlobalPropertiesOrig(PreconfiguredBaseModel, GenericModel, Gener
     hbd_stop_percent: HiveInt
     head_block_id: TransactionId
     head_block_number: HiveInt
-    id_: HiveInt = Field(alias="id")
-    init_hbd_supply: AssetHbdT
+    id_: HiveInt = field(name="id")
+    init_hbd_supply: AssetHbd
     last_budget_time: HiveDateTime
     last_irreversible_block_num: HiveInt
     max_consecutive_recurrent_transfer_failures: HiveInt
@@ -448,48 +457,48 @@ class GetDynamicGlobalPropertiesOrig(PreconfiguredBaseModel, GenericModel, Gener
     next_maintenance_time: HiveDateTime
     num_pow_witnesses: HiveInt
     participation_count: HiveInt
-    pending_rewarded_vesting_hive: AssetHiveT
-    pending_rewarded_vesting_shares: AssetVestsT
+    pending_rewarded_vesting_hive: AssetHive
+    pending_rewarded_vesting_shares: AssetVests
     recent_slots_filled: HiveInt
     reverse_auction_seconds: HiveInt
     proposal_fund_percent: HiveInt
-    dhf_interval_ledger: AssetHbdT
+    dhf_interval_ledger: AssetHbd
     time: HiveDateTime
     total_pow: HiveInt
-    total_reward_fund_hive: AssetHiveT
+    total_reward_fund_hive: AssetHive
     total_reward_shares2: HiveInt
-    total_vesting_fund_hive: AssetHiveT
-    total_vesting_shares: AssetVestsT
+    total_vesting_fund_hive: AssetHive
+    total_vesting_shares: AssetVests
     vesting_reward_percent: HiveInt
-    virtual_supply: AssetHiveT
+    virtual_supply: AssetHive
     vote_power_reserve_rate: HiveInt
 
 
-GetDynamicGlobalProperties = GetDynamicGlobalPropertiesOrig[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
+GetDynamicGlobalProperties = GetDynamicGlobalPropertiesOrig
 
 
-class GetFeedHistoryOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
+class GetFeedHistoryOrig(PreconfiguredBaseModel, kw_only=True):
     """
     This class doesn't need fundament class.
     """
 
-    id_: HiveInt = Field(alias="id")
-    current_median_history: Price[AssetHiveT, AssetHbdT, AssetVestsT]
-    market_median_history: Price[AssetHiveT, AssetHbdT, AssetVestsT]
-    current_min_history: Price[AssetHiveT, AssetHbdT, AssetVestsT]
-    current_max_history: Price[AssetHiveT, AssetHbdT, AssetVestsT]
-    price_history: list[Price[AssetHiveT, AssetHbdT, AssetVestsT]]
+    id_: HiveInt = field(name="id")
+    current_median_history: Price
+    market_median_history: Price
+    current_min_history: Price
+    current_max_history: Price
+    price_history: list[Price]
 
 
-GetFeedHistory = GetFeedHistoryOrig[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
+GetFeedHistory = GetFeedHistoryOrig
 
 
-class GetHardforkProperties(PreconfiguredBaseModel):
+class GetHardforkProperties(PreconfiguredBaseModel, kw_only=True):
     """
     This class doesn't need fundament class.
     """
 
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     processed_hardforks: list[HiveDateTime]
     last_hardfork: HiveInt
     current_hardfork_version: HardforkVersion
@@ -497,12 +506,12 @@ class GetHardforkProperties(PreconfiguredBaseModel):
     next_hardfork_time: HiveDateTime
 
 
-class GetOrderBook(PreconfiguredBaseModel):
-    asks: list[GetOrderBookFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]] | list[str]
-    bids: list[GetOrderBookFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]] | list[str]
+class GetOrderBook(PreconfiguredBaseModel, kw_only=True):
+    asks: list[GetOrderBookFundament]
+    bids: list[GetOrderBookFundament]
 
 
-class GetPotentialSignatures(PreconfiguredBaseModel):
+class GetPotentialSignatures(PreconfiguredBaseModel, kw_only=True):
     """
     This response is a list of keys, so doesn't need fundament class
     """
@@ -516,32 +525,32 @@ class GetRequiredSignatures(GetPotentialSignatures):
     """
 
 
-class GetRewardFunds(PreconfiguredBaseModel):
-    funds: HiveList[GetRewardFundsFundament[AssetHiveHF26]]
+class GetRewardFunds(PreconfiguredBaseModel, kw_only=True):
+    funds: HiveList[GetRewardFundsFundament]
 
 
-class GetTransactionHex(PreconfiguredBaseModel):
-    hex_: Hex = Field(alias="hex")
+class GetTransactionHex(PreconfiguredBaseModel, kw_only=True):
+    hex_: Hex = field(name="hex")
 
 
 class GetVersion(HiveVersion):
     """Identical response as HiveVersion field"""
 
 
-class GetWitnessScheduleOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
+class GetWitnessScheduleOrig(PreconfiguredBaseModel, kw_only=True):
     """When want to use must specify Asset type by Generic"""
 
-    id_: HiveInt = Field(alias="id")
+    id_: HiveInt = field(name="id")
     current_virtual_time: HiveInt
     next_shuffle_block_num: HiveInt
-    current_shuffled_witnesses: list[AccountName | EmptyString]
-    future_shuffled_witnesses: list[AccountName | EmptyString] | None = None
+    current_shuffled_witnesses: list[OptionallyEmptyAccountName]
+    future_shuffled_witnesses: list[OptionallyEmptyAccountName] | None = None
     num_scheduled_witnesses: HiveInt
     elected_weight: HiveInt
     timeshare_weight: HiveInt
     miner_weight: HiveInt
     witness_pay_normalization_factor: HiveInt
-    median_props: Props[AssetHiveT]
+    median_props: Props
     majority_version: HardforkVersion
     max_voted_witnesses: HiveInt
     max_miner_witnesses: HiveInt
@@ -550,95 +559,95 @@ class GetWitnessScheduleOrig(PreconfiguredBaseModel, GenericModel, Generic[Asset
     account_subsidy_rd: RdDynamicParams
     account_subsidy_witness_rd: RdDynamicParams
     min_witness_account_subsidy_decay: HiveInt
-    future_changes: GetWitnessScheduleFutureChangesFundament[AssetHiveT] | None = None
+    future_changes: GetWitnessScheduleFutureChangesFundament | None = None
 
 
-GetWitnessSchedule = GetWitnessScheduleOrig[AssetHiveHF26]
+GetWitnessSchedule = GetWitnessScheduleOrig
 
 
-class IsKnownTransaction(PreconfiguredBaseModel):
+class IsKnownTransaction(PreconfiguredBaseModel, kw_only=True):
     is_known: bool
 
 
-class ListAccountRecoveryRequests(PreconfiguredBaseModel):
+class ListAccountRecoveryRequests(PreconfiguredBaseModel, kw_only=True):
     requests: HiveList[ListAccountRecoveryRequestsFundament]
 
 
-class ListAccounts(PreconfiguredBaseModel):
-    accounts: HiveList[AccountItemFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
+class ListAccounts(PreconfiguredBaseModel, kw_only=True):
+    accounts: HiveList[AccountItemFundament]
 
 
-class ListChangeRecoveryAccountRequests(PreconfiguredBaseModel):
+class ListChangeRecoveryAccountRequests(PreconfiguredBaseModel, kw_only=True):
     requests: HiveList[ListChangeRecoveryAccountRequestsFundament]
 
 
-class ListCollateralizedConversionRequests(PreconfiguredBaseModel):
-    requests: HiveList[ListCollateralizedConversionRequestsFundament[AssetHiveHF26, AssetHbdHF26]]
+class ListCollateralizedConversionRequests(PreconfiguredBaseModel, kw_only=True):
+    requests: HiveList[ListCollateralizedConversionRequestsFundament]
 
 
-class ListComments(PreconfiguredBaseModel):
-    comments: HiveList[ListCommentsFundament[AssetHbdHF26]]
+class ListComments(PreconfiguredBaseModel, kw_only=True):
+    comments: HiveList[ListCommentsFundament]
 
 
-class ListDeclineVotingRightsRequests(PreconfiguredBaseModel):
+class ListDeclineVotingRightsRequests(PreconfiguredBaseModel, kw_only=True):
     requests: HiveList[ListDeclineVotingRightsRequestsFundament]
 
 
-class ListEscrows(PreconfiguredBaseModel):
-    escrows: HiveList[EscrowsFundament[AssetHiveHF26, AssetHbdHF26]]
+class ListEscrows(PreconfiguredBaseModel, kw_only=True):
+    escrows: HiveList[EscrowsFundament]
 
 
-class ListHbdConversionRequests(PreconfiguredBaseModel):
-    requests: HiveList[HbdConversionRequestsFundament[AssetHbdHF26]]
+class ListHbdConversionRequests(PreconfiguredBaseModel, kw_only=True):
+    requests: HiveList[HbdConversionRequestsFundament]
 
 
-class ListLimitOrders(PreconfiguredBaseModel):
-    orders: HiveList[LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
+class ListLimitOrders(PreconfiguredBaseModel, kw_only=True):
+    orders: HiveList[LimitOrdersFundament]
 
 
-class ListOwnerHistories(PreconfiguredBaseModel):
+class ListOwnerHistories(PreconfiguredBaseModel, kw_only=True):
     owner_auths: HiveList[OwnerHistoriesFundament]
 
 
-class ListProposals(PreconfiguredBaseModel):
-    proposals: HiveList[Proposal[AssetHbdHF26]]
+class ListProposals(PreconfiguredBaseModel, kw_only=True):
+    proposals: HiveList[Proposal]
 
 
-class ListProposalVotes(PreconfiguredBaseModel):
-    proposal_votes: HiveList[ListProposalVotesFundament[AssetHbdHF26]]
+class ListProposalVotes(PreconfiguredBaseModel, kw_only=True):
+    proposal_votes: HiveList[ListProposalVotesFundament]
 
 
-class ListSavingsWithdrawals(PreconfiguredBaseModel):
-    withdrawals: HiveList[SavingsWithdrawalsFundament[AssetHiveHF26, AssetHbdHF26]]
+class ListSavingsWithdrawals(PreconfiguredBaseModel, kw_only=True):
+    withdrawals: HiveList[SavingsWithdrawalsFundament]
 
 
-class ListVestingDelegationExpirations(PreconfiguredBaseModel):
-    delegations: HiveList[VestingDelegationExpirationsFundament[AssetVestsHF26]]
+class ListVestingDelegationExpirations(PreconfiguredBaseModel, kw_only=True):
+    delegations: HiveList[VestingDelegationExpirationsFundament]
 
 
-class ListVestingDelegations(PreconfiguredBaseModel):
-    delegations: HiveList[VestingDelegationsFundament[AssetVestsHF26]]
+class ListVestingDelegations(PreconfiguredBaseModel, kw_only=True):
+    delegations: HiveList[VestingDelegationsFundament]
 
 
-class ListWithdrawVestingRoutes(PreconfiguredBaseModel):
+class ListWithdrawVestingRoutes(PreconfiguredBaseModel, kw_only=True):
     routes: HiveList[WithdrawVestingRoutesFundament]
 
 
-class ListWitnesses(PreconfiguredBaseModel):
-    witnesses: HiveList[WitnessesFundament[AssetHiveHF26, AssetHbdHF26]]
+class ListWitnesses(PreconfiguredBaseModel, kw_only=True):
+    witnesses: HiveList[WitnessesFundament]
 
 
-class ListWitnessVotes(PreconfiguredBaseModel):
+class ListWitnessVotes(PreconfiguredBaseModel, kw_only=True):
     votes: HiveList[ListWitnessVotesFundament]
 
 
-class VerifyAccountAuthority(PreconfiguredBaseModel):
+class VerifyAccountAuthority(PreconfiguredBaseModel, kw_only=True):
     valid: bool
 
 
-class VerifyAuthority(PreconfiguredBaseModel):
+class VerifyAuthority(PreconfiguredBaseModel, kw_only=True):
     valid: bool
 
 
-class VerifySignatures(PreconfiguredBaseModel):
+class VerifySignatures(PreconfiguredBaseModel, kw_only=True):
     valid: bool
