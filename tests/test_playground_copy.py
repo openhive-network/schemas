@@ -1,0 +1,118 @@
+# ruff: noqa
+# type: ignore
+
+from __future__ import annotations
+
+import pytest
+import msgspec
+from schemas.decoders import get_hf26_decoder, is_matching_model, get_legacy_decoder
+from schemas.encoders import enc_hook_hf26
+from schemas.fields.assets._base import AssetHbd, AssetVests, AssetHive
+from schemas.fields.hive_datetime import HiveDateTime
+from schemas.operations.representation_types import HF26RepresentationTransferOperation
+from schemas.operations.transfer_operation import TransferOperation
+from schemas.operations.transfer_to_vesting_operation import TransferToVestingOperation
+from schemas.operations.transfer_to_savings_operation import TransferToSavingsOperation
+from schemas.operations import AccountWitnessProxyOperation, Hf26Operations
+
+from schemas.transaction import Transaction
+from schemas.jsonrpc import get_response_model
+import json
+from schemas.apis import database_api, wallet_bridge_api
+from schemas.fields.basic import AccountName, OptionallyEmptyAccountName
+
+# TRX = Transaction(
+#     operations=[
+#         HF26RepresentationTransferOperation(
+#             value=TransferOperation(from_="alice", to="bob", amount=AssetHbd(1), memo="test")
+#         )
+#     ],
+#     ref_block_num=1,
+#     ref_block_prefix=2,
+#     expiration="2021-01-01T00:00:00",
+#     extensions=[],
+#     signatures=[],
+# )
+
+
+# GET_ACTIVE_WITNESSES = {
+#     "jsonrpc": "2.0",
+#     "result": {
+#         "witnesses": [
+#             "emrebeyler",
+#             "roelandp",
+#             "steempeak",
+#             "ausbitbank",
+#             "abit",
+#             "themarkymark",
+#             "cervantes",
+#             "gtg",
+#             "321",
+#             "good-karma",
+#             "threespeak",
+#             "smooth.witness",
+#             "blocktrades",
+#             "deathwing",
+#             "yabapmatt",
+#             "quochuy",
+#             "guiltyparties",
+#             "therealwolf",
+#             "ocd-witness",
+#             "steempress",
+#             "arcange",
+#         ]
+#     },
+#     "id": 1,
+# }
+
+
+# LIST_PROPOSALS = {
+#     "jsonrpc": "2.0",
+#     "result": {
+#         "proposals": [
+#             {
+#                 "id": 250,
+#                 "proposal_id": 250,
+#                 "creator": "actifit",
+#                 "receiver": "actifit.funds",
+#                 "start_date": "2023-01-02T00:00:00",
+#                 "end_date": "2024-01-02T00:00:00",
+#                 "daily_pay": {"amount": "230000", "precision": 3, "nai": "@@000000013"},
+#                 "subject": "Proposal for the Support of Actifit - Hive's Flagship Move2Earn Dapp",
+#                 "permlink": "proposal-for-the-support-of-actifit-hives-flagship-move2earn-dapp",
+#                 "total_votes": "68790473297987607",
+#                 "status": "active",
+#             }
+#         ]
+#     },
+#     "id": 1,
+# }
+
+
+@pytest.mark.skip(reason="no way of currently testing this")
+def test_responses_from_api_correct_values() -> None:
+    # data = {
+    #     "from": "alan",
+    #     "to": "bob",
+    #     "amount": {"nai":"@@000000021","amount":"0", "precision":3},
+    #     "memo": "memo",
+    # }
+    # decoder = get_hf26_decoder(TransferToSavingsOperation)
+
+    # serialized = decoder.decode(json.dumps(data))
+    # pass
+
+    # msgspec.convert("abc", OptionallyEmptyAccountName)
+
+    dupa = AccountWitnessProxyOperation("bob", "bob")
+
+    isinstance
+
+    dupa2 = dupa.copy(exclude={"proxy"})
+    pass
+
+    # encoder = msgspec.json.Encoder(enc_hook=enc_hook_hf26, order="sorted")
+    # decoder = get_hf26_decoder(AccountWitnessProxyOperation)
+    # deserialized = encoder.encode(dupa).decode()
+    # serialized = decoder.decode(deserialized)
+    # pass

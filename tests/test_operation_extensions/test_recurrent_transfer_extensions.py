@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from schemas.operations import RecurrentTransferOperation, RecurrentTransferOperationLegacy
+import msgspec
+
+from schemas.decoders import dec_hook_hf26, dec_hook_legacy
+from schemas.operations import RecurrentTransferOperation
 
 
 def test_recurrent_transfer_extension_hf_26_representation() -> None:
@@ -21,7 +24,7 @@ def test_recurrent_transfer_extension_hf_26_representation() -> None:
     }
 
     # ACT & ASSERT
-    RecurrentTransferOperation(**data)
+    msgspec.convert(obj=data, type=RecurrentTransferOperation, dec_hook=dec_hook_hf26)
 
 
 def test_recurrent_transfer_extension_legacy_representation() -> None:
@@ -42,4 +45,4 @@ def test_recurrent_transfer_extension_legacy_representation() -> None:
     }
 
     # ACT & ASSERT
-    RecurrentTransferOperationLegacy(**data)
+    msgspec.convert(obj=data, type=RecurrentTransferOperation, dec_hook=dec_hook_legacy)
