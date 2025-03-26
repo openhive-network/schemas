@@ -8,3 +8,11 @@ class SystemWarningOperation(VirtualOperation):
     __offset__ = 32
 
     message: str
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "system_warning"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 32

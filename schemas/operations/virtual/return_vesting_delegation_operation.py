@@ -1,25 +1,26 @@
 from __future__ import annotations
 
-from typing import Generic
-
-from pydantic.generics import GenericModel
-
-from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsLegacy, AssetVestsT
+from schemas.fields.assets._base import AssetVests
 from schemas.fields.basic import AccountName
 from schemas.virtual_operation import VirtualOperation
 
 
-class _ReturnVestingDelegationOperation(VirtualOperation, GenericModel, Generic[AssetVestsT]):
-    __operation_name__ = "return_vesting_delegation"
-    __offset__ = 12
-
+class _ReturnVestingDelegationOperation(VirtualOperation, kw_only=True):
     account: AccountName
-    vesting_shares: AssetVestsT
+    vesting_shares: AssetVests
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "return_vesting_delegation"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 12
 
 
-class ReturnVestingDelegationOperation(_ReturnVestingDelegationOperation[AssetVestsHF26]):
+class ReturnVestingDelegationOperation(_ReturnVestingDelegationOperation):
     ...
 
 
-class ReturnVestingDelegationOperationLegacy(_ReturnVestingDelegationOperation[AssetVestsLegacy]):
+class ReturnVestingDelegationOperationLegacy(_ReturnVestingDelegationOperation):
     ...

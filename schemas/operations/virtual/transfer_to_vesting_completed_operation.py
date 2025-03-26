@@ -1,32 +1,30 @@
 from __future__ import annotations
 
-from typing import Generic
-
-from pydantic.generics import GenericModel
-
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
-from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsLegacy, AssetVestsT
+from schemas.fields.assets._base import AssetHive, AssetVests
 from schemas.fields.basic import (
     AccountName,
 )
 from schemas.virtual_operation import VirtualOperation
 
 
-class _TransferToVestingCompletedOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetVestsT]):
-    __operation_name__ = "transfer_to_vesting_completed"
-    __offset__ = 27
-
+class _TransferToVestingCompletedOperation(VirtualOperation, kw_only=True):
     from_account: AccountName
     to_account: AccountName
-    hive_vested: AssetHiveT
-    vesting_shares_received: AssetVestsT
+    hive_vested: AssetHive
+    vesting_shares_received: AssetVests
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "transfer_to_vesting_completed"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 27
 
 
-class TransferToVestingCompletedOperation(_TransferToVestingCompletedOperation[AssetHiveHF26, AssetVestsHF26]):
+class TransferToVestingCompletedOperation(_TransferToVestingCompletedOperation):
     ...
 
 
-class TransferToVestingCompletedOperationLegacy(
-    _TransferToVestingCompletedOperation[AssetHiveLegacy, AssetVestsLegacy]
-):
+class TransferToVestingCompletedOperationLegacy(_TransferToVestingCompletedOperation):
     ...

@@ -1,26 +1,27 @@
 from __future__ import annotations
 
-from typing import Generic
-
-from pydantic.generics import GenericModel
-
-from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsLegacy, AssetVestsT
+from schemas.fields.assets._base import AssetVests
 from schemas.fields.basic import AccountName
 from schemas.virtual_operation import VirtualOperation
 
 
-class _VestingSharesSplitOperation(VirtualOperation, GenericModel, Generic[AssetVestsT]):
-    __operation_name__ = "vesting_shares_split"
-    __offset__ = 29
-
+class _VestingSharesSplitOperation(VirtualOperation):
     owner: AccountName
-    vesting_shares_before_split: AssetVestsT
-    vesting_shares_after_split: AssetVestsT
+    vesting_shares_before_split: AssetVests
+    vesting_shares_after_split: AssetVests
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "vesting_shares_split"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 29
 
 
-class VestingSharesSplitOperation(_VestingSharesSplitOperation[AssetVestsHF26]):
+class VestingSharesSplitOperation(_VestingSharesSplitOperation):
     ...
 
 
-class VestingSharesSplitOperationLegacy(_VestingSharesSplitOperation[AssetVestsLegacy]):
+class VestingSharesSplitOperationLegacy(_VestingSharesSplitOperation):
     ...

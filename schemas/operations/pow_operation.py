@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-from typing import Final, Generic
+from typing import Final
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from msgspec import field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
     AccountName,
     PublicKey,
@@ -19,29 +17,34 @@ from schemas.operation import Operation
 DEFAULT_FILL_OR_KILL: Final[bool] = False
 
 
-class Work(PreconfiguredBaseModel):
+class Work(PreconfiguredBaseModel, kw_only=True):
     __operation_name__ = "work"
 
     worker: PublicKey
-    input_: Sha256 = Field(alias="input")
+    input_: Sha256 = field(name="input")
     signature: Signature
     work: Sha256
 
 
-class _PowOperation(Operation, GenericModel, Generic[AssetHiveT]):
-    __operation_name__ = "pow"
-    __offset__ = 14
-
+class _PowOperation(Operation):
     worker_account: AccountName
     block_id: TransactionId
     nonce: Uint64t
-    props: LegacyChainProperties[AssetHiveT]
+    props: LegacyChainProperties
     work: Work
 
+    @classmethod
+    def get_name(cls) -> str:
+        return "pow"
 
-class PowOperation(_PowOperation[AssetHiveHF26]):
+    @classmethod
+    def offset(cls) -> int:
+        return 14
+
+
+class PowOperation(_PowOperation):
     ...
 
 
-class PowOperationLegacy(_PowOperation[AssetHiveLegacy]):
+class PowOperationLegacy(_PowOperation):
     ...

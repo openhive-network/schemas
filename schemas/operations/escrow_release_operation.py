@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-from typing import Final, Generic
+from typing import Final
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from msgspec import field
 
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
+from schemas.fields.assets._base import AssetHbd, AssetHive
 from schemas.fields.basic import (
     AccountName,
 )
@@ -16,23 +14,28 @@ from schemas.operation import Operation
 DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 
 
-class _EscrowReleaseOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
-    __operation_name__ = "escrow_release"
-    __offset__ = 29
-
-    from_: AccountName = Field(alias="from")
+class _EscrowReleaseOperation(Operation, kw_only=True):
+    from_: AccountName = field(name="from")
     to: AccountName
     agent: AccountName
     who: AccountName
     receiver: AccountName
     escrow_id: Uint32t = DEFAULT_ESCROW_ID
-    hbd_amount: AssetHbdT  # here add  default
-    hive_amount: AssetHiveT  # here add default
+    hbd_amount: AssetHbd  # here add  default
+    hive_amount: AssetHive  # here add default
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "escrow_release"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 29
 
 
-class EscrowReleaseOperation(_EscrowReleaseOperation[AssetHiveHF26, AssetHbdHF26]):
+class EscrowReleaseOperation(_EscrowReleaseOperation):
     ...
 
 
-class EscrowReleaseOperationLegacy(_EscrowReleaseOperation[AssetHiveLegacy, AssetHbdLegacy]):
+class EscrowReleaseOperationLegacy(_EscrowReleaseOperation):
     ...
