@@ -13,6 +13,7 @@ from schemas.fields.basic import Permlink, PublicKey
 from schemas.fields.hex import Sha256
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
+from schemas.fields.integers import Int64t, Uint64t
 from schemas.fields.resolvables import AnyAssetImpl, Resolvable
 from schemas.fields.version import Version
 
@@ -29,6 +30,8 @@ def dec_hook_base(type_: type, obj: Any) -> Any:
         PublicKey: PublicKey,
         Sha256: Sha256,
         Version: Version,
+        Int64t: Int64t,
+        Uint64t: Uint64t,
         # TransactionId: TransactionId,
         # Hex: Hex,
         # Url: Url,

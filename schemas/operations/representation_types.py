@@ -68,8 +68,8 @@ class HF26Representation(PreconfiguredBaseModel):
     def shallow_dict(self) -> dict[str, Any]:
         return {"type":self.type_, "value": self.value}
 
-    def dict(self, *, exclude_none: bool = False, exclude_defaults: bool = False) -> DictStrAny:  # noqa: A003
-            result = super().dict(exclude_none=exclude_none, exclude_defaults=exclude_defaults)
+    def dict(self, *, exclude: set[str] | None = None, exclude_none: bool = False, exclude_defaults: bool = False) -> DictStrAny:  # noqa: A003
+            result = super().dict(exclude=exclude, exclude_none=exclude_none, exclude_defaults=exclude_defaults)
             result["type"] = self.type_
             return result
 

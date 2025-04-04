@@ -79,6 +79,7 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
     def dict(  # noqa: A003
         self,
         *,
+        exclude: set[str] | None = None,
         exclude_none: bool = False,
         exclude_defaults: bool = False,
     ) -> DictStrAny:
@@ -91,6 +92,8 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
             defaults = dict(zip(self.__struct_fields__, self.__struct_defaults__, strict=False))
             data = {key: value for key, value in data.items() if key in defaults and value != defaults[key]}
 
+        if exclude is not None:
+            return {k: v for k, v in data.items() if k not in exclude}
         return data
 
     def __as_builtins(
