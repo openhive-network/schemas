@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from typing import Any
 
+from schemas.fields.resolvables import Resolvable
 from schemas.hive_constants import HIVE_TIME_FORMAT
 
 __all__ = [
@@ -10,86 +11,51 @@ __all__ = [
 ]
 
 
-class HiveDateTime:
-    def __init__(self, value: str | datetime):
-        self.value = self._validate(value)
+class HiveDateTime(datetime, Resolvable["HiveDateTime", str | datetime]):
+    def __new__(cls, value: str | datetime | HiveDateTime) -> HiveDateTime:
+        # source: https://stackoverflow.com/a/45981230
+        date = cls.__convert_to_datetime(value)
+        return super().__new__(
+            cls,
+            date.year,
+            date.month,
+            date.day,
+            date.hour,
+            date.minute,
+            date.second,
+            date.microsecond,
+            date.tzinfo,
+            fold=date.fold,
+        )
 
-    def _validate(self, value: str | datetime) -> datetime:
+    def serialize(self) -> Any:
+        return self.strftime(HIVE_TIME_FORMAT)
+
+    @classmethod
+    def __convert_to_datetime(cls, value: str | datetime) -> datetime:
         if isinstance(value, datetime):
-            return self.__normalize(value)
+            return cls.__normalize(value)
         if isinstance(value, str):
             try:
-                return self.__normalize(datetime.strptime(value, HIVE_TIME_FORMAT))
+                return cls.__normalize(datetime.strptime(value, HIVE_TIME_FORMAT))
             except ValueError as error:
                 raise ValueError(f"Date must be in format {HIVE_TIME_FORMAT}") from error
         raise TypeError("Value must be a datetime or a string in the correct format.")
 
     @staticmethod
-    def __normalize(value: datetime) -> datetime:
+    def resolve(incoming_cls: type, value: str | datetime) -> HiveDateTime:  # noqa: ARG004
+        return HiveDateTime(value=value)
+
+    @classmethod
+    def __normalize(cls, value: datetime) -> datetime:
         return value.replace(tzinfo=timezone.utc)
 
     @staticmethod
-    def now() -> HiveDateTime:
+    def now() -> HiveDateTime:  # type: ignore[override]
         return HiveDateTime(value=datetime.now())
 
-    def __eq__(self, other: Any) -> bool:
-        if isinstance(other, HiveDateTime):
-            return self.value == other.value
-        if isinstance(other, datetime):
-            return self.value == other
-        if isinstance(other, str):
-            return self.value == self._validate(other)
-        return False
+    def __copy__(self) -> HiveDateTime:
+        return HiveDateTime.resolve(HiveDateTime, self.serialize())
 
-    def __lt__(self, other: Any) -> bool:
-        if isinstance(other, HiveDateTime):
-            return self.value < other.value
-        if isinstance(other, datetime):
-            return self.value < other
-        if isinstance(other, str):
-            return self.value < self._validate(other)
-        return NotImplemented
-
-    def __le__(self, other: Any) -> bool:
-        return self == other or self < other  # type: ignore[no-any-return]
-
-    def __gt__(self, other: Any) -> bool:
-        if isinstance(other, HiveDateTime):
-            return self.value > other.value
-        if isinstance(other, datetime):
-            return self.value > other
-        if isinstance(other, str):
-            return self.value > self._validate(other)
-        return NotImplemented
-
-    def __ge__(self, other: Any) -> bool:
-        return self == other or self > other  # type: ignore[no-any-return]
-
-    def __ne__(self, other: Any) -> bool:
-        return not self == other
-
-    def __add__(self, other: timedelta) -> HiveDateTime:
-        if isinstance(other, timedelta):
-            return HiveDateTime(self.value + other)
-        raise TypeError("Can only add timedelta to HiveDateTime.")
-
-    def __sub__(self, other: Any) -> Any:
-        if isinstance(other, timedelta):
-            return HiveDateTime(self.value - other)
-        if isinstance(other, HiveDateTime):
-            return self.value - other.value
-        if isinstance(other, datetime):
-            return self.value - other
-        raise TypeError("Subtraction only supports timedelta, datetime, or HiveDateTime.")
-
-    def __str__(self) -> str:
-        return self.value.strftime(HIVE_TIME_FORMAT)
-
-    def __repr__(self) -> str:
-        return self.value.strftime(HIVE_TIME_FORMAT)
-
-    def __getattr__(self, other: Any) -> Any:
-        return getattr(self.value, other)
-
-    def __hash__(self) -> int:
-        return hash(self.value)
+    def __deepcopy__(self, memo: Any) -> HiveDateTime:
+        return self.__copy__()

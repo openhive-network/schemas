@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import contextlib
 import json
-from abc import ABC
-from typing import TYPE_CHECKING, Any, Generic, TypeVar, cast, get_args
+from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING, Any, Generic, TypeGuard, TypeVar, cast, get_args, get_origin
 
 import msgspec
 
@@ -20,6 +20,22 @@ class Resolvable(ABC, Generic[ResolvedT, ResolvedFromT]):
     def resolve(incoming_cls: type, value: ResolvedFromT) -> ResolvedT:  # type: ignore[empty-body]
         ...
 
+    @abstractmethod
+    def serialize(self) -> Any:
+        ...
+
+    def serialize_as_legacy(self) -> Any:
+        return self.serialize()
+
+    @staticmethod
+    def is_resolvable(cls: type[Any] | Any) -> TypeGuard[Resolvable[Any, Any]]:
+        if cls is not type and get_origin(cls) is None:
+            cls = type(cls)
+        orig_type = get_origin(cls)
+        if orig_type is None:
+            return issubclass(cls, Resolvable)
+        return issubclass(orig_type, Resolvable)
+
 
 StringResolvedT = TypeVar("StringResolvedT", bound=str)
 
@@ -31,6 +47,9 @@ class OptionallyEmpty(str, Resolvable["OptionallyEmpty[StringResolvedT]", str], 
             return OptionallyEmpty("")
         non_empty_str_t = get_args(incoming_cls)[0]
         return OptionallyEmpty(msgspec.convert(value, type=non_empty_str_t))
+
+    def serialize(self) -> Any:
+        return self
 
 
 # if TYPE_CHECKING:
@@ -73,23 +92,8 @@ class JsonString(Resolvable["JsonString[AnyResolvedT]", Any], Generic[AnyResolve
             return bool(self.value == other.value)
         return bool(self.value == other)
 
-    def serialize(self) -> str:
-        return self.encode()
-        """Dumps JsonString with no spaces between keys and values"""
-        from schemas.application_operation import ApplicationOperation
-
-        if isinstance(self.value, ApplicationOperation):
-            return self.value.json(remove_whitespaces=True)
-        if isinstance(self.value, dict):
-            return json.dumps(self.value, separators=(",", ":"))
-        if isinstance(self.value, list):
-            return json.dumps(self.value, separators=(",", ":"))
-        if isinstance(self.value, str):
-            return self.value
-        raise TypeError(f"Incorrect type to serialize: {type(self)}")
-
     def encode_json(self) -> str:
-        return self.encode()
+        return self.serialize()
         """Dumps JsonString with no spaces between keys and values"""
         from schemas.application_operation import ApplicationOperation
 
@@ -105,7 +109,7 @@ class JsonString(Resolvable["JsonString[AnyResolvedT]", Any], Generic[AnyResolve
             return json.dumps(json.dumps(self.value))
         raise TypeError(f"Incorrect type to encode: {type(self)}")
 
-    def encode(self) -> str:
+    def serialize(self) -> str:
         """Dumps JsonString with no spaces between keys and values"""
         from schemas.application_operation import ApplicationOperation
 
@@ -182,6 +186,12 @@ class AssetUnion(
             create_hidden_asset(AssetUnion, deduce_asset(value, list(assets))),
         )
 
+    def serialize(self) -> Any:
+        return self.as_serialized_nai()
+
+    def serialize_as_legacy(self) -> Any:
+        return self.as_legacy()
+
 
 class AnyAssetImpl(AssetBase, Resolvable["AnyAssetImpl", dict[str, Any] | str]):
     @staticmethod
@@ -189,6 +199,12 @@ class AnyAssetImpl(AssetBase, Resolvable["AnyAssetImpl", dict[str, Any] | str]):
         return cast(
             AnyAssetImpl, create_hidden_asset(AnyAssetImpl, deduce_asset(value, [AssetHbd, AssetHive, AssetVests]))
         )
+
+    def serialize(self) -> Any:
+        return self.as_serialized_nai()
+
+    def serialize_as_legacy(self) -> Any:
+        return self.as_legacy()
 
 
 if TYPE_CHECKING:

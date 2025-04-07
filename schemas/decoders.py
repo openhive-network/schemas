@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from typing import Annotated, Any, get_origin
+from typing import Annotated, Any
 
 import msgspec
 from msgspec.json import Decoder
@@ -44,8 +44,7 @@ def dec_hook_base(type_: type, obj: Any) -> Any:
     if handler:
         return handler(obj)
 
-    orig_type = get_origin(type_)
-    if orig_type is not None and issubclass(orig_type, Resolvable):
+    if Resolvable.is_resolvable(type_):
         return type_.resolve(type_, obj)  # type: ignore
 
     raise NotImplementedError(f"Objects of type {type_} are not supported")

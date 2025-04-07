@@ -6,9 +6,8 @@ import msgspec
 from msgspec.json import Encoder
 
 from schemas.fields.assets._base import AssetBase, AssetNaiAmount
-from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
-from schemas.fields.resolvables import JsonString
+from schemas.fields.resolvables import JsonString, Resolvable
 
 
 def enc_hook_base(obj: Any) -> Any:
@@ -16,28 +15,27 @@ def enc_hook_base(obj: Any) -> Any:
         return str(obj.value)
     if isinstance(obj, HiveInt):
         return obj.safe_int_value
-    if isinstance(obj, HiveDateTime):
-        return obj.__str__()
     raise NotImplementedError(f"Objects of type {type(obj)} are not supported")
 
 
 def enc_hook_legacy(obj: Any) -> Any:
-    if isinstance(obj, JsonString):
-        return obj.encode()
+    if Resolvable.is_resolvable(obj):
+        return obj.serialize_as_legacy()
     if isinstance(obj, AssetBase):
         return obj.as_legacy()
     return enc_hook_base(obj)
 
 
 def enc_hook_hf26(obj: Any) -> Any:
-    if isinstance(obj, JsonString):
-        return obj.encode()
+    if Resolvable.is_resolvable(obj):
+        return obj.serialize()
     if isinstance(obj, AssetBase):
         return obj.as_nai()
     return enc_hook_base(obj)
 
 
 def enc_hook_hf26_json(obj: Any) -> Any:
+    return enc_hook_hf26(obj)
     if isinstance(obj, JsonString):
         return obj.encode_json()
     if isinstance(obj, AssetBase):
