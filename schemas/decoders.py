@@ -9,7 +9,7 @@ from msgspec.json import Decoder
 from schemas.apis.market_history_api.fundaments_of_responses import BucketSizes
 from schemas.apis.wallet_bridge_api.response_schemas import _GetActiveWitnesseslist
 from schemas.fields.assets._base import AssetHbd, AssetHive, AssetNaiAmount, AssetVests
-from schemas.fields.basic import Permlink, PublicKey
+from schemas.fields.basic import ValidatorString
 from schemas.fields.hex import Sha256
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
@@ -26,8 +26,6 @@ def dec_hook_base(type_: type, obj: Any) -> Any:
         HiveDateTime: HiveDateTime,
         BucketSizes: BucketSizes,
         AssetNaiAmount: AssetNaiAmount,
-        Permlink: Permlink,
-        PublicKey: PublicKey,
         Sha256: Sha256,
         Version: Version,
         Int64t: Int64t,
@@ -46,6 +44,9 @@ def dec_hook_base(type_: type, obj: Any) -> Any:
 
     if Resolvable.is_resolvable(type_):
         return type_.resolve(type_, obj)  # type: ignore
+
+    if issubclass(type_, ValidatorString):
+        return type_(obj)
 
     raise NotImplementedError(f"Objects of type {type_} are not supported")
 

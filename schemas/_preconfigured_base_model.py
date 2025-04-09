@@ -103,11 +103,11 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
         order: Literal[None, "deterministic", "sorted"] = None,
         exclude_none: bool = False,
     ) -> DictStrAny:
-        from schemas.encoders import enc_hook_hf26_json
+        from schemas.encoders import enc_hook_hf26
 
         data: DictStrAny = msgspec.to_builtins(
             obj=self._get_object_for_serialization(),
-            enc_hook=enc_hook_hf26_json,
+            enc_hook=enc_hook_hf26,
             str_keys=str_keys,
             builtin_types=builtin_types,
             order=order,

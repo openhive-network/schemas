@@ -80,10 +80,11 @@ def test_hive_int_with_incorrect_values(value: Any) -> None:
 
 
 def test_empty_string_correct_value() -> None:
-    # ACT
+    # ARRANGE
     instance = EmptyStringModel(field="")
     empty_string = msgspec.json.encode(instance)
 
+    # ACT
     msgspec.json.decode(empty_string, type=EmptyStringModel)
 
     # ASSERT
