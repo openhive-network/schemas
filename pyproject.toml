@@ -27,6 +27,7 @@ pydantic = "1.10.18"
 
 [tool.poetry.dev-dependencies]
 pytest = "8.3.5"
+pytest-asyncio = "0.25.3"
 black = "23.3.0"
 mypy = "1.11.2"
 pre-commit = "2.21.0"
@@ -53,7 +54,6 @@ files = [
 
 [tool.black]
 line-length = 120
-
 
 [tool.mypy]
 strict = true
