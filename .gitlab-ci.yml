@@ -48,6 +48,9 @@ tests:
   stage: tests
   extends: .project_develop_configuration_template
   needs: [ ]  # to start immediately, without waiting for previous stages
+  before_script:
+    - !reference [.project_develop_configuration_template, before_script]
+    - python3 tests/test_api_generator/generate_needed_modules.py
   script:
     - pytest tests/
 
