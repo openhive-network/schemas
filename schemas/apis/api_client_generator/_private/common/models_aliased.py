@@ -5,6 +5,11 @@ from typing import TYPE_CHECKING, Any, Protocol, TypeAlias, cast
 if TYPE_CHECKING:
     import ast
 
+EndpointDefinitionBeforeProcessing: TypeAlias = dict[str, str | bool]
+"""
+A definition of an endpoint, params, result, description and response_array boolean parameter.
+This is used before processing the endpoint definition. At this stage, the params and result are still strings.
+"""
 EndpointsDefinition: TypeAlias = dict[str, dict[str, Any]]
 ApiDefinition: TypeAlias = dict[str, EndpointsDefinition]
 
