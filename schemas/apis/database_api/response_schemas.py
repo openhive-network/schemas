@@ -398,6 +398,7 @@ class GetConfigOrig(PreconfiguredBaseModel, kw_only=True):
     HIVE_UP_TO_DATE_MARGIN__BLOCK_STATS: HiveInt
     HIVE_UP_TO_DATE_MARGIN__FAST_CONFIRM: HiveInt
     HIVE_UP_TO_DATE_MARGIN__PENDING_TXS: HiveInt
+    HIVE_CUSTOM_OP_BLOCK_LIMIT: HiveInt
 
     @classmethod
     def _optional_config(cls) -> type[Struct]:
