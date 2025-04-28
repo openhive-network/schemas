@@ -401,6 +401,7 @@ class GetConfigOrig(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT, As
     HIVE_UP_TO_DATE_MARGIN__BLOCK_STATS: HiveInt
     HIVE_UP_TO_DATE_MARGIN__FAST_CONFIRM: HiveInt
     HIVE_UP_TO_DATE_MARGIN__PENDING_TXS: HiveInt
+    HIVE_CUSTOM_OP_BLOCK_LIMIT: HiveInt
 
 
 GetConfig = GetConfigOrig[AssetHiveHF26, AssetHbdHF26]
