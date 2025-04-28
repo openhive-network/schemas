@@ -1,0 +1,141 @@
+{
+  "components": {
+    "schemas": {
+      "first_endpoint": {
+        "properties": {
+          "test_1": {
+            "description": "First param",
+            "example": "Test test test",
+            "type": "string"
+          },
+          "test_2": {
+            "description": "Second param",
+            "example": 123,
+            "type": "integer"
+          },
+          "test_3": {
+            "description": "Third param",
+            "example": "Tralala",
+            "type": "string"
+          }
+        },
+        "required": [
+          "test_1",
+          "test_2",
+          "test_3"
+        ],
+        "type": "object"
+      },
+      "first_endpoint_response": {
+        "type": "string"
+      },
+      "second_endpoint": {
+        "properties": {
+          "test_1": {
+            "description": "First param",
+            "example": "Test test test",
+            "type": "string"
+          },
+          "test_2": {
+            "description": "Second param",
+            "example": 123,
+            "type": "integer"
+          },
+          "test_3": {
+            "description": "Third param",
+            "example": "Tralala",
+            "type": "string"
+          }
+        },
+        "required": [
+          "test_1",
+          "test_2",
+          "test_3"
+        ],
+        "type": "object"
+      },
+      "second_endpoint_response": {
+        "properties": {
+          "content": {
+            "description": "An example response parameter",
+            "example": "Lala",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "Simple api description for testing purposes",
+    "title": "Test api",
+    "version": "1.2.1"
+  },
+  "openapi": "3.0.3",
+  "paths": {
+    "test_api.first_endpoint": {
+      "post": {
+        "description": "First endpoint description",
+        "operationId": "first_endpoint",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/first_endpoint"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/first_endpoint_response"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "summary": "Test api",
+        "tags": [
+          "first_endpoint"
+        ]
+      }
+    },
+    "test_api.second_endpoint": {
+      "post": {
+        "description": "Sample second_endpoint description",
+        "operationId": "second_endpoint",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/second_endpoint"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/second_endpoint_response"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "summary": "Second endpoint api",
+        "tags": [
+          "second_endpoint"
+        ]
+      }
+    }
+  }
+}
