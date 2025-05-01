@@ -32,5 +32,6 @@ class _FillRecurrentTransferOperation(VirtualOperation, GenericModel, Generic[As
 class FillRecurrentTransferOperation(_FillRecurrentTransferOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
+
 class FillRecurrentTransferOperationLegacy(_FillRecurrentTransferOperation[AssetHiveLegacy, AssetHbdLegacy]):
     ...

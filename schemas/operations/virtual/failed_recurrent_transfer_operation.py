@@ -36,5 +36,6 @@ class _FailedRecurrentTransferOperation(VirtualOperation, GenericModel, Generic[
 class FailedRecurrentTransferOperation(_FailedRecurrentTransferOperation[AssetHiveHF26, AssetHbdHF26]):
     ...
 
+
 class FailedRecurrentTransferOperationLegacy(_FailedRecurrentTransferOperation[AssetHiveLegacy, AssetHbdLegacy]):
     ...
