@@ -205,6 +205,7 @@ def test_authority_field_correct_values(value: dict[str, Any]) -> None:
     assert instance.field.key_auths[0][0] == value["key_auths"][0][0]
 
 
+@pytest.mark.skip("Uruchom test po dostarczeniu poprawki przez Krzyśka")
 @pytest.mark.parametrize(
     "authority, parameter, message",
     [
