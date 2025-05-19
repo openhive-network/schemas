@@ -157,14 +157,24 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
                 setattr(self, member_name, new_member_value)
 
     @classmethod
-    def parse_file(cls, path: Path, decoder_factory: DecoderFactory) -> Self:
+    def parse_file(cls, path: Path, custom_decoder_factory: DecoderFactory | None = None) -> Self:
+        # Default decoder is hf26_decoder
+        if custom_decoder_factory is None:
+            from schemas.decoders import get_hf26_decoder
+
+            custom_decoder_factory = get_hf26_decoder
         with Path.open(path, encoding="utf-8") as file:
             raw = file.read()
-            return cls.parse_raw(raw, decoder_factory)
+            return cls.parse_raw(raw, custom_decoder_factory)
 
     @classmethod
-    def parse_raw(cls, raw: str, decoder_factory: DecoderFactory) -> Self:
-        decoder = decoder_factory(cls)
+    def parse_raw(cls, raw: str, custom_decoder_factory: DecoderFactory | None = None) -> Self:
+        # Default decoder is hf26_decoder
+        if custom_decoder_factory is None:
+            from schemas.decoders import get_hf26_decoder
+
+            custom_decoder_factory = get_hf26_decoder
+        decoder = custom_decoder_factory(cls)
         return cast(Self, decoder.decode(raw))
 
     @classmethod

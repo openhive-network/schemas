@@ -154,7 +154,9 @@ class AssetBase(Serializable, ABC):
         return float(self.amount / (10**info.precision))
 
     def token(self, testnet: bool | None = None) -> str:
-        return self.get_asset_information().get_symbol(testnet=self._is_default_symbol_testnet() if testnet is None else testnet)
+        return self.get_asset_information().get_symbol(
+            testnet=self._is_default_symbol_testnet() if testnet is None else testnet
+        )
 
     def as_legacy(self, *, testnet: bool | None = None) -> str:
         return f"{self.pretty_amount()} {self.token(testnet=testnet)}"

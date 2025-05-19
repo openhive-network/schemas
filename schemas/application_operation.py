@@ -7,7 +7,6 @@ import msgspec
 from typing_extensions import Self
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.decoders import get_hf26_decoder
 
 
 class ApplicationOperation(PreconfiguredBaseModel):
@@ -27,7 +26,7 @@ class ApplicationOperation(PreconfiguredBaseModel):
 
         if isinstance(value, str):
             try:
-                return cls.parse_raw(value, decoder_factory=get_hf26_decoder)
+                return cls.parse_raw(value)
             except msgspec.DecodeError as error:
                 raise ValueError(f"Value is not a valid application operation string! Received `{value}`") from error
 
