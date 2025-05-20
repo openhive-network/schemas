@@ -273,29 +273,6 @@ def test_public_key_field_incorrect_values(value: str) -> None:
     assert expected_message in str(error.value)
 
 
-# @pytest.mark.parametrize(
-#     "hive_legacy, hbd_legacy, hive_nai, hbd_nai",
-#             "1.000 HIVE",
-#             "1.000 HBD",
-#     ],
-# def test_hbd_exchange_rate_incorrect_values(
-#     hive_legacy: str, hbd_legacy: str, hive_nai: dict[str, Any], hbd_nai: dict[str, Any]
-# ) -> None:
-#     """HbdExchangeRate accept two Asset types -> legacy and nai. Choose of the Asset type is performed by generic.
-#     So this test is used to check if validation after choose type of Asset is performed fine. To check it nai Assets
-#     have been putted to Legacy version and legacy Assets to nai version.
-#     """
-#     # ARRANGE
-
-
-#     # ACT
-#     # with pytest.raises(Exception) as error_nai:
-
-#     # with pytest.raises(Exception) as error_legacy:
-
-#     # ASSERT
-
-
 def test_correct_value_asset_hive_legacy() -> None:
     # ACT
     hive_amount = 1000

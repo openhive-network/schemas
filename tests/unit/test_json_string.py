@@ -391,13 +391,6 @@ def test_negative_custom_json_operation_with_invalid_json_string() -> None:
         )
 
 
-# def test_comparison_same_object() -> None:
-#     # ARRANGE
-
-#     # ACT
-#     # ASSERT
-
-
 def test_comparison_new_object() -> None:
     # ARRANGE
     op1 = CustomJsonOperation(
