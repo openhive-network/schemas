@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Final, Generic
+from typing import Any, Final, Generic
 
 from pydantic import Field
 from pydantic.generics import GenericModel
@@ -29,6 +29,7 @@ class _FailedRecurrentTransferOperation(VirtualOperation, GenericModel, Generic[
     consecutive_failures: Uint8t = DEFAULT_CONSECUTIVE_FAILURES
     remaining_executions: Uint16t = DEFAULT_REMAINING_EXECUTIONS
     deleted: bool = DEFAULT_DELETED
+    extensions: list[Any] = Field(default_factory=list)
 
 
 class FailedRecurrentTransferOperation(_FailedRecurrentTransferOperation[AssetHiveHF26, AssetHbdHF26]):

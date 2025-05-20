@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Final, Generic
+from typing import Any, Final, Generic
 
 from pydantic import Field
 from pydantic.generics import GenericModel
@@ -25,6 +25,7 @@ class _FillRecurrentTransferOperation(VirtualOperation, GenericModel, Generic[As
     amount: AssetHiveT | AssetHbdT
     memo: str
     remaining_executions: Uint16t = DEFAULT_REMAINING_EXECUTIONS
+    extensions: list[Any] = Field(default_factory=list)
 
 
 class FillRecurrentTransferOperation(_FillRecurrentTransferOperation[AssetHiveHF26, AssetHbdHF26]):
