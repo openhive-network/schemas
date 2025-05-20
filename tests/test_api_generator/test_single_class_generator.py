@@ -4,7 +4,10 @@ from typing import get_type_hints
 
 import pytest
 
-from tests.test_api_generator.api_definition import VALID_ENDPOINT_PARAMS, VALID_ENDPOINT_PARAMS_LIST_RETURN
+from tests.test_api_generator.api_definition_params_result import (
+    VALID_ENDPOINT_PARAMS,
+    VALID_ENDPOINT_PARAMS_LIST_RETURN,
+)
 from tests.test_api_generator.base_api_classes import VALID_RETURN_VALUE
 from tests.test_api_generator.generate_clients_and_collections import (
     SINGLE_ASYNC_API_DESTINATION,

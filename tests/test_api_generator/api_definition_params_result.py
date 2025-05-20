@@ -18,6 +18,7 @@ class TestApiParams:
 
 TestApiResult = str
 
+
 VALID_ENDPOINT_PARAMS: dict[str, Any] = {
     "return": str,
     "some_custom_type": TestCustomType,
