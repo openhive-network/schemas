@@ -17,6 +17,7 @@ __all__ = [
 
 MAX_INT64_VALUE: Final[int] = 9223372036854775807
 MIN_INT64_VALUE: Final[int] = -9223372036854775808
+MAX_UINT64_VALUE: Final[int] = 18446744073709551615
 MIN_UINT64_VALUE: Final[int] = 0
 
 
@@ -31,8 +32,10 @@ def validate_int64t(value: ValidatorInt) -> ValidatorInt:
 
 
 def validate_uint64t(value: ValidatorInt) -> ValidatorInt:
-    if value < MIN_UINT64_VALUE or value > MAX_INT64_VALUE:
-        raise msgspec.ValidationError(f"Uint64 out of range: `{value}` not in <{MIN_UINT64_VALUE} ; {MAX_INT64_VALUE}>")
+    if value < MIN_UINT64_VALUE or value > MAX_UINT64_VALUE:
+        raise msgspec.ValidationError(
+            f"Uint64 out of range: `{value}` not in <{MIN_UINT64_VALUE} ; {MAX_UINT64_VALUE}>"
+        )
     return value
 
 
