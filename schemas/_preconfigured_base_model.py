@@ -6,9 +6,11 @@
 from __future__ import annotations
 
 import copy
+from dataclasses import dataclass
+from enum import IntEnum
 from json import dumps as pretty_json_dumps
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Literal, TypeVar, cast
+from typing import TYPE_CHECKING, Any, Literal, TypeVar, cast, get_args, get_origin
 
 import msgspec
 from typing_extensions import Self
@@ -19,6 +21,20 @@ if TYPE_CHECKING:
     from schemas.decoders import DecoderFactory
 
 DictStrAny = dict[str, Any]
+DictStrAnyType = dict[str, type[Any]]
+
+
+@dataclass
+class MemberTypeName:
+    full: str
+    outer: str
+    inners: list[str]
+
+
+class SwapType(IntEnum):
+    NONE = -1
+    STANDARD = 0
+    ITERABLE = 1
 
 
 class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
@@ -124,37 +140,114 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
     def _get_object_for_serialization(self) -> Self:
         return self
 
+    def __slice_member_type_name(self, member_type_name: Any) -> MemberTypeName:
+        """
+        Returns encoded sliced typename.
+
+        Args:
+            member_type_name: Type name to be encoded and sliced.
+
+        Returns:
+            Tuple of encoded type name, inner type names and type name without brackets.
+
+        Note:
+            In case of non-generic types, the first element of the tuple will be the same as the third
+            and second will be an empty list.
+        """
+        result = MemberTypeName(full="", outer="", inners=[])
+
+        if not isinstance(member_type_name, str):
+            result.full = str(member_type_name)
+            if member_type_name is not type:
+                result.outer = str(get_origin(member_type_name))
+                result.inners = [str(x) for x in get_args(member_type_name)]
+        else:
+            result.full = member_type_name
+        assert isinstance(result.full, str), "Invalid typename conversion"
+
+        if (bracket_pos := result.full.find("[")) < 0:
+            return result
+
+        if len(result.inners) == 0:
+            result.outer = result.full[:bracket_pos]
+            result.inners = [item.strip() for item in result.full[bracket_pos + 1 : -1].split(",")]
+
+        return result
+
+    def __detect_swap_type(
+        self,
+        registered_types: DictStrAnyType,
+        member_type_name: MemberTypeName,
+        is_builtin: bool,
+        is_iterable: bool,
+    ) -> tuple[SwapType, type[Any] | None]:
+        """
+        Check if the type is convertible to the registered type.
+
+        Args:
+            member_type_name: Type name to be checked.
+
+        Returns:
+            True if the type is convertible, False otherwise.
+        """
+
+        if not is_builtin:
+            return SwapType.NONE, None
+
+        if (
+            result := registered_types.get(member_type_name.full, registered_types.get(member_type_name.outer))
+        ) is not None:
+            return SwapType.STANDARD, result
+
+        if is_iterable:
+            assert len(member_type_name.inners) > 0, f"Invalid (untyped) typename: {member_type_name.full}"
+            found_types = [x for x in [registered_types.get(tn) for tn in member_type_name.inners] if x is not None]
+            if len(found_types) > 0:
+                return SwapType.ITERABLE, found_types[0]
+
+        return SwapType.NONE, None
+
+    def __convert_to_target_value(self, current_value: Any, target_type: type[Any]) -> Any:
+        from schemas.decoders import dec_hook_hf26
+
+        return msgspec.convert(current_value, type=target_type, dec_hook=dec_hook_hf26)
+
     def __swap_to_registered_types(self) -> None:
         if not hasattr(self, "__annotations__"):
             return
-        from schemas.decoders import dec_hook_hf26
 
         registered_types = self._registered_swap_types()
+        assert registered_types is not None
+
         for member_name, member_type_name in cast(dict[str, str], self.__annotations__).items():
-            try:
-                member_type_name_str = member_type_name.__name__ if member_type_name is not str else member_type_name  # type: ignore[attr-defined, comparison-overlap]
-            except AttributeError:
-                member_type_name_str = str(member_type_name)
-            member_type_name_without_brackets = member_type_name_str.split("[")[0]
+            typename = self.__slice_member_type_name(member_type_name)
             current_member_value = getattr(self, member_name)
             is_buildins = any(
                 isinstance(current_member_value, builtin_type)
-                for builtin_type in [int, str, bool, float, list, dict, set, tuple]
+                for builtin_type in [int, str, bool, float, dict, tuple, list, set]
             )
-            assert registered_types is not None
-            if (
-                is_buildins
-                and (
-                    type_to_convert_to := registered_types.get(
-                        member_type_name_str, registered_types.get(member_type_name_without_brackets)
-                    )
+            is_supported_iterable_buildins = (
+                any(isinstance(current_member_value, builtin_type) for builtin_type in [list, set])
+                and len(current_member_value) > 0
+            )
+            swap_type, target_type = self.__detect_swap_type(
+                registered_types=registered_types,
+                member_type_name=typename,
+                is_builtin=is_buildins,
+                is_iterable=is_supported_iterable_buildins,
+            )
+
+            if swap_type == SwapType.NONE or target_type is None:
+                continue
+
+            target_member_value = current_member_value
+            if swap_type == SwapType.STANDARD:
+                target_member_value = self.__convert_to_target_value(current_member_value, target_type)
+            elif swap_type == SwapType.ITERABLE:
+                target_member_value = type(current_member_value)(
+                    [self.__convert_to_target_value(item, target_type) for item in current_member_value]
                 )
-                is not None
-            ):
-                new_member_value = msgspec.convert(
-                    current_member_value, type=type_to_convert_to, dec_hook=dec_hook_hf26
-                )
-                setattr(self, member_name, new_member_value)
+            setattr(self, member_name, target_member_value)
 
     @classmethod
     def parse_file(cls, path: Path, custom_decoder_factory: DecoderFactory | None = None) -> Self:
@@ -198,7 +291,7 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
         return msgspec.json.encode(schema).decode()
 
     @classmethod
-    def _registered_swap_types(cls) -> dict[str, type[Any]]:  # type: ignore[valid-type]
+    def _registered_swap_types(cls) -> DictStrAnyType:
         """Types registered by this method will be swapped to them from builtins during __post_init__.
 
         Note: Can be overrided by sub-classes to add more types.
@@ -207,14 +300,16 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
         from schemas.fields.resolvables import (
             AssetUnionAssetHiveAssetHbd,
             AssetUnionAssetHiveAssetVests,
+            JsonString,
         )
 
         result = {
             "AssetUnionAssetHiveAssetHbd": AssetUnionAssetHiveAssetHbd,
             "AssetUnionAssetHiveAssetVests": AssetUnionAssetHiveAssetVests,
+            "JsonString": JsonString[Any],
         }
-        result.update(InitValidator.get_registered_types())  # type: ignore[arg-type]
-        return result
+        result.update(InitValidator.get_registered_types())
+        return result  # type: ignore[return-value]
 
     def __hash__(self) -> int:
         return hash(self.json())
