@@ -5,7 +5,7 @@ import pytest
 
 from schemas.decoders import get_hf26_decoder
 from schemas.encoders import get_hf26_encoder
-from schemas.fields.integers import MAX_INT64_VALUE, MIN_INT64_VALUE, Int64t, Uint64t
+from schemas.fields.integers import MAX_INT64_VALUE, MAX_UINT64_VALUE, MIN_INT64_VALUE, Int64t, Uint64t
 
 
 @pytest.mark.parametrize(
@@ -54,7 +54,7 @@ def test_fail_int64t(value: int) -> None:
 @pytest.mark.parametrize(
     "value",
     [
-        MAX_INT64_VALUE + 1,
+        MAX_UINT64_VALUE + 1,
         -12,
     ],
 )
