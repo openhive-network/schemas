@@ -102,13 +102,13 @@ GetActiveWitnesses = list[OptionallyEmptyAccountName]
 class GetBlock(fundaments_block_api.LegacyBlock):
     """Identical as in block_api, just extensions changed"""
 
-    extensions: list[tuple[str, Any]]
+    extensions: list[tuple[HiveInt, Any]]
 
 
 class GetBlockHeader(fundaments_block_api.GetBlockHeaderFundament):
     """Identical as in block_api, just extensions changed"""
 
-    extensions: list[tuple[str, Any]]
+    extensions: list[tuple[HiveInt, Any]]
 
 
 GetBlog = HiveList[GetBlogFundament]

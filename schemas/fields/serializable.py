@@ -16,3 +16,6 @@ class Serializable(ABC, metaclass=OverrideTypeNameMeta):
 
     def serialize_as_legacy(self) -> Any:
         return self.serialize()
+
+    def serialize_as_legacy_testnet(self) -> Any:
+        return self.serialize_as_legacy()

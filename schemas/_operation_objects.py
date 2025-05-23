@@ -25,11 +25,11 @@ class ApiOperationObjectCommons(PreconfiguredBaseModel):
 
 
 class Hf26ApiOperationObject(ApiOperationObjectCommons):
-    op: Hf26OperationRepresentation
+    op: AnyHf26Operation
 
 
 class LegacyApiOperationObject(ApiOperationObjectCommons):
-    op: LegacyOperationRepresentation
+    op: AnyLegacyOperation
 
 
 class Hf26ApiVirtualOperationObject(ApiOperationObjectCommons):
