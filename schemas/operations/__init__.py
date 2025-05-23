@@ -74,7 +74,6 @@ from schemas.operations.recurrent_transfer_operation import (
     RecurrentTransferOperationLegacy,
 )
 from schemas.operations.remove_proposal_operation import RemoveProposalOperation
-
 from schemas.operations.representation_types import (
     HF26RepresentationAccountCreateOperation,
     HF26RepresentationAccountCreateWithDelegationOperation,

@@ -7,9 +7,7 @@ from schemas.fields.hive_int import HiveInt
 from schemas.operations import (
     AnyHf26Operation,
     AnyLegacyOperation,
-    Hf26OperationRepresentation,
     Hf26VirtualOperationRepresentation,
-    LegacyOperationRepresentation,
     LegacyVirtualOperationRepresentation,
 )
 

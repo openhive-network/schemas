@@ -149,7 +149,7 @@ class AssetBase(Serializable, ABC):
     def serialize_as_legacy(self) -> Any:
         return self.as_legacy()
 
-    def serialize_as_legacy_testnet(self):
+    def serialize_as_legacy_testnet(self) -> Any:
         return self.as_legacy(testnet=True)
 
     def as_float(self) -> float:
