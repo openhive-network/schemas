@@ -32,10 +32,6 @@ lint_code_with_ruff:
   stage: static_code_analysis
   extends: .lint_code_with_ruff_template
 
-formatting_with_black_check:
-  stage: static_code_analysis
-  extends: .formatting_with_black_check_template
-
 type_check_with_mypy:
   stage: static_code_analysis
   extends: .type_check_with_mypy_template
