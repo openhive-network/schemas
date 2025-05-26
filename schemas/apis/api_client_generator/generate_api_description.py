@@ -42,7 +42,7 @@ from schemas.apis.api_client_generator._private.description_tools import (
     get_result_from_endpoint_properties,
     is_result_array,
 )
-from schemas.apis.api_client_generator._private.format_using_black import format_using_black
+from schemas.apis.api_client_generator._private.format_using_ruff import format_using_ruff
 
 AvailableModelTypes = Literal["dataclass"]
 
@@ -119,7 +119,7 @@ def generate_api_description(  # NOQA: PLR0913
 
         api_description[api_name][endpoint_name] = endpoint_description
 
-    formatted_description = format_using_black(
+    formatted_description = format_using_ruff(
         convert_description_to_str(api_description_name, api_description, additional_aliases)
     )
 
