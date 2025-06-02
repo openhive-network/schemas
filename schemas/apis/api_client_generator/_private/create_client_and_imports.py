@@ -59,10 +59,11 @@ def create_client_and_imports(  # NOQA: PLR0913
     """
 
     needed_imports: list[ast.ImportFrom] = []
-    if not already_imported:
+    if already_imported is None:
         already_imported = []
 
     needed_results = [ensure_is_importable(params["result"]) for params in endpoints.values() if params.get("result")]
+    needed_results_import = import_classes(needed_results, already_imported)
 
     needed_params_import = []
 
@@ -77,11 +78,14 @@ def create_client_and_imports(  # NOQA: PLR0913
 
     additional_imports = import_classes(additional_items_to_import or [], already_imported)
 
-    needed_imports.extend(additional_imports + import_classes(needed_results, already_imported) + needed_params_import)
+    needed_imports.extend(additional_imports + needed_results_import + needed_params_import)
 
     base_class_import = import_class(base_class, base_class_source)
 
-    if base_class_import:
+    base_class_name = base_class if isinstance(base_class, str) else base_class.__name__
+
+    if base_class_import and base_class_name not in already_imported:
+        already_imported.append(base_class_name)
         needed_imports.append(base_class_import)
 
     return GeneratedClass(
