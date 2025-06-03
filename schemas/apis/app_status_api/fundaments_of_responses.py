@@ -48,7 +48,7 @@ class WebserverItem(BaseStatusItem):
     port: int
 
 
-class ForkItem(PreconfiguredBaseModel):
+class ForkItem(BaseStatusItem):
     new_head_block_num: int
     new_head_block_id: TransactionId
 
