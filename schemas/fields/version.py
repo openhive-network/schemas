@@ -22,10 +22,13 @@ class Version(ConstrainedStr):
 HardforkVersion = Version
 
 
-class HiveVersion(PreconfiguredBaseModel):
+class HiveVersionFromExecutable(PreconfiguredBaseModel):
     blockchain_version: HardforkVersion
     hive_revision: TransactionId
     fc_revision: TransactionId
     node_type: NodeType
     haf_revision: TransactionId | None = None
-    chain_id: Sha256 | None = None
+
+
+class HiveVersion(HiveVersionFromExecutable):
+    chain_id: Sha256
