@@ -1,31 +1,28 @@
 from __future__ import annotations
 
-from typing import Generic
-
-from pydantic.generics import GenericModel
-
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
-from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsLegacy, AssetVestsT
+from schemas.fields.assets._base import AssetHbd, AssetHive, AssetVests
 from schemas.fields.basic import AccountName
 from schemas.operation import Operation
 
 
-class _ClaimRewardBalanceOperation(Operation, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
-    __operation_name__ = "claim_reward_balance"
-    __offset__ = 39
-
+class _ClaimRewardBalanceOperation(Operation):
     account: AccountName
-    reward_hive: AssetHiveT
-    reward_hbd: AssetHbdT
-    reward_vests: AssetVestsT
+    reward_hive: AssetHive
+    reward_hbd: AssetHbd
+    reward_vests: AssetVests
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "claim_reward_balance"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 39
 
 
-class ClaimRewardBalanceOperation(_ClaimRewardBalanceOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
+class ClaimRewardBalanceOperation(_ClaimRewardBalanceOperation):
     ...
 
 
-class ClaimRewardBalanceOperationLegacy(
-    _ClaimRewardBalanceOperation[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
-):
+class ClaimRewardBalanceOperationLegacy(_ClaimRewardBalanceOperation):
     ...

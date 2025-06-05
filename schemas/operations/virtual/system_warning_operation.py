@@ -4,7 +4,12 @@ from schemas.virtual_operation import VirtualOperation
 
 
 class SystemWarningOperation(VirtualOperation):
-    __operation_name__ = "system_warning"
-    __offset__ = 32
-
     message: str
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "system_warning"
+
+    @classmethod
+    def vop_offset(cls) -> int:
+        return 32

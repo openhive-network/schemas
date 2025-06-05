@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from typing import Any, Generic
+from typing import Any
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from msgspec import field
 
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
+from schemas.fields.assets._base import AssetHbd
 from schemas.fields.basic import (
     AccountName,
 )
@@ -13,21 +12,26 @@ from schemas.fields.integers import Int64t
 from schemas.operation import Operation
 
 
-class _UpdateProposalOperation(Operation, GenericModel, Generic[AssetHbdT]):
-    __operation_name__ = "update_proposal"
-    __offset__ = 47
-
+class _UpdateProposalOperation(Operation):
     proposal_id: Int64t
     creator: AccountName
-    daily_pay: AssetHbdT
+    daily_pay: AssetHbd
     subject: str
     permlink: str
-    extensions: list[Any] = Field(default_factory=list)
+    extensions: list[Any] = field(default_factory=list)
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "update_proposal"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 47
 
 
-class UpdateProposalOperation(_UpdateProposalOperation[AssetHbdHF26]):
+class UpdateProposalOperation(_UpdateProposalOperation):
     ...
 
 
-class UpdateProposalOperationLegacy(_UpdateProposalOperation[AssetHbdLegacy]):
+class UpdateProposalOperationLegacy(_UpdateProposalOperation):
     ...

@@ -1,11 +1,8 @@
 from __future__ import annotations
 
-from typing import Generic
+import msgspec
 
-from pydantic import validator
-from pydantic.generics import GenericModel
-
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
+from schemas.fields.assets._base import AssetHive, AssetNaiAmount
 from schemas.fields.basic import (
     AccountName,
     PublicKey,
@@ -15,34 +12,25 @@ from schemas.fields.compound import LegacyChainProperties
 from schemas.operation import Operation
 
 
-class _WitnessUpdateOperation(Operation, GenericModel, Generic[AssetHiveT]):
-    __operation_name__ = "witness_update"
-    __offset__ = 11
-
+class _WitnessUpdateOperation(Operation):
     owner: AccountName
     url: WitnessUrl
     block_signing_key: PublicKey
-    props: LegacyChainProperties[AssetHiveHF26]
-    fee: AssetHiveT | None
+    props: LegacyChainProperties
+    fee: AssetHive | None
 
-
-class WitnessUpdateOperation(_WitnessUpdateOperation[AssetHiveHF26]):
-    fee: AssetHiveHF26 | None = None
-
-    @validator("fee", always=True)
     @classmethod
-    def validate_fee(cls, v: AssetHiveHF26 | None) -> AssetHiveHF26:
-        if v is None:
-            return AssetHiveHF26(amount=0)
-        return v
+    def get_name(cls) -> str:
+        return "witness_update"
 
-
-class WitnessUpdateOperationLegacy(_WitnessUpdateOperation[AssetHiveLegacy]):
-    fee: AssetHiveLegacy | None = None
-
-    @validator("fee", always=True)
     @classmethod
-    def validate_fee(cls, v: AssetHiveLegacy | None) -> AssetHiveLegacy:
-        if v is None:
-            return AssetHiveLegacy("0.000 HIVE")
-        return v
+    def offset(cls) -> int:
+        return 11
+
+
+class WitnessUpdateOperation(_WitnessUpdateOperation):
+    fee: AssetHive = msgspec.field(default_factory=lambda: AssetHive(amount=AssetNaiAmount(0)))
+
+
+class WitnessUpdateOperationLegacy(WitnessUpdateOperation):
+    pass

@@ -1,29 +1,24 @@
 from __future__ import annotations
 
-from typing import Generic
-
-from pydantic.generics import GenericModel
-
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
-from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsLegacy, AssetVestsT
+from schemas.fields.resolvables import AnyAsset
 from schemas.virtual_operation import VirtualOperation
 
 
-class _ConsolidateTreasuryBalanceOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT, AssetVestsT]):
-    __operation_name__ = "consolidate_treasury_balance"
-    __offset__ = 21
+class _ConsolidateTreasuryBalanceOperation(VirtualOperation, kw_only=True):
+    total_moved: list[AnyAsset]
 
-    total_moved: list[AssetHiveT | AssetHbdT | AssetVestsT]
+    @classmethod
+    def get_name(cls) -> str:
+        return "consolidate_treasury_balance"
+
+    @classmethod
+    def vop_offset(cls) -> int:
+        return 21
 
 
-class ConsolidateTreasuryBalanceOperation(
-    _ConsolidateTreasuryBalanceOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
-):
+class ConsolidateTreasuryBalanceOperation(_ConsolidateTreasuryBalanceOperation):
     ...
 
 
-class ConsolidateTreasuryBalanceOperationLegacy(
-    _ConsolidateTreasuryBalanceOperation[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
-):
+class ConsolidateTreasuryBalanceOperationLegacy(_ConsolidateTreasuryBalanceOperation):
     ...
