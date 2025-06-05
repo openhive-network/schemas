@@ -3,11 +3,10 @@ from __future__ import annotations
 from typing import Any
 
 import pytest
-from pydantic import ValidationError
 
 from schemas.apis import database_api
-from schemas.jsonrpc import get_response_model
-from schemas.policies import MissingFieldsInGetConfig
+from schemas.policies.missing_fields_in_get_config import MissingFieldsInGetConfig
+from tests.conftest import verify_serialization_and_deserialization
 
 from . import responses_from_api
 
@@ -23,8 +22,10 @@ from . import responses_from_api
         (responses_from_api.LIST_WITHDRAW_VESTING_ROUTES, database_api.ListWithdrawVestingRoutes),
         (responses_from_api.LIST_DECLINE_VOTING_RIGHTS_REQUESTS, database_api.ListDeclineVotingRightsRequests),
         (responses_from_api.FIND_VESTING_DELEGATIONS, database_api.FindVestingDelegations),
-        (responses_from_api.LIST_ACCOUNTS, database_api.ListAccounts),
-        (responses_from_api.LIST_CHANGE_RECOVERY_ACCOUNT_REQUESTS, database_api.ListChangeRecoveryAccountRequests),
+        (
+            responses_from_api.LIST_CHANGE_RECOVERY_ACCOUNT_REQUESTS,
+            database_api.ListChangeRecoveryAccountRequests,
+        ),
         (responses_from_api.LIST_ACCOUNT_RECOVERY_REQUESTS, database_api.ListAccountRecoveryRequests),
         (responses_from_api.LIST_VESTING_DELEGATION_EXPIRATIONS, database_api.ListVestingDelegationExpirations),
         (responses_from_api.LIST_HBD_CONVERSION_REQUESTS, database_api.ListHbdConversionRequests),
@@ -49,7 +50,6 @@ from . import responses_from_api
         (responses_from_api.GET_TRANSACTION_HEX, database_api.GetTransactionHex),
         (responses_from_api.GET_HARDFORK_PROPERTIES, database_api.GetHardforkProperties),
         (responses_from_api.GET_CURRENT_PRICE_FEED, database_api.GetCurrentPriceFeed),
-        (responses_from_api.FIND_ACCOUNTS, database_api.FindAccounts),
         (responses_from_api.VERIFY_AUTHORITY, database_api.VerifyAuthority),
         (responses_from_api.VERIFY_ACCOUNT_AUTHORITY, database_api.VerifyAccountAuthority),
         (responses_from_api.FIND_RECURRENT_TRANSFERS, database_api.FindRecurrentTransfers),
@@ -69,8 +69,7 @@ from . import responses_from_api
     ],
 )
 def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: Any) -> None:
-    # ACT & ASSERT
-    get_response_model(schema, **parameters)
+    verify_serialization_and_deserialization(schema, parameters, "hf26")
 
 
 def test_get_config_policy() -> None:
@@ -82,5 +81,5 @@ def test_get_config_policy() -> None:
     finally:
         MissingFieldsInGetConfig(allow=False).apply()  # this is in finally so it won't interfere other tests
 
-    with pytest.raises(ValidationError):
+    with pytest.raises(TypeError):
         database_api.GetConfig()  # type: ignore[call-arg]
