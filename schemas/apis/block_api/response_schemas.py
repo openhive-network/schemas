@@ -6,17 +6,17 @@ from schemas.fields.hive_list import HiveList
 
 
 class GetBlockBase(PreconfiguredBaseModel):
-    block: Hf26Block
+    block: Hf26Block | None = None
 
 
-GetBlock = GetBlockBase | PreconfiguredBaseModel
+GetBlock = GetBlockBase
 
 
 class GetBlockHeaderBase(PreconfiguredBaseModel):
-    header: GetBlockHeaderFundament
+    header: GetBlockHeaderFundament | None = None
 
 
-GetBlockHeader = GetBlockHeaderBase | PreconfiguredBaseModel
+GetBlockHeader = GetBlockHeaderBase
 
 
 class GetBlockRange(PreconfiguredBaseModel):
