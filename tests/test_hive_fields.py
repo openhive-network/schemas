@@ -1,14 +1,15 @@
 from __future__ import annotations
 
 import datetime
-from typing import Any, Final
+from typing import Any, Final, cast
 
+import msgspec
 import pytest
-from pydantic import BaseModel, ValidationError
 
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy
-from schemas.fields.assets.vests import AssetVestsHF26
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.decoders import get_hf26_decoder, get_legacy_decoder
+from schemas.encoders import get_hf26_encoder
+from schemas.fields.assets._base import AssetHbd, AssetHive, AssetNaiAmount, AssetVests
 from schemas.fields.basic import (
     AccountName,
     EmptyString,
@@ -22,46 +23,46 @@ from schemas.hive_constants import HIVE_TIME_FORMAT
 from .hive_tests_constants import ACTIVE, OWNER, POSTING
 
 
-class HiveIntModel(BaseModel):
+class HiveIntModel(msgspec.Struct):
     field: HiveInt
 
 
-class EmptyStringModel(BaseModel):
+class EmptyStringModel(msgspec.Struct):
     field: EmptyString
 
 
-class AccountNameModel(BaseModel):
+class AccountNameModel(msgspec.Struct):
     field: AccountName
 
 
-class HiveDateTimeModel(BaseModel):
+class HiveDateTimeModel(msgspec.Struct):
     field: HiveDateTime
 
 
-class AuthorityModel(BaseModel):
+class AuthorityModel(PreconfiguredBaseModel):
     field: Authority
 
 
-class PublicKeyModel(BaseModel):
+class PublicKeyModel(msgspec.Struct):
     field: PublicKey
 
 
-class HbdExchangeRateModelLegacy(BaseModel):
-    field: HbdExchangeRate[AssetHiveLegacy, AssetHbdLegacy]
+class HbdExchangeRateModelLegacy(msgspec.Struct):
+    field: HbdExchangeRate
 
 
-class HbdExchangeRateModelNai(BaseModel):
-    field: HbdExchangeRate[AssetHiveHF26, AssetHbdHF26]
+class HbdExchangeRateModelNai(msgspec.Struct):
+    field: HbdExchangeRate
 
 
-class AssetHiveLegacyModel(BaseModel):
-    field: AssetHiveLegacy
+class AssetHiveLegacyModel(msgspec.Struct):
+    field: AssetHive
 
 
 @pytest.mark.parametrize("value", [1, "312412", 412441])
 def test_hive_int_with_correct_values(value: int | str) -> None:
     # ACT
-    instance = HiveIntModel(field=value)
+    instance = HiveIntModel(field=HiveInt(value))
 
     # ASSERT
     assert instance.field == int(value)
@@ -73,28 +74,32 @@ def test_hive_int_with_incorrect_values(value: Any) -> None:
     expected_message: Final[str] = "The value could only be int or string that can be converted to int!"
 
     # ACT
-    with pytest.raises(ValidationError) as error:
-        HiveIntModel(field=value)
+    with pytest.raises(Exception) as error:
+        HiveIntModel(field=HiveInt(value))
 
     # ASSERT
     assert expected_message in str(error.value)
 
 
 def test_empty_string_correct_value() -> None:
-    # ACT
+    # ARRANGE
     instance = EmptyStringModel(field="")
+    empty_string = msgspec.json.encode(instance)
+
+    # ACT
+    msgspec.json.decode(empty_string, type=EmptyStringModel)
 
     # ASSERT
     assert instance.field == ""  # - we want to check if it is empty string explicitly
 
 
 def test_empty_string_incorrect_value() -> None:
-    expected_message: Final[str] = "ensure this value has at most 0 characters"
+    expected_message: Final[str] = "Expected `str` of length <= 0 - at `$.field"
 
     # ACT
-    with pytest.raises(ValidationError) as error:
-        EmptyStringModel(field="not empty")
-
+    empty_string = msgspec.json.encode(EmptyStringModel(field="not empty"))
+    with pytest.raises(msgspec.ValidationError) as error:
+        msgspec.json.decode(empty_string, type=EmptyStringModel)
     # ASSERT
     assert expected_message in str(error.value)
 
@@ -102,15 +107,20 @@ def test_empty_string_incorrect_value() -> None:
 @pytest.mark.parametrize(
     "value, expected_message",
     [
-        ("definitely too long name", "ensure this value has at most 16 characters"),
-        ("to", "ensure this value has at least 3 characters"),
-        ("123", "string does not match regex"),
+        ("definitely too long name", "Expected `str` of length <= 16"),
+        ("to", "Expected `str` of length >= 3"),
+        (
+            "123",
+            "Expected `str` matching regex '^[a-z]{1}[a-z0-9\\\\-]+[a-z0-9]{1}(:?\\\\.{1}[a-z]{1}[a-z0-9\\\\-]+[a-z0-9]{1})*$'",
+        ),
     ],
 )
 def test_account_name_incorrect_value(value: str, expected_message: str) -> None:
     # ACT
-    with pytest.raises(ValidationError) as error:
-        AccountNameModel(field=value)
+    account_name = msgspec.json.encode(AccountNameModel(field=value))
+
+    with pytest.raises(Exception) as error:
+        get_hf26_decoder(AccountNameModel).decode(account_name)
 
     # ASSERT
     assert expected_message in str(error.value)
@@ -131,8 +141,8 @@ def test_asset_nai_hive_field_incorrect_pattern(value: str | int) -> None:
     expected_message: Final[str] = "Invalid nai !"
 
     # ACT
-    with pytest.raises(ValidationError) as error:
-        AssetHiveHF26(amount=12, precision=3, nai=value)
+    with pytest.raises(Exception) as error:
+        AssetHive(amount=AssetNaiAmount(12), precision=HiveInt(3), nai=value)  # type: ignore[arg-type]
 
     # ASSERT
     assert expected_message in str(error.value)
@@ -141,11 +151,11 @@ def test_asset_nai_hive_field_incorrect_pattern(value: str | int) -> None:
 @pytest.mark.parametrize("value", ["nai_pattern", "@@0000013"])
 def test_asset_nai_hbd_field_incorrect_precision(value: str | int) -> None:
     # ARRANGE
-    expected_message: Final[str] = "The value could only be int or string that can be converted to int!"
+    expected_message: Final[str] = "invalid literal for int() with base 10:"
 
     # ACT
-    with pytest.raises(ValidationError) as error:
-        AssetHbdHF26(amount=10, precision=value, nai="@@000000013")
+    with pytest.raises(Exception) as error:
+        AssetHbd(amount=AssetNaiAmount(10), precision=value, nai="@@000000013")  # type: ignore[arg-type]
 
     # ASSERT
     assert expected_message in str(error.value)
@@ -157,8 +167,8 @@ def test_asset_nai_vests_field_incorrect_amount(value: str) -> None:
     expected_message: Final[str] = "The value could only be int or string that can be converted to int!"
 
     # ACT
-    with pytest.raises(ValidationError) as error:
-        AssetVestsHF26(amount=value, precision=6, nai="@@000000037")
+    with pytest.raises(Exception) as error:
+        AssetVests(amount=HiveInt(value), precision=6, nai="@@000000037")
 
     # ASSERT
     assert expected_message in str(error.value)
@@ -169,7 +179,7 @@ def test_asset_nai_vests_field_incorrect_amount(value: str) -> None:
 )
 def test_hive_datetime_field_correct_values(value: str, valid: datetime.datetime) -> None:
     # ARRANGE & ACT
-    instance = HiveDateTimeModel(field=value)
+    instance = HiveDateTimeModel(field=HiveDateTime(value))
 
     # ASSERT
     assert valid == instance.field
@@ -178,11 +188,11 @@ def test_hive_datetime_field_correct_values(value: str, valid: datetime.datetime
 @pytest.mark.parametrize("value", ["1970-01-01"])
 def test_hive_datetime_field_incorrect_values(value: str | datetime.datetime) -> None:
     # ARRANGE
-    expected_message: Final[str] = f"date must be in format {HIVE_TIME_FORMAT}"
+    expected_message: Final[str] = f"Date must be in format {HIVE_TIME_FORMAT}"
 
     # ACT
-    with pytest.raises(ValidationError) as error:
-        HiveDateTimeModel(field=value)
+    with pytest.raises(Exception) as error:
+        HiveDateTimeModel(field=HiveDateTime(value))
 
     # ASSERT
     assert expected_message in str(error.value)
@@ -191,7 +201,7 @@ def test_hive_datetime_field_incorrect_values(value: str | datetime.datetime) ->
 @pytest.mark.parametrize("value", [POSTING, ACTIVE, OWNER])
 def test_authority_field_correct_values(value: dict[str, Any]) -> None:
     # ACT
-    instance = AuthorityModel(field=value)
+    instance = AuthorityModel(field=Authority(**value))
 
     # ASSERT
     assert instance.field.key_auths[0][0] == value["key_auths"][0][0]
@@ -200,23 +210,45 @@ def test_authority_field_correct_values(value: dict[str, Any]) -> None:
 @pytest.mark.parametrize(
     "authority, parameter, message",
     [
-        (POSTING, "Not_int", "The value could only be int or string that can be converted to int!"),
-        (OWNER, "Bad_account_name", "string does not match regex"),
-        (ACTIVE, "SMT@@", "string does not match regex"),
+        (
+            POSTING,
+            "Not_int",
+            "The value could only be int or string that can be converted to int!",
+        ),
+        (
+            OWNER,
+            "Bad_account_name",
+            "Expected `str` matching regex '^[a-z]{1}[a-z0-9\\\\-]+[a-z0-9]{1}(:?\\\\.{1}[a-z]{1}[a-z0-9\\\\-]+[a-z0-9]{1})*$'",
+        ),
+        (
+            ACTIVE,
+            "SMT@@",
+            "Expected `str` matching regex '^(?:STM)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$'",
+        ),
     ],
 )
 def test_authority_field_incorrect_values(authority: dict[str, Any], parameter: str, message: str) -> None:
     # ARRANGE
     if authority == POSTING:
         authority["weight_threshold"] = parameter
-    elif authority == OWNER:
+        with pytest.raises(msgspec.ValidationError) as error:
+            Authority(**authority)
+        assert message in str(error.value)
+        return
+
+    if authority == OWNER:
         authority["account_auths"].append([parameter, 1])
     else:
         authority["key_auths"][0][0] = parameter
+    instance = AuthorityModel(field=Authority(**authority))
 
+    encoder = get_hf26_encoder()
+    encoded_authority = encoder.encode(instance)
+
+    decoder = get_hf26_decoder(AuthorityModel)
     # ACT
-    with pytest.raises(ValidationError) as error:
-        AuthorityModel(field=authority)
+    with pytest.raises(msgspec.ValidationError) as error:
+        decoder.decode(encoded_authority)
 
     # ASSERT
     assert message in str(error.value)
@@ -232,67 +264,49 @@ def test_authority_field_incorrect_values(authority: dict[str, Any], parameter: 
 )
 def test_public_key_field_incorrect_values(value: str) -> None:
     # ARRANGE
-    expected_message: Final[str] = "string does not match regex"
+    expected_message: Final[
+        str
+    ] = "Expected `str` matching regex '^(?:STM)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$'"
 
+    instance = PublicKeyModel(field=value)
+    public_key_model = msgspec.json.encode(instance)
+
+    decoder = get_hf26_decoder(PublicKeyModel)
     # ACT
-    with pytest.raises(ValidationError) as error:
-        PublicKeyModel(field=value)
+    with pytest.raises(Exception) as error:
+        decoder.decode(public_key_model)
 
     # ASSERT
     assert expected_message in str(error.value)
 
 
-@pytest.mark.parametrize(
-    "hive_legacy, hbd_legacy, hive_nai, hbd_nai",
-    [
-        (
-            "1.000 HIVE",
-            "1.000 HBD",
-            {"amount": 1, "precision": 3, "nai": "@@000000021"},
-            {"amount": 1, "precision": 3, "nai": "@@000000013"},
-        )
-    ],
-)
-def test_hbd_exchange_rate_incorrect_values(
-    hive_legacy: str, hbd_legacy: str, hive_nai: dict[str, Any], hbd_nai: dict[str, Any]
-) -> None:
-    """HbdExchangeRate accept two Asset types -> legacy and nai. Choose of the Asset type is performed by generic.
-    So this test is used to check if validation after choose type of Asset is performed fine. To check it nai Assets
-    have been putted to Legacy version and legacy Assets to nai version.
-    """
-    # ARRANGE
-    expected_message_nai: Final[str] = "value is not a valid dict"
-    expected_message_legacy: Final[str] = "str type expected"
-
-    hbd_exchange_nai = HbdExchangeRate[AssetHiveHF26, AssetHbdHF26]
-    hbd_exchange_legacy = HbdExchangeRate[AssetHiveLegacy, AssetHbdLegacy]
-
-    # ACT
-    with pytest.raises(ValidationError) as error_legacy:
-        HbdExchangeRateModelLegacy(field=hbd_exchange_legacy(base=hbd_nai, quote=hive_nai))
-
-    with pytest.raises(ValidationError) as error_nai:
-        HbdExchangeRateModelNai(field=hbd_exchange_nai(base=hbd_legacy, quote=hive_legacy))
-
-    # ASSERT
-    assert expected_message_nai in str(error_nai.value) and expected_message_legacy in str(error_legacy.value)
-
-
 def test_correct_value_asset_hive_legacy() -> None:
     # ACT
-    instance = AssetHiveLegacyModel(field="1.000 HIVE")
+    hive_amount = 1000
+    instance = AssetHiveLegacyModel(field="1.000 HIVE")  # type: ignore[arg-type]
+    asset_hive_legacy_model = msgspec.json.encode(instance)
+
+    decoder = get_legacy_decoder(AssetHiveLegacyModel)
+
+    # ACT
+    decoded = cast(AssetHiveLegacyModel, decoder.decode(asset_hive_legacy_model))
 
     # ASSERT
-    assert instance.field == "1.000 HIVE"
+    assert isinstance(decoded.field, AssetHive) and decoded.field == hive_amount
 
 
 def test_incorrect_value_asset_hive_legacy() -> None:
     # ARRANGE
-    expected_message: Final[str] = "string does not match regex"
+    expected_message: Final[str] = "Given legacy asset does not match regex - at `$.field"
+
+    instance = AssetHiveLegacyModel(field="1.000 BAD")  # type: ignore[arg-type]
+    asset_hive_legacy_model = msgspec.json.encode(instance)
+
+    decoder = get_legacy_decoder(AssetHiveLegacyModel)
 
     # ACT
-    with pytest.raises(ValidationError) as error:
-        AssetHiveLegacyModel(field="1.000 BAD")
+    with pytest.raises(Exception) as error:
+        decoder.decode(asset_hive_legacy_model)
 
     # ASSERT
     assert expected_message in str(error.value)

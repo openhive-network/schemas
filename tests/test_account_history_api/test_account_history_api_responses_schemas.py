@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
+import msgspec
 import pytest
 
 from schemas.apis.account_history_api.response_schemas import (
@@ -11,7 +12,8 @@ from schemas.apis.account_history_api.response_schemas import (
     GetOpsInBlock,
     GetTransaction,
 )
-from schemas.jsonrpc import JSONRPCError, JSONRPCResult, get_response_model
+from schemas.encoders import enc_hook_hf26
+from schemas.jsonrpc import get_response_model
 
 from .responses_from_api import (
     ENUM_VIRTUAL_OPS,
@@ -31,12 +33,13 @@ from .responses_from_api import (
     ],
 )
 def test_account_history_api_correct_values(parameters: dict[str, Any], schema: Any) -> None:
+    encoder = msgspec.json.Encoder(enc_hook=enc_hook_hf26, order="sorted")
     # ARRANGE
-    pattern = json.dumps(parameters, sort_keys=True)
+    pattern = json.dumps(parameters, sort_keys=True, separators=(",", ":"))
 
     # ACT
-    parsed: JSONRPCResult[schema] | JSONRPCError = get_response_model(schema, **parameters)
-    reserialized = parsed.json(by_alias=True)
+    parsed = get_response_model(schema, json.dumps(parameters), "hf26")
+    reserialized = encoder.encode(parsed).decode()
 
     # ASSERT
     assert pattern == reserialized
