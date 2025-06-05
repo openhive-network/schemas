@@ -1,37 +1,41 @@
 from __future__ import annotations
 
-from typing import Final, Generic
+from typing import Final
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from msgspec import field
 
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
+from schemas.fields.assets._base import AssetHbd, AssetHive
 from schemas.fields.basic import (
     AccountName,
 )
 from schemas.fields.integers import Uint32t
+from schemas.fields.resolvables import AssetUnionAssetHiveAssetHbd
 from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _EscrowRejectedOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
-    __operation_name__ = "escrow_rejected"
-    __offset__ = 40
-
-    from_: AccountName = Field(alias="from")
+class _EscrowRejectedOperation(VirtualOperation, kw_only=True):
+    from_: AccountName = field(name="from")
     to: AccountName
     agent: AccountName
     escrow_id: Uint32t = DEFAULT_REQUEST_ID
-    hbd_amount: AssetHbdT
-    hive_amount: AssetHiveT
-    fee: AssetHiveT | AssetHbdT
+    hbd_amount: AssetHbd
+    hive_amount: AssetHive
+    fee: AssetUnionAssetHiveAssetHbd
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "escrow_rejected"
+
+    @classmethod
+    def vop_offset(cls) -> int:
+        return 40
 
 
-class EscrowRejectedOperation(_EscrowRejectedOperation[AssetHiveHF26, AssetHbdHF26]):
+class EscrowRejectedOperation(_EscrowRejectedOperation):
     ...
 
 
-class EscrowRejectedOperationLegacy(_EscrowRejectedOperation[AssetHiveLegacy, AssetHbdLegacy]):
+class EscrowRejectedOperationLegacy(_EscrowRejectedOperation):
     ...

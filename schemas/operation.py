@@ -33,4 +33,4 @@ class Operation(PreconfiguredBaseModel):
     @classmethod
     @abstractmethod
     def offset(cls) -> int:
-        ...
+        """Get the offset of the operation."""

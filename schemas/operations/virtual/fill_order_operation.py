@@ -1,36 +1,38 @@
 from __future__ import annotations
 
-from typing import Final, Generic
+from typing import Final
 
-from pydantic.generics import GenericModel
-
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
     AccountName,
 )
 from schemas.fields.integers import Uint32t
+from schemas.fields.resolvables import AssetUnionAssetHiveAssetHbd
 from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_CURRENT_ORDERID: Final[Uint32t] = Uint32t(0)
 DEFAULT_OPEN_ORDERID: Final[Uint32t] = Uint32t(0)
 
 
-class _FillOrderOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
-    __operation_name__ = "fill_order"
-    __offset__ = 7
-
+class _FillOrderOperation(VirtualOperation, kw_only=True):
     current_owner: AccountName
     current_orderid: Uint32t = DEFAULT_CURRENT_ORDERID
-    current_pays: AssetHiveT | AssetHbdT
+    current_pays: AssetUnionAssetHiveAssetHbd
     open_owner: AccountName
     open_orderid: Uint32t = DEFAULT_OPEN_ORDERID
-    open_pays: AssetHiveT | AssetHbdT
+    open_pays: AssetUnionAssetHiveAssetHbd
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "fill_order"
+
+    @classmethod
+    def vop_offset(cls) -> int:
+        return 7
 
 
-class FillOrderOperation(_FillOrderOperation[AssetHiveHF26, AssetHbdHF26]):
+class FillOrderOperation(_FillOrderOperation):
     ...
 
 
-class FillOrderOperationLegacy(_FillOrderOperation[AssetHiveLegacy, AssetHbdLegacy]):
+class FillOrderOperationLegacy(_FillOrderOperation):
     ...

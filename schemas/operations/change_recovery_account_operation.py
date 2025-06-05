@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pydantic import Field
+from msgspec import field
 
 from schemas.fields.basic import AccountName
 from schemas.operation import Operation
@@ -8,9 +8,14 @@ from schemas.operations.extensions.future_extension import FutureExtensions
 
 
 class ChangeRecoveryAccountOperation(Operation):
-    __operation_name__ = "change_recovery_account"
-    __offset__ = 26
-
     account_to_recover: AccountName
     new_recovery_account: AccountName
-    extensions: FutureExtensions = Field(default_factory=FutureExtensions)
+    extensions: FutureExtensions = field(default_factory=FutureExtensions)
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "change_recovery_account"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 26

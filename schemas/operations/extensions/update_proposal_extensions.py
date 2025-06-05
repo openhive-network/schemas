@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 from schemas.fields.hive_datetime import HiveDateTime
-from schemas.operations.extensions.extension import OperationExtension
+from schemas.operation import Operation
 
 
-class UpdateProposalEndDate(OperationExtension):
-    __extension_name__ = "update_proposal_end_date"
+class UpdateProposalEndDate(Operation):
+    @classmethod
+    def get_name(cls) -> str:
+        return "update_proposal_end_date"
 
     end_date: HiveDateTime

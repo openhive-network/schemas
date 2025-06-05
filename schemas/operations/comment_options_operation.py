@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from typing import Any, Final, Generic
+from typing import Any, Final
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from msgspec import field
 
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
+from schemas.fields.assets._base import AssetHbd, AssetNaiAmount
 from schemas.fields.basic import AccountName
 from schemas.fields.integers import Uint16t
 from schemas.hive_constants import HIVE_100_PERCENT
@@ -13,25 +12,30 @@ from schemas.operation import Operation
 
 DEFAULT_ALLOW_VOTES: Final[bool] = True
 DEFAULT_ALLOW_CURATION_REWARDS: Final[bool] = True
-DEFAULT_MAX_ACCEPTED_PAYOUT: Final[AssetHbdHF26] = AssetHbdHF26(amount=1000000000)
+DEFAULT_MAX_ACCEPTED_PAYOUT: Final[AssetHbd] = AssetHbd(amount=AssetNaiAmount(1000000000))
 
 
-class _CommentOptionsOperation(Operation, GenericModel, Generic[AssetHbdT]):
-    __operation_name__ = "comment_options"
-    __offset__ = 19
-
+class _CommentOptionsOperation(Operation):
     author: AccountName
     permlink: str
-    max_accepted_payout: AssetHbdT
+    max_accepted_payout: AssetHbd
     percent_hbd: Uint16t = Uint16t(HIVE_100_PERCENT)
     allow_votes: bool = DEFAULT_ALLOW_VOTES
     allow_curation_rewards: bool = DEFAULT_ALLOW_CURATION_REWARDS
-    extensions: list[Any] = Field(default_factory=list)
+    extensions: list[Any] = field(default_factory=list)
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "comment_options"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 19
 
 
-class CommentOptionsOperation(_CommentOptionsOperation[AssetHbdHF26]):
-    max_accepted_payout: AssetHbdHF26 = DEFAULT_MAX_ACCEPTED_PAYOUT
+class CommentOptionsOperation(_CommentOptionsOperation):
+    max_accepted_payout: AssetHbd = field(default=DEFAULT_MAX_ACCEPTED_PAYOUT)
 
 
-class CommentOptionsOperationLegacy(_CommentOptionsOperation[AssetHbdLegacy]):
-    max_accepted_payout: AssetHbdLegacy = AssetHbdLegacy(DEFAULT_MAX_ACCEPTED_PAYOUT.as_legacy())
+class CommentOptionsOperationLegacy(_CommentOptionsOperation):
+    max_accepted_payout: AssetHbd = field(default=DEFAULT_MAX_ACCEPTED_PAYOUT)
