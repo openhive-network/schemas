@@ -1,6 +1,10 @@
 from __future__ import annotations
 
-from pydantic import ConstrainedInt
+from typing import TYPE_CHECKING, Any, Final
+
+import msgspec
+
+from schemas.fields._init_validators import ValidatorInt
 
 __all__ = [
     "Uint8t",
@@ -11,40 +15,57 @@ __all__ = [
     "Uint64t",
 ]
 
-
-class Uint8t(ConstrainedInt):
-    ge = 0
-    le = 255
-
-
-class Int16t(ConstrainedInt):
-    ge = -32768
-    le = 32767
+MAX_INT64_VALUE: Final[int] = 9223372036854775807
+MIN_INT64_VALUE: Final[int] = -9223372036854775808
+MAX_UINT64_VALUE: Final[int] = 18446744073709551615
+MIN_UINT64_VALUE: Final[int] = 0
 
 
-class Uint16t(ConstrainedInt):
-    ge = 0
-    le = 65535
+def pre_int_validation(value: Any) -> ValidatorInt:
+    return ValidatorInt(value, skip_validation=True)
 
 
-class Uint32t(ConstrainedInt):
-    ge = 0
-    le = 4294967295
+def validate_int64t(value: ValidatorInt) -> ValidatorInt:
+    if value < MIN_INT64_VALUE or value > MAX_INT64_VALUE:
+        raise msgspec.ValidationError(f"Int64 out of range: `{value}` not in <{MIN_INT64_VALUE} ; {MAX_INT64_VALUE}>")
+    return value
 
 
-class Int64t(ConstrainedInt):
-    ge = -9223372036854775808
-    le = 9223372036854775807
+def validate_uint64t(value: ValidatorInt) -> ValidatorInt:
+    if value < MIN_UINT64_VALUE or value > MAX_UINT64_VALUE:
+        raise msgspec.ValidationError(
+            f"Uint64 out of range: `{value}` not in <{MIN_UINT64_VALUE} ; {MAX_UINT64_VALUE}>"
+        )
+    return value
 
 
-class Uint64t(ConstrainedInt):
-    ge = 0
-    le = 18446744073709554615
+if TYPE_CHECKING:
+    Uint8t = int
+    Int16t = int
+    Uint16t = int
+    Uint32t = int
+    Int64t = int
+    Uint64t = int
+else:
+    Uint8t = ValidatorInt.factory("Uint8t", msgspec.Meta(ge=0, le=255))
+    Int16t = ValidatorInt.factory("Int16t", msgspec.Meta(ge=-32768, le=32767))
+    Uint16t = ValidatorInt.factory("Uint16t", msgspec.Meta(ge=0, le=65535))
+    Uint32t = ValidatorInt.factory("Uint32t", msgspec.Meta(ge=0, le=4294967295))
+    Int64t = ValidatorInt.factory(
+        "Int64t",
+        msgspec.Meta(),
+        pre_validator=pre_int_validation,
+        post_validator=validate_int64t,
+        skip_default_validation=True,
+    )
+    Uint64t = ValidatorInt.factory(
+        "Uint64t",
+        msgspec.Meta(),
+        pre_validator=pre_int_validation,
+        post_validator=validate_uint64t,
+        skip_default_validation=True,
+    )
 
 
-class ShareType(Int64t):
-    """Identical data-type as Int64t"""
-
-
-class UShareType(Uint64t):
-    """Identical data-type as Uint64t"""
+ShareType = Int64t
+UShareType = Uint64t

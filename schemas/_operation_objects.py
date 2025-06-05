@@ -1,23 +1,14 @@
 from __future__ import annotations
 
-from typing import Any
-
-from pydantic import root_validator
-
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.hex import TransactionId
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
-from schemas.operations.representation_types import (
-    Hf26AllOperationRepresentationType,
-    Hf26OperationRepresentationType,
-    LegacyAllOperationRepresentationType,
-    LegacyOperationRepresentationType,
-)
-from schemas.operations.representations import get_legacy_operation_representation
-from schemas.operations.virtual.representation_types import (
-    Hf26VirtualOperationRepresentationType,
-    LegacyVirtualOperationRepresentationType,
+from schemas.operations import (
+    AnyHf26Operation,
+    AnyLegacyOperation,
+    Hf26VirtualOperationRepresentation,
+    LegacyVirtualOperationRepresentation,
 )
 
 
@@ -32,34 +23,24 @@ class ApiOperationObjectCommons(PreconfiguredBaseModel):
 
 
 class Hf26ApiOperationObject(ApiOperationObjectCommons):
-    op: Hf26OperationRepresentationType  # type: ignore
+    op: AnyHf26Operation
 
 
 class LegacyApiOperationObject(ApiOperationObjectCommons):
-    op: LegacyOperationRepresentationType  # type: ignore
-
-    @root_validator(pre=True)
-    @classmethod
-    def check_operation(cls, values: dict[str, Any]) -> dict[str, Any]:
-        type_of_operation = values["op"][0]
-        value_of_operation = values["op"][1]
-        values["op"] = get_legacy_operation_representation(type_of_operation)(
-            type=type_of_operation, value=value_of_operation
-        )
-        return values
+    op: AnyLegacyOperation
 
 
 class Hf26ApiVirtualOperationObject(ApiOperationObjectCommons):
-    op: Hf26VirtualOperationRepresentationType  # type: ignore
+    op: Hf26VirtualOperationRepresentation
 
 
-class LegacyApiVirtualOperationObject(LegacyApiOperationObject):
-    op: LegacyVirtualOperationRepresentationType  # type: ignore
+class LegacyApiVirtualOperationObject(ApiOperationObjectCommons):
+    op: LegacyVirtualOperationRepresentation
 
 
 class Hf26ApiAllOperationObject(ApiOperationObjectCommons):
-    op: Hf26AllOperationRepresentationType  # type: ignore
+    op: AnyHf26Operation
 
 
-class LegacyApiAllOperationObject(LegacyApiOperationObject):
-    op: LegacyAllOperationRepresentationType  # type: ignore
+class LegacyApiAllOperationObject(ApiOperationObjectCommons):
+    op: AnyLegacyOperation

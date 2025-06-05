@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from abc import abstractmethod
+
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
 __all__ = [
@@ -10,17 +12,14 @@ __all__ = [
 class Operation(PreconfiguredBaseModel):
     """Base class for all operations to provide valid json serialization"""
 
-    __operation_name__: str
-    __offset__: int
-
     @classmethod
+    @abstractmethod
     def get_name(cls) -> str:
         """
         Get the name of the operation.
 
         e.g. `transfer` for `TransferOperation`
         """
-        return cls.__operation_name__
 
     @classmethod
     def get_name_with_suffix(cls) -> str:
@@ -32,5 +31,6 @@ class Operation(PreconfiguredBaseModel):
         return f"{cls.get_name()}_operation"
 
     @classmethod
+    @abstractmethod
     def offset(cls) -> int:
-        return cls.__offset__
+        ...
