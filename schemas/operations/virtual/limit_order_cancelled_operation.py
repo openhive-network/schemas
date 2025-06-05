@@ -1,32 +1,34 @@
 from __future__ import annotations
 
-from typing import Final, Generic
+from typing import Final
 
-from pydantic.generics import GenericModel
-
-from schemas.fields.assets.hbd import AssetHbdHF26, AssetHbdLegacy, AssetHbdT
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
     AccountName,
 )
 from schemas.fields.integers import Uint32t
+from schemas.fields.resolvables import AssetUnionAssetHiveAssetHbd
 from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_ORDERID: Final[Uint32t] = Uint32t(0)
 
 
-class _LimitOrderCancelledOperation(VirtualOperation, GenericModel, Generic[AssetHiveT, AssetHbdT]):
-    __operation_name__ = "limit_order_cancelled"
-    __offset__ = 35
-
+class _LimitOrderCancelledOperation(VirtualOperation, kw_only=True):
     seller: AccountName
     orderid: Uint32t = DEFAULT_ORDERID
-    amount_back: AssetHiveT | AssetHbdT
+    amount_back: AssetUnionAssetHiveAssetHbd
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "limit_order_cancelled"
+
+    @classmethod
+    def vop_offset(cls) -> int:
+        return 35
 
 
-class LimitOrderCancelledOperation(_LimitOrderCancelledOperation[AssetHiveHF26, AssetHbdHF26]):
+class LimitOrderCancelledOperation(_LimitOrderCancelledOperation):
     ...
 
 
-class LimitOrderCancelledOperationLegacy(_LimitOrderCancelledOperation[AssetHiveLegacy, AssetHbdLegacy]):
+class LimitOrderCancelledOperationLegacy(_LimitOrderCancelledOperation):
     ...

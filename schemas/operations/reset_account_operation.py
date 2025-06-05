@@ -6,9 +6,14 @@ from schemas.operation import Operation
 
 
 class ResetAccountOperation(Operation):
-    __operation_name__ = "reset_account"
-    __offset__ = 37
-
     reset_account: AccountName
     account_to_reset: AccountName
     new_owner_authority: Authority
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "reset_account"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 37

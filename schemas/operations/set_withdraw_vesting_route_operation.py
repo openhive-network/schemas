@@ -11,10 +11,15 @@ DEFAULT_AUTO_VEST: Final[bool] = False
 
 
 class SetWithdrawVestingRouteOperation(Operation):
-    __operation_name__ = "set_withdraw_vesting_route"
-    __offset__ = 20
-
     from_account: AccountName
     to_account: AccountName
     percent: Uint16t = DEFAULT_PERCENT
     auto_vest: bool = DEFAULT_AUTO_VEST
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "set_withdraw_vesting_route"
+
+    @classmethod
+    def offset(cls) -> int:
+        return 20

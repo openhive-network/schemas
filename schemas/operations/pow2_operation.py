@@ -1,18 +1,16 @@
 from __future__ import annotations
 
-from typing import Any, Final, Generic
+from typing import Any, Final
 
-from pydantic import Field
-from pydantic.generics import GenericModel
+from msgspec import field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveLegacy, AssetHiveT
 from schemas.fields.basic import (
     AccountName,
     PublicKey,
 )
 from schemas.fields.compound import LegacyChainProperties
-from schemas.fields.hex import Sha256, TransactionId
+from schemas.fields.hex import TransactionId
 from schemas.fields.integers import Uint32t, Uint64t
 from schemas.operation import Operation
 
@@ -22,38 +20,46 @@ DEFAULT_FILL_OR_KILL: Final[bool] = False
 class Pow2Input(PreconfiguredBaseModel):
     worker_account: AccountName
     prev_block: TransactionId
-    nonce: Uint64t = Field(default_factory=lambda: Uint64t(0))
+    nonce: Uint64t = field(default_factory=lambda: Uint64t(0))
 
 
 class Pow2(PreconfiguredBaseModel):
-    input_: Pow2Input = Field(alias="input")
-    pow_summary: Uint32t = Field(default_factory=lambda: Uint32t(0))
+    input_: Pow2Input = field(name="input")
+    pow_summary: Uint32t = field(default_factory=lambda: Uint32t(0))
 
 
-class EquihashPow(PreconfiguredBaseModel):
-    input_: Sha256 = Field(alias="input")
+class EquihashPow(PreconfiguredBaseModel, kw_only=True):
+    input_: Pow2Input = field(name="input")
     proof: Any
     prev_block: TransactionId
     pow_summary: Uint32t
 
 
-class Pow2Work(PreconfiguredBaseModel):
-    type_: str = Field(alias="type")
-    value: Pow2 | EquihashPow
+class Pow2WorkPow2(PreconfiguredBaseModel, kw_only=True, tag="pow2"):
+    value: Pow2
 
 
-class _Pow2Operation(Operation, GenericModel, Generic[AssetHiveT]):
-    __operation_name__ = "pow2"
-    __offset__ = 30
+class Pow2WorkEquihashPow(PreconfiguredBaseModel, kw_only=True, tag="equihash_pow"):
+    value: EquihashPow
 
-    work: Pow2Work
-    props: LegacyChainProperties[AssetHiveT]
+
+class _Pow2Operation(Operation):
+    work: Pow2WorkPow2 | Pow2WorkEquihashPow
+    props: LegacyChainProperties
     new_owner_key: PublicKey | None = None
 
+    @classmethod
+    def get_name(cls) -> str:
+        return "pow2"
 
-class Pow2Operation(_Pow2Operation[AssetHiveHF26]):
+    @classmethod
+    def offset(cls) -> int:
+        return 30
+
+
+class Pow2Operation(_Pow2Operation):
     ...
 
 
-class Pow2OperationLegacy(_Pow2Operation[AssetHiveLegacy]):
+class Pow2OperationLegacy(_Pow2Operation):
     ...

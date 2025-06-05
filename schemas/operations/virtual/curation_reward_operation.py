@@ -1,30 +1,33 @@
 from __future__ import annotations
 
-from typing import Final, Generic
+from typing import Final
 
-from pydantic.generics import GenericModel
-
-from schemas.fields.assets.vests import AssetVestsHF26, AssetVestsLegacy, AssetVestsT
+from schemas.fields.assets._base import AssetVests
 from schemas.fields.basic import AccountName
 from schemas.virtual_operation import VirtualOperation
 
 DEFAULT_PAYOUT_MUST_BE_CLAIMED: Final[bool] = False
 
 
-class _CurationRewardOperation(VirtualOperation, GenericModel, Generic[AssetVestsT]):
-    __operation_name__ = "curation_reward"
-    __offset__ = 2
-
+class _CurationRewardOperation(VirtualOperation, kw_only=True):
     curator: AccountName
-    reward: AssetVestsT
+    reward: AssetVests
     author: AccountName
     permlink: str
     payout_must_be_claimed: bool = DEFAULT_PAYOUT_MUST_BE_CLAIMED
 
+    @classmethod
+    def get_name(cls) -> str:
+        return "curation_reward"
 
-class CurationRewardOperation(_CurationRewardOperation[AssetVestsHF26]):
+    @classmethod
+    def vop_offset(cls) -> int:
+        return 2
+
+
+class CurationRewardOperation(_CurationRewardOperation):
     ...
 
 
-class CurationRewardOperationLegacy(_CurationRewardOperation[AssetVestsLegacy]):
+class CurationRewardOperationLegacy(_CurationRewardOperation):
     ...
