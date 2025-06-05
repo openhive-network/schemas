@@ -2,35 +2,45 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from pydantic import ConstrainedInt
+import msgspec
+from typing_extensions import Self
 
-if TYPE_CHECKING:
-    from pydantic.typing import CallableGenerator
+from schemas.fields._init_validators import InitValidator
 
 __all__ = [
     "HiveInt",
 ]
 
 
-class HiveInt(ConstrainedInt):
-    @classmethod
-    def __get_validators__(cls) -> CallableGenerator:
-        yield cls.validate
-        yield from super().__get_validators__()
+class HiveIntFactory(int, InitValidator[int]):
+    def __new__(cls, obj: Any, *, skip_validation: bool = False) -> Self:
+        if not skip_validation:
+            cls.validate(obj)
+        return super().__new__(cls, obj)
 
     @classmethod
-    def validate(cls, value: Any) -> int:
-        error_template = ValueError("The value could only be int or string that can be converted to int!")
+    def _covered_type(cls) -> type[int]:
+        return int
 
-        if isinstance(value, float | bool):
+    def serialize(self) -> Any:
+        max_safe_int = (2**53) - 1
+        min_safe_int = -(2**53) + 1
+        if self >= min_safe_int and self <= max_safe_int:
+            return int(self)
+        return str(self)
+
+    @classmethod
+    def validate(cls, value: Any) -> Self:
+        error_template = msgspec.ValidationError("The value could only be int or string that can be converted to int!")
+        if not isinstance(value, (HiveIntFactory, str)) and type(value) is not int:
             raise error_template
+        try:
+            return super().validate(int(value))
+        except ValueError as error:
+            raise error_template from error
 
-        if isinstance(value, int | HiveInt):
-            return value
 
-        if isinstance(value, str):
-            try:
-                return int(value)
-            except (ValueError, TypeError) as error:
-                raise error_template from error
-        raise error_template
+if TYPE_CHECKING:  # nofmt
+    HiveInt = int
+else:
+    HiveInt = HiveIntFactory.factory("HiveInt", msgspec.Meta())

@@ -1,18 +1,15 @@
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self
 
 
-class OptionalResponse(ABC):
-    @abstractmethod
+class OptionalResponse:
     def is_set(self) -> bool:
-        ...
+        raise NotImplementedError("This method should be implemented in subclasses")
 
     @property
-    @abstractmethod
     def ensure(self) -> Self:
-        ...
+        raise NotImplementedError("This method should be implemented in subclasses")
