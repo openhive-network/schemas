@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-from pydantic import Field
+from msgspec import field
 
 from schemas.notifications.abc.notification_base import NotificationBase
 
 
 class SwitchingForks(NotificationBase):
-    id_: str = Field(alias="id")
+    id_: str = field(name="id")
     num: int
 
     @classmethod
