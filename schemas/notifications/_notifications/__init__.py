@@ -8,6 +8,10 @@ from schemas.notifications._notifications.status import Status
 from schemas.notifications._notifications.switching_forks import SwitchingForks
 from schemas.notifications._notifications.webserver_listening import WebserverListening
 
+KnownNotificationsValuesT = (
+    AttemptClosingWallets | Error | OpeningBeekeeperFailed | P2PListening | Status | SwitchingForks | WebserverListening
+)
+
 __all__ = [
     "AttemptClosingWallets",
     "Error",
