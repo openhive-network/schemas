@@ -9,13 +9,30 @@ from schemas.notifications._notifications import (
     SwitchingForks,
     WebserverListening,
 )
-from schemas.notifications.known_notification import KnownNotificationT
-from schemas.notifications.notification import Notification
+from schemas.notifications.notification import (
+    AttemptClosingWalletsNotification,
+    ErrorNotification,
+    KnownNotificationT,
+    NotificationBase,
+    OpeningBeekeeperFailedNotification,
+    P2PListeningNotification,
+    StatusNotification,
+    SwitchingForksNotification,
+    WebserverListeningNotification,
+)
 
 __all__ = [
     "KnownNotificationT",
-    "Notification",
+    "NotificationBase",
     # NOTIFICATIONS
+    "AttemptClosingWalletsNotification",
+    "ErrorNotification",
+    "OpeningBeekeeperFailedNotification",
+    "P2PListeningNotification",
+    "StatusNotification",
+    "SwitchingForksNotification",
+    "WebserverListeningNotification",
+    # NOTIFICATION VALUES
     "AttemptClosingWallets",
     "Error",
     "OpeningBeekeeperFailed",
