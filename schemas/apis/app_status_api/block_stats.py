@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import Field
+from msgspec import field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import AccountName
@@ -81,7 +81,7 @@ class BlockStatsExecItem(PreconfiguredBaseModel):
     """
     post: int
     """Time (in microseconds) for all remaining work after block was passed for broadcast, including reapplication of pending transactions"""
-    all_: int = Field(alias="all")
+    all_: int = field(name="all")
     """the sum of the above (in microseconds)"""
 
 
@@ -90,9 +90,9 @@ class BlockStats(PreconfiguredBaseModel):
     """block number"""
     lib: int
     """last irreversible block number"""
-    type_: KnownBlockStatsBlockType = Field(alias="type")
+    type_: KnownBlockStatsBlockType = field(name="type")
     """block processing type"""
-    id_: TransactionId = Field(alias="id")
+    id_: TransactionId = field(name="id")
     """block id"""
     ts: HiveDateTime
     """block timestamp"""
@@ -113,5 +113,5 @@ class BlockStats(PreconfiguredBaseModel):
     """statistics about transactions before processing block"""
     after: BlockStatsAfterItem
     """statistics about transactions after processing block"""
-    exec_: BlockStatsExecItem = Field(alias="exec")
+    exec_: BlockStatsExecItem = field(name="exec")
     """statistics about times during block processing"""

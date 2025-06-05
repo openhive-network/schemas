@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Generic
-
-from pydantic.generics import GenericModel
+from typing import Any
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import (
@@ -14,7 +12,6 @@ from schemas.fields.hive_datetime import HiveDateTime
 from schemas.transaction import (
     Transaction,
     TransactionLegacy,
-    TransactionT,
 )
 
 
@@ -28,26 +25,40 @@ class GetBlockHeaderFundament(PreconfiguredBaseModel):
     witness: AccountName
 
 
-class SignedBlock(GetBlockHeaderFundament, GenericModel, Generic[TransactionT]):
+class SignedBlockHF26(GetBlockHeaderFundament):
+    transactions: list[Transaction]
     witness_signature: Signature
-    transactions: list[TransactionT]
 
 
-class BlockLogUtilSignedBlock(GetBlockHeaderFundament, GenericModel, Generic[TransactionT]):
+class SignedBlockLegacy(GetBlockHeaderFundament):
+    transactions: list[TransactionLegacy]
+    witness_signature: Signature
+
+
+class BlockLogUtilSignedBlockBaseTransaction(GetBlockHeaderFundament):
     block_id: TransactionId
     signing_key: PublicKey
     witness_signature: Signature
-    transactions: list[TransactionT]
+    transactions: list[Transaction]
 
 
-class Block(SignedBlock[TransactionT], GenericModel, Generic[TransactionT]):
+class BlockLogUtilSignedBlockBaseTransactionLegacy(GetBlockHeaderFundament):
+    block_id: TransactionId
+    signing_key: PublicKey
+    witness_signature: Signature
+    transactions: list[TransactionLegacy]
+
+
+class Hf26Block(SignedBlockHF26):
     block_id: TransactionId
     signing_key: PublicKey
     transaction_ids: list[TransactionId]
 
 
-Hf26Block = Block[Transaction]
-LegacyBlock = Block[TransactionLegacy]
+class LegacyBlock(SignedBlockLegacy):
+    block_id: TransactionId
+    signing_key: PublicKey
+    transaction_ids: list[TransactionId]
 
 
 class EmptyModel(PreconfiguredBaseModel):
