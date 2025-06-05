@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import NoReturn
+from typing import NoReturn, cast
 
 from typing_extensions import Self
 
@@ -28,16 +28,38 @@ class NonEmptyResponse(OptionalResponse):
         return self
 
 
-class GetBlockBase(PreconfiguredBaseModel, NonEmptyResponse):
+class GetBlockBaseEnsured(PreconfiguredBaseModel):
     block: Hf26Block
 
 
-class GetBlockHeaderBase(PreconfiguredBaseModel, NonEmptyResponse):
+class GetBlockHeaderBaseEnsured(PreconfiguredBaseModel):
     header: GetBlockHeaderFundament
 
 
-GetBlock = GetBlockBase | EmptyResponse
-GetBlockHeader = GetBlockHeaderBase | EmptyResponse
+class GetBlockBase(PreconfiguredBaseModel):
+    block: Hf26Block | None = None
+
+    def is_set(self) -> bool:
+        return self.block is not None
+
+    @property
+    def ensure(self) -> GetBlockBaseEnsured:
+        return cast(GetBlockBaseEnsured, self)
+
+
+class GetBlockHeaderBase(PreconfiguredBaseModel):
+    header: GetBlockHeaderFundament | None = None
+
+    def is_set(self) -> bool:
+        return self.header is not None
+
+    @property
+    def ensure(self) -> GetBlockHeaderBaseEnsured:
+        return cast(GetBlockHeaderBaseEnsured, self)
+
+
+GetBlock = GetBlockBase
+GetBlockHeader = GetBlockHeaderBase
 
 
 class GetBlockRange(PreconfiguredBaseModel):

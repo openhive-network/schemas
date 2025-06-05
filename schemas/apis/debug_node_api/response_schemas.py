@@ -1,16 +1,14 @@
 from __future__ import annotations
 
-from pydantic import Field
+from msgspec import field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.apis.block_api.fundaments_of_responses import SignedBlock
-from schemas.fields.assets.hive import AssetHiveHF26
-from schemas.fields.basic import AccountName, EmptyString
+from schemas.apis.block_api.fundaments_of_responses import SignedBlockHF26
+from schemas.fields.basic import OptionallyEmptyAccountName
 from schemas.fields.compound import Props, RdDynamicParams
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.version import HardforkVersion
-from schemas.transaction import Transaction
 
 
 class DebugGenerateBlocks(PreconfiguredBaseModel):
@@ -21,8 +19,8 @@ class DebugGenerateBlocksUntil(DebugGenerateBlocks):
     """Identical like debug_generate_blocks"""
 
 
-class DebugGetHardforkPropertyObject(PreconfiguredBaseModel):
-    id_: HiveInt = Field(alias="id")
+class DebugGetHardforkPropertyObject(PreconfiguredBaseModel, kw_only=True):
+    id_: HiveInt = field(name="id")
     processed_hardforks: list[HiveDateTime]
     last_hardfork: HiveInt
     current_hardfork_version: HardforkVersion
@@ -31,24 +29,24 @@ class DebugGetHardforkPropertyObject(PreconfiguredBaseModel):
 
 
 class DebugGetHeadBlock(PreconfiguredBaseModel):
-    block: SignedBlock[Transaction] | None = None
+    block: SignedBlockHF26 | None = None
 
 
 class DebugGetJsonSchema(PreconfiguredBaseModel):
-    schema_: str = Field(alias="schema")
+    schema_: str = field(name="schema")
 
 
-class DebugGetWitnessSchedule(PreconfiguredBaseModel):
-    id_: HiveInt = Field(alias="id")
+class DebugGetWitnessSchedule(PreconfiguredBaseModel, kw_only=True):
+    id_: HiveInt = field(name="id")
     current_virtual_time: HiveInt
     next_shuffle_block_num: HiveInt
-    current_shuffled_witnesses: list[AccountName | EmptyString]
+    current_shuffled_witnesses: list[OptionallyEmptyAccountName]
     num_scheduled_witnesses: HiveInt
     elected_weight: HiveInt
     timeshare_weight: HiveInt
     miner_weight: HiveInt
     witness_pay_normalization_factor: HiveInt
-    median_props: Props[AssetHiveHF26]
+    median_props: Props
     majority_version: HardforkVersion
     max_voted_witnesses: HiveInt
     max_miner_witnesses: HiveInt

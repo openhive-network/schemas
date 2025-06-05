@@ -1,19 +1,22 @@
 from __future__ import annotations
 
 from enum import IntEnum
-from typing import Final, Literal, NamedTuple, get_args
+from typing import Final, Literal, get_args
+
+from msgspec import field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.hex import Hex
 from schemas.fields.hive_int import HiveInt
 from schemas.operation import Operation
-from schemas.operations import AnyEveryOperation
+from schemas.operations import Hf26Operations
+from schemas.operations.virtual import Hf26VirtualOperations
 
 __all__ = ["FullRcStats", "RegularRcStats"]
 
 
 operation_names: Final[list[str]] = [
-    op.get_name_with_suffix() for op in get_args(AnyEveryOperation) if issubclass(op, Operation)
+    op.get_name_with_suffix() for op in get_args(Hf26Operations | Hf26VirtualOperations) if issubclass(op, Operation)
 ]
 KnownOperationNames = Literal[tuple(operation_names)]  # type: ignore[valid-type]
 
@@ -29,7 +32,7 @@ class Rank(IntEnum):
     LEVIATHAN = 7
 
 
-class RcHiveIntTuple(NamedTuple):
+class RcHiveIntTuple(PreconfiguredBaseModel):
     history_rc: HiveInt
     tokens_rc: HiveInt
     market_rc: HiveInt
@@ -37,7 +40,7 @@ class RcHiveIntTuple(NamedTuple):
     exec_rc: HiveInt
 
 
-class BpHiveIntTuple(NamedTuple):
+class BpHiveIntTuple(PreconfiguredBaseModel):
     history_bp: HiveInt
     tokens_bp: HiveInt
     market_bp: HiveInt
@@ -45,7 +48,7 @@ class BpHiveIntTuple(NamedTuple):
     exec_bp: HiveInt
 
 
-class ResourceConsumptionHiveIntTuple(NamedTuple):
+class ResourceConsumptionHiveIntTuple(PreconfiguredBaseModel):
     history_bytes: HiveInt
     tokens: HiveInt
     market_bytes: HiveInt
@@ -115,9 +118,26 @@ class RegularRcPayerStats(PreconfiguredBaseModel):
 
 
 class FullRcPayerStats(RegularRcPayerStats):
-    cost: RcHiveIntTuple
+    cost: RcHiveIntTuple = field(
+        default_factory=lambda: RcHiveIntTuple(
+            history_rc=HiveInt(0),
+            tokens_rc=HiveInt(0),
+            market_rc=HiveInt(0),
+            state_rc=HiveInt(0),
+            exec_rc=HiveInt(0),
+        )
+    )
     """total costs of resources by payers"""
-    usage: ResourceConsumptionHiveIntTuple
+
+    usage: ResourceConsumptionHiveIntTuple = field(
+        default_factory=lambda: ResourceConsumptionHiveIntTuple(
+            history_bytes=HiveInt(0),
+            tokens=HiveInt(0),
+            market_bytes=HiveInt(0),
+            state_hbytes=HiveInt(0),
+            exec_ns=HiveInt(0),
+        )
+    )
     """average usage of resources by payers"""
 
 
@@ -141,14 +161,14 @@ class RcStatsBase(PreconfiguredBaseModel):
     """average cost of transfer at starting block"""
 
 
-class RegularRcStats(RcStatsBase):
+class RegularRcStats(RcStatsBase, tag=True):
     ops: dict[KnownOperationNames | str, RegularRcOperationStats]  # type: ignore[valid-type]
     """basic stats for each type of operation that was executed during reported day - number of operations executed and average cost"""
     payers: list[RegularRcPayerStats]
     """stats for users that paid for transactions during reported day, split between ranks 0..7 (levels of "RC wealth")"""
 
 
-class FullRcStats(RcStatsBase):
+class FullRcStats(RcStatsBase, tag=True):
     stamp: Hex
     """hash of state for rc status of the day"""
     ops: dict[KnownOperationNames | str, FullRcOperationStats]  # type: ignore[valid-type]

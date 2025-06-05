@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from typing import Generic
+from typing import Annotated
 
-from pydantic import ConstrainedList, Field
-from pydantic.generics import GenericModel
+import msgspec
+from msgspec import field
 
 import schemas.apis.account_history_api.response_schemas as account_history_api
 import schemas.apis.block_api.fundaments_of_responses as fundaments_block_api
@@ -19,9 +19,7 @@ from schemas.apis.wallet_bridge_api.fundaments_of_responses import (
     GetConversionRequestsFundament,
     ListRcDirectDelegationsFundament,
 )
-from schemas.fields.assets.hbd import AssetHbdHF26
-from schemas.fields.assets.hive import AssetHiveHF26, AssetHiveT
-from schemas.fields.assets.vests import AssetVestsHF26
+from schemas.fields.assets._base import AssetHive
 from schemas.fields.basic import (
     AccountName,
 )
@@ -40,42 +38,36 @@ class BroadcastTransaction(network_broadcast_api.BroadcastTransaction):
     """This response is also empty json"""
 
 
-class BroadcastTransactionSynchronous(PreconfiguredBaseModel):
+class BroadcastTransactionSynchronous(PreconfiguredBaseModel, kw_only=True):
     block_num: HiveInt
     expired: bool
-    id_: TransactionId = Field(alias="id")
-    rc_cost: HiveInt | None
+    id_: TransactionId = field(name="id")
+    rc_cost: HiveInt | None = None
     trx_num: HiveInt
 
 
 class FindProposals(PreconfiguredBaseModel):
-    proposals: HiveList[Proposal[AssetHbdHF26]]
+    proposals: HiveList[Proposal]
 
 
-FindRcAccounts = HiveList[RcAccountObject[AssetVestsHF26]]
+FindRcAccounts = HiveList[RcAccountObject]
 
 
-FindRecurrentTransfers = HiveList[FindRecurrentTransfersFundament[AssetHiveHF26, AssetHbdHF26]]
+FindRecurrentTransfers = HiveList[FindRecurrentTransfersFundament]
 
 
-GetAccount = Account[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26] | None
+GetAccount = Account | None
 
 
 GetAccountHistory = HiveList[tuple[HiveInt, Hf26ApiAllOperationObject]]
 
 
-GetAccounts = HiveList[Account[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
-
-
-class _GetActiveWitnessesConlist(ConstrainedList):
-    min_items = 1
-    max_items = 21
-    item_type = AccountName
+GetAccounts = HiveList[Account]
 
 
 class GetActiveWitnesses(PreconfiguredBaseModel):
-    witnesses: _GetActiveWitnessesConlist[AccountName]  # type: ignore
-    future_witnesses: _GetActiveWitnessesConlist[AccountName] | None = None  # type: ignore
+    witnesses: Annotated[list[AccountName], msgspec.Meta(min_length=1, max_length=21)]
+    future_witnesses: Annotated[list[AccountName], msgspec.Meta(min_length=1, max_length=21)] | None = None
 
 
 class GetBlock(PreconfiguredBaseModel):
@@ -84,41 +76,39 @@ class GetBlock(PreconfiguredBaseModel):
     block: fundaments_block_api.Hf26Block | None = None
 
 
-class GetChainProperties(PreconfiguredBaseModel, GenericModel, Generic[AssetHiveT]):
-    account_creation_fee: AssetHiveT
+class GetChainProperties(PreconfiguredBaseModel):
+    account_creation_fee: AssetHive
     maximum_block_size: HiveInt
     hbd_interest_rate: HiveInt
     account_subsidy_budget: HiveInt
     account_subsidy_decay: HiveInt
 
 
-GetCollateralizedConversionRequests = list[GetCollateralizedConversionRequestsFundament[AssetHiveHF26, AssetHbdHF26]]
+GetCollateralizedConversionRequests = list[GetCollateralizedConversionRequestsFundament]
 
 
-GetConversionRequests = list[GetConversionRequestsFundament[AssetHbdHF26]]
+GetConversionRequests = list[GetConversionRequestsFundament]
 
 
-class GetCurrentMedianHistoryPrice(Price[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
+class GetCurrentMedianHistoryPrice(Price):
     """Identical response as Price field, HF26 format of Assets"""
 
 
-class GetDynamicGlobalProperties(
-    database_api.GetDynamicGlobalPropertiesOrig[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
-):
+class GetDynamicGlobalProperties(database_api.GetDynamicGlobalProperties):
     """Identical as in database_api"""
 
 
-class GetFeedHistory(database_api.GetFeedHistoryOrig[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
+class GetFeedHistory(database_api.GetFeedHistoryOrig):
     """Identical as in database_api"""
 
 
 GetHardforkVersion = HardforkVersion
 
 
-GetOpenOrders = HiveList[fundaments_database_api.LimitOrdersFundament[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
+GetOpenOrders = HiveList[fundaments_database_api.LimitOrdersFundament]
 
 
-class GetOpsInBlock(account_history_api.GetOpsInBlock):
+class GetOpsInBlock(account_history_api.GetOpsInBlock, kw_only=True):
     """identical as in account_history_api"""
 
 
@@ -131,7 +121,7 @@ class GetOwnerHistory(PreconfiguredBaseModel):
     """Identical as in database_api"""
 
 
-class GetRewardFund(fundaments_database_api.GetRewardFundsFundament[AssetHiveHF26]):
+class GetRewardFund(fundaments_database_api.GetRewardFundsFundament):
     """Identical as get_reward_funds funds field"""
 
 
@@ -146,10 +136,10 @@ class GetVersion(database_api.GetVersion):
 GetWithdrawRoutes = list[fundaments_database_api.WithdrawVestingRoutesFundament]
 
 
-GetWitness = fundaments_database_api.WitnessesFundament[AssetHiveHF26, AssetHbdHF26] | None
+GetWitness = fundaments_database_api.WitnessesFundament | None
 
 
-class GetWitnessSchedule(database_api.GetWitnessScheduleOrig[AssetHiveHF26]):
+class GetWitnessSchedule(database_api.GetWitnessScheduleOrig):
     """Identical as in database_api"""
 
 
@@ -157,7 +147,7 @@ IsKnownTransaction = bool
 
 ListAccounts = list[AccountName]
 
-ListMyAccounts = HiveList[Account[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]]
+ListMyAccounts = HiveList[Account]
 
 
 class ListProposals(database_api.ListProposals):
@@ -168,7 +158,7 @@ class ListProposalVotes(database_api.ListProposalVotes):
     """Identical as in database_api"""
 
 
-ListRcAccounts = HiveList[RcAccountObject[AssetVestsHF26]]
+ListRcAccounts = HiveList[RcAccountObject]
 
 
 ListRcDirectDelegations = HiveList[ListRcDirectDelegationsFundament]
