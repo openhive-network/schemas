@@ -5,7 +5,7 @@ from schemas.fields.basic import AccountName
 from schemas.virtual_operation import VirtualOperation
 
 
-class _ReturnVestingDelegationOperation(VirtualOperation, kw_only=True):
+class ReturnVestingDelegationOperation(VirtualOperation, kw_only=True):
     account: AccountName
     vesting_shares: AssetVests
 
@@ -16,11 +16,3 @@ class _ReturnVestingDelegationOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 12
-
-
-class ReturnVestingDelegationOperation(_ReturnVestingDelegationOperation):
-    ...
-
-
-class ReturnVestingDelegationOperationLegacy(_ReturnVestingDelegationOperation):
-    ...

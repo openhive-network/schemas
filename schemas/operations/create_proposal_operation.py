@@ -11,7 +11,7 @@ from schemas.operation import Operation
 from schemas.operations.extensions.future_extension import FutureExtensions
 
 
-class _CreateProposalOperation(Operation):
+class CreateProposalOperation(Operation):
     creator: AccountName
     receiver: AccountName
     start_date: HiveDateTime
@@ -28,11 +28,3 @@ class _CreateProposalOperation(Operation):
     @classmethod
     def offset(cls) -> int:
         return 44
-
-
-class CreateProposalOperation(_CreateProposalOperation):
-    ...
-
-
-class CreateProposalOperationLegacy(_CreateProposalOperation):
-    ...

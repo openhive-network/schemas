@@ -9,7 +9,7 @@ from schemas.fields.compound import Authority
 from schemas.operation import Operation
 
 
-class _AccountCreateOperation(Operation):
+class AccountCreateOperation(Operation):
     fee: AssetHive
     creator: AccountName
     new_account_name: AccountName
@@ -26,11 +26,3 @@ class _AccountCreateOperation(Operation):
     @classmethod
     def offset(cls) -> int:
         return 9
-
-
-class AccountCreateOperation(_AccountCreateOperation):
-    ...
-
-
-class AccountCreateOperationLegacy(_AccountCreateOperation):
-    ...

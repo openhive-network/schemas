@@ -40,7 +40,7 @@ class Pow2Work(PreconfiguredBaseModel, kw_only=True):
     value: Pow2 | EquihashPow
 
 
-class _Pow2Operation(Operation):
+class Pow2Operation(Operation):
     work: Pow2Work
     props: LegacyChainProperties
     new_owner_key: PublicKey | None = None
@@ -52,11 +52,3 @@ class _Pow2Operation(Operation):
     @classmethod
     def offset(cls) -> int:
         return 30
-
-
-class Pow2Operation(_Pow2Operation):
-    ...
-
-
-class Pow2OperationLegacy(_Pow2Operation):
-    ...

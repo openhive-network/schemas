@@ -16,7 +16,7 @@ DEFAULT_REMAINING_EXECUTIONS: Final[Uint16t] = Uint16t(0)
 DEFAULT_DELETED: Final[bool] = False
 
 
-class _FailedRecurrentTransferOperation(VirtualOperation, kw_only=True):
+class FailedRecurrentTransferOperation(VirtualOperation, kw_only=True):
     from_: AccountName = field(name="from")
     to: AccountName
     amount: AssetUnionAssetHiveAssetHbd
@@ -32,11 +32,3 @@ class _FailedRecurrentTransferOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 34
-
-
-class FailedRecurrentTransferOperation(_FailedRecurrentTransferOperation):
-    ...
-
-
-class FailedRecurrentTransferOperationLegacy(_FailedRecurrentTransferOperation):
-    ...

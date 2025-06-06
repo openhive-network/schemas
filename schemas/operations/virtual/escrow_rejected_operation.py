@@ -15,7 +15,7 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _EscrowRejectedOperation(VirtualOperation, kw_only=True):
+class EscrowRejectedOperation(VirtualOperation, kw_only=True):
     from_: AccountName = field(name="from")
     to: AccountName
     agent: AccountName
@@ -31,11 +31,3 @@ class _EscrowRejectedOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 40
-
-
-class EscrowRejectedOperation(_EscrowRejectedOperation):
-    ...
-
-
-class EscrowRejectedOperationLegacy(_EscrowRejectedOperation):
-    ...

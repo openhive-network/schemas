@@ -28,7 +28,8 @@ def collect_and_write_api_imports(code: str) -> str:
 
     for operation_name in all_operations[7:]:
         if "Legacy" not in operation_name and "Generic" not in operation_name:
-            code += f"from schemas.operations.{pascal_to_snake(operation_name)} import {operation_name}\n"
+            extra_import = ", WitnessUpdateOperationLegacy" if "WitnessUpdateOperation" in operation_name else ""
+            code += f"from schemas.operations.{pascal_to_snake(operation_name)} import {operation_name}{extra_import}\n"
     code += "\n\n"
     return code
 
@@ -87,13 +88,13 @@ class LegacyRepresentation(PreconfiguredBaseModel):
 
 
 def write_representations_classes(code: str) -> str:
-    for operation_name in all_operations[7:-24]:
+    for operation_name in all_operations[7:]:
         if "Generic" not in operation_name:
             code += f"""class HF26Representation{operation_name}(HF26Representation, tag={operation_name}.get_name_with_suffix()):
             value: {operation_name}\n\n\n"""
 
             code += f"""class LegacyRepresentation{operation_name}(LegacyRepresentation, tag={operation_name}.get_name(), array_like=True):
-            value: {operation_name[:-6] if "Legacy" in operation_name else operation_name}\n\n\n"""
+            value: {operation_name if "WitnessUpdateOperation" not in operation_name else "WitnessUpdateOperationLegacy"}\n\n\n"""
     return code
 
 

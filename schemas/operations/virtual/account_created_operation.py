@@ -5,7 +5,7 @@ from schemas.fields.basic import AccountName
 from schemas.virtual_operation import VirtualOperation
 
 
-class _AccountCreatedOperation(VirtualOperation, kw_only=True):
+class AccountCreatedOperation(VirtualOperation, kw_only=True):
     new_account_name: AccountName
     creator: AccountName
     initial_vesting_shares: AssetVests
@@ -18,11 +18,3 @@ class _AccountCreatedOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 30
-
-
-class AccountCreatedOperation(_AccountCreatedOperation):
-    ...
-
-
-class AccountCreatedOperationLegacy(_AccountCreatedOperation):
-    ...

@@ -5,7 +5,7 @@ from schemas.fields.basic import AccountName
 from schemas.operation import Operation
 
 
-class _ClaimRewardBalanceOperation(Operation):
+class ClaimRewardBalanceOperation(Operation):
     account: AccountName
     reward_hive: AssetHive
     reward_hbd: AssetHbd
@@ -18,11 +18,3 @@ class _ClaimRewardBalanceOperation(Operation):
     @classmethod
     def offset(cls) -> int:
         return 39
-
-
-class ClaimRewardBalanceOperation(_ClaimRewardBalanceOperation):
-    ...
-
-
-class ClaimRewardBalanceOperationLegacy(_ClaimRewardBalanceOperation):
-    ...

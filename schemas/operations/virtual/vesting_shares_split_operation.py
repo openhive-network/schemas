@@ -5,7 +5,7 @@ from schemas.fields.basic import AccountName
 from schemas.virtual_operation import VirtualOperation
 
 
-class _VestingSharesSplitOperation(VirtualOperation):
+class VestingSharesSplitOperation(VirtualOperation):
     owner: AccountName
     vesting_shares_before_split: AssetVests
     vesting_shares_after_split: AssetVests
@@ -17,11 +17,3 @@ class _VestingSharesSplitOperation(VirtualOperation):
     @classmethod
     def vop_offset(cls) -> int:
         return 29
-
-
-class VestingSharesSplitOperation(_VestingSharesSplitOperation):
-    ...
-
-
-class VestingSharesSplitOperationLegacy(_VestingSharesSplitOperation):
-    ...

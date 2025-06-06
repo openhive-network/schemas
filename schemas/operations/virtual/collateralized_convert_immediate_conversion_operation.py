@@ -12,7 +12,7 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _CollateralizedConvertImmediateConversionOperation(VirtualOperation, kw_only=True):
+class CollateralizedConvertImmediateConversionOperation(VirtualOperation, kw_only=True):
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
     hbd_out: AssetHbd
@@ -24,11 +24,3 @@ class _CollateralizedConvertImmediateConversionOperation(VirtualOperation, kw_on
     @classmethod
     def vop_offset(cls) -> int:
         return 38
-
-
-class CollateralizedConvertImmediateConversionOperation(_CollateralizedConvertImmediateConversionOperation):
-    ...
-
-
-class CollateralizedConvertImmediateConversionOperationLegacy(_CollateralizedConvertImmediateConversionOperation):
-    ...

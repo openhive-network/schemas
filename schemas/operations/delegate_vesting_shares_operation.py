@@ -5,7 +5,7 @@ from schemas.fields.basic import AccountName
 from schemas.operation import Operation
 
 
-class _DelegateVestingSharesOperation(Operation):
+class DelegateVestingSharesOperation(Operation):
     delegator: AccountName
     delegatee: AccountName
     vesting_shares: AssetVests
@@ -17,11 +17,3 @@ class _DelegateVestingSharesOperation(Operation):
     @classmethod
     def offset(cls) -> int:
         return 40
-
-
-class DelegateVestingSharesOperation(_DelegateVestingSharesOperation):
-    ...
-
-
-class DelegateVestingSharesOperationLegacy(_DelegateVestingSharesOperation):
-    ...

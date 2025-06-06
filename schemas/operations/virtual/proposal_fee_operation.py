@@ -10,7 +10,7 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_PROPOSAL_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _ProposalFeeOperation(VirtualOperation, kw_only=True):
+class ProposalFeeOperation(VirtualOperation, kw_only=True):
     creator: AccountName
     treasury: AccountName
     proposal_id: Uint32t = DEFAULT_PROPOSAL_ID
@@ -23,11 +23,3 @@ class _ProposalFeeOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 37
-
-
-class ProposalFeeOperation(_ProposalFeeOperation):
-    ...
-
-
-class ProposalFeeOperationLegacy(_ProposalFeeOperation):
-    ...
