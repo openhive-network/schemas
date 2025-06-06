@@ -12,7 +12,7 @@ from schemas.fields.integers import Int64t
 from schemas.operation import Operation
 
 
-class _UpdateProposalOperation(Operation):
+class UpdateProposalOperation(Operation):
     proposal_id: Int64t
     creator: AccountName
     daily_pay: AssetHbd
@@ -27,11 +27,3 @@ class _UpdateProposalOperation(Operation):
     @classmethod
     def offset(cls) -> int:
         return 47
-
-
-class UpdateProposalOperation(_UpdateProposalOperation):
-    ...
-
-
-class UpdateProposalOperationLegacy(_UpdateProposalOperation):
-    ...

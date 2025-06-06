@@ -15,10 +15,10 @@ DEFAULT_ALLOW_CURATION_REWARDS: Final[bool] = True
 DEFAULT_MAX_ACCEPTED_PAYOUT: Final[AssetHbd] = AssetHbd(amount=AssetNaiAmount(1000000000))
 
 
-class _CommentOptionsOperation(Operation):
+class CommentOptionsOperation(Operation):
     author: AccountName
     permlink: str
-    max_accepted_payout: AssetHbd
+    max_accepted_payout: AssetHbd = field(default=DEFAULT_MAX_ACCEPTED_PAYOUT)
     percent_hbd: Uint16t = Uint16t(HIVE_100_PERCENT)
     allow_votes: bool = DEFAULT_ALLOW_VOTES
     allow_curation_rewards: bool = DEFAULT_ALLOW_CURATION_REWARDS
@@ -31,11 +31,3 @@ class _CommentOptionsOperation(Operation):
     @classmethod
     def offset(cls) -> int:
         return 19
-
-
-class CommentOptionsOperation(_CommentOptionsOperation):
-    max_accepted_payout: AssetHbd = field(default=DEFAULT_MAX_ACCEPTED_PAYOUT)
-
-
-class CommentOptionsOperationLegacy(_CommentOptionsOperation):
-    max_accepted_payout: AssetHbd = field(default=DEFAULT_MAX_ACCEPTED_PAYOUT)

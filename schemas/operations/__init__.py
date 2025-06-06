@@ -3,11 +3,9 @@ from __future__ import annotations
 from schemas.operation import Operation
 from schemas.operations.account_create_operation import (
     AccountCreateOperation,
-    AccountCreateOperationLegacy,
 )
 from schemas.operations.account_create_with_delegation_operation import (
     AccountCreateWithDelegationOperation,
-    AccountCreateWithDelegationOperationLegacy,
 )
 from schemas.operations.account_update2_operation import AccountUpdate2Operation
 from schemas.operations.account_update_operation import AccountUpdateOperation
@@ -15,25 +13,21 @@ from schemas.operations.account_witness_proxy_operation import AccountWitnessPro
 from schemas.operations.account_witness_vote_operation import AccountWitnessVoteOperation
 from schemas.operations.cancel_transfer_from_savings_operation import CancelTransferFromSavingsOperation
 from schemas.operations.change_recovery_account_operation import ChangeRecoveryAccountOperation
-from schemas.operations.claim_account_operation import ClaimAccountOperation, ClaimAccountOperationLegacy
+from schemas.operations.claim_account_operation import ClaimAccountOperation
 from schemas.operations.claim_reward_balance_operation import (
     ClaimRewardBalanceOperation,
-    ClaimRewardBalanceOperationLegacy,
 )
 from schemas.operations.collateralized_convert_operation import (
     CollateralizedConvertOperation,
-    CollateralizedConvertOperationLegacy,
 )
 from schemas.operations.comment_operation import CommentOperation
 from schemas.operations.comment_options_operation import (
     CommentOptionsOperation,
-    CommentOptionsOperationLegacy,
 )
-from schemas.operations.convert_operation import ConvertOperation, ConvertOperationLegacy
+from schemas.operations.convert_operation import ConvertOperation
 from schemas.operations.create_claimed_account_operation import CreateClaimedAccountOperation
 from schemas.operations.create_proposal_operation import (
     CreateProposalOperation,
-    CreateProposalOperationLegacy,
 )
 from schemas.operations.custom_binary_operation import CustomBinaryOperation
 from schemas.operations.custom_json_operation import CustomJsonOperation, CustomJsonOperationGeneric
@@ -42,36 +36,30 @@ from schemas.operations.decline_voting_rights_operation import DeclineVotingRigh
 from schemas.operations.delegate_rc_operation import DelegateRcOperation
 from schemas.operations.delegate_vesting_shares_operation import (
     DelegateVestingSharesOperation,
-    DelegateVestingSharesOperationLegacy,
 )
 from schemas.operations.delete_comment_operation import DeleteCommentOperation
 from schemas.operations.escrow_approve_operation import EscrowApproveOperation
 from schemas.operations.escrow_dispute_operation import EscrowDisputeOperation
 from schemas.operations.escrow_release_operation import (
     EscrowReleaseOperation,
-    EscrowReleaseOperationLegacy,
 )
 from schemas.operations.escrow_transfer_operation import (
     EscrowTransferOperation,
-    EscrowTransferOperationLegacy,
 )
 from schemas.operations.feed_publish_operation import FeedPublishOperation
 from schemas.operations.follow_operation import FollowOperation
 from schemas.operations.limit_order_cancel_operation import LimitOrderCancelOperation
 from schemas.operations.limit_order_create2_operation import (
     LimitOrderCreate2Operation,
-    LimitOrderCreate2OperationLegacy,
 )
 from schemas.operations.limit_order_create_operation import (
     LimitOrderCreateOperation,
-    LimitOrderCreateOperationLegacy,
 )
-from schemas.operations.pow2_operation import Pow2Operation, Pow2OperationLegacy
-from schemas.operations.pow_operation import PowOperation, PowOperationLegacy
+from schemas.operations.pow2_operation import Pow2Operation
+from schemas.operations.pow_operation import PowOperation
 from schemas.operations.recover_account_operation import RecoverAccountOperation
 from schemas.operations.recurrent_transfer_operation import (
     RecurrentTransferOperation,
-    RecurrentTransferOperationLegacy,
 )
 from schemas.operations.remove_proposal_operation import RemoveProposalOperation
 from schemas.operations.representation_types import (
@@ -186,20 +174,16 @@ from schemas.operations.set_reset_account_operation import SetResetAccountOperat
 from schemas.operations.set_withdraw_vesting_route_operation import SetWithdrawVestingRouteOperation
 from schemas.operations.transfer_from_savings_operation import (
     TransferFromSavingsOperation,
-    TransferFromSavingsOperationLegacy,
 )
-from schemas.operations.transfer_operation import TransferOperation, TransferOperationLegacy
+from schemas.operations.transfer_operation import TransferOperation
 from schemas.operations.transfer_to_savings_operation import (
     TransferToSavingsOperation,
-    TransferToSavingsOperationLegacy,
 )
 from schemas.operations.transfer_to_vesting_operation import (
     TransferToVestingOperation,
-    TransferToVestingOperationLegacy,
 )
 from schemas.operations.update_proposal_operation import (
     UpdateProposalOperation,
-    UpdateProposalOperationLegacy,
 )
 from schemas.operations.update_proposal_votes_operation import UpdateProposalVotesOperation
 from schemas.operations.virtual import (
@@ -211,13 +195,11 @@ from schemas.operations.virtual import (
 from schemas.operations.vote_operation import VoteOperation
 from schemas.operations.withdraw_vesting_operation import (
     WithdrawVestingOperation,
-    WithdrawVestingOperationLegacy,
 )
 from schemas.operations.witness_block_approve_operation import WitnessBlockApproveOperation
 from schemas.operations.witness_set_properties_operation import WitnessSetPropertiesOperation
 from schemas.operations.witness_update_operation import (
     WitnessUpdateOperation,
-    WitnessUpdateOperationLegacy,
 )
 
 __all__ = [
@@ -286,31 +268,6 @@ __all__ = [
     "WitnessBlockApproveOperation",
     "WitnessSetPropertiesOperation",
     "WitnessUpdateOperation",
-    # LEGACY OPERATIONS
-    "LegacyOperations",
-    "AccountCreateOperationLegacy",
-    "AccountCreateWithDelegationOperationLegacy",
-    "ClaimAccountOperationLegacy",
-    "ClaimRewardBalanceOperationLegacy",
-    "CollateralizedConvertOperationLegacy",
-    "CommentOptionsOperationLegacy",
-    "ConvertOperationLegacy",
-    "CreateProposalOperationLegacy",
-    "DelegateVestingSharesOperationLegacy",
-    "PowOperationLegacy",
-    "Pow2OperationLegacy",
-    "EscrowReleaseOperationLegacy",
-    "EscrowTransferOperationLegacy",
-    "LimitOrderCreate2OperationLegacy",
-    "LimitOrderCreateOperationLegacy",
-    "RecurrentTransferOperationLegacy",
-    "TransferFromSavingsOperationLegacy",
-    "TransferOperationLegacy",
-    "TransferToSavingsOperationLegacy",
-    "TransferToVestingOperationLegacy",
-    "UpdateProposalOperationLegacy",
-    "WithdrawVestingOperationLegacy",
-    "WitnessUpdateOperationLegacy",
 ]
 
 Hf26Operations = (

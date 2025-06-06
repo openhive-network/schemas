@@ -12,7 +12,7 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _FillCollateralizedConvertRequestOperation(VirtualOperation, kw_only=True):
+class FillCollateralizedConvertRequestOperation(VirtualOperation, kw_only=True):
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
     amount_in: AssetHive
@@ -26,11 +26,3 @@ class _FillCollateralizedConvertRequestOperation(VirtualOperation, kw_only=True)
     @classmethod
     def vop_offset(cls) -> int:
         return 31
-
-
-class FillCollateralizedConvertRequestOperation(_FillCollateralizedConvertRequestOperation):
-    ...
-
-
-class FillCollateralizedConvertRequestOperationLegacy(_FillCollateralizedConvertRequestOperation):
-    ...

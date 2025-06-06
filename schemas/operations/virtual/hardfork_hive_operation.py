@@ -7,7 +7,7 @@ from schemas.fields.basic import (
 from schemas.virtual_operation import VirtualOperation
 
 
-class _HardforkHiveOperation(VirtualOperation, kw_only=True):
+class HardforkHiveOperation(VirtualOperation, kw_only=True):
     account: AccountName
     treasury: AccountName
     other_affected_accounts: list[AccountName]
@@ -23,11 +23,3 @@ class _HardforkHiveOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 18
-
-
-class HardforkHiveOperation(_HardforkHiveOperation):
-    ...
-
-
-class HardforkHiveOperationLegacy(_HardforkHiveOperation):
-    ...

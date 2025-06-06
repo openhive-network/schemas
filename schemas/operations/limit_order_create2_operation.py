@@ -14,7 +14,7 @@ from schemas.operation import Operation
 DEFAULT_FILL_OR_KILL: Final[bool] = False
 
 
-class _LimitOrderCreate2Operation(Operation, kw_only=True):
+class LimitOrderCreate2Operation(Operation, kw_only=True):
     owner: AccountName
     orderid: Uint32t
     amount_to_sell: AssetUnionAssetHiveAssetHbd
@@ -29,11 +29,3 @@ class _LimitOrderCreate2Operation(Operation, kw_only=True):
     @classmethod
     def offset(cls) -> int:
         return 21
-
-
-class LimitOrderCreate2Operation(_LimitOrderCreate2Operation):
-    ...
-
-
-class LimitOrderCreate2OperationLegacy(_LimitOrderCreate2Operation):
-    ...

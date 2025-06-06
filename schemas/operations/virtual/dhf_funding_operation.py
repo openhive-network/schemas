@@ -5,7 +5,7 @@ from schemas.fields.basic import AccountName
 from schemas.virtual_operation import VirtualOperation
 
 
-class _DhfFundingOperation(VirtualOperation, kw_only=True):
+class DhfFundingOperation(VirtualOperation, kw_only=True):
     treasury: AccountName
     additional_funds: AssetHbd
 
@@ -16,11 +16,3 @@ class _DhfFundingOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 17
-
-
-class DhfFundingOperation(_DhfFundingOperation):
-    pass
-
-
-class DhfFundingOperationLegacy(_DhfFundingOperation):
-    pass

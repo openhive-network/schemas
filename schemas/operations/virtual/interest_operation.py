@@ -9,7 +9,7 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_IS_SAVED_INTO_HBD_BALANCE: Final[bool] = False
 
 
-class _InterestOperation(VirtualOperation, kw_only=True):
+class InterestOperation(VirtualOperation, kw_only=True):
     owner: AccountName
     interest: AssetHbd
     is_saved_into_hbd_balance: bool = DEFAULT_IS_SAVED_INTO_HBD_BALANCE
@@ -21,11 +21,3 @@ class _InterestOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 5
-
-
-class InterestOperation(_InterestOperation):
-    ...
-
-
-class InterestOperationLegacy(_InterestOperation):
-    ...

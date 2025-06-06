@@ -5,7 +5,7 @@ from schemas.fields.basic import AccountName
 from schemas.virtual_operation import VirtualOperation
 
 
-class _LiquidityRewardOperation(VirtualOperation, kw_only=True):
+class LiquidityRewardOperation(VirtualOperation, kw_only=True):
     owner: AccountName
     payout: AssetHive
 
@@ -16,11 +16,3 @@ class _LiquidityRewardOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 4
-
-
-class LiquidityRewardOperation(_LiquidityRewardOperation):
-    ...
-
-
-class LiquidityRewardOperationLegacy(_LiquidityRewardOperation):
-    ...

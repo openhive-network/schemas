@@ -14,7 +14,7 @@ DEFAULT_RSHARES: Final[Int64t] = Int64t(0)
 DEFAULT_TOTAL_VOTE_WEIGHT: Final[Uint64t] = Uint64t(0)
 
 
-class _EffectiveCommentVoteOperation(VirtualOperation, kw_only=True):
+class EffectiveCommentVoteOperation(VirtualOperation, kw_only=True):
     voter: AccountName
     author: AccountName
     permlink: str
@@ -30,11 +30,3 @@ class _EffectiveCommentVoteOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 22
-
-
-class EffectiveCommentVoteOperation(_EffectiveCommentVoteOperation):
-    ...
-
-
-class EffectiveCommentVoteOperationLegacy(_EffectiveCommentVoteOperation):
-    ...

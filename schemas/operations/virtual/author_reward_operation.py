@@ -9,7 +9,7 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_PAYOUT_MUST_BE_CLAIMED: Final[bool] = False
 
 
-class _AuthorRewardOperation(VirtualOperation, kw_only=True):
+class AuthorRewardOperation(VirtualOperation, kw_only=True):
     author: AccountName
     permlink: str
     hbd_payout: AssetHbd
@@ -25,11 +25,3 @@ class _AuthorRewardOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 1
-
-
-class AuthorRewardOperation(_AuthorRewardOperation):
-    ...
-
-
-class AuthorRewardOperationLegacy(_AuthorRewardOperation):
-    ...
