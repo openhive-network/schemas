@@ -10,7 +10,7 @@ from schemas.operation import Operation
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _CollateralizedConvertOperation(Operation, kw_only=True):
+class CollateralizedConvertOperation(Operation, kw_only=True):
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
     amount: AssetHive
@@ -22,11 +22,3 @@ class _CollateralizedConvertOperation(Operation, kw_only=True):
     @classmethod
     def offset(cls) -> int:
         return 48
-
-
-class CollateralizedConvertOperation(_CollateralizedConvertOperation):
-    ...
-
-
-class CollateralizedConvertOperationLegacy(_CollateralizedConvertOperation):
-    ...

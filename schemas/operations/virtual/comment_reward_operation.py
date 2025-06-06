@@ -6,7 +6,7 @@ from schemas.fields.integers import ShareType
 from schemas.virtual_operation import VirtualOperation
 
 
-class _CommentRewardOperation(VirtualOperation, kw_only=True):
+class CommentRewardOperation(VirtualOperation, kw_only=True):
     author: AccountName
     permlink: str
     payout: AssetHbd
@@ -22,11 +22,3 @@ class _CommentRewardOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 3
-
-
-class CommentRewardOperation(_CommentRewardOperation):
-    ...
-
-
-class CommentRewardOperationLegacy(_CommentRewardOperation):
-    ...

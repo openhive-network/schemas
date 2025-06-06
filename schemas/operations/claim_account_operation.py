@@ -12,7 +12,7 @@ If a user wants to pay a fee in RC fee should be equal 0.
 """
 
 
-class _ClaimAccountOperation(Operation):
+class ClaimAccountOperation(Operation):
     creator: AccountName
     fee: AssetHive  # | Literal[0]
     extensions: FutureExtensions = field(default_factory=FutureExtensions)
@@ -24,11 +24,3 @@ class _ClaimAccountOperation(Operation):
     @classmethod
     def offset(cls) -> int:
         return 22
-
-
-class ClaimAccountOperation(_ClaimAccountOperation):
-    ...
-
-
-class ClaimAccountOperationLegacy(_ClaimAccountOperation):
-    ...

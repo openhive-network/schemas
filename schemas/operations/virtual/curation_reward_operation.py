@@ -9,7 +9,7 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_PAYOUT_MUST_BE_CLAIMED: Final[bool] = False
 
 
-class _CurationRewardOperation(VirtualOperation, kw_only=True):
+class CurationRewardOperation(VirtualOperation, kw_only=True):
     curator: AccountName
     reward: AssetVests
     author: AccountName
@@ -23,11 +23,3 @@ class _CurationRewardOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 2
-
-
-class CurationRewardOperation(_CurationRewardOperation):
-    ...
-
-
-class CurationRewardOperationLegacy(_CurationRewardOperation):
-    ...

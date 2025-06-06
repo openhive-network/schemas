@@ -4,7 +4,7 @@ from schemas.fields.resolvables import AnyAsset
 from schemas.virtual_operation import VirtualOperation
 
 
-class _ClearNullAccountBalanceOperation(VirtualOperation, kw_only=True):
+class ClearNullAccountBalanceOperation(VirtualOperation, kw_only=True):
     total_cleared: list[AnyAsset]
 
     @classmethod
@@ -14,11 +14,3 @@ class _ClearNullAccountBalanceOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 15
-
-
-class ClearNullAccountBalanceOperation(_ClearNullAccountBalanceOperation):
-    ...
-
-
-class ClearNullAccountBalanceOperationLegacy(_ClearNullAccountBalanceOperation):
-    ...

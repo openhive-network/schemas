@@ -5,7 +5,7 @@ from schemas.fields.basic import AccountName
 from schemas.operation import Operation
 
 
-class _WithdrawVestingOperation(Operation):
+class WithdrawVestingOperation(Operation):
     account: AccountName
     vesting_shares: AssetVests
 
@@ -16,11 +16,3 @@ class _WithdrawVestingOperation(Operation):
     @classmethod
     def offset(cls) -> int:
         return 4
-
-
-class WithdrawVestingOperation(_WithdrawVestingOperation):
-    ...
-
-
-class WithdrawVestingOperationLegacy(_WithdrawVestingOperation):
-    ...

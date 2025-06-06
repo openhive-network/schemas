@@ -15,7 +15,7 @@ DEFAULT_RECURRENCE: Final[Uint16t] = Uint16t(0)
 DEFAULT_EXECUTIONS: Final[Uint16t] = Uint16t(0)
 
 
-class _RecurrentTransferOperation(Operation, kw_only=True):
+class RecurrentTransferOperation(Operation, kw_only=True):
     from_: AccountName = field(name="from")
     to: AccountName
     amount: AssetUnionAssetHiveAssetHbd
@@ -31,11 +31,3 @@ class _RecurrentTransferOperation(Operation, kw_only=True):
     @classmethod
     def offset(cls) -> int:
         return 49
-
-
-class RecurrentTransferOperation(_RecurrentTransferOperation):
-    ...
-
-
-class RecurrentTransferOperationLegacy(_RecurrentTransferOperation):
-    ...

@@ -13,7 +13,7 @@ DEFAULT_CURRENT_ORDERID: Final[Uint32t] = Uint32t(0)
 DEFAULT_OPEN_ORDERID: Final[Uint32t] = Uint32t(0)
 
 
-class _FillOrderOperation(VirtualOperation, kw_only=True):
+class FillOrderOperation(VirtualOperation, kw_only=True):
     current_owner: AccountName
     current_orderid: Uint32t = DEFAULT_CURRENT_ORDERID
     current_pays: AssetUnionAssetHiveAssetHbd
@@ -28,11 +28,3 @@ class _FillOrderOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 7
-
-
-class FillOrderOperation(_FillOrderOperation):
-    ...
-
-
-class FillOrderOperationLegacy(_FillOrderOperation):
-    ...

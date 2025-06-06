@@ -10,7 +10,7 @@ from schemas.operation import Operation
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _ConvertOperation(Operation, kw_only=True):
+class ConvertOperation(Operation, kw_only=True):
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
     amount: AssetHbd
@@ -22,11 +22,3 @@ class _ConvertOperation(Operation, kw_only=True):
     @classmethod
     def offset(cls) -> int:
         return 8
-
-
-class ConvertOperation(_ConvertOperation):
-    ...
-
-
-class ConvertOperationLegacy(_ConvertOperation):
-    ...

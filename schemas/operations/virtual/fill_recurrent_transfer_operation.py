@@ -14,7 +14,7 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_REMAINING_EXECUTIONS: Final[Uint16t] = Uint16t(0)
 
 
-class _FillRecurrentTransferOperation(VirtualOperation, kw_only=True):
+class FillRecurrentTransferOperation(VirtualOperation, kw_only=True):
     from_: AccountName = field(name="from")
     to: AccountName
     amount: AssetUnionAssetHiveAssetHbd
@@ -29,11 +29,3 @@ class _FillRecurrentTransferOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 33
-
-
-class FillRecurrentTransferOperation(_FillRecurrentTransferOperation):
-    ...
-
-
-class FillRecurrentTransferOperationLegacy(_FillRecurrentTransferOperation):
-    ...

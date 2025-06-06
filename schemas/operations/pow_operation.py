@@ -26,7 +26,7 @@ class Work(PreconfiguredBaseModel, kw_only=True):
     work: Sha256
 
 
-class _PowOperation(Operation):
+class PowOperation(Operation):
     worker_account: AccountName
     block_id: TransactionId
     nonce: Uint64t
@@ -40,11 +40,3 @@ class _PowOperation(Operation):
     @classmethod
     def offset(cls) -> int:
         return 14
-
-
-class PowOperation(_PowOperation):
-    ...
-
-
-class PowOperationLegacy(_PowOperation):
-    ...

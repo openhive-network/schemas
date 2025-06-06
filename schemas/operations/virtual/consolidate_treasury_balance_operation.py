@@ -4,7 +4,7 @@ from schemas.fields.resolvables import AnyAsset
 from schemas.virtual_operation import VirtualOperation
 
 
-class _ConsolidateTreasuryBalanceOperation(VirtualOperation, kw_only=True):
+class ConsolidateTreasuryBalanceOperation(VirtualOperation, kw_only=True):
     total_moved: list[AnyAsset]
 
     @classmethod
@@ -14,11 +14,3 @@ class _ConsolidateTreasuryBalanceOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 21
-
-
-class ConsolidateTreasuryBalanceOperation(_ConsolidateTreasuryBalanceOperation):
-    ...
-
-
-class ConsolidateTreasuryBalanceOperationLegacy(_ConsolidateTreasuryBalanceOperation):
-    ...

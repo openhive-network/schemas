@@ -9,7 +9,7 @@ from schemas.fields.resolvables import AssetUnionAssetHiveAssetHbd
 from schemas.operation import Operation
 
 
-class _TransferToSavingsOperation(Operation, kw_only=True):
+class TransferToSavingsOperation(Operation, kw_only=True):
     from_: AccountName = field(name="from")
     to: AccountName
     amount: AssetUnionAssetHiveAssetHbd
@@ -22,11 +22,3 @@ class _TransferToSavingsOperation(Operation, kw_only=True):
     @classmethod
     def offset(cls) -> int:
         return 32
-
-
-class TransferToSavingsOperation(_TransferToSavingsOperation):
-    ...
-
-
-class TransferToSavingsOperationLegacy(_TransferToSavingsOperation):
-    ...

@@ -12,7 +12,7 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_PROPOSAL_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _ProposalPayOperation(VirtualOperation, kw_only=True):
+class ProposalPayOperation(VirtualOperation, kw_only=True):
     proposal_id: Uint32t = DEFAULT_PROPOSAL_ID
     receiver: AccountName
     payer: AccountName
@@ -25,11 +25,3 @@ class _ProposalPayOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 16
-
-
-class ProposalPayOperation(_ProposalPayOperation):
-    ...
-
-
-class ProposalPayOperationLegacy(_ProposalPayOperation):
-    ...

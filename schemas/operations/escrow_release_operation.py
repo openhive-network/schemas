@@ -14,7 +14,7 @@ from schemas.operation import Operation
 DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
 
 
-class _EscrowReleaseOperation(Operation, kw_only=True):
+class EscrowReleaseOperation(Operation, kw_only=True):
     from_: AccountName = field(name="from")
     to: AccountName
     agent: AccountName
@@ -31,11 +31,3 @@ class _EscrowReleaseOperation(Operation, kw_only=True):
     @classmethod
     def offset(cls) -> int:
         return 29
-
-
-class EscrowReleaseOperation(_EscrowReleaseOperation):
-    ...
-
-
-class EscrowReleaseOperationLegacy(_EscrowReleaseOperation):
-    ...

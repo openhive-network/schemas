@@ -61,7 +61,7 @@ from schemas.operations.vote_operation import VoteOperation
 from schemas.operations.withdraw_vesting_operation import WithdrawVestingOperation
 from schemas.operations.witness_block_approve_operation import WitnessBlockApproveOperation
 from schemas.operations.witness_set_properties_operation import WitnessSetPropertiesOperation
-from schemas.operations.witness_update_operation import WitnessUpdateOperation
+from schemas.operations.witness_update_operation import WitnessUpdateOperation, WitnessUpdateOperationLegacy
 
 
 class HF26Representation(PreconfiguredBaseModel):
@@ -526,4 +526,4 @@ class HF26RepresentationWitnessUpdateOperation(HF26Representation, tag=WitnessUp
 
 
 class LegacyRepresentationWitnessUpdateOperation(LegacyRepresentation, tag=WitnessUpdateOperation.get_name(), array_like=True):
-            value: WitnessUpdateOperation
+            value: WitnessUpdateOperationLegacy

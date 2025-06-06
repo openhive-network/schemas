@@ -7,7 +7,7 @@ from schemas.fields.resolvables import AssetUnionAssetHiveAssetVests
 from schemas.virtual_operation import VirtualOperation
 
 
-class _PowRewardOperation(VirtualOperation, kw_only=True):
+class PowRewardOperation(VirtualOperation, kw_only=True):
     worker: AccountName
     reward: AssetUnionAssetHiveAssetVests
 
@@ -18,11 +18,3 @@ class _PowRewardOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 28
-
-
-class PowRewardOperation(_PowRewardOperation):
-    ...
-
-
-class PowRewardOperationLegacy(_PowRewardOperation):
-    ...

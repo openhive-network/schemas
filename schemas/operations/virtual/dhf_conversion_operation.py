@@ -7,7 +7,7 @@ from schemas.fields.basic import (
 from schemas.virtual_operation import VirtualOperation
 
 
-class _DhfConversionOperation(VirtualOperation, kw_only=True):
+class DhfConversionOperation(VirtualOperation, kw_only=True):
     treasury: AccountName
     hive_amount_in: AssetHive
     hbd_amount_out: AssetHbd
@@ -19,11 +19,3 @@ class _DhfConversionOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 24
-
-
-class DhfConversionOperation(_DhfConversionOperation):
-    ...
-
-
-class DhfConversionOperationLegacy(_DhfConversionOperation):
-    ...

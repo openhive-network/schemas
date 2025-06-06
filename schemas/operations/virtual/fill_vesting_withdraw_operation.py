@@ -8,7 +8,7 @@ from schemas.fields.resolvables import AssetUnionAssetHiveAssetVests
 from schemas.virtual_operation import VirtualOperation
 
 
-class _FillVestingWithdrawOperation(VirtualOperation, kw_only=True):
+class FillVestingWithdrawOperation(VirtualOperation, kw_only=True):
     from_account: AccountName
     to_account: AccountName
     withdrawn: AssetVests
@@ -21,11 +21,3 @@ class _FillVestingWithdrawOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 6
-
-
-class FillVestingWithdrawOperation(_FillVestingWithdrawOperation):
-    ...
-
-
-class FillVestingWithdrawOperationLegacy(_FillVestingWithdrawOperation):
-    ...

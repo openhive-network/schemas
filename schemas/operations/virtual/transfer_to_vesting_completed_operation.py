@@ -7,7 +7,7 @@ from schemas.fields.basic import (
 from schemas.virtual_operation import VirtualOperation
 
 
-class _TransferToVestingCompletedOperation(VirtualOperation, kw_only=True):
+class TransferToVestingCompletedOperation(VirtualOperation, kw_only=True):
     from_account: AccountName
     to_account: AccountName
     hive_vested: AssetHive
@@ -20,11 +20,3 @@ class _TransferToVestingCompletedOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 27
-
-
-class TransferToVestingCompletedOperation(_TransferToVestingCompletedOperation):
-    ...
-
-
-class TransferToVestingCompletedOperationLegacy(_TransferToVestingCompletedOperation):
-    ...

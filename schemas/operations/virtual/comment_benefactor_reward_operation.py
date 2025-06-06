@@ -11,7 +11,7 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_PAYOUT_MUST_BE_CLAIMED: Final[bool] = False
 
 
-class _CommentBenefactorRewardOperation(VirtualOperation, kw_only=True):
+class CommentBenefactorRewardOperation(VirtualOperation, kw_only=True):
     benefactor: AccountName
     author: AccountName
     permlink: str
@@ -27,11 +27,3 @@ class _CommentBenefactorRewardOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 13
-
-
-class CommentBenefactorRewardOperation(_CommentBenefactorRewardOperation):
-    ...
-
-
-class CommentBenefactorRewardOperationLegacy(_CommentBenefactorRewardOperation):
-    ...

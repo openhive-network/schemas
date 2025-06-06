@@ -14,7 +14,7 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _FillTransferFromSavingsOperation(VirtualOperation, kw_only=True):
+class FillTransferFromSavingsOperation(VirtualOperation, kw_only=True):
     from_: AccountName = field(name="from")
     to: AccountName
     amount: AssetUnionAssetHiveAssetHbd
@@ -28,11 +28,3 @@ class _FillTransferFromSavingsOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 9
-
-
-class FillTransferFromSavingsOperation(_FillTransferFromSavingsOperation):
-    ...
-
-
-class FillTransferFromSavingsOperationLegacy(_FillTransferFromSavingsOperation):
-    ...

@@ -12,7 +12,7 @@ from schemas.virtual_operation import VirtualOperation
 DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _FillConvertRequestOperation(VirtualOperation, kw_only=True):
+class FillConvertRequestOperation(VirtualOperation, kw_only=True):
     owner: AccountName
     requestid: Uint32t = DEFAULT_REQUEST_ID
     amount_in: AssetHbd
@@ -25,11 +25,3 @@ class _FillConvertRequestOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 0
-
-
-class FillConvertRequestOperation(_FillConvertRequestOperation):
-    ...
-
-
-class FillConvertRequestOperationLegacy(_FillConvertRequestOperation):
-    ...

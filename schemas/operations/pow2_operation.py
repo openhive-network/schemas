@@ -43,7 +43,7 @@ class Pow2WorkEquihashPow(PreconfiguredBaseModel, kw_only=True, tag="equihash_po
     value: EquihashPow
 
 
-class _Pow2Operation(Operation):
+class Pow2Operation(Operation):
     work: Pow2WorkPow2 | Pow2WorkEquihashPow
     props: LegacyChainProperties
     new_owner_key: PublicKey | None = None
@@ -55,11 +55,3 @@ class _Pow2Operation(Operation):
     @classmethod
     def offset(cls) -> int:
         return 30
-
-
-class Pow2Operation(_Pow2Operation):
-    ...
-
-
-class Pow2OperationLegacy(_Pow2Operation):
-    ...

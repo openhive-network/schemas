@@ -14,7 +14,7 @@ from schemas.operation import Operation
 DEFAULT_TYPE_ID: Final[Uint32t] = Uint32t(0)
 
 
-class _TransferFromSavingsOperation(Operation, kw_only=True):
+class TransferFromSavingsOperation(Operation, kw_only=True):
     from_: AccountName = field(name="from")
     to: AccountName
     request_id: Uint32t = DEFAULT_TYPE_ID
@@ -28,11 +28,3 @@ class _TransferFromSavingsOperation(Operation, kw_only=True):
     @classmethod
     def offset(cls) -> int:
         return 33
-
-
-class TransferFromSavingsOperation(_TransferFromSavingsOperation):
-    ...
-
-
-class TransferFromSavingsOperationLegacy(_TransferFromSavingsOperation):
-    ...

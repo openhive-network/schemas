@@ -7,7 +7,7 @@ from schemas.fields.resolvables import AssetUnionAssetHiveAssetVests
 from schemas.virtual_operation import VirtualOperation
 
 
-class _ProducerRewardOperation(VirtualOperation, kw_only=True):
+class ProducerRewardOperation(VirtualOperation, kw_only=True):
     producer: AccountName
     vesting_shares: AssetUnionAssetHiveAssetVests
 
@@ -18,11 +18,3 @@ class _ProducerRewardOperation(VirtualOperation, kw_only=True):
     @classmethod
     def vop_offset(cls) -> int:
         return 14
-
-
-class ProducerRewardOperation(_ProducerRewardOperation):
-    ...
-
-
-class ProducerRewardOperationLegacy(_ProducerRewardOperation):
-    ...

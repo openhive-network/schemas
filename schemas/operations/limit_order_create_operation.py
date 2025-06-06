@@ -14,7 +14,7 @@ DEFAULT_ORDER_ID: Final[Uint32t] = Uint32t(0)
 DEFAULT_FILL_OR_KILL: Final[bool] = False
 
 
-class _LimitOrderCreateOperation(Operation, kw_only=True):
+class LimitOrderCreateOperation(Operation, kw_only=True):
     owner: AccountName
     orderid: Uint32t = DEFAULT_ORDER_ID
     amount_to_sell: AssetUnionAssetHiveAssetHbd
@@ -29,11 +29,3 @@ class _LimitOrderCreateOperation(Operation, kw_only=True):
     @classmethod
     def offset(cls) -> int:
         return 5
-
-
-class LimitOrderCreateOperation(_LimitOrderCreateOperation):
-    ...
-
-
-class LimitOrderCreateOperationLegacy(_LimitOrderCreateOperation):
-    ...
