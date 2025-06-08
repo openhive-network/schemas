@@ -16,7 +16,7 @@ import msgspec
 from typing_extensions import Self
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Iterable, Iterator
 
     from schemas.decoders import DecoderFactory
 
@@ -103,18 +103,31 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
         exclude_none: bool = False,
         exclude_defaults: bool = False,
     ) -> DictStrAny:
-        data: DictStrAny = msgspec.structs.asdict(self)
+        data: DictStrAny = {}
+        defaults = (
+            dict(zip(self.__struct_fields__, self.__struct_defaults__, strict=False))
+            if hasattr(self, "__struct_defaults__")
+            else {}
+        )
 
-        if exclude_none:
-            data = {key: value for key, value in data.items() if value is not None}
+        for key, value in dict(self).items():
+            if exclude_none and value is None:
+                continue
 
-        if exclude_defaults and hasattr(self, "__struct_defaults__"):
-            defaults = dict(zip(self.__struct_fields__, self.__struct_defaults__, strict=False))
-            data = {key: value for key, value in data.items() if key in defaults and value != defaults[key]}
+            if exclude_defaults and key in defaults and value == defaults[key]:
+                continue
 
-        if exclude is not None:
-            return {k: v for k, v in data.items() if k not in exclude}
+            if exclude is not None and key in exclude:
+                continue
+
+            data[key] = value
+
         return data
+
+    def __iter__(self) -> Iterator[tuple[str, Any]]:
+        """Allow the object to be converted to a dictionary using dict()."""
+        for key, item in msgspec.structs.asdict(self).items():
+            yield (key.strip("_"), item)  # Strip underscores from keys to match dict() behavior
 
     def __as_builtins(
         self,
