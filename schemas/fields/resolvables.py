@@ -27,6 +27,9 @@ class Resolvable(Serializable, Generic[ResolvedT, ResolvedFromT], ABC):
 
     @staticmethod
     def is_resolvable(cls_: type[Any] | Any) -> TypeGuard[Resolvable[Any, Any]]:
+        with contextlib.suppress(TypeError):  # try to handle easiest case first
+            return issubclass(cls_, Resolvable)
+
         if cls_ is not type and get_origin(cls_) is None:
             cls_ = type(cls_)
         orig_type = get_origin(cls_)
