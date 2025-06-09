@@ -161,6 +161,7 @@ class FindCommentsFundament(PreconfiguredBaseModel, GenericModel, Generic[AssetH
     allow_curation_rewards: bool
     beneficiaries: list[Any]
     was_voted_on: bool
+    is_paid: bool
 
 
 class FindDeclineVotingRightsRequestsFundament(PreconfiguredBaseModel):

@@ -128,6 +128,7 @@ FIND_COMMENTS = {
                 "net_votes": 128,
                 "total_vote_weight": 0,
                 "was_voted_on": True,
+                "is_paid": False,
                 "vote_rshares": 0,
                 "net_rshares": 0,
                 "abs_rshares": 0,
