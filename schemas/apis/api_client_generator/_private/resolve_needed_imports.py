@@ -1,15 +1,29 @@
 from __future__ import annotations
 
 import ast
-from dataclasses import is_dataclass
 from typing import Sequence, get_type_hints
 
+from msgspec import Struct
+
 from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_IMPORT_LEVEL
-from schemas.apis.api_client_generator._private.common.models_aliased import Dataclass, Importable
+from schemas.apis.api_client_generator._private.common.models_aliased import Importable
 from schemas.apis.api_client_generator.exceptions import (
     ClassPassedByStrWithoutSourceError,
-    EndpointParamsIsNotDataclassError,
+    EndpointParamsIsNotMsgspecStructError,
 )
+
+
+def is_struct(obj: object) -> bool:
+    """
+    Check if the object is a msgspec struct.
+
+    Args:
+        obj: The object to check.
+
+    Returns:
+        bool: True if the object is a msgspec struct, False otherwise.
+    """
+    return type(obj) is type(Struct)
 
 
 def import_class(
@@ -91,12 +105,12 @@ def import_classes(
     return classes_imports
 
 
-def import_params_types(params: Dataclass | None, already_imported: list[str]) -> list[ast.ImportFrom]:
+def import_params_types(params: Struct | None, already_imported: list[str]) -> list[ast.ImportFrom]:
     """
     Import parameters types from the given dataclass of parameters.
 
     Args:
-        params: A dataclass with parameters to import.
+        params: A msgspec struct with parameters to import.
         already_imported: A list of already imported types.
 
     Notes:
@@ -104,8 +118,11 @@ def import_params_types(params: Dataclass | None, already_imported: list[str]) -
         - If a parameter is from the builtins or __main__ module, it is skipped.
 
     Raises:
-        EndpointParamsIsNotDataclassError: If params is not a dataclass.
+        EndpointParamsIsNotMsgspecStructError: If params is not a msgspec struct.
     """
+    if params is not None and not is_struct(params):
+        raise EndpointParamsIsNotMsgspecStructError
+
     needed_imports: list[ast.ImportFrom] = []
 
     def add_import(class_: Importable) -> None:
@@ -117,9 +134,6 @@ def import_params_types(params: Dataclass | None, already_imported: list[str]) -
 
     if not params:
         return []
-
-    if not is_dataclass(params):
-        raise EndpointParamsIsNotDataclassError
 
     for type_ in get_type_hints(params).values():
         add_import(type_)

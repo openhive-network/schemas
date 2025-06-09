@@ -5,14 +5,11 @@ from typing import TYPE_CHECKING, Any, Protocol, TypeAlias, cast
 if TYPE_CHECKING:
     import ast
 
+    from msgspec import Struct
+
 EndpointsDefinition: TypeAlias = dict[str, dict[str, Any]]
 ApiDefinition: TypeAlias = dict[str, EndpointsDefinition]
 
-
-class Dataclass(Protocol):
-    """A protocol that is used to ensure some object is dataclass."""
-
-    __dataclass_fields__: dict[str, Any]
 
 
 class Importable(Protocol):
@@ -26,7 +23,7 @@ class EndpointsFactory(Protocol):
     def __call__(  # NOQA: PLR0913
         self,
         name: str,
-        params: Dataclass | None,
+        params: Struct | None,
         result: Importable | None,
         endpoint_decorator: str,
         description: str | None,

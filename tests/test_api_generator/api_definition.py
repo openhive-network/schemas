@@ -1,23 +1,21 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import Any
 
+from msgspec import Struct
 
-@dataclass
-class TestCustomType:
+
+class TestCustomType(Struct):
     ...
 
 
-@dataclass
-class TestApiParams:
+class TestApiParams(Struct):
     some_custom_type: TestCustomType
     some_string: str = ""
     some_int: int = 0
 
 
-@dataclass
-class SecondEndpointResponseItem:
+class SecondEndpointResponseItem(Struct):
     some_string: str | None = None
     some_bool: bool | None = None
 

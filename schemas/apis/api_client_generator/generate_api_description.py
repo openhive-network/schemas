@@ -44,14 +44,14 @@ from schemas.apis.api_client_generator._private.description_tools import (
 )
 from schemas.apis.api_client_generator._private.format_using_ruff import format_using_ruff
 
-AvailableModelTypes = Literal["dataclass"]
+AvailableModelTypes = Literal["dataclass", "msgspec_struct"]
 
 
 def generate_api_description(  # NOQA: PLR0913
     api_description_name: str,
     openapi_api_definition: str | Path,
     output_file: str | Path,
-    model_type: AvailableModelTypes = "dataclass",  # NOQA: ARG001, support for the msgpsec will be added
+    model_type: AvailableModelTypes = "msgspec_struct",
     additional_aliases: tuple[AliasToAssign] | None = None,
     apis_to_skip: Container[str] | None = None,
 ) -> None:
@@ -61,7 +61,7 @@ def generate_api_description(  # NOQA: PLR0913
     Args:
         openapi_api_definition: The OpenAPI JSON definition file path.
         output_file: The file where the generated API description will be saved.
-        model_type: The type of data model to generate (default: DataModelType.DataclassesDataclass).
+        model_type: The type of data model to generate.
         additional_aliases: Additional aliases to be used in the API description.
         apis_to_skip: APIs to skip during the generation process.
 
@@ -79,7 +79,7 @@ def generate_api_description(  # NOQA: PLR0913
     generate(  # generation of types available in the API definition
         openapi_file,
         output=output_file,
-        output_model_type=DataModelType.DataclassesDataclass,
+        output_model_type=DataModelType.MsgspecStruct if model_type == "msgspec_struct" else DataModelType.DataclassesDataclass,
         input_file_type=InputFileType.OpenAPI,
         use_field_description=True,
         use_standard_collections=True,
