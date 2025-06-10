@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Final, Generic
+from typing import Final, Generic
 
 from pydantic import Field
 from pydantic.generics import GenericModel
@@ -12,6 +12,7 @@ from schemas.fields.basic import (
 )
 from schemas.fields.integers import Uint16t
 from schemas.operation import Operation
+from schemas.operations.extensions.recurrent_transfer_extensions import RecurrentTransferPairId
 
 DEFAULT_RECURRENCE: Final[Uint16t] = Uint16t(0)
 DEFAULT_EXECUTIONS: Final[Uint16t] = Uint16t(0)
@@ -27,7 +28,7 @@ class _RecurrentTransferOperation(Operation, GenericModel, Generic[AssetHiveT, A
     memo: str
     recurrence: Uint16t = DEFAULT_RECURRENCE
     executions: Uint16t = DEFAULT_EXECUTIONS
-    extensions: list[Any] = Field(default_factory=list)
+    extensions: RecurrentTransferPairId
 
 
 class RecurrentTransferOperation(_RecurrentTransferOperation[AssetHiveHF26, AssetHbdHF26]):
