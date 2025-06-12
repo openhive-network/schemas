@@ -39,7 +39,10 @@ class SwapType(IntEnum):
 
 class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
     def __post_init__(self) -> None:
-        self.__swap_to_registered_types()
+        from schemas.policies.disable_swap_types import DisableSwapTypes
+
+        if not DisableSwapTypes.is_disabled():
+            self.__swap_to_registered_types()
 
     @classmethod
     def __is_aliased_field_name(cls, field_name: str) -> bool:
