@@ -26,13 +26,13 @@ def pre_int_validation(value: Any) -> ValidatorInt:
 
 
 def validate_int64t(value: ValidatorInt) -> ValidatorInt:
-    if value < MIN_INT64_VALUE or value > MAX_INT64_VALUE:
+    if not (MIN_INT64_VALUE <= value <= MAX_INT64_VALUE):
         raise msgspec.ValidationError(f"Int64 out of range: `{value}` not in <{MIN_INT64_VALUE} ; {MAX_INT64_VALUE}>")
     return value
 
 
 def validate_uint64t(value: ValidatorInt) -> ValidatorInt:
-    if value < MIN_UINT64_VALUE or value > MAX_UINT64_VALUE:
+    if not (MIN_UINT64_VALUE <= value <= MAX_UINT64_VALUE):
         raise msgspec.ValidationError(
             f"Uint64 out of range: `{value}` not in <{MIN_UINT64_VALUE} ; {MAX_UINT64_VALUE}>"
         )
