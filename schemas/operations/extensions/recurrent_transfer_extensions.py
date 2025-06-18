@@ -11,8 +11,4 @@ class RecurrentTransferPairId(Operation):
     def get_name(cls) -> str:
         return "recurrent_transfer_pair_id"
 
-    @classmethod
-    def offset(cls) -> int:
-        return -1
-
     pair_id: Uint8t = DEFAULT_PAIR_ID

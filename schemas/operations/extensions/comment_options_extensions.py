@@ -16,8 +16,4 @@ class CommentPayoutBeneficiaries(Operation):
     def get_name(cls) -> str:
         return "comment_payout_beneficiaries"
 
-    @classmethod
-    def offset(cls) -> int:
-        return -1
-
     beneficiaries: list[BeneficiaryRoute]

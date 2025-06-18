@@ -9,8 +9,4 @@ class UpdateProposalEndDate(Operation):
     def get_name(cls) -> str:
         return "update_proposal_end_date"
 
-    @classmethod
-    def offset(cls) -> int:
-        return -1
-
     end_date: HiveDateTime
