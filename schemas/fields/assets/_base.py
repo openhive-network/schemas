@@ -234,13 +234,12 @@ class AssetBase(Serializable, ABC):
             validate_nai(nai, info)
 
     @classmethod
-    def __legacy_regex_validator(cls, value: str) -> str:
+    def __legacy_regex_validator(cls, value: str) -> None:
         if "-" in value:
             raise ValueError("Asset could not be negative value!")
         regex = cls._get_legacy_regex()
         if regex.match(value) is None:
             raise ValueError("Given legacy asset does not match regex")
-        return value
 
     def __convert_to_asset(self, other: Any) -> Self:
         with contextlib.suppress(ValueError, TypeError):
