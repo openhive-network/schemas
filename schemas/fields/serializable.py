@@ -12,7 +12,11 @@ class OverrideTypeNameMeta(ABCMeta):
 class Serializable(ABC, metaclass=OverrideTypeNameMeta):
     @abstractmethod
     def serialize(self) -> Any:
-        ...
+        """
+        Serialize the object to a format suitable for storage or transmission.
+        This method should be implemented by subclasses to define how the object
+        is converted to a serializable format.
+        """
 
     def serialize_as_legacy(self) -> Any:
         return self.serialize()

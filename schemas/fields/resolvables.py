@@ -17,8 +17,12 @@ ResolvedT = TypeVar("ResolvedT")
 
 class Resolvable(Serializable, Generic[ResolvedT, ResolvedFromT]):
     @staticmethod
-    def resolve(incoming_cls: type, value: ResolvedFromT) -> ResolvedT:  # type: ignore[empty-body]
-        ...
+    def resolve(incoming_cls: type, value: ResolvedFromT) -> ResolvedT:
+        """
+        Resolve the value to the type specified by incoming_cls.
+        This method should be implemented by subclasses to provide specific resolution logic.
+        """
+        raise NotImplementedError("Subclasses must implement the resolve method.")
 
     @staticmethod
     def is_resolvable(cls_: type[Any] | Any) -> TypeGuard[Resolvable[Any, Any]]:

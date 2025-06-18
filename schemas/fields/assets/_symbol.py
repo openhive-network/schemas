@@ -30,7 +30,7 @@ class AssetSymbolType(PreconfiguredBaseModel):
     @staticmethod
     @abstractmethod
     def get_asset_information() -> AssetInfo:
-        ...
+        """This method returns asset details."""
 
 
 class HiveSymbolType(AssetSymbolType):
