@@ -227,7 +227,7 @@ class AssetBase(Serializable, ABC):
         info = cls.get_asset_information()
 
         if precision is not None:
-            validate_precision(int(precision), info),
+            (validate_precision(int(precision), info),)
 
         if nai is not None:
             validate_nai(nai, info)

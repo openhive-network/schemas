@@ -3,6 +3,7 @@ Response from API has three poles -> id, jsonrpc and result. The factory method 
 return result pole, cause is must be validated deeper and then all operations is being performed on result field.
 Yoy must use it like this -> HiveResult.factory(type_of_response, **response_from_api_json/dict).
 """
+
 from __future__ import annotations
 
 import os

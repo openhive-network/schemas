@@ -264,9 +264,9 @@ def test_authority_field_incorrect_values(authority: dict[str, Any], parameter: 
 )
 def test_public_key_field_incorrect_values(value: str) -> None:
     # ARRANGE
-    expected_message: Final[
-        str
-    ] = "Expected `str` matching regex '^(?:STM)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$'"
+    expected_message: Final[str] = (
+        "Expected `str` matching regex '^(?:STM)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{7,51}$'"
+    )
 
     instance = PublicKeyModel(field=value)
     public_key_model = msgspec.json.encode(instance)

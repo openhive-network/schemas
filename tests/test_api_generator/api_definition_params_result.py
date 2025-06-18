@@ -5,8 +5,7 @@ from typing import Any
 
 
 @dataclass
-class TestCustomType:
-    ...
+class TestCustomType: ...
 
 
 @dataclass

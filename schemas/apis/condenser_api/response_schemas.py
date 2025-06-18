@@ -1,6 +1,6 @@
 """
-    All the responses from this file have already specified Assets types to Legacy.
-    There is no need to specify it by Generic, when want ot use.
+All the responses from this file have already specified Assets types to Legacy.
+There is no need to specify it by Generic, when want ot use.
 """
 
 from __future__ import annotations

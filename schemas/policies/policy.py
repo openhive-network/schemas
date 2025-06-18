@@ -7,8 +7,7 @@ from dataclasses import dataclass
 @dataclass
 class Policy:
     @abstractmethod
-    def apply(self) -> None:
-        ...
+    def apply(self) -> None: ...
 
 
 def set_policies(*policies: Policy) -> None:
