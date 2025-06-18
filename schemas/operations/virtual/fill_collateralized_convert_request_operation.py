@@ -28,11 +28,9 @@ class _FillCollateralizedConvertRequestOperation(VirtualOperation, GenericModel,
 
 class FillCollateralizedConvertRequestOperation(
     _FillCollateralizedConvertRequestOperation[AssetHiveHF26, AssetHbdHF26]
-):
-    ...
+): ...
 
 
 class FillCollateralizedConvertRequestOperationLegacy(
     _FillCollateralizedConvertRequestOperation[AssetHiveLegacy, AssetHbdLegacy]
-):
-    ...
+): ...

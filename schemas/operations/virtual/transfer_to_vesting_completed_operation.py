@@ -22,11 +22,9 @@ class _TransferToVestingCompletedOperation(VirtualOperation, GenericModel, Gener
     vesting_shares_received: AssetVestsT
 
 
-class TransferToVestingCompletedOperation(_TransferToVestingCompletedOperation[AssetHiveHF26, AssetVestsHF26]):
-    ...
+class TransferToVestingCompletedOperation(_TransferToVestingCompletedOperation[AssetHiveHF26, AssetVestsHF26]): ...
 
 
 class TransferToVestingCompletedOperationLegacy(
     _TransferToVestingCompletedOperation[AssetHiveLegacy, AssetVestsLegacy]
-):
-    ...
+): ...

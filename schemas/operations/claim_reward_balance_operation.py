@@ -21,11 +21,9 @@ class _ClaimRewardBalanceOperation(Operation, GenericModel, Generic[AssetHiveT, 
     reward_vests: AssetVestsT
 
 
-class ClaimRewardBalanceOperation(_ClaimRewardBalanceOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
-    ...
+class ClaimRewardBalanceOperation(_ClaimRewardBalanceOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]): ...
 
 
 class ClaimRewardBalanceOperationLegacy(
     _ClaimRewardBalanceOperation[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
-):
-    ...
+): ...

@@ -25,11 +25,9 @@ class _CollateralizedConvertImmediateConversionOperation(VirtualOperation, Gener
 
 class CollateralizedConvertImmediateConversionOperation(
     _CollateralizedConvertImmediateConversionOperation[AssetHbdHF26]
-):
-    ...
+): ...
 
 
 class CollateralizedConvertImmediateConversionOperationLegacy(
     _CollateralizedConvertImmediateConversionOperation[AssetHbdLegacy]
-):
-    ...
+): ...

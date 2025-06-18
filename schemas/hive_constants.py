@@ -5,6 +5,7 @@ rules prevailing in the hive network. e.g.:
  - maximum transaction/block size,
  - number of witnesses in the schedule.
 """
+
 from __future__ import annotations
 
 from typing import Final

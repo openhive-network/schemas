@@ -32,11 +32,9 @@ class _WitnessSetPropertiesOperationFactory(WitnessSetPropertiesCommon, GenericM
     props: WitnessProps[AssetHiveT, AssetHbdT]
 
 
-class WitnessSetPropertiesOperationFactory(_WitnessSetPropertiesOperationFactory[AssetHiveHF26, AssetHbdT]):
-    ...
+class WitnessSetPropertiesOperationFactory(_WitnessSetPropertiesOperationFactory[AssetHiveHF26, AssetHbdT]): ...
 
 
 class WitnessSetPropertiesOperationFactoryLegacy(
     _WitnessSetPropertiesOperationFactory[AssetHiveLegacy, AssetHbdLegacy]
-):
-    ...
+): ...

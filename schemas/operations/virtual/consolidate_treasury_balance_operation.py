@@ -19,11 +19,9 @@ class _ConsolidateTreasuryBalanceOperation(VirtualOperation, GenericModel, Gener
 
 class ConsolidateTreasuryBalanceOperation(
     _ConsolidateTreasuryBalanceOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
-):
-    ...
+): ...
 
 
 class ConsolidateTreasuryBalanceOperationLegacy(
     _ConsolidateTreasuryBalanceOperation[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
-):
-    ...
+): ...

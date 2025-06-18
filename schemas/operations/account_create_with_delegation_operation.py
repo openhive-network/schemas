@@ -29,11 +29,9 @@ class _AccountCreateWithDelegationOperation(Operation, GenericModel, Generic[Ass
     json_metadata: str
 
 
-class AccountCreateWithDelegationOperation(_AccountCreateWithDelegationOperation[AssetHiveHF26, AssetVestsHF26]):
-    ...
+class AccountCreateWithDelegationOperation(_AccountCreateWithDelegationOperation[AssetHiveHF26, AssetVestsHF26]): ...
 
 
 class AccountCreateWithDelegationOperationLegacy(
     _AccountCreateWithDelegationOperation[AssetHiveLegacy, AssetVestsLegacy]
-):
-    ...
+): ...

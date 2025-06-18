@@ -23,13 +23,11 @@ def split_filter(calculated_filter: int) -> Filter:
 
 
 @overload
-def _build_any_filter(get_filter: Callable[[type[Operation]], int], *ops: type[Operation]) -> int:
-    ...
+def _build_any_filter(get_filter: Callable[[type[Operation]], int], *ops: type[Operation]) -> int: ...
 
 
 @overload
-def _build_any_filter(get_filter: Callable[[type[VirtualOperation]], int], *ops: type[VirtualOperation]) -> int:
-    ...
+def _build_any_filter(get_filter: Callable[[type[VirtualOperation]], int], *ops: type[VirtualOperation]) -> int: ...
 
 
 def _build_any_filter(

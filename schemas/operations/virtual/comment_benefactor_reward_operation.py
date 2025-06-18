@@ -28,11 +28,11 @@ class _CommentBenefactorRewardOperation(VirtualOperation, GenericModel, Generic[
     payout_must_be_claimed: bool = DEFAULT_PAYOUT_MUST_BE_CLAIMED
 
 
-class CommentBenefactorRewardOperation(_CommentBenefactorRewardOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]):
-    ...
+class CommentBenefactorRewardOperation(
+    _CommentBenefactorRewardOperation[AssetHiveHF26, AssetHbdHF26, AssetVestsHF26]
+): ...
 
 
 class CommentBenefactorRewardOperationLegacy(
     _CommentBenefactorRewardOperation[AssetHiveLegacy, AssetHbdLegacy, AssetVestsLegacy]
-):
-    ...
+): ...

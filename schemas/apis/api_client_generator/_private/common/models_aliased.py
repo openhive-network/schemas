@@ -33,8 +33,7 @@ class EndpointsFactory(Protocol):
         *,
         response_array: bool,
         asynchronous: bool,
-    ) -> ast.AsyncFunctionDef | ast.FunctionDef:
-        ...
+    ) -> ast.AsyncFunctionDef | ast.FunctionDef: ...
 
 
 class BaseApiClass(Protocol):
@@ -63,5 +62,4 @@ class ClientClassFactory(Protocol):
         endpoint_decorator: str,
         *,
         asynchronous: bool,
-    ) -> ast.ClassDef:
-        ...
+    ) -> ast.ClassDef: ...
