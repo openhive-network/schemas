@@ -30,8 +30,11 @@ class HiveDateTime(datetime, Resolvable["HiveDateTime", str | datetime]):
             fold=date.fold,
         )
 
-    def serialize(self) -> str:
-        return self.strftime(HIVE_TIME_FORMAT)
+    def __copy__(self) -> HiveDateTime:
+        return HiveDateTime.resolve(HiveDateTime, self.serialize())
+
+    def __deepcopy__(self, memo: Any) -> HiveDateTime:
+        return self.__copy__()
 
     @classmethod
     def __convert_to_datetime(cls, value: str | datetime) -> datetime:
@@ -44,20 +47,17 @@ class HiveDateTime(datetime, Resolvable["HiveDateTime", str | datetime]):
                 raise ValueError(f"Date must be in format {HIVE_TIME_FORMAT}") from error
         raise TypeError("Value must be a datetime or a string in the correct format.")
 
-    @staticmethod
-    def resolve(incoming_cls: type, value: str | datetime) -> HiveDateTime:  # noqa: ARG004
-        return HiveDateTime(value=value)
-
     @classmethod
     def __normalize(cls, value: datetime) -> datetime:
         return value.replace(tzinfo=timezone.utc)
 
     @staticmethod
+    def resolve(incoming_cls: type, value: str | datetime) -> HiveDateTime:  # noqa: ARG004
+        return HiveDateTime(value=value)
+
+    @staticmethod
     def now() -> HiveDateTime:  # type: ignore[override]
         return HiveDateTime(value=datetime.now())
 
-    def __copy__(self) -> HiveDateTime:
-        return HiveDateTime.resolve(HiveDateTime, self.serialize())
-
-    def __deepcopy__(self, memo: Any) -> HiveDateTime:
-        return self.__copy__()
+    def serialize(self) -> str:
+        return self.strftime(HIVE_TIME_FORMAT)
