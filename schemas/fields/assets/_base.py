@@ -128,7 +128,7 @@ class AssetBase(Serializable, ABC):
     def copy(self, *, amount: int | AssetBase | None = None) -> Self:
         if amount is None:
             return self.__class__(amount=self.amount, precision=self.precision(), nai=self.nai())
-        if isinstance(amount, int | AssetBase):
+        if isinstance(amount, (int, AssetBase)):
             amount_to_use = amount if isinstance(amount, int) else amount.amount
             return self.__class__(amount=AssetNaiAmount(amount_to_use), precision=self.precision(), nai=self.nai())
         raise TypeError(f"`{amount}` cannot be used as amount.")
