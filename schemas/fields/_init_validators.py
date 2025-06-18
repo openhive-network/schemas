@@ -57,13 +57,15 @@ class InitValidator(Serializable, Generic[T]):
             skip_validation=True,
         )
 
+    _not_implemented_msg = "Make sure to use types created using InitValidator.factory() classmethod"
+
     @classmethod
     def _meta(cls) -> msgspec.Meta:
-        raise NotImplementedError("Make sure to use types created using InitValidator.factory() classmethod")
+        raise NotImplementedError(cls._not_implemented_msg)
 
     @classmethod
     def _covered_type(cls) -> type[T]:
-        raise NotImplementedError("Make sure to use types created using InitValidator.factory() classmethod")
+        raise NotImplementedError(cls._not_implemented_msg)
 
     @classmethod
     def factory(
