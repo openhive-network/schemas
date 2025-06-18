@@ -20,7 +20,7 @@ from schemas.fields.compound import (
 from schemas.fields.hex import Sha256
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
-from schemas.fields.resolvables import AssetUnion, AssetUnionAssetHiveAssetHbd
+from schemas.fields.resolvables import AssetUnion, AssetUnionAssetHiveAssetHbd, JsonString
 from schemas.fields.version import HardforkVersion, Version
 
 
@@ -41,7 +41,7 @@ class AccountItemFundament(PreconfiguredBaseModel, kw_only=True):
     posting: Authority
     memo_key: PublicKey
     json_metadata: str
-    posting_json_metadata: str
+    posting_json_metadata: JsonString[Any]
     proxy: OptionallyEmptyAccountName
     previous_owner_update: HiveDateTime
     last_owner_update: HiveDateTime

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 from msgspec import field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
@@ -12,7 +14,7 @@ from schemas.fields.basic import (
 from schemas.fields.compound import Authority, DelayedVotes, Manabar
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
-from schemas.fields.resolvables import AssetUnionAssetHiveAssetHbd
+from schemas.fields.resolvables import AssetUnionAssetHiveAssetHbd, JsonString
 
 
 class Account(PreconfiguredBaseModel, kw_only=True):
@@ -23,7 +25,7 @@ class Account(PreconfiguredBaseModel, kw_only=True):
     posting: Authority
     memo_key: PublicKey
     json_metadata: str
-    posting_json_metadata: str
+    posting_json_metadata: JsonString[Any]
     proxy: OptionallyEmptyAccountName
     previous_owner_update: HiveDateTime
     last_owner_update: HiveDateTime
