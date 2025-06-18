@@ -141,7 +141,7 @@ class AssetBase(Serializable, ABC):
             0 - whole asset
             1 - numeric part of asset (ex.: `1.000`, `12.050`, `0.000001`)
             2 - decimal part of asset (ex.: `000`, `050`, `000001`)
-            3 - symbol part of asst (ex. `HIVE`, `TBD`, `VESTS`)
+            3 - symbol part of asset (ex. `HIVE`, `TBD`, `VESTS`)
 
         Returns:
             compiled regex
