@@ -31,19 +31,19 @@ class AssetBase(Serializable, ABC):
             asset = self.__convert_to_asset(other)
         except (ValueError, TypeError):
             return False
-        return asset.get_asset_information() == self.get_asset_information() and self.iamount == asset.iamount
+        return asset.get_asset_information() == self.get_asset_information() and self.int_amount == asset.int_amount
 
     def __lt__(self, other: Any) -> bool:
-        return self.iamount < self.__convert_to_asset(other).iamount
+        return self.int_amount < self.__convert_to_asset(other).int_amount
 
     def __le__(self, other: Any) -> bool:
-        return self.iamount <= self.__convert_to_asset(other).iamount
+        return self.int_amount <= self.__convert_to_asset(other).int_amount
 
     def __gt__(self, other: Any) -> bool:
-        return self.iamount > self.__convert_to_asset(other).iamount
+        return self.int_amount > self.__convert_to_asset(other).int_amount
 
     def __ge__(self, other: Any) -> bool:
-        return self.iamount >= self.__convert_to_asset(other).iamount
+        return self.int_amount >= self.__convert_to_asset(other).int_amount
 
     def __add__(self, other: Any) -> Self:
         return self.__combine_with(other, operator.add)
@@ -118,11 +118,11 @@ class AssetBase(Serializable, ABC):
         self.__amount = value
 
     @property
-    def iamount(self) -> int:
+    def int_amount(self) -> int:
         return int(self.amount)
 
-    @iamount.setter
-    def iamount(self, value: int) -> None:
+    @int_amount.setter
+    def int_amount(self, value: int) -> None:
         self.__amount = AssetNaiAmount(value)
 
     def copy(self, *, amount: int | AssetBase | None = None) -> Self:
@@ -217,7 +217,7 @@ class AssetBase(Serializable, ABC):
 
     def as_decimal(self) -> Decimal:
         info = self.get_asset_information()
-        return Decimal(self.iamount) / (Decimal(10) ** int(info.precision))
+        return Decimal(self.int_amount) / (Decimal(10) ** int(info.precision))
 
     def pretty_amount(self) -> str:
         info = self.get_asset_information()
@@ -257,7 +257,7 @@ class AssetBase(Serializable, ABC):
 
     def __combine_with(self, other: AssetBase | int, operator_: Callable[[int, int], int]) -> Self:
         converted = self.__convert_to_asset(other)
-        return converted.copy(amount=int(float(operator_(self.iamount, converted.iamount))))
+        return converted.copy(amount=int(float(operator_(self.int_amount, converted.int_amount))))
 
     def _is_default_symbol_testnet(self) -> bool:
         return False
