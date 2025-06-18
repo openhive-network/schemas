@@ -33,4 +33,4 @@ class WitnessUpdateOperation(_WitnessUpdateOperation):
 
 
 class WitnessUpdateOperationLegacy(WitnessUpdateOperation):
-    pass
+    """Legacy operation model for witness update operations. Used for backwards compatibility."""

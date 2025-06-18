@@ -24,4 +24,4 @@ class VirtualOperation(Operation):
 
     @classmethod
     def vop_offset(cls) -> int:  # type: ignore[empty-body]
-        ...
+        """Get the offset of the virtual operation."""
