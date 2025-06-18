@@ -32,7 +32,7 @@ class HiveIntFactory(int, InitValidator[int]):
     @classmethod
     def validate(cls, value: Any) -> Self:
         error_template = msgspec.ValidationError("The value could only be int or string that can be converted to int!")
-        if not (isinstance(value, HiveIntFactory) or (type(value) is int) or (type(value) is str)):
+        if not isinstance(value, (HiveIntFactory, str)) and type(value) is not int:
             raise error_template
         try:
             return super().validate(int(value))
