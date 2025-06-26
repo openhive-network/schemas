@@ -4,12 +4,12 @@ from typing import get_type_hints
 
 import pytest
 
-from tests.test_api_generator.api_definition_params_result import VALID_ENDPOINT_PARAMS
 from tests.test_api_generator.base_api_classes import VALID_RETURN_VALUE
 from tests.test_api_generator.generate_clients_and_collections import (
     COLLECTION_ASYNC_API_DESTINATION,
     COLLECTION_SYNC_API_DESTINATION,
 )
+from tests.test_api_generator.manual_definition.output import VALID_PARAMS_FOR_FIRST_AND_SECOND_ENDPOINT
 from tests.test_api_generator.messages import (
     API_NOT_GENERATED_MESSAGE,
     ENDPOINT_IS_NOT_CALLABLE_MESSAGE,
@@ -30,11 +30,11 @@ def test_is_collection_generated(api_type: str) -> None:
 def test_endpoint_methods_created_and_are_callable(api_type: str) -> None:
     # ARRANGE & ACT
     if api_type == "async":
-        from tests.test_api_generator.generated_async_api_collection import (  # type: ignore[import-untyped]
+        from tests.test_api_generator.manual_definition.generated_async_api_collection import (  # type: ignore[import-untyped]
             GeneratedAsyncApiCollection as GeneratedCollection,
         )
     else:
-        from tests.test_api_generator.generated_sync_api_collection import (  # type: ignore[import-untyped]
+        from tests.test_api_generator.manual_definition.generated_sync_api_collection import (  # type: ignore[import-untyped]
             GeneratedSyncApiCollection as GeneratedCollection,
         )
 
@@ -58,11 +58,11 @@ def test_endpoint_methods_created_and_are_callable(api_type: str) -> None:
 def test_api_methods_signature(api_type: str) -> None:
     # ARRANGE & ACT
     if api_type == "async":
-        from tests.test_api_generator.generated_async_api_collection import (
+        from tests.test_api_generator.manual_definition.generated_async_api_collection import (
             GeneratedAsyncApiCollection as GeneratedCollection,
         )
     else:
-        from tests.test_api_generator.generated_sync_api_collection import (
+        from tests.test_api_generator.manual_definition.generated_sync_api_collection import (
             GeneratedSyncApiCollection as GeneratedCollection,
         )
 
@@ -70,20 +70,20 @@ def test_api_methods_signature(api_type: str) -> None:
 
     # ASSERT
     assert (
-        get_type_hints(api_collection.first_test_api.first_endpoint) == VALID_ENDPOINT_PARAMS
+        get_type_hints(api_collection.first_test_api.first_endpoint) == VALID_PARAMS_FOR_FIRST_AND_SECOND_ENDPOINT
     ), "First test endpoint signature is invalid"
     assert (
-        get_type_hints(api_collection.first_test_api.second_endpoint) == VALID_ENDPOINT_PARAMS
+        get_type_hints(api_collection.first_test_api.second_endpoint) == VALID_PARAMS_FOR_FIRST_AND_SECOND_ENDPOINT
     ), "Second test endpoint signature is invalid"
 
     assert (
-        get_type_hints(api_collection.second_test_api.first_endpoint) == VALID_ENDPOINT_PARAMS
+        get_type_hints(api_collection.second_test_api.first_endpoint) == VALID_PARAMS_FOR_FIRST_AND_SECOND_ENDPOINT
     ), "First test endpoint signature is invalid"
 
 
 def test_sync_api_return_values() -> None:
     # ARRANGE & ACT
-    from tests.test_api_generator.generated_sync_api_collection import (
+    from tests.test_api_generator.manual_definition.generated_sync_api_collection import (
         GeneratedSyncApiCollection,
     )
 
@@ -104,7 +104,7 @@ def test_sync_api_return_values() -> None:
 
 async def test_async_api_return_values() -> None:
     # ARRANGE & ACT
-    from tests.test_api_generator.generated_async_api_collection import GeneratedAsyncApiCollection
+    from tests.test_api_generator.manual_definition.generated_async_api_collection import GeneratedAsyncApiCollection
 
     api_collection = GeneratedAsyncApiCollection()
 

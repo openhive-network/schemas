@@ -4,16 +4,16 @@ from typing import get_type_hints
 
 import pytest
 
-from tests.test_api_generator.api_definition_swagger import (
-    VALID_ENDPOINT_FROM_SWAGGER_PARAMS,
-    VALID_ENDPOINT_FROM_SWAGGER_PARAMS_LIST_RETURN,
-)
 from tests.test_api_generator.generate_clients_and_collections import (
     ASYNC_API_FROM_SWAGGER_DESTINATION,
     DESCRIPTION_OUTPUT_FILE,
     SYNC_API_FROM_SWAGGER_DESTINATION,
 )
 from tests.test_api_generator.messages import ENDPOINT_IS_NOT_CALLABLE_MESSAGE, ENDPOINT_NOT_GENERATED_MESSAGE
+from tests.test_api_generator.swagger.valid_output import (
+    VALID_PARAMS_FOR_FIRST_ENDPOINT,
+    get_valid_params_for_second_endpoint,
+)
 
 
 def test_is_api_description_created() -> None:
@@ -34,9 +34,9 @@ def test_is_api_file_created(api_type: str) -> None:
 def test_endpoint_methods_created(api_type: str) -> None:
     # ARRANGE
     if api_type == "async":
-        from tests.test_api_generator.generated_async_api_from_swagger import TestApi  # type: ignore[import-untyped]
+        from tests.test_api_generator.swagger.generated_async_api import TestApi  # type: ignore[import-untyped]
     else:
-        from tests.test_api_generator.generated_sync_api_from_swagger import TestApi  # type: ignore[import-untyped]
+        from tests.test_api_generator.swagger.generated_sync_api import TestApi  # type: ignore[import-untyped]
 
     # ASSERT
     assert hasattr(TestApi, "first_endpoint"), ENDPOINT_NOT_GENERATED_MESSAGE
@@ -50,29 +50,19 @@ def test_endpoint_methods_created(api_type: str) -> None:
 def test_api_methods_signature(api_type: str) -> None:
     # ARRANGE & ACT
     if api_type == "async":
-        from tests.test_api_generator.generated_async_api_from_swagger import (
-            SecondEndpointResponseItem,
-            TestApi,
-        )
+        from tests.test_api_generator.swagger.generated_async_api import TestApi
     else:
-        from tests.test_api_generator.generated_sync_api_from_swagger import (
-            SecondEndpointResponseItem,
-            TestApi,
-        )
+        from tests.test_api_generator.swagger.generated_sync_api import TestApi
 
     test_api_instance = TestApi()
 
     # ASSERT
     assert (
-        get_type_hints(test_api_instance.first_endpoint) == VALID_ENDPOINT_FROM_SWAGGER_PARAMS
+        get_type_hints(test_api_instance.first_endpoint) == VALID_PARAMS_FOR_FIRST_ENDPOINT
     ), "First test endpoint generated from swagger signature is invalid"
 
     second_endpoint_type_hints = get_type_hints(test_api_instance.second_endpoint)
-    second_endpoint_return = second_endpoint_type_hints.pop("return")
 
     assert (
-        second_endpoint_return == list[SecondEndpointResponseItem]
-    ), "Second test endpoint generated from swagger return type is not a list"
-    assert (
-        second_endpoint_type_hints == VALID_ENDPOINT_FROM_SWAGGER_PARAMS_LIST_RETURN
+        second_endpoint_type_hints == get_valid_params_for_second_endpoint()
     ), "Second test endpoint generated from swagger signature is invalid"

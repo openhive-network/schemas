@@ -7,24 +7,24 @@ from schemas.apis.api_client_generator import (
     generate_api_collection,
     generate_json_rpc_api_description,
 )
-from tests.test_api_generator.api_definition_params_result import (
+from tests.test_api_generator.base_api_classes import MockAsyncApiBase, MockSyncApiBase
+from tests.test_api_generator.manual_definition.input import (
     GENERATOR_TEST_API_COLLECTION,
     GENERATOR_TEST_SINGLE_API,
 )
-from tests.test_api_generator.base_api_classes import MockAsyncApiBase, MockSyncApiBase
 
 SYNC_API_COLLECTION_NAME = "GeneratedSyncApiCollection"
 ASYNC_API_COLLECTION_NAME = "GeneratedAsyncApiCollection"
 
-SINGLE_ASYNC_API_DESTINATION = Path(__file__).parent / "generated_async_single_api.py"
-SINGLE_SYNC_API_DESTINATION = Path(__file__).parent / "generated_sync_single_api.py"
-COLLECTION_ASYNC_API_DESTINATION = Path(__file__).parent / "generated_async_api_collection.py"
-COLLECTION_SYNC_API_DESTINATION = Path(__file__).parent / "generated_sync_api_collection.py"
+SINGLE_ASYNC_API_DESTINATION = Path(__file__).parent / "manual_definition" / "generated_async_single_api.py"
+SINGLE_SYNC_API_DESTINATION = Path(__file__).parent / "manual_definition" / "generated_sync_single_api.py"
+COLLECTION_ASYNC_API_DESTINATION = Path(__file__).parent / "manual_definition" / "generated_async_api_collection.py"
+COLLECTION_SYNC_API_DESTINATION = Path(__file__).parent / "manual_definition" / "generated_sync_api_collection.py"
 
-OPENAPI_DEFINITION_DESTINATION = Path(__file__).parent / "openapi.json"
-DESCRIPTION_OUTPUT_FILE = Path(__file__).parent / "api_description_from_swagger.py"
-SYNC_API_FROM_SWAGGER_DESTINATION = Path(__file__).parent / "generated_sync_api_from_swagger.py"
-ASYNC_API_FROM_SWAGGER_DESTINATION = Path(__file__).parent / "generated_async_api_from_swagger.py"
+OPENAPI_DEFINITION_DESTINATION = Path(__file__).parent / "swagger" / "openapi.json"
+DESCRIPTION_OUTPUT_FILE = Path(__file__).parent / "swagger" / "api_description.py"
+SYNC_API_FROM_SWAGGER_DESTINATION = Path(__file__).parent / "swagger" / "generated_sync_api.py"
+ASYNC_API_FROM_SWAGGER_DESTINATION = Path(__file__).parent / "swagger" / "generated_async_api.py"
 
 
 def generate_api_description_from_swagger() -> None:
@@ -32,7 +32,7 @@ def generate_api_description_from_swagger() -> None:
 
 
 def generate_clients_and_collections() -> None:
-    from .api_description_from_swagger import test_api_description  # type: ignore[import-untyped]
+    from .swagger.api_description import test_api_description  # type: ignore[import-untyped]
 
     generate_api_client(
         test_api_description,

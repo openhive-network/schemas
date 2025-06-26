@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
 
 
 @dataclass
@@ -17,20 +16,6 @@ class TestApiParams:
 
 TestApiResult = str
 
-
-VALID_ENDPOINT_PARAMS: dict[str, Any] = {
-    "return": str,
-    "some_custom_type": TestCustomType,
-    "some_string": str,
-    "some_int": int,
-}
-
-VALID_ENDPOINT_PARAMS_LIST_RETURN: dict[str, Any] = {
-    "return": list[str],
-    "some_custom_type": TestCustomType,
-    "some_string": str,
-    "some_int": int,
-}
 
 GENERATOR_TEST_SINGLE_API = {
     "test_api": {
