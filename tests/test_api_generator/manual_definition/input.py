@@ -1,14 +1,12 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from msgspec import Struct
 
 
-@dataclass
-class TestCustomType: ...
+class TestCustomType(Struct): ...
 
 
-@dataclass
-class TestApiParams:
+class TestApiParams(Struct):
     some_custom_type: TestCustomType
     some_string: str = ""
     some_int: int = 0

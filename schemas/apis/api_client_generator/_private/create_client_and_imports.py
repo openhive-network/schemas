@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, is_dataclass
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Sequence
 
 from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
@@ -15,8 +15,9 @@ from schemas.apis.api_client_generator._private.resolve_needed_imports import (
     import_class,
     import_classes,
     import_params_types,
+    is_struct,
 )
-from schemas.apis.api_client_generator.exceptions import EndpointParamsIsNotDataclassError
+from schemas.apis.api_client_generator.exceptions import EndpointParamsIsNotMsgspecStructError
 
 if TYPE_CHECKING:
     import ast
@@ -71,8 +72,8 @@ def create_client_and_imports(  # NOQA: PLR0913
         if params.get("params") is not None:
             extracted_params = params.get("params")
 
-            if extracted_params is not None and not is_dataclass(extracted_params):
-                raise EndpointParamsIsNotDataclassError
+            if extracted_params is not None and not is_struct(extracted_params):
+                raise EndpointParamsIsNotMsgspecStructError
 
             needed_params_import.extend(import_params_types(extracted_params, already_imported))
 

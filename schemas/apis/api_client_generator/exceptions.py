@@ -31,11 +31,11 @@ class RunningScriptWithoutAppropriateFlagError(ApiClientGeneratorError):
         super().__init__(self.message)
 
 
-class EndpointParamsIsNotDataclassError(ApiClientGeneratorError):
-    """Exception raised when the endpoint parameters are not a dataclass."""
+class EndpointParamsIsNotMsgspecStructError(ApiClientGeneratorError):
+    """Exception raised when the endpoint parameters are not a msgspec struct."""
 
     def __init__(self, endpoint_name: str = "any") -> None:
-        self.message = f"Params for {endpoint_name} endpoint must be a dataclass"
+        self.message = f"Params for {endpoint_name} endpoint must be a msgspec struct"
         self.endpoint_name = endpoint_name
         super().__init__(self.message)
 

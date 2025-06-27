@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import ast
-from dataclasses import is_dataclass
 
 from schemas.apis.api_client_generator._private.common.converters import snake_to_camel
 from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
@@ -10,7 +9,8 @@ from schemas.apis.api_client_generator._private.common.models_aliased import (
     EndpointsDefinition,
     EndpointsFactory,
 )
-from schemas.apis.api_client_generator.exceptions import EndpointParamsIsNotDataclassError
+from schemas.apis.api_client_generator._private.resolve_needed_imports import is_struct
+from schemas.apis.api_client_generator.exceptions import EndpointParamsIsNotMsgspecStructError
 
 
 def create_api_client(  # NOQA: PLR0913
@@ -41,8 +41,8 @@ def create_api_client(  # NOQA: PLR0913
     for endpoint_name, endpoint_parameters in endpoints.items():
         params = endpoint_parameters.get("params", None)
 
-        if params is not None and not is_dataclass(params):
-            raise EndpointParamsIsNotDataclassError(endpoint_name)
+        if params is not None and not is_struct(params):
+            raise EndpointParamsIsNotMsgspecStructError(endpoint_name)
 
         result = endpoint_parameters.get("result", None)
         description = endpoint_parameters.get("description", None)

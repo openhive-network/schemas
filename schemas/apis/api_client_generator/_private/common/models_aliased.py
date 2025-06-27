@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any, Protocol, TypeAlias, cast
 
 if TYPE_CHECKING:
     import ast
+    from struct import Struct
 
 EndpointDefinitionBeforeProcessing: TypeAlias = dict[str, str | bool]
 """
@@ -31,7 +32,7 @@ class EndpointsFactory(Protocol):
     def __call__(  # NOQA: PLR0913
         self,
         name: str,
-        params: Dataclass | None,
+        params: Struct | None,
         result: Importable | None,
         endpoint_decorator: str,
         description: str | None,

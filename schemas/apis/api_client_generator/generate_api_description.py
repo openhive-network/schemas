@@ -29,7 +29,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Container, Literal
+from typing import Container
 
 from datamodel_code_generator import DataModelType, InputFileType, generate
 
@@ -48,14 +48,11 @@ from schemas.apis.api_client_generator._private.description_tools import (
 )
 from schemas.apis.api_client_generator._private.format_using_ruff import format_using_ruff
 
-AvailableModelTypes = Literal["dataclass"]
 
-
-def generate_api_description(  # NOQA: PLR0913
+def generate_api_description(
     api_description_name: str,
     openapi_api_definition: str | Path,
     output_file: str | Path,
-    model_type: AvailableModelTypes = "dataclass",  # NOQA: ARG001, support for the msgpsec will be added
     additional_aliases: tuple[AliasToAssign] | None = None,
     apis_to_skip: Container[str] | None = None,
 ) -> None:
@@ -65,7 +62,6 @@ def generate_api_description(  # NOQA: PLR0913
     Args:
         openapi_api_definition: The OpenAPI JSON definition file path.
         output_file: The file where the generated API description will be saved.
-        model_type: The type of data model to generate (default: DataModelType.DataclassesDataclass).
         additional_aliases: Additional aliases to be used in the API description.
         apis_to_skip: APIs to skip during the generation process.
 
@@ -83,7 +79,7 @@ def generate_api_description(  # NOQA: PLR0913
     generate(  # generation of types available in the API definition
         openapi_file,
         output=output_file,
-        output_model_type=DataModelType.DataclassesDataclass,
+        output_model_type=DataModelType.MsgspecStruct,
         input_file_type=InputFileType.OpenAPI,
         use_field_description=True,
         use_standard_collections=True,

@@ -1,19 +1,22 @@
 from __future__ import annotations
 
 import ast
-from dataclasses import MISSING, fields, is_dataclass
+
+from msgspec import NODEFAULT, Struct
+from msgspec.structs import fields
 
 from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
-from schemas.apis.api_client_generator._private.common.models_aliased import Dataclass, Importable
+from schemas.apis.api_client_generator._private.common.models_aliased import Importable
 from schemas.apis.api_client_generator._private.endpoints_factory.common import (
     create_endpoint as create_endpoint_common,
 )
-from schemas.apis.api_client_generator.exceptions import EndpointParamsIsNotDataclassError
+from schemas.apis.api_client_generator._private.resolve_needed_imports import is_struct
+from schemas.apis.api_client_generator.exceptions import EndpointParamsIsNotMsgspecStructError
 
 
 def create_endpoint(  # NOQA: PLR0913
     name: str,
-    params: Dataclass | None = None,
+    params: Struct | None = None,
     result: Importable | None = None,
     endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
     description: str | None = None,
@@ -26,7 +29,7 @@ def create_endpoint(  # NOQA: PLR0913
 
     Args:
         name: The name of the endpoint.
-        params: A dataclass of parameters.
+        params: A msgspec struct of parameters.
         result: The type of the result.
         endpoint_decorator: The decorator for the endpoint.
         description: The description of the endpoint.
@@ -34,14 +37,13 @@ def create_endpoint(  # NOQA: PLR0913
         asynchronous: If True, the endpoint will be created as an asynchronous method.
 
     Notice:
-        Please note that the `params` argument is expected to be dataclasses (or any object
-        that is compatible with `fields` method from `dataclasses` module).
+        Please note that the `params` argument is expected to be a msgspec struct.
 
     Returns:
         ast.AsyncFunctionDef | ast.FunctionDef: The AST representation of the endpoint method.
 
     Raises:
-        EndpointParamsIsNotDataclassError: If the params is not a dataclass.
+        EndpointParamsIsNotMsgspecStructError: If the params is not a msgspec struct.
     """
 
     return create_endpoint_common(
@@ -55,45 +57,51 @@ def create_endpoint(  # NOQA: PLR0913
     )
 
 
-def get_endpoint_args(params: Dataclass | None) -> ast.arguments:
+def get_endpoint_args(params: Struct | None) -> ast.arguments:
     """
     Generate arguments for the json-rpc api endpoint method.
 
     Args:
-        params: The dataclass representing the parameters for the API endpoint.
+        params: The msgspec struct representing the parameters for the API endpoint.
 
     Returns:
         ast.arguments: The arguments for the API endpoint method.
 
     Raises:
-        EndpointParamsIsNotDataclassError: If the params is not a dataclass.
+        EndpointParamsIsNotMsgspecStructError: If the params is not a msgspec struct.
     """
+
+    arguments = ast.arguments(
+        posonlyargs=[],
+        args=[],
+        kwonlyargs=[],
+        kw_defaults=[],
+        kwarg=None,
+        defaults=[],
+    )
+
+    if params is None:
+        return arguments
 
     kwonlyargs: list[ast.arg] = []
     defaults: list[ast.expr | None] = []
 
-    if params is not None:
-        if not is_dataclass(params):
-            raise EndpointParamsIsNotDataclassError
+    if not is_struct(params):
+        raise EndpointParamsIsNotMsgspecStructError
 
-        for param in fields(params):
-            if param.default is not MISSING:
-                defaults.append(ast.Constant(value=param.default))
-            else:
-                defaults.append(None)
+    for param in fields(params):
+        if param.default is not NODEFAULT:
+            defaults.append(ast.Constant(value=param.default))
+        else:
+            defaults.append(None)
 
-            kwonlyargs.append(
-                ast.arg(
-                    arg=param.name,
-                    annotation=ast.Name(id=str(param.type)),
-                )
+        kwonlyargs.append(
+            ast.arg(
+                arg=param.name,
+                annotation=ast.Name(id=param.type.__name__),
             )
+        )
 
-    return ast.arguments(
-        posonlyargs=[],
-        args=[],
-        kwonlyargs=kwonlyargs,
-        kw_defaults=defaults,
-        kwarg=None,
-        defaults=[],
-    )
+    arguments.kwonlyargs = kwonlyargs
+    arguments.kw_defaults = defaults
+    return arguments

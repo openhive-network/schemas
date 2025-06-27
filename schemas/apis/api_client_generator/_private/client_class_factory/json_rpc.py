@@ -39,7 +39,7 @@ def create_api_client(
     return common_create_api_client(
         api_name,
         endpoints,
-        create_json_rpc_endpoint,
+        create_json_rpc_endpoint,  # type: ignore[arg-type]
         base_class,
         endpoint_decorator,
         asynchronous=asynchronous,
