@@ -218,7 +218,7 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
         ) is not None:
             return SwapType.STANDARD, result
 
-        if is_iterable:
+        if is_iterable and member_type_name.full != "Any":
             assert len(member_type_name.inners) > 0, f"Invalid (untyped) typename: {member_type_name.full}"
             found_types = [x for x in [registered_types.get(tn) for tn in member_type_name.inners] if x is not None]
             if len(found_types) > 0:
