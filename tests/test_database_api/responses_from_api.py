@@ -437,6 +437,7 @@ GET_CONFIG = {
         "HIVE_MAX_RECURRENT_TRANSFER_END_DATE": 730,
         "HIVE_MAX_RECURRENT_TRANSFERS_PER_BLOCK": 1000,
         "HIVE_MIN_RECURRENT_TRANSFERS_RECURRENCE": 24,
+        "HIVE_VOLATILE_COMMENT_OBJECTS_LIMIT": 10000,
         "VESTS_SYMBOL": {"nai": "@@000000037", "decimals": 6},
         "HIVE_SYMBOL": {"nai": "@@000000021", "decimals": 3},
         "HBD_SYMBOL": {"nai": "@@000000013", "decimals": 3},
