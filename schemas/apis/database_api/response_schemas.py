@@ -144,9 +144,6 @@ class GetCommentPendingPayouts(PreconfiguredBaseModel, kw_only=True):
 class GetConfigOrig(PreconfiguredBaseModel, kw_only=True):
     """
     This response includes just one dict, so also doesn't need fundament class
-    To use this class choose type of Assets so:
-    Legacy -> GetConfig[AssetHiveLegacy, AssetHbdLegacy](parameters)
-    HF26 -> GetConfig[AssetHiveNai, AssetHbdNai](parameters)
     """
 
     HIVE_CHAIN_ID: Hex
