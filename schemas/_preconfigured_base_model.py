@@ -72,7 +72,7 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
         return name
 
     def __contains__(self, key: str) -> bool:
-        return key in self.shallow_dict()
+        return key in self.dict()
 
     def json(  # noqa: PLR0913
         self,
@@ -91,13 +91,6 @@ class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
         if remove_whitespaces:
             return msgspec.json.encode(data, order=order).decode()
         return pretty_json_dumps(data, sort_keys=(order == "sorted"), ensure_ascii=False)
-
-    def shallow_dict(self) -> dict[str, Any]:
-        result: dict[str, Any] = {}
-        for key, value in self.dict().items():
-            if value is not None:
-                result[key.strip("_")] = getattr(self, key)
-        return result
 
     def dict(
         self,
