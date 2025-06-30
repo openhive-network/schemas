@@ -64,7 +64,7 @@ class TransactionUserFriendly(Transaction):
 
             custom_decoder_factory = get_hf26_decoder
         parsed = Transaction.parse_raw(raw, custom_decoder_factory=custom_decoder_factory)
-        shallowed = parsed.shallow_dict()
+        shallowed = parsed.dict()
         shallowed.pop("operations")
         return cls(operations=[repr_op.value for repr_op in parsed.operations], **shallowed)
 
@@ -85,7 +85,7 @@ class TransactionLegacyUserFriendly(TransactionLegacy):
 
             custom_decoder_factory = get_hf26_decoder
         parsed = TransactionLegacy.parse_raw(raw, custom_decoder_factory=custom_decoder_factory)
-        shallowed = parsed.shallow_dict()
+        shallowed = parsed.dict()
         shallowed.pop("operations")
         return cls(operations=[repr_op.value for repr_op in parsed.operations], **shallowed)
 
