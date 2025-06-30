@@ -37,7 +37,7 @@ class SwapType(IntEnum):
     ITERABLE = 1  # iterate over collection and replace all values
 
 
-class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True):
+class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True, forbid_unknown_fields=True):
     def __post_init__(self) -> None:
         from schemas.policies.disable_swap_types import DisableSwapTypes
 
