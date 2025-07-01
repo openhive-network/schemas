@@ -31,7 +31,7 @@ class FindAccountRecoveryRequestsFundament(PreconfiguredBaseModel, kw_only=True)
     expires: HiveDateTime
 
 
-class AccountItemFundament(PreconfiguredBaseModel, kw_only=True):
+class AccountItemBase(PreconfiguredBaseModel, kw_only=True):
     """Base class for FindAccount and ListAccounts"""
 
     id_: HiveInt = field(name="id")
@@ -88,14 +88,19 @@ class AccountItemFundament(PreconfiguredBaseModel, kw_only=True):
     witnesses_voted_for: HiveInt
     last_post: HiveDateTime
     last_root_post: HiveDateTime
-    last_post_edit: HiveDateTime
     last_vote_time: HiveDateTime
     post_bandwidth: HiveInt
     pending_claimed_accounts: HiveInt
     open_recurrent_transfers: HiveInt
-    is_smt: bool
     governance_vote_expiration_ts: HiveDateTime
     delayed_votes: list[DelayedVotes] = field(default_factory=lambda: [])  # noqa: PIE807
+
+
+class AccountItemFundament(AccountItemBase, kw_only=True):
+    """Base class for FindAccount and ListAccounts"""
+
+    last_post_edit: HiveDateTime
+    is_smt: bool
 
 
 class FindChangeRecoveryAccountRequestsFundament(PreconfiguredBaseModel, kw_only=True):
@@ -114,8 +119,7 @@ class FindCollateralizedConversionRequestsFundament(PreconfiguredBaseModel, kw_o
     conversion_date: HiveDateTime
 
 
-class FindCommentsFundament(PreconfiguredBaseModel, kw_only=True):
-    id_: HiveInt = field(name="id")
+class FindCommentsBase(PreconfiguredBaseModel, kw_only=True):
     author: OptionallyEmptyAccountName
     permlink: Permlink
     category: str
@@ -130,26 +134,30 @@ class FindCommentsFundament(PreconfiguredBaseModel, kw_only=True):
     depth: HiveInt
     children: HiveInt
     net_rshares: HiveInt
+    cashout_time: HiveDateTime
+    total_payout_value: AssetHbd
+    curator_payout_value: AssetHbd
+    max_accepted_payout: AssetHbd
+    percent_hbd: HiveInt
+    beneficiaries: list[Any]
+    was_voted_on: bool | None = None
+
+
+class FindCommentsFundament(FindCommentsBase, kw_only=True):
+    id_: HiveInt = field(name="id")
     abs_rshares: HiveInt
     vote_rshares: HiveInt
     children_abs_rshares: HiveInt
-    cashout_time: HiveDateTime
     max_cashout_time: HiveDateTime
     total_vote_weight: HiveInt
     reward_weight: HiveInt
-    total_payout_value: AssetHbd
-    curator_payout_value: AssetHbd
     author_rewards: HiveInt
     net_votes: HiveInt
     root_author: OptionallyEmptyAccountName
     root_permlink: Permlink
-    max_accepted_payout: AssetHbd
-    percent_hbd: HiveInt
     allow_replies: bool
     allow_votes: bool
     allow_curation_rewards: bool
-    beneficiaries: list[Any]
-    was_voted_on: bool | None = None
 
 
 class FindDeclineVotingRightsRequestsFundament(PreconfiguredBaseModel, kw_only=True):
