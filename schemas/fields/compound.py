@@ -63,7 +63,7 @@ class Price(PreconfiguredBaseModel):
     quote: AnyAsset
 
 
-class Proposal(PreconfiguredBaseModel, kw_only=True):
+class ProposalFundament(PreconfiguredBaseModel, kw_only=True):
     id_: HiveInt = field(name="id")
     proposal_id: HiveInt
     creator: AccountName
@@ -74,6 +74,9 @@ class Proposal(PreconfiguredBaseModel, kw_only=True):
     subject: str
     permlink: str
     total_votes: HiveInt
+
+
+class Proposal(ProposalFundament, kw_only=True):
     status: str
 
 

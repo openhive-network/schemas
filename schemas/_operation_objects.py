@@ -12,14 +12,17 @@ from schemas.operations import (
 )
 
 
-class ApiOperationObjectCommons(PreconfiguredBaseModel):
+class ApiOperationObjectCommonsBase(PreconfiguredBaseModel):
     trx_id: TransactionId
     block: HiveInt
     trx_in_block: HiveInt
     op_in_trx: HiveInt
     virtual_op: bool
-    operation_id: HiveInt
     timestamp: HiveDateTime
+
+
+class ApiOperationObjectCommons(ApiOperationObjectCommonsBase):
+    operation_id: HiveInt
 
 
 class Hf26ApiOperationObject(ApiOperationObjectCommons):
@@ -42,5 +45,5 @@ class Hf26ApiAllOperationObject(ApiOperationObjectCommons):
     op: AnyHf26Operation
 
 
-class LegacyApiAllOperationObject(ApiOperationObjectCommons):
+class LegacyApiAllOperationObject(ApiOperationObjectCommonsBase):
     op: AnyLegacyOperation

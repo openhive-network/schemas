@@ -15,7 +15,7 @@ from schemas.fields.basic import (
     Permlink,
     Url,
 )
-from schemas.fields.compound import Proposal
+from schemas.fields.compound import ProposalFundament
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 
@@ -28,8 +28,8 @@ class HiveMindResponses(PreconfiguredBaseModel):
     data: dict[str, Any]
 
 
-class FindProposalsFundament(Proposal):
-    status: str | None = field(default=None)  # type: ignore [assignment]
+class FindProposalsFundament(ProposalFundament):
+    status: str | None = None
 
 
 class GetAccountReputationsFundament(PreconfiguredBaseModel):
@@ -37,11 +37,11 @@ class GetAccountReputationsFundament(PreconfiguredBaseModel):
     reputation: HiveInt
 
 
-class GetAccountsFundament(fundaments_database_api.AccountItemFundament, kw_only=True):
+class GetAccountsFundament(fundaments_database_api.AccountItemBase, kw_only=True):
     """Base for this response is list_accounts from database api. Some additional fields are here and two excluded"""
 
-    last_post_edit: HiveDateTime | None = field(default=None)  # type: ignore [assignment]
-    is_smt: bool | None = field(default=None)  # type: ignore [assignment]
+    last_post_edit: HiveDateTime | None = None
+    is_smt: bool | None = None
 
     post_history: list[str]
     vote_history: list[str]
@@ -57,7 +57,7 @@ class GetAccountsFundament(fundaments_database_api.AccountItemFundament, kw_only
 
 
 class GetAccountHistoryFundament(LegacyApiAllOperationObject, kw_only=True):
-    operation_id: HiveInt = field(default=None)  # type: ignore [assignment]
+    operation_id: HiveInt | None = None
 
 
 class GetActiveVotesFundament(PreconfiguredBaseModel, kw_only=True):
@@ -86,21 +86,21 @@ class ActiveVotes(PreconfiguredBaseModel, kw_only=True):
     voter: AccountName
 
 
-class GetCommentDiscussionsByPayoutFundament(fundaments_database_api.FindCommentsFundament, kw_only=True):
-    id_: HiveInt | None = field(default=None)  # type: ignore [assignment]
-    abs_rshares: HiveInt | None = field(default=None)  # type: ignore [assignment]
-    vote_rshares: HiveInt | None = field(default=None)  # type: ignore [assignment]
-    children_abs_rshares: HiveInt | None = field(default=None)  # type: ignore [assignment]
-    max_cashout_time: HiveDateTime | None = field(default=None)  # type: ignore [assignment]
-    total_vote_weight: HiveInt | None = field(default=None)  # type: ignore [assignment]
-    reward_weight: HiveInt | None = field(default=None)  # type: ignore [assignment]
-    author_rewards: HiveInt | None = field(default=None)  # type: ignore [assignment]
-    net_votes: HiveInt | None = field(default=None)  # type: ignore [assignment]
-    root_author: OptionallyEmptyAccountName | None = field(default=None)  # type: ignore [assignment]
-    root_permlink: Permlink | None = field(default=None)  # type: ignore [assignment]
-    allow_replies: bool | None = field(default=None)  # type: ignore [assignment]
-    allow_votes: bool | None = field(default=None)  # type: ignore [assignment]
-    allow_curation_rewards: bool | None = field(default=None)  # type: ignore [assignment]
+class GetCommentDiscussionsByPayoutFundament(fundaments_database_api.FindCommentsBase, kw_only=True):
+    id_: HiveInt | None = field(name="id", default=None)
+    abs_rshares: HiveInt | None = None
+    vote_rshares: HiveInt | None = None
+    children_abs_rshares: HiveInt | None = None
+    max_cashout_time: HiveDateTime | None = None
+    total_vote_weight: HiveInt | None = None
+    reward_weight: HiveInt | None = None
+    author_rewards: HiveInt | None = None
+    net_votes: HiveInt | None = None
+    root_author: OptionallyEmptyAccountName | None = None
+    root_permlink: Permlink | None = None
+    allow_replies: bool | None = None
+    allow_votes: bool | None = None
+    allow_curation_rewards: bool | None = None
 
     pending_payout_value: AssetHbd
     promoted: AssetHbd
@@ -152,7 +152,7 @@ class FollowFundament(PreconfiguredBaseModel, kw_only=True):
 class GetOpsInBlockFundament(LegacyApiAllOperationObject, kw_only=True):
     """just operation_id from base excluded, rest the same"""
 
-    operation_id: HiveInt | None = field(default=None)  # type: ignore [assignment]
+    operation_id: HiveInt | None = None
 
 
 class GetTrendingTagsFundament(PreconfiguredBaseModel, kw_only=True):
@@ -164,8 +164,8 @@ class GetTrendingTagsFundament(PreconfiguredBaseModel, kw_only=True):
     trending: str | None = None
 
 
-class ListProposalsFundament(Proposal, kw_only=True):
-    status: str | None = field(default=None)  # type: ignore [assignment]
+class ListProposalsFundament(ProposalFundament, kw_only=True):
+    status: str | None = None
 
 
 class ListRcDirectDelegationsFundament(PreconfiguredBaseModel, kw_only=True):
@@ -174,9 +174,9 @@ class ListRcDirectDelegationsFundament(PreconfiguredBaseModel, kw_only=True):
     delegated_rc: HiveInt
 
 
-class LookupAccountNamesFundament(fundaments_database_api.AccountItemFundament, kw_only=True):
-    last_post_edit: HiveDateTime | None = field(default=None)  # type: ignore [assignment]
-    is_smt: bool | None = field(default=None)  # type: ignore [assignment]
+class LookupAccountNamesFundament(fundaments_database_api.AccountItemBase, kw_only=True):
+    last_post_edit: HiveDateTime | None = None
+    is_smt: bool | None = None
 
     voting_power: HiveInt
 
