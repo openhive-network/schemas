@@ -8,7 +8,7 @@ from schemas.apis.api_client_generator._private.client_class_factory.common impo
 from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
 from schemas.apis.api_client_generator._private.common.models_aliased import (
     BaseApiClass,
-    EndpointsDefinition,
+    EndpointsDescription,
 )
 from schemas.apis.api_client_generator._private.endpoints_factory import create_json_rpc_endpoint
 
@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 def create_api_client(
     api_name: str,
-    endpoints: EndpointsDefinition,
+    endpoints: EndpointsDescription,
     base_class: type[BaseApiClass] | str,
     endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
     *,
@@ -30,7 +30,7 @@ def create_api_client(
 
     Args:
         api_name: The name of the API. Will be used as class name (converted to the CamelCase).
-        endpoints: The endpoints definition for the API.
+        endpoints: The endpoints description for the API.
         base_class: The base class for the API client.
         endpoint_decorator: The name of the endpoint decorator to be used.
         asynchronous: If True, the endpoints will be created as asynchronous methods.

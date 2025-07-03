@@ -1,9 +1,9 @@
 """
 Simple way to generate a JSON-RPC params-result structure to be used in the client generator.
 
-This script reads the OpenAPI JSON file, generates the API definition, and creates a dictionary like that:
+This script reads the OpenAPI JSON file, generates the API description, and creates a dictionary like that:
 
-api_definition = {
+api_description = {
     "name_of_api":
         {
         "name_of_endpoint": {
@@ -35,12 +35,12 @@ from datamodel_code_generator import DataModelType, InputFileType, generate
 
 from schemas.apis.api_client_generator._private.common.converters import snake_to_camel
 from schemas.apis.api_client_generator._private.common.models_aliased import (
-    ApiDefinition,
-    EndpointDefinitionBeforeProcessing,
+    ApiDescriptionBeforeProcessing,
+    EndpointDescriptionBeforeProcessing,
 )
 from schemas.apis.api_client_generator._private.description_tools import (
     AliasToAssign,
-    create_api_definition,
+    create_api_description_module,
     get_description_for_endpoint,
     get_params_name_for_endpoint,
     get_result_name_for_endpoint,
@@ -60,6 +60,7 @@ def generate_api_description(
     Generate an API description based on the provided OpenAPI definition.
 
     Args:
+        api_description_name: The name of the API description to be generated.
         openapi_api_definition: The OpenAPI JSON definition file path.
         output_file: The file where the generated API description will be saved.
         additional_aliases: Additional aliases to be used in the API description.
@@ -71,7 +72,7 @@ def generate_api_description(
     openapi_file = openapi_api_definition if isinstance(openapi_api_definition, Path) else Path(openapi_api_definition)
     output_file = output_file if isinstance(output_file, Path) else Path(output_file)
 
-    api_description: ApiDefinition = {}
+    api_description: ApiDescriptionBeforeProcessing = {}
 
     if not openapi_file.exists():
         raise FileNotFoundError(f"File {openapi_file} does not exist.")
@@ -106,7 +107,7 @@ def generate_api_description(
             endpoint_properties
         )  # that's the name of the response class, in the snake case
 
-        endpoint_description: EndpointDefinitionBeforeProcessing = {
+        endpoint_description: EndpointDescriptionBeforeProcessing = {
             "params": snake_to_camel(params_name) if params_name else "None",
             "result": snake_to_camel(result_name),
             "description": get_description_for_endpoint(endpoint_properties),
@@ -120,7 +121,7 @@ def generate_api_description(
 
         api_description[api_name][endpoint_name] = endpoint_description
 
-    description_module = create_api_definition(api_description_name, api_description, additional_aliases)
+    description_module = create_api_description_module(api_description_name, api_description, additional_aliases)
 
     export_module_to_file(
         description_module,

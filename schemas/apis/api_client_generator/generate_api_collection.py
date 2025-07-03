@@ -8,7 +8,7 @@ from schemas.apis.api_client_generator._private.common.defaults import (
     DEFAULT_API_COLLECTION_NAME,
     DEFAULT_ENDPOINT_DECORATOR_NAME,
 )
-from schemas.apis.api_client_generator._private.common.models_aliased import ApiDefinition, BaseApiClass, Importable
+from schemas.apis.api_client_generator._private.common.models_aliased import ApiDescription, BaseApiClass, Importable
 from schemas.apis.api_client_generator._private.create_collection_module import create_collection_module
 from schemas.apis.api_client_generator._private.export_client_module_to_file import export_module_to_file
 
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 
 def generate_api_collection(  # NOQA: PLR0913
-    api_definitions: ApiDefinition,
+    api_descriptions: ApiDescription,
     base_class: type[BaseApiClass] | str,
     base_class_source: str | None = None,
     path: Path | None = None,
@@ -31,7 +31,7 @@ def generate_api_collection(  # NOQA: PLR0913
     Generate an API client collection based on the provided API names, definition, and type and save it to a file.
 
     Args:
-        api_definitions: Definition of the APIs.
+        api_descriptions: Description of the APIs.
         base_class: The base class for the API client.
         base_class_source: The source of the base class. If None, a default source will be used.
         path: The path where the generated client should be saved. If None, a default path will be used.
@@ -50,7 +50,7 @@ def generate_api_collection(  # NOQA: PLR0913
     check_whether_was_ran_as_script()
 
     collection_module = create_collection_module(
-        api_definitions,
+        api_descriptions,
         create_json_rpc_api_client,
         base_class,
         base_class_source,

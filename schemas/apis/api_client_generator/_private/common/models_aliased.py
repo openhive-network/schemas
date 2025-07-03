@@ -6,13 +6,14 @@ if TYPE_CHECKING:
     import ast
     from struct import Struct
 
-EndpointDefinitionBeforeProcessing: TypeAlias = dict[str, str | bool]
+EndpointDescriptionBeforeProcessing: TypeAlias = dict[str, str | bool]
 """
-A definition of an endpoint, params, result, description and response_array boolean parameter.
-This is used before processing the endpoint definition. At this stage, the params and result are still strings.
+A description of an endpoint, params, result, description and response_array boolean parameter.
+This is used before processing the endpoint description. At this stage, the params and result are still strings.
 """
-EndpointsDefinition: TypeAlias = dict[str, dict[str, Any]]
-ApiDefinition: TypeAlias = dict[str, EndpointsDefinition]
+ApiDescriptionBeforeProcessing: TypeAlias = dict[str, dict[str, EndpointDescriptionBeforeProcessing]]
+EndpointsDescription: TypeAlias = dict[str, dict[str, Any]]
+ApiDescription: TypeAlias = dict[str, EndpointsDescription]
 
 
 class Dataclass(Protocol):
@@ -63,7 +64,7 @@ class ClientClassFactory(Protocol):
     def __call__(
         self,
         api_name: str,
-        endpoints: EndpointsDefinition,
+        endpoints: EndpointsDescription,
         base_class: type[BaseApiClass] | str,
         endpoint_decorator: str,
         *,

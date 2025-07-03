@@ -3,7 +3,7 @@ from __future__ import annotations
 import ast
 from typing import Any, TypeAlias
 
-from schemas.apis.api_client_generator._private.common.models_aliased import ApiDefinition
+from schemas.apis.api_client_generator._private.common.models_aliased import ApiDescription
 
 AliasToAssign: TypeAlias = tuple[str, type]
 
@@ -139,9 +139,9 @@ def is_result_array(result: str, components: dict[str, Any]) -> bool:
     return response_schema.get("type") == "array"  # type: ignore[no-any-return]
 
 
-def create_api_definition(
+def create_api_description_module(
     api_description_name: str,
-    api_description: ApiDefinition,
+    api_description: ApiDescription,
     additional_aliases: tuple[AliasToAssign] | None = None,
 ) -> ast.Module:
     assign = ast.Assign(

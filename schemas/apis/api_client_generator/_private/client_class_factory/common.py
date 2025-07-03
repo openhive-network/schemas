@@ -6,7 +6,7 @@ from schemas.apis.api_client_generator._private.common.converters import snake_t
 from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
 from schemas.apis.api_client_generator._private.common.models_aliased import (
     BaseApiClass,
-    EndpointsDefinition,
+    EndpointsDescription,
     EndpointsFactory,
 )
 from schemas.apis.api_client_generator._private.resolve_needed_imports import is_struct
@@ -15,7 +15,7 @@ from schemas.apis.api_client_generator.exceptions import EndpointParamsIsNotMsgs
 
 def create_api_client(  # NOQA: PLR0913
     api_name: str,
-    endpoints: EndpointsDefinition,
+    endpoints: EndpointsDescription,
     endpoint_factory: EndpointsFactory,
     base_class: type[BaseApiClass] | str,
     endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
@@ -27,7 +27,7 @@ def create_api_client(  # NOQA: PLR0913
 
     Args:
         api_name: The name of the API. Will be used as class name (converted to the CamelCase).
-        endpoints: The endpoints definition for the API.
+        endpoints: The endpoints description for the API.
         endpoint_factory: The factory function to create endpoints.
         base_class: The base class for the API client.
         endpoint_decorator: The name of the endpoint decorator to be used.

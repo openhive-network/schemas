@@ -14,11 +14,11 @@ class InvalidApiNameError(ApiClientGeneratorError):
         super().__init__(self.message)
 
 
-class InvalidApiDefinitionsAmountError(ApiClientGeneratorError):
-    """Exception raised when more than one or none API definition is passed to a single generator."""
+class InvalidApiDescriptionAmountError(ApiClientGeneratorError):
+    """Exception raised when more than one or none API description is passed to a single generator."""
 
     def __init__(self) -> None:
-        self.message = "More than one or none API definition passed to the single api client generator."
+        self.message = "More than one or none API dscription passed to the single api client generator."
         super().__init__(self.message)
 
 

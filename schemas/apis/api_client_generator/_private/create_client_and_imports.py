@@ -7,7 +7,7 @@ from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_E
 from schemas.apis.api_client_generator._private.common.models_aliased import (
     BaseApiClass,
     ClientClassFactory,
-    EndpointsDefinition,
+    EndpointsDescription,
     Importable,
     ensure_is_importable,
 )
@@ -32,7 +32,7 @@ class GeneratedClass:
 def create_client_and_imports(  # NOQA: PLR0913
     api_name: str,
     client_class_factory: ClientClassFactory,
-    endpoints: EndpointsDefinition,
+    endpoints: EndpointsDescription,
     base_class: type[BaseApiClass] | str,
     base_class_source: str | None = None,
     endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
@@ -47,7 +47,7 @@ def create_client_and_imports(  # NOQA: PLR0913
     Args:
         api_name: The name of the API.
         client_class_factory: The factory function to create the client class.
-        endpoints: The endpoints definition for the API.
+        endpoints: The endpoints description for the API.
         base_class: The base class for the API client.
         base_class_source: The source of the base class.
         endpoint_decorator: The name of the endpoint decorator to be used.

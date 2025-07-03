@@ -9,7 +9,7 @@ from schemas.apis.api_client_generator._private.common.defaults import (
     DEFAULT_ENDPOINT_DECORATOR_NAME,
 )
 from schemas.apis.api_client_generator._private.common.models_aliased import (
-    ApiDefinition,
+    ApiDescription,
     BaseApiClass,
     ClientClassFactory,
     Importable,
@@ -19,7 +19,7 @@ from schemas.apis.api_client_generator._private.create_collection_class import c
 
 
 def create_collection_module(  # NOQA: PLR0913
-    api_definitions: ApiDefinition,
+    api_descriptions: ApiDescription,
     client_class_factory: ClientClassFactory,
     base_class: type[BaseApiClass] | str,
     base_class_source: str | None = None,
@@ -30,10 +30,10 @@ def create_collection_module(  # NOQA: PLR0913
     asynchronous: bool = True,
 ) -> ast.Module:
     """
-    Generate an API client class based on the provided API definitions.
+    Generate an API client class based on the provided API descriptions.
 
     Args:
-        api_definitions: The definition of the APIs.
+        api_descriptions: The description of the APIs.
         client_class_factory: The factory function to create api client class.
         base_class: The base class for the API client.
         base_class_source: The source of the base class. If None, a `__module__` will be used.
@@ -50,7 +50,7 @@ def create_collection_module(  # NOQA: PLR0913
     already_imported: list[str] = []  # List of already imported classes to avoid duplicates
     imports: list[ast.ImportFrom] = []
 
-    for api_name, endpoints in api_definitions.items():
+    for api_name, endpoints in api_descriptions.items():
         validate_api_name(api_name)
 
         created_client = create_client_and_imports(
