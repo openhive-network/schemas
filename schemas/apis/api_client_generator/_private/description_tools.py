@@ -143,7 +143,7 @@ def create_api_definition(
     api_description_name: str,
     api_description: ApiDefinition,
     additional_aliases: tuple[AliasToAssign] | None = None,
-) -> str:
+) -> ast.Module:
     assign = ast.Assign(
         targets=[ast.Name(id=api_description_name, ctx=ast.Store())],
         value=ast.Dict(
@@ -181,7 +181,4 @@ def create_api_definition(
                 ),
             )
 
-    module = ast.Module(body=body, type_ignores=[])
-    ast.fix_missing_locations(module)
-
-    return ast.unparse(module)
+    return ast.Module(body=body, type_ignores=[])

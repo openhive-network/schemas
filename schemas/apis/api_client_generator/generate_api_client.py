@@ -86,4 +86,4 @@ def generate_api_client(  # NOQA: PLR0913
     api_name = get_api_name_from_definition(api_definition)  # Already validated in the `create_single_client_module`
 
     file_path = Path(f"{api_name}_client.py") if path is None else path
-    export_module_to_file(client_module, file_path)
+    export_module_to_file(client_module, file_path=file_path)

@@ -60,4 +60,4 @@ def generate_api_collection(  # NOQA: PLR0913
         asynchronous=asynchronous,
     )
 
-    export_module_to_file(collection_module, path)
+    export_module_to_file(collection_module, file_path=path)

@@ -46,7 +46,7 @@ from schemas.apis.api_client_generator._private.description_tools import (
     get_result_name_for_endpoint,
     is_result_array,
 )
-from schemas.apis.api_client_generator._private.format_using_ruff import format_using_ruff
+from schemas.apis.api_client_generator._private.export_client_module_to_file import export_module_to_file
 
 
 def generate_api_description(
@@ -120,10 +120,10 @@ def generate_api_description(
 
         api_description[api_name][endpoint_name] = endpoint_description
 
-    formatted_description = format_using_ruff(
-        create_api_definition(api_description_name, api_description, additional_aliases)
-    )
+    description_module = create_api_definition(api_description_name, api_description, additional_aliases)
 
-    with output_file.open(mode="a") as f:
-        f.write("\n\n")
-        f.write(formatted_description)
+    export_module_to_file(
+        description_module,
+        mode="a",
+        file_path=output_file,
+    )
