@@ -15,6 +15,8 @@ from typing import TYPE_CHECKING, Any, Literal, TypeVar, cast, get_args, get_ori
 import msgspec
 from typing_extensions import Self
 
+from schemas.policies.extra_fields import ExtraFieldsPolicy
+
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
 
@@ -37,7 +39,9 @@ class SwapType(IntEnum):
     ITERABLE = 1  # iterate over collection and replace all values
 
 
-class PreconfiguredBaseModel(msgspec.Struct, omit_defaults=True, forbid_unknown_fields=True):
+class PreconfiguredBaseModel(
+    msgspec.Struct, omit_defaults=True, forbid_unknown_fields=not ExtraFieldsPolicy.is_allowed()
+):
     def __post_init__(self) -> None:
         from schemas.policies.disable_swap_types import DisableSwapTypes
 
