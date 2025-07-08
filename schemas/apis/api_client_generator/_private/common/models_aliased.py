@@ -6,6 +6,9 @@ if TYPE_CHECKING:
     import ast
     from struct import Struct
 
+AnyJson: TypeAlias = dict[str, "AnyJson"] | list["AnyJson"] | tuple["AnyJson", ...] | str | int | float | bool | None
+SwaggerReadyForExtraction: TypeAlias = dict[str, AnyJson]
+
 EndpointDescriptionBeforeProcessing: TypeAlias = dict[str, str | bool]
 """
 A description of an endpoint, params, result, description and response_array boolean parameter.
