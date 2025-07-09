@@ -43,9 +43,9 @@ class PreconfiguredBaseModel(
     msgspec.Struct, omit_defaults=True, forbid_unknown_fields=not ExtraFieldsPolicy.is_allowed()
 ):
     def __post_init__(self) -> None:
-        from schemas.policies.disable_swap_types import DisableSwapTypes
+        from schemas.policies.disable_swap_types import DisableSwapTypesPolicy
 
-        if not DisableSwapTypes.is_disabled():
+        if not DisableSwapTypesPolicy.is_disabled():
             self.__swap_to_registered_types()
 
     @classmethod

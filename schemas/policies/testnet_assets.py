@@ -6,7 +6,7 @@ from schemas.policies.policy import Policy
 
 
 @dataclass
-class TestnetAssets(Policy):
+class TestnetAssetsPolicy(Policy):
     use_testnet_assets: bool
 
     def apply(self) -> None:

@@ -5,7 +5,7 @@ from typing import Any
 import pytest
 
 from schemas.apis import database_api
-from schemas.policies.missing_fields_in_get_config import MissingFieldsInGetConfig
+from schemas.policies.missing_fields_in_get_config import MissingFieldsInGetConfigPolicy
 from tests.conftest import verify_serialization_and_deserialization
 
 from . import responses_from_api
@@ -74,12 +74,12 @@ def test_schemas_of_database_api_responses(parameters: dict[str, Any], schema: A
 
 def test_get_config_policy() -> None:
     try:
-        MissingFieldsInGetConfig(allow=True).apply()
+        MissingFieldsInGetConfigPolicy(allow=True).apply()
         from schemas.apis import database_api
 
         database_api.GetConfig()  # type: ignore[call-arg]
     finally:
-        MissingFieldsInGetConfig(allow=False).apply()  # this is in finally so it won't interfere other tests
+        MissingFieldsInGetConfigPolicy(allow=False).apply()  # this is in finally so it won't interfere other tests
 
     with pytest.raises(TypeError):
         database_api.GetConfig()  # type: ignore[call-arg]
