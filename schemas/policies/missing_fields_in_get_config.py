@@ -6,7 +6,7 @@ from schemas.policies.policy import Policy
 
 
 @dataclass
-class MissingFieldsInGetConfig(Policy):
+class MissingFieldsInGetConfigPolicy(Policy):
     allow: bool
 
     def apply(self) -> None:
