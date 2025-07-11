@@ -23,8 +23,11 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.12"
 msgspec = "0.18.6"
-datamodel-code-generator = "0.30.1"
-ruff = "0.11.5"
+datamodel-code-generator = { version = "0.30.1", optional = true }
+ruff = { version = "0.11.5", optional = true }
+
+[tool.poetry.extras]
+api_generation = ["datamodel-code-generator", "ruff"]
 
 [tool.poetry.dev-dependencies]
 pytest = "8.3.5"
