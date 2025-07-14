@@ -19,12 +19,6 @@ EndpointsDescription: TypeAlias = dict[str, dict[str, Any]]
 ApiDescription: TypeAlias = dict[str, EndpointsDescription]
 
 
-class Dataclass(Protocol):
-    """A protocol that is used to ensure some object is dataclass."""
-
-    __dataclass_fields__: dict[str, Any]
-
-
 class Importable(Protocol):
     """A protocol that defines the structure of an importable object."""
 
