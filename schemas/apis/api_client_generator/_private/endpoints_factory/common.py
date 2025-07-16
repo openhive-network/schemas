@@ -10,7 +10,7 @@ def create_endpoint(  # NOQA: PLR0913
     name: str,
     endpoint_arguments: ast.arguments,
     endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
-    result_type: Importable | None = None,
+    result_type: Importable | str | None = None,
     description: str | None = None,
     *,
     response_array: bool = False,
@@ -43,11 +43,16 @@ def create_endpoint(  # NOQA: PLR0913
         else ast.Expr(value=ast.Constant(value=description))
     ]
 
-    returns = (
-        ast.Name(id=result_type.__name__ if not response_array else f"list[{result_type.__name__}]")
-        if result_type is not None
-        else None
-    )
+    returns: ast.Name | None
+
+    if isinstance(result_type, str):
+        returns = ast.Name(id=result_type)
+    else:
+        returns = (
+            ast.Name(id=result_type.__name__ if not response_array else f"list[{result_type.__name__}]")
+            if result_type is not None
+            else None
+        )
 
     function_def: type[ast.FunctionDef] | type[ast.AsyncFunctionDef] = (
         ast.AsyncFunctionDef if asynchronous else ast.FunctionDef
