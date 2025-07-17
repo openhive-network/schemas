@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 from schemas.apis.api_client_generator._private.common.converters import hyphen_to_snake
 from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
-from schemas.apis.api_client_generator._private.common.get_type_from_ref import get_type_from_ref_in_camel
+from schemas.apis.api_client_generator._private.common.get_type_from_ref_in_camel import get_type_from_ref_in_camel
 from schemas.apis.api_client_generator._private.common.models_aliased import Importable
 from schemas.apis.api_client_generator._private.common.openapi_to_python_type import convert_openapi_type_to_python_type
 from schemas.apis.api_client_generator._private.description_tools import get_value_from_swagger_part_recursively
