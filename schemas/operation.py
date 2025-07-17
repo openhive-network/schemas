@@ -4,7 +4,7 @@ from abc import abstractmethod
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
-__all__ = ["Operation", "OperationExtension"]
+__all__ = ["Operation", "OperationBase", "OperationExtension"]
 
 
 class Representible(PreconfiguredBaseModel):
@@ -24,8 +24,8 @@ class OperationExtension(Representible):
     """Base class for all operation extensions to provide valid json serialization"""
 
 
-class Operation(Representible):
-    """Base class for all operations to provide valid json serialization"""
+class OperationBase(Representible):
+    """Base class for all virtual and non virtual operations to provide valid json serialization"""
 
     @classmethod
     @abstractmethod
@@ -40,3 +40,7 @@ class Operation(Representible):
         e.g. `transfer_operation` for `TransferOperation`
         """
         return f"{cls.get_name()}_operation"
+
+
+class Operation(OperationBase):
+    """Base class for all operations to provide valid json serialization"""
