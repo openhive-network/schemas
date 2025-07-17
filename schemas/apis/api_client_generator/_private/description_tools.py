@@ -25,6 +25,7 @@ def get_value_from_swagger_part_recursively(
         return value
 
     assert isinstance(value, dict), "This swagger part must be a dictionary."
+
     return get_value_from_swagger_part_recursively(value, keys[1:])
 
 
@@ -228,3 +229,67 @@ def create_api_description_module(
             )
 
     return ast.Module(body=body, type_ignores=[])
+
+
+def get_api_name_from_server_property(swagger: SwaggerReadyForExtraction) -> str:
+    """
+    Get the API name from the server property of the swagger.
+
+    Example:
+        swagger = {
+            "servers": [
+                {
+                    "url": "/some-api,
+                }
+            ]
+        }
+
+        get_api_name_from_server_property(swagger)
+        >>> "some-api"
+    """
+    servers = swagger["servers"]
+    assert isinstance(servers, list), "Servers must be a list."
+
+    assert len(servers) == 1, "Swagger must have exactly one server."
+
+    server = servers[0]
+    assert isinstance(server, dict), "Server must be a dictionary."
+    server_url = server["url"]
+
+    assert isinstance(server_url, str), "Server URL must be a string."
+
+    split_server_url = server_url.split("/")
+    split_server_url.remove("")  # Remove empty strings from the list
+
+    if len(split_server_url) > 1:
+        return "_".join(split_server_url)  # If the URL contains slashes, join them with underscores
+
+    return split_server_url[0]
+
+
+def get_types_name_from_components(swagger: SwaggerReadyForExtraction) -> str:
+    """
+    Get the names of the types from the components of the swagger.
+
+    Example:
+        swagger = "components": {
+            "schemas": {
+                "some_types.some_type": {
+                    "type": "string",
+                    "enum": [
+                        "post",
+                        "comment",
+                        "all"
+                    ]
+                },
+            }
+        }
+
+        get_types_name_from_components(components)
+        >>> "some_types"
+    """
+    schemas_in_swagger = get_value_from_swagger_part_recursively(swagger, ("components", "schemas"))
+
+    first_type = next(iter(schemas_in_swagger))
+    assert isinstance(first_type, str), "First type in the schemas must be a string."
+    return first_type.split(".")[0]
