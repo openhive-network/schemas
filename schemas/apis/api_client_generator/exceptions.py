@@ -46,3 +46,12 @@ class ClassPassedByStrWithoutSourceError(ApiClientGeneratorError):
     def __init__(self) -> None:
         self.message = "You've probably passed a class by string and not provided class source."
         super().__init__(self.message)
+
+
+class UnsupportedHttpMethodError(ApiClientGeneratorError):
+    """Exception raised when an unsupported HTTP method is used."""
+
+    def __init__(self, method: str) -> None:
+        self.message = f"Unsupported HTTP method: {method}."
+        self.method = method
+        super().__init__(self.message)
