@@ -10,6 +10,11 @@ class OverrideTypeNameMeta(ABCMeta):
 
 
 class Serializable(ABC, metaclass=OverrideTypeNameMeta):
+    def __new__(cls, *args: Any, **kwargs: Any) -> Serializable:
+        if super().__new__ == object.__new__:
+            return super().__new__(cls)
+        return super().__new__(cls, *args, **kwargs)
+
     @abstractmethod
     def serialize(self) -> Any:
         """

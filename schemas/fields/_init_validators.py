@@ -47,15 +47,14 @@ def get_copy_of_registered_types() -> RegisteredTypes:
 class InitValidator(Serializable, Generic[T]):
     """Base class for types that performs validation during initialization and decode using msgspec library."""
 
-    def __new__(cls, obj: Any, *, skip_validation: bool = False) -> Self:  # noqa: ARG003
-        return super().__new__(cls)
+    def __new__(cls, obj: Any, *args: Any, skip_validation: bool = False, **kwargs: Any) -> InitValidator[T]:
+        if not skip_validation:
+            obj = cls.validate(obj)
+        return cast(InitValidator[T], super().__new__(cls, obj, *args, **kwargs))
 
     @classmethod
-    def validate(cls, value: T) -> Self:
-        return cls(
-            msgspec.convert(value, type=Annotated[cls._covered_type(), cls._meta()], strict=False),
-            skip_validation=True,
-        )
+    def validate(cls, value: T) -> T:
+        return cast(T, msgspec.convert(value, type=Annotated[cls._covered_type(), cls._meta()], strict=False))
 
     _not_implemented_msg = "Make sure to use types created using InitValidator.factory() classmethod"
 
@@ -86,7 +85,7 @@ class InitValidator(Serializable, Generic[T]):
                 return meta
 
             @classmethod
-            def validate(cls, value: T) -> Self:
+            def validate(cls, value: T) -> T:
                 validated = pre_validator(value)
                 if not skip_default_validation:
                     validated = super().validate(validated)
@@ -104,23 +103,13 @@ class InitValidator(Serializable, Generic[T]):
         return self._covered_type()(self)  # type: ignore[call-arg]
 
 
-class ValidatorString(str, InitValidator[str]):
-    def __new__(cls, obj: Any, *, skip_validation: bool = False) -> Self:
-        if not skip_validation:
-            cls.validate(cls._covered_type()(obj))
-        return super().__new__(cls, obj)
-
+class ValidatorString(InitValidator[str], str):
     @classmethod
     def _covered_type(cls) -> type[str]:
         return str
 
 
-class ValidatorInt(int, InitValidator[int]):
-    def __new__(cls, obj: Any, *, skip_validation: bool = False) -> Self:
-        if not skip_validation:
-            cls.validate(cls._covered_type()(obj))
-        return super().__new__(cls, obj)
-
+class ValidatorInt(InitValidator[int], int):
     @classmethod
     def _covered_type(cls) -> type[int]:
         return int
