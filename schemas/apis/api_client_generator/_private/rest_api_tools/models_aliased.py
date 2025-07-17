@@ -6,6 +6,8 @@ from typing import Literal, TypeGuard, get_args
 PathParam = ast.arg
 QueryParam = ast.arg
 
+CreatedEndpoints = list[ast.FunctionDef | ast.AsyncFunctionDef]
+
 RestApiParameterType = Literal[
     "query",
     "path",

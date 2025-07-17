@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import ast
-from typing import Any, Sequence, get_type_hints
+from typing import TYPE_CHECKING, Any, Sequence, get_type_hints
 
 from msgspec import Struct
 
@@ -11,6 +11,9 @@ from schemas.apis.api_client_generator.exceptions import (
     ClassPassedByStrWithoutSourceError,
     EndpointParamsIsNotMsgspecStructError,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def is_struct(potential_struct: Any) -> bool:
@@ -138,6 +141,30 @@ def import_params_types(params: type[Struct] | None, already_imported: list[str]
         add_import(type_)
 
     return needed_imports
+
+
+def find_package_root(module_path: Path) -> Path:
+    """Find the top-level package directory (where `__init__.py` exists)."""
+    current = module_path.parent
+    root = None
+    while True:
+        init_file = current / "__init__.py"
+        if init_file.exists():
+            root = current
+            current = current.parent
+        else:
+            break
+    return root if root is not None else module_path.parent
+
+
+def compute_full_module_name(module_path: Path, root: Path) -> str:
+    """Compute the full dotted module name relative to the package root."""
+    relative_path = module_path.relative_to(root)
+
+    parts = relative_path.parts if relative_path.name == "__init__.py" else relative_path.with_suffix("").parts
+    relative_name = ".".join(parts)
+
+    return f"{root.name}.{relative_name}" if relative_name else root.name
 
 
 def _should_be_imported(class_: Importable, already_imported: list[str]) -> bool:
