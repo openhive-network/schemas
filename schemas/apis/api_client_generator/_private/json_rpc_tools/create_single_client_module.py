@@ -3,7 +3,6 @@ from __future__ import annotations
 import ast
 from typing import Sequence
 
-from schemas.apis.api_client_generator._private.api_name_tools import get_api_name_from_description, validate_api_name
 from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
 from schemas.apis.api_client_generator._private.common.models_aliased import (
     ApiDescription,
@@ -11,7 +10,13 @@ from schemas.apis.api_client_generator._private.common.models_aliased import (
     ClientClassFactory,
     Importable,
 )
-from schemas.apis.api_client_generator._private.create_client_and_imports import create_client_and_imports
+from schemas.apis.api_client_generator._private.json_rpc_tools.api_name_tools import (
+    get_api_name_from_description,
+    validate_api_name,
+)
+from schemas.apis.api_client_generator._private.json_rpc_tools.create_client_and_imports import (
+    create_client_and_imports,
+)
 
 
 def create_single_client_module(  # NOQA: PLR0913

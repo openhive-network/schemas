@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import TYPE_CHECKING, Sequence
 
 from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
+from schemas.apis.api_client_generator._private.common.generated_class import GeneratedClass
 from schemas.apis.api_client_generator._private.common.models_aliased import (
     BaseApiClass,
     ClientClassFactory,
@@ -21,12 +21,6 @@ from schemas.apis.api_client_generator.exceptions import EndpointParamsIsNotMsgs
 
 if TYPE_CHECKING:
     import ast
-
-
-@dataclass
-class GeneratedClass:
-    class_def: ast.ClassDef
-    imports: list[ast.ImportFrom]
 
 
 def create_client_and_imports(  # NOQA: PLR0913
