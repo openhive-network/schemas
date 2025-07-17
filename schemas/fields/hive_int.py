@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 import msgspec
-from typing_extensions import Self
 
 from schemas.fields._init_validators import InitValidator
 
@@ -12,12 +11,7 @@ __all__ = [
 ]
 
 
-class HiveIntFactory(int, InitValidator[int]):
-    def __new__(cls, obj: Any, *, skip_validation: bool = False) -> Self:
-        if not skip_validation:
-            cls.validate(obj)
-        return super().__new__(cls, obj)
-
+class HiveIntFactory(InitValidator[int], int):
     @classmethod
     def _covered_type(cls) -> type[int]:
         return int
@@ -30,7 +24,7 @@ class HiveIntFactory(int, InitValidator[int]):
         return str(self)
 
     @classmethod
-    def validate(cls, value: Any) -> Self:
+    def validate(cls, value: Any) -> int:
         error_template = msgspec.ValidationError("The value could only be int or string that can be converted to int!")
         if not isinstance(value, (HiveIntFactory, str)) and type(value) is not int:
             raise error_template
