@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from schemas.apis.api_client_generator import (
+from schemas.apis.api_client_generator.json_rpc import (
     generate_api_client,
     generate_api_collection,
-    generate_json_rpc_api_description,
+    generate_api_description,
 )
 from tests.test_api_generator.base_api_classes import MockAsyncApiBase, MockSyncApiBase
 from tests.test_api_generator.manual_definition.input import (
@@ -28,7 +28,7 @@ ASYNC_API_FROM_SWAGGER_DESTINATION = Path(__file__).parent / "swagger" / "genera
 
 
 def generate_api_description_from_swagger() -> None:
-    generate_json_rpc_api_description("test_api_description", OPENAPI_DEFINITION_DESTINATION, DESCRIPTION_OUTPUT_FILE)
+    generate_api_description("test_api_description", OPENAPI_DEFINITION_DESTINATION, DESCRIPTION_OUTPUT_FILE)
 
 
 def generate_clients_and_collections() -> None:

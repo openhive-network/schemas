@@ -3,13 +3,15 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Sequence
 
-from schemas.apis.api_client_generator._private.api_name_tools import get_api_name_from_description
 from schemas.apis.api_client_generator._private.check_whether_was_ran_as_script import check_whether_was_ran_as_script
 from schemas.apis.api_client_generator._private.client_class_factory import create_json_rpc_api_client
 from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
 from schemas.apis.api_client_generator._private.common.models_aliased import ApiDescription, BaseApiClass, Importable
-from schemas.apis.api_client_generator._private.create_single_client_module import create_single_client_module
 from schemas.apis.api_client_generator._private.export_client_module_to_file import export_module_to_file
+from schemas.apis.api_client_generator._private.json_rpc_tools.api_name_tools import get_api_name_from_description
+from schemas.apis.api_client_generator._private.json_rpc_tools.create_single_client_module import (
+    create_single_client_module,
+)
 from schemas.apis.api_client_generator.exceptions import InvalidApiDescriptionAmountError
 
 

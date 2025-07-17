@@ -31,8 +31,6 @@ import json
 from pathlib import Path
 from typing import Container
 
-from datamodel_code_generator import DataModelType, InputFileType, generate
-
 from schemas.apis.api_client_generator._private.common.converters import snake_to_camel
 from schemas.apis.api_client_generator._private.common.models_aliased import (
     ApiDescriptionBeforeProcessing,
@@ -47,6 +45,7 @@ from schemas.apis.api_client_generator._private.description_tools import (
     is_result_array,
 )
 from schemas.apis.api_client_generator._private.export_client_module_to_file import export_module_to_file
+from schemas.apis.api_client_generator.generate_types_from_swagger import generate_types_from_swagger
 
 
 def generate_api_description(
@@ -69,24 +68,15 @@ def generate_api_description(
     Raises:
         FileNotFoundError: If the OpenAPI definition file does not exist.
     """
-    openapi_file = openapi_api_definition if isinstance(openapi_api_definition, Path) else Path(openapi_api_definition)
+    openapi_api_definition = (
+        openapi_api_definition if isinstance(openapi_api_definition, Path) else Path(openapi_api_definition)
+    )
     output_file = output_file if isinstance(output_file, Path) else Path(output_file)
+    generate_types_from_swagger(openapi_api_definition, output_file)
 
     api_description: ApiDescriptionBeforeProcessing = {}
 
-    if not openapi_file.exists():
-        raise FileNotFoundError(f"File {openapi_file} does not exist.")
-
-    generate(  # generation of types available in the API definition
-        openapi_file,
-        output=output_file,
-        output_model_type=DataModelType.MsgspecStruct,
-        input_file_type=InputFileType.OpenAPI,
-        use_field_description=True,
-        use_standard_collections=True,
-    )
-
-    openapi = json.loads(openapi_file.read_text())
+    openapi = json.loads(openapi_api_definition.read_text())
 
     paths = list(openapi["paths"].keys())  # path is construct like name_of_api.name_of_endpoint
     components = openapi["components"]["schemas"]
