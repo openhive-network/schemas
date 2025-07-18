@@ -9,7 +9,7 @@ from __future__ import annotations
 from typing import Any, Literal, overload
 
 from schemas._preconfigured_base_model import DictStrAny, PreconfiguredBaseModel
-from schemas.operation import Operation
+from schemas.operation import OperationBase
 from schemas.operations.account_create_operation import AccountCreateOperation
 from schemas.operations.account_create_with_delegation_operation import AccountCreateWithDelegationOperation
 from schemas.operations.account_update2_operation import AccountUpdate2Operation
@@ -65,7 +65,7 @@ from schemas.operations.witness_update_operation import WitnessUpdateOperation, 
 
 
 class HF26Representation(PreconfiguredBaseModel):
-    value: Operation
+    value: OperationBase
 
     def shallow_dict(self) -> dict[str, Any]:
         return {"type":self.type_, "value": self.value}
@@ -82,11 +82,11 @@ class HF26Representation(PreconfiguredBaseModel):
     @overload
     def __getitem__(self, idx: Literal[0]) -> str: ...
     @overload
-    def __getitem__(self, idx: Literal[1]) -> Operation: ...
+    def __getitem__(self, idx: Literal[1]) -> OperationBase: ...
     @overload
     def __getitem__(self, idx: str) -> Any: ...
 
-    def __getitem__(self, idx: Literal[0, 1] | str) -> str | Operation | Any:
+    def __getitem__(self, idx: Literal[0, 1] | str) -> str | OperationBase | Any:
         if idx == 0:
             return self.type_
         if idx == 1:
@@ -95,7 +95,7 @@ class HF26Representation(PreconfiguredBaseModel):
 
 
 class LegacyRepresentation(PreconfiguredBaseModel):
-    value: Operation
+    value: OperationBase
 
     @property
     def type_(self) -> str:
@@ -104,9 +104,9 @@ class LegacyRepresentation(PreconfiguredBaseModel):
     @overload  # type: ignore [override]
     def __getitem__(self, idx: Literal[0]) -> str: ...
     @overload
-    def __getitem__(self, idx: Literal[1]) -> Operation: ...
+    def __getitem__(self, idx: Literal[1]) -> OperationBase: ...
 
-    def __getitem__(self, idx: Literal[0, 1]) -> str | Operation:
+    def __getitem__(self, idx: Literal[0, 1]) -> str | OperationBase:
         if idx == 0:
             return self.type_
         if idx == 1:
