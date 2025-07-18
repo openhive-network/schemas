@@ -9,7 +9,7 @@ from __future__ import annotations
 from typing import Any, Literal, overload
 
 from schemas._preconfigured_base_model import DictStrAny, PreconfiguredBaseModel
-from schemas.operation import Operation
+from schemas.operation import OperationBase, Representible
 from schemas.operations.account_create_operation import AccountCreateOperation
 from schemas.operations.account_create_with_delegation_operation import AccountCreateWithDelegationOperation
 from schemas.operations.account_update2_operation import AccountUpdate2Operation
@@ -65,7 +65,7 @@ from schemas.operations.witness_update_operation import WitnessUpdateOperation, 
 
 
 class HF26Representation(PreconfiguredBaseModel):
-    value: Operation
+    value: Representible
 
     def shallow_dict(self) -> dict[str, Any]:
         return {"type":self.type_, "value": self.value}
@@ -77,16 +77,18 @@ class HF26Representation(PreconfiguredBaseModel):
 
     @property
     def type_(self) -> str:
-        return self.value.get_name_with_suffix()
+        if isinstance(self.value, OperationBase):
+            return self.value.get_name_with_suffix()
+        return self.value.get_name()
 
     @overload
     def __getitem__(self, idx: Literal[0]) -> str: ...
     @overload
-    def __getitem__(self, idx: Literal[1]) -> Operation: ...
+    def __getitem__(self, idx: Literal[1]) -> Representible: ...
     @overload
     def __getitem__(self, idx: str) -> Any: ...
 
-    def __getitem__(self, idx: Literal[0, 1] | str) -> str | Operation | Any:
+    def __getitem__(self, idx: Literal[0, 1] | str) -> str | Representible | Any:
         if idx == 0:
             return self.type_
         if idx == 1:
@@ -95,7 +97,7 @@ class HF26Representation(PreconfiguredBaseModel):
 
 
 class LegacyRepresentation(PreconfiguredBaseModel):
-    value: Operation
+    value: Representible
 
     @property
     def type_(self) -> str:
@@ -104,9 +106,9 @@ class LegacyRepresentation(PreconfiguredBaseModel):
     @overload  # type: ignore [override]
     def __getitem__(self, idx: Literal[0]) -> str: ...
     @overload
-    def __getitem__(self, idx: Literal[1]) -> Operation: ...
+    def __getitem__(self, idx: Literal[1]) -> Representible: ...
 
-    def __getitem__(self, idx: Literal[0, 1]) -> str | Operation:
+    def __getitem__(self, idx: Literal[0, 1]) -> str | Representible:
         if idx == 0:
             return self.type_
         if idx == 1:

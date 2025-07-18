@@ -26,7 +26,7 @@ def collect_and_write_api_imports(code: str) -> str:
     code += "from schemas.operations.extensions.comment_options_extensions import CommentPayoutBeneficiaries\n"
     code += "from schemas.operations.extensions.recurrent_transfer_extensions import RecurrentTransferPairId\n"
     code += "from schemas.operations.extensions.update_proposal_extensions import UpdateProposalEndDate\n"
-    code += "from schemas.operations.representation_types import HF26Representation, LegacyRepresentation\n"
+    code += "from schemas.operations.representation_types import HF26Representation\n"
     code += "\n\n"
     return code
 
@@ -34,11 +34,9 @@ def collect_and_write_api_imports(code: str) -> str:
 def write_representations_classes(code: str) -> str:
     for operation_name in all_operations[0:3]:
         if "Generic" not in operation_name:
-            code += f"""class HF26Representation{operation_name}Operation(HF26Representation, tag={operation_name}.get_name_with_suffix()):
+            code += f"""class HF26Representation{operation_name}OperationExtension(HF26Representation, tag={operation_name}.get_name()):
             value: {operation_name}\n\n\n"""
 
-            code += f"""class LegacyRepresentation{operation_name}Operation(LegacyRepresentation, tag={operation_name}.get_name(), array_like=True):
-            value: {operation_name[:-6] if "Legacy" in operation_name else operation_name}\n\n\n"""
     return code
 
 

@@ -25,7 +25,7 @@ def collect_and_write_api_imports(code: str) -> str:
     code += "from __future__ import annotations\n\n"
     code += "from typing import Any, Literal, overload\n\n"
     code += "from schemas._preconfigured_base_model import DictStrAny, PreconfiguredBaseModel\n"
-    code += "from schemas.operation import Operation\n"
+    code += "from schemas.operation import Representible, OperationBase\n"
 
     for operation_name in all_operations[7:]:
         if "Legacy" not in operation_name and "Generic" not in operation_name:
@@ -37,7 +37,7 @@ def collect_and_write_api_imports(code: str) -> str:
 
 def write_hf26representation_and_legacy_representation(code: str) -> str:
     code += """class HF26Representation(PreconfiguredBaseModel):
-    value: Operation
+    value: Representible
 
     def shallow_dict(self) -> dict[str, Any]:
         return {"type":self.type_, "value": self.value}
@@ -49,16 +49,18 @@ def write_hf26representation_and_legacy_representation(code: str) -> str:
 
     @property
     def type_(self) -> str:
-        return self.value.get_name_with_suffix()
+        if isinstance(self.value, OperationBase):
+            return self.value.get_name_with_suffix()
+        return self.value.get_name()
 
     @overload
     def __getitem__(self, idx: Literal[0]) -> str: ...
     @overload
-    def __getitem__(self, idx: Literal[1]) -> Operation: ...
+    def __getitem__(self, idx: Literal[1]) -> Representible: ...
     @overload
     def __getitem__(self, idx: str) -> Any: ...
 
-    def __getitem__(self, idx: Literal[0, 1] | str) -> str | Operation | Any:
+    def __getitem__(self, idx: Literal[0, 1] | str) -> str | Representible | Any:
         if idx == 0:
             return self.type_
         if idx == 1:
@@ -67,7 +69,7 @@ def write_hf26representation_and_legacy_representation(code: str) -> str:
 
 
 class LegacyRepresentation(PreconfiguredBaseModel):
-    value: Operation
+    value: Representible
 
     @property
     def type_(self) -> str:
@@ -76,9 +78,9 @@ class LegacyRepresentation(PreconfiguredBaseModel):
     @overload  # type: ignore [override]
     def __getitem__(self, idx: Literal[0]) -> str: ...
     @overload
-    def __getitem__(self, idx: Literal[1]) -> Operation: ...
+    def __getitem__(self, idx: Literal[1]) -> Representible: ...
 
-    def __getitem__(self, idx: Literal[0, 1]) -> str | Operation:
+    def __getitem__(self, idx: Literal[0, 1]) -> str | Representible:
         if idx == 0:
             return self.type_
         if idx == 1:
