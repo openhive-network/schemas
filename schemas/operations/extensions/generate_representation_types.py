@@ -34,10 +34,10 @@ def collect_and_write_api_imports(code: str) -> str:
 def write_representations_classes(code: str) -> str:
     for operation_name in all_operations[0:3]:
         if "Generic" not in operation_name:
-            code += f"""class HF26Representation{operation_name}Operation(HF26Representation, tag={operation_name}.get_name_with_suffix()):
+            code += f"""class HF26Representation{operation_name}OperationExtension(HF26Representation, tag={operation_name}.get_name_with_suffix()):
             value: {operation_name}\n\n\n"""
 
-            code += f"""class LegacyRepresentation{operation_name}Operation(LegacyRepresentation, tag={operation_name}.get_name(), array_like=True):
+            code += f"""class LegacyRepresentation{operation_name}OperationExtension(LegacyRepresentation, tag={operation_name}.get_name(), array_like=True):
             value: {operation_name[:-6] if "Legacy" in operation_name else operation_name}\n\n\n"""
     return code
 
