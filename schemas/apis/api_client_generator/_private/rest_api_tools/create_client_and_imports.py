@@ -6,7 +6,7 @@ from typing import Sequence
 
 from schemas.apis.api_client_generator._private.common.converters import snake_to_camel
 from schemas.apis.api_client_generator._private.common.defaults import (
-    DEFAULT_ENDPOINT_DECORATOR_NAME,
+    DEFAULT_ENDPOINT_REST_DECORATOR_NAME,
     DEFAULT_IMPORT_LEVEL,
 )
 from schemas.apis.api_client_generator._private.common.generated_class import GeneratedClass
@@ -30,7 +30,7 @@ def create_client_and_imports(  # NOQA: PLR0913
     types_module_path: str | Path,
     base_class: type[BaseApiClass] | str,
     base_class_source: str | None = None,
-    endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
+    endpoint_decorator: str = DEFAULT_ENDPOINT_REST_DECORATOR_NAME,
     additional_items_to_import: Sequence[Importable] | None = None,
     already_imported: list[str] | None = None,
 ) -> GeneratedClass:

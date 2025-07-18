@@ -3,7 +3,6 @@ from __future__ import annotations
 import ast
 
 from schemas.apis.api_client_generator._private.common.converters import snake_to_camel
-from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
 from schemas.apis.api_client_generator._private.common.models_aliased import (
     BaseApiClass,
     EndpointsDescription,
@@ -18,7 +17,7 @@ def create_api_client(  # NOQA: PLR0913
     endpoints: EndpointsDescription,
     endpoint_factory: EndpointsFactory,
     base_class: type[BaseApiClass] | str,
-    endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
+    endpoint_decorator: str,
     *,
     asynchronous: bool = True,
 ) -> ast.ClassDef:

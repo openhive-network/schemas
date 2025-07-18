@@ -5,7 +5,7 @@ from typing import Sequence
 
 from schemas.apis.api_client_generator._private.common.defaults import (
     DEFAULT_API_COLLECTION_NAME,
-    DEFAULT_ENDPOINT_DECORATOR_NAME,
+    DEFAULT_ENDPOINT_JSON_RPC_DECORATOR_NAME,
 )
 from schemas.apis.api_client_generator._private.common.models_aliased import (
     ApiDescription,
@@ -26,7 +26,7 @@ def create_collection_module(  # NOQA: PLR0913
     base_class: type[BaseApiClass] | str,
     base_class_source: str | None = None,
     collection_name: str = DEFAULT_API_COLLECTION_NAME,
-    endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
+    endpoint_decorator: str = DEFAULT_ENDPOINT_JSON_RPC_DECORATOR_NAME,
     additional_items_to_import: Sequence[Importable] | None = None,
     *,
     asynchronous: bool = True,

@@ -6,7 +6,7 @@ from pathlib import Path
 
 from schemas.apis.api_client_generator._private.check_whether_was_ran_as_script import check_whether_was_ran_as_script
 from schemas.apis.api_client_generator._private.common.converters import hyphen_to_snake
-from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
+from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_REST_DECORATOR_NAME
 from schemas.apis.api_client_generator._private.common.models_aliased import BaseApiClass
 from schemas.apis.api_client_generator._private.description_tools import (
     get_api_name_from_server_property,
@@ -27,7 +27,7 @@ def generate_api_client_from_swagger(  # NOQA: PLR0913
     output_package: str | Path,
     base_class: type[BaseApiClass] | str,
     base_class_source: str | None = None,
-    endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
+    endpoint_decorator: str = DEFAULT_ENDPOINT_REST_DECORATOR_NAME,
     *,
     asynchronous: bool = True,
 ) -> None:

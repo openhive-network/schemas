@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Sequence
 
-from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
+from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_JSON_RPC_DECORATOR_NAME
 from schemas.apis.api_client_generator._private.common.generated_class import GeneratedClass
 from schemas.apis.api_client_generator._private.common.models_aliased import (
     BaseApiClass,
@@ -29,7 +29,7 @@ def create_client_and_imports(  # NOQA: PLR0913
     endpoints: EndpointsDescription,
     base_class: type[BaseApiClass] | str,
     base_class_source: str | None = None,
-    endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
+    endpoint_decorator: str = DEFAULT_ENDPOINT_JSON_RPC_DECORATOR_NAME,
     additional_items_to_import: Sequence[Importable] | None = None,
     already_imported: list[str] | None = None,
     *,

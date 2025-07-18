@@ -3,7 +3,7 @@ from __future__ import annotations
 import ast
 from typing import Sequence
 
-from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
+from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_JSON_RPC_DECORATOR_NAME
 from schemas.apis.api_client_generator._private.common.models_aliased import (
     ApiDescription,
     BaseApiClass,
@@ -24,7 +24,7 @@ def create_single_client_module(  # NOQA: PLR0913
     client_class_factory: ClientClassFactory,
     base_class: type[BaseApiClass] | str,
     base_class_source: str | None = None,
-    endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
+    endpoint_decorator: str = DEFAULT_ENDPOINT_JSON_RPC_DECORATOR_NAME,
     additional_items_to_import: Sequence[Importable] | None = None,
     *,
     asynchronous: bool = True,

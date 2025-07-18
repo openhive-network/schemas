@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from schemas.apis.api_client_generator._private.client_class_factory.common import (
     create_api_client as common_create_api_client,
 )
-from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
+from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_JSON_RPC_DECORATOR_NAME
 from schemas.apis.api_client_generator._private.common.models_aliased import (
     BaseApiClass,
     EndpointsDescription,
@@ -20,7 +20,7 @@ def create_api_client(
     api_name: str,
     endpoints: EndpointsDescription,
     base_class: type[BaseApiClass] | str,
-    endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
+    endpoint_decorator: str = DEFAULT_ENDPOINT_JSON_RPC_DECORATOR_NAME,
     *,
     asynchronous: bool = True,
 ) -> ast.ClassDef:

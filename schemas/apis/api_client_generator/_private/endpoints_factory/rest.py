@@ -4,7 +4,7 @@ import ast
 from typing import TYPE_CHECKING
 
 from schemas.apis.api_client_generator._private.common.converters import hyphen_to_snake
-from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
+from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_REST_DECORATOR_NAME
 from schemas.apis.api_client_generator._private.common.get_type_from_ref_in_camel import get_type_from_ref_in_camel
 from schemas.apis.api_client_generator._private.common.models_aliased import Importable
 from schemas.apis.api_client_generator._private.common.openapi_to_python_type import convert_openapi_type_to_python_type
@@ -28,7 +28,7 @@ def create_endpoint(  # NOQA: PLR0913
     method: RestApiMethod | None = None,
     result: Importable | str | None = None,
     method_type: RestApiMethodType = "get",
-    endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
+    endpoint_decorator: str = DEFAULT_ENDPOINT_REST_DECORATOR_NAME,
     description: str | None = None,
     *,
     response_array: bool = False,

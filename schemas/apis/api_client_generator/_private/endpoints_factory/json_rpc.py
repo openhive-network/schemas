@@ -5,7 +5,7 @@ import ast
 from msgspec import NODEFAULT, Struct
 from msgspec.structs import fields
 
-from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
+from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_JSON_RPC_DECORATOR_NAME
 from schemas.apis.api_client_generator._private.common.models_aliased import Importable
 from schemas.apis.api_client_generator._private.endpoints_factory.common import (
     create_endpoint as create_endpoint_common,
@@ -18,7 +18,7 @@ def create_endpoint(  # NOQA: PLR0913
     name: str,
     params: Struct | None = None,
     result: Importable | None = None,
-    endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
+    endpoint_decorator: str = DEFAULT_ENDPOINT_JSON_RPC_DECORATOR_NAME,
     description: str | None = None,
     *,
     response_array: bool = False,

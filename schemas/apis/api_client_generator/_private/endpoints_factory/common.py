@@ -2,14 +2,13 @@ from __future__ import annotations
 
 import ast
 
-from schemas.apis.api_client_generator._private.common.defaults import DEFAULT_ENDPOINT_DECORATOR_NAME
 from schemas.apis.api_client_generator._private.common.models_aliased import Importable
 
 
 def create_endpoint(  # NOQA: PLR0913
     name: str,
     endpoint_arguments: ast.arguments,
-    endpoint_decorator: str = DEFAULT_ENDPOINT_DECORATOR_NAME,
+    endpoint_decorator: str,
     result_type: Importable | str | None = None,
     description: str | None = None,
     *,
