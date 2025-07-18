@@ -3,7 +3,7 @@ from __future__ import annotations
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import AccountName
 from schemas.fields.integers import Uint16t
-from schemas.operation import Operation
+from schemas.operation import OperationExtension
 
 
 class BeneficiaryRoute(PreconfiguredBaseModel):
@@ -11,7 +11,7 @@ class BeneficiaryRoute(PreconfiguredBaseModel):
     weight: Uint16t
 
 
-class CommentPayoutBeneficiaries(Operation):
+class CommentPayoutBeneficiaries(OperationExtension):
     @classmethod
     def get_name(cls) -> str:
         return "comment_payout_beneficiaries"
