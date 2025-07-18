@@ -616,5 +616,9 @@ def convert_to_representation(operation: Operation) -> AnyHf26Operation:
     return HF26RepresentationAndValuePairs[type(operation)](value=operation)  # type: ignore[arg-type]
 
 
+def convert_to_representation_non_virtual(operation: Operation) -> Hf26OperationRepresentation:
+    return HF26RepresentationAndValuePairsNonVirtual[type(operation)](value=operation)  # type: ignore[arg-type]
+
+
 def convert_to_representation_legacy(operation: Operation) -> AnyLegacyOperation:
     return LegacyRepresentationAndValuePairs[type(operation)](value=operation)  # type: ignore[arg-type]
