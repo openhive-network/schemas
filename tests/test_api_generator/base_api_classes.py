@@ -6,7 +6,7 @@ from typing import Any, Awaitable, Callable, Final
 VALID_RETURN_VALUE: Final[str] = "valid_return_value"
 
 
-class MockAsyncApiBase:
+class MockAsyncJsonRpcApiBase:
     """Base class for test generating async api."""
 
     @classmethod
@@ -18,7 +18,7 @@ class MockAsyncApiBase:
         return impl
 
 
-class MockSyncApiBase:
+class MockSyncJsonRpcApiBase:
     """Base class for test generating async api."""
 
     @classmethod
