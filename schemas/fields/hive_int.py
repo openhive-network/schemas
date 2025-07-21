@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Self, cast
+from typing import TYPE_CHECKING, Any
 
 import msgspec
 
@@ -24,12 +24,12 @@ class HiveIntFactory(InitValidator[int], int):
         return str(self)
 
     @classmethod
-    def validate(cls, value: Any) -> Self:
+    def validate(cls, value: Any) -> int:
         error_template = msgspec.ValidationError("The value could only be int or string that can be converted to int!")
         if not isinstance(value, (HiveIntFactory, str)) and type(value) is not int:
             raise error_template
         try:
-            return cast(Self, super().validate(int(value)))
+            return super().validate(int(value))
         except ValueError as error:
             raise error_template from error
 
