@@ -9,7 +9,7 @@ from schemas.fields.integers import Uint32t
 from schemas.fields.resolvables import AssetUnionAssetHiveAssetHbd
 from schemas.virtual_operation import VirtualOperation
 
-DEFAULT_ORDERID: Final[Uint32t] = Uint32t(0)
+DEFAULT_ORDERID: Final[Uint32t] = 0
 
 
 class LimitOrderCancelledOperation(VirtualOperation, kw_only=True):

@@ -7,7 +7,7 @@ from schemas.fields.basic import AccountName
 from schemas.fields.integers import Uint32t
 from schemas.operation import Operation
 
-DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
+DEFAULT_REQUEST_ID: Final[Uint32t] = 0
 
 
 class ConvertOperation(Operation, kw_only=True):

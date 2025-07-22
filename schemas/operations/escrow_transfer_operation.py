@@ -13,7 +13,7 @@ from schemas.fields.integers import Uint32t
 from schemas.fields.resolvables import AssetUnionAssetHiveAssetHbd
 from schemas.operation import Operation
 
-DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
+DEFAULT_ESCROW_ID: Final[Uint32t] = 30
 
 
 class EscrowTransferOperation(Operation, kw_only=True):

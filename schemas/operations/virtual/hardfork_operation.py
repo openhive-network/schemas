@@ -5,7 +5,7 @@ from typing import Final
 from schemas.fields.integers import Uint32t
 from schemas.virtual_operation import VirtualOperation
 
-DEFAULT_HARDFORK_ID: Final[Uint32t] = Uint32t(0)
+DEFAULT_HARDFORK_ID: Final[Uint32t] = 0
 
 
 class HardforkOperation(VirtualOperation):

@@ -11,7 +11,7 @@ from schemas.fields.basic import (
 from schemas.fields.integers import Uint32t
 from schemas.operation import Operation
 
-DEFAULT_ESCROW_ID: Final[Uint32t] = Uint32t(30)
+DEFAULT_ESCROW_ID: Final[Uint32t] = 30
 
 
 class EscrowReleaseOperation(Operation, kw_only=True):

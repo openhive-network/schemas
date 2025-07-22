@@ -20,12 +20,12 @@ DEFAULT_FILL_OR_KILL: Final[bool] = False
 class Pow2Input(PreconfiguredBaseModel):
     worker_account: AccountName
     prev_block: TransactionId
-    nonce: Uint64t = field(default_factory=lambda: Uint64t(0))
+    nonce: Uint64t = field(default_factory=lambda: 0)
 
 
 class Pow2(PreconfiguredBaseModel):
     input_: Pow2Input = field(name="input")
-    pow_summary: Uint32t = field(default_factory=lambda: Uint32t(0))
+    pow_summary: Uint32t = field(default_factory=lambda: 0)
 
 
 class EquihashPow(PreconfiguredBaseModel, kw_only=True):

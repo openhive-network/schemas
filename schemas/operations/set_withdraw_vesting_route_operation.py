@@ -6,7 +6,7 @@ from schemas.fields.basic import AccountName
 from schemas.fields.integers import Uint16t
 from schemas.operation import Operation
 
-DEFAULT_PERCENT: Final[Uint16t] = Uint16t(0)
+DEFAULT_PERCENT: Final[Uint16t] = 0
 DEFAULT_AUTO_VEST: Final[bool] = False
 
 
