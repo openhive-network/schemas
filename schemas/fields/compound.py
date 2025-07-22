@@ -49,8 +49,8 @@ class HbdExchangeRate(PreconfiguredBaseModel):
 
 class LegacyChainProperties(PreconfiguredBaseModel):
     account_creation_fee: AssetHive
-    maximum_block_size: Uint32t = Uint32t(HIVE_MAX_BLOCK_SIZE)
-    hbd_interest_rate: Uint16t = Uint16t(HIVE_HBD_INTEREST_RATE)
+    maximum_block_size: Uint32t = HIVE_MAX_BLOCK_SIZE
+    hbd_interest_rate: Uint16t = HIVE_HBD_INTEREST_RATE
 
 
 class Manabar(PreconfiguredBaseModel):

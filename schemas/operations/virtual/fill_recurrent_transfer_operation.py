@@ -11,7 +11,7 @@ from schemas.fields.integers import Uint16t
 from schemas.fields.resolvables import AssetUnionAssetHiveAssetHbd
 from schemas.virtual_operation import VirtualOperation
 
-DEFAULT_REMAINING_EXECUTIONS: Final[Uint16t] = Uint16t(0)
+DEFAULT_REMAINING_EXECUTIONS: Final[Uint16t] = 0
 
 
 class FillRecurrentTransferOperation(VirtualOperation, kw_only=True):

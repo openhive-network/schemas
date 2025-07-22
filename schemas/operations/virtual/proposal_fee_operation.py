@@ -7,7 +7,7 @@ from schemas.fields.basic import AccountName
 from schemas.fields.integers import Uint32t
 from schemas.virtual_operation import VirtualOperation
 
-DEFAULT_PROPOSAL_ID: Final[Uint32t] = Uint32t(0)
+DEFAULT_PROPOSAL_ID: Final[Uint32t] = 0
 
 
 class ProposalFeeOperation(VirtualOperation, kw_only=True):
