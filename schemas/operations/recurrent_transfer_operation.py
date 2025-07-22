@@ -11,8 +11,8 @@ from schemas.fields.integers import Uint16t
 from schemas.fields.resolvables import AssetUnionAssetHiveAssetHbd
 from schemas.operation import Operation
 
-DEFAULT_RECURRENCE: Final[Uint16t] = Uint16t(0)
-DEFAULT_EXECUTIONS: Final[Uint16t] = Uint16t(0)
+DEFAULT_RECURRENCE: Final[Uint16t] = 0
+DEFAULT_EXECUTIONS: Final[Uint16t] = 0
 
 
 class RecurrentTransferOperation(Operation, kw_only=True):

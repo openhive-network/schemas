@@ -6,7 +6,7 @@ from schemas.fields.basic import AccountName
 from schemas.fields.integers import Int16t
 from schemas.operation import Operation
 
-DEFAULT_WEIGHT: Final[Int16t] = Int16t(0)
+DEFAULT_WEIGHT: Final[Int16t] = 0
 
 
 class VoteOperation(Operation):

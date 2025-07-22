@@ -11,7 +11,7 @@ from schemas.fields.integers import Uint32t
 from schemas.fields.resolvables import AssetUnionAssetHiveAssetHbd
 from schemas.virtual_operation import VirtualOperation
 
-DEFAULT_REQUEST_ID: Final[Uint32t] = Uint32t(0)
+DEFAULT_REQUEST_ID: Final[Uint32t] = 0
 
 
 class EscrowApprovedOperation(VirtualOperation, kw_only=True):

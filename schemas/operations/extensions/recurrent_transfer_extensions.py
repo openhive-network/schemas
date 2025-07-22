@@ -3,7 +3,7 @@ from __future__ import annotations
 from schemas.fields.integers import Uint8t
 from schemas.operation import OperationExtension
 
-DEFAULT_PAIR_ID: Uint8t = Uint8t(0)
+DEFAULT_PAIR_ID: Uint8t = 0
 
 
 class RecurrentTransferPairId(OperationExtension):

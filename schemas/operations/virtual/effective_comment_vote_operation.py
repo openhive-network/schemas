@@ -9,9 +9,9 @@ from schemas.fields.basic import (
 from schemas.fields.integers import Int64t, Uint64t
 from schemas.virtual_operation import VirtualOperation
 
-DEFAULT_WEIGHT: Final[Uint64t] = Uint64t(0)
-DEFAULT_RSHARES: Final[Int64t] = Int64t(0)
-DEFAULT_TOTAL_VOTE_WEIGHT: Final[Uint64t] = Uint64t(0)
+DEFAULT_WEIGHT: Final[Uint64t] = 0
+DEFAULT_RSHARES: Final[Int64t] = 0
+DEFAULT_TOTAL_VOTE_WEIGHT: Final[Uint64t] = 0
 
 
 class EffectiveCommentVoteOperation(VirtualOperation, kw_only=True):

@@ -120,22 +120,22 @@ class RegularRcPayerStats(PreconfiguredBaseModel):
 class FullRcPayerStats(RegularRcPayerStats):
     cost: RcHiveIntTuple = field(
         default_factory=lambda: RcHiveIntTuple(
-            history_rc=HiveInt(0),
-            tokens_rc=HiveInt(0),
-            market_rc=HiveInt(0),
-            state_rc=HiveInt(0),
-            exec_rc=HiveInt(0),
+            history_rc=0,
+            tokens_rc=0,
+            market_rc=0,
+            state_rc=0,
+            exec_rc=0,
         )
     )
     """total costs of resources by payers"""
 
     usage: ResourceConsumptionHiveIntTuple = field(
         default_factory=lambda: ResourceConsumptionHiveIntTuple(
-            history_bytes=HiveInt(0),
-            tokens=HiveInt(0),
-            market_bytes=HiveInt(0),
-            state_hbytes=HiveInt(0),
-            exec_ns=HiveInt(0),
+            history_bytes=0,
+            tokens=0,
+            market_bytes=0,
+            state_hbytes=0,
+            exec_ns=0,
         )
     )
     """average usage of resources by payers"""
