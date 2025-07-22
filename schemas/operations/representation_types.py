@@ -63,9 +63,10 @@ from schemas.operations.witness_block_approve_operation import WitnessBlockAppro
 from schemas.operations.witness_set_properties_operation import WitnessSetPropertiesOperation
 from schemas.operations.witness_update_operation import WitnessUpdateOperation, WitnessUpdateOperationLegacy
 
+GenericOperationT = TypeVar("GenericOperationT", bound=OperationAndOperationExtensionBase)
 
-class HF26Representation(PreconfiguredBaseModel):
-    value: OperationAndOperationExtensionBase
+class HF26Representation(PreconfiguredBaseModel, Generic[GenericOperationT]):
+    value: GenericOperationT
 
     def shallow_dict(self) -> dict[str, Any]:
         return {"type":self.type_, "value": self.value}
@@ -82,11 +83,11 @@ class HF26Representation(PreconfiguredBaseModel):
     @overload
     def __getitem__(self, idx: Literal[0]) -> str: ...
     @overload
-    def __getitem__(self, idx: Literal[1]) -> OperationAndOperationExtensionBase: ...
+    def __getitem__(self, idx: Literal[1]) -> GenericOperationT: ...
     @overload
     def __getitem__(self, idx: str) -> Any: ...
 
-    def __getitem__(self, idx: Literal[0, 1] | str) -> str | OperationAndOperationExtensionBase | Any:
+    def __getitem__(self, idx: Literal[0, 1] | str) -> str | GenericOperationT | Any:
         if idx == 0:
             return self.type_
         if idx == 1:
@@ -94,8 +95,8 @@ class HF26Representation(PreconfiguredBaseModel):
         return super().__getitem__(idx)
 
 
-class LegacyRepresentation(PreconfiguredBaseModel):
-    value: OperationAndOperationExtensionBase
+class LegacyRepresentation(PreconfiguredBaseModel, Generic[GenericOperationT]):
+    value: GenericOperationT
 
     @property
     def type_(self) -> str:
@@ -104,9 +105,9 @@ class LegacyRepresentation(PreconfiguredBaseModel):
     @overload  # type: ignore [override]
     def __getitem__(self, idx: Literal[0]) -> str: ...
     @overload
-    def __getitem__(self, idx: Literal[1]) -> OperationAndOperationExtensionBase: ...
+    def __getitem__(self, idx: Literal[1]) -> GenericOperationT: ...
 
-    def __getitem__(self, idx: Literal[0, 1]) -> str | OperationAndOperationExtensionBase:
+    def __getitem__(self, idx: Literal[0, 1]) -> str | GenericOperationT:
         if idx == 0:
             return self.type_
         if idx == 1:
