@@ -4,7 +4,7 @@ from abc import abstractmethod
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
-__all__ = ["Operation", "OperationExtension"]
+__all__ = ["Operation", "OperationBase", "OperationExtension"]
 
 
 class OperationAndOperationExtensionBase(PreconfiguredBaseModel):
@@ -33,10 +33,14 @@ class OperationExtension(OperationAndOperationExtensionBase):
     """Base class for all operation extensions to provide valid json serialization"""
 
 
-class Operation(OperationAndOperationExtensionBase):
-    """Base class for all operations to provide valid json serialization"""
+class OperationBase(OperationAndOperationExtensionBase):
+    """Base class for all virtual and non virtual operations to provide valid json serialization"""
 
     @classmethod
     @abstractmethod
     def offset(cls) -> int:
         """Get the offset of the operation."""
+
+
+class Operation(OperationBase):
+    """Base class for all operations to provide valid json serialization"""

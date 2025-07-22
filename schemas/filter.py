@@ -53,8 +53,7 @@ def build_vop_filter(*vops: type[VirtualOperation]) -> int:
     Learn more: https://developers.hive.io/apidefinitions/#account_history_api.enum_virtual_ops
     """
 
-    def vop_offset(vop: type[Operation]) -> int:
-        assert issubclass(vop, VirtualOperation)
+    def vop_offset(vop: type[VirtualOperation]) -> int:
         return vop.vop_offset()
 
     return _build_any_filter(vop_offset, *vops)

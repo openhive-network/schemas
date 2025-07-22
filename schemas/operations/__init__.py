@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import overload
+
 from schemas.operation import Operation
 from schemas.operations.account_create_operation import (
     AccountCreateOperation,
@@ -201,6 +203,7 @@ from schemas.operations.witness_set_properties_operation import WitnessSetProper
 from schemas.operations.witness_update_operation import (
     WitnessUpdateOperation,
 )
+from schemas.virtual_operation import VirtualOperation
 
 __all__ = [
     # ANY OPERATION BY TYPE
@@ -612,13 +615,19 @@ LegacyRepresentationAndValuePairs = (
 HF26RepresentationAndValuePairs = HF26RepresentationAndValuePairsNonVirtual | HF26RepresentationAndValuePairsVirtual
 
 
-def convert_to_representation(operation: Operation) -> AnyHf26Operation:
-    return HF26RepresentationAndValuePairs[type(operation)](value=operation)  # type: ignore[arg-type]
+@overload
+def convert_to_representation(op: VirtualOperation) -> Hf26VirtualOperationRepresentation: ...
 
 
-def convert_to_representation_non_virtual(operation: Operation) -> Hf26OperationRepresentation:
-    return HF26RepresentationAndValuePairsNonVirtual[type(operation)](value=operation)  # type: ignore[arg-type]
+@overload
+def convert_to_representation(op: Operation) -> Hf26OperationRepresentation: ...
 
 
-def convert_to_representation_legacy(operation: Operation) -> AnyLegacyOperation:
+def convert_to_representation(
+    op: Operation | VirtualOperation,
+) -> Hf26OperationRepresentation | Hf26VirtualOperationRepresentation:
+    return HF26RepresentationAndValuePairs[type(op)](value=op)  # type: ignore[index, arg-type]
+
+
+def convert_to_representation_legacy(operation: Operation) -> AnyLegacyOperationRepresentation:
     return LegacyRepresentationAndValuePairs[type(operation)](value=operation)  # type: ignore[arg-type]
