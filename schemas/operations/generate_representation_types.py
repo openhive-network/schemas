@@ -23,7 +23,7 @@ def ignore_liners_and_add_automation_generation_information(code: str) -> str:
 
 def collect_and_write_api_imports(code: str) -> str:
     code += "from __future__ import annotations\n\n"
-    code += "from typing import Any, Literal, overload\n\n"
+    code += "from typing import Any, Generic, Literal, TypeVar, overload\n\n"
     code += "from schemas._preconfigured_base_model import DictStrAny, PreconfiguredBaseModel\n"
     code += "from schemas.operation import Representible, OperationBase\n"
 
@@ -36,8 +36,10 @@ def collect_and_write_api_imports(code: str) -> str:
 
 
 def write_hf26representation_and_legacy_representation(code: str) -> str:
-    code += """class HF26Representation(PreconfiguredBaseModel):
-    value: Representible
+    code += """GenericRepresentibleT = TypeVar("GenericRepresentibleT", bound=Representible)
+
+class HF26Representation(PreconfiguredBaseModel, Generic[GenericRepresentibleT]):
+    value: GenericRepresentibleT
 
     def shallow_dict(self) -> dict[str, Any]:
         return {"type":self.type_, "value": self.value}
@@ -56,11 +58,11 @@ def write_hf26representation_and_legacy_representation(code: str) -> str:
     @overload
     def __getitem__(self, idx: Literal[0]) -> str: ...
     @overload
-    def __getitem__(self, idx: Literal[1]) -> Representible: ...
+    def __getitem__(self, idx: Literal[1]) -> GenericRepresentibleT: ...
     @overload
     def __getitem__(self, idx: str) -> Any: ...
 
-    def __getitem__(self, idx: Literal[0, 1] | str) -> str | Representible | Any:
+    def __getitem__(self, idx: Literal[0, 1] | str) -> str | GenericRepresentibleT | Any:
         if idx == 0:
             return self.type_
         if idx == 1:
@@ -68,8 +70,8 @@ def write_hf26representation_and_legacy_representation(code: str) -> str:
         return super().__getitem__(idx)
 
 
-class LegacyRepresentation(PreconfiguredBaseModel):
-    value: Representible
+class LegacyRepresentation(PreconfiguredBaseModel, Generic[GenericRepresentibleT]):
+    value: GenericRepresentibleT
 
     @property
     def type_(self) -> str:
@@ -78,9 +80,9 @@ class LegacyRepresentation(PreconfiguredBaseModel):
     @overload  # type: ignore [override]
     def __getitem__(self, idx: Literal[0]) -> str: ...
     @overload
-    def __getitem__(self, idx: Literal[1]) -> Representible: ...
+    def __getitem__(self, idx: Literal[1]) -> GenericRepresentibleT: ...
 
-    def __getitem__(self, idx: Literal[0, 1]) -> str | Representible:
+    def __getitem__(self, idx: Literal[0, 1]) -> str | GenericRepresentibleT:
         if idx == 0:
             return self.type_
         if idx == 1:
