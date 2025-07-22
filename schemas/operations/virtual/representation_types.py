@@ -56,345 +56,345 @@ from schemas.operations.virtual.transfer_to_vesting_completed_operation import T
 from schemas.operations.virtual.vesting_shares_split_operation import VestingSharesSplitOperation
 
 
-class HF26RepresentationAccountCreatedOperation(HF26Representation, tag=AccountCreatedOperation.get_name_with_suffix()):
+class HF26RepresentationAccountCreatedOperation(HF26Representation[AccountCreatedOperation], tag=AccountCreatedOperation.get_name_with_suffix()):
             value: AccountCreatedOperation
 
 
-class LegacyRepresentationAccountCreatedOperation(LegacyRepresentation, tag=AccountCreatedOperation.get_name(), array_like=True):
+class LegacyRepresentationAccountCreatedOperation(LegacyRepresentation[AccountCreatedOperation], tag=AccountCreatedOperation.get_name(), array_like=True):
             value: AccountCreatedOperation
 
 
-class HF26RepresentationAuthorRewardOperation(HF26Representation, tag=AuthorRewardOperation.get_name_with_suffix()):
+class HF26RepresentationAuthorRewardOperation(HF26Representation[AuthorRewardOperation], tag=AuthorRewardOperation.get_name_with_suffix()):
             value: AuthorRewardOperation
 
 
-class LegacyRepresentationAuthorRewardOperation(LegacyRepresentation, tag=AuthorRewardOperation.get_name(), array_like=True):
+class LegacyRepresentationAuthorRewardOperation(LegacyRepresentation[AuthorRewardOperation], tag=AuthorRewardOperation.get_name(), array_like=True):
             value: AuthorRewardOperation
 
 
-class HF26RepresentationChangedRecoveryAccountOperation(HF26Representation, tag=ChangedRecoveryAccountOperation.get_name_with_suffix()):
+class HF26RepresentationChangedRecoveryAccountOperation(HF26Representation[ChangedRecoveryAccountOperation], tag=ChangedRecoveryAccountOperation.get_name_with_suffix()):
             value: ChangedRecoveryAccountOperation
 
 
-class LegacyRepresentationChangedRecoveryAccountOperation(LegacyRepresentation, tag=ChangedRecoveryAccountOperation.get_name(), array_like=True):
+class LegacyRepresentationChangedRecoveryAccountOperation(LegacyRepresentation[ChangedRecoveryAccountOperation], tag=ChangedRecoveryAccountOperation.get_name(), array_like=True):
             value: ChangedRecoveryAccountOperation
 
 
-class HF26RepresentationClearNullAccountBalanceOperation(HF26Representation, tag=ClearNullAccountBalanceOperation.get_name_with_suffix()):
+class HF26RepresentationClearNullAccountBalanceOperation(HF26Representation[ClearNullAccountBalanceOperation], tag=ClearNullAccountBalanceOperation.get_name_with_suffix()):
             value: ClearNullAccountBalanceOperation
 
 
-class LegacyRepresentationClearNullAccountBalanceOperation(LegacyRepresentation, tag=ClearNullAccountBalanceOperation.get_name(), array_like=True):
+class LegacyRepresentationClearNullAccountBalanceOperation(LegacyRepresentation[ClearNullAccountBalanceOperation], tag=ClearNullAccountBalanceOperation.get_name(), array_like=True):
             value: ClearNullAccountBalanceOperation
 
 
-class HF26RepresentationCollateralizedConvertImmediateConversionOperation(HF26Representation, tag=CollateralizedConvertImmediateConversionOperation.get_name_with_suffix()):
+class HF26RepresentationCollateralizedConvertImmediateConversionOperation(HF26Representation[CollateralizedConvertImmediateConversionOperation], tag=CollateralizedConvertImmediateConversionOperation.get_name_with_suffix()):
             value: CollateralizedConvertImmediateConversionOperation
 
 
-class LegacyRepresentationCollateralizedConvertImmediateConversionOperation(LegacyRepresentation, tag=CollateralizedConvertImmediateConversionOperation.get_name(), array_like=True):
+class LegacyRepresentationCollateralizedConvertImmediateConversionOperation(LegacyRepresentation[CollateralizedConvertImmediateConversionOperation], tag=CollateralizedConvertImmediateConversionOperation.get_name(), array_like=True):
             value: CollateralizedConvertImmediateConversionOperation
 
 
-class HF26RepresentationCommentBenefactorRewardOperation(HF26Representation, tag=CommentBenefactorRewardOperation.get_name_with_suffix()):
+class HF26RepresentationCommentBenefactorRewardOperation(HF26Representation[CommentBenefactorRewardOperation], tag=CommentBenefactorRewardOperation.get_name_with_suffix()):
             value: CommentBenefactorRewardOperation
 
 
-class LegacyRepresentationCommentBenefactorRewardOperation(LegacyRepresentation, tag=CommentBenefactorRewardOperation.get_name(), array_like=True):
+class LegacyRepresentationCommentBenefactorRewardOperation(LegacyRepresentation[CommentBenefactorRewardOperation], tag=CommentBenefactorRewardOperation.get_name(), array_like=True):
             value: CommentBenefactorRewardOperation
 
 
-class HF26RepresentationCommentPayoutUpdateOperation(HF26Representation, tag=CommentPayoutUpdateOperation.get_name_with_suffix()):
+class HF26RepresentationCommentPayoutUpdateOperation(HF26Representation[CommentPayoutUpdateOperation], tag=CommentPayoutUpdateOperation.get_name_with_suffix()):
             value: CommentPayoutUpdateOperation
 
 
-class LegacyRepresentationCommentPayoutUpdateOperation(LegacyRepresentation, tag=CommentPayoutUpdateOperation.get_name(), array_like=True):
+class LegacyRepresentationCommentPayoutUpdateOperation(LegacyRepresentation[CommentPayoutUpdateOperation], tag=CommentPayoutUpdateOperation.get_name(), array_like=True):
             value: CommentPayoutUpdateOperation
 
 
-class HF26RepresentationCommentRewardOperation(HF26Representation, tag=CommentRewardOperation.get_name_with_suffix()):
+class HF26RepresentationCommentRewardOperation(HF26Representation[CommentRewardOperation], tag=CommentRewardOperation.get_name_with_suffix()):
             value: CommentRewardOperation
 
 
-class LegacyRepresentationCommentRewardOperation(LegacyRepresentation, tag=CommentRewardOperation.get_name(), array_like=True):
+class LegacyRepresentationCommentRewardOperation(LegacyRepresentation[CommentRewardOperation], tag=CommentRewardOperation.get_name(), array_like=True):
             value: CommentRewardOperation
 
 
-class HF26RepresentationConsolidateTreasuryBalanceOperation(HF26Representation, tag=ConsolidateTreasuryBalanceOperation.get_name_with_suffix()):
+class HF26RepresentationConsolidateTreasuryBalanceOperation(HF26Representation[ConsolidateTreasuryBalanceOperation], tag=ConsolidateTreasuryBalanceOperation.get_name_with_suffix()):
             value: ConsolidateTreasuryBalanceOperation
 
 
-class LegacyRepresentationConsolidateTreasuryBalanceOperation(LegacyRepresentation, tag=ConsolidateTreasuryBalanceOperation.get_name(), array_like=True):
+class LegacyRepresentationConsolidateTreasuryBalanceOperation(LegacyRepresentation[ConsolidateTreasuryBalanceOperation], tag=ConsolidateTreasuryBalanceOperation.get_name(), array_like=True):
             value: ConsolidateTreasuryBalanceOperation
 
 
-class HF26RepresentationCurationRewardOperation(HF26Representation, tag=CurationRewardOperation.get_name_with_suffix()):
+class HF26RepresentationCurationRewardOperation(HF26Representation[CurationRewardOperation], tag=CurationRewardOperation.get_name_with_suffix()):
             value: CurationRewardOperation
 
 
-class LegacyRepresentationCurationRewardOperation(LegacyRepresentation, tag=CurationRewardOperation.get_name(), array_like=True):
+class LegacyRepresentationCurationRewardOperation(LegacyRepresentation[CurationRewardOperation], tag=CurationRewardOperation.get_name(), array_like=True):
             value: CurationRewardOperation
 
 
-class HF26RepresentationDeclinedVotingRightsOperation(HF26Representation, tag=DeclinedVotingRightsOperation.get_name_with_suffix()):
+class HF26RepresentationDeclinedVotingRightsOperation(HF26Representation[DeclinedVotingRightsOperation], tag=DeclinedVotingRightsOperation.get_name_with_suffix()):
             value: DeclinedVotingRightsOperation
 
 
-class LegacyRepresentationDeclinedVotingRightsOperation(LegacyRepresentation, tag=DeclinedVotingRightsOperation.get_name(), array_like=True):
+class LegacyRepresentationDeclinedVotingRightsOperation(LegacyRepresentation[DeclinedVotingRightsOperation], tag=DeclinedVotingRightsOperation.get_name(), array_like=True):
             value: DeclinedVotingRightsOperation
 
 
-class HF26RepresentationDelayedVotingOperation(HF26Representation, tag=DelayedVotingOperation.get_name_with_suffix()):
+class HF26RepresentationDelayedVotingOperation(HF26Representation[DelayedVotingOperation], tag=DelayedVotingOperation.get_name_with_suffix()):
             value: DelayedVotingOperation
 
 
-class LegacyRepresentationDelayedVotingOperation(LegacyRepresentation, tag=DelayedVotingOperation.get_name(), array_like=True):
+class LegacyRepresentationDelayedVotingOperation(LegacyRepresentation[DelayedVotingOperation], tag=DelayedVotingOperation.get_name(), array_like=True):
             value: DelayedVotingOperation
 
 
-class HF26RepresentationDhfConversionOperation(HF26Representation, tag=DhfConversionOperation.get_name_with_suffix()):
+class HF26RepresentationDhfConversionOperation(HF26Representation[DhfConversionOperation], tag=DhfConversionOperation.get_name_with_suffix()):
             value: DhfConversionOperation
 
 
-class LegacyRepresentationDhfConversionOperation(LegacyRepresentation, tag=DhfConversionOperation.get_name(), array_like=True):
+class LegacyRepresentationDhfConversionOperation(LegacyRepresentation[DhfConversionOperation], tag=DhfConversionOperation.get_name(), array_like=True):
             value: DhfConversionOperation
 
 
-class HF26RepresentationDhfFundingOperation(HF26Representation, tag=DhfFundingOperation.get_name_with_suffix()):
+class HF26RepresentationDhfFundingOperation(HF26Representation[DhfFundingOperation], tag=DhfFundingOperation.get_name_with_suffix()):
             value: DhfFundingOperation
 
 
-class LegacyRepresentationDhfFundingOperation(LegacyRepresentation, tag=DhfFundingOperation.get_name(), array_like=True):
+class LegacyRepresentationDhfFundingOperation(LegacyRepresentation[DhfFundingOperation], tag=DhfFundingOperation.get_name(), array_like=True):
             value: DhfFundingOperation
 
 
-class HF26RepresentationEffectiveCommentVoteOperation(HF26Representation, tag=EffectiveCommentVoteOperation.get_name_with_suffix()):
+class HF26RepresentationEffectiveCommentVoteOperation(HF26Representation[EffectiveCommentVoteOperation], tag=EffectiveCommentVoteOperation.get_name_with_suffix()):
             value: EffectiveCommentVoteOperation
 
 
-class LegacyRepresentationEffectiveCommentVoteOperation(LegacyRepresentation, tag=EffectiveCommentVoteOperation.get_name(), array_like=True):
+class LegacyRepresentationEffectiveCommentVoteOperation(LegacyRepresentation[EffectiveCommentVoteOperation], tag=EffectiveCommentVoteOperation.get_name(), array_like=True):
             value: EffectiveCommentVoteOperation
 
 
-class HF26RepresentationEscrowApprovedOperation(HF26Representation, tag=EscrowApprovedOperation.get_name_with_suffix()):
+class HF26RepresentationEscrowApprovedOperation(HF26Representation[EscrowApprovedOperation], tag=EscrowApprovedOperation.get_name_with_suffix()):
             value: EscrowApprovedOperation
 
 
-class LegacyRepresentationEscrowApprovedOperation(LegacyRepresentation, tag=EscrowApprovedOperation.get_name(), array_like=True):
+class LegacyRepresentationEscrowApprovedOperation(LegacyRepresentation[EscrowApprovedOperation], tag=EscrowApprovedOperation.get_name(), array_like=True):
             value: EscrowApprovedOperation
 
 
-class HF26RepresentationEscrowRejectedOperation(HF26Representation, tag=EscrowRejectedOperation.get_name_with_suffix()):
+class HF26RepresentationEscrowRejectedOperation(HF26Representation[EscrowRejectedOperation], tag=EscrowRejectedOperation.get_name_with_suffix()):
             value: EscrowRejectedOperation
 
 
-class LegacyRepresentationEscrowRejectedOperation(LegacyRepresentation, tag=EscrowRejectedOperation.get_name(), array_like=True):
+class LegacyRepresentationEscrowRejectedOperation(LegacyRepresentation[EscrowRejectedOperation], tag=EscrowRejectedOperation.get_name(), array_like=True):
             value: EscrowRejectedOperation
 
 
-class HF26RepresentationExpiredAccountNotificationOperation(HF26Representation, tag=ExpiredAccountNotificationOperation.get_name_with_suffix()):
+class HF26RepresentationExpiredAccountNotificationOperation(HF26Representation[ExpiredAccountNotificationOperation], tag=ExpiredAccountNotificationOperation.get_name_with_suffix()):
             value: ExpiredAccountNotificationOperation
 
 
-class LegacyRepresentationExpiredAccountNotificationOperation(LegacyRepresentation, tag=ExpiredAccountNotificationOperation.get_name(), array_like=True):
+class LegacyRepresentationExpiredAccountNotificationOperation(LegacyRepresentation[ExpiredAccountNotificationOperation], tag=ExpiredAccountNotificationOperation.get_name(), array_like=True):
             value: ExpiredAccountNotificationOperation
 
 
-class HF26RepresentationFailedRecurrentTransferOperation(HF26Representation, tag=FailedRecurrentTransferOperation.get_name_with_suffix()):
+class HF26RepresentationFailedRecurrentTransferOperation(HF26Representation[FailedRecurrentTransferOperation], tag=FailedRecurrentTransferOperation.get_name_with_suffix()):
             value: FailedRecurrentTransferOperation
 
 
-class LegacyRepresentationFailedRecurrentTransferOperation(LegacyRepresentation, tag=FailedRecurrentTransferOperation.get_name(), array_like=True):
+class LegacyRepresentationFailedRecurrentTransferOperation(LegacyRepresentation[FailedRecurrentTransferOperation], tag=FailedRecurrentTransferOperation.get_name(), array_like=True):
             value: FailedRecurrentTransferOperation
 
 
-class HF26RepresentationFillCollateralizedConvertRequestOperation(HF26Representation, tag=FillCollateralizedConvertRequestOperation.get_name_with_suffix()):
+class HF26RepresentationFillCollateralizedConvertRequestOperation(HF26Representation[FillCollateralizedConvertRequestOperation], tag=FillCollateralizedConvertRequestOperation.get_name_with_suffix()):
             value: FillCollateralizedConvertRequestOperation
 
 
-class LegacyRepresentationFillCollateralizedConvertRequestOperation(LegacyRepresentation, tag=FillCollateralizedConvertRequestOperation.get_name(), array_like=True):
+class LegacyRepresentationFillCollateralizedConvertRequestOperation(LegacyRepresentation[FillCollateralizedConvertRequestOperation], tag=FillCollateralizedConvertRequestOperation.get_name(), array_like=True):
             value: FillCollateralizedConvertRequestOperation
 
 
-class HF26RepresentationFillConvertRequestOperation(HF26Representation, tag=FillConvertRequestOperation.get_name_with_suffix()):
+class HF26RepresentationFillConvertRequestOperation(HF26Representation[FillConvertRequestOperation], tag=FillConvertRequestOperation.get_name_with_suffix()):
             value: FillConvertRequestOperation
 
 
-class LegacyRepresentationFillConvertRequestOperation(LegacyRepresentation, tag=FillConvertRequestOperation.get_name(), array_like=True):
+class LegacyRepresentationFillConvertRequestOperation(LegacyRepresentation[FillConvertRequestOperation], tag=FillConvertRequestOperation.get_name(), array_like=True):
             value: FillConvertRequestOperation
 
 
-class HF26RepresentationFillOrderOperation(HF26Representation, tag=FillOrderOperation.get_name_with_suffix()):
+class HF26RepresentationFillOrderOperation(HF26Representation[FillOrderOperation], tag=FillOrderOperation.get_name_with_suffix()):
             value: FillOrderOperation
 
 
-class LegacyRepresentationFillOrderOperation(LegacyRepresentation, tag=FillOrderOperation.get_name(), array_like=True):
+class LegacyRepresentationFillOrderOperation(LegacyRepresentation[FillOrderOperation], tag=FillOrderOperation.get_name(), array_like=True):
             value: FillOrderOperation
 
 
-class HF26RepresentationFillRecurrentTransferOperation(HF26Representation, tag=FillRecurrentTransferOperation.get_name_with_suffix()):
+class HF26RepresentationFillRecurrentTransferOperation(HF26Representation[FillRecurrentTransferOperation], tag=FillRecurrentTransferOperation.get_name_with_suffix()):
             value: FillRecurrentTransferOperation
 
 
-class LegacyRepresentationFillRecurrentTransferOperation(LegacyRepresentation, tag=FillRecurrentTransferOperation.get_name(), array_like=True):
+class LegacyRepresentationFillRecurrentTransferOperation(LegacyRepresentation[FillRecurrentTransferOperation], tag=FillRecurrentTransferOperation.get_name(), array_like=True):
             value: FillRecurrentTransferOperation
 
 
-class HF26RepresentationFillTransferFromSavingsOperation(HF26Representation, tag=FillTransferFromSavingsOperation.get_name_with_suffix()):
+class HF26RepresentationFillTransferFromSavingsOperation(HF26Representation[FillTransferFromSavingsOperation], tag=FillTransferFromSavingsOperation.get_name_with_suffix()):
             value: FillTransferFromSavingsOperation
 
 
-class LegacyRepresentationFillTransferFromSavingsOperation(LegacyRepresentation, tag=FillTransferFromSavingsOperation.get_name(), array_like=True):
+class LegacyRepresentationFillTransferFromSavingsOperation(LegacyRepresentation[FillTransferFromSavingsOperation], tag=FillTransferFromSavingsOperation.get_name(), array_like=True):
             value: FillTransferFromSavingsOperation
 
 
-class HF26RepresentationFillVestingWithdrawOperation(HF26Representation, tag=FillVestingWithdrawOperation.get_name_with_suffix()):
+class HF26RepresentationFillVestingWithdrawOperation(HF26Representation[FillVestingWithdrawOperation], tag=FillVestingWithdrawOperation.get_name_with_suffix()):
             value: FillVestingWithdrawOperation
 
 
-class LegacyRepresentationFillVestingWithdrawOperation(LegacyRepresentation, tag=FillVestingWithdrawOperation.get_name(), array_like=True):
+class LegacyRepresentationFillVestingWithdrawOperation(LegacyRepresentation[FillVestingWithdrawOperation], tag=FillVestingWithdrawOperation.get_name(), array_like=True):
             value: FillVestingWithdrawOperation
 
 
-class HF26RepresentationHardforkHiveOperation(HF26Representation, tag=HardforkHiveOperation.get_name_with_suffix()):
+class HF26RepresentationHardforkHiveOperation(HF26Representation[HardforkHiveOperation], tag=HardforkHiveOperation.get_name_with_suffix()):
             value: HardforkHiveOperation
 
 
-class LegacyRepresentationHardforkHiveOperation(LegacyRepresentation, tag=HardforkHiveOperation.get_name(), array_like=True):
+class LegacyRepresentationHardforkHiveOperation(LegacyRepresentation[HardforkHiveOperation], tag=HardforkHiveOperation.get_name(), array_like=True):
             value: HardforkHiveOperation
 
 
-class HF26RepresentationHardforkHiveRestoreOperation(HF26Representation, tag=HardforkHiveRestoreOperation.get_name_with_suffix()):
+class HF26RepresentationHardforkHiveRestoreOperation(HF26Representation[HardforkHiveRestoreOperation], tag=HardforkHiveRestoreOperation.get_name_with_suffix()):
             value: HardforkHiveRestoreOperation
 
 
-class LegacyRepresentationHardforkHiveRestoreOperation(LegacyRepresentation, tag=HardforkHiveRestoreOperation.get_name(), array_like=True):
+class LegacyRepresentationHardforkHiveRestoreOperation(LegacyRepresentation[HardforkHiveRestoreOperation], tag=HardforkHiveRestoreOperation.get_name(), array_like=True):
             value: HardforkHiveRestoreOperation
 
 
-class HF26RepresentationHardforkOperation(HF26Representation, tag=HardforkOperation.get_name_with_suffix()):
+class HF26RepresentationHardforkOperation(HF26Representation[HardforkOperation], tag=HardforkOperation.get_name_with_suffix()):
             value: HardforkOperation
 
 
-class LegacyRepresentationHardforkOperation(LegacyRepresentation, tag=HardforkOperation.get_name(), array_like=True):
+class LegacyRepresentationHardforkOperation(LegacyRepresentation[HardforkOperation], tag=HardforkOperation.get_name(), array_like=True):
             value: HardforkOperation
 
 
-class HF26RepresentationIneffectiveDeleteCommentOperation(HF26Representation, tag=IneffectiveDeleteCommentOperation.get_name_with_suffix()):
+class HF26RepresentationIneffectiveDeleteCommentOperation(HF26Representation[IneffectiveDeleteCommentOperation], tag=IneffectiveDeleteCommentOperation.get_name_with_suffix()):
             value: IneffectiveDeleteCommentOperation
 
 
-class LegacyRepresentationIneffectiveDeleteCommentOperation(LegacyRepresentation, tag=IneffectiveDeleteCommentOperation.get_name(), array_like=True):
+class LegacyRepresentationIneffectiveDeleteCommentOperation(LegacyRepresentation[IneffectiveDeleteCommentOperation], tag=IneffectiveDeleteCommentOperation.get_name(), array_like=True):
             value: IneffectiveDeleteCommentOperation
 
 
-class HF26RepresentationInterestOperation(HF26Representation, tag=InterestOperation.get_name_with_suffix()):
+class HF26RepresentationInterestOperation(HF26Representation[InterestOperation], tag=InterestOperation.get_name_with_suffix()):
             value: InterestOperation
 
 
-class LegacyRepresentationInterestOperation(LegacyRepresentation, tag=InterestOperation.get_name(), array_like=True):
+class LegacyRepresentationInterestOperation(LegacyRepresentation[InterestOperation], tag=InterestOperation.get_name(), array_like=True):
             value: InterestOperation
 
 
-class HF26RepresentationLimitOrderCancelledOperation(HF26Representation, tag=LimitOrderCancelledOperation.get_name_with_suffix()):
+class HF26RepresentationLimitOrderCancelledOperation(HF26Representation[LimitOrderCancelledOperation], tag=LimitOrderCancelledOperation.get_name_with_suffix()):
             value: LimitOrderCancelledOperation
 
 
-class LegacyRepresentationLimitOrderCancelledOperation(LegacyRepresentation, tag=LimitOrderCancelledOperation.get_name(), array_like=True):
+class LegacyRepresentationLimitOrderCancelledOperation(LegacyRepresentation[LimitOrderCancelledOperation], tag=LimitOrderCancelledOperation.get_name(), array_like=True):
             value: LimitOrderCancelledOperation
 
 
-class HF26RepresentationLiquidityRewardOperation(HF26Representation, tag=LiquidityRewardOperation.get_name_with_suffix()):
+class HF26RepresentationLiquidityRewardOperation(HF26Representation[LiquidityRewardOperation], tag=LiquidityRewardOperation.get_name_with_suffix()):
             value: LiquidityRewardOperation
 
 
-class LegacyRepresentationLiquidityRewardOperation(LegacyRepresentation, tag=LiquidityRewardOperation.get_name(), array_like=True):
+class LegacyRepresentationLiquidityRewardOperation(LegacyRepresentation[LiquidityRewardOperation], tag=LiquidityRewardOperation.get_name(), array_like=True):
             value: LiquidityRewardOperation
 
 
-class HF26RepresentationPowRewardOperation(HF26Representation, tag=PowRewardOperation.get_name_with_suffix()):
+class HF26RepresentationPowRewardOperation(HF26Representation[PowRewardOperation], tag=PowRewardOperation.get_name_with_suffix()):
             value: PowRewardOperation
 
 
-class LegacyRepresentationPowRewardOperation(LegacyRepresentation, tag=PowRewardOperation.get_name(), array_like=True):
+class LegacyRepresentationPowRewardOperation(LegacyRepresentation[PowRewardOperation], tag=PowRewardOperation.get_name(), array_like=True):
             value: PowRewardOperation
 
 
-class HF26RepresentationProducerMissedOperation(HF26Representation, tag=ProducerMissedOperation.get_name_with_suffix()):
+class HF26RepresentationProducerMissedOperation(HF26Representation[ProducerMissedOperation], tag=ProducerMissedOperation.get_name_with_suffix()):
             value: ProducerMissedOperation
 
 
-class LegacyRepresentationProducerMissedOperation(LegacyRepresentation, tag=ProducerMissedOperation.get_name(), array_like=True):
+class LegacyRepresentationProducerMissedOperation(LegacyRepresentation[ProducerMissedOperation], tag=ProducerMissedOperation.get_name(), array_like=True):
             value: ProducerMissedOperation
 
 
-class HF26RepresentationProducerRewardOperation(HF26Representation, tag=ProducerRewardOperation.get_name_with_suffix()):
+class HF26RepresentationProducerRewardOperation(HF26Representation[ProducerRewardOperation], tag=ProducerRewardOperation.get_name_with_suffix()):
             value: ProducerRewardOperation
 
 
-class LegacyRepresentationProducerRewardOperation(LegacyRepresentation, tag=ProducerRewardOperation.get_name(), array_like=True):
+class LegacyRepresentationProducerRewardOperation(LegacyRepresentation[ProducerRewardOperation], tag=ProducerRewardOperation.get_name(), array_like=True):
             value: ProducerRewardOperation
 
 
-class HF26RepresentationProposalFeeOperation(HF26Representation, tag=ProposalFeeOperation.get_name_with_suffix()):
+class HF26RepresentationProposalFeeOperation(HF26Representation[ProposalFeeOperation], tag=ProposalFeeOperation.get_name_with_suffix()):
             value: ProposalFeeOperation
 
 
-class LegacyRepresentationProposalFeeOperation(LegacyRepresentation, tag=ProposalFeeOperation.get_name(), array_like=True):
+class LegacyRepresentationProposalFeeOperation(LegacyRepresentation[ProposalFeeOperation], tag=ProposalFeeOperation.get_name(), array_like=True):
             value: ProposalFeeOperation
 
 
-class HF26RepresentationProposalPayOperation(HF26Representation, tag=ProposalPayOperation.get_name_with_suffix()):
+class HF26RepresentationProposalPayOperation(HF26Representation[ProposalPayOperation], tag=ProposalPayOperation.get_name_with_suffix()):
             value: ProposalPayOperation
 
 
-class LegacyRepresentationProposalPayOperation(LegacyRepresentation, tag=ProposalPayOperation.get_name(), array_like=True):
+class LegacyRepresentationProposalPayOperation(LegacyRepresentation[ProposalPayOperation], tag=ProposalPayOperation.get_name(), array_like=True):
             value: ProposalPayOperation
 
 
-class HF26RepresentationProxyClearedOperation(HF26Representation, tag=ProxyClearedOperation.get_name_with_suffix()):
+class HF26RepresentationProxyClearedOperation(HF26Representation[ProxyClearedOperation], tag=ProxyClearedOperation.get_name_with_suffix()):
             value: ProxyClearedOperation
 
 
-class LegacyRepresentationProxyClearedOperation(LegacyRepresentation, tag=ProxyClearedOperation.get_name(), array_like=True):
+class LegacyRepresentationProxyClearedOperation(LegacyRepresentation[ProxyClearedOperation], tag=ProxyClearedOperation.get_name(), array_like=True):
             value: ProxyClearedOperation
 
 
-class HF26RepresentationReturnVestingDelegationOperation(HF26Representation, tag=ReturnVestingDelegationOperation.get_name_with_suffix()):
+class HF26RepresentationReturnVestingDelegationOperation(HF26Representation[ReturnVestingDelegationOperation], tag=ReturnVestingDelegationOperation.get_name_with_suffix()):
             value: ReturnVestingDelegationOperation
 
 
-class LegacyRepresentationReturnVestingDelegationOperation(LegacyRepresentation, tag=ReturnVestingDelegationOperation.get_name(), array_like=True):
+class LegacyRepresentationReturnVestingDelegationOperation(LegacyRepresentation[ReturnVestingDelegationOperation], tag=ReturnVestingDelegationOperation.get_name(), array_like=True):
             value: ReturnVestingDelegationOperation
 
 
-class HF26RepresentationShutDownWitnessOperation(HF26Representation, tag=ShutDownWitnessOperation.get_name_with_suffix()):
+class HF26RepresentationShutDownWitnessOperation(HF26Representation[ShutDownWitnessOperation], tag=ShutDownWitnessOperation.get_name_with_suffix()):
             value: ShutDownWitnessOperation
 
 
-class LegacyRepresentationShutDownWitnessOperation(LegacyRepresentation, tag=ShutDownWitnessOperation.get_name(), array_like=True):
+class LegacyRepresentationShutDownWitnessOperation(LegacyRepresentation[ShutDownWitnessOperation], tag=ShutDownWitnessOperation.get_name(), array_like=True):
             value: ShutDownWitnessOperation
 
 
-class HF26RepresentationSystemWarningOperation(HF26Representation, tag=SystemWarningOperation.get_name_with_suffix()):
+class HF26RepresentationSystemWarningOperation(HF26Representation[SystemWarningOperation], tag=SystemWarningOperation.get_name_with_suffix()):
             value: SystemWarningOperation
 
 
-class LegacyRepresentationSystemWarningOperation(LegacyRepresentation, tag=SystemWarningOperation.get_name(), array_like=True):
+class LegacyRepresentationSystemWarningOperation(LegacyRepresentation[SystemWarningOperation], tag=SystemWarningOperation.get_name(), array_like=True):
             value: SystemWarningOperation
 
 
-class HF26RepresentationTransferToVestingCompletedOperation(HF26Representation, tag=TransferToVestingCompletedOperation.get_name_with_suffix()):
+class HF26RepresentationTransferToVestingCompletedOperation(HF26Representation[TransferToVestingCompletedOperation], tag=TransferToVestingCompletedOperation.get_name_with_suffix()):
             value: TransferToVestingCompletedOperation
 
 
-class LegacyRepresentationTransferToVestingCompletedOperation(LegacyRepresentation, tag=TransferToVestingCompletedOperation.get_name(), array_like=True):
+class LegacyRepresentationTransferToVestingCompletedOperation(LegacyRepresentation[TransferToVestingCompletedOperation], tag=TransferToVestingCompletedOperation.get_name(), array_like=True):
             value: TransferToVestingCompletedOperation
 
 
-class HF26RepresentationVestingSharesSplitOperation(HF26Representation, tag=VestingSharesSplitOperation.get_name_with_suffix()):
+class HF26RepresentationVestingSharesSplitOperation(HF26Representation[VestingSharesSplitOperation], tag=VestingSharesSplitOperation.get_name_with_suffix()):
             value: VestingSharesSplitOperation
 
 
-class LegacyRepresentationVestingSharesSplitOperation(LegacyRepresentation, tag=VestingSharesSplitOperation.get_name(), array_like=True):
+class LegacyRepresentationVestingSharesSplitOperation(LegacyRepresentation[VestingSharesSplitOperation], tag=VestingSharesSplitOperation.get_name(), array_like=True):
             value: VestingSharesSplitOperation

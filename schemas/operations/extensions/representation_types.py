@@ -12,25 +12,25 @@ from schemas.operations.extensions.update_proposal_extensions import UpdatePropo
 from schemas.operations.representation_types import HF26Representation, LegacyRepresentation
 
 
-class HF26RepresentationCommentPayoutBeneficiariesOperationExtension(HF26Representation, tag=CommentPayoutBeneficiaries.get_name_with_suffix()):
+class HF26RepresentationCommentPayoutBeneficiariesOperationExtension(HF26Representation[CommentPayoutBeneficiaries], tag=CommentPayoutBeneficiaries.get_name_with_suffix()):
             value: CommentPayoutBeneficiaries
 
 
-class LegacyRepresentationCommentPayoutBeneficiariesOperationExtension(LegacyRepresentation, tag=CommentPayoutBeneficiaries.get_name(), array_like=True):
+class LegacyRepresentationCommentPayoutBeneficiariesOperationExtension(LegacyRepresentation[CommentPayoutBeneficiaries], tag=CommentPayoutBeneficiaries.get_name(), array_like=True):
             value: CommentPayoutBeneficiaries
 
 
-class HF26RepresentationRecurrentTransferPairIdOperationExtension(HF26Representation, tag=RecurrentTransferPairId.get_name_with_suffix()):
+class HF26RepresentationRecurrentTransferPairIdOperationExtension(HF26Representation[RecurrentTransferPairId], tag=RecurrentTransferPairId.get_name_with_suffix()):
             value: RecurrentTransferPairId
 
 
-class LegacyRepresentationRecurrentTransferPairIdOperationExtension(LegacyRepresentation, tag=RecurrentTransferPairId.get_name(), array_like=True):
+class LegacyRepresentationRecurrentTransferPairIdOperationExtension(LegacyRepresentation[RecurrentTransferPairId], tag=RecurrentTransferPairId.get_name(), array_like=True):
             value: RecurrentTransferPairId
 
 
-class HF26RepresentationUpdateProposalEndDateOperationExtension(HF26Representation, tag=UpdateProposalEndDate.get_name_with_suffix()):
+class HF26RepresentationUpdateProposalEndDateOperationExtension(HF26Representation[UpdateProposalEndDate], tag=UpdateProposalEndDate.get_name_with_suffix()):
             value: UpdateProposalEndDate
 
 
-class LegacyRepresentationUpdateProposalEndDateOperationExtension(LegacyRepresentation, tag=UpdateProposalEndDate.get_name(), array_like=True):
+class LegacyRepresentationUpdateProposalEndDateOperationExtension(LegacyRepresentation[UpdateProposalEndDate], tag=UpdateProposalEndDate.get_name(), array_like=True):
             value: UpdateProposalEndDate
