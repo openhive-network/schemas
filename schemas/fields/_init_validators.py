@@ -54,7 +54,7 @@ class InitValidator(Serializable, Generic[T]):
 
     @classmethod
     def validate(cls, value: T) -> T:
-        return cast(T, msgspec.convert(value, type=Annotated[cls._covered_type(), cls._meta()], strict=False))
+        return msgspec.convert(value, type=cast(type[T], Annotated[cls._covered_type(), cls._meta()]), strict=False)
 
     _not_implemented_msg = "Make sure to use types created using InitValidator.factory() classmethod"
 
