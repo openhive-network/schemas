@@ -63,9 +63,10 @@ from schemas.operations.witness_block_approve_operation import WitnessBlockAppro
 from schemas.operations.witness_set_properties_operation import WitnessSetPropertiesOperation
 from schemas.operations.witness_update_operation import WitnessUpdateOperation, WitnessUpdateOperationLegacy
 
+GenericRepresentibleT = TypeVar("GenericRepresentibleT", bound=Representible)
 
-class HF26Representation(PreconfiguredBaseModel):
-    value: Representible
+class HF26Representation(PreconfiguredBaseModel, Generic[GenericRepresentibleT]):
+    value: GenericRepresentibleT
 
     def shallow_dict(self) -> dict[str, Any]:
         return {"type":self.type_, "value": self.value}
@@ -84,11 +85,11 @@ class HF26Representation(PreconfiguredBaseModel):
     @overload
     def __getitem__(self, idx: Literal[0]) -> str: ...
     @overload
-    def __getitem__(self, idx: Literal[1]) -> Representible: ...
+    def __getitem__(self, idx: Literal[1]) -> GenericRepresentibleT: ...
     @overload
     def __getitem__(self, idx: str) -> Any: ...
 
-    def __getitem__(self, idx: Literal[0, 1] | str) -> str | Representible | Any:
+    def __getitem__(self, idx: Literal[0, 1] | str) -> str | GenericRepresentibleT | Any:
         if idx == 0:
             return self.type_
         if idx == 1:
@@ -96,8 +97,8 @@ class HF26Representation(PreconfiguredBaseModel):
         return super().__getitem__(idx)
 
 
-class LegacyRepresentation(PreconfiguredBaseModel):
-    value: Representible
+class LegacyRepresentation(PreconfiguredBaseModel, Generic[GenericRepresentibleT]):
+    value: GenericRepresentibleT
 
     @property
     def type_(self) -> str:
@@ -106,9 +107,9 @@ class LegacyRepresentation(PreconfiguredBaseModel):
     @overload  # type: ignore [override]
     def __getitem__(self, idx: Literal[0]) -> str: ...
     @overload
-    def __getitem__(self, idx: Literal[1]) -> Representible: ...
+    def __getitem__(self, idx: Literal[1]) -> GenericRepresentibleT: ...
 
-    def __getitem__(self, idx: Literal[0, 1]) -> str | Representible:
+    def __getitem__(self, idx: Literal[0, 1]) -> str | GenericRepresentibleT:
         if idx == 0:
             return self.type_
         if idx == 1:
