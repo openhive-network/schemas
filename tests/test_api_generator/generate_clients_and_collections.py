@@ -7,7 +7,13 @@ from schemas.apis.api_client_generator.json_rpc import (
     generate_api_collection,
     generate_api_description,
 )
-from tests.test_api_generator.base_api_classes import MockAsyncJsonRpcApiBase, MockSyncJsonRpcApiBase
+from schemas.apis.api_client_generator.rest import generate_api_client_from_swagger
+from tests.test_api_generator.base_api_classes import (
+    MockAsyncJsonRpcApiBase,
+    MockAsyncRestApiBase,
+    MockSyncJsonRpcApiBase,
+    MockSyncRestApiBase,
+)
 from tests.test_api_generator.manual_definition.input import (
     GENERATOR_TEST_API_COLLECTION,
     GENERATOR_TEST_SINGLE_API,
@@ -26,13 +32,32 @@ SYNC_JSON_RPC_API_FROM_SWAGGER_DESTINATION = Path(__file__).parent / "swagger" /
 JSON_RPC_DESCRIPTION_OUTPUT_FILE = Path(__file__).parent / "swagger" / "json_rpc" / "api_description.py"
 ASYNC_JSON_RPC_API_FROM_SWAGGER_DESTINATION = Path(__file__).parent / "swagger" / "json_rpc" / "generated_async_api.py"
 
+OPENAPI_REST_DEFINITION_DESTINATION = Path(__file__).parent / "swagger" / "rest" / "openapi.json"
+OUTPUT_SYNC_REST_API_CLIENT_DESTINATION = Path(__file__).parent / "swagger" / "rest" / "generated_sync"
+OUTPUT_ASYNC_REST_API_CLIENT_DESTINATION = Path(__file__).parent / "swagger" / "rest" / "generated_async"
+
 
 def generate_api_description_from_swagger() -> None:
-    generate_api_description("test_api_description", OPENAPI_DEFINITION_DESTINATION, JSON_RPC_DESCRIPTION_OUTPUT_FILE)
+    generate_api_description(
+        "test_api_description", OPENAPI_JSON_RPC_DEFINITION_DESTINATION, JSON_RPC_DESCRIPTION_OUTPUT_FILE
+    )
 
 
 def generate_clients_and_collections() -> None:
     from .swagger.json_rpc.api_description import test_api_description  # type: ignore[import-untyped]
+
+    generate_api_client_from_swagger(
+        OPENAPI_REST_DEFINITION_DESTINATION,
+        OUTPUT_SYNC_REST_API_CLIENT_DESTINATION,
+        base_class=MockSyncRestApiBase,  # type: ignore[arg-type]
+        asynchronous=False,
+    )
+
+    generate_api_client_from_swagger(
+        OPENAPI_REST_DEFINITION_DESTINATION,
+        OUTPUT_ASYNC_REST_API_CLIENT_DESTINATION,
+        base_class=MockAsyncRestApiBase,  # type: ignore[arg-type]
+    )
 
     generate_api_client(
         test_api_description,
