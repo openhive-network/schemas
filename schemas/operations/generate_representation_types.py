@@ -95,10 +95,10 @@ class LegacyRepresentation(PreconfiguredBaseModel, Generic[GenericRepresentibleT
 def write_representations_classes(code: str) -> str:
     for operation_name in all_operations[7:]:
         if "Generic" not in operation_name:
-            code += f"""class HF26Representation{operation_name}(HF26Representation, tag={operation_name}.get_name_with_suffix()):
+            code += f"""class HF26Representation{operation_name}(HF26Representation[{operation_name}], tag={operation_name}.get_name_with_suffix()):
             value: {operation_name}\n\n\n"""
 
-            code += f"""class LegacyRepresentation{operation_name}(LegacyRepresentation, tag={operation_name}.get_name(), array_like=True):
+            code += f"""class LegacyRepresentation{operation_name}(LegacyRepresentation[{operation_name}], tag={operation_name}.get_name(), array_like=True):
             value: {operation_name if "WitnessUpdateOperation" not in operation_name else "WitnessUpdateOperationLegacy"}\n\n\n"""
     return code
 

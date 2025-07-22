@@ -34,7 +34,7 @@ def collect_and_write_api_imports(code: str) -> str:
 def write_representations_classes(code: str) -> str:
     for operation_name in all_operations[0:3]:
         if "Generic" not in operation_name:
-            code += f"""class HF26Representation{operation_name}OperationExtension(HF26Representation, tag={operation_name}.get_name()):
+            code += f"""class HF26Representation{operation_name}OperationExtension(HF26Representation[{operation_name}], tag={operation_name}.get_name()):
             value: {operation_name}\n\n\n"""
 
     return code
