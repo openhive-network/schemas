@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-from schemas.operation import Operation
+from schemas.operation import OperationBase
 
 __all__ = [
     "VirtualOperation",
 ]
 
 
-class VirtualOperation(Operation):
+class VirtualOperation(OperationBase):
     """Base class for all virtual operations"""
 
     @classmethod
