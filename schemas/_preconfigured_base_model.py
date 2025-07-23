@@ -18,7 +18,7 @@ from typing_extensions import Self
 from schemas.policies.extra_fields import ExtraFieldsPolicy
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Iterator
+    from collections.abc import Iterable
 
     from schemas.decoders import DecoderFactory
 
@@ -110,24 +110,23 @@ class PreconfiguredBaseModel(
             else {}
         )
 
-        for key, value in dict(self).items():
+        struct_data = msgspec.structs.asdict(self)
+
+        for key, value in struct_data.items():
+            key_clean = key.strip("_")
+
             if exclude_none and value is None:
                 continue
 
-            if exclude_defaults and key in defaults and value == defaults[key]:
+            if exclude_defaults and key_clean in defaults and value == defaults[key_clean]:
                 continue
 
-            if exclude is not None and key in exclude:
+            if exclude is not None and key_clean in exclude:
                 continue
 
-            data[key] = value
+            data[key_clean] = value
 
         return data
-
-    def __iter__(self) -> Iterator[tuple[str, Any]]:
-        """Allow the object to be converted to a dictionary using dict()."""
-        for key, item in msgspec.structs.asdict(self).items():
-            yield (key.strip("_"), item)  # Strip underscores from keys to match dict() behavior
 
     def __as_builtins(
         self,
