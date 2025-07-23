@@ -65,7 +65,6 @@ from schemas.operations.recurrent_transfer_operation import (
 )
 from schemas.operations.remove_proposal_operation import RemoveProposalOperation
 from schemas.operations.representation_types import (
-    HF26Representation,
     HF26RepresentationAccountCreateOperation,
     HF26RepresentationAccountCreateWithDelegationOperation,
     HF26RepresentationAccountUpdate2Operation,
@@ -118,7 +117,6 @@ from schemas.operations.representation_types import (
     HF26RepresentationWitnessBlockApproveOperation,
     HF26RepresentationWitnessSetPropertiesOperation,
     HF26RepresentationWitnessUpdateOperation,
-    LegacyRepresentation,
     LegacyRepresentationAccountCreateOperation,
     LegacyRepresentationAccountCreateWithDelegationOperation,
     LegacyRepresentationAccountUpdate2Operation,
@@ -618,28 +616,28 @@ HF26RepresentationAndValuePairs = HF26RepresentationAndValuePairsNonVirtual | HF
 
 
 @overload
-def convert_to_representation(op: Operation) -> HF26Representation[Operation]: ...
+def convert_to_representation(op: Operation) -> Hf26OperationRepresentation: ...
 
 
 @overload
-def convert_to_representation(op: VirtualOperation) -> HF26Representation[VirtualOperation]: ...
+def convert_to_representation(op: VirtualOperation) -> Hf26VirtualOperationRepresentation: ...
 
 
 def convert_to_representation(
     op: Operation | VirtualOperation,
-) -> HF26Representation[Operation] | HF26Representation[VirtualOperation]:
-    return HF26RepresentationAndValuePairs[type(op)](value=op)  # type: ignore[return-value, index, arg-type]
+) -> Hf26OperationRepresentation | Hf26VirtualOperationRepresentation:
+    return HF26RepresentationAndValuePairs[type(op)](value=op)  # type: ignore[index, arg-type]
 
 
 @overload
-def convert_to_representation_legacy(op: VirtualOperation) -> LegacyRepresentation[VirtualOperation]: ...
+def convert_to_representation_legacy(op: VirtualOperation) -> LegacyVirtualOperationRepresentation: ...
 
 
 @overload
-def convert_to_representation_legacy(op: Operation) -> LegacyRepresentation[Operation]: ...
+def convert_to_representation_legacy(op: Operation) -> LegacyOperationRepresentation: ...
 
 
 def convert_to_representation_legacy(
     op: Operation | VirtualOperation,
-) -> LegacyRepresentation[Operation] | LegacyRepresentation[VirtualOperation]:
-    return LegacyRepresentationAndValuePairs[type(op)](value=op)  # type: ignore[return-value, index, arg-type]
+) -> LegacyOperationRepresentation | LegacyVirtualOperationRepresentation:
+    return LegacyRepresentationAndValuePairs[type(op)](value=op)  # type: ignore[index, arg-type]
