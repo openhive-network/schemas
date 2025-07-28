@@ -63,6 +63,10 @@ class InitValidator(Serializable, Generic[T]):
         raise NotImplementedError(cls._not_implemented_msg)
 
     @classmethod
+    def meta(cls) -> msgspec.Meta:
+        return cls._meta()
+
+    @classmethod
     def _covered_type(cls) -> type[T]:
         raise NotImplementedError(cls._not_implemented_msg)
 
