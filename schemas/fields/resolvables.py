@@ -8,6 +8,7 @@ import msgspec
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.assets import AssetBase, AssetHbd, AssetHive, AssetVests
+from schemas.fields.assets._base import HiddenAssetBase
 from schemas.fields.assets.asset_info import AssetInfo
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.serializable import Serializable
@@ -158,20 +159,24 @@ def create_hidden_asset(base: T, source_asset: AssetBase) -> T:
         def get_asset_information() -> AssetInfo:
             return source_asset.get_asset_information()
 
+        @classmethod
+        def allowed_types(cls) -> list[type[AssetBase]]:
+            return [type(source_asset)]
+
     return HiddenAssetType(amount=source_asset.amount, precision=source_asset.precision(), nai=source_asset.nai())
 
 
 class AssetUnion(
-    AssetBase,
+    HiddenAssetBase,
     Resolvable["AssetUnion[AssetResolved1T, AssetResolved2T]", dict[str, Any] | str],
     Generic[AssetResolved1T, AssetResolved2T],
 ):
     @staticmethod
     def resolve(incoming_cls: type, value: dict[str, Any] | str) -> AssetUnion[AssetResolved1T, AssetResolved2T]:
-        assets = cast(tuple[type[AssetBase], type[AssetBase]], get_args(incoming_cls))
+        assert issubclass(incoming_cls, HiddenAssetBase), "Incoming class must be a HiddenAssetBase subclass"
         return cast(
             AssetUnion[AssetResolved1T, AssetResolved2T],
-            create_hidden_asset(AssetUnion, deduce_asset(value, list(assets))),
+            create_hidden_asset(AssetUnion, deduce_asset(value, incoming_cls.allowed_types())),
         )
 
     def serialize(self) -> dict[str, str | HiveInt]:
@@ -180,8 +185,19 @@ class AssetUnion(
     def serialize_as_legacy(self) -> Any:
         return self.as_legacy()
 
+    @classmethod
+    def factory(cls, name: str, allowed_assets: list[type[AssetBase]]) -> type[AssetUnion[AssetBase, AssetBase]]:
+        class FactoryAssetUnion(AssetUnion[AssetBase, AssetBase]):
+            __name__ = name
 
-class AnyAssetImpl(AssetBase, Resolvable["AnyAssetImpl", dict[str, Any] | str]):
+            @classmethod
+            def allowed_types(cls) -> list[type[AssetBase]]:
+                return allowed_assets
+
+        return FactoryAssetUnion
+
+
+class AnyAssetImpl(HiddenAssetBase, Resolvable["AnyAssetImpl", dict[str, Any] | str]):
     @staticmethod
     def resolve(incoming_cls: type, value: dict[str, Any] | str) -> AnyAssetImpl:  # noqa: ARG004
         return cast(
@@ -194,12 +210,16 @@ class AnyAssetImpl(AssetBase, Resolvable["AnyAssetImpl", dict[str, Any] | str]):
     def serialize_as_legacy(self) -> Any:
         return self.as_legacy()
 
+    @classmethod
+    def allowed_types(cls) -> list[type[AssetBase]]:
+        return [AssetHbd, AssetHive, AssetVests]
+
 
 if TYPE_CHECKING:
     AssetUnionAssetHiveAssetHbd = AssetHive | AssetHbd
     AssetUnionAssetHiveAssetVests = AssetHive | AssetVests
     AnyAsset = AssetHive | AssetHbd | AssetVests
 else:
-    AssetUnionAssetHiveAssetHbd = AssetUnion[AssetHive, AssetHbd]
-    AssetUnionAssetHiveAssetVests = AssetUnion[AssetHive, AssetVests]
+    AssetUnionAssetHiveAssetHbd = AssetUnion.factory("AssetUnionAssetHiveAssetHbd", [AssetHive, AssetHbd])
+    AssetUnionAssetHiveAssetVests = AssetUnion.factory("AssetUnionAssetHiveAssetVests", [AssetHive, AssetVests])
     AnyAsset = AnyAssetImpl

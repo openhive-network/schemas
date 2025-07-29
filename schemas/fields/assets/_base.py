@@ -3,7 +3,7 @@ from __future__ import annotations
 import contextlib
 import operator
 import re
-from abc import ABC, abstractmethod
+from abc import ABC, ABCMeta, abstractmethod
 from decimal import Decimal
 from typing import TYPE_CHECKING, Any
 
@@ -14,7 +14,7 @@ from schemas.fields.assets._symbol import HbdSymbolType, HiveSymbolType, VestsSy
 from schemas.fields.assets._validators import validate_nai, validate_precision
 from schemas.fields.assets.asset_info import AssetInfo
 from schemas.fields.hive_int import HiveInt, HiveIntFactory
-from schemas.fields.serializable import Serializable
+from schemas.fields.serializable import OverrideTypeNameMeta, Serializable
 
 if TYPE_CHECKING:  # nofmt
     from collections.abc import Callable
@@ -24,7 +24,35 @@ else:
     AssetNaiAmount = HiveIntFactory.factory("AssetNaiAmount", msgspec.Meta(ge=0))
 
 
-class AssetBase(Serializable, ABC):
+class MetaAsset(OverrideTypeNameMeta, ABCMeta):
+    """
+    This implementation is because of HiddenAssetType which can be used in isinstance context.
+    """
+
+    def __instancecheck__(cls: type[Any], instance: Any) -> bool:
+        if issubclass(cls, AssetBase):
+            instance_t = type(instance)
+            if issubclass(instance_t, AssetBase):
+                return cls._compare_asset_types(instance_t)
+            return False
+        return False
+
+    def _compare_asset_types(cls, other: type[AssetBase]) -> bool:
+        assert issubclass(cls, AssetBase) and issubclass(other, AssetBase), "Both classes must be AssetBase subclasses"
+        if (cls is AssetBase) or (cls is HiddenAssetBase):
+            return True
+        if issubclass(cls, HiddenAssetBase) and (not issubclass(other, HiddenAssetBase)):
+            other_nai = other.get_asset_information().nai
+            return any(other_nai == allowed.get_asset_information().nai for allowed in cls.allowed_types())
+        if issubclass(other, HiddenAssetBase) and (not issubclass(cls, HiddenAssetBase)):
+            cls_nai = cls.get_asset_information().nai
+            return any(cls_nai == allowed.get_asset_information().nai for allowed in other.allowed_types())
+        if (not issubclass(other, HiddenAssetBase)) and (not issubclass(cls, HiddenAssetBase)):
+            return cls.get_asset_information().nai == other.get_asset_information().nai
+        return True
+
+
+class AssetBase(Serializable, ABC, metaclass=MetaAsset):
     def __init__(self, amount: int, precision: HiveInt | None = None, nai: str | None = None):
         self.__amount = AssetNaiAmount(amount)
         self.validate(precision, nai)
@@ -255,6 +283,20 @@ class AssetBase(Serializable, ABC):
     def __combine_with(self, other: AssetBase | int, operator_: Callable[[int, int], int]) -> Self:
         converted = self.__convert_to_asset(other)
         return converted.copy(amount=int(float(operator_(self.int_amount, converted.int_amount))))
+
+    def __hash__(self) -> int:
+        return hash(self.as_serialized_nai())
+
+
+class HiddenAssetBase(AssetBase):
+    @classmethod
+    @abstractmethod
+    def allowed_types(cls) -> list[type[AssetBase]]:
+        """
+        Returns a list of allowed asset types for this AssetUnion.
+        This method should be implemented by subclasses to specify which asset types are allowed.
+        """
+        raise NotImplementedError("This method should be implemented by subclasses to specify allowed asset types.")
 
 
 class AssetHive(AssetBase):
