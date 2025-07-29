@@ -20,7 +20,7 @@ from schemas.fields.compound import (
 from schemas.fields.hex import Sha256
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
-from schemas.fields.resolvables import AssetUnion, AssetUnionAssetHiveAssetHbd, JsonString
+from schemas.fields.resolvables import AssetUnionAssetHiveAssetHbd, JsonString
 from schemas.fields.version import HardforkVersion, Version
 
 
@@ -178,7 +178,7 @@ class EscrowsFundament(PreconfiguredBaseModel, kw_only=True):
     escrow_expiration: HiveDateTime
     hbd_balance: AssetHbd
     hive_balance: AssetHive
-    pending_fee: AssetUnion[AssetHbd, AssetHive]
+    pending_fee: AssetUnionAssetHiveAssetHbd
     to_approved: bool
     agent_approved: bool
     disputed: bool
