@@ -15,11 +15,11 @@ class AssetInfo:
     precision: HiveInt
     nai: str
     symbol: tuple[str, str]
+    testnet: bool
 
     class AssetConfig:
-        testnet_asset: ClassVar[bool] = False
+        testnet_asset: ClassVar[bool | None] = None
 
     def get_symbol(self, testnet: bool | None = None) -> str:
-        if testnet is not None:
-            return self.symbol[int(testnet)]
-        return self.symbol[int(AssetInfo.AssetConfig.testnet_asset)]
+        testnet = AssetInfo.AssetConfig.testnet_asset or testnet or self.testnet
+        return self.symbol[int(testnet)]
