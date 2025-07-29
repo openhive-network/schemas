@@ -29,14 +29,14 @@ class AssetSymbolType(PreconfiguredBaseModel):  # impossible to inherit from ABC
 
     @staticmethod
     @abstractmethod
-    def get_asset_information() -> AssetInfo:
+    def get_asset_information(testnet: bool = False) -> AssetInfo:
         """This method returns asset details."""
 
 
 class HiveSymbolType(AssetSymbolType):
     @staticmethod
-    def get_asset_information() -> AssetInfo:
-        return AssetInfo(precision=HiveInt(3), nai="@@000000021", symbol=("HIVE", "TESTS"))
+    def get_asset_information(testnet: bool = False) -> AssetInfo:
+        return AssetInfo(precision=HiveInt(3), nai="@@000000021", symbol=("HIVE", "TESTS"), testnet=testnet)
 
     decimals: HiveInt = get_asset_information().precision
     nai: str = get_asset_information().nai
@@ -44,8 +44,8 @@ class HiveSymbolType(AssetSymbolType):
 
 class HbdSymbolType(AssetSymbolType):
     @staticmethod
-    def get_asset_information() -> AssetInfo:
-        return AssetInfo(precision=HiveInt(3), nai="@@000000013", symbol=("HBD", "TBD"))
+    def get_asset_information(testnet: bool = False) -> AssetInfo:
+        return AssetInfo(precision=HiveInt(3), nai="@@000000013", symbol=("HBD", "TBD"), testnet=testnet)
 
     decimals: HiveInt = get_asset_information().precision
     nai: str = get_asset_information().nai
@@ -53,8 +53,8 @@ class HbdSymbolType(AssetSymbolType):
 
 class VestsSymbolType(AssetSymbolType):
     @staticmethod
-    def get_asset_information() -> AssetInfo:
-        return AssetInfo(precision=HiveInt(6), nai="@@000000037", symbol=("VESTS", "VESTS"))
+    def get_asset_information(testnet: bool = False) -> AssetInfo:
+        return AssetInfo(precision=HiveInt(6), nai="@@000000037", symbol=("VESTS", "VESTS"), testnet=testnet)
 
     decimals: HiveInt = get_asset_information().precision
     nai: str = get_asset_information().nai

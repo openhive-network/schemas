@@ -207,9 +207,7 @@ class AssetBase(Serializable, ABC):
         return float(self.amount / (10**info.precision))
 
     def token(self, testnet: bool | None = None) -> str:
-        return self.get_asset_information().get_symbol(
-            testnet=self._is_default_symbol_testnet() if testnet is None else testnet
-        )
+        return self.get_asset_information().get_symbol(testnet=testnet)
 
     def as_legacy(self, *, testnet: bool | None = None) -> str:
         return f"{self.pretty_amount()} {self.token(testnet=testnet)}"
@@ -258,33 +256,32 @@ class AssetBase(Serializable, ABC):
         converted = self.__convert_to_asset(other)
         return converted.copy(amount=int(float(operator_(self.int_amount, converted.int_amount))))
 
-    def _is_default_symbol_testnet(self) -> bool:
-        return False
-
 
 class AssetHive(AssetBase):
     @staticmethod
     def get_asset_information() -> AssetInfo:
-        return HiveSymbolType.get_asset_information()
+        return HiveSymbolType.get_asset_information(testnet=False)
 
 
 class AssetHbd(AssetBase):
     @staticmethod
     def get_asset_information() -> AssetInfo:
-        return HbdSymbolType.get_asset_information()
+        return HbdSymbolType.get_asset_information(testnet=False)
 
 
 class AssetVests(AssetBase):
     @staticmethod
     def get_asset_information() -> AssetInfo:
-        return VestsSymbolType.get_asset_information()
+        return VestsSymbolType.get_asset_information(testnet=False)
 
 
 class AssetTests(AssetHive):
-    def _is_default_symbol_testnet(self) -> bool:
-        return True
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return HiveSymbolType.get_asset_information(testnet=True)
 
 
 class AssetTbd(AssetHbd):
-    def _is_default_symbol_testnet(self) -> bool:
-        return True
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return HbdSymbolType.get_asset_information(testnet=True)
