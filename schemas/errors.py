@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from msgspec import ValidationError
+from msgspec import DecodeError, ValidationError
 
-__all__ = [
-    "ValidationError",
-]
+__all__ = ["ValidationError", "DecodeError"]
