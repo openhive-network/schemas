@@ -14,7 +14,7 @@ class Representible(PreconfiguredBaseModel):
     @abstractmethod
     def get_name(cls) -> str:
         """
-        Get the name of the operation.
+        Get the name of the object inheriting from this class.
 
         e.g. `transfer` for `TransferOperation`
         """
