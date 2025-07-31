@@ -69,26 +69,30 @@ class JsonString(Resolvable["JsonString[AnyResolvedT]", Any], Generic[AnyResolve
         if isinstance(value, JsonString):
             self.value = value.value
         else:
-            self.value = value
+            self.value = self._resolve_impl(value=value)
 
     @staticmethod
-    def resolve(incoming_cls: type, value: Any) -> JsonString[AnyResolvedT]:  # noqa: ARG004
+    def _resolve_impl(value: Any) -> Any:
         assert value is not None, "Value must not be None for JsonString.resolve"
         if isinstance(value, str):
             if len(value) == 0:
-                return JsonString("")
+                return ""
             try:
                 parsed = msgspec.json.decode(value)
                 if isinstance(parsed, str):
-                    return JsonString(value)
-                return JsonString(parsed)
+                    return value
+                return parsed  # noqa: TRY300
             except (ValueError, TypeError) as error:
                 raise ValueError(f"Value is not a valid json string! Received `{value}`") from error
         if isinstance(value, dict | list | tuple | str | int | float | bool):
-            return JsonString(value)
+            return value
         if isinstance(value, PreconfiguredBaseModel):
-            return JsonString(value)
+            return value
         raise ValueError(f"Value is not a valid type! Received `{value}` with type `{type(value)}`")
+
+    @staticmethod
+    def resolve(incoming_cls: type, value: Any) -> JsonString[AnyResolvedT]:  # noqa: ARG004
+        return JsonString(JsonString._resolve_impl(value))
 
     def __eq__(self, other: object) -> bool:
         if isinstance(other, JsonString):
