@@ -87,6 +87,7 @@ class PreconfiguredBaseModel(
         exclude_none: bool = False,
         remove_whitespaces: bool = False,
         exclude: set[str] | None = None,
+        indent: int | None = None,
     ) -> str:
         data = self.__as_builtins(
             str_keys=str_keys, builtin_types=builtin_types, order=order, exclude_none=exclude_none, exclude=exclude
@@ -94,7 +95,7 @@ class PreconfiguredBaseModel(
 
         if remove_whitespaces:
             return msgspec.json.encode(data, order=order).decode()
-        return pretty_json_dumps(data, sort_keys=(order == "sorted"), ensure_ascii=False)
+        return pretty_json_dumps(data, sort_keys=(order == "sorted"), ensure_ascii=False, indent=indent)
 
     def dict(
         self,
