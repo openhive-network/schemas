@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import ClassVar
+from typing import Any, ClassVar
 
 from schemas.fields.hive_int import HiveInt
 
@@ -10,7 +10,7 @@ __all__ = [
 ]
 
 
-@dataclass
+@dataclass(frozen=True)
 class AssetInfo:
     precision: HiveInt
     nai: str
@@ -27,3 +27,11 @@ class AssetInfo:
         else:
             testnet = AssetInfo.AssetConfig.testnet_asset
         return self.symbol[int(testnet)]
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, AssetInfo):
+            return False
+        return self.nai == other.nai
+
+    def __hash__(self):
+        return hash(self.nai)
