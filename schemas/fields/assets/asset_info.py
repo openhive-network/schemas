@@ -33,5 +33,5 @@ class AssetInfo:
             return False
         return self.nai == other.nai
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(self.nai)
