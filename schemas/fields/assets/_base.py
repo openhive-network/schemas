@@ -39,6 +39,8 @@ class MetaAsset(OverrideTypeNameMeta, ABCMeta):
 
     def _compare_asset_types(cls, other: type[AssetBase]) -> bool:
         assert issubclass(cls, AssetBase) and issubclass(other, AssetBase), "Both classes must be AssetBase subclasses"
+        if (cls is AssetBase) or (cls is HiddenAssetBase):
+            return True
         if issubclass(cls, HiddenAssetBase) and (not issubclass(other, HiddenAssetBase)):
             other_nai = other.get_asset_information().nai
             return any(other_nai == allowed.get_asset_information().nai for allowed in cls.allowed_types())
