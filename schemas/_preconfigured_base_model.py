@@ -52,12 +52,24 @@ class PreconfiguredBaseModel(
     def __is_aliased_field_name(cls, field_name: str) -> bool:
         return field_name in {"id", "from", "json", "schema", "open", "field", "input", "hex", "type"}
 
-    def __getitem__(self, key: str) -> Any:
+    def __getitem__(self, key: str | int) -> Any:
         """
         This allows using any schema from this repo as dictionary
         """
-        key = self.__get_field_name(key)
-        return getattr(self, key)
+        key_str = self.__get_field_name(key)
+        value = getattr(self, key_str)
+        if isinstance(key, int):
+            """
+            This if statement is support for direct dict conversions:
+            ```python
+            dict(ChildOdPreconfiguredBaseModel())
+            ```
+            Alternative solution is to implement __iter__ but it was
+            abandoned in favor of this solution, because __iter__
+            is used in different projects.
+            """
+            return [key_str, value]
+        return value
 
     def __setitem__(self, key: str, value: Any) -> None:
         """
@@ -66,7 +78,9 @@ class PreconfiguredBaseModel(
         key = self.__get_field_name(key)
         setattr(self, key, value)
 
-    def __get_field_name(self, name: str) -> str:
+    def __get_field_name(self, name: str | int) -> str:
+        if isinstance(name, int):
+            return self.__struct_fields__[name]
         assert isinstance(name, str), f"Field name must be a string, got {type(name)}, type {type(self)}, name {name}"
         if not hasattr(self, name) and self.__is_aliased_field_name(name):
             name = f"{name}_"

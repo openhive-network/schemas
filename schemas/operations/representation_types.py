@@ -87,9 +87,9 @@ class HF26Representation(PreconfiguredBaseModel, Generic[GenericRepresentibleT])
     @overload
     def __getitem__(self, idx: Literal[1]) -> GenericRepresentibleT: ...
     @overload
-    def __getitem__(self, idx: str) -> Any: ...
+    def __getitem__(self, idx: str | int) -> Any: ...
 
-    def __getitem__(self, idx: Literal[0, 1] | str) -> str | GenericRepresentibleT | Any:
+    def __getitem__(self, idx: Literal[0, 1] | str | int) -> str | GenericRepresentibleT | Any:
         if idx == 0:
             return self.type_
         if idx == 1:
