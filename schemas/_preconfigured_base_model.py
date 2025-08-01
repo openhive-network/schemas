@@ -347,5 +347,18 @@ class PreconfiguredBaseModel(
     def __hash__(self) -> int:
         return hash(self.json())
 
+    def humanize(self) -> str:
+        """
+        Returns a human-readable string representation of the model.
+        """
+        from schemas.encoders import get_hf26_encoder
+
+        encoder = get_hf26_encoder()
+
+        return " ".join(f"{k}={encoder.encode(v).decode()}" for k, v in self.dict(exclude_none=True).items())
+
+    def __str__(self) -> str:
+        return self.humanize()
+
 
 BaseModelT = TypeVar("BaseModelT", bound=PreconfiguredBaseModel)
