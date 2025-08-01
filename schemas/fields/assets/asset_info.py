@@ -21,5 +21,9 @@ class AssetInfo:
         testnet_asset: ClassVar[bool | None] = None
 
     def get_symbol(self, testnet: bool | None = None) -> str:
-        testnet = AssetInfo.AssetConfig.testnet_asset or testnet or self.testnet
+        if AssetInfo.AssetConfig.testnet_asset is None:
+            if testnet is None:
+                testnet = self.testnet
+        else:
+            testnet = AssetInfo.AssetConfig.testnet_asset
         return self.symbol[int(testnet)]
