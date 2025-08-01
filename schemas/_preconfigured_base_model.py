@@ -67,6 +67,7 @@ class PreconfiguredBaseModel(
         setattr(self, key, value)
 
     def __get_field_name(self, name: str) -> str:
+        assert isinstance(name, str), f"Field name must be a string, got {type(name)}, type {type(self)}, name {name}"
         if not hasattr(self, name) and self.__is_aliased_field_name(name):
             name = f"{name}_"
 
