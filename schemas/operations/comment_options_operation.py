@@ -18,7 +18,7 @@ DEFAULT_MAX_ACCEPTED_PAYOUT: Final[AssetHbd] = AssetHbd(amount=1000000000)
 class CommentOptionsOperation(Operation):
     author: AccountName
     permlink: str
-    max_accepted_payout: AssetHbd = field(default_factory=lambda: DEFAULT_MAX_ACCEPTED_PAYOUT)
+    max_accepted_payout: AssetHbd = field(default_factory=lambda: DEFAULT_MAX_ACCEPTED_PAYOUT.copy())
     percent_hbd: Uint16t = HIVE_100_PERCENT
     allow_votes: bool = DEFAULT_ALLOW_VOTES
     allow_curation_rewards: bool = DEFAULT_ALLOW_CURATION_REWARDS
