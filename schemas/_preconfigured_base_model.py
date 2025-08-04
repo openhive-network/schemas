@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import copy
 from dataclasses import dataclass
+from datetime import datetime
 from enum import IntEnum
 from json import dumps as pretty_json_dumps
 from pathlib import Path
@@ -255,7 +256,7 @@ class PreconfiguredBaseModel(
             current_member_value = getattr(self, member_name)
             is_buildins = any(
                 isinstance(current_member_value, builtin_type)
-                for builtin_type in [int, str, bool, float, dict, tuple, list, set]
+                for builtin_type in [int, str, bool, float, dict, tuple, list, set, datetime]
             )
             is_supported_iterable_buildins = (
                 any(isinstance(current_member_value, builtin_type) for builtin_type in [list, set])
