@@ -12,6 +12,7 @@ from schemas.apis.account_history_api.fundaments_of_responses import EnumVirtual
 from schemas.fields.hex import Signature, TransactionId
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
+from schemas.fields.integers import Uint16t, Uint32t
 from schemas.operations import Hf26OperationRepresentation
 
 
@@ -34,8 +35,8 @@ class GetTransactionBase(PreconfiguredBaseModel):
     block_num: HiveInt
     expiration: HiveDateTime
     extensions: list[Any]
-    ref_block_num: HiveInt
-    ref_block_prefix: HiveInt
+    ref_block_num: Uint16t
+    ref_block_prefix: Uint32t
     signatures: list[Signature]
     transaction_id: TransactionId
     transaction_num: HiveInt
