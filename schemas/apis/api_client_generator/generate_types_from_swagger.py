@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from datamodel_code_generator import DataModelType, InputFileType, generate
 
@@ -10,10 +11,15 @@ from schemas.apis.api_client_generator._private.resolve_needed_imports import (
     find_package_root,
 )
 
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
 
 def generate_types_from_swagger(
     openapi_api_definition: str | Path,
     output: str | Path,
+    base_class: str = "",
+    custom_class_name_generator: Callable[[str], str] | None = None,
 ) -> None:
     """
     Generate types defined in Swagger.
@@ -29,8 +35,8 @@ def generate_types_from_swagger(
     Raises:
         FileNotFoundError: If the OpenAPI definition file does not exist.
     """
-    openapi_file = openapi_api_definition if isinstance(openapi_api_definition, Path) else Path(openapi_api_definition)
-    output = output if isinstance(output, Path) else Path(output)
+    openapi_file = Path(openapi_api_definition)
+    output = Path(output)
 
     if not openapi_file.exists():
         raise FileNotFoundError(f"File {openapi_file} does not exist.")
@@ -42,7 +48,11 @@ def generate_types_from_swagger(
         input_file_type=InputFileType.OpenAPI,
         use_field_description=True,
         use_standard_collections=True,
-        use_exact_imports=True,
+        apply_default_values_for_required_fields=True,
+        use_union_operator=True,
+        strict_nullable=True,
+        base_class=base_class,
+        custom_class_name_generator=custom_class_name_generator,
     )
 
     package_root = find_package_root(output)
