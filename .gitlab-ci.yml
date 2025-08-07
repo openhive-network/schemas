@@ -27,10 +27,6 @@ default:
 pre_commit_checks:
   stage: static_code_analysis
   extends: .pre_commit_checks_template
-  before_script:
-  - !reference [.pre_commit_checks_template, before_script]
-  - poetry install --no-root --extras api_generation
-  - pip list
 
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| STATIC CODE ANALYSIS |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -41,8 +37,6 @@ tests:
   extends: .project_develop_configuration_template
   needs: [ ]  # to start immediately, without waiting for previous stages
   script:
-    - poetry install --no-root --extras api_generation
-    - pip list
     - pytest tests/
 
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| TESTS |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
