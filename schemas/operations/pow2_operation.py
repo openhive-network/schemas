@@ -10,7 +10,7 @@ from schemas.fields.basic import (
     PublicKey,
 )
 from schemas.fields.compound import LegacyChainProperties
-from schemas.fields.hex import TransactionId
+from schemas.fields.hex import BlockId
 from schemas.fields.integers import Uint32t, Uint64t
 from schemas.operation import Operation
 
@@ -19,7 +19,7 @@ DEFAULT_FILL_OR_KILL: Final[bool] = False
 
 class Pow2Input(PreconfiguredBaseModel):
     worker_account: AccountName
-    prev_block: TransactionId
+    prev_block: BlockId
     nonce: Uint64t = field(default_factory=lambda: 0)
 
 
@@ -31,7 +31,7 @@ class Pow2(PreconfiguredBaseModel):
 class EquihashPow(PreconfiguredBaseModel, kw_only=True):
     input_: Pow2Input = field(name="input")
     proof: Any
-    prev_block: TransactionId
+    prev_block: BlockId
     pow_summary: Uint32t
 
 

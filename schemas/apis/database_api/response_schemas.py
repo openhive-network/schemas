@@ -47,7 +47,7 @@ from schemas.fields.compound import (
     Props,
     RdDynamicParams,
 )
-from schemas.fields.hex import Hex, TransactionId
+from schemas.fields.hex import BlockId, Hex
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.hive_list import HiveList
@@ -439,7 +439,7 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel, kw_only=True):
     hbd_print_rate: HiveInt
     hbd_start_percent: HiveInt
     hbd_stop_percent: HiveInt
-    head_block_id: TransactionId
+    head_block_id: BlockId
     head_block_number: HiveInt
     id_: HiveInt = field(name="id")
     init_hbd_supply: AssetHbd

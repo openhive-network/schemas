@@ -10,7 +10,7 @@ from schemas.fields.basic import (
     PublicKey,
 )
 from schemas.fields.compound import LegacyChainProperties
-from schemas.fields.hex import Sha256, Signature, TransactionId
+from schemas.fields.hex import BlockId, Sha256, Signature
 from schemas.fields.integers import Uint64t
 from schemas.operation import Operation
 
@@ -28,7 +28,7 @@ class Work(PreconfiguredBaseModel, kw_only=True):
 
 class PowOperation(Operation):
     worker_account: AccountName
-    block_id: TransactionId
+    block_id: BlockId
     nonce: Uint64t
     props: LegacyChainProperties
     work: Work

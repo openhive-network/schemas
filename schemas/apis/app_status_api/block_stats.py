@@ -6,7 +6,7 @@ from msgspec import field
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import AccountName
-from schemas.fields.hex import TransactionId
+from schemas.fields.hex import BlockId
 from schemas.fields.hive_datetime import HiveDateTime
 
 __all__ = ["BlockStats", "KnownBlockStatsBlockType"]
@@ -92,7 +92,7 @@ class BlockStats(PreconfiguredBaseModel):
     """last irreversible block number"""
     type_: KnownBlockStatsBlockType = field(name="type")
     """block processing type"""
-    id_: TransactionId = field(name="id")
+    id_: BlockId = field(name="id")
     """block id"""
     ts: HiveDateTime
     """block timestamp"""

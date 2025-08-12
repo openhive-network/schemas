@@ -7,7 +7,7 @@ from schemas.fields.basic import (
     AccountName,
     PublicKey,
 )
-from schemas.fields.hex import Signature, TransactionId
+from schemas.fields.hex import BlockId, Signature, TransactionId
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.transaction import (
     Transaction,
@@ -36,27 +36,27 @@ class SignedBlockLegacy(GetBlockHeaderFundament):
 
 
 class BlockLogUtilSignedBlockBaseTransaction(GetBlockHeaderFundament):
-    block_id: TransactionId
+    block_id: BlockId
     signing_key: PublicKey
     witness_signature: Signature
     transactions: list[Transaction]
 
 
 class BlockLogUtilSignedBlockBaseTransactionLegacy(GetBlockHeaderFundament):
-    block_id: TransactionId
+    block_id: BlockId
     signing_key: PublicKey
     witness_signature: Signature
     transactions: list[TransactionLegacy]
 
 
 class Hf26Block(SignedBlockHF26):
-    block_id: TransactionId
+    block_id: BlockId
     signing_key: PublicKey
     transaction_ids: list[TransactionId]
 
 
 class LegacyBlock(SignedBlockLegacy):
-    block_id: TransactionId
+    block_id: BlockId
     signing_key: PublicKey
     transaction_ids: list[TransactionId]
 

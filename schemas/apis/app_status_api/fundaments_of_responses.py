@@ -5,7 +5,7 @@ from typing import Literal
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.apis.app_status_api.block_stats import BlockStats
 from schemas.apis.app_status_api.rc_stats import FullRcStats, RegularRcStats
-from schemas.fields.hex import TransactionId
+from schemas.fields.hex import BlockId
 from schemas.fields.hive_datetime import HiveDateTime
 
 KnownStatuses = Literal[
@@ -50,7 +50,7 @@ class WebserverItem(BaseStatusItem):
 
 class ForkItem(PreconfiguredBaseModel):
     new_head_block_num: int
-    new_head_block_id: TransactionId
+    new_head_block_id: BlockId
 
 
 class HivedBenchmark(PreconfiguredBaseModel):
