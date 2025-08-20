@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+import json
 from pathlib import Path
-from typing import Annotated, Any
+from typing import Annotated, Any, Generic, TypeVar, get_args, get_origin
 
 import msgspec
 from msgspec.json import Decoder
@@ -39,6 +40,9 @@ def dec_hook_base(type_: type, obj: Any) -> Any:
     if handler:
         return handler(obj)
 
+    if get_origin(type_) is SkipJsonModel:
+        decoded = msgspec.json.decode(json.dumps(obj), type=get_args(type_)[0], dec_hook=dec_hook_base)
+        return decoded
     if Resolvable.is_resolvable(type_):
         return type_.resolve(type_, obj)  # type: ignore
 
@@ -92,8 +96,15 @@ def is_matching_model(data: Any, annotated_model: Annotated[Any, ...]) -> bool:
     return True
 
 
+T = TypeVar("T")
+
+
+class SkipJsonModel(Generic[T]): ...  # This class can be used to skip JSON schema generation for specific fields
+
+
 def schema_hook(obj: Any) -> dict[str, str]:
     direct_map: dict[Any, dict[str, str]] = {
+        SkipJsonModel: {"type": "object", "description": "This should not be included in revision calculation"},
         Path: {"type": "string", "format": "path"},
         HiveDateTime: {"type": "string", "format": "date-time"},
         OptionallyEmpty: {"type": "str"},
