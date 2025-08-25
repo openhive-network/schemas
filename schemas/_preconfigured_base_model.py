@@ -315,10 +315,18 @@ class PreconfiguredBaseModel(
         return copied
 
     @classmethod
+    def _cls_for_schema_json(cls) -> type[Self]:
+        """
+        By default it returns self type, but can be overrided by sub-classes to return different type
+        during schema serialization.
+        """
+        return cls
+
+    @classmethod
     def schema_json(cls) -> str:
         from schemas.decoders import schema_hook
 
-        schema = msgspec.json.schema(cls, schema_hook=schema_hook)
+        schema = msgspec.json.schema(cls._cls_for_schema_json(), schema_hook=schema_hook)
         return msgspec.json.encode(schema).decode()
 
     @classmethod
