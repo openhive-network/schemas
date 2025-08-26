@@ -42,4 +42,4 @@ def _convert_type_to_annotation(tp: msgspec.inspect.Type) -> type:  # noqa C901 
         return str
     if isinstance(tp, msgspec.inspect.BytesType):
         return bytes
-    return typing.Any
+    return typing.Any  # type: ignore[return-value]
