@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING, Any, Literal, TypeVar, cast, get_args, get_ori
 import msgspec
 from typing_extensions import Self
 
+from schemas._exclude_json_schema_toolset import TreeExclusion, exclude_members
 from schemas.policies.extra_fields import ExtraFieldsPolicy
 
 if TYPE_CHECKING:
@@ -315,10 +316,26 @@ class PreconfiguredBaseModel(
         return copied
 
     @classmethod
+    def _excluded_fields_for_schema_json(cls) -> TreeExclusion:
+        """
+        By default it returns empty set, but can be overrided by sub-classes to return fields
+        that should be excluded during schema serialization.
+        """
+        return {}
+
+    @classmethod
+    def _cls_for_schema_json(cls) -> type[Self]:
+        """
+        By default it returns self type, but can be overrided by sub-classes to return different type
+        during schema serialization.
+        """
+        return exclude_members(cls, cls._excluded_fields_for_schema_json())
+
+    @classmethod
     def schema_json(cls) -> str:
         from schemas.decoders import schema_hook
 
-        schema = msgspec.json.schema(cls, schema_hook=schema_hook)
+        schema = msgspec.json.schema(cls._cls_for_schema_json(), schema_hook=schema_hook)
         return msgspec.json.encode(schema).decode()
 
     @classmethod
