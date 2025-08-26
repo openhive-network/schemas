@@ -341,8 +341,11 @@ class PreconfiguredBaseModel(
 
         excluded_annotation_flat = [(k, _convert_type_to_annotation(v)) for (k, v) in included_annotation.items()]
 
-        return msgspec.defstruct(
-            name=cls.__name__, fields=excluded_annotation_flat, bases=(PreconfiguredBaseModel,), kw_only=True
+        return cast(
+            type[Self],
+            msgspec.defstruct(
+                name=cls.__name__, fields=excluded_annotation_flat, bases=(PreconfiguredBaseModel,), kw_only=True
+            ),
         )
 
     @classmethod

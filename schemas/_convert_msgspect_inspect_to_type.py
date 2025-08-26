@@ -5,7 +5,7 @@ import typing
 import msgspec
 
 
-def _convert_type_to_annotation(tp: msgspec.inspect.Type) -> type:
+def _convert_type_to_annotation(tp: msgspec.inspect.Type) -> type:  # noqa C901 PLR0911 PLR0912
     if isinstance(tp, msgspec.inspect.CustomType | msgspec.inspect.NoneType):
         return type(None)
     if isinstance(tp, msgspec.inspect.StructType):
@@ -14,24 +14,24 @@ def _convert_type_to_annotation(tp: msgspec.inspect.Type) -> type:
         types_in_union = []
         for arg in tp.types:
             types_in_union.append(_convert_type_to_annotation(arg))
-        return typing.Union[tuple(types_in_union)]
+        return typing.Union[tuple(types_in_union)]  # type: ignore[return-value]
     if isinstance(tp, msgspec.inspect.ListType):
         item_type = _convert_type_to_annotation(tp.item_type)
-        return typing.List[item_type]
+        return typing.List[item_type]  # type: ignore[valid-type]
     if isinstance(tp, msgspec.inspect.DictType):
         key_type = _convert_type_to_annotation(tp.key_type)
         value_type = _convert_type_to_annotation(tp.value_type)
-        return typing.Dict[key_type, value_type]
+        return typing.Dict[key_type, value_type]  # type: ignore[valid-type]
     if isinstance(tp, msgspec.inspect.TupleType):
         item_types = []
         for item in tp.item_types:
             item_types.append(_convert_type_to_annotation(item))
-        return typing.Tuple[tuple(item_types)]
+        return typing.Tuple[tuple(item_types)]  # type: ignore[return-value]
     if isinstance(tp, msgspec.inspect.LiteralType):
         literal_values = []
         for val in tp.values:
             literal_values.append(val)
-        return typing.Literal[tuple(literal_values)]
+        return typing.Literal[tuple(literal_values)]  # type: ignore[return-value]
     if isinstance(tp, msgspec.inspect.BoolType):
         return bool
     if isinstance(tp, msgspec.inspect.IntType):
