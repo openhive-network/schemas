@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING, Any, Literal, TypeVar, cast, get_args, get_ori
 import msgspec
 from typing_extensions import Self
 
+from schemas._convert_msgspect_inspect_to_type import _convert_type_to_annotation
 from schemas.policies.extra_fields import ExtraFieldsPolicy
 
 if TYPE_CHECKING:
@@ -315,10 +316,40 @@ class PreconfiguredBaseModel(
         return copied
 
     @classmethod
+    def _excluded_fields_for_schema_json(cls) -> set[str]:
+        """
+        By default it returns empty set, but can be overrided by sub-classes to return fields
+        that should be excluded during schema serialization.
+        """
+        return set()
+
+    @classmethod
+    def _cls_for_schema_json(cls) -> type[Self]:
+        """
+        By default it returns self type, but can be overrided by sub-classes to return different type
+        during schema serialization.
+        """
+        fields_to_exclude = cls._excluded_fields_for_schema_json()
+        if len(fields_to_exclude) == 0:
+            return cls
+
+        annotations = cast(msgspec.inspect.StructType, msgspec.inspect.type_info(cls))
+        included_annotation: dict[str, msgspec.inspect.Type] = {}
+        for field in annotations.fields:
+            if field.name not in fields_to_exclude:
+                included_annotation[field.name] = field.type
+
+        excluded_annotation_flat = [(k, _convert_type_to_annotation(v)) for (k, v) in included_annotation.items()]
+
+        return msgspec.defstruct(
+            name=cls.__name__, fields=excluded_annotation_flat, bases=(PreconfiguredBaseModel,), kw_only=True
+        )
+
+    @classmethod
     def schema_json(cls) -> str:
         from schemas.decoders import schema_hook
 
-        schema = msgspec.json.schema(cls, schema_hook=schema_hook)
+        schema = msgspec.json.schema(cls._cls_for_schema_json(), schema_hook=schema_hook)
         return msgspec.json.encode(schema).decode()
 
     @classmethod
