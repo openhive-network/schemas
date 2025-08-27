@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING, Any, Literal, TypeVar, cast, get_args, get_ori
 import msgspec
 from typing_extensions import Self
 
-from schemas._exclude_json_schema_toolset import TreeExclusion, exclude_members
+from schemas._exclude_json_schema_toolset import convert_field_list_to_dict, recursive_type_replace
 from schemas.policies.extra_fields import ExtraFieldsPolicy
 
 if TYPE_CHECKING:
@@ -26,6 +26,21 @@ if TYPE_CHECKING:
 
 DictStrAny = dict[str, Any]
 DictStrAnyType = dict[str, type[Any]]
+
+
+T = TypeVar("T", bound="PreconfiguredBaseModel")
+
+
+def exclude_members(cls: type[T]) -> type[T]:
+    cls_type_info = cast("msgspec.inspect.StructType", msgspec.inspect.type_info(cls))
+    annotations_full = convert_field_list_to_dict(cls_type_info.fields)
+    cache: dict[str, type[Any]] = {}
+    return recursive_type_replace(
+        exclusions=cls.excluded_fields_for_schema_json(),
+        annotations=annotations_full,
+        cls_name=cls.__name__,
+        cache=cache,
+    )
 
 
 @dataclass
@@ -316,12 +331,12 @@ class PreconfiguredBaseModel(
         return copied
 
     @classmethod
-    def _excluded_fields_for_schema_json(cls) -> TreeExclusion:
+    def excluded_fields_for_schema_json(cls) -> set[str]:
         """
         By default it returns empty set, but can be overrided by sub-classes to return fields
         that should be excluded during schema serialization.
         """
-        return {}
+        return set()
 
     @classmethod
     def _cls_for_schema_json(cls) -> type[Self]:
@@ -329,7 +344,7 @@ class PreconfiguredBaseModel(
         By default it returns self type, but can be overrided by sub-classes to return different type
         during schema serialization.
         """
-        return exclude_members(cls, cls._excluded_fields_for_schema_json())
+        return exclude_members(cls)
 
     @classmethod
     def schema_json(cls) -> str:

@@ -1,13 +1,28 @@
 from __future__ import annotations
 
 import typing
+from dataclasses import dataclass
 
 import msgspec
 
-FieldDictT = dict[str, msgspec.inspect.Field]
-TreeExclusion = dict[str, "TreeExclusion | None"]
+if typing.TYPE_CHECKING:
+    from schemas._preconfigured_base_model import PreconfiguredBaseModel
 
-__all__ = ["TreeExclusion", "exclude_members", "merge_excluded_fields_for_schema_dictionaries"]
+FieldDictT = dict[str, msgspec.inspect.Field]
+Exclusions = set[str]
+NestedTypes = (
+    msgspec.inspect.SetType
+    | msgspec.inspect.ListType
+    | msgspec.inspect.DictType
+    | msgspec.inspect.TupleType
+    | msgspec.inspect.UnionType
+)
+
+
+def _get_preconfigured_base_model_cls() -> type[PreconfiguredBaseModel]:
+    from schemas._preconfigured_base_model import PreconfiguredBaseModel
+
+    return PreconfiguredBaseModel
 
 
 def _convert_type_to_annotation(tp: msgspec.inspect.Type) -> type[typing.Any]:  # noqa: C901, PLR0911, PLR0912
@@ -50,81 +65,84 @@ def _convert_type_to_annotation(tp: msgspec.inspect.Type) -> type[typing.Any]:  
     return typing.Any  # type: ignore[return-value]
 
 
-def exclude_members_from_type(
-    members_to_exclude: set[str], annotations: FieldDictT, cls_name: str, include: dict[str, type[typing.Any]]
-) -> type[typing.Any]:
-    from schemas._preconfigured_base_model import PreconfiguredBaseModel
-
-    included_annotation: dict[str, msgspec.inspect.Type] = {}
-    for field_name, field in annotations.items():
-        if field.name not in members_to_exclude:
-            included_annotation[field_name] = field.type
-
-    included_annotation_flat = [(k, _convert_type_to_annotation(v)) for (k, v) in included_annotation.items()]
-    included_annotation_flat.extend(list(include.items()))
-
+def recreate_struct(annotations: dict[str, type[typing.Any]], cls_name: str) -> type[typing.Any]:
     return msgspec.defstruct(
-        name=cls_name, fields=included_annotation_flat, bases=(PreconfiguredBaseModel,), kw_only=True
+        name=cls_name, fields=list(annotations.items()), bases=(_get_preconfigured_base_model_cls(),), kw_only=True
     )
 
 
-def ensure_struct_type(tp: msgspec.inspect.Type) -> msgspec.inspect.StructType:
-    if isinstance(tp, msgspec.inspect.StructType):
-        return tp
+@dataclass(frozen=True)
+class SlicedType:
+    origin: type[NestedTypes] | None
+    types_to_process: list[msgspec.inspect.Type]
+
+    def compose_final_type(self, replaced_types: list[type[typing.Any]]) -> type[typing.Any]:
+        if self.origin is not None:
+            match self.origin:
+                case msgspec.inspect.SetType:
+                    return typing.Set[replaced_types[0]]  # type: ignore[valid-type]
+                case msgspec.inspect.ListType:
+                    return typing.List[replaced_types[0]]  # type: ignore[valid-type]
+                case msgspec.inspect.DictType:
+                    return typing.Dict[replaced_types[0], replaced_types[1]]  # type: ignore[valid-type]
+                case msgspec.inspect.TupleType:
+                    return typing.Tuple[tuple(replaced_types)]  # type: ignore[return-value]
+                case msgspec.inspect.UnionType:
+                    return typing.Union[tuple(replaced_types)]  # type: ignore[return-value]
+                case _:
+                    raise ValueError(f"Unsupported origin type: {self.origin}")
+        assert len(replaced_types) == 1
+        return replaced_types[0]
+
+
+def slice_type(tp: msgspec.inspect.Type) -> SlicedType:
+    if isinstance(tp, (msgspec.inspect.SetType, msgspec.inspect.ListType)):
+        return SlicedType(origin=type(tp), types_to_process=[tp.item_type])
+    if isinstance(tp, msgspec.inspect.DictType):
+        return SlicedType(origin=type(tp), types_to_process=[tp.key_type, tp.value_type])
+    if isinstance(tp, msgspec.inspect.TupleType):
+        return SlicedType(origin=type(tp), types_to_process=list(tp.item_types))
     if isinstance(tp, msgspec.inspect.UnionType):
-        for arg in tp.types:
-            if isinstance(arg, msgspec.inspect.StructType):
-                return arg
-    raise TypeError(f"Type {tp} is not a StructType or UnionType containing a StructType")
+        return SlicedType(origin=type(tp), types_to_process=list(tp.types))
+    return SlicedType(origin=None, types_to_process=[tp])
 
-def recursive_type_replace(paths_to_process: TreeExclusion, annotations: FieldDictT, cls_name: str) -> type[typing.Any]:
-    fields_to_exclude_by_me: set[str] = set()
-    fields_excluded_by_others: dict[str, type[typing.Any]] = {}
-    for field_name, sub_path in paths_to_process.items():
-        fields_to_exclude_by_me.add(field_name)
-        if isinstance(sub_path, dict):
-            field_type = ensure_struct_type(annotations[field_name].type)
-            fields_excluded_by_others[field_name] = recursive_type_replace(
-                sub_path, convert_field_list_to_dict(field_type.fields), field_type.cls.__name__
-            )
 
-    return exclude_members_from_type(fields_to_exclude_by_me, annotations, cls_name, fields_excluded_by_others)
+def recursive_type_replace(
+    exclusions: Exclusions, annotations: FieldDictT, cls_name: str, cache: dict[str, type[typing.Any]]
+) -> type[typing.Any]:
+    if cls_name in cache:
+        return cache[cls_name]
+
+    final_annotations: dict[str, type[typing.Any]] = {}
+
+    for field_name, field in annotations.items():
+        if field_name in exclusions:
+            continue
+
+        if not isinstance(field.type, NestedTypes | msgspec.inspect.StructType):
+            final_annotations[field_name] = _convert_type_to_annotation(field.type)
+            continue
+
+        sliced = slice_type(field.type)
+        types_to_replace: list[type[typing.Any]] = []
+        for tp in sliced.types_to_process:
+            if isinstance(tp, msgspec.inspect.StructType) and issubclass(tp.cls, _get_preconfigured_base_model_cls()):
+                types_to_replace.append(
+                    recursive_type_replace(
+                        exclusions=tp.cls.excluded_fields_for_schema_json(),
+                        annotations=convert_field_list_to_dict(tp.fields),
+                        cls_name=tp.cls.__name__,
+                        cache=cache,
+                    )
+                )
+                continue
+            types_to_replace.append(_convert_type_to_annotation(tp))
+        final_annotations[field_name] = sliced.compose_final_type(types_to_replace)
+
+    result = recreate_struct(final_annotations, cls_name)
+    cache[cls_name] = result
+    return result
 
 
 def convert_field_list_to_dict(field_list: tuple[msgspec.inspect.Field, ...]) -> FieldDictT:
     return {field.name: field for field in field_list}
-
-
-def merge_excluded_fields_for_schema_dictionaries(
-    from_super: TreeExclusion, from_child: TreeExclusion
-) -> TreeExclusion:
-    result: TreeExclusion = {}
-    all_keys = set(from_super.keys()).union(set(from_child.keys()))
-    for key in all_keys:
-        if key in from_super and key not in from_child:
-            result[key] = from_super[key]
-            continue
-        if key not in from_super and key in from_child:
-            result[key] = from_child[key]
-            continue
-
-        super_value = from_super[key]
-        child_value = from_child[key]
-        if None in (super_value, child_value):
-            result[key] = None
-            continue
-        assert isinstance(super_value, dict) and isinstance(child_value, dict), f"Invalid exclusion merge for key {key}"
-        result[key] = merge_excluded_fields_for_schema_dictionaries(super_value, child_value)
-    return result
-
-
-T = typing.TypeVar("T")
-
-
-def exclude_members(cls: type[T], exclusion_tree: TreeExclusion) -> type[T]:
-    if len(exclusion_tree) == 0:
-        return cls
-
-    cls_type_info = typing.cast("msgspec.inspect.StructType", msgspec.inspect.type_info(cls))
-    annotations_full = convert_field_list_to_dict(cls_type_info.fields)
-    return recursive_type_replace(paths_to_process=exclusion_tree, annotations=annotations_full, cls_name=cls.__name__)
