@@ -67,6 +67,7 @@ def exclude_members_from_type(
         name=cls_name, fields=included_annotation_flat, bases=(PreconfiguredBaseModel,), kw_only=True
     )
 
+
 def ensure_struct_type(tp: msgspec.inspect.Type) -> msgspec.inspect.StructType:
     if isinstance(tp, msgspec.inspect.StructType):
         return tp
