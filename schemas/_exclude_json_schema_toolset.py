@@ -67,6 +67,15 @@ def exclude_members_from_type(
         name=cls_name, fields=included_annotation_flat, bases=(PreconfiguredBaseModel,), kw_only=True
     )
 
+def ensure_struct_type(tp: msgspec.inspect.Type) -> msgspec.inspect.StructType:
+    if isinstance(tp, msgspec.inspect.StructType):
+        return tp
+    if isinstance(tp, msgspec.inspect.UnionType):
+        for arg in tp.types:
+            if isinstance(arg, msgspec.inspect.StructType):
+                return arg
+    raise TypeError(f"Type {tp} is not a StructType nor a UnionType containing a StructType")
+
 
 def recursive_type_replace(paths_to_process: TreeExclusion, annotations: FieldDictT, cls_name: str) -> type[typing.Any]:
     fields_to_exclude_by_me: set[str] = set()
@@ -74,8 +83,7 @@ def recursive_type_replace(paths_to_process: TreeExclusion, annotations: FieldDi
     for field_name, sub_path in paths_to_process.items():
         fields_to_exclude_by_me.add(field_name)
         if isinstance(sub_path, dict):
-            field_type = annotations[field_name].type
-            assert isinstance(field_type, msgspec.inspect.StructType)
+            field_type = ensure_struct_type(annotations[field_name].type)
             fields_excluded_by_others[field_name] = recursive_type_replace(
                 sub_path, convert_field_list_to_dict(field_type.fields), field_type.cls.__name__
             )
