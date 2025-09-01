@@ -63,7 +63,7 @@ def _convert_type_to_annotation(tp: msgspec.inspect.Type) -> type[typing.Any]:  
         return str
     if isinstance(tp, msgspec.inspect.BytesType):
         return bytes
-    return typing.Any  # type: ignore[return-value]
+    return typing.Any
 
 
 def recreate_struct(annotations: dict[str, type[typing.Any]], cls_name: str) -> type[typing.Any]:
@@ -149,7 +149,7 @@ def convert_field_list_to_dict(field_list: tuple[msgspec.inspect.Field, ...]) ->
     return {field.name: field for field in field_list}
 
 
-def collect_component_types_override(type_infos: typing.Iterable[mi.Type]) -> dict[typing.Any, mi.Type]:
+def collect_component_types_override(type_infos: typing.Iterable[mi.Type]) -> dict[typing.Any, mi.Type]:  # noqa: C901
     """Find all types in the type tree that are "nameable" and worthy of being
     extracted out into a shared top-level components mapping.
 
@@ -165,30 +165,30 @@ def collect_component_types_override(type_infos: typing.Iterable[mi.Type]) -> di
                 t.fields = tuple(x for x in t.fields if x.name not in excluded)
         return t
 
-    def collect(t):
+    def collect(t):  # type: ignore[no-untyped-def]  # noqa: C901
         t = _exclude(t)
         if isinstance(t, (mi.StructType, mi.TypedDictType, mi.DataclassType, mi.NamedTupleType)):
             if t.cls not in components:
                 components[t.cls] = t
                 for f in t.fields:
-                    collect(f.type)
+                    collect(f.type)  # type: ignore[no-untyped-call]
         elif isinstance(t, mi.EnumType):
-            components[t.cls] = t
+            components[t.cls] = t  # type: ignore[assignment]
         elif isinstance(t, mi.Metadata):
-            collect(t.type)
+            collect(t.type)  # type: ignore[no-untyped-call]
         elif isinstance(t, mi.CollectionType):
-            collect(t.item_type)
+            collect(t.item_type)  # type: ignore[no-untyped-call]
         elif isinstance(t, mi.TupleType):
             for st in t.item_types:
-                collect(st)
+                collect(st)  # type: ignore[no-untyped-call]
         elif isinstance(t, mi.DictType):
-            collect(t.key_type)
-            collect(t.value_type)
+            collect(t.key_type)  # type: ignore[no-untyped-call]
+            collect(t.value_type)  # type: ignore[no-untyped-call]
         elif isinstance(t, mi.UnionType):
             for st in t.types:
-                collect(st)
+                collect(st)  # type: ignore[no-untyped-call]
 
     for t in type_infos:
-        collect(t)
+        collect(t)  # type: ignore[no-untyped-call]
 
-    return components
+    return components  # type: ignore[return-value]
