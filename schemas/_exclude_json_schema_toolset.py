@@ -63,7 +63,7 @@ def _convert_type_to_annotation(tp: msgspec.inspect.Type) -> type[typing.Any]:  
         return str
     if isinstance(tp, msgspec.inspect.BytesType):
         return bytes
-    return typing.Any
+    return typing.Any # type: ignore[return-value]
 
 
 def recreate_struct(annotations: dict[str, type[typing.Any]], cls_name: str) -> type[typing.Any]:
