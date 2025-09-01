@@ -14,9 +14,10 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal, TypeVar, cast, get_args, get_origin
 
 import msgspec
+import msgspec._json_schema as mjs
 from typing_extensions import Self
 
-from schemas._exclude_json_schema_toolset import convert_field_list_to_dict, recursive_type_replace
+from schemas._exclude_json_schema_toolset import collect_component_types_override
 from schemas.policies.extra_fields import ExtraFieldsPolicy
 
 if TYPE_CHECKING:
@@ -30,17 +31,7 @@ DictStrAnyType = dict[str, type[Any]]
 
 T = TypeVar("T", bound="PreconfiguredBaseModel")
 
-
-def exclude_members(cls: type[T]) -> type[T]:
-    cls_type_info = cast("msgspec.inspect.StructType", msgspec.inspect.type_info(cls))
-    annotations_full = convert_field_list_to_dict(cls_type_info.fields)
-    cache: dict[str, type[Any]] = {}
-    return recursive_type_replace(
-        exclusions=cls.excluded_fields_for_schema_json(),
-        annotations=annotations_full,
-        cls_name=cls.__name__,
-        cache=cache,
-    )
+mjs._collect_component_types = collect_component_types_override
 
 
 @dataclass
@@ -339,18 +330,10 @@ class PreconfiguredBaseModel(
         return set()
 
     @classmethod
-    def _cls_for_schema_json(cls) -> type[Self]:
-        """
-        By default it returns self type, but can be overrided by sub-classes to return different type
-        during schema serialization.
-        """
-        return exclude_members(cls)
-
-    @classmethod
     def schema_json(cls) -> str:
         from schemas.decoders import schema_hook
 
-        schema = msgspec.json.schema(cls._cls_for_schema_json(), schema_hook=schema_hook)
+        schema = msgspec.json.schema(cls, schema_hook=schema_hook)
         return msgspec.json.encode(schema).decode()
 
     @classmethod

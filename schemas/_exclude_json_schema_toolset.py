@@ -4,6 +4,7 @@ import typing
 from dataclasses import dataclass
 
 import msgspec
+import msgspec.inspect as mi
 
 if typing.TYPE_CHECKING:
     from schemas._preconfigured_base_model import PreconfiguredBaseModel
@@ -146,3 +147,48 @@ def recursive_type_replace(
 
 def convert_field_list_to_dict(field_list: tuple[msgspec.inspect.Field, ...]) -> FieldDictT:
     return {field.name: field for field in field_list}
+
+
+def collect_component_types_override(type_infos: typing.Iterable[mi.Type]) -> dict[typing.Any, mi.Type]:
+    """Find all types in the type tree that are "nameable" and worthy of being
+    extracted out into a shared top-level components mapping.
+
+    Currently this looks for Struct, Dataclass, NamedTuple, TypedDict, and Enum
+    types.
+    """
+    components = {}
+
+    def _exclude(t: mi.Type) -> mi.Type:
+        if isinstance(t, mi.StructType) and hasattr(t.cls, "excluded_fields_for_schema_json"):
+            excluded: set[str] = t.cls.excluded_fields_for_schema_json()
+            if excluded:
+                t.fields = tuple(x for x in t.fields if x.name not in excluded)
+        return t
+
+    def collect(t):
+        t = _exclude(t)
+        if isinstance(t, (mi.StructType, mi.TypedDictType, mi.DataclassType, mi.NamedTupleType)):
+            if t.cls not in components:
+                components[t.cls] = t
+                for f in t.fields:
+                    collect(f.type)
+        elif isinstance(t, mi.EnumType):
+            components[t.cls] = t
+        elif isinstance(t, mi.Metadata):
+            collect(t.type)
+        elif isinstance(t, mi.CollectionType):
+            collect(t.item_type)
+        elif isinstance(t, mi.TupleType):
+            for st in t.item_types:
+                collect(st)
+        elif isinstance(t, mi.DictType):
+            collect(t.key_type)
+            collect(t.value_type)
+        elif isinstance(t, mi.UnionType):
+            for st in t.types:
+                collect(st)
+
+    for t in type_infos:
+        collect(t)
+
+    return components
