@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from schemas.apis.debug_node_api.response_schemas import (
+    DebugFailTransaction,
     DebugGenerateBlocks,
     DebugGenerateBlocksUntil,
     DebugGetHardforkPropertyObject,
@@ -28,4 +29,5 @@ __all__ = [
     "DebugSetHardfork",
     "DebugSetVestPrice",
     "DebugThrowException",
+    "DebugFailTransaction",
 ]

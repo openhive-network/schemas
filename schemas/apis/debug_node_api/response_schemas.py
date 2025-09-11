@@ -79,3 +79,7 @@ class DebugSetVestPrice(PreconfiguredBaseModel):
 
 class DebugThrowException(PreconfiguredBaseModel):
     """Empty model"""
+
+
+class DebugFailTransaction(PreconfiguredBaseModel):
+    """Empty model"""
