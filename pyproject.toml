@@ -7,7 +7,7 @@ build-backend = "poetry_dynamic_versioning.backend"
 
 
 [tool.poetry]
-name = "schemas"
+name = "hiveio-schemas"
 version = "0.0.0"
 description = "Tools for checking if message fits expected format"
 readme = "readme.md"
