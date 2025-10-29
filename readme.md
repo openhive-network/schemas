@@ -23,7 +23,7 @@ Schemas package is a tool for validating the structure of JSON data. This packag
 
 ```bash
 cd ~/virtual_environments               # Select location for virtual environment
-python3.8 -m venv venv                  # Create virtual environment in current directory
+python3 -m venv venv                    # Create virtual environment in current directory
 source venv/bin/activate                # Activate it
 pip install -e ~/hive/tests/schemas     # Install Schemas
 ```
