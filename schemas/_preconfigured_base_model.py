@@ -104,9 +104,15 @@ class PreconfiguredBaseModel(
         remove_whitespaces: bool = False,
         exclude: set[str] | None = None,
         indent: int | None = None,
+        serialization_mode: Literal["legacy", "hf26"] = "hf26",
     ) -> str:
         data = self.__as_builtins(
-            str_keys=str_keys, builtin_types=builtin_types, order=order, exclude_none=exclude_none, exclude=exclude
+            str_keys=str_keys,
+            builtin_types=builtin_types,
+            order=order,
+            exclude_none=exclude_none,
+            exclude=exclude,
+            serialization_mode=serialization_mode,
         )
 
         if remove_whitespaces:
@@ -145,19 +151,25 @@ class PreconfiguredBaseModel(
 
         return data
 
-    def __as_builtins(
+    def __as_builtins(  # noqa: PLR0913
         self,
         str_keys: bool = False,
         builtin_types: Iterable[type] | None = None,
         order: Literal[None, "deterministic", "sorted"] = None,
         exclude_none: bool = False,
         exclude: set[str] | None = None,
+        serialization_mode: Literal["legacy", "hf26"] = "hf26",
     ) -> DictStrAny:
-        from schemas.encoders import enc_hook_hf26
+        if serialization_mode == "hf26":
+            from schemas.encoders import enc_hook_hf26
+        elif serialization_mode == "legacy":
+            from schemas.encoders import enc_hook_legacy
+        else:
+            raise ValueError(f"Unsupported serialization_mode: {serialization_mode}")
 
         data: DictStrAny = msgspec.to_builtins(
             obj=self._get_object_for_serialization(),
-            enc_hook=enc_hook_hf26,
+            enc_hook=enc_hook_hf26 if serialization_mode == "hf26" else enc_hook_legacy,
             str_keys=str_keys,
             builtin_types=builtin_types,
             order=order,
