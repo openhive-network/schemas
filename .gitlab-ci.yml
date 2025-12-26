@@ -10,6 +10,11 @@ variables:
   TXT_BLUE: "\e[1;34m"
   TXT_CLEAR: "\e[0m"
 
+  # Override Python image to use Python 3.14
+  # uses registry.gitlab.syncad.com/hive/hive/ci-base-image:ubuntu24.04-py3.14-1
+  PYTHON_IMAGE_TAG: ":ubuntu24.04-py3.14-1"
+  PYTHON_IMAGE: "registry.gitlab.syncad.com/hive/hive/ci-base-image${PYTHON_IMAGE_TAG}"
+
 include:
   - project: 'hive/common-ci-configuration'
     # This should be the same version of Common CI defined in /hive/scripts/ci-helpers/prepare_data_image_job.yml
@@ -22,11 +27,26 @@ default:
   tags:
     - public-runner-docker
 
+# Override before_script to regenerate poetry.lock for Python 3.14 compatibility
+.regenerate_lock_before_script:
+  before_script:
+    - echo "Using Python project directory - ${PYPROJECT_DIR}"
+    - poetry -C "${PYPROJECT_DIR}" env use python3
+    - source $(poetry -C "${PYPROJECT_DIR}" env info --path)/bin/activate
+    - python3 -V
+    - poetry -C "${PYPROJECT_DIR}" -V
+    - pip list
+    - poetry -C "${PYPROJECT_DIR}" lock --no-update 2>/dev/null || poetry -C "${PYPROJECT_DIR}" lock
+    - poetry -C "${PYPROJECT_DIR}" install
+    - pip list
+
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>| STATIC CODE ANALYSIS |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 pre_commit_checks:
   stage: static_code_analysis
-  extends: .pre_commit_checks_template
+  extends:
+    - .pre_commit_checks_template
+    - .regenerate_lock_before_script
 
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| STATIC CODE ANALYSIS |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -34,7 +54,9 @@ pre_commit_checks:
 
 tests:
   stage: tests
-  extends: .project_develop_configuration_template
+  extends:
+    - .project_develop_configuration_template
+    - .regenerate_lock_before_script
   needs: [ ]  # to start immediately, without waiting for previous stages
   script:
     - pytest tests/
@@ -45,7 +67,9 @@ tests:
 
 build_wheel:
   stage: build
-  extends: .build_wheel_template
+  extends:
+    - .build_wheel_template
+    - .regenerate_lock_before_script
 
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| BUILD |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
