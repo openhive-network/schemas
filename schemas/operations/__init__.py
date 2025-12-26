@@ -626,7 +626,7 @@ def convert_to_representation(op: VirtualOperation) -> Hf26VirtualOperationRepre
 def convert_to_representation(
     op: Operation | VirtualOperation,
 ) -> Hf26OperationRepresentation | Hf26VirtualOperationRepresentation:
-    return HF26RepresentationAndValuePairs[type(op)](value=op)  # type: ignore[index, arg-type]
+    return HF26RepresentationAndValuePairs[type(op)](value=op)  # type: ignore[arg-type]
 
 
 @overload
@@ -640,4 +640,4 @@ def convert_to_representation_legacy(op: Operation) -> LegacyOperationRepresenta
 def convert_to_representation_legacy(
     op: Operation | VirtualOperation,
 ) -> LegacyOperationRepresentation | LegacyVirtualOperationRepresentation:
-    return LegacyRepresentationAndValuePairs[type(op)](value=op)  # type: ignore[index, arg-type]
+    return LegacyRepresentationAndValuePairs[type(op)](value=op)  # type: ignore[arg-type]
