@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import threading
 from collections.abc import Callable
 from pathlib import Path
 from typing import Annotated, Any
@@ -19,6 +20,10 @@ from schemas.fields.resolvables import AnyAssetImpl, JsonString, OptionallyEmpty
 from schemas.fields.version import Version
 
 DecoderFactory = Callable[[type[msgspec.Struct]], Decoder[msgspec.Struct]]
+
+# Lock to protect against race conditions during concurrent decoder creation.
+# msgspec's type annotation resolution is not thread-safe in Python 3.14.
+_decoder_lock = threading.Lock()
 
 
 def dec_hook_base(type_: type, obj: Any) -> Any:
@@ -73,11 +78,13 @@ def dec_hook_hf26(type_: type, obj: Any) -> Any:
 
 
 def get_legacy_decoder(type_: type[msgspec.Struct]) -> Decoder[msgspec.Struct]:
-    return msgspec.json.Decoder(type_, dec_hook=dec_hook_legacy)
+    with _decoder_lock:
+        return msgspec.json.Decoder(type_, dec_hook=dec_hook_legacy)
 
 
 def get_hf26_decoder(type_: type[msgspec.Struct]) -> Decoder[msgspec.Struct]:
-    return msgspec.json.Decoder(type_, dec_hook=dec_hook_hf26)
+    with _decoder_lock:
+        return msgspec.json.Decoder(type_, dec_hook=dec_hook_hf26)
 
 
 def validate_schema_field(data: Any, annotated_model: Annotated[Any, ...]) -> Annotated[Any, ...]:
