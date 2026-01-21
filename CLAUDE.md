@@ -90,3 +90,13 @@ verify_serialization_and_deserialization(
 ## Python Version
 
 Requires Python 3.12+. CI runs on Python 3.14.
+
+## Dependency Management (Poetry)
+
+- **Dependency versions are specified in `pyproject.toml` and locked in `poetry.lock`**
+- **Always use `poetry lock`** (without additional flags like `--regenerate`)
+- **Always run `poetry lock` after changing `pyproject.toml`**
+- **The `poetry.lock` file must be in the repository** - never add it to `.gitignore`
+- **Never delete `poetry.lock`** - it ensures reproducible builds
+- **Never edit `poetry.lock` manually** - always use poetry commands
+- **Don't upgrade dependencies on your own** - only upgrade when explicitly requested
