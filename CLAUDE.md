@@ -34,6 +34,18 @@ poetry run ruff format schemas/ tests/
 poetry run pre-commit run --all-files
 ```
 
+## Dependency Management (Poetry)
+
+The lockfile pins exact versions of all dependencies (direct and transitive). This prevents dependency mismatches between environments - if the lockfile is wrong or missing, builds may fail or behave differently. These rules keep it synchronized with pyproject.toml.
+
+- **Dependency versions are specified in `pyproject.toml` and locked in `poetry.lock`**
+- **Always use `poetry lock`** (without additional flags like `--regenerate`)
+- **Always run `poetry lock` after changing `pyproject.toml`**
+- **The `poetry.lock` file must be in the repository** - never add it to `.gitignore`
+- **Never delete `poetry.lock`** - it ensures reproducible builds
+- **Never edit `poetry.lock` manually** - always use poetry commands
+- **Don't upgrade dependencies on your own** - only upgrade when explicitly requested
+
 ## Architecture
 
 ### Core Classes
@@ -90,13 +102,3 @@ verify_serialization_and_deserialization(
 ## Python Version
 
 Requires Python 3.12+. CI runs on Python 3.14.
-
-## Dependency Management (Poetry)
-
-- **Dependency versions are specified in `pyproject.toml` and locked in `poetry.lock`**
-- **Always use `poetry lock`** (without additional flags like `--regenerate`)
-- **Always run `poetry lock` after changing `pyproject.toml`**
-- **The `poetry.lock` file must be in the repository** - never add it to `.gitignore`
-- **Never delete `poetry.lock`** - it ensures reproducible builds
-- **Never edit `poetry.lock` manually** - always use poetry commands
-- **Don't upgrade dependencies on your own** - only upgrade when explicitly requested
