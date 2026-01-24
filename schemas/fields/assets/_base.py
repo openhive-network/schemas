@@ -246,7 +246,7 @@ class AssetBase(Serializable, ABC, metaclass=MetaAsset):
 
     def pretty_amount(self) -> str:
         info = self.get_asset_information()
-        return f"{self.as_decimal():.{info.precision}f}"
+        return f"{self.as_decimal() :.{info.precision}f}"
 
     @classmethod
     def validate(cls, precision: HiveInt | None, nai: str | None) -> None:
