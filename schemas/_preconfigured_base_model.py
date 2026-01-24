@@ -86,9 +86,9 @@ class PreconfiguredBaseModel(
         if not hasattr(self, name) and self.__is_aliased_field_name(name):
             name = f"{name}_"
 
-        assert hasattr(
-            self, name
-        ), f"`{name}` does not exists in `{self.__class__.__name__}`, available are: {list(self.dict().keys())}"
+        assert hasattr(self, name), (
+            f"`{name}` does not exists in `{self.__class__.__name__}`, available are: {list(self.dict().keys())}"
+        )
         return name
 
     def __contains__(self, key: str) -> bool:
