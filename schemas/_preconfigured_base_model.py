@@ -11,10 +11,9 @@ from datetime import datetime
 from enum import IntEnum
 from json import dumps as pretty_json_dumps
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Literal, TypeVar, cast, get_args, get_origin
+from typing import TYPE_CHECKING, Any, Literal, Self, TypeVar, cast, get_args, get_origin
 
 import msgspec
-from typing_extensions import Self
 
 from schemas import _json_schema
 from schemas.policies.extra_fields import ExtraFieldsPolicy
@@ -249,7 +248,6 @@ class PreconfiguredBaseModel(
             return
 
         registered_types = self._registered_swap_types()
-        assert registered_types is not None
 
         for member_name, member_type_name in cast(dict[str, str], self.__annotations__).items():
             typename = self.__slice_member_type_name(member_type_name)

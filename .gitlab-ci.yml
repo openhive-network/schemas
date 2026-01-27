@@ -6,6 +6,7 @@ stages:
 
 workflow:
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "web"'
     - if: '$CI_MERGE_REQUEST_IID'
     - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
       when: never
@@ -29,7 +30,8 @@ variables:
 
 include:
   - project: 'hive/common-ci-configuration'
-    ref: add-dependency-update-anchors  # Temporary: testing new anchors
+    # This should be the same version of Common CI defined in /hive/scripts/ci-helpers/prepare_data_image_job.yml
+    ref: 07fdf2c
     file: '/templates/python_projects.gitlab-ci.yml'
 
 image: ${PYTHON_IMAGE}

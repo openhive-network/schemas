@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any
 
 from msgspec import _json_schema as msgspec_json_schema
 from msgspec import inspect as mi
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Callable, Iterable
 
 __all__ = ("schema", "schema_components")
 
@@ -59,7 +59,7 @@ def _collect_component_types(type_infos: Iterable[mi.Type]) -> dict[Any, mi.Type
 
     def collect(t: mi.Type) -> None:  # noqa: C901
         t = _exclude(t)
-        if isinstance(t, (mi.StructType, mi.TypedDictType, mi.DataclassType, mi.NamedTupleType)):
+        if isinstance(t, mi.StructType | mi.TypedDictType | mi.DataclassType | mi.NamedTupleType):
             if t.cls not in components:
                 components[t.cls] = t
                 for f in t.fields:

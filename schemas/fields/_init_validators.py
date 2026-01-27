@@ -2,10 +2,9 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from threading import Lock
-from typing import Annotated, Any, Generic, TypeVar, cast
+from typing import Annotated, Any, Generic, Self, TypeVar, cast
 
 import msgspec
-from typing_extensions import Self
 
 from schemas.fields.serializable import Serializable
 
