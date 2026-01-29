@@ -174,9 +174,7 @@ def test_asset_nai_vests_field_incorrect_amount(value: str) -> None:
     assert expected_message in str(error.value)
 
 
-@pytest.mark.parametrize(
-    "value, valid", [("1970-01-01T00:00:00", datetime.datetime.fromtimestamp(0, tz=datetime.timezone.utc))]
-)
+@pytest.mark.parametrize("value, valid", [("1970-01-01T00:00:00", datetime.datetime.fromtimestamp(0, tz=datetime.UTC))])
 def test_hive_datetime_field_correct_values(value: str, valid: datetime.datetime) -> None:
     # ARRANGE & ACT
     instance = HiveDateTimeModel(field=HiveDateTime(value))

@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
-from typing import TYPE_CHECKING, Any, TypeVar
-
-from typing_extensions import Self
+from typing import TYPE_CHECKING, Any, Self, TypeVar
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.hex import Signature, TransactionId

@@ -5,10 +5,9 @@ import operator
 import re
 from abc import ABC, ABCMeta, abstractmethod
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Self
 
 import msgspec
-from typing_extensions import Self
 
 from schemas.fields.assets._symbol import HbdSymbolType, HiveSymbolType, VestsSymbolType
 from schemas.fields.assets._validators import validate_nai, validate_precision
@@ -155,7 +154,7 @@ class AssetBase(Serializable, ABC, metaclass=MetaAsset):
     def copy(self, *, amount: int | AssetBase | None = None) -> Self:
         if amount is None:
             return self.__class__(amount=self.amount, precision=self.precision(), nai=self.nai())
-        if isinstance(amount, (int, AssetBase)):
+        if isinstance(amount, int | AssetBase):
             amount_to_use = amount if isinstance(amount, int) else amount.amount
             return self.__class__(amount=AssetNaiAmount(amount_to_use), precision=self.precision(), nai=self.nai())
         raise TypeError(f"`{amount}` cannot be used as amount.")

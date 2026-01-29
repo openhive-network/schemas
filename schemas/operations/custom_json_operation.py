@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, TypeAlias
+from typing import Any
 
 from msgspec import field
 
@@ -24,4 +24,4 @@ class CustomJsonOperationGeneric(Operation):
         return 18
 
 
-CustomJsonOperation: TypeAlias = CustomJsonOperationGeneric
+CustomJsonOperation = CustomJsonOperationGeneric
