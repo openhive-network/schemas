@@ -61,9 +61,12 @@ pattern = "default-unprefixed"
 # Stability detection:
 #   - stable: develop/master/main branches OR tag checkout (detached HEAD with distance=0)
 #   - unstable: feature branches OR detached HEAD with distance>0
+#   - CI: GitLab checks out as detached HEAD, so branch is None;
+#     use CI_COMMIT_REF_NAME env var as fallback for branch detection
 format-jinja = """
     {%- set is_on_tag = branch is none and distance == 0 -%}
-    {%- set is_stable = branch in ['develop', 'master', 'main'] or is_on_tag -%}
+    {%- set effective_branch = branch if branch else env.get('CI_COMMIT_REF_NAME') -%}
+    {%- set is_stable = effective_branch in ['develop', 'master', 'main'] or is_on_tag -%}
     {%- set post = timestamp|int if distance > 0 else none -%}
 
     {%- set local_parts = ['unstable'] if not is_stable and distance > 0 else [] -%}
