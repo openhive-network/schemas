@@ -43,20 +43,25 @@ pattern = "default-unprefixed"
 # PEP 440 compliant versioning with .post{timestamp}
 # https://peps.python.org/pep-0440/
 #
-# Version examples (assuming last tag is 1.2.3rc1):
-#   Tag (distance=0, clean):       1.2.3rc1
-#   Tag (distance=0, dirty):       1.2.3rc1+dirty
+# Version examples (assuming last tag is 1.2.3):
+#   Tag (distance=0, clean):       1.2.3
+#   Tag (distance=0, dirty):       1.2.3+dirty
+#   develop (distance>0):          1.2.4.post20260129082556
+#   develop (dirty):               1.2.4.post20260129082556+dirty
+#   feature branch (distance>0):   1.2.4.post20260129082556+unstable
+#   feature branch (dirty):        1.2.4.post20260129082556+unstable.dirty
+#
+# With pre-release tag (e.g. 1.2.3rc1):
+#   Tag (distance=0):              1.2.3rc1
 #   develop (distance>0):          1.2.3rc1.post20260129082556
-#   develop (dirty):               1.2.3rc1.post20260129082556+dirty
 #   feature branch (distance>0):   1.2.3rc1.post20260129082556+unstable
-#   feature branch (dirty):        1.2.3rc1.post20260129082556+unstable.dirty
-#   feature branch (distance=0):   1.2.3rc1  (same as tag)
 #
 # Logic:
-#   - distance=0         -> exact tag version
-#   - distance>0         -> tag + .post{timestamp}
-#   - distance>0, unstable -> + 'unstable' marker
-#   - dirty              -> + 'dirty' marker
+#   - distance=0                -> exact tag version
+#   - distance>0, no stage      -> bump_version(base) + .post{timestamp}
+#   - distance>0, with stage    -> base + stage + .post{timestamp}
+#   - unstable branch           -> + 'unstable' marker
+#   - dirty                     -> + 'dirty' marker
 #
 # Stability detection:
 #   - stable: develop/master/main branches OR tag checkout (detached HEAD with distance=0)
@@ -72,7 +77,13 @@ format-jinja = """
     {%- set local_parts = ['unstable'] if not is_stable and distance > 0 else [] -%}
     {%- set local_parts = local_parts + ['dirty'] if dirty else local_parts -%}
 
-    {{ serialize_pep440(base, stage, revision, post=post, metadata=local_parts) }}
+    {%- if distance == 0 -%}
+        {{ serialize_pep440(base, stage, revision, metadata=local_parts) }}
+    {%- elif stage is not none -%}
+        {{ serialize_pep440(base, stage, revision, post=post, metadata=local_parts) }}
+    {%- else -%}
+        {{ serialize_pep440(bump_version(base), post=post, metadata=local_parts) }}
+    {%- endif -%}
 """
 
 [tool.poetry-dynamic-versioning.substitution]
