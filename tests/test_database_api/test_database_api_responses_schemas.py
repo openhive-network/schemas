@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import subprocess
+import sys
+import textwrap
 from typing import Any
 
 import pytest
@@ -83,3 +86,36 @@ def test_get_config_policy() -> None:
 
     with pytest.raises(TypeError):
         database_api.GetConfig()  # type: ignore[call-arg]
+
+
+def test_extra_fields_policy_allows_unknown_fields_in_get_config() -> None:
+    """ExtraFieldsPolicy must be applied BEFORE PreconfiguredBaseModel is imported.
+
+    This test runs in a subprocess to control import order — in a normal pytest run
+    PreconfiguredBaseModel is already imported at collection time, making the policy ineffective.
+    """
+    script = textwrap.dedent("""\
+        import copy, json, sys
+
+        from schemas.policies.extra_fields import ExtraFieldsPolicy
+        from schemas.policies.missing_fields_in_get_config import MissingFieldsInGetConfigPolicy
+        from schemas.policies import set_policies
+
+        # Policy MUST be applied before PreconfiguredBaseModel is imported
+        assert "schemas._preconfigured_base_model" not in sys.modules
+        set_policies(ExtraFieldsPolicy(allow=True), MissingFieldsInGetConfigPolicy(allow=True))
+
+        from schemas._preconfigured_base_model import PreconfiguredBaseModel
+        assert not PreconfiguredBaseModel.__struct_config__.forbid_unknown_fields
+
+        from schemas.jsonrpc import get_response_model
+        from schemas.apis.database_api import GetConfig
+        from tests.test_database_api.responses_from_api import GET_CONFIG
+
+        data = copy.deepcopy(GET_CONFIG)
+        data["result"]["HIVE_SOME_UNKNOWN_FUTURE_FIELD"] = 42
+
+        get_response_model(GetConfig, json.dumps(data), "hf26")
+    """)
+    result = subprocess.run([sys.executable, "-c", script], capture_output=True, text=True)
+    assert result.returncode == 0, f"Subprocess failed:\\nstderr: {result.stderr}"
