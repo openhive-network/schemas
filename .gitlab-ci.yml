@@ -30,12 +30,18 @@ variables:
 include:
   - project: 'hive/common-ci-configuration'
     # This should be the same version of Common CI defined in /hive/scripts/ci-helpers/prepare_data_image_job.yml
-    ref: 07fdf2c2bf8155477e7e1229e0bcc77852c9aa84
+    ref: f8e1b42621babbd8df2e6e197ecb598cfb9b228e
     file: '/templates/python_projects.gitlab-ci.yml'
 
 image: ${PYTHON_IMAGE}
 
 default:
+  tags:
+    - public-runner-docker
+
+verify_poetry_lock_stability:
+  stage: static_code_analysis
+  extends: .verify_poetry_lock_stability_template
   tags:
     - public-runner-docker
 
