@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Final
 
-from schemas.fields.assets._base import AssetHbd
+from schemas.fields.assets._base import AssetHbd, AssetHive
 from schemas.fields.basic import (
     AccountName,
 )
@@ -17,6 +17,7 @@ class ProposalPayOperation(VirtualOperation, kw_only=True):
     receiver: AccountName
     payer: AccountName
     payment: AssetHbd
+    conversion: AssetHive
 
     @classmethod
     def get_name(cls) -> str:
