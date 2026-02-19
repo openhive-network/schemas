@@ -32,13 +32,13 @@ version = "0.0.0"
 poetry-dynamic-versioning = { version = "==1.9.1", extras = ["plugin"] }
 
 [tool.poetry.group.static-analysis.dependencies]
-mypy = ">=1.19.1"
-ruff = ">=0.14.10"
-pre-commit = ">=4.5.1"
+mypy = ">=1.19.1, <2"
+ruff = ">=0.14.10, <1"
+pre-commit = ">=4.5.1, <5"
 
 [tool.poetry.group.dev.dependencies]
-pytest = ">=8.3.5"
-pytest-asyncio = ">=0.26.0"
+pytest = ">=8.3.5, <9"
+pytest-asyncio = ">=0.26.0, <1"
 
 [tool.poetry-dynamic-versioning]
 enable = true

@@ -17,8 +17,8 @@ variables:
   TXT_BLUE: "\e[1;34m"
   TXT_CLEAR: "\e[0m"
 
-  PYTHON_IMAGE_312: "registry.gitlab.syncad.com/hive/hive/ci-base-image:ubuntu24.04-3"
-  PYTHON_IMAGE_314: "registry.gitlab.syncad.com/hive/hive/ci-base-image:ubuntu24.04-py3.14-1"
+  PYTHON_IMAGE_312: "registry.gitlab.syncad.com/hive/common-ci-configuration/ci-base-image:7d1e52170866f021a080c1cb1db00d6fd1740118"
+  PYTHON_IMAGE_314: "registry.gitlab.syncad.com/hive/common-ci-configuration/ci-base-image:7d1e52170866f021a080c1cb1db00d6fd1740118"
 
   # Default Python image
   PYTHON_IMAGE: $PYTHON_IMAGE_314
@@ -30,7 +30,7 @@ variables:
 include:
   - project: 'hive/common-ci-configuration'
     # This should be the same version of Common CI defined in /hive/scripts/ci-helpers/prepare_data_image_job.yml
-    ref: f8e1b42621babbd8df2e6e197ecb598cfb9b228e
+    ref: kudmich/remove-poetry-dynamic-versioning
     file: '/templates/python_projects.gitlab-ci.yml'
 
 image: ${PYTHON_IMAGE}
