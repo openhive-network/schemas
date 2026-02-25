@@ -149,7 +149,6 @@ class GetConfigOrig(PreconfiguredBaseModel, kw_only=True):
     HIVE_CHAIN_ID: Hex
     HIVE_TREASURY_ACCOUNT: AccountName
     IS_TEST_NET: bool
-    HIVE_ENABLE_SMT: bool
     HIVE_DEFAULT_HF_9_COMPROMISED_ACCOUNTS_PUBLIC_KEY_STR: PublicKey
     HIVE_INIT_PUBLIC_KEY_STR: PublicKey
     HIVE_HF_9_COMPROMISED_ACCOUNTS_PUBLIC_KEY_STR: PublicKey
