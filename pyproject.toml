@@ -33,7 +33,7 @@ msgspec = "^0.20.0"
 
 [tool.poetry.group.static-analysis.dependencies]
 mypy = "^1.19.1"
-ruff = "^0.14.10"
+ruff = "^0.6.5"
 pre-commit = "^4.5.1"
 
 [tool.poetry.group.dev.dependencies]
