@@ -24,7 +24,7 @@ variables:
 include:
   - project: 'hive/common-ci-configuration'
     # This should be the same version of Common CI defined in /hive/scripts/ci-helpers/prepare_data_image_job.yml
-    ref: b87335f38a2be5c69ae13e6e985f6a42d6820652
+    ref: c9cb02ea67f9f381f52280be4ca1f708243373a0
     file: '/templates/python_projects.gitlab-ci.yml'
 
 image: ${PYTHON_IMAGE}
