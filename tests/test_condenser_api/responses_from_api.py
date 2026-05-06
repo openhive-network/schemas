@@ -1079,8 +1079,6 @@ GET_DYNAMIC_GLOBAL_PROPERTIES: Final[dict[str, Any]] = {
         "current_hbd_supply": "32230901.239 HBD",
         "total_vesting_fund_hive": "167139792.798 HIVE",
         "total_vesting_shares": "296909911037.211111 VESTS",
-        "total_reward_fund_hive": "0.000 HIVE",
-        "total_reward_shares2": "0",
         "pending_rewarded_vesting_shares": "829930159.432486 VESTS",
         "pending_rewarded_vesting_hive": "434183.483 HIVE",
         "hbd_interest_rate": 2000,

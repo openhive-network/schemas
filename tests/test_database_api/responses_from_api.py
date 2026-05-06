@@ -636,8 +636,6 @@ GET_DYNAMIC_GLOBAL_PROPERTIES = {
         "current_hbd_supply": {"amount": "32169937292", "precision": 3, "nai": "@@000000013"},
         "total_vesting_fund_hive": {"amount": "166920453564", "precision": 3, "nai": "@@000000021"},
         "total_vesting_shares": {"amount": "296807224583901800", "precision": 6, "nai": "@@000000037"},
-        "total_reward_fund_hive": {"amount": "0", "precision": 3, "nai": "@@000000021"},
-        "total_reward_shares2": "0",
         "pending_rewarded_vesting_shares": {"amount": "835578070883307", "precision": 6, "nai": "@@000000037"},
         "pending_rewarded_vesting_hive": {"amount": "437267906", "precision": 3, "nai": "@@000000021"},
         "hbd_interest_rate": 2000,
