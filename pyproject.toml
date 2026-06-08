@@ -29,7 +29,7 @@ version = "0.0.0"
 poetry-dynamic-versioning = { version = "1.9.1", extras = ["plugin"] }
 
 [tool.poetry.dependencies]
-msgspec = "^0.20.0"
+msgspec = "^0.21.0"
 
 [tool.poetry.group.static-analysis.dependencies]
 mypy = "^1.19.1"
