@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import datetime
 from typing import Any, Final, cast
 
@@ -227,14 +228,20 @@ def test_authority_field_correct_values(value: dict[str, Any]) -> None:
 )
 def test_authority_field_incorrect_values(authority: dict[str, Any], parameter: str, message: str) -> None:
     # ARRANGE
-    if authority == POSTING:
+    # `parametrize` hands over the module-level dicts by reference; mutating them here
+    # leaks into `test_authority_field_correct_values`, which is parametrized over the
+    # same objects. Work on a deep copy — the nested key_auths/account_auths lists need
+    # it, a shallow dict() would still alias them.
+    is_posting, is_owner = authority == POSTING, authority == OWNER
+    authority = copy.deepcopy(authority)
+    if is_posting:
         authority["weight_threshold"] = parameter
         with pytest.raises(msgspec.ValidationError) as error:
             Authority(**authority)
         assert message in str(error.value)
         return
 
-    if authority == OWNER:
+    if is_owner:
         authority["account_auths"].append([parameter, 1])
     else:
         authority["key_auths"][0][0] = parameter
