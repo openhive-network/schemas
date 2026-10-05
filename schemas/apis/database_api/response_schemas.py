@@ -446,8 +446,10 @@ class GetDynamicGlobalProperties(PreconfiguredBaseModel, kw_only=True):
     dhf_interval_ledger: AssetHbd
     time: HiveDateTime
     total_pow: HiveInt
-    total_reward_fund_hive: AssetHive
-    total_reward_shares2: HiveInt
+    # Removed from the hived API response by hive e5e32fc0e (the data moved to the reward fund object).
+    # Kept optional so responses from nodes running older hived versions can still be parsed.
+    total_reward_fund_hive: AssetHive | None = None
+    total_reward_shares2: HiveInt | None = None
     total_vesting_fund_hive: AssetHive
     total_vesting_shares: AssetVests
     vesting_reward_percent: HiveInt

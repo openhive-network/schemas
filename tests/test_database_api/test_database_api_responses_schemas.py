@@ -36,6 +36,10 @@ from . import responses_from_api
         (responses_from_api.LIST_VESTING_DELEGATIONS, database_api.ListVestingDelegations),
         (responses_from_api.FIND_LIMIT_ORDERS, database_api.FindLimitOrders),
         (responses_from_api.GET_DYNAMIC_GLOBAL_PROPERTIES, database_api.GetDynamicGlobalProperties),
+        (
+            responses_from_api.GET_DYNAMIC_GLOBAL_PROPERTIES_WITHOUT_REWARD_FUND_FIELDS,
+            database_api.GetDynamicGlobalProperties,
+        ),
         (responses_from_api.GET_CONFIG, database_api.GetConfig),
         (responses_from_api.GET_POTENTIAL_SIGNATURES, database_api.GetPotentialSignatures),
         (responses_from_api.GET_WITNESS_SCHEDULE, database_api.GetWitnessSchedule),

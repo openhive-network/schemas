@@ -21,6 +21,10 @@ from . import responses_from_api
         (condenser_api.GetDiscussionsByHot, responses_from_api.GET_DISCUSSIONS_BY_HOT),
         (condenser_api.GetDiscussionsByTrending, responses_from_api.GET_DISCUSSIONS_BY_TRENDING),
         (condenser_api.GetDynamicGlobalProperties, responses_from_api.GET_DYNAMIC_GLOBAL_PROPERTIES),
+        (
+            condenser_api.GetDynamicGlobalProperties,
+            responses_from_api.GET_DYNAMIC_GLOBAL_PROPERTIES_WITHOUT_REWARD_FUND_FIELDS,
+        ),
         (condenser_api.GetFeedHistory, responses_from_api.GET_FEED_HISTORY),
         (condenser_api.GetPostDiscussionsByPayout, responses_from_api.GET_POST_DISCUSSION_BY_PAYOUT),
         (condenser_api.GetRepliesByLastUpdate, responses_from_api.GET_REPLIES_BY_LAST_UPDATE),
