@@ -9,7 +9,6 @@ import msgspec
 from msgspec.json import Decoder
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.apis.market_history_api.fundaments_of_responses import BucketSizes
 from schemas.fields._init_validators import InitValidator, ValidatorInt, ValidatorString
 from schemas.fields.assets._base import AssetBase, AssetHbd, AssetHive, AssetNaiAmount, AssetVests
 from schemas.fields.hex import Sha256
@@ -30,7 +29,6 @@ def dec_hook_base(type_: type, obj: Any) -> Any:
     base_type_handlers: dict[type, Callable[[Any], Any]] = {
         HiveInt: HiveInt,
         HiveDateTime: HiveDateTime,
-        BucketSizes: BucketSizes,
         AssetNaiAmount: AssetNaiAmount,
         Sha256: Sha256,
         Version: Version,

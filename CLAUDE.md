@@ -65,12 +65,21 @@ The lockfile pins exact versions of all dependencies (direct and transitive). Th
 - **`schemas/operations/`**: All blockchain operations (transfer, vote, comment, etc.)
   - Each operation has its own file plus representation types in `representation_types.py`
   - Virtual operations are in `virtual/` subdirectory
-- **`schemas/apis/`**: Response schemas for each Hive API (database_api, condenser_api, etc.)
 - **`schemas/fields/`**: Custom field types (assets, AccountName, PublicKey, HiveDateTime, etc.)
-- **`schemas/jsonrpc.py`**: JSON-RPC request/response handling with `get_response_model()`
+  - `base_type_mappings.py`: builtin aliases of the field types (`AccountName = str`, ...) used by generated public API
+    models, plus `BASE_TYPE_MAPPINGS` (alias name -> validating type import path) used by generated validation models.
+    Must stay import-light (no msgspec).
+- **`schemas/jsonrpc.py`**: JSON-RPC request/response handling with `get_response_model()`. Expected types built only
+  of builtins and generated public models (types with `from_builtins`) are built WITHOUT validation; msgspec models and
+  field types (`HiveInt`, `AccountName`, ...) are decoded by msgspec.
+- **`schemas/validation.py`**: Opt-in response validation - `validate_schema(response, endpoint, model=None)` returning
+  `list[SchemaError]`; generated API packages register their validation models (`register_validation_models` or
+  `__validation_module__` on client classes).
 - **`schemas/decoders.py`**: Decoding hooks for HF26 and legacy formats
 - **`schemas/encoders.py`**: Encoding hooks for serialization
 - **`schemas/policies/`**: Runtime policies for extra fields, testnet assets, etc.
+
+API response schemas are not kept here - they are generated from hive's `openapi.json` (package `hiveio_api`).
 
 ### Custom Field Types
 
