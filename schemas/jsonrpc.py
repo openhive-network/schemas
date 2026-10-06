@@ -6,10 +6,13 @@ Yoy must use it like this -> HiveResult.factory(type_of_response, **response_fro
 
 from __future__ import annotations
 
+import json as json_module
 import os
-from collections.abc import Sequence
+import types
+from collections.abc import Callable, Mapping, Sequence
+from functools import cache
 from threading import Event, Lock, Semaphore
-from typing import Any, Generic, Literal, TypeVar, cast
+from typing import Any, Final, Generic, Literal, TypeVar, Union, cast, get_args, get_origin
 
 import msgspec
 
@@ -112,17 +115,79 @@ def get_response_model(
     """
     Use this method to create response model from the given parameters (as kwargs).
 
-    This function is used to perform validation on the result field. You choose the expected type of the result field.
-    In case when something is wrong and result field is not present, the JSONRPCError is returned.
+    When the expected type is built only of builtins and types providing `from_builtins` (generated public
+    models), the response is NOT validated: the result is built from parsed JSON as is
+    (see `_build_without_validation`). Otherwise (msgspec models, field types like `HiveInt` or `AccountName`)
+    the result is decoded (and so validated) by msgspec.
+    In case when result field is not present, the JSONRPCError is returned.
 
     Args:
         expected_model: Expected type of the result field.
-        **kwargs: Parameters to create response model.
+        json: Raw JSON-RPC response.
+        serialization: Serialization used by the response (`hf26` or `legacy`).
 
     Returns:
         The response model.
     """
     assert serialization in ("hf26", "legacy")
+    if _is_buildable_without_validation(expected_model):  # type: ignore[arg-type]
+        return _build_without_validation(expected_model, json)
     response_cls: type[JSONRPCResult[ExpectResultT] | JSONRPCError]
     response_cls = acquire_model(expected_model) if "result" in json else JSONRPCError
     return response_cls.parse_raw(json, (get_hf26_decoder if serialization == "hf26" else get_legacy_decoder))
+
+
+def _build_without_validation(expected_model: Any, raw: str) -> JSONRPCResult[Any] | JSONRPCError:
+    parsed = json_module.loads(raw)
+    if not isinstance(parsed, dict) or "result" not in parsed:
+        return msgspec.json.decode(raw, type=JSONRPCError)
+    # result is assigned after construction, so PreconfiguredBaseModel type swapping (__post_init__) never touches it
+    response: JSONRPCResult[Any] = JSONRPCResult(
+        id_=parsed.get("id", 0), jsonrpc=parsed.get("jsonrpc", "2.0"), result=None
+    )
+    response.result = _result_builder(expected_model)(parsed["result"])
+    return response
+
+
+_BUILTIN_LEAVES: Final[frozenset[Any]] = frozenset({str, int, float, bool, bytes, type(None), Any})
+_BUILTIN_CONTAINERS: Final[frozenset[Any]] = frozenset(
+    {list, tuple, dict, Sequence, Mapping, Union, types.UnionType, Literal}
+)
+
+
+@cache
+def _is_buildable_without_validation(type_: Any) -> bool:
+    """Check if the type tree consists only of builtins and types providing `from_builtins`."""
+    if type_ in _BUILTIN_LEAVES or type_ is None:
+        return True
+    if isinstance(type_, type) and callable(getattr(type_, "from_builtins", None)):
+        return True
+    origin = get_origin(type_)
+    if origin is Literal:
+        return True
+    if origin not in _BUILTIN_CONTAINERS:
+        return False
+    return all(_is_buildable_without_validation(arg) for arg in get_args(type_) if arg is not Ellipsis)
+
+
+@cache
+def _result_builder(type_: Any) -> Callable[[Any], Any]:
+    """
+    Build nested results of types providing `from_builtins` (generated public models); leave everything else as is.
+
+    No type checking is performed.
+    """
+    if isinstance(type_, type) and callable(from_builtins := getattr(type_, "from_builtins", None)):
+        return lambda value: from_builtins(value) if isinstance(value, dict) else value
+
+    origin = get_origin(type_)
+    args = get_args(type_)
+    if origin in (list, Sequence) and args:
+        item = _result_builder(args[0])
+        return lambda value: [item(element) for element in value] if isinstance(value, list) else value
+    if origin in (Union, types.UnionType):
+        candidates = [arg for arg in args if arg is not type(None)]
+        if len(candidates) == 1:
+            single = _result_builder(candidates[0])
+            return lambda value: None if value is None else single(value)
+    return lambda value: value
