@@ -9,10 +9,17 @@ from typing import TYPE_CHECKING, Any
 import pytest
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.errors import ValidationError
 from schemas.fields.assets import AssetHive
 from schemas.fields.basic import AccountName
 from schemas.fields.hive_int import HiveInt
-from schemas.validation import SchemaError, UnknownEndpointError, register_validation_models, validate_schema
+from schemas.validation import (
+    SchemaError,
+    UnknownEndpointError,
+    convert_to_validation_schema,
+    register_validation_models,
+    validate_schema,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -161,3 +168,29 @@ def test_unknown_endpoint_raises() -> None:
         validate_schema({}, "not_registered_api.method")
     with pytest.raises(UnknownEndpointError):
         validate_schema({}, "fake_api.not_existing_method")
+
+
+def test_convert_returns_validation_model_with_hive_types() -> None:
+    # ACT
+    converted = convert_to_validation_schema({"accounts": [account()]}, "fake_api.find_accounts")
+
+    # ASSERT
+    assert isinstance(converted, GetAccountsResponse)
+    assert isinstance(converted.accounts[0].balance, AssetHive)
+    assert converted.accounts[0].balance == AssetHive(amount=1000)
+
+
+def test_convert_of_legacy_response_and_endpoint_given_as_method() -> None:
+    # ACT
+    converted = convert_to_validation_schema([account(balance="1.000 HIVE")], FakeLegacyApi().get_accounts)
+
+    # ASSERT
+    assert converted[0].balance == AssetHive(amount=1000)
+
+
+def test_convert_raises_on_invalid_response() -> None:
+    # ACT & ASSERT
+    with pytest.raises(ValidationError):
+        convert_to_validation_schema({"accounts": [account(name="Invalid!")]}, "fake_api.find_accounts")
+    with pytest.raises(UnknownEndpointError):
+        convert_to_validation_schema({}, "not_registered_api.method")

@@ -35,6 +35,7 @@ __all__ = [
     "SchemaError",
     "SerializationT",
     "UnknownEndpointError",
+    "convert_to_validation_schema",
     "register_validation_models",
     "validate_schema",
 ]
@@ -80,6 +81,35 @@ def register_validation_models(api_name: str, module_path: str, serialization: S
         _registry[api_name] = _Registration(module_path, serialization)
 
 
+def convert_to_validation_schema(
+    response: Any,
+    endpoint: str | Callable[..., Any],
+    *,
+    model: Any | None = None,
+    serialization: SerializationT | None = None,
+) -> Any:
+    """
+    Convert a response of the given endpoint to its validation model (Hive types from `schemas.fields`).
+
+    Args:
+        response: Response to convert - builtins (e.g. from `json.loads`), raw JSON as `bytes`, or result returned by
+                  an API call (public models are converted back to builtins, including undeclared fields).
+        endpoint: `"api_name.method"` or the API method itself (e.g. `chain.api.condenser_api.get_accounts`).
+        model: Type to convert to instead of the generated validation model (e.g. `list[MyAccount]`).
+        serialization: Override of the serialization (`hf26`/`legacy`) used to decode Hive types.
+
+    Returns:
+        Instance of the validation model (assets as asset objects, timestamps as datetimes, ...).
+
+    Raises:
+        UnknownEndpointError: When `model` is not given and there is no validation model for the endpoint.
+        schemas.errors.ValidationError: When the response does not match the model - use `validate_schema` to get
+            all problems with their paths.
+    """
+    target, dec_hook = _target_and_hook(endpoint, model, serialization)
+    return _convert(_to_builtins(response), target, dec_hook)
+
+
 def validate_schema(
     response: Any,
     endpoint: str | Callable[..., Any],
@@ -90,12 +120,7 @@ def validate_schema(
     """
     Validate a response of the given endpoint.
 
-    Args:
-        response: Response to validate - builtins (e.g. from `json.loads`), raw JSON as `bytes`, or result returned by
-                  an API call (public models are converted back to builtins, including undeclared fields).
-        endpoint: `"api_name.method"` or the API method itself (e.g. `chain.api.condenser_api.get_accounts`).
-        model: Type to validate against instead of the generated validation model (e.g. `list[MyAccount]`).
-        serialization: Override of the serialization (`hf26`/`legacy`) used to decode Hive types.
+    Same arguments as `convert_to_validation_schema`; instead of the converted model returns the found problems.
 
     Returns:
         All found problems, empty list when the response matches the model.
@@ -103,13 +128,36 @@ def validate_schema(
     Raises:
         UnknownEndpointError: When `model` is not given and there is no validation model for the endpoint.
     """
+    target, dec_hook = _target_and_hook(endpoint, model, serialization)
+    data = _to_builtins(response)
+    try:
+        _convert(data, target, dec_hook)
+    except _conversion_errors():
+        errors: list[SchemaError] = []
+        _collect_errors(data, target, _ROOT_PATH, dec_hook, errors)
+        return errors
+    return []
+
+
+def _target_and_hook(
+    endpoint: str | Callable[..., Any], model: Any | None, serialization: SerializationT | None
+) -> tuple[Any, Callable[[type, Any], Any]]:
     registration, method = _resolve_endpoint(endpoint)
     target = model if model is not None else _generated_model(registration, method)
-    dec_hook = _dec_hook(serialization or registration.serialization)
+    return target, _dec_hook(serialization or registration.serialization)
 
-    errors: list[SchemaError] = []
-    _collect_errors(_to_builtins(response), target, _ROOT_PATH, dec_hook, errors)
-    return errors
+
+def _convert(data: Any, target: Any, dec_hook: Callable[[type, Any], Any]) -> Any:
+    import msgspec
+
+    return msgspec.convert(data, type=target, dec_hook=dec_hook)
+
+
+def _conversion_errors() -> tuple[type[Exception], ...]:
+    """Errors meaning that data does not match the model (custom field validators may raise the builtin ones)."""
+    import msgspec
+
+    return (msgspec.ValidationError, ValueError, TypeError, AssertionError)
 
 
 def _resolve_endpoint(endpoint: str | Callable[..., Any]) -> tuple[_Registration, str]:
@@ -175,11 +223,9 @@ def _to_builtins(response: Any, *, top_level: bool = True) -> Any:
 def _collect_errors(
     data: Any, type_: Any, path: str, dec_hook: Callable[[type, Any], Any], errors: list[SchemaError]
 ) -> None:
-    import msgspec
-
     try:
-        msgspec.convert(data, type=type_, dec_hook=dec_hook)
-    except (msgspec.ValidationError, ValueError, TypeError, AssertionError) as error:
+        _convert(data, type_, dec_hook)
+    except _conversion_errors() as error:
         failure = error
     else:
         return
