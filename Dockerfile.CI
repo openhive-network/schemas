@@ -8,7 +8,7 @@
 # - `build-ci-base-image.sh`, which builds the image and tags it with the MANUALLY GIVEN version.
 # - `push-ci-base-image.sh`, which pushes the image and will make sure you won't overwrite an existing image.
 
-FROM python:3.14-bookworm
+FROM python:3.15-bookworm
 
 ARG DEBIAN_FRONTEND=noninteractive
 
