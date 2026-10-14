@@ -3,7 +3,8 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from typing import Any
 
-from schemas.fields.resolvables import Resolvable
+from schemas.errors import FieldValidationError
+from schemas.fields.serializable import Serializable
 from schemas.hive_constants import HIVE_TIME_FORMAT
 
 __all__ = [
@@ -11,7 +12,7 @@ __all__ = [
 ]
 
 
-class HiveDateTime(datetime, Resolvable["HiveDateTime", str | datetime]):
+class HiveDateTime(datetime, Serializable):
     def __new__(cls, value: str | datetime | HiveDateTime, *args: Any) -> HiveDateTime:
         # source: https://stackoverflow.com/a/45981230
         if len(args) > 0:
@@ -31,7 +32,7 @@ class HiveDateTime(datetime, Resolvable["HiveDateTime", str | datetime]):
         )
 
     def __copy__(self) -> HiveDateTime:
-        return HiveDateTime.resolve(HiveDateTime, self.serialize())
+        return HiveDateTime(self.serialize())
 
     def __deepcopy__(self, memo: Any) -> HiveDateTime:
         return self.__copy__()
@@ -44,16 +45,12 @@ class HiveDateTime(datetime, Resolvable["HiveDateTime", str | datetime]):
             try:
                 return cls.__normalize(datetime.strptime(value, HIVE_TIME_FORMAT))
             except ValueError as error:
-                raise ValueError(f"Date must be in format {HIVE_TIME_FORMAT}") from error
-        raise TypeError("Value must be a datetime or a string in the correct format.")
+                raise FieldValidationError(f"Date must be in format {HIVE_TIME_FORMAT}") from error
+        raise FieldValidationError("Value must be a datetime or a string in the correct format.")
 
     @classmethod
     def __normalize(cls, value: datetime) -> datetime:
         return value.replace(tzinfo=UTC)
-
-    @staticmethod
-    def resolve(incoming_cls: type, value: str | datetime) -> HiveDateTime:  # noqa: ARG004
-        return HiveDateTime(value=value)
 
     @staticmethod
     def now() -> HiveDateTime:  # type: ignore[override]

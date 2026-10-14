@@ -11,11 +11,10 @@ from datetime import datetime
 from enum import IntEnum
 from json import dumps as pretty_json_dumps
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Literal, Self, TypeVar, cast, get_args, get_origin
+from typing import TYPE_CHECKING, Any, Literal, Self, cast, get_args, get_origin
 
 import msgspec
 
-from schemas import _json_schema
 from schemas.policies.extra_fields import ExtraFieldsPolicy
 
 if TYPE_CHECKING:
@@ -343,10 +342,9 @@ class PreconfiguredBaseModel(
         """
         Use function 'excluded_fields_for_schema_json' to exclude fields from schema.
         """
-        from schemas.decoders import schema_hook
+        from schemas._json_schema import schema, schema_hook
 
-        schema = _json_schema.schema(cls, schema_hook=schema_hook)
-        return msgspec.json.encode(schema).decode()
+        return msgspec.json.encode(schema(cls, schema_hook=schema_hook)).decode()
 
     @classmethod
     def _registered_swap_types(cls) -> DictStrAnyType:
@@ -354,22 +352,15 @@ class PreconfiguredBaseModel(
 
         Note: Can be overrided by sub-classes to add more types.
         """
+        from schemas.fields import assets
         from schemas.fields._init_validators import InitValidator
         from schemas.fields.hive_datetime import HiveDateTime
-        from schemas.fields.resolvables import (
-            AssetUnionAssetHiveAssetHbd,
-            AssetUnionAssetHiveAssetVests,
-            JsonString,
-        )
+        from schemas.fields.json_string import JsonString
 
-        result = {
-            "AssetUnionAssetHiveAssetHbd": AssetUnionAssetHiveAssetHbd,
-            "AssetUnionAssetHiveAssetVests": AssetUnionAssetHiveAssetVests,
-            "JsonString": JsonString[Any],
-            "HiveDateTime": HiveDateTime,
-        }
+        result: DictStrAnyType = {name: getattr(assets, name) for name in assets.__all__ if name != "AssetBase"}
+        result.update({"JsonString": JsonString[object], "HiveDateTime": HiveDateTime})
         result.update(InitValidator.get_registered_types())
-        return result  # type: ignore[return-value]
+        return result
 
     def __hash__(self) -> int:
         return hash(self.json())
@@ -386,6 +377,3 @@ class PreconfiguredBaseModel(
 
     def __str__(self) -> str:
         return self.humanize()
-
-
-BaseModelT = TypeVar("BaseModelT", bound=PreconfiguredBaseModel)

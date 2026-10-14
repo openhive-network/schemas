@@ -1,16 +1,30 @@
+"""
+Assets in a fixed JSON form - the type decides the form (msgspec decodes by the declared type and encodes by the type of
+the value, see `schemas.decoders` and `schemas.encoders`):
+
+- `AssetHive`, `AssetHbd`, `AssetVests` (and the unions `AssetHiveOrHbd`, `AssetHiveOrVests`, `AnyAsset`) - NAI form
+  (`{"amount": "1000", "precision": 3, "nai": "@@000000021"}`),
+- `LegacyAssetHive`, `LegacyAssetHbd`, `LegacyAssetVests` (and the unions `LegacyAssetHiveOrHbd`,
+  `LegacyAssetHiveOrVests`, `LegacyAnyAsset`) - legacy form (`"1.000 HIVE"`).
+
+msgspec allows only one custom type in a union and requires a decoded value to be an instance of the declared type, so
+unions of assets are base classes of their members.
+"""
+
 from __future__ import annotations
 
 import contextlib
+import inspect
 import operator
 import re
 from abc import ABC, ABCMeta, abstractmethod
+from dataclasses import replace
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any, Self
+from typing import TYPE_CHECKING, Any, ClassVar, Final, Self
 
 import msgspec
 
-from schemas.fields.assets._symbol import HbdSymbolType, HiveSymbolType, VestsSymbolType
-from schemas.fields.assets._validators import validate_nai, validate_precision
+from schemas.errors import FieldValidationError
 from schemas.fields.assets.asset_info import AssetInfo
 from schemas.fields.hive_int import HiveInt, HiveIntFactory
 from schemas.fields.serializable import OverrideTypeNameMeta, Serializable
@@ -22,36 +36,27 @@ if TYPE_CHECKING:  # nofmt
 else:
     AssetNaiAmount = HiveIntFactory.factory("AssetNaiAmount", msgspec.Meta(ge=0))
 
-
-class MetaAsset(OverrideTypeNameMeta, ABCMeta):
-    """
-    This implementation is because of HiddenAssetType which can be used in isinstance context.
-    """
-
-    def __instancecheck__(cls: type[Any], instance: Any) -> bool:
-        if issubclass(cls, AssetBase):
-            instance_t = type(instance)
-            if issubclass(instance_t, AssetBase):
-                return cls._compare_asset_types(instance_t)
-            return False
-        return False
-
-    def _compare_asset_types(cls, other: type[AssetBase]) -> bool:
-        assert issubclass(cls, AssetBase) and issubclass(other, AssetBase), "Both classes must be AssetBase subclasses"
-        if (cls is AssetBase) or (cls is HiddenAssetBase):
-            return True
-        if issubclass(cls, HiddenAssetBase) and (not issubclass(other, HiddenAssetBase)):
-            other_nai = other.get_asset_information().nai
-            return any(other_nai == allowed.get_asset_information().nai for allowed in cls.allowed_types())
-        if issubclass(other, HiddenAssetBase) and (not issubclass(cls, HiddenAssetBase)):
-            cls_nai = cls.get_asset_information().nai
-            return any(cls_nai == allowed.get_asset_information().nai for allowed in other.allowed_types())
-        if (not issubclass(other, HiddenAssetBase)) and (not issubclass(cls, HiddenAssetBase)):
-            return cls.get_asset_information().nai == other.get_asset_information().nai
-        return True
+_HIVE_INFO: Final[AssetInfo] = AssetInfo(
+    precision=HiveInt(3), nai="@@000000021", symbol=("HIVE", "TESTS"), testnet=False
+)
+_HBD_INFO: Final[AssetInfo] = AssetInfo(precision=HiveInt(3), nai="@@000000013", symbol=("HBD", "TBD"), testnet=False)
+_VESTS_INFO: Final[AssetInfo] = AssetInfo(
+    precision=HiveInt(6), nai="@@000000037", symbol=("VESTS", "VESTS"), testnet=False
+)
+_LEGACY_ASSET_REGEX: Final[re.Pattern[str]] = re.compile(r"^\d+\.\d+ ([A-Z]+)$")
 
 
-class AssetBase(Serializable, ABC, metaclass=MetaAsset):
+class _AssetMeta(OverrideTypeNameMeta, ABCMeta):
+    def __instancecheck__(cls, instance: object) -> bool:
+        # testnet assets (`AssetTests`, `AssetTbd`) are the same assets as the mainnet ones - only their legacy symbol
+        # differs
+        mainnet_asset = cls.__dict__.get("_testnet_of")
+        return super().__instancecheck__(instance) or (
+            mainnet_asset is not None and isinstance(instance, mainnet_asset)
+        )
+
+
+class AssetBase(Serializable, ABC, metaclass=_AssetMeta):
     def __init__(self, amount: int, precision: HiveInt | None = None, nai: str | None = None):
         self.__amount = AssetNaiAmount(amount)
         self.validate(precision, nai)
@@ -147,10 +152,6 @@ class AssetBase(Serializable, ABC, metaclass=MetaAsset):
     def int_amount(self) -> int:
         return int(self.amount)
 
-    @int_amount.setter
-    def int_amount(self, value: int) -> None:
-        self.__amount = AssetNaiAmount(value)
-
     def copy(self, *, amount: int | AssetBase | None = None) -> Self:
         if amount is None:
             return self.__class__(amount=self.amount, precision=self.precision(), nai=self.nai())
@@ -193,16 +194,40 @@ class AssetBase(Serializable, ABC, metaclass=MetaAsset):
         return AssetNaiAmount(parsed_amount), HiveInt(precision), symbol
 
     @classmethod
+    def deserialize(cls, value: object) -> Self:
+        """Create the asset from its JSON form - NAI form (legacy assets override it)."""
+        return cls.from_nai(value)
+
+    @classmethod
     def from_legacy(cls, other: str) -> Self:
         amount, precision, symbol = cls.parse_raw(other)
         info = cls.get_asset_information()
         if symbol not in info.symbol:
-            raise ValueError(f"Invalid symbol! Parsing for: {info.symbol}")
+            raise FieldValidationError(f"Invalid symbol! Parsing for: {info.symbol}")
         return cls(amount=amount, precision=precision, nai=info.nai)
 
     @classmethod
-    def from_nai(cls, other: dict[str, Any]) -> Self:
-        return cls(**other)
+    def from_nai(cls, other: object) -> Self:
+        if not isinstance(other, dict):
+            raise FieldValidationError(f"Expected asset in NAI form (object), got: `{other}`")
+        if not inspect.isabstract(cls):
+            return cls(**other)
+        for asset in _NAI_ASSETS:
+            if issubclass(asset, cls) and asset.nai() == other.get("nai"):
+                return asset(**other)
+        members = [asset.__name__ for asset in _NAI_ASSETS if issubclass(asset, cls)]
+        raise FieldValidationError(f"Expected one of {members}, got: `{other}`")
+
+    def as_legacy_asset(self) -> LegacyAnyAsset:
+        """Return the asset in the legacy form (e.g. to put it into a legacy operation)."""
+        if isinstance(self, LegacyAnyAsset):
+            return self
+        info = self.get_asset_information()
+        for asset in _LEGACY_ASSETS:
+            asset_info = asset.get_asset_information()
+            if asset_info.nai == info.nai and asset_info.testnet == info.testnet:
+                return asset(amount=self.amount)
+        raise AssertionError(f"No legacy asset for {type(self)}")
 
     def as_nai(self) -> dict[str, AssetNaiAmount | str | HiveInt]:
         info = self.get_asset_information()
@@ -220,14 +245,9 @@ class AssetBase(Serializable, ABC, metaclass=MetaAsset):
             "precision": info.precision,
         }
 
-    def serialize(self) -> dict[str, str | HiveInt]:
+    def serialize(self) -> dict[str, str | HiveInt] | str:
+        """Return the JSON form of the asset - NAI form (legacy assets override it with the legacy form)."""
         return self.as_serialized_nai()
-
-    def serialize_as_legacy(self) -> str:
-        return self.as_legacy()
-
-    def serialize_as_legacy_testnet(self) -> str:
-        return self.as_legacy(testnet=True)
 
     def as_float(self) -> float:
         info = self.get_asset_information()
@@ -250,20 +270,20 @@ class AssetBase(Serializable, ABC, metaclass=MetaAsset):
     @classmethod
     def validate(cls, precision: HiveInt | None, nai: str | None) -> None:
         info = cls.get_asset_information()
-
-        if precision is not None:
-            (validate_precision(int(precision), info),)
-
-        if nai is not None:
-            validate_nai(nai, info)
+        if precision is not None and int(precision) != info.precision:
+            raise FieldValidationError("Invalid decimals")
+        if nai is not None and nai != info.nai:
+            raise FieldValidationError("Invalid nai !")
 
     @classmethod
     def __legacy_regex_validator(cls, value: str) -> None:
+        if not isinstance(value, str):
+            raise FieldValidationError(f"Legacy asset must be a string, got: `{type(value)}`")
         if "-" in value:
-            raise ValueError("Asset could not be negative value!")
+            raise FieldValidationError("Asset could not be negative value!")
         regex = cls._get_legacy_regex()
         if regex.match(value) is None:
-            raise ValueError("Given legacy asset does not match regex")
+            raise FieldValidationError("Given legacy asset does not match regex")
 
     def __convert_to_asset(self, other: Any) -> Self:
         with contextlib.suppress(ValueError, TypeError):
@@ -287,42 +307,115 @@ class AssetBase(Serializable, ABC, metaclass=MetaAsset):
         return hash(self.as_serialized_nai())
 
 
-class HiddenAssetBase(AssetBase):
-    @classmethod
-    @abstractmethod
-    def allowed_types(cls) -> list[type[AssetBase]]:
-        """
-        Returns a list of allowed asset types for this AssetUnion.
-        This method should be implemented by subclasses to specify which asset types are allowed.
-        """
-        raise NotImplementedError("This method should be implemented by subclasses to specify allowed asset types.")
+class AnyAsset(AssetBase):
+    """HIVE, HBD or VESTS."""
 
 
-class AssetHive(AssetBase):
+class AssetHiveOrHbd(AnyAsset):
+    """HIVE or HBD."""
+
+
+class AssetHiveOrVests(AnyAsset):
+    """HIVE or VESTS."""
+
+
+class AssetHive(AssetHiveOrHbd, AssetHiveOrVests):
     @staticmethod
     def get_asset_information() -> AssetInfo:
-        return HiveSymbolType.get_asset_information(testnet=False)
+        return _HIVE_INFO
 
 
-class AssetHbd(AssetBase):
+class AssetHbd(AssetHiveOrHbd):
     @staticmethod
     def get_asset_information() -> AssetInfo:
-        return HbdSymbolType.get_asset_information(testnet=False)
+        return _HBD_INFO
 
 
-class AssetVests(AssetBase):
+class AssetVests(AssetHiveOrVests):
     @staticmethod
     def get_asset_information() -> AssetInfo:
-        return VestsSymbolType.get_asset_information(testnet=False)
+        return _VESTS_INFO
 
 
 class AssetTests(AssetHive):
+    _testnet_of: ClassVar[type[AssetBase]] = AssetHive
+
     @staticmethod
     def get_asset_information() -> AssetInfo:
-        return HiveSymbolType.get_asset_information(testnet=True)
+        return replace(_HIVE_INFO, testnet=True)
 
 
 class AssetTbd(AssetHbd):
+    _testnet_of: ClassVar[type[AssetBase]] = AssetHbd
+
     @staticmethod
     def get_asset_information() -> AssetInfo:
-        return HbdSymbolType.get_asset_information(testnet=True)
+        return replace(_HBD_INFO, testnet=True)
+
+
+class LegacyAnyAsset(AnyAsset):
+    """HIVE, HBD or VESTS in the legacy form."""
+
+    @classmethod
+    def deserialize(cls, value: object) -> Self:
+        return cls.from_legacy(value)
+
+    @classmethod
+    def from_legacy(cls, other: object) -> Self:
+        # the symbol decides the asset - also the testnet one, so the asset is serialized back with the same symbol
+        if not isinstance(other, str) or (matched := _LEGACY_ASSET_REGEX.match(other)) is None:
+            raise FieldValidationError(f"Expected asset in legacy form (e.g. `1.000 HIVE`), got: `{other}`")
+        symbols = {_legacy_symbol(asset): asset for asset in _LEGACY_ASSETS if issubclass(asset, cls)}
+        if matched.group(1) not in symbols:
+            raise FieldValidationError(f"Expected asset with one of symbols {list(symbols)}, got: `{other}`")
+        return super(LegacyAnyAsset, symbols[matched.group(1)]).from_legacy(other)
+
+    def serialize(self) -> str:
+        return self.as_legacy()
+
+
+class LegacyAssetHiveOrHbd(LegacyAnyAsset, AssetHiveOrHbd):
+    """HIVE or HBD in the legacy form."""
+
+
+class LegacyAssetHiveOrVests(LegacyAnyAsset, AssetHiveOrVests):
+    """HIVE or VESTS in the legacy form."""
+
+
+class LegacyAssetHive(LegacyAssetHiveOrHbd, LegacyAssetHiveOrVests, AssetHive):
+    pass
+
+
+class LegacyAssetHbd(LegacyAssetHiveOrHbd, AssetHbd):
+    pass
+
+
+class LegacyAssetVests(LegacyAssetHiveOrVests, AssetVests):
+    pass
+
+
+class LegacyAssetTests(LegacyAssetHive):
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return replace(_HIVE_INFO, testnet=True)
+
+
+class LegacyAssetTbd(LegacyAssetHbd):
+    @staticmethod
+    def get_asset_information() -> AssetInfo:
+        return replace(_HBD_INFO, testnet=True)
+
+
+def _legacy_symbol(asset: type[AssetBase]) -> str:
+    info = asset.get_asset_information()
+    return info.symbol[int(info.testnet)]
+
+
+_NAI_ASSETS: Final[tuple[type[AssetBase], ...]] = (AssetHive, AssetHbd, AssetVests)
+_LEGACY_ASSETS: Final[tuple[type[LegacyAnyAsset], ...]] = (
+    LegacyAssetHive,
+    LegacyAssetTests,
+    LegacyAssetHbd,
+    LegacyAssetTbd,
+    LegacyAssetVests,
+)

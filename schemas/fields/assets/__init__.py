@@ -1,12 +1,41 @@
 from __future__ import annotations
 
-from schemas.fields.assets._base import AssetBase, AssetHbd, AssetHive, AssetTbd, AssetTests, AssetVests
+from schemas.fields.assets._base import (
+    AnyAsset,
+    AssetBase,
+    AssetHbd,
+    AssetHive,
+    AssetHiveOrHbd,
+    AssetHiveOrVests,
+    AssetTbd,
+    AssetTests,
+    AssetVests,
+    LegacyAnyAsset,
+    LegacyAssetHbd,
+    LegacyAssetHive,
+    LegacyAssetHiveOrHbd,
+    LegacyAssetHiveOrVests,
+    LegacyAssetTbd,
+    LegacyAssetTests,
+    LegacyAssetVests,
+)
 
 __all__ = [
+    "AnyAsset",
     "AssetBase",
-    "AssetHive",
-    "AssetTests",
     "AssetHbd",
+    "AssetHive",
+    "AssetHiveOrHbd",
+    "AssetHiveOrVests",
     "AssetTbd",
+    "AssetTests",
     "AssetVests",
+    "LegacyAnyAsset",
+    "LegacyAssetHbd",
+    "LegacyAssetHive",
+    "LegacyAssetHiveOrHbd",
+    "LegacyAssetHiveOrVests",
+    "LegacyAssetTbd",
+    "LegacyAssetTests",
+    "LegacyAssetVests",
 ]

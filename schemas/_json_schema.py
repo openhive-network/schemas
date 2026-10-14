@@ -1,14 +1,22 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from msgspec import _json_schema as msgspec_json_schema
 from msgspec import inspect as mi
 
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields._init_validators import ValidatorInt, ValidatorString
+from schemas.fields.assets._base import AssetBase
+from schemas.fields.hive_datetime import HiveDateTime
+from schemas.fields.hive_int import HiveIntFactory
+from schemas.fields.json_string import JsonString
+
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
-__all__ = ("schema", "schema_components")
+__all__ = ("schema", "schema_components", "schema_hook")
 
 
 def schema(
@@ -43,6 +51,31 @@ def schema_components(
 
     components = {name_map[cls]: gen.to_schema(t, False) for cls, t in component_types.items()}
     return schemas, components
+
+
+def schema_hook(obj: type) -> dict[str, str]:
+    """JSON Schema of Hive types, which are unknown to msgspec."""
+    direct_map: dict[type, dict[str, str]] = {
+        Path: {"type": "string", "format": "path"},
+        HiveDateTime: {"type": "string", "format": "date-time"},
+        JsonString: {"type": "str"},
+        object: {"description": "any value"},  # no constraint - msgspec requires a non-empty schema of a custom type
+    }
+    if obj in direct_map:
+        return direct_map[obj]
+
+    subclass_map: list[tuple[type, dict[str, str]]] = [
+        (HiveIntFactory, {"type": "integer"}),
+        (ValidatorInt, {"type": "integer"}),
+        (AssetBase, {"type": "asset"}),
+        (ValidatorString, {"type": "str"}),
+        (PreconfiguredBaseModel, {"type": "object"}),
+    ]
+    for base, result in subclass_map:
+        if isinstance(obj, type) and issubclass(obj, base):
+            return result
+
+    raise NotImplementedError(f"Objects of type {obj} are not supported")
 
 
 def _collect_component_types(type_infos: Iterable[mi.Type]) -> dict[Any, mi.Type]:  # noqa: C901
