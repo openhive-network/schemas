@@ -5,18 +5,16 @@ from typing import TYPE_CHECKING, Annotated, Final
 import msgspec
 
 from schemas.fields._init_validators import ValidatorString
-from schemas.hive_constants import HIVE_MAX_URL_LENGTH, HIVE_MAX_WITNESS_URL_LENGTH
+from schemas.hive_constants import HIVE_MAX_WITNESS_URL_LENGTH
 
 __all__ = [
     "AccountName",
     "CustomIdType",
     "EmptyString",
-    "FloatAsString",
     "NodeType",
     "Permlink",
     "PrivateKey",
     "PublicKey",
-    "Url",
     "WitnessUrl",
 ]
 
@@ -33,13 +31,11 @@ if TYPE_CHECKING:
     AccountName = str
     OptionallyEmptyAccountName = str
     CustomIdType = str
-    FloatAsString = str
     NodeType = str
     Permlink = str
     PublicKey = str
     PrivateKey = str
     WitnessUrl = str
-    Url = str
 else:
     AccountName = ValidatorString.factory(
         "AccountName",
@@ -58,10 +54,8 @@ else:
         ),
     )
     CustomIdType = ValidatorString.factory("CustomIdType", msgspec.Meta(max_length=32))
-    FloatAsString = ValidatorString.factory("FloatAsString", msgspec.Meta(pattern=r"^(?:(?:[1-9][0-9]*)|0)\.[0-9]+$"))
     NodeType = ValidatorString.factory("NodeType", msgspec.Meta(pattern=r"^(mainnet|testnet|mirrornet)$"))
     Permlink = ValidatorString.factory("Permlink", msgspec.Meta(max_length=256))
     PublicKey = ValidatorString.factory("PublicKey", msgspec.Meta(pattern=rf"^(?:STM)[{BASE_58_REGEX}]{{7,51}}$"))
     PrivateKey = ValidatorString.factory("PrivateKey", msgspec.Meta(pattern=rf"^[{BASE_58_REGEX}]{{51}}$"))
     WitnessUrl = ValidatorString.factory("WitnessUrl", msgspec.Meta(max_length=HIVE_MAX_WITNESS_URL_LENGTH))
-    Url = ValidatorString.factory("Url", msgspec.Meta(max_length=HIVE_MAX_URL_LENGTH))

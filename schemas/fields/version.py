@@ -6,11 +6,10 @@ import msgspec
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.fields.basic import NodeType
-from schemas.fields.hex import Revision, Sha256
+from schemas.fields.hex import Revision
 
 __all__ = [
     "HardforkVersion",
-    "HiveVersion",
     "Version",
 ]
 
@@ -21,15 +20,6 @@ HardforkVersion = Version
 
 
 class HiveVersionFromExecutable(PreconfiguredBaseModel):
-    blockchain_version: HardforkVersion
-    hive_revision: Revision
-    fc_revision: Revision
-    node_type: NodeType
-    haf_revision: Revision | None = None
-
-
-class HiveVersion(PreconfiguredBaseModel):
-    chain_id: Sha256
     blockchain_version: HardforkVersion
     hive_revision: Revision
     fc_revision: Revision
