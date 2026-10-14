@@ -11,20 +11,18 @@ from schemas.fields.assets._base import AssetNaiAmount
 from schemas.fields.basic import (
     AccountName,
     CustomIdType,
-    FloatAsString,
     NodeType,
     OptionallyEmptyAccountName,
     Permlink,
     PrivateKey,
     PublicKey,
-    Url,
     WitnessUrl,
 )
 from schemas.fields.hex import Hex, Sha256, Signature, TransactionId
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.fields.integers import Int16t, Int64t, Uint8t, Uint16t, Uint32t, Uint64t
-from schemas.fields.resolvables import JsonString
+from schemas.fields.json_string import JsonString
 
 
 @pytest.mark.parametrize(
@@ -47,13 +45,11 @@ from schemas.fields.resolvables import JsonString
         (AccountName, AccountName, "alice"),
         (OptionallyEmptyAccountName, OptionallyEmptyAccountName, ""),
         (CustomIdType, CustomIdType, "a" * 31),
-        (FloatAsString, FloatAsString, "12.34"),
         (NodeType, NodeType, "testnet"),
         (Permlink, Permlink, "test-permlink"),
         (PublicKey, PublicKey, "STM" + ("1" * 51)),
         (PrivateKey, PrivateKey, "2" * 51),
         (WitnessUrl, WitnessUrl, "http://witness.url"),
-        (Url, Url, "http://normal.url"),
         (Uint8t, Uint8t, 255),
         (Int16t, Int16t, 32_767),
         (Uint16t, Uint16t, 65_535),

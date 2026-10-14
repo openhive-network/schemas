@@ -8,15 +8,15 @@ import msgspec
 import pytest
 
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
-from schemas.decoders import get_hf26_decoder, get_legacy_decoder
+from schemas.decoders import get_hf26_decoder
 from schemas.encoders import get_hf26_encoder
+from schemas.fields.assets import LegacyAssetHive
 from schemas.fields.assets._base import AssetHbd, AssetHive, AssetNaiAmount, AssetVests
 from schemas.fields.basic import (
     AccountName,
     EmptyString,
     PublicKey,
 )
-from schemas.fields.compound import Authority, HbdExchangeRate
 from schemas.fields.hive_datetime import HiveDateTime
 from schemas.fields.hive_int import HiveInt
 from schemas.hive_constants import HIVE_TIME_FORMAT
@@ -40,6 +40,14 @@ class HiveDateTimeModel(msgspec.Struct):
     field: HiveDateTime
 
 
+class Authority(PreconfiguredBaseModel):
+    """Model of the shape of an authority - tuples of Hive types."""
+
+    weight_threshold: HiveInt
+    account_auths: list[tuple[AccountName, HiveInt]]
+    key_auths: list[tuple[PublicKey, HiveInt]]
+
+
 class AuthorityModel(PreconfiguredBaseModel):
     field: Authority
 
@@ -48,16 +56,8 @@ class PublicKeyModel(msgspec.Struct):
     field: PublicKey
 
 
-class HbdExchangeRateModelLegacy(msgspec.Struct):
-    field: HbdExchangeRate
-
-
-class HbdExchangeRateModelNai(msgspec.Struct):
-    field: HbdExchangeRate
-
-
 class AssetHiveLegacyModel(msgspec.Struct):
-    field: AssetHive
+    field: LegacyAssetHive
 
 
 @pytest.mark.parametrize("value", [1, "312412", 412441])
@@ -80,6 +80,7 @@ def test_hive_int_with_incorrect_values(value: Any) -> None:
 
     # ASSERT
     assert expected_message in str(error.value)
+    assert f"Received `{value}` with type `{type(value)}`" in str(error.value)
 
 
 def test_empty_string_correct_value() -> None:
@@ -291,7 +292,7 @@ def test_correct_value_asset_hive_legacy() -> None:
     instance = AssetHiveLegacyModel(field="1.000 HIVE")  # type: ignore[arg-type]
     asset_hive_legacy_model = msgspec.json.encode(instance)
 
-    decoder = get_legacy_decoder(AssetHiveLegacyModel)
+    decoder = get_hf26_decoder(AssetHiveLegacyModel)
 
     # ACT
     decoded = cast(AssetHiveLegacyModel, decoder.decode(asset_hive_legacy_model))
@@ -302,12 +303,14 @@ def test_correct_value_asset_hive_legacy() -> None:
 
 def test_incorrect_value_asset_hive_legacy() -> None:
     # ARRANGE
-    expected_message: Final[str] = "Given legacy asset does not match regex - at `$.field"
+    expected_message: Final[str] = (
+        "Expected asset with one of symbols ['HIVE', 'TESTS'], got: `1.000 BAD` - at `$.field"
+    )
 
     instance = AssetHiveLegacyModel(field="1.000 BAD")  # type: ignore[arg-type]
     asset_hive_legacy_model = msgspec.json.encode(instance)
 
-    decoder = get_legacy_decoder(AssetHiveLegacyModel)
+    decoder = get_hf26_decoder(AssetHiveLegacyModel)
 
     # ACT
     with pytest.raises(Exception) as error:
