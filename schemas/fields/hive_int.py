@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any
 
 import msgspec
 
+from schemas.errors import FieldValidationError
 from schemas.fields._init_validators import InitValidator
 
 __all__ = [
@@ -25,13 +26,20 @@ class HiveIntFactory(InitValidator[int], int):
 
     @classmethod
     def validate(cls, value: Any) -> int:
-        error_template = msgspec.ValidationError("The value could only be int or string that can be converted to int!")
         if not isinstance(value, HiveIntFactory | str) and type(value) is not int:
-            raise error_template
+            raise cls._invalid_value_error(value)
         try:
-            return super().validate(int(value))
+            as_int = int(value)
         except ValueError as error:
-            raise error_template from error
+            raise cls._invalid_value_error(value) from error
+        return super().validate(as_int)
+
+    @staticmethod
+    def _invalid_value_error(value: object) -> FieldValidationError:
+        return FieldValidationError(
+            "The value could only be int or string that can be converted to int!"
+            f" Received `{value}` with type `{type(value)}`"
+        )
 
 
 if TYPE_CHECKING:  # nofmt

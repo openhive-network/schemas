@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any, Final
 
 import msgspec
 
+from schemas.errors import FieldValidationError
 from schemas.fields._init_validators import ValidatorInt
 
 __all__ = [
@@ -27,15 +28,13 @@ def pre_int_validation(value: Any) -> ValidatorInt:
 
 def validate_int64t(value: ValidatorInt) -> ValidatorInt:
     if not (MIN_INT64_VALUE <= value <= MAX_INT64_VALUE):
-        raise msgspec.ValidationError(f"Int64 out of range: `{value}` not in <{MIN_INT64_VALUE} ; {MAX_INT64_VALUE}>")
+        raise FieldValidationError(f"Int64 out of range: `{value}` not in <{MIN_INT64_VALUE} ; {MAX_INT64_VALUE}>")
     return value
 
 
 def validate_uint64t(value: ValidatorInt) -> ValidatorInt:
     if not (MIN_UINT64_VALUE <= value <= MAX_UINT64_VALUE):
-        raise msgspec.ValidationError(
-            f"Uint64 out of range: `{value}` not in <{MIN_UINT64_VALUE} ; {MAX_UINT64_VALUE}>"
-        )
+        raise FieldValidationError(f"Uint64 out of range: `{value}` not in <{MIN_UINT64_VALUE} ; {MAX_UINT64_VALUE}>")
     return value
 
 
@@ -65,7 +64,3 @@ else:
         post_validator=validate_uint64t,
         skip_default_validation=True,
     )
-
-
-ShareType = Int64t
-UShareType = Uint64t

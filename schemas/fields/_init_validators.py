@@ -6,6 +6,7 @@ from typing import Annotated, Any, Generic, Self, TypeVar, cast
 
 import msgspec
 
+from schemas.errors import FieldValidationError
 from schemas.fields.serializable import Serializable
 
 __all__ = [
@@ -53,7 +54,10 @@ class InitValidator(Serializable, Generic[T]):
 
     @classmethod
     def validate(cls, value: T) -> T:
-        return msgspec.convert(value, type=cast(type[T], Annotated[cls._covered_type(), cls._meta()]), strict=False)
+        try:
+            return msgspec.convert(value, type=cast(type[T], Annotated[cls._covered_type(), cls._meta()]), strict=False)
+        except msgspec.ValidationError as error:
+            raise FieldValidationError(str(error)) from error
 
     _not_implemented_msg = "Make sure to use types created using InitValidator.factory() classmethod"
 
