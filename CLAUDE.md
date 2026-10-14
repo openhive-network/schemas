@@ -4,7 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**hiveio-schemas** is a Python library for validating and serializing Hive blockchain JSON data structures. It provides msgspec-based schema definitions for all Hive blockchain operations, API responses, and transactions.
+**hiveio-schemas** is a Python library for validating and serializing Hive blockchain JSON data. It provides
+msgspec-based field types of Hive data (accounts, assets, keys, integers, time...), the validation of data against
+models with these types and the base class of such models.
+
+Models of API responses, operations and transactions are not kept here - they are generated in the `hiveio_api` package
+(hive repo): API responses from `openapi.json`, operations from the description of operations produced by the build of
+hived. Its validation models use the field types of this package (`schemas/fields/base_type_mappings.py`).
 
 ## Development Commands
 
@@ -56,48 +62,47 @@ The lockfile pins exact versions of all dependencies (direct and transitive). Th
 - Handles automatic type swapping in `__post_init__` for special Hive types
 - Supports dictionary-like access via `__getitem__`/`__setitem__`
 
-**Serialization Formats**:
-- **HF26** (current): NAI-based asset format `{"amount": "1000", "precision": 3, "nai": "@@000000021"}`
-- **Legacy**: String-based asset format `"1.000 HIVE"`
+**Serialization Formats** - fixed by the type, never chosen at runtime:
+- **HF26** (current): NAI-based asset format `{"amount": "1000", "precision": 3, "nai": "@@000000021"}` (`AssetHive`, ...)
+- **Legacy**: String-based asset format `"1.000 HIVE"` (`LegacyAssetHive`, ...)
 
 ### Key Modules
 
-- **`schemas/operations/`**: All blockchain operations (transfer, vote, comment, etc.)
-  - Each operation has its own file plus representation types in `representation_types.py`
-  - Virtual operations are in `virtual/` subdirectory
-- **`schemas/apis/`**: Response schemas for each Hive API (database_api, condenser_api, etc.)
 - **`schemas/fields/`**: Custom field types (assets, AccountName, PublicKey, HiveDateTime, etc.)
-- **`schemas/jsonrpc.py`**: JSON-RPC request/response handling with `get_response_model()`
-- **`schemas/decoders.py`**: Decoding hooks for HF26 and legacy formats
-- **`schemas/encoders.py`**: Encoding hooks for serialization
+  - `base_type_mappings.py`: builtin aliases of the field types (`AccountName = str`, ...) used by generated public API
+    models, plus `BASE_TYPE_MAPPINGS` (alias name -> validating type import path) used by generated validation models.
+    Must stay import-light (no msgspec).
+- **`schemas/validation.py`**: Validation of JSON data (builtins) against msgspec models with Hive types -
+  `validate(data, model)` returning `list[SchemaError]` (with paths), plus
+  `is_matching_model(value, field_type)` / `validate_schema_field(value, field_type)` for single values. Generic, knows
+  nothing about APIs - endpoints, the registry of validation models and JSON-RPC handling live in `hiveio_api` (hive
+  repo).
+- **`schemas/errors.py`**: All exceptions defined by the package (deriving from `SchemaBaseError`) plus aliases of msgspec
+  `ValidationError`/`DecodeError`. New exceptions go here, not to the modules raising them. Field types report invalid values with `FieldValidationError` - it is a msgspec
+  `ValidationError` (one exception type for invalid data) and a `ValueError` (msgspec adds the location
+  `- at $.path` only to `ValueError`/`TypeError` raised by validators).
+- **`schemas/decoders.py`** / **`schemas/encoders.py`**: msgspec hooks (`dec_hook_hf26`, `get_hf26_decoder`,
+  `enc_hook_hf26`, `get_hf26_encoder`). Field types unknown to msgspec derive from `Serializable`
+  (`schemas/fields/serializable.py`) - they decode themselves with `deserialize` (by default the constructor) and encode
+  with `serialize`, always in the form given by their type. Values of any JSON type are annotated `object` (`Any` is
+  not used in typing) - `dec_hook_hf26` keeps them as they are
+- **`schemas/_json_schema.py`**: JSON Schema generation (`PreconfiguredBaseModel.schema_json()`, `schema_hook`)
 - **`schemas/policies/`**: Runtime policies for extra fields, testnet assets, etc.
 
 ### Custom Field Types
 
 Defined in `schemas/fields/`:
-- **Assets**: `AssetHive`, `AssetHbd`, `AssetVests` with NAI and legacy parsing
+- **Assets** (`assets/_base.py`) - the type decides the JSON form:
+  - NAI form: `AssetHive`, `AssetHbd`, `AssetVests`, unions `AssetHiveOrHbd`, `AssetHiveOrVests`, `AnyAsset`
+  - legacy form: `LegacyAssetHive`, `LegacyAssetHbd`, `LegacyAssetVests`, unions `LegacyAssetHiveOrHbd`,
+    `LegacyAssetHiveOrVests`, `LegacyAnyAsset` (testnet symbols are kept - `LegacyAssetTests`, `LegacyAssetTbd`)
+  - msgspec allows only one custom type in a union and requires a decoded value to be an instance of the declared type,
+    so unions are base classes of their members (`AssetHive` is an `AssetHiveOrHbd`); `asset.as_legacy_asset()` converts
+    to the legacy form
+- **`JsonString`** (`json_string.py`): JSON embedded in a string (`custom_json`)
 - **Validators**: `AccountName`, `PublicKey`, `Permlink` with regex constraints
 - **Integers**: `HiveInt`, `Uint16t`, `Uint32t`, `Int64t`, `Uint64t`
-- **Compound**: `HiveDateTime`, `Signature`, `TransactionId`
-
-### Operation Representations
-
-Operations have two forms:
-- **Raw operations**: e.g., `TransferOperation` - the operation data itself
-- **Representations**: Wrappers with `type` and `value` fields for HF26/Legacy serialization
-  - `HF26RepresentationTransferOperation` wraps `TransferOperation` with `type="transfer_operation"`
-  - `LegacyRepresentationTransferOperation` uses array format `["transfer", {...}]`
-
-### Testing Pattern
-
-Tests validate round-trip serialization:
-```python
-verify_serialization_and_deserialization(
-    schema=ResponseSchema,
-    parameters={"jsonrpc": "2.0", "result": {...}, "id": 1},
-    serialization_type="hf26"  # or "legacy"
-)
-```
+- **Time and hashes**: `HiveDateTime`, `Signature`, `TransactionId`
 
 ## Python Version
 
