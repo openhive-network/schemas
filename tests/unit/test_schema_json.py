@@ -5,7 +5,10 @@ from typing import Any, Final
 import msgspec
 import pytest
 
+from schemas._json_schema import schema_hook
 from schemas._preconfigured_base_model import PreconfiguredBaseModel
+from schemas.fields.hive_datetime import HiveDateTime
+from schemas.fields.json_string import JsonString
 
 FIRST_MODEL_SCHEMA_PATTERN: Final[dict[str, Any]] = {
     "$ref": "#/$defs/FirstModel",
@@ -114,3 +117,35 @@ def test_schema_json_exclude_feature(model_cls: PreconfiguredBaseModel, expected
     # ASSERT
     actual_schema = msgspec.json.decode(actual_schema_json)
     assert actual_schema == expected_pattern, f"{model_cls} schema is different from expected one"
+
+
+class ModelWithHiveTypes(PreconfiguredBaseModel):
+    date: HiveDateTime
+    content: JsonString[object]
+    values: list[object]
+    nested: FirstModel
+
+
+def test_schema_json_describes_hive_types() -> None:
+    # ACT
+    actual_schema = msgspec.json.decode(ModelWithHiveTypes.schema_json())
+
+    # ASSERT
+    assert actual_schema["$defs"]["ModelWithHiveTypes"]["properties"] == {
+        "date": {"type": "string", "format": "date-time"},
+        "content": {"type": "string"},
+        "values": {"type": "array", "items": {"description": "any value"}},
+        "nested": {"$ref": "#/$defs/FirstModel"},
+    }
+
+
+def test_schema_hook_describes_models_as_objects() -> None:
+    """Models are structs described by msgspec itself - the hook describes them when asked directly."""
+    # ACT & ASSERT
+    assert schema_hook(FirstModel) == {"type": "object"}
+
+
+def test_schema_hook_rejects_unknown_types() -> None:
+    # ACT & ASSERT
+    with pytest.raises(NotImplementedError, match="not supported"):
+        schema_hook(complex)
