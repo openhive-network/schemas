@@ -1,20 +1,13 @@
 from __future__ import annotations
 
-from typing import Annotated, Final
+import json
 
 import msgspec
 import pytest
 
-# Define regex patterns and type
-ACCOUNT_NAME_SEGMENT_REGEX: Final[str] = r"[a-z]{1}[a-z0-9\-]+[a-z0-9]{1}"
-AccountName = Annotated[
-    str,
-    msgspec.Meta(
-        max_length=16,
-        min_length=3,
-        pattern="^" + ACCOUNT_NAME_SEGMENT_REGEX + r"(:?\.{1}" + ACCOUNT_NAME_SEGMENT_REGEX + ")*$",
-    ),
-]
+from schemas.errors import FieldValidationError
+from schemas.fields import user_friendly
+from schemas.fields.validation import AccountName  # the pattern of AccountName validated by msgspec
 
 
 # Decoder class based on msgspec
@@ -22,7 +15,7 @@ class Account(msgspec.Struct):
     name: AccountName
 
 
-@pytest.mark.parametrize(
+VALID_ACCOUNT_NAMES = pytest.mark.parametrize(
     "valid_account_name",
     [
         "abc",
@@ -49,19 +42,7 @@ class Account(msgspec.Struct):
         "bob",
     ],
 )
-def test_valid_account_names(valid_account_name: str) -> None:
-    # ARRANGE
-    data = {"name": valid_account_name}
-
-    # ACT
-    encoded = msgspec.json.encode(data)
-    decoded = msgspec.json.decode(encoded, type=Account)
-
-    # ASSERT
-    assert decoded.name == valid_account_name
-
-
-@pytest.mark.parametrize(
+INVALID_ACCOUNT_NAMES = pytest.mark.parametrize(
     "invalid_account_name",
     [
         "ab",  # Too short
@@ -70,6 +51,7 @@ def test_valid_account_names(valid_account_name: str) -> None:
         "abc.",  # Dot at the end
         ".abc",  # Dot at the beginning
         "abc..def",  # Double dots
+        "abc:.def",  # Colon is not allowed
         "123abc",  # Does not start with a letter
         "abc123!",  # Exclamation mark is not allowed
         "abc$",  # Dollar sign is not allowed
@@ -84,6 +66,22 @@ def test_valid_account_names(valid_account_name: str) -> None:
         "abc.",  # Dot at the end
     ],
 )
+
+
+@VALID_ACCOUNT_NAMES
+def test_valid_account_names(valid_account_name: str) -> None:
+    # ARRANGE
+    data = {"name": valid_account_name}
+
+    # ACT
+    encoded = msgspec.json.encode(data)
+    decoded = msgspec.json.decode(encoded, type=Account)
+
+    # ASSERT
+    assert decoded.name == valid_account_name
+
+
+@INVALID_ACCOUNT_NAMES
 def test_invalid_account_names(invalid_account_name: str) -> None:
     # ARRANGE
     data = {"name": invalid_account_name}
@@ -92,3 +90,20 @@ def test_invalid_account_names(invalid_account_name: str) -> None:
     encoded = msgspec.json.encode(data)
     with pytest.raises(msgspec.ValidationError):
         msgspec.json.decode(encoded, type=Account)
+
+
+@VALID_ACCOUNT_NAMES
+def test_account_name_is_created_of_valid_name_and_serialized_as_string(valid_account_name: str) -> None:
+    # ACT
+    name = user_friendly.AccountName(valid_account_name)
+
+    # ASSERT
+    assert name == valid_account_name
+    assert json.dumps({"name": name}) == json.dumps({"name": valid_account_name})
+
+
+@INVALID_ACCOUNT_NAMES
+def test_account_name_is_not_created_of_invalid_name(invalid_account_name: str) -> None:
+    # ACT & ASSERT
+    with pytest.raises(FieldValidationError):
+        user_friendly.AccountName(invalid_account_name)

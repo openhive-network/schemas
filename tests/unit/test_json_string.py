@@ -6,12 +6,12 @@ from typing import Any, Final
 import pytest
 from msgspec import field
 
-from schemas.application_operation import ApplicationOperation
+from schemas._preconfigured_base_model import PreconfiguredBaseModel
 from schemas.decoders import get_hf26_decoder
 from schemas.encoders import get_hf26_encoder
-from schemas.fields.basic import AccountName
-from schemas.fields.resolvables import JsonString
-from schemas.operations.custom_json_operation import CustomJsonOperation, CustomJsonOperationGeneric
+from schemas.fields.json_string import JsonString
+from schemas.fields.validation import AccountName, CustomIdType
+from schemas.validation import validate
 
 JSON_STRING_LEVEL3: Final[str] = '"c"'
 JSON_STRING_LEVEL2: Final[str] = '{"b": ' + JSON_STRING_LEVEL3 + "}"
@@ -31,24 +31,25 @@ SERIALIZED_JSON_STRING: Final[str] = json.dumps(json.loads(JSON_OPERATION_STRING
 JSON_STRING_INVALID_TYPE_PATTERN: Final[str] = "is not a valid type"
 
 
-class ApplicationTestOperation(ApplicationOperation, kw_only=True):
-    from_: AccountName = field(name="from")
-    to: AccountName
-    what: list[str]
+class CustomJsonOperation(PreconfiguredBaseModel):
+    """Model of the shape of `custom_json_operation` - JSON of an application operation embedded in a string."""
 
-    @classmethod
-    def get_name(cls) -> str:
-        return "aplication_test"
+    required_auths: list[AccountName]
+    required_posting_auths: list[AccountName]
+    id_: CustomIdType = field(name="id")
+    json_: JsonString[object] = field(name="json")
 
 
-class SomeCustomType(ApplicationOperation):
-    @classmethod
-    def get_name(cls) -> str:
-        return "some_custom_type"
+class SomeModel(PreconfiguredBaseModel):
+    """Models are not JSON content of `JsonString`."""
 
 
 class InvalidCustomType:
     pass
+
+
+def custom_json_operation() -> dict[str, object]:
+    return {"required_auths": [], "required_posting_auths": [], "id": CUSTOM_JSON_ID, "json": SERIALIZED_OPERATION}
 
 
 def make_full_model(object_: Any) -> Any:
@@ -64,7 +65,7 @@ def test_json_getter_outer() -> None:
         required_auths=[],
         required_posting_auths=[],
         id_=CUSTOM_JSON_ID,
-        json_=JsonString.resolve(type, JSON_STRING_LEVEL1),
+        json_=JsonString(JSON_STRING_LEVEL1),
     )
 
     # ACT
@@ -80,7 +81,7 @@ def test_json_getter() -> None:
         required_auths=[],
         required_posting_auths=[],
         id_=CUSTOM_JSON_ID,
-        json_=JsonString.resolve(type, JSON_STRING_LEVEL1),
+        json_=JsonString(JSON_STRING_LEVEL1),
     )
 
     # ACT
@@ -97,7 +98,7 @@ def test_json_getter_inner() -> None:
         required_auths=[],
         required_posting_auths=[],
         id_=CUSTOM_JSON_ID,
-        json_=JsonString.resolve(type, JSON_STRING_LEVEL1),
+        json_=JsonString(JSON_STRING_LEVEL1),
     )
 
     # ACT
@@ -116,7 +117,7 @@ def test_json_setter_outer(new_value: Any) -> None:
         required_auths=[],
         required_posting_auths=[],
         id_=CUSTOM_JSON_ID,
-        json_=JsonString.resolve(type, JSON_STRING_LEVEL1),
+        json_=JsonString(JSON_STRING_LEVEL1),
     )
 
     # ACT
@@ -132,7 +133,7 @@ def test_json_setter() -> None:
         required_auths=[],
         required_posting_auths=[],
         id_=CUSTOM_JSON_ID,
-        json_=JsonString.resolve(type, JSON_STRING_LEVEL1),
+        json_=JsonString(JSON_STRING_LEVEL1),
     )
 
     new_value: Final[str] = "e"
@@ -151,7 +152,7 @@ def test_json_setter_inner() -> None:
         required_auths=[],
         required_posting_auths=[],
         id_=CUSTOM_JSON_ID,
-        json_=JsonString.resolve(type, JSON_STRING_LEVEL1),
+        json_=JsonString(JSON_STRING_LEVEL1),
     )
 
     new_value: Final[str] = "f"
@@ -168,7 +169,7 @@ def test_json_setter_inner() -> None:
 def test_json_update() -> None:
     # ARRANGE
     op = CustomJsonOperation(
-        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JsonString.resolve(type, NUMBER_STRING)
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JsonString(NUMBER_STRING)
     )
     update_with: Final[dict[str, str]] = {"x": "y", "z": "t"}
 
@@ -185,7 +186,7 @@ def test_json_update() -> None:
 def test_json_extend() -> None:
     # ARRANGE
     op = CustomJsonOperation(
-        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JsonString.resolve(type, NUMBER_STRING)
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JsonString(NUMBER_STRING)
     )
     extend_with: Final[list[str]] = ["m", "n", "p"]
 
@@ -203,7 +204,7 @@ def test_serialization() -> None:
         required_auths=[],
         required_posting_auths=[],
         id_=CUSTOM_JSON_ID,
-        json_=JsonString.resolve(type, FOLLOW_OPERATION_JSON_STRING),
+        json_=JsonString(FOLLOW_OPERATION_JSON_STRING),
     )
 
     # ACT
@@ -221,7 +222,7 @@ def test_get_by_subscript() -> None:
         required_auths=[],
         required_posting_auths=[],
         id_=CUSTOM_JSON_ID,
-        json_=JsonString.resolve(type, JSON_STRING_LEVEL1),
+        json_=JsonString(JSON_STRING_LEVEL1),
     )
 
     # ACT
@@ -239,7 +240,7 @@ def test_set_by_subscript() -> None:
         required_auths=[],
         required_posting_auths=[],
         id_=CUSTOM_JSON_ID,
-        json_=JsonString.resolve(type, JSON_STRING_LEVEL1),
+        json_=JsonString(JSON_STRING_LEVEL1),
     )
 
     # ACT
@@ -255,7 +256,7 @@ def test_construct_from_int() -> None:
     # ARRANGE
     some_int: Final[int] = 125
     op = CustomJsonOperation(
-        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JsonString.resolve(type, some_int)
+        required_auths=[], required_posting_auths=[], id_=CUSTOM_JSON_ID, json_=JsonString(some_int)
     )
 
     update_with: Final[dict[str, str]] = {"x": "y", "z": "t"}
@@ -268,39 +269,31 @@ def test_construct_from_int() -> None:
     assert op.json_.value == update_with
 
 
-def test_application_operation_serialize() -> None:
-    # ARRANGE
-    example_operation = ApplicationTestOperation(from_="abc", to="xyz", what=["topic"])
-    json_string = JsonString[ApplicationTestOperation].resolve(type, example_operation)
-
-    # ACT
-    # ASSERT
-    assert json_string.serialize() == SERIALIZED_OPERATION
-
-
-def test_json_string_with_application_operation_serialize() -> None:
-    # ARRANGE
-    example_operation = ApplicationTestOperation(from_="abc", to="xyz", what=["topic"])
-
-    # ACT
-    op = CustomJsonOperationGeneric(
-        required_auths=[],
-        required_posting_auths=[],
-        id_=CUSTOM_JSON_ID,
-        json_=JsonString.resolve(type, example_operation),
-    )
-
-    # ASSERT
-    assert op.json(order="sorted") == SERIALIZED_JSON_STRING
-
-
 def test_application_operation_parse() -> None:
     # ARRANGE
     # ACT
-    json_string = JsonString.resolve(type, SERIALIZED_OPERATION)  # type: ignore[var-annotated]
+    json_string = JsonString(SERIALIZED_OPERATION)  # type: ignore[var-annotated]
 
     # ASSERT
     assert json_string.serialize() == SERIALIZED_OPERATION
+
+
+@pytest.mark.parametrize("value", [SERIALIZED_OPERATION, "123", ""])
+def test_json_form_is_a_string_with_json(value: str) -> None:
+    # ACT
+    errors = validate({**custom_json_operation(), "json": value}, CustomJsonOperation)
+
+    # ASSERT
+    assert errors == []
+
+
+@pytest.mark.parametrize("value", [{"from": "abc"}, ["follow"], 123, None, "{not json"])
+def test_json_in_other_forms_is_rejected_by_validation(value: object) -> None:
+    # ACT
+    errors = validate({**custom_json_operation(), "json": value}, CustomJsonOperation)
+
+    # ASSERT
+    assert [error.path for error in errors] == ["$.json"], errors
 
 
 def test_json_string_with_application_operation_parse() -> None:
@@ -312,54 +305,12 @@ def test_json_string_with_application_operation_parse() -> None:
     assert op.json(order="sorted") == SERIALIZED_JSON_STRING
 
 
-def test_json_string_with_custom_type() -> None:
-    # ACT
-    # ASSERT
-    JsonString(SomeCustomType())
-
-
-def test_negative_json_string_with_custom_type() -> None:
+@pytest.mark.parametrize("value", [InvalidCustomType(), SomeModel()])
+def test_negative_json_string_with_custom_type(value: object) -> None:
     # ACT
     # ASSERT
     with pytest.raises(ValueError, match=JSON_STRING_INVALID_TYPE_PATTERN):
-        JsonString.resolve(type, InvalidCustomType())
-
-
-def test_application_operation_validate_from_string() -> None:
-    # ACT
-    # ASSERT
-    ApplicationTestOperation.validate(SERIALIZED_OPERATION)
-
-
-def test_application_operation_validate_from_copy() -> None:
-    # ARRANGE
-    application_operation = ApplicationTestOperation.validate(SERIALIZED_OPERATION)
-
-    # ACT
-    # ASSERT
-    ApplicationTestOperation.validate(application_operation)
-
-
-def test_negative_application_operation_validate_from_string_incorrect() -> None:
-    # ARRANGE
-    prepared_operation_string_incorrect = SERIALIZED_OPERATION + "abc"
-    error_pattern = "is not a valid application operation string"
-
-    # ACT
-    # ASSERT
-    with pytest.raises(ValueError, match=error_pattern):
-        ApplicationTestOperation.validate(prepared_operation_string_incorrect)
-
-
-def test_negative_application_operation_validate_any_incorrect() -> None:
-    # ARRANGE
-    incorrect_type_instance = InvalidCustomType()
-    error_pattern = "is not a valid type"
-
-    # ACT
-    # ASSERT
-    with pytest.raises(ValueError, match=error_pattern):
-        ApplicationTestOperation.validate(incorrect_type_instance)
+        JsonString(value)
 
 
 def test_negative_custom_json_operation_with_invalid_application_operation() -> None:
@@ -369,11 +320,11 @@ def test_negative_custom_json_operation_with_invalid_application_operation() -> 
     # ACT
     # ASSERT
     with pytest.raises(ValueError, match=error_pattern):
-        CustomJsonOperationGeneric(
+        CustomJsonOperation(
             required_auths=[],
             required_posting_auths=[],
             id_=CUSTOM_JSON_ID,
-            json_=JsonString.resolve(type, InvalidCustomType()),
+            json_=JsonString(InvalidCustomType()),
         )
 
 
@@ -384,11 +335,11 @@ def test_negative_custom_json_operation_with_invalid_json_string() -> None:
     # ACT
     # ASSERT
     with pytest.raises(ValueError, match=error_pattern):
-        CustomJsonOperationGeneric(
+        CustomJsonOperation(
             required_auths=[],
             required_posting_auths=[],
             id_=CUSTOM_JSON_ID,
-            json_=JsonString.resolve(type, JsonString(InvalidCustomType())),
+            json_=JsonString(JsonString(InvalidCustomType())),
         )
 
 
@@ -398,7 +349,7 @@ def test_comparison_new_object() -> None:
         required_auths=[],
         required_posting_auths=[],
         id_=CUSTOM_JSON_ID,
-        json_=JsonString.resolve(type, JSON_STRING_LEVEL1),
+        json_=JsonString(JSON_STRING_LEVEL1),
     )
 
     # ACT
@@ -407,6 +358,6 @@ def test_comparison_new_object() -> None:
         required_auths=[],
         required_posting_auths=[],
         id_=CUSTOM_JSON_ID,
-        json_=JsonString.resolve(type, JSON_STRING_LEVEL1),
+        json_=JsonString(JSON_STRING_LEVEL1),
     )
     assert op1 == op2
