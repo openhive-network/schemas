@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from msgspec import Meta, convert, field
+from msgspec import Meta, field
 
 __all__ = [
     "field",
     "Meta",
-    "convert",
 ]
