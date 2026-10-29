@@ -1,39 +1,23 @@
-## Introduction
+## Moved to hiveio-api
 
-Schemas package is a tool for validating the structure of JSON data. This package is a set of library-based
-[jsonschema](https://json-schema.org/) wrappers, allowing you to easily and quickly write schemas that can be used for
- validation, e.g. API response.
+The field types of Hive data and the validation of this package are now part of the `hiveio-api` package, generated in
+the [hive repository](https://gitlab.syncad.com/hive/hive) (`libraries/plugins/apis/api_generation/python_api_package`,
+hand-written modules in `hiveio_api_template/`). See hive/schemas#55. `hiveio-schemas` is no longer developed - its last
+release stays available.
 
-## Installation
-<details>
-<summary>Install with PyCharm</summary>
+| `hiveio-schemas` | `hiveio-api` |
+|---|---|
+| `schemas.Asset`, `schemas.HiveDateTime`, `schemas.AssetInfo`, `schemas.HIVE_ASSET`, ... | `hiveio_api.Asset`, `hiveio_api.HiveDateTime`, `hiveio_api.AssetInfo`, `hiveio_api.HIVE_ASSET`, ... |
+| `schemas.fields.public` | `hiveio_api.fields.public` |
+| `schemas.fields.user_friendly` | `hiveio_api.fields.user_friendly` |
+| `schemas.fields.validation` | `hiveio_api.fields.validation` |
+| `schemas.fields.hive_datetime`, `json_string`, `serializable`, `version` | `hiveio_api.fields.hive_datetime`, `json_string`, `serializable`, `version` |
+| `schemas.hive_constants` | `hiveio_api.fields.hive_constants` |
+| `schemas.validation` | `hiveio_api.validation` |
+| `schemas.errors` | `hiveio_api.validation.errors` |
+| `schemas._preconfigured_base_model` (`PreconfiguredBaseModel`) | `hiveio_api.validation.model` |
+| `schemas.decoders`, `schemas.encoders` | `hiveio_api.validation.decoders`, `hiveio_api.validation.encoders` |
+| `schemas.base` (`field`, `Meta`) | `msgspec` |
 
-- With opened project, select tab "Python Packages" at the bottom of window, click "Add Package" and then "From Disk".
-
-![Installation instructions](./documentation/pycharm_install_0.png)
-
-- Select 'Schemas' directory, mark "Install as editable" option and click OK.
-
-![Installation instructions](./documentation/pycharm_install_1.png)
-
-</details>
-
-<details>
-<summary>Install in virtual environment manually</summary>
-
-```bash
-cd ~/virtual_environments               # Select location for virtual environment
-python3 -m venv venv                    # Create virtual environment in current directory
-source venv/bin/activate                # Activate it
-pip install -e ~/hive/tests/schemas     # Install Schemas
-```
-</details>
-
-<details>
-<summary>Install in your operating system scope (not recommended)</summary>
-Enter following command in terminal:
-
-```bash
-pip3 install -e ~/hive/tests/schemas
-```
-</details>
+Models of API responses, operations and transactions (formerly `schemas.apis`, `schemas.operations`,
+`schemas.transaction`) are generated in `hiveio_api` as well (`hiveio_api.<api>`, `hiveio_api.operations`).
