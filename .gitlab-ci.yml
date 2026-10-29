@@ -2,7 +2,6 @@ stages:
   - static_code_analysis
   - tests
   - build
-  - deploy
 
 workflow:
   rules:
@@ -75,24 +74,4 @@ build_wheel:
 
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| BUILD |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>| DEPLOY |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-.deploy_wheel_needs: &deploy_wheel_needs
-  needs:
-    - job: pre_commit_checks
-    - job: tests
-    - job: build_wheel
-      artifacts: true
-
-deploy_wheel_to_gitlab:
-  stage: deploy
-  extends: .deploy_wheel_to_gitlab_template
-  <<: *deploy_wheel_needs
-  when: on_success
-
-deploy_wheel_to_pypi:
-  extends: .deploy_wheel_to_pypi_template
-  stage: deploy
-  <<: *deploy_wheel_needs
-
-#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| DEPLOY |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# No deploy - the package moved to hiveio-api (hive repository, see readme.md); its last release stays available.
