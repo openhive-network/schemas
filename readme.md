@@ -1,5 +1,8 @@
 ## Moved to hiveio-api
 
+> **Deprecated:** this repository will be archived after the release of Hive 1.28.9. Until then it stays as it is, so
+> that patches for the current version 1.28.8 can still be added.
+
 The field types of Hive data and the validation of this package are now part of the `hiveio-api` package, generated in
 the [hive repository](https://gitlab.syncad.com/hive/hive) (`libraries/plugins/apis/api_generation/python_api_package`,
 hand-written modules in `hiveio_api_template/`). See hive/schemas#55. `hiveio-schemas` is no longer developed - its last
